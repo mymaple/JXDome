@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRole;
 
 @Service("bgRoleService")
@@ -19,6 +20,16 @@ public class BgRoleService {
 	
 	
 	/****************************custom * start***********************************/
+	
+	/**
+	 * 根据parentId 获取所有直接子菜单 
+	 * @param int parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BgRole> listSubBgRoleByParentId(int parentId) throws Exception {
+		return (List<BgRole>) dao.findForList("BgRoleMapper.listSubBgRoleByParentId", parentId);
+	}
 	
 	
 	/****************************custom * end  ***********************************/

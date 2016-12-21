@@ -51,8 +51,8 @@
 
 								<tbody>
 								<c:choose>
-									<c:when test="${not empty menuList}">
-									<c:forEach items="${menuList}" var="menu" varStatus="vs">
+									<c:when test="${not empty subBgMenuList}">
+									<c:forEach items="${subBgMenuList}" var="menu" varStatus="vs">
 									<tr>
 										<td class='center'>${menu.menuOrder }</td>
 										<td class='center'><i class="${menu.menuIcon }">&nbsp;</i>
@@ -70,7 +70,9 @@
 										<td>${menu.menuUrl == '#'? '': menu.menuUrl}</td>
 										<td class='center'><i class="ace-icon fa ${menu.status == 1? 'fa-eye': 'fa-eye-slash'}"></i></td>
 										<td class='center'>
-											<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
+											<!-- <span class="label label-large label-grey arrowed-in-right arrowed-in">
+												<i class="ace-icon fa fa-lock" title="无权限"></i>
+											</span> -->
 											<div class="hidden-sm hidden-xs action-buttons">
 												<a class="blue" href="javascript:toChangeMenuIcon('${menu.menuId }');"> 
 													<i class="ace-icon glyphicon glyphicon-picture bigger-130" title="编辑图标"></i>
@@ -78,7 +80,7 @@
 												<a class="green" href="javascript:toEdit('${menu.menuId }');">
 													<i class="ace-icon fa fa-pencil-square-o bigger-130" title="修改"></i>
 												</a>
-												<a class="red" href="javascript:delmenu('${menu.menuId }');">
+												<a class="red" href="javascript:toDelete('${menu.menuId }');">
 													<i class="ace-icon fa fa-trash-o bigger-130" title="删除"></i>
 												</a>
 											</div>
@@ -125,7 +127,7 @@
 							<div>
 								&nbsp;&nbsp;
 								<a class="btn btn-sm btn-success" onclick="toAdd('${menuId}');">新增</a>
-								<c:if test="${null != pd.menuId && pd.menuId != '0'}">
+								<c:if test="${null != pd.menuId && pd.menuId != '0' && pd.menuId != ''}">
 									<a class="btn btn-sm btn-success" onclick="toSubMenu('${pd.parentId}');">返回</a>
 								</c:if>
 							</div>
@@ -190,7 +192,7 @@
 					top.jzts();
 					$.get(url,function(data){
 						if("success" == data.result){
-							parent.location.href="<%=basePath%>background/menu/main.do?menuId="+menuId;
+							parent.location.href="<%=basePath%>background/menu/main.do?menuId="+${menuId};
 						}else if("false" == data.result){
 							top.hangge();
 							bootbox.dialog({

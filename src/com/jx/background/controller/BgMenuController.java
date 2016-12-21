@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -83,16 +84,16 @@ public class BgMenuController extends BaseController {
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
+		pd = this.getPageData();
 		try{
-			pd = this.getPageData();
-			
 			String menuId = (null == pd.get("menuId") || "".equals(pd.getString("menuId")))?"0":pd.getString("menuId");
-			List<BgMenu> menuList = bgMenuService.listSubBgMenuByParentId(Integer.parseInt(menuId));
-			mv.addObject("pd", bgMenuService.findPdByPd(pd));	//传入父菜单所有信息
+			pd.put("menuId", menuId);
+			List<BgMenu> subBgMenuList = bgMenuService.listSubBgMenuByParentId(Integer.parseInt(menuId));
+			mv.addObject("subBgMenuList", subBgMenuList);
+//			mv.addObject("parentBgMenu", bgMenuService.findPdByPd(pd));	//传入父菜单所有信息
 			mv.addObject("menuId", menuId);
 			mv.addObject("msg", null == pd.get("msg")?"list":pd.get("msg").toString()); //MSG=change 则为编辑或删除后跳转过来的
-			mv.addObject("menuList", menuList);
-			
+			mv.addObject("pd", pd);
 			
 //			bgPage.setPd(pd);
 //			List<PageData>	varList = bgMenuService.listAllPd(bgPage);	//列出bgMenu列表
@@ -118,6 +119,9 @@ public class BgMenuController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
+			String menuId = (null == pd.get("menuId") || "".equals(pd.getString("menuId")))?"0":pd.getString("menuId");
+			mv.addObject("parentBgMenu", bgMenuService.findPdByPd(pd));	//传入父菜单所有信息
+			mv.addObject("menuId", menuId);
 			mv.addObject("msg", "add");
 			mv.addObject("pd", pd);
 			
@@ -126,7 +130,7 @@ public class BgMenuController extends BaseController {
 			logger.error(e.toString(), e);
 		}						
 		return mv;
-	}	
+	}
 	
 	/**
 	 * 新增
@@ -134,18 +138,25 @@ public class BgMenuController extends BaseController {
 	@RequestMapping(value="/add")
 	public ModelAndView add() throws Exception{
 		logBefore(logger, "新增bgMenu");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
+//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-
-		bgMenuService.addByPd(pd);
+		
+		try{
+			pd.put("menuIcon","menu-icon fa fa-leaf black");//默认菜单图标
+			bgMenuService.addByPd(pd); //保存菜单
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+			mv.addObject("msg","failed");
+		}
 		
 		mv.addObject("msg","success");
-		
-		mv.setViewName("background/bgSaveResult");
+		mv.setViewName("redirect:list?msg='change'&menuId="+pd.get("parentId")); //保存成功跳转到列表页面
+//		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
+	
 	
 	/**
 	 * 去修改页面
@@ -158,6 +169,9 @@ public class BgMenuController extends BaseController {
 		pd = this.getPageData();
 		try {
 			pd = bgMenuService.findPdByPd(pd);	//根据ID读取
+			int menuId = Integer.parseInt(pd.get("parentId").toString());
+			mv.addObject("parentBgMenu", bgMenuService.findById(menuId));	//传入父菜单所有信息
+			mv.addObject("menuId", menuId);
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
 			
@@ -174,32 +188,58 @@ public class BgMenuController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
 		logBefore(logger, "修改bgMenu");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		bgMenuService.editByPd(pd);
+		try{
+			bgMenuService.editByPd(pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+			mv.addObject("msg","failed");
+		}
+		
 		mv.addObject("msg","success");
-		mv.setViewName("background/bgSaveResult");
+		mv.setViewName("redirect:list?msg='change'&menuId="+pd.get("parentId")); //保存成功跳转到列表页面
+//		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	
 	/**
 	 * 删除
 	 */
-	@RequestMapping(value="/delete")
-	public void delete(PrintWriter out){
+	@RequestMapping(value="/toDelete")
+	@ResponseBody
+	public Object toDelete(@RequestParam String menuId)throws Exception{
 		logBefore(logger, "删除bgMenu");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
+//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
+		pd = this.getPageData();
+		
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "";
 		try{
-			pd = this.getPageData();
-			bgMenuService.deleteByPd(pd);
-			out.write("success");
-			out.close();
+			
+			if(bgMenuService.listSubBgMenuByParentId(Integer.parseInt(menuId)).size() > 0){//判断是否有子菜单，是：不允许删除
+				errInfo = "false";
+			}else{
+				bgMenuService.deleteByPd(pd);
+				errInfo = "success";
+			}
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
+		map.put("result", errInfo);
+		return AppUtil.returnObject(new PageData(), map);
+		
+		
+//		try{
+//			bgMenuService.deleteByPd(pd);
+//			out.write("success");
+//			out.close();
+//		} catch(Exception e){
+//			logger.error(e.toString(), e);
+//		}
 	}
 	
 	
@@ -210,7 +250,7 @@ public class BgMenuController extends BaseController {
 	@ResponseBody
 	public Object batchDelete() {
 		logBefore(logger, "批量删除bgMenu");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
+//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
@@ -240,7 +280,7 @@ public class BgMenuController extends BaseController {
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel(){
 		logBefore(logger, "导出bgMenu到excel");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
+//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -262,7 +302,7 @@ public class BgMenuController extends BaseController {
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var1",varOList.get(i).getMenuId();
+				vpd.put("var1",varOList.get(i).getMenuId());
 				vpd.put("var2", varOList.get(i).getMenuName());	//2
 				vpd.put("var3", varOList.get(i).getMenuUrl());	//3
 				vpd.put("var4", varOList.get(i).getParentId());	//4
@@ -283,11 +323,11 @@ public class BgMenuController extends BaseController {
 	}
 	
 	/* ===============================权限================================== */
-	public Map<String, String> getHC(){
+/*	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
 		Session session = currentUser.getSession();
 		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
-	}
+	}*/
 	/* ===============================权限================================== */
 	
 	@InitBinder
@@ -295,4 +335,59 @@ public class BgMenuController extends BaseController {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
 	}
+	
+	
+	/**
+	 * 请求编辑菜单图标页面
+	 * @param 
+	 * @return
+	 */
+	@RequestMapping(value="/toChangeMenuIcon")
+	public ModelAndView toChangeMenuIcon()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			mv.addObject("pd", pd);
+			mv.setViewName("background/menu/bgMenuIcon");
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return mv;
+	}
+	
+	/**
+	 * 保存菜单图标 
+	 * @param 
+	 * @return
+	 */
+	@RequestMapping(value="/changeMenuIcon")
+	public ModelAndView changeMenuIcon()throws Exception{
+//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+		logBefore(logger, "修改菜单图标");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			pd = bgMenuService.changeMenuIcon(pd);
+			mv.addObject("msg","success");
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+			mv.addObject("msg","failed");
+		}
+		mv.setViewName("background/bgSaveResult");
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -21,6 +21,13 @@ public class BgMenuService {
 	/****************************custom * start***********************************/
 	
 	/**
+	 * 修改菜单图标menuIcon 
+	 */
+	public PageData changeMenuIcon(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("BgMenuMapper.changeMenuIcon", pd);
+	}
+	
+	/**
 	 * 根据parentId 获取所有直接子菜单 
 	 * @param int parentId
 	 * @return
