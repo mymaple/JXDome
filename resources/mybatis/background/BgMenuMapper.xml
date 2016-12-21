@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgMenuMapper">
+
+	<sql id="menuAddColumns">menuName,menuUrl,parentId,menuOrder,menuIcon,menuType,status,modifyTime</sql>
+	<sql id="menuColumns">menuId,menuName,menuUrl,parentId,menuOrder,menuIcon,menuType,status,modifyTime</sql>
+	
+	<resultMap type="bgMenu" id="menuResultMap">
+		<id column="menuId" property="menuId"/>
+		<result column="menuName" property="menuName"/>
+		<result column="menuUrl" property="menuUrl"/>
+		<result column="parentId" property="parentId"/>
+		<result column="menuOrder" property="menuOrder"/>
+		<result column="menuIcon" property="menuIcon"/>
+		<result column="menuType" property="menuType"/>
+		<result column="status" property="status"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 根据parentId 获取所有直接子菜单 -->
+	<select id="listSubBgMenuByParentId" parameterType="int" resultMap="menuResultMap">
+		select  * from bgMenu
+		where parentId = #{parentId} order by menuOrder 
+	</select>
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="menuId" parameterType="bgMenu">
+		insert into bgMenu ( 
+			<include refid="menuAddColumns"/>
+		) values (
+			#{menuName},#{menuUrl},#{parentId},#{menuOrder},#{menuIcon},#{menuType},#{status},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 新增 -->
+	<insert id="addByPd" useGeneratedKeys="true" keyProperty="menuId" parameterType="pd">
+		insert into bgMenu ( 
+			<include refid="menuAddColumns"/>
+		) values (
+			#{menuName},#{menuUrl},#{parentId},#{menuOrder},#{menuIcon},#{menuType},#{status},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="bgMenu">
+		update  bgMenu
+			set 
+				menuName = #{menuName},
+				menuUrl = #{menuUrl},
+				parentId = #{parentId},
+				menuOrder = #{menuOrder},
+				menuIcon = #{menuIcon},
+				menuType = #{menuType},
+				status = #{status},
+				modifyTime = #{modifyTime}
+			where 
+				menuId = #{menuId}
+	</update>
+	
+	<!-- 修改 -->
+	<update id="editByPd" parameterType="pd">
+		update  bgMenu
+			set 
+				menuName = #{menuName},
+				menuUrl = #{menuUrl},
+				parentId = #{parentId},
+				menuOrder = #{menuOrder},
+				menuIcon = #{menuIcon},
+				menuType = #{menuType},
+				status = #{status},
+				modifyTime = #{modifyTime}
+			where 
+				menuId = #{menuId}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="int">
+		delete from bgMenu 
+		where 
+			menuId = #{menuId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from bgMenu 
+		where 
+			menuId = #{menuId}
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from comTable 
+		where 
+			tableId in (#{ids})
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="int" resultType="bgMenu">
+		select 
+			<include refid="menuColumns"/>
+		from 
+			bgMenu
+		where 
+			menuId = #{menuId}
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="findPdById" parameterType="int" resultType="pd">
+		select 
+			<include refid="menuColumns"/>
+		from 
+			bgMenu
+		where 
+			menuId = #{menuId}
+	</select>
+	
+	<!-- 通过pd获取(PageData)数据  -->
+	<select id="findPdByPd" parameterType="pd" resultType="pd">
+		select 
+			<include refid="menuColumns"/>
+		from 
+			bgMenu
+		where 
+			menuId = #{menuId}
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAllByPd" parameterType="pd" resultMap="menuResultMap">
+		select 
+			<include refid="menuColumns"/>
+		from 
+			bgMenu
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+		select 
+			<include refid="menuColumns"/>
+		from 
+			bgMenu
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

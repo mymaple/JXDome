@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComDictMapper">
+
+	<sql id="dictAddColumns">name,encode,orderBy,parentId,level,allEncode,modifyTime</sql>
+	<sql id="dictColumns">dictId,name,encode,orderBy,parentId,level,allEncode,modifyTime</sql>
+	
+	<resultMap type="comDict" id="dictResultMap">
+		<id column="dictId" property="dictId"/>
+		<result column="name" property="name"/>
+		<result column="encode" property="encode"/>
+		<result column="orderBy" property="orderBy"/>
+		<result column="parentId" property="parentId"/>
+		<result column="level" property="level"/>
+		<result column="allEncode" property="allEncode"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 列表 -->
+	<select id="dictlistPage" parameterType="bgPage" resultType="pd">
+		select  z1.dictId,
+				z1.name,
+				z1.encode,
+				z1.orderBy,
+				z1.parentId,
+				z1.level,
+				z1.allEncode,
+				z2.name pname
+		from comDict z1
+		left join
+			comDict z2 
+		on  z1.parentId = z2.dictId 
+		where 
+		    z1.parentId = #{pd.parentId}
+		<if test="pd.name != null and pd.name != ''">
+			and z1.name LIKE CONCAT(CONCAT('%', #{pd.name}),'%') 
+		</if>
+		order by z1.orderBy
+	</select>
+	
+	<!-- 查询总数 -->
+	<select id="findCount" parameterType="pd" resultType="pd">
+		select 
+			count(dictId) count
+		from 
+			comDict
+		where 
+			parentId = #{dictId}
+	</select>
+	
+	<!-- 查询某编码 -->
+	<select id="hasEncodeByPd" parameterType="pd" resultType="pd">
+		select 
+			dictId
+		from 
+			comDict
+		where 
+			encode = #{encode}
+		<if test="dictId != null and dictId != ''">
+			and dictId != #{dictId} 
+		</if>
+	</select>
+	
+	
+	<!-- 获取字典参数列表 -->
+	<select id="listParamByAllEncode" parameterType="String" resultType="comDict">
+		select  z1.dictId,
+				z1.name,
+				z1.encode,
+				z1.orderBy,
+				z1.parentId,
+				z1.level,
+				z1.allEncode
+		from comDict z1
+		left join
+			comDict z2 
+		on  z1.parentId = z2.dictId 
+		where 
+		    z2.allEncode = #{allEncode}
+		order by z1.orderBy
+	</select>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByAllEncode" parameterType="String" resultType="comDict">
+		select 
+			<include refid="dictColumns"/>
+		from 
+			comDict
+		where 
+			allEncode = #{allEncode}
+	</select>
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="dictId" parameterType="comDict">
+		insert into comDict ( 
+			<include refid="dictAddColumns"/>
+		) values (
+			#{name},#{encode},#{orderBy},#{parentId},#{level},#{allEncode},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 新增 -->
+	<insert id="addByPd" useGeneratedKeys="true" keyProperty="dictId" parameterType="pd">
+		insert into comDict ( 
+			<include refid="dictAddColumns"/>
+		) values (
+			#{name},#{encode},#{orderBy},#{parentId},#{level},#{allEncode},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comDict">
+		update  comDict
+			set 
+				name = #{name},
+				encode = #{encode},
+				orderBy = #{orderBy},
+				parentId = #{parentId},
+				level = #{level},
+				allEncode = #{allEncode},
+				modifyTime = #{modifyTime}
+			where 
+				dictId = #{dictId}
+	</update>
+	
+	<!-- 修改 -->
+	<update id="editByPd" parameterType="pd">
+		update  comDict
+			set 
+				name = #{name},
+				encode = #{encode},
+				orderBy = #{orderBy},
+				parentId = #{parentId},
+				level = #{level},
+				allEncode = #{allEncode},
+				modifyTime = #{modifyTime}
+			where 
+				dictId = #{dictId}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="int">
+		delete from comDict 
+		where 
+			dictId = #{dictId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from comDict 
+		where 
+			dictId = #{dictId}
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from comTable 
+		where 
+			tableId in (#{ids})
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="int" resultType="comDict">
+		select 
+			<include refid="dictColumns"/>
+		from 
+			comDict
+		where 
+			dictId = #{dictId}
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="findPdById" parameterType="int" resultType="pd">
+		select 
+			<include refid="dictColumns"/>
+		from 
+			comDict
+		where 
+			dictId = #{dictId}
+	</select>
+	
+	<!-- 通过pd获取(PageData)数据  -->
+	<select id="findPdByPd" parameterType="pd" resultType="pd">
+		select 
+			<include refid="dictColumns"/>
+		from 
+			comDict
+		where 
+			dictId = #{dictId}
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAllByPd" parameterType="pd" resultMap="dictResultMap">
+		select 
+			<include refid="dictColumns"/>
+		from 
+			comDict
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+		select 
+			<include refid="dictColumns"/>
+		from 
+			comDict
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

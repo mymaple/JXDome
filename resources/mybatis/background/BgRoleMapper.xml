@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgRoleMapper">
+
+	<sql id="roleAddColumns">roleName,roleRights,parentId,addRights,delRights,editRights,seleRights,modifyTime</sql>
+	<sql id="roleColumns">roleId,roleName,roleRights,parentId,addRights,delRights,editRights,seleRights,modifyTime</sql>
+	
+	<resultMap type="bgRole" id="roleResultMap">
+		<id column="roleId" property="roleId"/>
+		<result column="roleName" property="roleName"/>
+		<result column="roleRights" property="roleRights"/>
+		<result column="parentId" property="parentId"/>
+		<result column="addRights" property="addRights"/>
+		<result column="delRights" property="delRights"/>
+		<result column="editRights" property="editRights"/>
+		<result column="seleRights" property="seleRights"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="roleId" parameterType="bgRole">
+		insert into bgRole ( 
+			<include refid="roleAddColumns"/>
+		) values (
+			#{roleName},#{roleRights},#{parentId},#{addRights},#{delRights},#{editRights},#{seleRights},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 新增 -->
+	<insert id="addByPd" useGeneratedKeys="true" keyProperty="roleId" parameterType="pd">
+		insert into bgRole ( 
+			<include refid="roleAddColumns"/>
+		) values (
+			#{roleName},#{roleRights},#{parentId},#{addRights},#{delRights},#{editRights},#{seleRights},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="bgRole">
+		update  bgRole
+			set 
+				roleName = #{roleName},
+				roleRights = #{roleRights},
+				parentId = #{parentId},
+				addRights = #{addRights},
+				delRights = #{delRights},
+				editRights = #{editRights},
+				seleRights = #{seleRights},
+				modifyTime = #{modifyTime}
+			where 
+				roleId = #{roleId}
+	</update>
+	
+	<!-- 修改 -->
+	<update id="editByPd" parameterType="pd">
+		update  bgRole
+			set 
+				roleName = #{roleName},
+				roleRights = #{roleRights},
+				parentId = #{parentId},
+				addRights = #{addRights},
+				delRights = #{delRights},
+				editRights = #{editRights},
+				seleRights = #{seleRights},
+				modifyTime = #{modifyTime}
+			where 
+				roleId = #{roleId}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="int">
+		delete from bgRole 
+		where 
+			roleId = #{roleId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from bgRole 
+		where 
+			roleId = #{roleId}
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from comTable 
+		where 
+			tableId in (#{ids})
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="int" resultType="bgRole">
+		select 
+			<include refid="roleColumns"/>
+		from 
+			bgRole
+		where 
+			roleId = #{roleId}
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="findPdById" parameterType="int" resultType="pd">
+		select 
+			<include refid="roleColumns"/>
+		from 
+			bgRole
+		where 
+			roleId = #{roleId}
+	</select>
+	
+	<!-- 通过pd获取(PageData)数据  -->
+	<select id="findPdByPd" parameterType="pd" resultType="pd">
+		select 
+			<include refid="roleColumns"/>
+		from 
+			bgRole
+		where 
+			roleId = #{roleId}
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAllByPd" parameterType="pd" resultMap="roleResultMap">
+		select 
+			<include refid="roleColumns"/>
+		from 
+			bgRole
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+		select 
+			<include refid="roleColumns"/>
+		from 
+			bgRole
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

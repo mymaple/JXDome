@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgUserMapper">
+
+	<sql id="userAddColumns">userName,password,realName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
+	<sql id="userColumns">userId,userName,password,realName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
+	<sql id="userRoleColumns">
+		u.userId,u.userName,u.password,u.realName,u.userRights
+		,u.lastLoginTime,u.lastLoginIp,u.userIconSrc,u.userNumber,u.email,u.phone,u.status,u.remarks,u.modifyTime
+		,r.roleId,r.roleName,r.roleRights
+		</sql>
+		
+	<resultMap type="bgUser" id="userResultMap">
+		<id column="userId" property="userId"/>
+		<result column="userName" property="userName"/>
+		<result column="password" property="password"/>
+		<result column="realName" property="realName"/>
+		<result column="userRights" property="userRights"/>
+		<result column="roleId" property="roleId"/>
+		<result column="lastLoginTime" property="lastLoginTime"/>
+		<result column="lastLoginIp" property="lastLoginIp"/>
+		<result column="userIconSrc" property="userIconSrc"/>
+		<result column="userNumber" property="userNumber"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="status" property="status"/>
+		<result column="remarks" property="remarks"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	<resultMap type="bgUser" id="userRoleResultMap">
+		<id column="userId" property="userId"/>
+		<result column="userName" property="userName"/>
+		<result column="password" property="password"/>
+		<result column="realName" property="realName"/>
+		<result column="userRights" property="userRights"/>
+		<result column="roleId" property="roleId"/>
+		<result column="lastLoginTime" property="lastLoginTime"/>
+		<result column="lastLoginIp" property="lastLoginIp"/>
+		<result column="userIconSrc" property="userIconSrc"/>
+		<result column="userNumber" property="userNumber"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="status" property="status"/>
+		<result column="remarks" property="remarks"/>
+		<result column="modifyTime" property="modifyTime"/>
+		<association property="bgRole" column="roleId" javaType="BgRole">
+			<id column="roleId" property="roleId"/>
+			<result column="roleName" property="roleName"/>
+			<result column="roleRights" property="roleRights"/>
+		</association>
+	</resultMap>
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 存入IP -->
+	<update id="changeLoginInfo" parameterType="bgUser">
+		update bgUser 
+			set 
+				lastLoginTime = #{lastLoginTime},
+				lastLoginIp = #{lastLoginIp}
+			where 
+				userName = #{userName}
+			<if test="userId != null and userId != ''">
+			and userId = #{userId}
+			</if>
+	</update>
+	
+	<!-- 判断用户名和密码 -->
+	<select id="checkUserLogin" parameterType="pd" resultType="bgUser">
+	<!-- insert update delete (flushCache="true/false") -->
+		select * from bgUser 
+		where 1=1
+		<if test="userName != null and password != null">
+	  	and	(
+	  		(userName = #{userName} and password = #{password})
+	  		or
+	  		(email = #{userName} and password = #{password})
+	  		or
+	  		(userNumber = #{userName} and password = #{password})
+	  		or
+	  		(phone = #{userName} and password = #{password})
+	  		)
+		</if>
+		<if test="userId != null and userId != ''">
+		and userId = #{userId}
+		</if>
+	</select>
+	
+	<!-- 通过userId获取数据 -->
+	<select id="getUserRoleById" parameterType="int" resultMap="userRoleResultMap">
+		select  
+			<include refid="userRoleColumns"/> 
+		from bgUser u 
+		left join bgRole r 
+		on u.roleId=r.roleId 
+		where u.status=0 
+		and u.userId=#{userId}
+	</select>
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="userId" parameterType="bgUser">
+		insert into bgUser ( 
+			<include refid="userAddColumns"/>
+		) values (
+			#{userName},#{password},#{realName},#{userRights},#{roleId},#{lastLoginTime},#{lastLoginIp},#{userIconSrc},#{userNumber},#{email},#{phone},#{status},#{remarks},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 新增 -->
+	<insert id="addByPd" useGeneratedKeys="true" keyProperty="userId" parameterType="pd">
+		insert into bgUser ( 
+			<include refid="userAddColumns"/>
+		) values (
+			#{userName},#{password},#{realName},#{userRights},#{roleId},#{lastLoginTime},#{lastLoginIp},#{userIconSrc},#{userNumber},#{email},#{phone},#{status},#{remarks},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="bgUser">
+		update  bgUser
+			set 
+				userName = #{userName},
+				password = #{password},
+				realName = #{realName},
+				userRights = #{userRights},
+				roleId = #{roleId},
+				lastLoginTime = #{lastLoginTime},
+				lastLoginIp = #{lastLoginIp},
+				userIconSrc = #{userIconSrc},
+				userNumber = #{userNumber},
+				email = #{email},
+				phone = #{phone},
+				status = #{status},
+				remarks = #{remarks},
+				modifyTime = #{modifyTime}
+			where 
+				userId = #{userId}
+	</update>
+	
+	<!-- 修改 -->
+	<update id="editByPd" parameterType="pd">
+		update  bgUser
+			set 
+				userName = #{userName},
+				password = #{password},
+				realName = #{realName},
+				userRights = #{userRights},
+				roleId = #{roleId},
+				lastLoginTime = #{lastLoginTime},
+				lastLoginIp = #{lastLoginIp},
+				userIconSrc = #{userIconSrc},
+				userNumber = #{userNumber},
+				email = #{email},
+				phone = #{phone},
+				status = #{status},
+				remarks = #{remarks},
+				modifyTime = #{modifyTime}
+			where 
+				userId = #{userId}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="int">
+		delete from bgUser 
+		where 
+			userId = #{userId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from bgUser 
+		where 
+			userId = #{userId}
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from comTable 
+		where 
+			tableId in (#{ids})
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="int" resultType="bgUser">
+		select 
+			<include refid="userColumns"/>
+		from 
+			bgUser
+		where 
+			userId = #{userId}
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="findPdById" parameterType="int" resultType="pd">
+		select 
+			<include refid="userColumns"/>
+		from 
+			bgUser
+		where 
+			userId = #{userId}
+	</select>
+	
+	<!-- 通过pd获取(PageData)数据  -->
+	<select id="findPdByPd" parameterType="pd" resultType="pd">
+		select 
+			<include refid="userColumns"/>
+		from 
+			bgUser
+		where 
+			userId = #{userId}
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAllByPd" parameterType="pd" resultMap="userResultMap">
+		select 
+			<include refid="userColumns"/>
+		from 
+			bgUser
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+		select 
+			<include refid="userColumns"/>
+		from 
+			bgUser
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>
