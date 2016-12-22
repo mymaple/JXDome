@@ -99,6 +99,15 @@
 		and u.userId=#{userId}
 	</select>
 	
+	<!-- 通过userId获取数据 -->
+	<select id="listAllByRoleId" parameterType="int" resultType="bgUser">
+		select  
+			<include refid="userColumns"/> 
+		from bgUser 
+		where 
+			roleId=#{roleId}
+	</select>
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	

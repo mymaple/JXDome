@@ -41,6 +41,15 @@ public class BgUserService {
 		return (BgUser) dao.findForObject("BgUserMapper.getUserRoleById", userId);
 	}
 	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BgUser> listAllByRoleId(int roleId) throws Exception {
+		return (List<BgUser>) dao.findForList("BgUserMapper.listAllByRoleId", null);
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

@@ -40,13 +40,17 @@ public class BgMenuService {
 	/**
 	 * 获取所有菜单并填充每个菜单的子菜单列表(系统菜单列表)(递归处理)
 	 * @param int menuId
+	 * 			String type:1 
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMenu> listAllMenuInRank(int menuId) throws Exception {
+	public List<BgMenu> listAllMenuInRank(int menuId,String type) throws Exception {
 		List<BgMenu> bgMenuList = this.listSubBgMenuByParentId(menuId);
 		for(BgMenu bgMenu : bgMenuList){
-			bgMenu.setSubBgMenuList(this.listAllMenuInRank(bgMenu.getMenuId()));
+			if("1".equals(type)){
+				bgMenu.setMenuUrl("background/menu/list.do?menuId="+menuId);
+			}
+			bgMenu.setSubBgMenuList(this.listAllMenuInRank(bgMenu.getMenuId(),type));
 			bgMenu.setTarget("treeFrame");
 		}
 		return bgMenuList;

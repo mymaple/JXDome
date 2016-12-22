@@ -21,6 +21,38 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<!-- 修改 -->
+	<update id="change" parameterType="bgRole">
+		update  bgRole
+			set 
+				modifyTime = #{modifyTime}
+				<if test="roleName != null and roleName != ''">
+				,roleName = #{roleName}
+				</if>
+				<if test="roleRights != null and roleRights != ''">
+				,roleRights = #{roleRights}
+				</if>
+				<if test="addRights != null and addRights != ''">
+				,addRights = #{addRights}
+				</if>
+				<if test="delRights != null and delRights != ''">
+				,delRights = #{delRights}
+				</if>
+				<if test="editRights != null and editRights != ''">
+				,editRights = #{editRights}
+				</if>
+				<if test="seleRights != null and seleRights != ''">
+				,seleRights = #{seleRights}
+				</if>
+			where 
+				roleId = #{roleId}
+	</update>
+	
+	<!-- 根据parentId 获取所有直接子菜单 -->
+	<select id="listSubBgRoleByParentId" parameterType="int" resultMap="roleResultMap">
+		select  * from bgRole
+		where parentId = #{parentId} order by roleId 
+	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	

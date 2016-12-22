@@ -215,9 +215,9 @@ public class BgMainController extends BaseController {
 
 				List<BgMenu> bgAllMenuInRankList = new ArrayList<BgMenu>();
 				if (null == session.getAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST)) {
-					bgAllMenuInRankList = bgMenuService.listAllMenuInRank(0);
+					bgAllMenuInRankList = bgMenuService.listAllMenuInRank(0,"");
 					if (Tools.notEmpty(roleRights)) {
-						this.subBgMenuListTestRights(bgAllMenuInRankList,roleRights);
+						this.bgMenuListTestRights(bgAllMenuInRankList,roleRights);
 					}
 					session.setAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST, bgAllMenuInRankList); // 菜单权限放入session中
 				} else {
@@ -331,15 +331,17 @@ public class BgMainController extends BaseController {
 	 * @param roleRights：加密的权限字符串
 	 * @return
 	 */
-	public List<BgMenu> subBgMenuListTestRights(List<BgMenu> subBgMenuList,String roleRights){
-		
-		for (BgMenu bgMenu : subBgMenuList) {
-			bgMenu.setHasRight(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
-			if (bgMenu.isHasRight()) {
-				this.subBgMenuListTestRights(bgMenu.getSubBgMenuList(), roleRights);//是：继续排查其子菜
+	public List<BgMenu> bgMenuListTestRights(List<BgMenu> bgMenuList,String roleRights){
+		for(int i=0;i<bgMenuList.size();i++){
+			bgMenuList.get(i).setHasRight(RightsHelper.testRights(roleRights, bgMenuList.get(i).getMenuId()));
+			if(bgMenuList.get(i).isHasRight() && "1".equals(bgMenuList.get(i).getStatus())){				//判断是否有此菜单权限并且是否隐藏
+				this.bgMenuListTestRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);				//是：继续排查其子菜单
+			}else{
+				bgMenuList.remove(i);
+				i--;
 			}
 		}
-		return subBgMenuList;
+		return bgMenuList;
 	}
 	
 	

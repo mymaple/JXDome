@@ -22,6 +22,16 @@ public class BgRoleService {
 	/****************************custom * start***********************************/
 	
 	/**
+	 * 修改 
+	 * @param BgRole bgRole
+	 * @throws Exception
+	 */
+	public void change(BgRole bgRole) throws Exception {
+		dao.edit("BgRoleMapper.change", bgRole);
+	}
+	
+	
+	/**
 	 * 根据parentId 获取所有直接子菜单 
 	 * @param int parentId
 	 * @return

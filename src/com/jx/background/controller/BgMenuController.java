@@ -60,7 +60,7 @@ public class BgMenuController extends BaseController {
 	public ModelAndView tree(Model model,String menuId)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		try{
-			JSONArray arr = JSONArray.fromObject(bgMenuService.listAllMenuInRank(0));
+			JSONArray arr = JSONArray.fromObject(bgMenuService.listAllMenuInRank(0,"1"));
 			String json = arr.toString();
 			json = json.replaceAll("menuId", "id").replaceAll("parentId", "pId")
 					.replaceAll("menuName", "name").replaceAll("subBgMenuList", "nodes")
