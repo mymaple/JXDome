@@ -69,7 +69,6 @@
 	
 	<!-- 判断用户名和密码 -->
 	<select id="checkUserLogin" parameterType="pd" resultType="bgUser">
-	<!-- insert update delete (flushCache="true/false") -->
 		select * from bgUser 
 		where 1=1
 		<if test="userName != null and password != null">
@@ -235,12 +234,38 @@
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listAllPd" parameterType="bgPage" resultType="pd">
-		select 
-			<include refid="userColumns"/>
-		from 
-			bgUser
+		select  
+			<include refid="userRoleColumns"/> 
+		from bgUser u 
+		left join bgRole r 
+		on u.roleId=r.roleId 
+		where u.status=0 
+		and r.parentId = 1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					 u.userName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					 u.email LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+					 or
+					 u.userNumber LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					 u.realName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					 u.phone LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.roleId != null and pd.roleId != ''"><!-- 角色检索 -->
+			and u.roleId=#{pd.roleId} 
+		</if>
+		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 登录时间检索 -->
+			and u.lastLoginTime &gt;= #{pd.lastLoginStart} 
+		</if>
+		<if test="pd.lastLoginEnd!=null and pd.lastLoginEnd!=''"><!-- 登录时间检索 -->
+			and u.lastLoginTime &lt;= #{pd.lastLoginEnd} 
+		</if>
+		order by u.userId
 	</select>
-	
 	<!-- ****************************common * end  ********************************** -->
 	
 </mapper>

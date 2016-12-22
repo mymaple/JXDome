@@ -83,6 +83,7 @@ public class BgRoleController extends BaseController {
 //			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
 //			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			mv.addObject("BGQX", pd);
 			
 			mv.setViewName("background/role/bgRoleList");
 		} catch(Exception e){

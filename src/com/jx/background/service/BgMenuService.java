@@ -48,7 +48,7 @@ public class BgMenuService {
 		List<BgMenu> bgMenuList = this.listSubBgMenuByParentId(menuId);
 		for(BgMenu bgMenu : bgMenuList){
 			if("1".equals(type)){
-				bgMenu.setMenuUrl("background/menu/list.do?menuId="+menuId);
+				bgMenu.setMenuUrl("background/menu/list.do?menuId="+bgMenu.getMenuId());
 			}
 			bgMenu.setSubBgMenuList(this.listAllMenuInRank(bgMenu.getMenuId(),type));
 			bgMenu.setTarget("treeFrame");

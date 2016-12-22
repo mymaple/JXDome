@@ -59,7 +59,7 @@
 										<c:when test="${pd.roleId == '99'}">
 										</c:when>
 										<c:otherwise>
-										<a class="btn btn-mini btn-purple" onclick="('${pd.roleId }');">
+										<a class="btn btn-mini btn-purple" onclick="toChangeRoleRights('${pd.roleId }','roleRights');">
 											<i class="icon-pencil"></i>
 											<c:if test="${pd.roleId == '1'}">Admin 菜单权限</c:if>
 											<c:if test="${pd.roleId != '1'}">组菜单权限</c:if>
@@ -92,6 +92,7 @@
 								<c:choose>
 									<c:when test="${not empty subBgRoleList}">
 										<c:forEach items="${subBgRoleList}" var="var" varStatus="vs">
+										
 										
 										<tr>
 										<td class='center' style="width:30px;">${vs.index+1}</td>

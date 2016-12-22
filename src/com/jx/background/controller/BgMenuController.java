@@ -57,7 +57,7 @@ public class BgMenuController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/main")
-	public ModelAndView tree(Model model,String menuId)throws Exception{
+	public ModelAndView main(Model model,String menuId)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		try{
 			JSONArray arr = JSONArray.fromObject(bgMenuService.listAllMenuInRank(0,"1"));
@@ -87,6 +87,11 @@ public class BgMenuController extends BaseController {
 		pd = this.getPageData();
 		try{
 			String menuId = (null == pd.get("menuId") || "".equals(pd.getString("menuId")))?"0":pd.getString("menuId");
+			String id = pd.getString("id");
+			if(!"".equals(id)&&null!=id){
+				menuId=id;
+			}
+			
 			pd.put("menuId", menuId);
 			List<BgMenu> subBgMenuList = bgMenuService.listSubBgMenuByParentId(Integer.parseInt(menuId));
 			mv.addObject("subBgMenuList", subBgMenuList);
