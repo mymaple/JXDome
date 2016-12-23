@@ -49,7 +49,7 @@ public class RightsHelper {
 	 * @return
 	 */
 	public static boolean testRights(String sum, int targetRights) {
-		if (Tools.isEmpty(sum))
+		if (MapleStringUtil.isEmpty(sum))
 			return false;
 		return testRights(new BigInteger(sum), targetRights);
 	}
@@ -61,7 +61,7 @@ public class RightsHelper {
 	 * @return
 	 */
 	public static boolean testRights(String sum, String targetRights) {
-		if (Tools.isEmpty(sum))
+		if (MapleStringUtil.isEmpty(sum))
 			return false;
 		return testRights(new BigInteger(sum), targetRights);
 	}

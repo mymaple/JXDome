@@ -29,10 +29,10 @@ import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
-import com.jx.common.util.Jurisdiction;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
+import com.jx.background.util.BgSessionUtil;
 
 /** 
  * 类名称：BgUserController
@@ -79,7 +79,7 @@ public class BgUserController extends BaseController {
 			mv.addObject("bgUserList", bgUserList);
 			mv.addObject("bgRoleList", bgRoleList);
 			mv.addObject("pd", pd);
-//			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgOperateRights());	//按钮权限
 			
 			mv.setViewName("background/user/bgUserList");
 		} catch(Exception e){

@@ -31,8 +31,8 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
+import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ReflectHelper;
-import com.jx.common.util.Tools;
 
 /**
  * 类名称：PagePlugin.java 类描述：
@@ -151,7 +151,7 @@ public class BgPagePlugin implements Interceptor {
 	 * @return
 	 */
 	private String generatePageSql(String sql, BgPage bgPage) {
-		if (bgPage != null && Tools.notEmpty(dialect)) {
+		if (bgPage != null && MapleStringUtil.notEmpty(dialect)) {
 			StringBuffer pageSql = new StringBuffer();
 			if ("mysql".equals(dialect)) {
 				pageSql.append(sql);
@@ -178,7 +178,7 @@ public class BgPagePlugin implements Interceptor {
 
 	public void setProperties(Properties p) {
 		dialect = p.getProperty("dialect");
-		if (Tools.isEmpty(dialect)) {
+		if (MapleStringUtil.isEmpty(dialect)) {
 			try {
 				throw new PropertyException("dialect property is not found!");
 			} catch (PropertyException e) {
@@ -187,7 +187,7 @@ public class BgPagePlugin implements Interceptor {
 			}
 		}
 		pageSqlId = p.getProperty("pageSqlId");
-		if (Tools.isEmpty(pageSqlId)) {
+		if (MapleStringUtil.isEmpty(pageSqlId)) {
 			try {
 				throw new PropertyException("pageSqlId property is not found!");
 			} catch (PropertyException e) {

@@ -19,7 +19,7 @@
 		//刷新ztree
 		function parentReload(){
 			if(null != '${msg}' && '' != '${msg}' && 'change' == '${msg}'){
-				parent.location.href="<%=basePath%>background/menu/main.do?menuId="+${menuId};
+				parent.location.href="<%=basePath%>background/menu/main.do";
 			}else{
 				//什么也不干
 			}
@@ -192,7 +192,7 @@
 					top.jzts();
 					$.get(url,function(data){
 						if("success" == data.result){
-							parent.location.href="<%=basePath%>background/menu/main.do?menuId="+${menuId};
+							parent.location.href="<%=basePath%>background/menu/main.do";
 						}else if("false" == data.result){
 							top.hangge();
 							bootbox.dialog({

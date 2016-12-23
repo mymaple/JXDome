@@ -8,7 +8,6 @@ import org.apache.shiro.subject.Subject;
 
 import com.jx.background.entity.BgConfig;
 import com.jx.background.service.BgConfigService;
-import com.jx.background.service.BgConfigService;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 
@@ -42,7 +41,7 @@ public class BgPage {
 				this.showCount = Integer.parseInt(count);
 			}
 		} catch (Exception e) {
-			this.showCount = 15;
+			this.showCount = 5;
 		}
 	}
 

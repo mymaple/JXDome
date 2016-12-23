@@ -6,6 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 
 import com.jx.background.entity.BgMenu;
+import com.jx.background.entity.BgRole;
 import com.jx.background.entity.BgUser;
 
 public class BgSessionUtil {
@@ -54,7 +55,7 @@ public class BgSessionUtil {
 	public static final String SESSION_BG_USER_ROLE_OBJ = "seesionBgUserRole";
 	
 	/**
-	 * 后台 管理权限
+	 * 后台 操作权限
 	 */
 	public static final String SESSION_BG_OPERATERIGHTS_OBJ = "sessionBgOperateRights";
 	
@@ -74,7 +75,7 @@ public class BgSessionUtil {
 	 * 获取 后台 验证码
 	 * @return
 	 */
-	public static String getSeesionBgVerificationCode(){
+	public static String getSessionBgVerificationCode(){
 		return (String)getSession().getAttribute(SESSION_BG_VERIFICATIONCODE_STR);
 	}
 	
@@ -82,7 +83,7 @@ public class BgSessionUtil {
 	 * 设置 后台 验证码
 	 * @param verificationCode
 	 */
-	public static void setSeesionBgVerificationCode(String verificationCode){
+	public static void setSessionBgVerificationCode(String verificationCode){
 		setSessionAttr(SESSION_BG_VERIFICATIONCODE_STR, verificationCode);
 	}
 	
@@ -120,19 +121,19 @@ public class BgSessionUtil {
 	}
 	
 	/**
-	 * 获取 后台 当前用户角色
+	 * 获取 后台 操作权限
 	 * @return
 	 */
-	public static BgUser getSessionBgOperateRights(){
-		return (BgUser)getSession().getAttribute(SESSION_BG_USER_ROLE_OBJ);
+	public static BgRole getSessionBgOperateRights(){
+		return (BgRole)getSession().getAttribute(SESSION_BG_OPERATERIGHTS_OBJ);
 	}
 	
 	/**
-	 * 设置 后台 当前用户角色
-	 * @param bgUser
+	 * 设置 后台 操作权限
+	 * @param bgOperateRights
 	 */
-	public static void setSessionBgOperateRights(BgUser bgUser){
-		setSessionAttr(SESSION_BG_USER_ROLE_OBJ, bgUser);
+	public static void setSessionBgOperateRights(BgRole bgOperateRights){
+		setSessionAttr(SESSION_BG_OPERATERIGHTS_OBJ, bgOperateRights);
 	}
 	
 	/**

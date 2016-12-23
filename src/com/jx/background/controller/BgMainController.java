@@ -33,15 +33,14 @@ import com.jx.background.service.BgConfigService;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
+import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.DrawImageUtil;
 import com.jx.common.util.RightsHelper;
-import com.jx.common.util.Tools;
 
 /*
  * 总入口
@@ -96,10 +95,13 @@ public class BgMainController extends BaseController {
 
 		Session session = this.getSession();
 
-		session.removeAttribute(Const.SESSION_BG_USER_ROLE_OBJ);
-		session.removeAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST);
-		session.removeAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST);
-		session.removeAttribute(Const.SESSION_BG_CHANGEMENU_STR);
+		session.removeAttribute(BgSessionUtil.SESSION_BG_USER_ROLE_OBJ);
+		session.removeAttribute(BgSessionUtil.SESSION_BG_ALLMENU_INRANK_LIST);
+		session.removeAttribute(BgSessionUtil.SESSION_BG_MENU_INCURRTEN_LIST);
+		session.removeAttribute(BgSessionUtil.SESSION_BG_CHANGEMENU_STR);
+		if(BgSessionUtil.getSessionBgOperateRights()!=null){
+			session.removeAttribute(BgSessionUtil.SESSION_BG_OPERATERIGHTS_OBJ);
+		}
 
 		// shiro销毁登录
 		Subject subject = SecurityUtils.getSubject();
@@ -138,10 +140,10 @@ public class BgMainController extends BaseController {
 		
 		try{
 			pd = this.getPageData();
-			String keyData[] = pd.getString("keyData").replaceAll("ndknsdkfjksdfj", "").replaceAll("kgnlkfsl", "").split(",jx,");
+			String keyData[] = pd.getString("keyData").replaceAll("ndknsdkfjksdfj", "")
+										.replaceAll("kgnlkfsl", "").split(",jx,");
 			if (null != keyData && keyData.length == 3) {
-				Session session = this.getSession();
-				String sessionBgVerificationCode = (String) session.getAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR); // 获取session中的验证码
+				String sessionBgVerificationCode = BgSessionUtil.getSessionBgVerificationCode(); // 获取session中的验证码
 				String bgVerificationCode = keyData[2];
 				//开发跳过、、登录
 				bgVerificationCode = sessionBgVerificationCode;
@@ -151,7 +153,8 @@ public class BgMainController extends BaseController {
 					String userName = keyData[0];
 					String password = keyData[1];
 					pd.put("userName", userName);
-					if (MapleStringUtil.notEmpty(sessionBgVerificationCode) && sessionBgVerificationCode.equalsIgnoreCase(bgVerificationCode)) {
+					if (MapleStringUtil.notEmpty(sessionBgVerificationCode) 
+							&& sessionBgVerificationCode.equalsIgnoreCase(bgVerificationCode)) {
 						String passwd = new SimpleHash("SHA-1", userName, password).toString(); // 密码加密
 						pd.put("password", passwd);
 						BgUser bgUser = new BgUser();
@@ -160,8 +163,8 @@ public class BgMainController extends BaseController {
 						if (bgUser != null) {
 							//修改登录
 							bgUser = this.changeLoginInfo(bgUser);
-							session.setAttribute(Const.SESSION_BG_USER_ROLE_OBJ, bgUser);
-							session.removeAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR);
+							BgSessionUtil.setSessionBgUserRole(bgUser);
+							this.getSession().removeAttribute(BgSessionUtil.SESSION_BG_VERIFICATIONCODE_STR);
 							
 							// shiro加入身份验证
 							Subject subject = SecurityUtils.getSubject();
@@ -202,36 +205,34 @@ public class BgMainController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			Session session = this.getSession();
-			
 			//获取当前用户 和 角色
-			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER_ROLE_OBJ);
+			BgUser bgUser = BgSessionUtil.getSessionBgUserRole();
 			if (bgUser != null) {
 				if (null == bgUser.getBgRole()) {
 					bgUser = bgUserService.getUserRoleById(bgUser.getUserId());
 					
 					bgUser.setAdmin(1==bgUser.getBgRole().getRoleId()
 							&&bgUser.getUserName().equals(bgConfigService.findSessionConfig(Const.CONFIG_BG_SYSTEM_OBJ).getParam3()));
-					session.setAttribute(Const.SESSION_BG_USER_ROLE_OBJ, bgUser);
+					BgSessionUtil.setSessionBgUserRole(bgUser);
 				}
 				BgRole bgRole = bgUser.getBgRole();
 				String roleRights = bgRole != null ? bgRole.getRoleRights() : "";
 				
 				//获取当前角色菜单列表
 				List<BgMenu> bgAllMenuInRankList = new ArrayList<BgMenu>();
-				if (null == session.getAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST)) {
+				if (null == BgSessionUtil.getSessionBgAllMenuInRankList()) {
 					bgAllMenuInRankList = bgMenuService.listAllMenuInRank(0,"");
 					if (MapleStringUtil.notEmpty(roleRights)) {
 						this.bgMenuListTestRights(bgAllMenuInRankList,roleRights);
 					}
-					session.setAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST, bgAllMenuInRankList); // 菜单权限放入session中
+					BgSessionUtil.setSessionBgAllMenuInRankList( bgAllMenuInRankList); // 菜单权限放入session中
 				} else {
-					bgAllMenuInRankList = (List<BgMenu>) session.getAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST);
+					bgAllMenuInRankList = BgSessionUtil.getSessionBgAllMenuInRankList();
 				}
 
 				// 切换菜单=====
 				List<BgMenu> bgMenuInCurrentList = new ArrayList<BgMenu>();
-				if (null == session.getAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST) || ("yes".equals(changeMenu))) {
+				if (null == BgSessionUtil.getSessionBgMenuInCurrentList() || ("yes".equals(changeMenu))) {
 					List<BgMenu> bgMenuInCurrentList1 = new ArrayList<BgMenu>();
 					List<BgMenu> bgMenuInCurrentList2 = new ArrayList<BgMenu>();
 					// 拆分菜单
@@ -243,20 +244,17 @@ public class BgMainController extends BaseController {
 							bgMenuInCurrentList2.add(bgMenu);
 						}
 					}
-					session.removeAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST);
-					if ("2".equals(session.getAttribute("changeMenu"))) {
-						session.setAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST, bgMenuInCurrentList1);
-						session.removeAttribute("changeMenu");
-						session.setAttribute("changeMenu", "1");
+					if ("2".equals(BgSessionUtil.getSessionBgChangeMenu())) {
+						BgSessionUtil.setSessionBgMenuInCurrentList(bgMenuInCurrentList1);
+						BgSessionUtil.setSessionBgChangeMenu("1");
 						bgMenuInCurrentList = bgMenuInCurrentList1;
 					} else {
-						session.setAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST, bgMenuInCurrentList2);
-						session.removeAttribute("changeMenu");
-						session.setAttribute("changeMenu", "2");
+						BgSessionUtil.setSessionBgMenuInCurrentList(bgMenuInCurrentList2);
+						BgSessionUtil.setSessionBgChangeMenu("2");
 						bgMenuInCurrentList = bgMenuInCurrentList2;
 					}
 				} else {
-					bgMenuInCurrentList = (List<BgMenu>) session.getAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST);
+					BgSessionUtil.getSessionBgMenuInCurrentList();
 				}
 				
 				
@@ -355,8 +353,7 @@ public class BgMainController extends BaseController {
 		String verificationCode = DrawImageUtil.drawImg(output);
 
 		try {
-			Session session = this.getSession();
-			session.setAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR, verificationCode);
+			BgSessionUtil.setSessionBgVerificationCode(verificationCode);
 			ServletOutputStream out = response.getOutputStream();
 			output.writeTo(out);
 		} catch (IOException e) {

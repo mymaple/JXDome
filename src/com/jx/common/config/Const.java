@@ -19,38 +19,6 @@ public class Const {
 	
 	
 	/**
-	 * 后台 验证码
-	 */
-	public static final String SESSION_BG_VERIFICATIONCODE_STR = "sessionBgVerificationCode";
-	
-	/**
-	 * 后台 用户角色
-	 */
-	public static final String SESSION_BG_USER_ROLE_OBJ = "seesionBgUserRole";
-	
-	/**
-	 * 后台 将要换的菜单类型
-	 */
-	public static final String SESSION_BG_CHANGEMENU_STR = "changeMenu";
-	
-	
-	/**
-	 * 后台 当前菜单列表
-	 */
-	public static final String SESSION_BG_MENU_INCURRTEN_LIST = "sessionBgMenuInCurrentList";
-	
-	/**
-	 * 后台 全部菜单列表 分级
-	 */
-	public static final String SESSION_BG_ALLMENU_INRANK_LIST = "sessionBgAllMenuInRankList";
-	
-	/**
-	 * 后台 管理权限
-	 */
-	public static final String SESSION_BG_OPERATERIGHTS_OBJ = "sessionBgOperateRights";
-	
-
-	/**
 	 * 后台 登录地址
 	 */
 	public static final String URL_BG_LOGIN_STR = "/background/main/toLogin.do";

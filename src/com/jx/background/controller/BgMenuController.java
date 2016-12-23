@@ -28,11 +28,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jx.background.config.BgPage;
 import com.jx.background.entity.BgMenu;
 import com.jx.background.service.BgMenuService;
+import com.jx.background.util.BgSessionUtil;
+import com.jx.background.util.JudgeRightsUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
-import com.jx.common.util.Jurisdiction;
 import com.jx.common.util.ObjectExcelView;
 
 import net.sf.json.JSONArray;
@@ -46,6 +47,8 @@ import net.sf.json.JSONArray;
 @RequestMapping(value="/background/menu")
 public class BgMenuController extends BaseController {
 	
+	String menuRightsUrl = "background/menu/main.do"; //菜单地址(权限用)
+	
 	@Resource(name="bgMenuService")
 	private BgMenuService bgMenuService;
 	
@@ -57,16 +60,20 @@ public class BgMenuController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/main")
-	public ModelAndView main(Model model,String menuId)throws Exception{
+	public ModelAndView main(Model model)throws Exception{
+		
 		ModelAndView mv = this.getModelAndView();
 		try{
+			if(!"1".equals(BgSessionUtil.getSessionBgOperateRights().getSeleRights())){
+				mv.setViewName("background/bgWithoutRights");
+				return mv;
+			}
 			JSONArray arr = JSONArray.fromObject(bgMenuService.listAllMenuInRank(0,"1"));
 			String json = arr.toString();
 			json = json.replaceAll("menuId", "id").replaceAll("parentId", "pId")
 					.replaceAll("menuName", "name").replaceAll("subBgMenuList", "nodes")
 					.replaceAll("hasRight", "checked").replaceAll("menuUrl", "url");
 			model.addAttribute("zTreeNodes", json);
-			mv.addObject("menuId",menuId);
 			mv.setViewName("background/menu/bgMenuMain");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
