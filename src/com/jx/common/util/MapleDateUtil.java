@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DateUtil {
+public class MapleDateUtil {
 	private final static SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
 
 	private final static SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");

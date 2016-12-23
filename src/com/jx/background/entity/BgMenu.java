@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.jx.common.util.DateUtil;
-import com.jx.common.util.StringUtil;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleStringUtil;
 
 public class BgMenu implements Serializable {
 	
@@ -164,7 +164,7 @@ public class BgMenu implements Serializable {
 	 * @param String menuName
 	 */
 	public void setMenuName(String menuName) {
-		this.menuName = StringUtil.trim(menuName);
+		this.menuName = MapleStringUtil.trim(menuName);
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public class BgMenu implements Serializable {
 	 * @param String menuUrl
 	 */
 	public void setMenuUrl(String menuUrl) {
-		this.menuUrl = StringUtil.trim(menuUrl);
+		this.menuUrl = MapleStringUtil.trim(menuUrl);
 	}
 	
 	/**
@@ -218,7 +218,7 @@ public class BgMenu implements Serializable {
 	 * @param String menuOrder
 	 */
 	public void setMenuOrder(String menuOrder) {
-		this.menuOrder = StringUtil.trim(menuOrder);
+		this.menuOrder = MapleStringUtil.trim(menuOrder);
 	}
 	
 	/**
@@ -236,7 +236,7 @@ public class BgMenu implements Serializable {
 	 * @param String menuIcon
 	 */
 	public void setMenuIcon(String menuIcon) {
-		this.menuIcon = StringUtil.trim(menuIcon);
+		this.menuIcon = MapleStringUtil.trim(menuIcon);
 	}
 	
 	/**
@@ -254,7 +254,7 @@ public class BgMenu implements Serializable {
 	 * @param String menuType
 	 */
 	public void setMenuType(String menuType) {
-		this.menuType = StringUtil.trim(menuType);
+		this.menuType = MapleStringUtil.trim(menuType);
 	}
 	
 	/**
@@ -272,7 +272,7 @@ public class BgMenu implements Serializable {
 	 * @param String status
 	 */
 	public void setStatus(String status) {
-		this.status = StringUtil.trim(status);
+		this.status = MapleStringUtil.trim(status);
 	}
 	
 	/**
@@ -303,10 +303,10 @@ public class BgMenu implements Serializable {
 	}	
 		
 	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = StringUtil.trim(modifyTimeStr);
+		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
 		if(!modifyTimeStr.equals("")){
 			try{
-				setModifyTime(DateUtil.parseDate(modifyTimeStr));
+				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -314,7 +314,7 @@ public class BgMenu implements Serializable {
 	}
 
 	public String getModifyTimeStr(){
-		return DateUtil.getFormatedDateString(getModifyTime());
+		return MapleDateUtil.getFormatedDateString(getModifyTime());
 	}	
 	
 	

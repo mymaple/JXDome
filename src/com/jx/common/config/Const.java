@@ -24,19 +24,15 @@ public class Const {
 	public static final String SESSION_BG_VERIFICATIONCODE_STR = "sessionBgVerificationCode";
 	
 	/**
-	 * 后台 用户
+	 * 后台 用户角色
 	 */
-	public static final String SESSION_BG_USER_OBJ = "sessionBgUser";
+	public static final String SESSION_BG_USER_ROLE_OBJ = "seesionBgUserRole";
 	
 	/**
 	 * 后台 将要换的菜单类型
 	 */
 	public static final String SESSION_BG_CHANGEMENU_STR = "changeMenu";
 	
-	/**
-	 * 后台 角色权限
-	 */
-	public static final String SESSION_BG_ROLEPERMISSIONS_STR = "sessionBgRolePermissions";
 	
 	/**
 	 * 后台 当前菜单列表
@@ -49,19 +45,11 @@ public class Const {
 	public static final String SESSION_BG_ALLMENU_INRANK_LIST = "sessionBgAllMenuInRankList";
 	
 	/**
-	 * 后台 用户权限
+	 * 后台 管理权限
 	 */
-	public static final String SESSION_BG_QX_STR = "sessionBgQx";
+	public static final String SESSION_BG_OPERATERIGHTS_OBJ = "sessionBgOperateRights";
 	
-	/**
-	 * 后台 用户角色
-	 */
-	public static final String SESSION_BG_USER_ROLE_OBJ = "seesionBgUserRole";
-	/**
-	 * 后台 用户名
-	 */
-	public static final String SESSION_BG_USERNAME_STR = "seesionBgUserName";
-	
+
 	/**
 	 * 后台 登录地址
 	 */

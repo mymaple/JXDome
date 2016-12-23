@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.jx.background.config.BgPage;
-import com.jx.common.util.DateUtil;
-import com.jx.common.util.StringUtil;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleStringUtil;
 
 public class BgUser implements Serializable {
 	
@@ -24,11 +24,14 @@ public class BgUser implements Serializable {
 	/** 后台分页 */
 	private BgPage bgPage; 
 	
+	/** 是否为管理员 */
+	private boolean isAdmin;
+	
 	
 	/**
 	 * 获取 角色
 	 * 
-	 * @return int userId
+	 * @return BgRole bgRole
 	 */
 	public BgRole getBgRole() {
 		return this.bgRole;
@@ -46,10 +49,10 @@ public class BgUser implements Serializable {
 	/**
 	 * 获取 后台分页
 	 * 
-	 * @return int userId
+	 * @return BgPage bgPage
 	 */
 	public BgPage getBgPage() {
-		return bgPage;
+		return this.bgPage;
 	}
 
 	/**
@@ -59,6 +62,24 @@ public class BgUser implements Serializable {
 	 */
 	public void setBgPage(BgPage bgPage) {
 		this.bgPage = bgPage;
+	}
+	
+	/**
+	 * 获取 是否为管理员
+	 * 
+	 * @return boolean isAdmin
+	 */
+	public boolean isAdmin() {
+		return this.isAdmin;
+	}
+
+	/**
+	 * 设置 是否为管理员
+	 * 
+	 * @param boolean isAdmin
+	 */
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 	
 	/**************************custom prop end**********************************/
@@ -138,7 +159,7 @@ public class BgUser implements Serializable {
 	 * @param String userName
 	 */
 	public void setUserName(String userName) {
-		this.userName = StringUtil.trim(userName);
+		this.userName = MapleStringUtil.trim(userName);
 	}
 	
 	/**
@@ -156,7 +177,7 @@ public class BgUser implements Serializable {
 	 * @param String password
 	 */
 	public void setPassword(String password) {
-		this.password = StringUtil.trim(password);
+		this.password = MapleStringUtil.trim(password);
 	}
 	
 	/**
@@ -174,7 +195,7 @@ public class BgUser implements Serializable {
 	 * @param String realName
 	 */
 	public void setRealName(String realName) {
-		this.realName = StringUtil.trim(realName);
+		this.realName = MapleStringUtil.trim(realName);
 	}
 	
 	/**
@@ -192,7 +213,7 @@ public class BgUser implements Serializable {
 	 * @param String userRights
 	 */
 	public void setUserRights(String userRights) {
-		this.userRights = StringUtil.trim(userRights);
+		this.userRights = MapleStringUtil.trim(userRights);
 	}
 	
 	/**
@@ -241,10 +262,10 @@ public class BgUser implements Serializable {
 	}	
 		
 	public void setLastLoginTimeStr(String lastLoginTimeStr) throws Exception{
-		lastLoginTimeStr = StringUtil.trim(lastLoginTimeStr);
+		lastLoginTimeStr = MapleStringUtil.trim(lastLoginTimeStr);
 		if(!lastLoginTimeStr.equals("")){
 			try{
-				setLastLoginTime(DateUtil.parseDate(lastLoginTimeStr));
+				setLastLoginTime(MapleDateUtil.parseDate(lastLoginTimeStr));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -252,7 +273,7 @@ public class BgUser implements Serializable {
 	}
 
 	public String getLastLoginTimeStr(){
-		return DateUtil.getFormatedDateString(getLastLoginTime());
+		return MapleDateUtil.getFormatedDateString(getLastLoginTime());
 	}	
 	
 	/**
@@ -261,7 +282,7 @@ public class BgUser implements Serializable {
 	 * @param String lastLoginIp
 	 */
 	public void setLastLoginIp(String lastLoginIp) {
-		this.lastLoginIp = StringUtil.trim(lastLoginIp);
+		this.lastLoginIp = MapleStringUtil.trim(lastLoginIp);
 	}
 	
 	/**
@@ -279,7 +300,7 @@ public class BgUser implements Serializable {
 	 * @param String userIconSrc
 	 */
 	public void setUserIconSrc(String userIconSrc) {
-		this.userIconSrc = StringUtil.trim(userIconSrc);
+		this.userIconSrc = MapleStringUtil.trim(userIconSrc);
 	}
 	
 	/**
@@ -297,7 +318,7 @@ public class BgUser implements Serializable {
 	 * @param String userNumber
 	 */
 	public void setUserNumber(String userNumber) {
-		this.userNumber = StringUtil.trim(userNumber);
+		this.userNumber = MapleStringUtil.trim(userNumber);
 	}
 	
 	/**
@@ -315,7 +336,7 @@ public class BgUser implements Serializable {
 	 * @param String email
 	 */
 	public void setEmail(String email) {
-		this.email = StringUtil.trim(email);
+		this.email = MapleStringUtil.trim(email);
 	}
 	
 	/**
@@ -333,7 +354,7 @@ public class BgUser implements Serializable {
 	 * @param String phone
 	 */
 	public void setPhone(String phone) {
-		this.phone = StringUtil.trim(phone);
+		this.phone = MapleStringUtil.trim(phone);
 	}
 	
 	/**
@@ -351,7 +372,7 @@ public class BgUser implements Serializable {
 	 * @param String status
 	 */
 	public void setStatus(String status) {
-		this.status = StringUtil.trim(status);
+		this.status = MapleStringUtil.trim(status);
 	}
 	
 	/**
@@ -369,7 +390,7 @@ public class BgUser implements Serializable {
 	 * @param String remarks
 	 */
 	public void setRemarks(String remarks) {
-		this.remarks = StringUtil.trim(remarks);
+		this.remarks = MapleStringUtil.trim(remarks);
 	}
 	
 	/**
@@ -400,10 +421,10 @@ public class BgUser implements Serializable {
 	}	
 		
 	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = StringUtil.trim(modifyTimeStr);
+		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
 		if(!modifyTimeStr.equals("")){
 			try{
-				setModifyTime(DateUtil.parseDate(modifyTimeStr));
+				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -411,7 +432,7 @@ public class BgUser implements Serializable {
 	}
 
 	public String getModifyTimeStr(){
-		return DateUtil.getFormatedDateString(getModifyTime());
+		return MapleDateUtil.getFormatedDateString(getModifyTime());
 	}	
 	
 	

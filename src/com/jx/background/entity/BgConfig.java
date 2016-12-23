@@ -3,8 +3,8 @@ package com.jx.background.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.jx.common.util.DateUtil;
-import com.jx.common.util.StringUtil;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleStringUtil;
 
 public class BgConfig implements Serializable {
 	
@@ -77,7 +77,7 @@ public class BgConfig implements Serializable {
 	 * @param String configType
 	 */
 	public void setConfigType(String configType) {
-		this.configType = StringUtil.trim(configType);
+		this.configType = MapleStringUtil.trim(configType);
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class BgConfig implements Serializable {
 	 * @param String configName
 	 */
 	public void setConfigName(String configName) {
-		this.configName = StringUtil.trim(configName);
+		this.configName = MapleStringUtil.trim(configName);
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class BgConfig implements Serializable {
 	 * @param String param1
 	 */
 	public void setParam1(String param1) {
-		this.param1 = StringUtil.trim(param1);
+		this.param1 = MapleStringUtil.trim(param1);
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class BgConfig implements Serializable {
 	 * @param String param2
 	 */
 	public void setParam2(String param2) {
-		this.param2 = StringUtil.trim(param2);
+		this.param2 = MapleStringUtil.trim(param2);
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class BgConfig implements Serializable {
 	 * @param String param3
 	 */
 	public void setParam3(String param3) {
-		this.param3 = StringUtil.trim(param3);
+		this.param3 = MapleStringUtil.trim(param3);
 	}
 	
 	/**
@@ -167,7 +167,7 @@ public class BgConfig implements Serializable {
 	 * @param String param4
 	 */
 	public void setParam4(String param4) {
-		this.param4 = StringUtil.trim(param4);
+		this.param4 = MapleStringUtil.trim(param4);
 	}
 	
 	/**
@@ -185,7 +185,7 @@ public class BgConfig implements Serializable {
 	 * @param String isOpen
 	 */
 	public void setIsOpen(String isOpen) {
-		this.isOpen = StringUtil.trim(isOpen);
+		this.isOpen = MapleStringUtil.trim(isOpen);
 	}
 	
 	/**
@@ -216,10 +216,10 @@ public class BgConfig implements Serializable {
 	}	
 		
 	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = StringUtil.trim(modifyTimeStr);
+		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
 		if(!modifyTimeStr.equals("")){
 			try{
-				setModifyTime(DateUtil.parseDate(modifyTimeStr));
+				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -227,7 +227,7 @@ public class BgConfig implements Serializable {
 	}
 
 	public String getModifyTimeStr(){
-		return DateUtil.getFormatedDateString(getModifyTime());
+		return MapleDateUtil.getFormatedDateString(getModifyTime());
 	}	
 	
 	

@@ -3,8 +3,8 @@ package com.jx.background.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.jx.common.util.DateUtil;
-import com.jx.common.util.StringUtil;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleStringUtil;
 
 public class BgRole implements Serializable {
 	
@@ -77,7 +77,7 @@ public class BgRole implements Serializable {
 	 * @param String roleName
 	 */
 	public void setRoleName(String roleName) {
-		this.roleName = StringUtil.trim(roleName);
+		this.roleName = MapleStringUtil.trim(roleName);
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class BgRole implements Serializable {
 	 * @param String roleRights
 	 */
 	public void setRoleRights(String roleRights) {
-		this.roleRights = StringUtil.trim(roleRights);
+		this.roleRights = MapleStringUtil.trim(roleRights);
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class BgRole implements Serializable {
 	 * @param String addRights
 	 */
 	public void setAddRights(String addRights) {
-		this.addRights = StringUtil.trim(addRights);
+		this.addRights = MapleStringUtil.trim(addRights);
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class BgRole implements Serializable {
 	 * @param String delRights
 	 */
 	public void setDelRights(String delRights) {
-		this.delRights = StringUtil.trim(delRights);
+		this.delRights = MapleStringUtil.trim(delRights);
 	}
 	
 	/**
@@ -167,7 +167,7 @@ public class BgRole implements Serializable {
 	 * @param String editRights
 	 */
 	public void setEditRights(String editRights) {
-		this.editRights = StringUtil.trim(editRights);
+		this.editRights = MapleStringUtil.trim(editRights);
 	}
 	
 	/**
@@ -185,7 +185,7 @@ public class BgRole implements Serializable {
 	 * @param String seleRights
 	 */
 	public void setSeleRights(String seleRights) {
-		this.seleRights = StringUtil.trim(seleRights);
+		this.seleRights = MapleStringUtil.trim(seleRights);
 	}
 	
 	/**
@@ -216,10 +216,10 @@ public class BgRole implements Serializable {
 	}	
 		
 	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = StringUtil.trim(modifyTimeStr);
+		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
 		if(!modifyTimeStr.equals("")){
 			try{
-				setModifyTime(DateUtil.parseDate(modifyTimeStr));
+				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -227,7 +227,7 @@ public class BgRole implements Serializable {
 	}
 
 	public String getModifyTimeStr(){
-		return DateUtil.getFormatedDateString(getModifyTime());
+		return MapleDateUtil.getFormatedDateString(getModifyTime());
 	}	
 	
 	

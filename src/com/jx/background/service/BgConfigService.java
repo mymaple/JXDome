@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
@@ -28,6 +30,27 @@ public class BgConfigService {
 	public BgConfig findByConfigType(String configType) throws Exception {
 		return (BgConfig) dao.findForObject("BgConfigMapper.findByConfigType", configType);
 	}
+	
+	/**
+	 * 根据configType 获取配置
+	 * @return BgConfig
+	 * @throws Exception
+	 */
+	public BgConfig findSessionConfig(String configType) {
+		Session session = SecurityUtils.getSubject().getSession();
+		BgConfig bgConfig = (BgConfig) session.getAttribute(configType);
+		if (bgConfig == null) {
+			try {
+				bgConfig = this.findByConfigType(configType);
+				session.setAttribute(configType,bgConfig);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return bgConfig;
+	}
+
+	
 	
 	/****************************custom * end  ***********************************/
 	

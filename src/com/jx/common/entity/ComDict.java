@@ -3,8 +3,8 @@ package com.jx.common.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.jx.common.util.DateUtil;
-import com.jx.common.util.StringUtil;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleStringUtil;
 
 public class ComDict implements Serializable {
 	
@@ -74,7 +74,7 @@ public class ComDict implements Serializable {
 	 * @param String name
 	 */
 	public void setName(String name) {
-		this.name = StringUtil.trim(name);
+		this.name = MapleStringUtil.trim(name);
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class ComDict implements Serializable {
 	 * @param String encode
 	 */
 	public void setEncode(String encode) {
-		this.encode = StringUtil.trim(encode);
+		this.encode = MapleStringUtil.trim(encode);
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class ComDict implements Serializable {
 	 * @param String orderBy
 	 */
 	public void setOrderBy(String orderBy) {
-		this.orderBy = StringUtil.trim(orderBy);
+		this.orderBy = MapleStringUtil.trim(orderBy);
 	}
 	
 	/**
@@ -146,7 +146,7 @@ public class ComDict implements Serializable {
 	 * @param String level
 	 */
 	public void setLevel(String level) {
-		this.level = StringUtil.trim(level);
+		this.level = MapleStringUtil.trim(level);
 	}
 	
 	/**
@@ -164,7 +164,7 @@ public class ComDict implements Serializable {
 	 * @param String allEncode
 	 */
 	public void setAllEncode(String allEncode) {
-		this.allEncode = StringUtil.trim(allEncode);
+		this.allEncode = MapleStringUtil.trim(allEncode);
 	}
 	
 	/**
@@ -195,10 +195,10 @@ public class ComDict implements Serializable {
 	}	
 		
 	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = StringUtil.trim(modifyTimeStr);
+		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
 		if(!modifyTimeStr.equals("")){
 			try{
-				setModifyTime(DateUtil.parseDate(modifyTimeStr));
+				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -206,7 +206,7 @@ public class ComDict implements Serializable {
 	}
 
 	public String getModifyTimeStr(){
-		return DateUtil.getFormatedDateString(getModifyTime());
+		return MapleDateUtil.getFormatedDateString(getModifyTime());
 	}	
 	
 	

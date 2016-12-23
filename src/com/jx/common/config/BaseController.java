@@ -58,10 +58,7 @@ public class BaseController {
 	 */
 	public Session getSession() {
 		
-		Subject currentUser = SecurityUtils.getSubject();
-		Session session = currentUser.getSession();
-
-		return session;
+		return SecurityUtils.getSubject().getSession();
 	}
 
 	/**
