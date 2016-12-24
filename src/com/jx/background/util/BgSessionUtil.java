@@ -6,6 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 
 import com.jx.background.entity.BgMenu;
+import com.jx.background.entity.BgRights;
 import com.jx.background.entity.BgRole;
 import com.jx.background.entity.BgUser;
 
@@ -57,7 +58,7 @@ public class BgSessionUtil {
 	/**
 	 * 后台 操作权限
 	 */
-	public static final String SESSION_BG_OPERATERIGHTS_OBJ = "sessionBgOperateRights";
+	public static final String SESSION_BG_RIGHTS_OBJ = "sessionBgRights";
 	
 	/**
 	 * 后台 当前菜单列表
@@ -124,16 +125,16 @@ public class BgSessionUtil {
 	 * 获取 后台 操作权限
 	 * @return
 	 */
-	public static BgRole getSessionBgOperateRights(){
-		return (BgRole)getSession().getAttribute(SESSION_BG_OPERATERIGHTS_OBJ);
+	public static BgRights getSessionBgRights(){
+		return (BgRights)getSession().getAttribute(SESSION_BG_RIGHTS_OBJ);
 	}
 	
 	/**
 	 * 设置 后台 操作权限
-	 * @param bgOperateRights
+	 * @param bgRights
 	 */
-	public static void setSessionBgOperateRights(BgRole bgOperateRights){
-		setSessionAttr(SESSION_BG_OPERATERIGHTS_OBJ, bgOperateRights);
+	public static void setSessionBgRights(BgRights bgRights){
+		setSessionAttr(SESSION_BG_RIGHTS_OBJ, bgRights);
 	}
 	
 	/**

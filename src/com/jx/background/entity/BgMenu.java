@@ -87,7 +87,6 @@ public class BgMenu implements Serializable {
 	
 	/**
 	 * 获取 是否有此菜单 
-	 * 1是,0否
 	 * 
 	 * @return boolean hasRight
 	 */
@@ -116,6 +115,12 @@ public class BgMenu implements Serializable {
 	
 	/** 菜单名称 */
 	private String menuName;
+	
+	/** 菜单标记名称 */
+	private String menuCode;
+	
+	/** 菜单标识 */
+	private int menuTag;
 		
 	/** 菜单链接 */
 	private String menuUrl;
@@ -174,6 +179,42 @@ public class BgMenu implements Serializable {
 	 */
 	public String getMenuName() {
 		return this.menuName;
+	}
+	
+	/**
+	 * 设置 菜单标记名称
+	 * 
+	 * @param String menuCode
+	 */
+	public void setMenuCode(String menuCode) {
+		this.menuCode = MapleStringUtil.trim(menuCode);
+	}
+	
+	/**
+	 * 获取 菜单标记名称
+	 * 
+	 * @return String menuCode
+	 */
+	public String getMenuCode() {
+		return this.menuCode;
+	}
+	
+	/**
+	 * 设置 菜单标识
+	 * 
+	 * @param int menuTag
+	 */
+	public void setMenuTag(int menuTag) {
+		this.menuTag = menuTag;
+	}
+	
+	/**
+	 * 获取 菜单标识
+	 * 
+	 * @return int menuTag
+	 */
+	public int getMenuTag() {
+		return this.menuTag;
 	}
 	
 	/**

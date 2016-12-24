@@ -95,13 +95,11 @@ public class BgMainController extends BaseController {
 
 		Session session = this.getSession();
 
+		session.removeAttribute(BgSessionUtil.SESSION_BG_CHANGEMENU_STR);
 		session.removeAttribute(BgSessionUtil.SESSION_BG_USER_ROLE_OBJ);
+		session.removeAttribute(BgSessionUtil.SESSION_BG_RIGHTS_OBJ);
 		session.removeAttribute(BgSessionUtil.SESSION_BG_ALLMENU_INRANK_LIST);
 		session.removeAttribute(BgSessionUtil.SESSION_BG_MENU_INCURRTEN_LIST);
-		session.removeAttribute(BgSessionUtil.SESSION_BG_CHANGEMENU_STR);
-		if(BgSessionUtil.getSessionBgOperateRights()!=null){
-			session.removeAttribute(BgSessionUtil.SESSION_BG_OPERATERIGHTS_OBJ);
-		}
 
 		// shiro销毁登录
 		Subject subject = SecurityUtils.getSubject();

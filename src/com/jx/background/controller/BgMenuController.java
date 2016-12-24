@@ -1,6 +1,5 @@
 package com.jx.background.controller;
 
-import java.awt.Menu;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,7 +46,11 @@ import net.sf.json.JSONArray;
 @RequestMapping(value="/background/menu")
 public class BgMenuController extends BaseController {
 	
-	String menuRightsUrl = "background/menu/main.do"; //菜单地址(权限用)
+	
+	/**
+	 * 后台 菜单标记名称(权限用)
+	 */
+	public static final String RIGHTS_BG_MENUCODE_STR = "background/menu";
 	
 	@Resource(name="bgMenuService")
 	private BgMenuService bgMenuService;
@@ -61,13 +64,8 @@ public class BgMenuController extends BaseController {
 	 */
 	@RequestMapping(value="/main")
 	public ModelAndView main(Model model)throws Exception{
-		
 		ModelAndView mv = this.getModelAndView();
 		try{
-			if(!"1".equals(BgSessionUtil.getSessionBgOperateRights().getSeleRights())){
-				mv.setViewName("background/bgWithoutRights");
-				return mv;
-			}
 			JSONArray arr = JSONArray.fromObject(bgMenuService.listAllMenuInRank(0,"1"));
 			String json = arr.toString();
 			json = json.replaceAll("menuId", "id").replaceAll("parentId", "pId")
@@ -88,7 +86,6 @@ public class BgMenuController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(BgPage bgPage){
 		logBefore(logger, "列表bgMenu");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();

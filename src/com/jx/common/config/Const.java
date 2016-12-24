@@ -21,9 +21,12 @@ public class Const {
 	/**
 	 * 后台 登录地址
 	 */
-	public static final String URL_BG_LOGIN_STR = "/background/main/toLogin.do";
+	public static final String PATH_BG_LOGIN_STR = "/background/main/toLogin.do";
 	
-	
+	/**
+	 * 后台 登录地址
+	 */
+	public static final String PATH_BG_LOGOUT_STR = "/background/main/toLogout.do";
 	
 	
 	/**

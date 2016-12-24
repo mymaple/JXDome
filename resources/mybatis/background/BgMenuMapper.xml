@@ -3,12 +3,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMenuMapper">
 
-	<sql id="menuAddColumns">menuName,menuUrl,parentId,menuOrder,menuIcon,menuType,status,modifyTime</sql>
-	<sql id="menuColumns">menuId,menuName,menuUrl,parentId,menuOrder,menuIcon,menuType,status,modifyTime</sql>
+	<sql id="menuAddColumns">menuName,menuCode,menuTag,menuUrl,parentId,menuOrder,menuIcon,menuType,status,modifyTime</sql>
+	<sql id="menuColumns">menuId,menuCode,menuTag,menuName,menuUrl,parentId,menuOrder,menuIcon,menuType,status,modifyTime</sql>
 	
 	<resultMap type="bgMenu" id="menuResultMap">
 		<id column="menuId" property="menuId"/>
 		<result column="menuName" property="menuName"/>
+		<result column="menuCode" property="menuCode"/>
+		<result column="menuTag" property="menuTag"/>
 		<result column="menuUrl" property="menuUrl"/>
 		<result column="parentId" property="parentId"/>
 		<result column="menuOrder" property="menuOrder"/>
