@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.entity.BgConfig;
 import com.jx.background.entity.BgMenu;
+import com.jx.background.entity.BgRights;
 import com.jx.background.entity.BgRole;
 import com.jx.background.entity.BgUser;
 import com.jx.background.service.BgConfigService;
@@ -255,8 +256,10 @@ public class BgMainController extends BaseController {
 					BgSessionUtil.getSessionBgMenuInCurrentList();
 				}
 				
+				BgRights bgRights = new BgRights();
+				BgSessionUtil.setSessionBgRights(bgRights);
 				
-
+				
 				// FusionCharts 报表
 				String strXML = "<graph caption='前12个月订单销量柱状图' xAxisName='月份' yAxisName='值' decimalPrecision='0' formatNumberScale='0'><set name='2013-05' value='4' color='AFD8F8'/><set name='2013-04' value='0' color='AFD8F8'/><set name='2013-03' value='0' color='AFD8F8'/><set name='2013-02' value='0' color='AFD8F8'/><set name='2013-01' value='0' color='AFD8F8'/><set name='2012-01' value='0' color='AFD8F8'/><set name='2012-11' value='0' color='AFD8F8'/><set name='2012-10' value='0' color='AFD8F8'/><set name='2012-09' value='0' color='AFD8F8'/><set name='2012-08' value='0' color='AFD8F8'/><set name='2012-07' value='0' color='AFD8F8'/><set name='2012-06' value='0' color='AFD8F8'/></graph>";
 				mv.addObject("strXML", strXML);

@@ -7,8 +7,8 @@
 	<sql id="userColumns">userId,userName,password,realName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
 	<sql id="userRoleColumns">
 		u.userId,u.userName,u.password,u.realName,u.userRights
-		,u.lastLoginTime,u.lastLoginIp,u.userIconSrc,u.userNumber,u.email,u.phone,u.status,u.remarks,u.modifyTime
-		,r.roleId,r.roleName,r.roleRights
+		,u.lastLoginTime,u.lastLoginIp,u.userIconSrc,u.userNumber,u.email,u.phone,u.status,u.remarks,u.modifyTime as modifyTimeUser
+		,r.roleId,r.roleName,r.roleRights,r.parentId,r.addRights,r.delRights,r.editRights,r.seleRights,r.modifyTime as modifyTimeRole
 		</sql>
 		
 	<resultMap type="bgUser" id="userResultMap">
@@ -44,11 +44,17 @@
 		<result column="phone" property="phone"/>
 		<result column="status" property="status"/>
 		<result column="remarks" property="remarks"/>
-		<result column="modifyTime" property="modifyTime"/>
+		<result column="modifyTimeUser" property="modifyTime"/>
 		<association property="bgRole" column="roleId" javaType="BgRole">
 			<id column="roleId" property="roleId"/>
 			<result column="roleName" property="roleName"/>
 			<result column="roleRights" property="roleRights"/>
+			<result column="parentId" property="parentId"/>
+			<result column="addRights" property="addRights"/>
+			<result column="delRights" property="delRights"/>
+			<result column="editRights" property="editRights"/>
+			<result column="seleRights" property="seleRights"/>
+			<result column="modifyTimeRole" property="modifyTime"/>
 		</association>
 	</resultMap>
 	

@@ -33,6 +33,7 @@ import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
+import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ObjectExcelView;
 
 import net.sf.json.JSONArray;
@@ -90,19 +91,20 @@ public class BgMenuController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try{
-			String menuId = (null == pd.get("menuId") || "".equals(pd.getString("menuId")))?"0":pd.getString("menuId");
-			String id = pd.getString("id");
-			if(!"".equals(id)&&null!=id){
-				menuId=id;
-			}
+			String menuId = MapleStringUtil.isEmpty(pd.getString("menuId"))?"0":pd.getString("menuId");
+			menuId = MapleStringUtil.isEmpty(pd.getString("id"))?menuId:pd.getString("id");
+			
 			
 			pd.put("menuId", menuId);
 			List<BgMenu> subBgMenuList = bgMenuService.listSubBgMenuByParentId(Integer.parseInt(menuId));
+			
+			
 			mv.addObject("subBgMenuList", subBgMenuList);
 //			mv.addObject("parentBgMenu", bgMenuService.findPdByPd(pd));	//传入父菜单所有信息
 			mv.addObject("menuId", menuId);
 			mv.addObject("msg", null == pd.get("msg")?"list":pd.get("msg").toString()); //MSG=change 则为编辑或删除后跳转过来的
 			mv.addObject("pd", pd);
+			mv.addObject("RIGHTS",BgSessionUtil.getSessionBgRights());	//按钮权限
 			
 //			bgPage.setPd(pd);
 //			List<PageData>	varList = bgMenuService.listAllPd(bgPage);	//列出bgMenu列表

@@ -22,7 +22,8 @@ public class BgHandlerInterceptor extends HandlerInterceptorAdapter {
 		String path = request.getServletPath();
 		String[] pathArr = path.split("/");
 		if(pathArr.length > 3){
-			String ss = pathArr[3].split(".do")[0].split("?")[0];
+			//分隔"?"需特殊处理
+			String ss = pathArr[3].split(".do")[0].split("//?")[0];
 			
 			if("background".equals(pathArr[1])){
 				if(!"main".equals(pathArr[2])){

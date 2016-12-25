@@ -42,7 +42,8 @@
 								<thead>
 									<tr>
 										<th class="center" style="width: 50px;">序号</th>
-										<th class='center'>名称</th>
+										<th class='center'>菜单名称</th>
+										<th class='center'>菜单标记名称</th>
 										<th class='center'>资源路径</th>
 										<th class='center' style="width: 50px;">状态</th>
 										<th class='center' style="width: 120px;">操作</th>
@@ -67,49 +68,29 @@
 											</c:if>
 											</c:if>
 										</td>
+										<td>${menu.menuCode}</td>
 										<td>${menu.menuUrl == '#'? '': menu.menuUrl}</td>
 										<td class='center'><i class="ace-icon fa ${menu.status == 1? 'fa-eye': 'fa-eye-slash'}"></i></td>
 										<td class='center'>
-											<!-- <span class="label label-large label-grey arrowed-in-right arrowed-in">
+											<c:if test="${!RIGHTS.edit && !RIGHTS.del}">
+											<span class="label label-large label-grey arrowed-in-right arrowed-in">
 												<i class="ace-icon fa fa-lock" title="无权限"></i>
-											</span> -->
+											</span>
+											</c:if>
 											<div class="hidden-sm hidden-xs action-buttons">
+												<c:if test="${RIGHTS.edit}">
 												<a class="blue" href="javascript:toChangeMenuIcon('${menu.menuId }');"> 
 													<i class="ace-icon glyphicon glyphicon-picture bigger-130" title="编辑图标"></i>
 												</a> 
 												<a class="green" href="javascript:toEdit('${menu.menuId }');">
 													<i class="ace-icon fa fa-pencil-square-o bigger-130" title="修改"></i>
 												</a>
+												</c:if>
+												<c:if test="${RIGHTS.del}">
 												<a class="red" href="javascript:toDelete('${menu.menuId }');">
 													<i class="ace-icon fa fa-trash-o bigger-130" title="删除"></i>
 												</a>
-											</div>
-											<div class="hidden-md hidden-lg">
-												<div class="inline pos-rel">
-													<button
-														class="btn btn-minier btn-yellow dropdown-toggle"
-														data-toggle="dropdown" data-position="auto">
-														<i
-															class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-													</button>
-
-													<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-														<li><a href="javascript:toChangeMenuIcon('${menu.menuId }');" class="tooltip-info" data-rel="tooltip" title="View">
-															<span class="blue">
-																<i class="ace-icon glyphicon glyphicon-picture bigger-120" title="编辑图标"></i>
-															</span>
-														</a></li>
-														<li><a href="javascript:toEdit('${menu.menuId }');" class="tooltip-success" data-rel="tooltip" title="Edit">
-															<span class="green">
-																<i class="ace-icon fa fa-pencil-square-o bigger-120" title="修改"></i>
-															</span>
-														</a></li>
-														<li><a href="javascript:toDelete('${menu.menuId }');" class="tooltip-error" data-rel="tooltip" title="Delete">
-															<span class="red"> <i class="ace-icon fa fa-trash-o bigger-120"  title="删除"></i>
-															</span>
-														</a></li>
-													</ul>
-												</div>
+												</c:if>
 											</div>
 										</td>
 									</tr>
@@ -126,7 +107,9 @@
 							
 							<div>
 								&nbsp;&nbsp;
-								<a class="btn btn-sm btn-success" onclick="toAdd('${menuId}');">新增</a>
+								<c:if test="${RIGHTS.add == 1 }">
+									<a class="btn btn-sm btn-success" onclick="toAdd('${menuId}');">新增</a>
+								</c:if>
 								<c:if test="${null != pd.menuId && pd.menuId != '0' && pd.menuId != ''}">
 									<a class="btn btn-sm btn-success" onclick="toSubMenu('${pd.parentId}');">返回</a>
 								</c:if>
