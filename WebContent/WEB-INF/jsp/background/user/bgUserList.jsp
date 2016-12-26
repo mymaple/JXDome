@@ -95,8 +95,8 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class="center">${user.userNumber }</td>
-											<td class="center"><a onclick="viewUser('${user.userName}')" style="cursor:pointer;">${user.userName }</a></td>
-											<td class="center">${user.realName }</td>
+											<td class="center"><a onclick="viewUser('${user.userCode}')" style="cursor:pointer;">${user.userCode }</a></td>
+											<td class="center">${user.userName }</td>
 											<td class="center">${user.bgRole.roleName }</td>
 											<td class="center">
 											<%-- <a title="发送电子邮件" style="text-decoration:none;cursor:pointer;" <c:if test="${RIGHTS.email }">onclick="toSendEmail('${user.email }');"</c:if>>${user.email }&nbsp;<i class="ace-icon fa fa-envelope-o"></i></a>
@@ -109,7 +109,7 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<%-- <c:if test="${RIGHTS.FHSMS }">
-													<a class="btn btn-xs btn-info" title='发送站内信' onclick="sendFhsms('${user.userName }');">
+													<a class="btn btn-xs btn-info" title='发送站内信' onclick="sendFhsms('${user.userCode }');">
 														<i class="ace-icon fa fa-envelope-o bigger-120" title="发送站内信"></i>
 													</a>
 													</c:if>
@@ -124,7 +124,7 @@
 													</a>
 													</c:if>
 													<c:if test="${RIGHTS.del }">
-													<a class="btn btn-xs btn-danger" onclick="delUser('${user.userId }','${user.userName }');">
+													<a class="btn btn-xs btn-danger" onclick="delUser('${user.userId }','${user.userCode }');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -137,7 +137,7 @@
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<%-- <c:if test="${RIGHTS.FHSMS }">
 															<li>
-																<a style="cursor:pointer;" onclick="sendFhsms('${user.userName }');" class="tooltip-info" data-rel="tooltip" title="发送站内信">
+																<a style="cursor:pointer;" onclick="sendFhsms('${user.userCode }');" class="tooltip-info" data-rel="tooltip" title="发送站内信">
 																	<span class="blue">
 																		<i class="ace-icon fa fa-envelope bigger-120"></i>
 																	</span>
@@ -164,7 +164,7 @@
 															</c:if>
 															<c:if test="${RIGHTS.del }">
 															<li>
-																<a style="cursor:pointer;" onclick="delUser('${user.userId }','${user.userName }');" class="tooltip-error" data-rel="tooltip" title="删除">
+																<a style="cursor:pointer;" onclick="delUser('${user.userId }','${user.userCode }');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -198,7 +198,7 @@
 					<table style="width:100%;">
 						<tr>
 							<td style="vertical-align:top;">
-								<c:if test="${RIGHTS.toAdd }">
+								<c:if test="${RIGHTS.add }">
 								<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 								</c:if>
 								<%-- <c:if test="${RIGHTS.FHSMS }"><a title="批量发送站内信" class="btn btn-mini btn-info" onclick="makeAll('确定要给选中的用户发送站内信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
@@ -497,8 +497,8 @@ function fromExcel(){
 }	
 
 //查看用户
-function viewUser(userName){
-	if('admin' == userName){
+function viewUser(userCode){
+	if('admin' == userCode){
 		bootbox.dialog({
 			message: "<span class='bigger-110'>不能查看admin用户!</span>",
 			buttons: 			
@@ -510,7 +510,7 @@ function viewUser(userName){
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="资料";
-	 diag.URL = '<%=basePath%>user/view.do?userName='+userName;
+	 diag.URL = '<%=basePath%>user/view.do?userCode='+userCode;
 	 diag.Width = 469;
 	 diag.Height = 380;
 	 diag.CancelEvent = function(){ //关闭事件

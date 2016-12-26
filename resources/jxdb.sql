@@ -7,11 +7,11 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `bgUser`;
 CREATE TABLE `bgUser` (
  	`userId` int(11) NOT NULL AUTO_INCREMENT COMMENT '后台用户表id',
-	`userName` varchar(50)
+	`userCode` varchar(50)
 		 DEFAULT NULL  COMMENT '用户名' ,	
 	`password` varchar(255)
 		 DEFAULT NULL  COMMENT '密码' ,	
-	`realName` varchar(50)
+	`userName` varchar(50)
 		 DEFAULT NULL  COMMENT '真实姓名' ,	
 	`userRights` varchar(255)
 		 DEFAULT NULL  COMMENT '用户权限' ,	
@@ -42,7 +42,7 @@ CREATE TABLE `bgUser` (
 -- ----------------------------
 -- Records of bgUser
 -- ----------------------------
-INSERT INTO `bgUser` VALUES ('1', 'admin', 'de41b7fb99201d8334c23c014db35ecd92df81bc', 'FH', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2016-06-06 02:27:47', '127.0.0.1', 'static/ace/avatars/user.jpg', '001', 'QQ313596790@main.com', '18788888888', '0','zzzzzzzzzzz', '2016-06-06 02:27:47');
+INSERT INTO `bgUser` VALUES ('1', 'admin', '802ad7f0bf5d54f941bd0a866d3fb6225af153a71d90e456b72a62e4a40008c9e8fc7a01b5d89121d90006f4628c95c4e5ba88ced2b958033791f663d97eed3a', 'FH', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2016-06-06 02:27:47', '127.0.0.1', 'static/ace/avatars/user.jpg', '001', 'QQ313596790@main.com', '18788888888', '0','zzzzzzzzzzz', '2016-06-06 02:27:47');
 
 -- ----------------------------
 -- Table structure for bgRole

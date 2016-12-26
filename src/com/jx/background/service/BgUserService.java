@@ -46,6 +46,7 @@ public class BgUserService {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<BgUser> listAllByRoleId(int roleId) throws Exception {
 		return (List<BgUser>) dao.findForList("BgUserMapper.listAllByRoleId", null);
 	}
@@ -154,6 +155,7 @@ public class BgUserService {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<BgUser> listAllByPd(PageData pd) throws Exception {
 		return (List<BgUser>) dao.findForList("BgUserMapper.listAllByPd", null);
 	}
@@ -164,6 +166,7 @@ public class BgUserService {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<PageData> listPage(BgPage bgPage) throws Exception {
 		return (List<PageData>) dao.findForList("BgUserMapper.listPage", bgPage);
 	}

@@ -149,16 +149,16 @@ public class BgMainController extends BaseController {
 				if (null == bgVerificationCode || "".equals(bgVerificationCode)) {
 					errInfo = "nullcode"; // 验证码为空
 				} else {
-					String userName = keyData[0];
+					String userCode = keyData[0];
 					String password = keyData[1];
-					pd.put("userName", userName);
+					pd.put("userCode", userCode);
 					if (MapleStringUtil.notEmpty(sessionBgVerificationCode) 
 							&& sessionBgVerificationCode.equalsIgnoreCase(bgVerificationCode)) {
-						String passwd = new SimpleHash("SHA-1", userName, password).toString(); // 密码加密
+						String passwd = new SimpleHash("SHA-512", userCode, password, 2).toString(); // 密码加密
 						pd.put("password", passwd);
 						BgUser bgUser = new BgUser();
 						//登录验证
-						bgUser = bgUserService.checkUserLogin(pd);
+						bgUser = bgUserService.checkUserLogin(pd);//有问题
 						if (bgUser != null) {
 							//修改登录
 							bgUser = this.changeLoginInfo(bgUser);
@@ -167,7 +167,7 @@ public class BgMainController extends BaseController {
 							
 							// shiro加入身份验证
 							Subject subject = SecurityUtils.getSubject();
-							UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+							UsernamePasswordToken token = new UsernamePasswordToken(userCode, password);
 							try {
 								subject.login(token);
 							} catch (AuthenticationException e) {
@@ -211,7 +211,7 @@ public class BgMainController extends BaseController {
 					bgUser = bgUserService.getUserRoleById(bgUser.getUserId());
 					
 					bgUser.setAdmin(1==bgUser.getBgRole().getRoleId()
-							&&bgUser.getUserName().equals(bgConfigService.findSessionConfig(Const.CONFIG_BG_SYSTEM_OBJ).getParam3()));
+							&&bgUser.getUserCode().equals(bgConfigService.findSessionConfig(Const.CONFIG_BG_SYSTEM_OBJ).getParam3()));
 					BgSessionUtil.setSessionBgUserRole(bgUser);
 				}
 				BgRole bgRole = bgUser.getBgRole();
@@ -253,7 +253,7 @@ public class BgMainController extends BaseController {
 						bgMenuInCurrentList = bgMenuInCurrentList2;
 					}
 				} else {
-					BgSessionUtil.getSessionBgMenuInCurrentList();
+					bgMenuInCurrentList = BgSessionUtil.getSessionBgMenuInCurrentList();
 				}
 				
 				BgRights bgRights = new BgRights();

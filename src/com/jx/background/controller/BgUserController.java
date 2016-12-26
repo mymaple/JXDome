@@ -102,6 +102,8 @@ public class BgUserController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
+			List<BgRole> bgRoleList = bgRoleService.listSubBgRoleByParentId(1);//列出所有系统用户角色
+			mv.addObject("bgRoleList", bgRoleList);
 			mv.addObject("msg", "add");
 			mv.addObject("pd", pd);
 			
@@ -118,7 +120,6 @@ public class BgUserController extends BaseController {
 	@RequestMapping(value="/add")
 	public ModelAndView add() throws Exception{
 		logBefore(logger, "新增bgUser");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -252,10 +253,10 @@ public class BgUserController extends BaseController {
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var1",varOList.get(i).getUserId();
-				vpd.put("var2", varOList.get(i).getUserName());	//2
+				vpd.put("var1",varOList.get(i).getUserId());
+				vpd.put("var2", varOList.get(i).getUserCode());	//2
 				vpd.put("var3", varOList.get(i).getPassword());	//3
-				vpd.put("var4", varOList.get(i).getRealName());	//4
+				vpd.put("var4", varOList.get(i).getUserName());	//4
 				vpd.put("var5", varOList.get(i).getUserRights());	//5
 				vpd.put("var6", varOList.get(i).getRoleId());	//6
 				vpd.put("var7", varOList.get(i).getLastLoginTime());	//7

@@ -92,13 +92,13 @@ public class BgUser implements Serializable {
 	private int userId;
 	
 	/** 用户名 */
-	private String userName;
+	private String userCode;
 		
 	/** 密码 */
 	private String password;
 		
 	/** 真实姓名 */
-	private String realName;
+	private String userName;
 		
 	/** 用户权限 */
 	private String userRights;
@@ -156,19 +156,19 @@ public class BgUser implements Serializable {
 	/**
 	 * 设置 用户名
 	 * 
-	 * @param String userName
+	 * @param String userCode
 	 */
-	public void setUserName(String userName) {
-		this.userName = MapleStringUtil.trim(userName);
+	public void setUserCode(String userCode) {
+		this.userCode = MapleStringUtil.trim(userCode);
 	}
 	
 	/**
 	 * 获取 用户名
 	 * 
-	 * @return String userName
+	 * @return String userCode
 	 */
-	public String getUserName() {
-		return this.userName;
+	public String getUserCode() {
+		return this.userCode;
 	}
 	
 	/**
@@ -192,19 +192,19 @@ public class BgUser implements Serializable {
 	/**
 	 * 设置 真实姓名
 	 * 
-	 * @param String realName
+	 * @param String userName
 	 */
-	public void setRealName(String realName) {
-		this.realName = MapleStringUtil.trim(realName);
+	public void setUserName(String userName) {
+		this.userName = MapleStringUtil.trim(userName);
 	}
 	
 	/**
 	 * 获取 真实姓名
 	 * 
-	 * @return String realName
+	 * @return String userName
 	 */
-	public String getRealName() {
-		return this.realName;
+	public String getUserName() {
+		return this.userName;
 	}
 	
 	/**
@@ -443,9 +443,9 @@ public class BgUser implements Serializable {
 	public void init() {
 		setUserId(0);
 	
-		setUserName("");
+		setUserCode("");
 		setPassword("");
-		setRealName("");
+		setUserName("");
 		setUserRights("");
 		setRoleId(0);
 		try {

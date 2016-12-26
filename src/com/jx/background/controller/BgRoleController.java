@@ -316,14 +316,6 @@ public class BgRoleController extends BaseController {
 		return mv;
 	}
 	
-	/* ===============================权限================================== */
-	public Map<String, String> getHC(){
-		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
-		Session session = currentUser.getSession();
-		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
-	}
-	/* ===============================权限================================== */
-	
 	@InitBinder
 	public void initBinder(WebDataBinder binder){
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");

@@ -3,19 +3,19 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgUserMapper">
 
-	<sql id="userAddColumns">userName,password,realName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
-	<sql id="userColumns">userId,userName,password,realName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
+	<sql id="userAddColumns">userCode,password,userName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
+	<sql id="userColumns">userId,userCode,password,userName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
 	<sql id="userRoleColumns">
-		u.userId,u.userName,u.password,u.realName,u.userRights
+		u.userId,u.userCode,u.password,u.userName,u.userRights
 		,u.lastLoginTime,u.lastLoginIp,u.userIconSrc,u.userNumber,u.email,u.phone,u.status,u.remarks,u.modifyTime as modifyTimeUser
 		,r.roleId,r.roleName,r.roleRights,r.parentId,r.addRights,r.delRights,r.editRights,r.seleRights,r.modifyTime as modifyTimeRole
 		</sql>
 		
 	<resultMap type="bgUser" id="userResultMap">
 		<id column="userId" property="userId"/>
-		<result column="userName" property="userName"/>
+		<result column="userCode" property="userCode"/>
 		<result column="password" property="password"/>
-		<result column="realName" property="realName"/>
+		<result column="userName" property="userName"/>
 		<result column="userRights" property="userRights"/>
 		<result column="roleId" property="roleId"/>
 		<result column="lastLoginTime" property="lastLoginTime"/>
@@ -31,9 +31,9 @@
 	
 	<resultMap type="bgUser" id="userRoleResultMap">
 		<id column="userId" property="userId"/>
-		<result column="userName" property="userName"/>
+		<result column="userCode" property="userCode"/>
 		<result column="password" property="password"/>
-		<result column="realName" property="realName"/>
+		<result column="userName" property="userName"/>
 		<result column="userRights" property="userRights"/>
 		<result column="roleId" property="roleId"/>
 		<result column="lastLoginTime" property="lastLoginTime"/>
@@ -67,7 +67,7 @@
 				lastLoginTime = #{lastLoginTime},
 				lastLoginIp = #{lastLoginIp}
 			where 
-				userName = #{userName}
+				userCode = #{userCode}
 			<if test="userId != null and userId != ''">
 			and userId = #{userId}
 			</if>
@@ -77,15 +77,15 @@
 	<select id="checkUserLogin" parameterType="pd" resultType="bgUser">
 		select * from bgUser 
 		where 1=1
-		<if test="userName != null and password != null">
+		<if test="userCode != null and password != null">
 	  	and	(
-	  		(userName = #{userName} and password = #{password})
+	  		(userCode = #{userCode} and password = #{password})
 	  		or
-	  		(email = #{userName} and password = #{password})
+	  		(email = #{userCode} and password = #{password})
 	  		or
-	  		(userNumber = #{userName} and password = #{password})
+	  		(userNumber = #{userCode} and password = #{password})
 	  		or
-	  		(phone = #{userName} and password = #{password})
+	  		(phone = #{userCode} and password = #{password})
 	  		)
 		</if>
 		<if test="userId != null and userId != ''">
@@ -122,7 +122,7 @@
 		insert into bgUser ( 
 			<include refid="userAddColumns"/>
 		) values (
-			#{userName},#{password},#{realName},#{userRights},#{roleId},#{lastLoginTime},#{lastLoginIp},#{userIconSrc},#{userNumber},#{email},#{phone},#{status},#{remarks},#{modifyTime}
+			#{userCode},#{password},#{userName},#{userRights},#{roleId},#{lastLoginTime},#{lastLoginIp},#{userIconSrc},#{userNumber},#{email},#{phone},#{status},#{remarks},#{modifyTime}
 		)
 	</insert>
 	
@@ -131,7 +131,7 @@
 		insert into bgUser ( 
 			<include refid="userAddColumns"/>
 		) values (
-			#{userName},#{password},#{realName},#{userRights},#{roleId},#{lastLoginTime},#{lastLoginIp},#{userIconSrc},#{userNumber},#{email},#{phone},#{status},#{remarks},#{modifyTime}
+			#{userCode},#{password},#{userName},#{userRights},#{roleId},#{lastLoginTime},#{lastLoginIp},#{userIconSrc},#{userNumber},#{email},#{phone},#{status},#{remarks},#{modifyTime}
 		)
 	</insert>
 	
@@ -139,9 +139,9 @@
 	<update id="edit" parameterType="bgUser">
 		update  bgUser
 			set 
-				userName = #{userName},
+				userCode = #{userCode},
 				password = #{password},
-				realName = #{realName},
+				userName = #{userName},
 				userRights = #{userRights},
 				roleId = #{roleId},
 				lastLoginTime = #{lastLoginTime},
@@ -161,9 +161,9 @@
 	<update id="editByPd" parameterType="pd">
 		update  bgUser
 			set 
-				userName = #{userName},
+				userCode = #{userCode},
 				password = #{password},
-				realName = #{realName},
+				userName = #{userName},
 				userRights = #{userRights},
 				roleId = #{roleId},
 				lastLoginTime = #{lastLoginTime},
@@ -250,13 +250,13 @@
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
-					 u.userName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 u.userCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or 
 					 u.email LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
 					 or
 					 u.userNumber LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or
-					 u.realName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 u.userName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or
 					 u.phone LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)

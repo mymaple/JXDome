@@ -134,11 +134,11 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `bgUser`;
 CREATE TABLE `bgUser` (
  	`userId` int(11) NOT NULL AUTO_INCREMENT COMMENT '系统用户表id',
-	`userName` varchar(255)
+	`userCode` varchar(255)
 		 DEFAULT NULL  COMMENT '用户名' ,	
 	`password` varchar(255)
 		 DEFAULT NULL  COMMENT '密码' ,	
-	`name` varchar(255)
+	`userName` varchar(255)
 		 DEFAULT NULL  COMMENT '名字' ,	
 	`rights` varchar(255)
 		 DEFAULT NULL  COMMENT '拥有的权限' ,	
