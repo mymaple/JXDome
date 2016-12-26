@@ -164,8 +164,8 @@ public class BgUserService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PageData> listAllPd(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("BgUserMapper.listAllPd", bgPage);
+	public List<PageData> listPage(BgPage bgPage) throws Exception {
+		return (List<PageData>) dao.findForList("BgUserMapper.listPage", bgPage);
 	}
 	
 	/****************************common * end***********************************/

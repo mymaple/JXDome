@@ -105,15 +105,33 @@
 								</tbody>
 							</table>
 							
-							<div>
+							
+							<div class="page-header position-relative">
+								<table style="width:100%;">
+									<tr>
+										<td style="vertical-align:top;">
+										<c:if test="${RIGHTS.add}">
+											<a class="btn btn-mini btn-success" onclick="toAdd('${menuId}');">新增</a>
+										</c:if>
+										<c:if test="${null != pd.menuId && pd.menuId != '0' && pd.menuId != ''}">
+											<a class="btn btn-mini btn-primary" onclick="toSubMenu('${pd.parentId}');">返回</a>
+										</c:if>
+										</td>
+										<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
+									</tr>
+								</table>
+							</div>
+							
+							
+							<%-- <div>
 								&nbsp;&nbsp;
-								<c:if test="${RIGHTS.add == 1 }">
+								<c:if test="${RIGHTS.add}">
 									<a class="btn btn-sm btn-success" onclick="toAdd('${menuId}');">新增</a>
 								</c:if>
 								<c:if test="${null != pd.menuId && pd.menuId != '0' && pd.menuId != ''}">
 									<a class="btn btn-sm btn-success" onclick="toSubMenu('${pd.parentId}');">返回</a>
 								</c:if>
-							</div>
+							</div> --%>
 							
 						</div>
 						<!-- /.col -->
@@ -155,17 +173,46 @@
 			window.location.href="<%=basePath%>background/menu/list.do?menuId="+menuId;
 		};
 		
-		//新增菜单
+		//新增
 		function toAdd(menuId){
-			top.jzts();
-			window.location.href="<%=basePath%>background/menu/toAdd.do?menuId="+menuId;
-		};
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="新增";
+			 diag.URL = '<%=basePath%>background/menu/toAdd.do?menuId='+menuId;
+			 diag.Width = 469;
+			 diag.Height = 510;
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 if('${bgPage.currentPage}' == '0'){
+						 top.jzts();
+						 setTimeout("self.location=self.location",100);
+					 }else{
+						 nextPage('${bgPage.currentPage}');
+					 }
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
 		
-		//编辑菜单
-		function toEdit(menuId){
-			top.jzts();
-			window.location.href="<%=basePath%>background/menu/toEdit.do?menuId="+menuId;
-		};
+		//修改
+		function toEdit(userId){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="修改";
+			 diag.URL = '<%=basePath%>background/menu/toEdit.do?menuId='+userId;
+			 diag.Width = 469;
+			 diag.Height = 510;
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					nextPage('${bgPage.currentPage}');
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
 		
 		//删除
 		function toDelete(menuId){
@@ -175,7 +222,7 @@
 					top.jzts();
 					$.get(url,function(data){
 						if("success" == data.result){
-							parent.location.href="<%=basePath%>background/menu/main.do";
+							nextPage('${bgPage.currentPage}');
 						}else if("false" == data.result){
 							top.hangge();
 							bootbox.dialog({

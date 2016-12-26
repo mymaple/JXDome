@@ -43,6 +43,11 @@ import com.jx.background.util.BgSessionUtil;
 @RequestMapping(value="/background/user")
 public class BgUserController extends BaseController {
 	
+	/**
+	 * 后台 菜单标记名称(权限用)
+	 */
+	public static final String RIGHTS_BG_MENUCODE_STR = "background/user";
+	
 	@Resource(name="bgUserService")
 	private BgUserService bgUserService;
 	@Resource(name="bgRoleService")
@@ -55,7 +60,6 @@ public class BgUserController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(BgPage bgPage){
 		logBefore(logger, "列表bgUser");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -73,13 +77,13 @@ public class BgUserController extends BaseController {
 				pd.put("lastLoginEnd", lastLoginEnd+" 00:00:00");
 			}
 			bgPage.setPd(pd);
-			List<PageData>	bgUserList = bgUserService.listAllPd(bgPage);	//列出bgUser列表
+			List<PageData>	bgUserList = bgUserService.listPage(bgPage);	//列出bgUser列表
 			List<BgRole> bgRoleList = bgRoleService.listSubBgRoleByParentId(1);//列出所有系统用户角色
 			
 			mv.addObject("bgUserList", bgUserList);
 			mv.addObject("bgRoleList", bgRoleList);
 			mv.addObject("pd", pd);
-			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgOperateRights());	//按钮权限
+			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());	//按钮权限
 			
 			mv.setViewName("background/user/bgUserList");
 		} catch(Exception e){

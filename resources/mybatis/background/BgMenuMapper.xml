@@ -45,7 +45,7 @@
 		insert into bgMenu ( 
 			<include refid="menuAddColumns"/>
 		) values (
-			#{menuName},#{menuUrl},#{parentId},#{menuOrder},#{menuIcon},#{menuType},#{status},#{modifyTime}
+			#{menuName},#{menuCode},#{menuTag},#{menuUrl},#{parentId},#{menuOrder},#{menuIcon},#{menuType},#{status},#{modifyTime}
 		)
 	</insert>
 	
@@ -54,7 +54,7 @@
 		insert into bgMenu ( 
 			<include refid="menuAddColumns"/>
 		) values (
-			#{menuName},#{menuUrl},#{parentId},#{menuOrder},#{menuIcon},#{menuType},#{status},#{modifyTime}
+			#{menuName},#{menuCode},#{menuTag},#{menuUrl},#{parentId},#{menuOrder},#{menuIcon},#{menuType},#{status},#{modifyTime}
 		)
 	</insert>
 	
@@ -63,6 +63,8 @@
 		update  bgMenu
 			set 
 				menuName = #{menuName},
+				menuCode = #{menuCode},
+				menuTag = #{menuTag},
 				menuUrl = #{menuUrl},
 				parentId = #{parentId},
 				menuOrder = #{menuOrder},
@@ -79,6 +81,8 @@
 		update  bgMenu
 			set 
 				menuName = #{menuName},
+				menuCode = #{menuCode},
+				menuTag = #{menuTag},
 				menuUrl = #{menuUrl},
 				parentId = #{parentId},
 				menuOrder = #{menuOrder},
@@ -150,11 +154,13 @@
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
-	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+	<select id="listPage" parameterType="bgPage" resultType="pd">
 		select 
 			<include refid="menuColumns"/>
 		from 
 			bgMenu
+		where 
+			parentId = #{pd.menuId}
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

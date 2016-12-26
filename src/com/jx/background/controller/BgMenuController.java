@@ -1,6 +1,5 @@
 package com.jx.background.controller;
 
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,9 +10,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +26,6 @@ import com.jx.background.service.BgMenuService;
 import com.jx.background.util.BgSessionUtil;
 import com.jx.background.util.JudgeRightsUtil;
 import com.jx.common.config.BaseController;
-import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -94,23 +89,16 @@ public class BgMenuController extends BaseController {
 			String menuId = MapleStringUtil.isEmpty(pd.getString("menuId"))?"0":pd.getString("menuId");
 			menuId = MapleStringUtil.isEmpty(pd.getString("id"))?menuId:pd.getString("id");
 			
-			
 			pd.put("menuId", menuId);
-			List<BgMenu> subBgMenuList = bgMenuService.listSubBgMenuByParentId(Integer.parseInt(menuId));
-			
+			bgPage.setPd(pd);
+			List<PageData> subBgMenuList = bgMenuService.listPage(bgPage);
 			
 			mv.addObject("subBgMenuList", subBgMenuList);
-//			mv.addObject("parentBgMenu", bgMenuService.findPdByPd(pd));	//传入父菜单所有信息
 			mv.addObject("menuId", menuId);
-			mv.addObject("msg", null == pd.get("msg")?"list":pd.get("msg").toString()); //MSG=change 则为编辑或删除后跳转过来的
-			mv.addObject("pd", pd);
+			mv.addObject("msg", MapleStringUtil.isEmpty(pd.getString("msg"))?"list":pd.getString("msg")); //MSG=change 则为编辑或删除后跳转过来的
+			mv.addObject("pd", bgMenuService.findPdByPd(pd));//父菜单
 			mv.addObject("RIGHTS",BgSessionUtil.getSessionBgRights());	//按钮权限
 			
-//			bgPage.setPd(pd);
-//			List<PageData>	varList = bgMenuService.listAllPd(bgPage);	//列出bgMenu列表
-//			mv.addObject("varList", varList);
-//			mv.addObject("pd", pd);
-//			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 			
 			mv.setViewName("background/menu/bgMenuList");
 		} catch(Exception e){
@@ -130,7 +118,7 @@ public class BgMenuController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			String menuId = (null == pd.get("menuId") || "".equals(pd.getString("menuId")))?"0":pd.getString("menuId");
+			String menuId = MapleStringUtil.isEmpty(pd.getString("menuId"))?"0":pd.getString("menuId");
 			mv.addObject("parentBgMenu", bgMenuService.findPdByPd(pd));	//传入父菜单所有信息
 			mv.addObject("menuId", menuId);
 			mv.addObject("msg", "add");
@@ -149,7 +137,6 @@ public class BgMenuController extends BaseController {
 	@RequestMapping(value="/add")
 	public ModelAndView add() throws Exception{
 		logBefore(logger, "新增bgMenu");
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -199,7 +186,6 @@ public class BgMenuController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
 		logBefore(logger, "修改bgMenu");
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -355,6 +341,9 @@ public class BgMenuController extends BaseController {
 	 */
 	@RequestMapping(value="/toChangeMenuIcon")
 	public ModelAndView toChangeMenuIcon()throws Exception{
+		if(JudgeRightsUtil.getRights(RIGHTS_BG_MENUCODE_STR).isEdit()){
+			return null;
+		}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try{
@@ -374,7 +363,9 @@ public class BgMenuController extends BaseController {
 	 */
 	@RequestMapping(value="/changeMenuIcon")
 	public ModelAndView changeMenuIcon()throws Exception{
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+		if(JudgeRightsUtil.getRights(RIGHTS_BG_MENUCODE_STR).isEdit()){
+			return null;
+		}
 		logBefore(logger, "修改菜单图标");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();

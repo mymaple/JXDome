@@ -142,7 +142,7 @@
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
-	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+	<select id="listPage" parameterType="bgPage" resultType="pd">
 		select 
 			<include refid="configColumns"/>
 		from 

@@ -61,6 +61,18 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 菜单标记名称 :</label>
+								<div class="col-sm-9">
+									<input type="text" name="menuCode" id="menuCode" value="${pd.menuCode }" placeholder="这里输入菜单标记名称" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 菜单标识 :</label>
+								<div class="col-sm-9">
+									<input type="number" name="menuTag" id="menuTag" value="${pd.menuTag }" placeholder="这里输入菜单标识" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 链接  :</label>
 								<div class="col-sm-9">
 									<c:if test="${null != parentBgMenu.menuName}">

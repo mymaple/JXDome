@@ -156,8 +156,8 @@ public class BgRoleService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PageData> listAllPd(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("BgRoleMapper.listAllPd", bgPage);
+	public List<PageData> listPage(BgPage bgPage) throws Exception {
+		return (List<PageData>) dao.findForList("BgRoleMapper.listPage", bgPage);
 	}
 	
 	/****************************common * end***********************************/

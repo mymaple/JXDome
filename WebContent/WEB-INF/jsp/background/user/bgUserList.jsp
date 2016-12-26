@@ -54,11 +54,11 @@
 									</c:forEach>
 								  	</select>
 								</td>
-								<c:if test="${RIGHTS.sele == 1 }">
+								<c:if test="${RIGHTS.sele}">
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="searchs();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
-								<c:if test="${RIGHTS.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if>
-								<c:if test="${RIGHTS.fromExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="fromExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td></c:if>
-								</c:if>
+								<%-- <c:if test="${RIGHTS.toExcel}"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if>
+								<c:if test="${RIGHTS.fromExcel}"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="fromExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td></c:if>
+								 --%></c:if>
 							</tr>
 						</table>
 						<!-- 检索  -->
@@ -86,7 +86,7 @@
 							<!-- 开始循环 -->	
 							<c:choose>
 								<c:when test="${not empty bgUserList}">
-									<c:if test="${RIGHTS.sele == 1 }">
+									<c:if test="${RIGHTS.sele}">
 									<c:forEach items="${bgUserList}" var="user" varStatus="vs">
 												
 										<tr>
@@ -98,30 +98,32 @@
 											<td class="center"><a onclick="viewUser('${user.userName}')" style="cursor:pointer;">${user.userName }</a></td>
 											<td class="center">${user.realName }</td>
 											<td class="center">${user.bgRole.roleName }</td>
-											<td class="center"><a title="发送电子邮件" style="text-decoration:none;cursor:pointer;" <c:if test="${RIGHTS.email == 1 }">onclick="toSendEmail('${user.email }');"</c:if>>${user.email }&nbsp;<i class="ace-icon fa fa-envelope-o"></i></a></td>
+											<td class="center">
+											<%-- <a title="发送电子邮件" style="text-decoration:none;cursor:pointer;" <c:if test="${RIGHTS.email }">onclick="toSendEmail('${user.email }');"</c:if>>${user.email }&nbsp;<i class="ace-icon fa fa-envelope-o"></i></a>
+											 --%></td>
 											<td class="center">${user.lastLoginTime}</td>
 											<td class="center">${user.lastLoginIp}</td>
 											<td class="center">
-												<c:if test="${RIGHTS.edit != 1 && RIGHTS.del != 1 }">
+												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
-													<c:if test="${RIGHTS.FHSMS == 1 }">
+													<%-- <c:if test="${RIGHTS.FHSMS }">
 													<a class="btn btn-xs btn-info" title='发送站内信' onclick="sendFhsms('${user.userName }');">
 														<i class="ace-icon fa fa-envelope-o bigger-120" title="发送站内信"></i>
 													</a>
 													</c:if>
-													<c:if test="${RIGHTS.sms == 1 }">
+													<c:if test="${RIGHTS.sms }">
 													<a class="btn btn-xs btn-warning" title='发送短信' onclick="sendSms('${user.phone }');">
 														<i class="ace-icon fa fa-envelope-o bigger-120" title="发送短信"></i>
 													</a>
-													</c:if>
-													<c:if test="${RIGHTS.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="editUser('${user.userId}');">
+													</c:if> --%>
+													<c:if test="${RIGHTS.edit }">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${user.userId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
-													<c:if test="${RIGHTS.del == 1 }">
+													<c:if test="${RIGHTS.del }">
 													<a class="btn btn-xs btn-danger" onclick="delUser('${user.userId }','${user.userName }');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
@@ -133,7 +135,7 @@
 															<i class="ace-icon fa fa-cog icon-only bigger-110"></i>
 														</button>
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-															<c:if test="${RIGHTS.FHSMS == 1 }">
+															<%-- <c:if test="${RIGHTS.FHSMS }">
 															<li>
 																<a style="cursor:pointer;" onclick="sendFhsms('${user.userName }');" class="tooltip-info" data-rel="tooltip" title="发送站内信">
 																	<span class="blue">
@@ -142,7 +144,7 @@
 																</a>
 															</li>
 															</c:if>
-															<c:if test="${RIGHTS.sms == 1 }">
+															<c:if test="${RIGHTS.sms }">
 															<li>
 																<a style="cursor:pointer;" onclick="sendSms('${user.phone }');" class="tooltip-success" data-rel="tooltip" title="发送短信">
 																	<span class="blue">
@@ -150,17 +152,17 @@
 																	</span>
 																</a>
 															</li>
-															</c:if>
-															<c:if test="${RIGHTS.edit == 1 }">
+															</c:if> --%>
+															<c:if test="${RIGHTS.edit }">
 															<li>
-																<a style="cursor:pointer;" onclick="editUser('${user.userId}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="toEdit('${user.userId}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
 																</a>
 															</li>
 															</c:if>
-															<c:if test="${RIGHTS.del == 1 }">
+															<c:if test="${RIGHTS.del }">
 															<li>
 																<a style="cursor:pointer;" onclick="delUser('${user.userId }','${user.userName }');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
@@ -177,7 +179,7 @@
 									
 									</c:forEach>
 									</c:if>
-									<c:if test="${RIGHTS.sele == 0 }">
+									<c:if test="${!RIGHTS.sele }">
 										<tr>
 											<td colspan="10" class="center">您无权查看</td>
 										</tr>
@@ -196,17 +198,17 @@
 					<table style="width:100%;">
 						<tr>
 							<td style="vertical-align:top;">
-								<c:if test="${RIGHTS.add == 1 }">
-								<a class="btn btn-mini btn-success" onclick="add();">新增</a>
+								<c:if test="${RIGHTS.toAdd }">
+								<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 								</c:if>
-								<c:if test="${RIGHTS.FHSMS == 1 }"><a title="批量发送站内信" class="btn btn-mini btn-info" onclick="makeAll('确定要给选中的用户发送站内信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
-								<c:if test="${RIGHTS.email == 1 }"><a title="批量发送电子邮件" class="btn btn-mini btn-primary" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="ace-icon fa fa-envelope bigger-120"></i></a></c:if>
-								<c:if test="${RIGHTS.sms == 1 }"><a title="批量发送短信" class="btn btn-mini btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
-								<c:if test="${RIGHTS.del == 1 }">
+								<%-- <c:if test="${RIGHTS.FHSMS }"><a title="批量发送站内信" class="btn btn-mini btn-info" onclick="makeAll('确定要给选中的用户发送站内信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
+								<c:if test="${RIGHTS.email }"><a title="批量发送电子邮件" class="btn btn-mini btn-primary" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="ace-icon fa fa-envelope bigger-120"></i></a></c:if>
+								<c:if test="${RIGHTS.sms }"><a title="批量发送短信" class="btn btn-mini btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
+								 --%><c:if test="${RIGHTS.del }">
 								<a title="批量删除" class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 								</c:if>
 							</td>
-							<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
+							<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
 						</tr>
 					</table>
 					</div>
@@ -261,28 +263,28 @@ function delUser(userId,msg){
 			top.jzts();
 			var url = "<%=basePath%>user/deleteU.do?userId="+userId+"&tm="+new Date().getTime();
 			$.get(url,function(data){
-				nextPage(${page.currentPage});
+				nextPage('${bgPage.currentPage}');
 			});
 		};
 	});
 }
 
 //新增
-function add(){
+function toAdd(){
 	 top.jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="新增";
-	 diag.URL = '<%=basePath%>user/goAddU.do';
+	 diag.URL = '<%=basePath%>background/user/toAdd.do';
 	 diag.Width = 469;
 	 diag.Height = 510;
 	 diag.CancelEvent = function(){ //关闭事件
 		 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-			 if('${page.currentPage}' == '0'){
+			 if('${bgPage.currentPage}' == '0'){
 				 top.jzts();
 				 setTimeout("self.location=self.location",100);
 			 }else{
-				 nextPage(${page.currentPage});
+				 nextPage('${bgPage.currentPage}');
 			 }
 		}
 		diag.close();
@@ -291,17 +293,17 @@ function add(){
 }
 
 //修改
-function editUser(userId){
+function toEdit(userId){
 	 top.jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="资料";
-	 diag.URL = '<%=basePath%>user/goEditU.do?userId='+userId;
+	 diag.URL = '<%=basePath%>background/user/toEdit.do?userId='+userId;
 	 diag.Width = 469;
 	 diag.Height = 510;
 	 diag.CancelEvent = function(){ //关闭事件
 		 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-			nextPage(${page.currentPage});
+			nextPage('${bgPage.currentPage}');
 		}
 		diag.close();
 	 };
@@ -358,7 +360,7 @@ function makeAll(msg){
 						cache: false,
 						success: function(data){
 							 $.each(data.list, function(i, list){
-									nextPage(${page.currentPage});
+									nextPage('${bgPage.currentPage}');
 							 });
 						}
 					});
@@ -482,11 +484,11 @@ function fromExcel(){
 	 diag.Height = 150;
 	 diag.CancelEvent = function(){ //关闭事件
 		 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-			 if('${page.currentPage}' == '0'){
+			 if('${bgPage.currentPage}' == '0'){
 				 top.jzts();
 				 setTimeout("self.location.reload()",100);
 			 }else{
-				 nextPage(${page.currentPage});
+				 nextPage('${bgPage.currentPage}');
 			 }
 		}
 		diag.close();

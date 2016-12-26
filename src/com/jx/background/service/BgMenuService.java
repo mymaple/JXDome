@@ -170,8 +170,8 @@ public class BgMenuService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PageData> listAllPd(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("BgMenuMapper.listAllPd", bgPage);
+	public List<PageData> listPage(BgPage bgPage) throws Exception {
+		return (List<PageData>) dao.findForList("BgMenuMapper.listPage", bgPage);
 	}
 	
 	/****************************common * end***********************************/

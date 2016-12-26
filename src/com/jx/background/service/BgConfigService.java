@@ -166,8 +166,8 @@ public class BgConfigService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PageData> listAllPd(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("BgConfigMapper.listAllPd", bgPage);
+	public List<PageData> listPage(BgPage bgPage) throws Exception {
+		return (List<PageData>) dao.findForList("BgConfigMapper.listPage", bgPage);
 	}
 	
 	/****************************common * end***********************************/
