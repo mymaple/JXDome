@@ -21,6 +21,16 @@ public class BgUserService {
 	/****************************custom * start***********************************/
 	
 	/**
+	 * 通过loginName获取(类)数据
+	 * @param String loginName
+	 * @return BgUser
+	 * @throws Exception
+	 */
+	public BgUser findByLoginName(String loginName) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.findByLoginName", loginName);
+	}
+	
+	/**
 	 * 更新用户IP
 	 */
 	public void changeLoginInfo(BgUser bgUser) throws Exception {

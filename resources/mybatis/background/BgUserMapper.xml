@@ -60,6 +60,20 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<select id="findByLoginName" parameterType="String" resultType="bgUser">
+		select * from bgUser 
+		where 
+	  		(
+	  		userCode = #{loginName}
+	  		or
+	  		email = #{loginName}
+	  		or
+	  		userNumber = #{loginName}
+	  		or
+	  		phone = #{loginName}
+	  		)
+	</select>
+	
 	<!-- 存入IP -->
 	<update id="changeLoginInfo" parameterType="bgUser">
 		update bgUser 

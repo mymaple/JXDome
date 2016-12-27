@@ -66,7 +66,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown"  class="dropdown-toggle" href="#">
-								<img class="nav-user-photo" src="${bgUser.userIconSrc }" alt="Jason's Photo" id="userPhoto" o/>
+								<img class="nav-user-photo" src="${bgUser.userIconSrc }" alt="Jason's Photo" id="userPhoto" />
 								<span class="user-info" id="user_info">
 									<small>Welcome!</small>
 									${bgUser.userName}

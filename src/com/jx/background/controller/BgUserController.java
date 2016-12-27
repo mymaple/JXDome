@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
 import com.jx.background.entity.BgRole;
+import com.jx.background.entity.BgUser;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
@@ -123,12 +125,33 @@ public class BgUserController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-
-		bgUserService.addByPd(pd);
+		Date nowTime = new Date();
+		try {
+			if(bgUserService.findByLoginName(pd.getString("userCode")) == null ||
+					bgUserService.findByLoginName(pd.getString("userNumber")) == null ||
+					bgUserService.findByLoginName(pd.getString("email")) == null ||
+					bgUserService.findByLoginName(pd.getString("phone")) == null){
+				pd.put("userRights", ""); // 权限
+				pd.put("lastLoginTime", nowTime); // 最后登录时间
+				pd.put("lastLoginIp", ""); // loginIp
+				pd.put("userIconSrc", "static/ace/avatars/user.jpg"); // userIconSrc
+				pd.put("status", "1"); // 状态
+				pd.put("modifyTime", nowTime); // 修改时间时间
+				
+				pd.put("password", new SimpleHash("SHA-512", pd.getString("userCode"), pd.getString("password"),2).toString());
+				
+				bgUserService.addByPd(pd);
+				
+				mv.addObject("msg","success");
+			}else{
+				mv.addObject("msg","false");
+			}
 		
-		mv.addObject("msg","success");
+			mv.setViewName("background/bgSaveResult");
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
 		
-		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	
@@ -142,9 +165,13 @@ public class BgUserController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
+			if("1".equals(pd.getString("userId"))){return null;}		//不能修改admin用户
 			pd = bgUserService.findPdByPd(pd);	//根据ID读取
-			mv.addObject("msg", "edit");
+			List<BgRole> bgRoleList = bgRoleService.listSubBgRoleByParentId(1);//列出所有系统用户角色
+			mv.addObject("bgRoleList", bgRoleList);
 			mv.addObject("pd", pd);
+			mv.addObject("fx", "user");
+			mv.addObject("msg", "edit");
 			
 			mv.setViewName("background/user/bgUserEdit");
 		} catch (Exception e) {
@@ -159,13 +186,17 @@ public class BgUserController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
 		logBefore(logger, "修改bgUser");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		bgUserService.editByPd(pd);
-		mv.addObject("msg","success");
-		mv.setViewName("background/bgSaveResult");
+		try {
+			bgUserService.editByPd(pd);
+			mv.addObject("msg","success");
+			mv.setViewName("background/bgSaveResult");
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}	
+		
 		return mv;
 	}
 	
@@ -175,7 +206,6 @@ public class BgUserController extends BaseController {
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out){
 		logBefore(logger, "删除bgUser");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -195,7 +225,6 @@ public class BgUserController extends BaseController {
 	@ResponseBody
 	public Object batchDelete() {
 		logBefore(logger, "批量删除bgUser");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
@@ -225,7 +254,6 @@ public class BgUserController extends BaseController {
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel(){
 		logBefore(logger, "导出bgUser到excel");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -279,17 +307,33 @@ public class BgUserController extends BaseController {
 		return mv;
 	}
 	
-	/* ===============================权限================================== */
-	public Map<String, String> getHC(){
-		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
-		Session session = currentUser.getSession();
-		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
-	}
-	/* ===============================权限================================== */
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder){
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
 	}
+	
+	/**
+	 * 判断用户名是否存在
+	 */
+	@RequestMapping(value = "/hasUser")
+	@ResponseBody
+	public Object hasUser() {
+		Map<String, String> map = new HashMap<String, String>();
+		String errInfo = "success";
+		PageData pd = new PageData();
+		try {
+			pd = this.getPageData();
+			String loginName = pd.getString("loginName");
+			if (bgUserService.findByLoginName(loginName) != null) {
+				errInfo = "error";
+			}
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+		map.put("result", errInfo); // 返回结果
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
 }

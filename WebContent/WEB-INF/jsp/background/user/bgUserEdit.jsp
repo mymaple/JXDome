@@ -251,80 +251,28 @@
 		}
 	
 	//判断用户名是否存在
-	function hasUserCode(){
-		var userCode = $.trim($("#userCode").val());
-		
-		
-		
+	function hasLoginName(elem){
+		var loginName = $.trim($(elem).val());
 		$.ajax({
 			type: "POST",
-			url: '<%=basePath%>background.user/hasUserCode.do',
-	    	data: {userCode:userCode,tm:new Date().getTime()},
+			url: '<%=basePath%>background/user/hasLoginName.do',
+	    	data: {loginName:loginName,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,
 			success: function(data){
-				 if("success" == data.result){
-					$("#userForm").submit();
-					$("#zhongxin").hide();
-					$("#zhongxin2").show();
-				 }else{
-					 $("#userCode").tips({
+				 if("success" != data.result){
+					 $(elem).tips({
 							side:3,
-				            msg:'用户名'+userCode+' 已存在',
+				            msg:loginName+' 已存在',
 				            bg:'#AE81FF',
 				            time:3
 				        });
-					 $("#userCode").val('');
+					 $(elem).val('');
 				 }
 			}
 		});
 	}
 	
-	//判断邮箱是否存在
-	function hasEmail(userCode){
-		var email = $.trim($("#email").val());
-		$.ajax({
-			type: "POST",
-			url: '<%=basePath%>user/hasE.do',
-	    	data: {email:email,userCode:userCode,tm:new Date().getTime()},
-			dataType:'json',
-			cache: false,
-			success: function(data){
-				 if("success" != data.result){
-					 $("#email").tips({
-							side:3,
-				            msg:'邮箱 '+email+' 已存在',
-				            bg:'#AE81FF',
-				            time:3
-				        });
-					 $("#email").val('');
-				 }
-			}
-		});
-	}
-	
-	//判断编码是否存在
-	function hasN(userCode){
-		var userNumber = $.trim($("#userNumber").val());
-		$.ajax({
-			type: "POST",
-			url: '<%=basePath%>user/hasN.do',
-	    	data: {userNumber:userNumber,userCode:userCode,tm:new Date().getTime()},
-			dataType:'json',
-			cache: false,
-			success: function(data){
-				 if("success" != data.result){
-					 $("#userNumber").tips({
-							side:3,
-				            msg:'编号 '+userNumber+' 已存在',
-				            bg:'#AE81FF',
-				            time:3
-				        });
-					 $("#userNumber").val('');
-				 }
-			}
-		});
-	}
 	$(function() {
 		//下拉框
 		if(!ace.vars['touch']) {
