@@ -166,8 +166,8 @@ public class BgUserService {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<BgUser> listAllByPd(PageData pd) throws Exception {
-		return (List<BgUser>) dao.findForList("BgUserMapper.listAllByPd", null);
+	public List<BgUser> listByPd(PageData pd) throws Exception {
+		return (List<BgUser>) dao.findForList("BgUserMapper.listByPd", null);
 	}
 	
 	/**

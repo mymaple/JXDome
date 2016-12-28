@@ -56,9 +56,11 @@
 								</td>
 								<c:if test="${RIGHTS.sele}">
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="searchs();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
-								<%-- <c:if test="${RIGHTS.toExcel}"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if>
-								<c:if test="${RIGHTS.fromExcel}"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="fromExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td></c:if>
-								 --%></c:if>
+								<%-- <c:if test="${RIGHTS.toExcel}"> --%>
+								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExportExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td>
+								<%-- <c:if test="${RIGHTS.fromExcel}"> --%>
+								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toUploadExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td>
+								</c:if>
 							</tr>
 						</table>
 						<!-- 检索  -->
@@ -97,10 +99,10 @@
 											<td class="center">${user.userNumber }</td>
 											<td class="center"><a onclick="viewUser('${user.userCode}')" style="cursor:pointer;">${user.userCode }</a></td>
 											<td class="center">${user.userName }</td>
-											<td class="center">${user.bgRole.roleName }</td>
+											<td class="center">${user.roleName }</td>
 											<td class="center">
-											<%-- <a title="发送电子邮件" style="text-decoration:none;cursor:pointer;" <c:if test="${RIGHTS.email }">onclick="toSendEmail('${user.email }');"</c:if>>${user.email }&nbsp;<i class="ace-icon fa fa-envelope-o"></i></a>
-											 --%></td>
+											<a title="发送电子邮件" style="text-decoration:none;cursor:pointer;" <%-- <c:if test="${RIGHTS.email }">onclick="toSendEmail('${user.email }');"</c:if> --%>>${user.email }&nbsp;<i class="ace-icon fa fa-envelope-o"></i></a>
+											</td>
 											<td class="center">${user.lastLoginTime}</td>
 											<td class="center">${user.lastLoginIp}</td>
 											<td class="center">
@@ -124,55 +126,10 @@
 													</a>
 													</c:if>
 													<c:if test="${RIGHTS.del }">
-													<a class="btn btn-xs btn-danger" onclick="delUser('${user.userId }','${user.userCode }');">
+													<a class="btn btn-xs btn-danger" onclick="toDelete('${user.userId }','${user.userCode }');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
-												</div>
-												<div class="hidden-md hidden-lg">
-													<div class="inline pos-rel">
-														<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-															<i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-														</button>
-														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-															<%-- <c:if test="${RIGHTS.FHSMS }">
-															<li>
-																<a style="cursor:pointer;" onclick="sendFhsms('${user.userCode }');" class="tooltip-info" data-rel="tooltip" title="发送站内信">
-																	<span class="blue">
-																		<i class="ace-icon fa fa-envelope bigger-120"></i>
-																	</span>
-																</a>
-															</li>
-															</c:if>
-															<c:if test="${RIGHTS.sms }">
-															<li>
-																<a style="cursor:pointer;" onclick="sendSms('${user.phone }');" class="tooltip-success" data-rel="tooltip" title="发送短信">
-																	<span class="blue">
-																		<i class="ace-icon fa fa-envelope-o bigger-120"></i>
-																	</span>
-																</a>
-															</li>
-															</c:if> --%>
-															<c:if test="${RIGHTS.edit }">
-															<li>
-																<a style="cursor:pointer;" onclick="toEdit('${user.userId}');" class="tooltip-success" data-rel="tooltip" title="修改">
-																	<span class="green">
-																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																	</span>
-																</a>
-															</li>
-															</c:if>
-															<c:if test="${RIGHTS.del }">
-															<li>
-																<a style="cursor:pointer;" onclick="delUser('${user.userId }','${user.userCode }');" class="tooltip-error" data-rel="tooltip" title="删除">
-																	<span class="red">
-																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																	</span>
-																</a>
-															</li>
-															</c:if>
-														</ul>
-													</div>
 												</div>
 											</td>
 										</tr>
@@ -257,13 +214,15 @@ function searchs(){
 }
 
 //删除
-function delUser(userId,msg){
+function toDelete(userId,msg){
 	bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
 		if(result) {
 			top.jzts();
-			var url = "<%=basePath%>user/deleteU.do?userId="+userId+"&tm="+new Date().getTime();
+			var url = "<%=basePath%>background/user/toDelete.do?userId="+userId+"&tm="+new Date().getTime();
 			$.get(url,function(data){
-				nextPage('${bgPage.currentPage}');
+				if("success" == data.result){
+					nextPage('${bgPage.currentPage}');
+				}
 			});
 		};
 	});
@@ -353,8 +312,8 @@ function makeAll(msg){
 					top.jzts();
 					$.ajax({
 						type: "POST",
-						url: '<%=basePath%>user/deleteAllU.do?tm='+new Date().getTime(),
-				    	data: {USER_IDS:str},
+						url: '<%=basePath%>background/user/toBatchDelete.do?tm='+new Date().getTime(),
+				    	data: {userIds:str},
 						dataType:'json',
 						//beforeSend: validateData,
 						cache: false,
@@ -465,21 +424,21 @@ $(function() {
 });
 
 //导出excel
-function toExcel(){
+function toExportExcel(){
 	var keywords = $("#nav-search-input").val();
 	var lastLoginStart = $("#lastLoginStart").val();
 	var lastLoginEnd = $("#lastLoginEnd").val();
 	var roleId = $("#roleId").val();
-	window.location.href='<%=basePath%>user/excel.do?keywords='+keywords+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&roleId='+roleId;
+	window.location.href='<%=basePath%>background/user/toExportExcel.do?keywords='+keywords+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&roleId='+roleId;
 }
 
 //打开上传excel页面
-function fromExcel(){
+function toUploadExcel(){
 	 top.jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="EXCEL 导入到数据库";
-	 diag.URL = '<%=basePath%>user/goUploadExcel.do';
+	 diag.URL = '<%=basePath%>background/user/toUploadExcel.do';
 	 diag.Width = 300;
 	 diag.Height = 150;
 	 diag.CancelEvent = function(){ //关闭事件
@@ -497,20 +456,12 @@ function fromExcel(){
 }	
 
 //查看用户
-function viewUser(userCode){
-	if('admin' == userCode){
-		bootbox.dialog({
-			message: "<span class='bigger-110'>不能查看admin用户!</span>",
-			buttons: 			
-			{ "button":{ "label":"确定", "className":"btn-sm btn-success"}}
-		});
-		return;
-	}
+function toViewUser(userId){
 	 top.jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="资料";
-	 diag.URL = '<%=basePath%>user/view.do?userCode='+userCode;
+	 diag.URL = '<%=basePath%>background/user/view.do?userId='+userId;
 	 diag.Width = 469;
 	 diag.Height = 380;
 	 diag.CancelEvent = function(){ //关闭事件

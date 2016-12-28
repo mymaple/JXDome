@@ -34,7 +34,7 @@
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">角色:</td>
 											<td id="juese">
-											<select class="chosen-select form-control" name="roleId" id="roleId" data-placeholder="请选择角色" style="vertical-align:top;" style="width:98%;" >
+											<select class="chosen-select form-control" name="roleId" id="roleId" data-placeholder="请选择角色" style="vertical-align:top;width:98%;" >
 											<option value=""></option>
 											<c:forEach items="${bgRoleList}" var="role">
 												<option value="${role.roleId }" <c:if test="${role.roleId == pd.roleId }">selected</c:if>>${role.roleName }</option>
@@ -48,11 +48,11 @@
 										</c:if>
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">用户名:</td>
-											<td><input type="text" name="userCode" id="userCode" value="${pd.userCode }" maxlength="32" placeholder="这里输入用户名" title="用户名" style="width:98%;"/></td>
+											<td><input type="text" name="userCode" id="userCode" value="${pd.userCode }" maxlength="32" placeholder="这里输入用户名" title="用户名" onblur="hasLoginName(this)" style="width:98%;"/></td>
 										</tr>
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">编号:</td>
-											<td><input type="text" name="userNumber" id="userNumber" value="${pd.userNumber }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasN('${pd.userCode }')" style="width:98%;"/></td>
+											<td><input type="text" name="userNumber" id="userNumber" value="${pd.userNumber }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasLoginName(this)" style="width:98%;"/></td>
 										</tr>
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">密码:</td>
@@ -68,11 +68,11 @@
 										</tr>
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">手机号:</td>
-											<td><input type="number" name="phone" id="phone"  value="${pd.phone }"  maxlength="32" placeholder="这里输入手机号" title="手机号" style="width:98%;"/></td>
+											<td><input type="number" name="phone" id="phone"  value="${pd.phone }"  maxlength="32" placeholder="这里输入手机号" title="手机号" onblur="hasLoginName(this)" style="width:98%;"/></td>
 										</tr>
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">邮箱:</td>
-											<td><input type="email" name="email" id="email"  value="${pd.email }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasE('${pd.userCode }')" style="width:98%;"/></td>
+											<td><input type="email" name="email" id="email"  value="${pd.email }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasLoginName(this)" style="width:98%;"/></td>
 										</tr>
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">备注:</td>
@@ -199,7 +199,6 @@
 		}
 		var phoneReg = /^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$/;
 		if($("#phone").val()==""){
-			
 			$("#phone").tips({
 				side:3,
 	            msg:'输入手机号',
@@ -218,8 +217,8 @@
 			$("#phone").focus();
 			return false;
 		}
+		var eamilReg = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
 		if($("#email").val()==""){
-			
 			$("#email").tips({
 				side:3,
 	            msg:'输入邮箱',
@@ -228,7 +227,7 @@
 	        });
 			$("#email").focus();
 			return false;
-		}else if(!ismail($("#email").val())){
+		}else if(!eamilReg.test($("#email").val())){
 			$("#email").tips({
 				side:3,
 	            msg:'邮箱格式不正确',
@@ -238,25 +237,19 @@
 			$("#email").focus();
 			return false;
 		}
-		if($("#userId").val()==""){
-			hasU();
-		}else{
-			$("#userForm").submit();
-			$("#zhongxin").hide();
-			$("#zhongxin2").show();
-		}
+		$("#userForm").submit();
+		$("#zhongxin").hide();
+		$("#zhongxin2").show();
 	}
-	function ismail(mail){
-		return(new RegExp(/^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/).test(mail));
-		}
 	
 	//判断用户名是否存在
 	function hasLoginName(elem){
 		var loginName = $.trim($(elem).val());
+		var userId = $("#userId").val();
 		$.ajax({
 			type: "POST",
 			url: '<%=basePath%>background/user/hasLoginName.do',
-	    	data: {loginName:loginName,tm:new Date().getTime()},
+	    	data: {userId:userId,loginName:loginName,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,
 			success: function(data){

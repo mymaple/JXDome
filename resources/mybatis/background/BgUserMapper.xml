@@ -114,7 +114,7 @@
 		from bgUser u 
 		left join bgRole r 
 		on u.roleId=r.roleId 
-		where u.status=0 
+		where u.status=1 
 		and u.userId=#{userId}
 	</select>
 	
@@ -209,9 +209,9 @@
 	
 	<!-- 批量删除 -->
 	<delete id="batchDeleteByIds" parameterType="String">
-		delete from comTable 
+		delete from bgUser 
 		where 
-			tableId in (#{ids})
+			userId in (#{ids})
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
@@ -245,11 +245,36 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAllByPd" parameterType="pd" resultMap="userResultMap">
+	<select id="listByPd" parameterType="pd" resultMap="userResultMap">
 		select 
 			<include refid="userColumns"/>
 		from 
 			bgUser
+		where status = 1 
+		<if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					 userCode LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or 
+					 email LIKE CONCAT(CONCAT('%', #{keywords}),'%') 
+					 or
+					 userNumber LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or
+					 userName LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or
+					 phone LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+				)
+		</if>
+		<if test="roleId != null and roleId != ''"><!-- 角色检索 -->
+			and roleId=#{roleId} 
+		</if>
+		<if test="lastLoginStart!=null and lastLoginStart!=''"><!-- 登录时间检索 -->
+			and lastLoginTime &gt;= #{lastLoginStart} 
+		</if>
+		<if test="lastLoginEnd!=null and lastLoginEnd!=''"><!-- 登录时间检索 -->
+			and lastLoginTime &lt;= #{lastLoginEnd} 
+		</if>
+		order by userId
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -259,7 +284,7 @@
 		from bgUser u 
 		left join bgRole r 
 		on u.roleId=r.roleId 
-		where u.status=0 
+		where u.status = 1 
 		and r.parentId = 1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and

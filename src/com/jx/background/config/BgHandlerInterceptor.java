@@ -39,6 +39,8 @@ public class BgHandlerInterceptor extends HandlerInterceptorAdapter {
 							type = "del";
 						}else if("toEdit".equals(ss)||"edit".equals(ss)){
 							type = "edit";
+						}else{
+							return true;
 						}
 						boolean b = JudgeRightsUtil.hasRights(pathArr[1]+"/"+pathArr[2], type);
 						if (!b) {

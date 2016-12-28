@@ -1,6 +1,5 @@
 package com.jx.background.controller;
 
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,18 +9,18 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
@@ -31,7 +30,13 @@ import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
+import com.jx.common.util.FileDownload;
+import com.jx.common.util.FileUpload;
+import com.jx.common.util.GetPinyin;
+import com.jx.common.util.MapleStringUtil;
+import com.jx.common.util.ObjectExcelRead;
 import com.jx.common.util.ObjectExcelView;
+import com.jx.common.util.PathUtil;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
 import com.jx.background.util.BgSessionUtil;
@@ -67,15 +72,15 @@ public class BgUserController extends BaseController {
 		pd = this.getPageData();
 		try{
 			String keywords = pd.getString("keywords");				//关键词检索条件
-			if(null != keywords && !"".equals(keywords)){
+			if(MapleStringUtil.notEmpty(keywords)){
 				pd.put("keywords", keywords.trim());
 			}
 			String lastLoginStart = pd.getString("lastLoginStart");	//开始时间
 			String lastLoginEnd = pd.getString("lastLoginEnd");		//结束时间
-			if(lastLoginStart != null && !"".equals(lastLoginStart)){
+			if(MapleStringUtil.notEmpty(lastLoginStart)){
 				pd.put("lastLoginStart", lastLoginStart+" 00:00:00");
 			}
-			if(lastLoginEnd != null && !"".equals(lastLoginEnd)){
+			if(MapleStringUtil.notEmpty(lastLoginEnd)){
 				pd.put("lastLoginEnd", lastLoginEnd+" 00:00:00");
 			}
 			bgPage.setPd(pd);
@@ -131,16 +136,27 @@ public class BgUserController extends BaseController {
 					bgUserService.findByLoginName(pd.getString("userNumber")) == null ||
 					bgUserService.findByLoginName(pd.getString("email")) == null ||
 					bgUserService.findByLoginName(pd.getString("phone")) == null){
-				pd.put("userRights", ""); // 权限
-				pd.put("lastLoginTime", nowTime); // 最后登录时间
-				pd.put("lastLoginIp", ""); // loginIp
-				pd.put("userIconSrc", "static/ace/avatars/user.jpg"); // userIconSrc
-				pd.put("status", "1"); // 状态
-				pd.put("modifyTime", nowTime); // 修改时间时间
 				
-				pd.put("password", new SimpleHash("SHA-512", pd.getString("userCode"), pd.getString("password"),2).toString());
+				BgUser bgUser = new BgUser();
+				bgUser.setUserCode(pd.getString("userCode"));
+				bgUser.setUserName(pd.getString("userName"));
+				bgUser.setRoleId(Integer.parseInt(pd.getString("roleId")));
+				bgUser.setUserNumber(pd.getString("userNumber")); // loginIp
+				bgUser.setPhone(pd.getString("phone")); // loginIp
+				bgUser.setEmail(pd.getString("email")); // loginIp
+				bgUser.setRemarks(pd.getString("remarks")); // loginIp
 				
-				bgUserService.addByPd(pd);
+				bgUser.setPassword(new SimpleHash("SHA-512", pd.getString("userCode"), pd.getString("password"),2).toString());
+				
+				bgUser.setUserRights("0");			// 权限
+				bgUser.setLastLoginTime(nowTime);	// 最后登录时间
+				bgUser.setLastLoginIp("127.0.0.1"); // loginIp
+				bgUser.setUserIconSrc("static/ace/avatars/user.jpg"); // userIconSrc
+				bgUser.setStatus("1");				// 状态
+				bgUser.setModifyTime(nowTime); 		// 修改时间时间
+				
+				
+				bgUserService.add(bgUser);
 				
 				mv.addObject("msg","success");
 			}else{
@@ -189,9 +205,32 @@ public class BgUserController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		Date nowTime = new Date();
 		try {
-			bgUserService.editByPd(pd);
-			mv.addObject("msg","success");
+			if(MapleStringUtil.isEmpty(pd.getString("userId")) || 
+					bgUserService.findByLoginName(pd.getString("userCode")) == null ||
+					bgUserService.findByLoginName(pd.getString("userNumber")) == null ||
+					bgUserService.findByLoginName(pd.getString("email")) == null ||
+					bgUserService.findByLoginName(pd.getString("phone")) == null){
+				
+				BgUser bgUser = new BgUser();
+				bgUser = bgUserService.findById(Integer.parseInt(pd.getString("userId")));
+				bgUser.setUserCode(pd.getString("userCode"));
+				bgUser.setUserName(pd.getString("userName"));
+				bgUser.setRoleId(Integer.parseInt(pd.getString("roleId")));
+				bgUser.setUserNumber(pd.getString("userNumber")); 			// loginIp
+				bgUser.setPhone(pd.getString("phone")); 					// loginIp
+				bgUser.setEmail(pd.getString("email")); 					// loginIp
+				bgUser.setRemarks(pd.getString("remarks")); 				// loginIp
+				
+				bgUser.setPassword(new SimpleHash("SHA-512", pd.getString("userCode"), pd.getString("password"),2).toString());
+				bgUser.setModifyTime(nowTime);
+				
+				bgUserService.edit(bgUser);
+				mv.addObject("msg","success");
+			}else{
+				mv.addObject("msg","false");
+			}
 			mv.setViewName("background/bgSaveResult");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -203,27 +242,32 @@ public class BgUserController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@RequestMapping(value="/delete")
-	public void delete(PrintWriter out){
+	@RequestMapping(value="/toDelete")
+	@ResponseBody
+	public Object toDelete(@RequestParam String userId)throws Exception{
 		logBefore(logger, "删除bgUser");
 		PageData pd = new PageData();
+		pd = this.getPageData();
+		
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "";
 		try{
-			pd = this.getPageData();
 			bgUserService.deleteByPd(pd);
-			out.write("success");
-			out.close();
+			errInfo = "success";
 		} catch(Exception e){
 			logger.error(e.toString(), e);
+			errInfo = "false";
 		}
+		map.put("result", errInfo);
+		return AppUtil.returnObject(new PageData(), map);
 	}
-	
 	
 	/**
 	 * 批量删除
 	 */
-	@RequestMapping(value="/batchDelete")
+	@RequestMapping(value="/toBatchDelete")
 	@ResponseBody
-	public Object batchDelete() {
+	public Object toBatchDelete() {
 		logBefore(logger, "批量删除bgUser");
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -231,7 +275,7 @@ public class BgUserController extends BaseController {
 			pd = this.getPageData();
 			List<PageData> pdList = new ArrayList<PageData>();
 			String userIds = pd.getString("userIds");
-			if(null != userIds && !"".equals(userIds)){
+			if(MapleStringUtil.notEmpty(userIds)){
 				bgUserService.batchDeleteByIds(userIds);
 				pd.put("msg", "ok");
 			}else{
@@ -246,56 +290,69 @@ public class BgUserController extends BaseController {
 		}
 		return AppUtil.returnObject(pd, map);
 	}
-	
+
 	/*
 	 * 导出到excel
 	 * @return
 	 */
-	@RequestMapping(value="/excel")
-	public ModelAndView exportExcel(){
+	@RequestMapping(value="/toExportExcel")
+	public ModelAndView toExportExcel(){
 		logBefore(logger, "导出bgUser到excel");
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try{
+			String keywords = pd.getString("keywords");				//关键词检索条件
+			if(MapleStringUtil.notEmpty(keywords)){
+				pd.put("keywords", keywords.trim());
+			}
+			String lastLoginStart = pd.getString("lastLoginStart");	//开始时间
+			String lastLoginEnd = pd.getString("lastLoginEnd");		//结束时间
+			if(MapleStringUtil.notEmpty(lastLoginStart)){
+				pd.put("lastLoginStart", lastLoginStart+" 00:00:00");
+			}
+			if(MapleStringUtil.notEmpty(lastLoginEnd)){
+				pd.put("lastLoginEnd", lastLoginEnd+" 00:00:00");
+			} 
+			
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("后台用户表 主键id");   //1
-			titles.add("用户名");	//0+2
-			titles.add("密码");	//1+2
-			titles.add("真实姓名");	//2+2
-			titles.add("用户权限");	//3+2
-			titles.add("角色id");	//4+2
-			titles.add("最后登录时间");	//5+2
-			titles.add("最后登录IP");	//6+2
-			titles.add("用户头像路径");	//7+2
-			titles.add("用户编号");	//8+2
-			titles.add("电子邮箱");	//9+2
-			titles.add("手机号码");	//10+2
-			titles.add("状态");	//11+2
-			titles.add("备注信息");	//12+2
-			titles.add("修改时间");	//13+2
+			titles.add("后台用户表 主键id");   	//1
+			titles.add("用户名");				//0+2
+			titles.add("密码");				//1+2
+			titles.add("真实姓名");			//2+2
+			titles.add("用户权限");			//3+2
+			titles.add("角色id");			//4+2
+			titles.add("最后登录时间");		//5+2
+			titles.add("最后登录IP");			//6+2
+			titles.add("用户头像路径");		//7+2
+			titles.add("用户编号");			//8+2
+			titles.add("电子邮箱");			//9+2
+			titles.add("手机号码");			//10+2
+			titles.add("状态");				//11+2
+			titles.add("备注信息");			//12+2
+			titles.add("修改时间");			//13+2
 			dataMap.put("titles", titles);
-			List<BgUser> varOList = bgUserService.listAllByPd(pd);
+			List<BgUser> varOList = bgUserService.listByPd(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var1",varOList.get(i).getUserId());
-				vpd.put("var2", varOList.get(i).getUserCode());	//2
-				vpd.put("var3", varOList.get(i).getPassword());	//3
-				vpd.put("var4", varOList.get(i).getUserName());	//4
-				vpd.put("var5", varOList.get(i).getUserRights());	//5
-				vpd.put("var6", varOList.get(i).getRoleId());	//6
-				vpd.put("var7", varOList.get(i).getLastLoginTime());	//7
-				vpd.put("var8", varOList.get(i).getLastLoginIp());	//8
-				vpd.put("var9", varOList.get(i).getUserIconSrc());	//9
-				vpd.put("var10", varOList.get(i).getUserNumber());	//10
-				vpd.put("var11", varOList.get(i).getEmail());	//11
-				vpd.put("var12", varOList.get(i).getPhone());	//12
-				vpd.put("var13", varOList.get(i).getStatus());	//13
-				vpd.put("var14", varOList.get(i).getRemarks());	//14
-				vpd.put("var15", varOList.get(i).getModifyTime());	//15
+				vpd.put("var1", String.valueOf(varOList.get(i).getUserId()));
+				vpd.put("var2", varOList.get(i).getUserCode());			//2
+				vpd.put("var3", varOList.get(i).getPassword());			//3
+				vpd.put("var4", varOList.get(i).getUserName());			//4
+				vpd.put("var5", varOList.get(i).getUserRights());		//5
+				vpd.put("var6", String.valueOf(varOList.get(i).getRoleId()));			//6
+				vpd.put("var7", varOList.get(i).getLastLoginTimeStr());	//7
+				vpd.put("var8", varOList.get(i).getLastLoginIp());		//8
+				vpd.put("var9", varOList.get(i).getUserIconSrc());		//9
+				vpd.put("var10", varOList.get(i).getUserNumber());		//10
+				vpd.put("var11", varOList.get(i).getEmail());			//11
+				vpd.put("var12", varOList.get(i).getPhone());			//12
+				vpd.put("var13", varOList.get(i).getStatus());			//13
+				vpd.put("var14", varOList.get(i).getRemarks());			//14
+				vpd.put("var15", varOList.get(i).getModifyTimeStr());		//15
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -304,6 +361,93 @@ public class BgUserController extends BaseController {
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
+		return mv;
+	}
+	
+	/**打开上传EXCEL页面
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/toUploadExcel")
+	public ModelAndView goUploadExcel()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		mv.addObject("objStr","user");
+		mv.setViewName("background/bgUploadExcel");
+		return mv;
+	}
+	
+	/**下载模版
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/downExcelModel")
+	public void downExcelModel(HttpServletResponse response)throws Exception{
+		FileDownload.fileDownload(response, PathUtil.getClasspath() + Const.FILEPATHFILE + "Users.xls", "Users.xls");
+	}
+	
+	/**从EXCEL导入到数据库
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/uploadExcel")
+	public ModelAndView uploadExcel(
+			@RequestParam(value="excel",required=false) MultipartFile file
+			) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		if (null != file && !file.isEmpty()) {
+			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+			String fileName =  FileUpload.fileUp(file, filePath, "userexcel");							//执行上传
+			List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+			/*存入数据库操作======================================*/
+			pd.put("RIGHTS", "");					//权限
+			pd.put("LAST_LOGIN", "");				//最后登录时间
+			pd.put("IP", "");						//IP
+			pd.put("STATUS", "0");					//状态
+			pd.put("SKIN", "default");				//默认皮肤
+			pd.put("ROLE_ID", "1");
+			List<Role> roleList = roleService.listAllRolesByPId(pd);//列出所有系统用户角色
+			pd.put("ROLE_ID", roleList.get(0).getROLE_ID());		//设置角色ID为随便第一个
+			/**
+			 * var0 :编号
+			 * var1 :姓名
+			 * var2 :手机
+			 * var3 :邮箱
+			 * var4 :备注
+			 */
+			for(int i=0;i<listPd.size();i++){		
+				pd.put("USER_ID", this.get32UUID());										//ID
+				pd.put("NAME", listPd.get(i).getString("var1"));							//姓名
+				
+				String USERNAME = GetPinyin.getPingYin(listPd.get(i).getString("var1"));	//根据姓名汉字生成全拼
+				pd.put("USERNAME", USERNAME);	
+				if(userService.findByUsername(pd) != null){									//判断用户名是否重复
+					USERNAME = GetPinyin.getPingYin(listPd.get(i).getString("var1"))+Tools.getRandomNum();
+					pd.put("USERNAME", USERNAME);
+				}
+				pd.put("BZ", listPd.get(i).getString("var4"));								//备注
+				if(Tools.checkEmail(listPd.get(i).getString("var3"))){						//邮箱格式不对就跳过
+					pd.put("EMAIL", listPd.get(i).getString("var3"));						
+					if(userService.findByUE(pd) != null){									//邮箱已存在就跳过
+						continue;
+					}
+				}else{
+					continue;
+				}
+				pd.put("NUMBER", listPd.get(i).getString("var0"));							//编号已存在就跳过
+				pd.put("PHONE", listPd.get(i).getString("var2"));							//手机号
+				
+				pd.put("PASSWORD", new SimpleHash("SHA-1", USERNAME, "123").toString());	//默认密码123
+				if(userService.findByUN(pd) != null){
+					continue;
+				}
+				userService.saveU(pd);
+			}
+			/*存入数据库操作======================================*/
+			mv.addObject("msg","success");
+		}
+		mv.setViewName("save_result");
 		return mv;
 	}
 	
@@ -317,9 +461,9 @@ public class BgUserController extends BaseController {
 	/**
 	 * 判断用户名是否存在
 	 */
-	@RequestMapping(value = "/hasUser")
+	@RequestMapping(value = "/hasLoginName")
 	@ResponseBody
-	public Object hasUser() {
+	public Object hasLoginName() {
 		Map<String, String> map = new HashMap<String, String>();
 		String errInfo = "success";
 		PageData pd = new PageData();
@@ -335,5 +479,9 @@ public class BgUserController extends BaseController {
 		map.put("result", errInfo); // 返回结果
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	
+	
+	
 	
 }

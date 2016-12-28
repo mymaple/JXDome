@@ -23,6 +23,7 @@ import com.jx.common.config.PageData;
  */
 public class ObjectExcelView extends AbstractExcelView {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
