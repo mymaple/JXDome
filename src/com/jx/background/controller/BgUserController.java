@@ -37,6 +37,7 @@ import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ObjectExcelRead;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
+import com.jx.common.util.Tools;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
 import com.jx.background.util.BgSessionUtil;
@@ -381,9 +382,28 @@ public class BgUserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/downExcelModel")
-	public void downExcelModel(HttpServletResponse response)throws Exception{
-		FileDownload.fileDownload(response, PathUtil.getClasspath() + Const.FILEPATHFILE + "Users.xls", "Users.xls");
+	public ModelAndView downExcelModel()throws Exception{
+		
+		logBefore(logger, "导出bgUser到excel");
+		ModelAndView mv = new ModelAndView();
+		try{
+			Map<String,Object> dataMap = new HashMap<String,Object>();
+			List<String> titles = new ArrayList<String>();
+			titles.add("用户名");				//0+2
+			titles.add("真实姓名");			//2+2
+			titles.add("用户编号");			//8+2
+			titles.add("电子邮箱");			//9+2
+			titles.add("手机号码");			//10+2
+			titles.add("备注信息");			//12+2
+			dataMap.put("titles", titles);
+			ObjectExcelView erv = new ObjectExcelView();
+			mv = new ModelAndView(erv,dataMap);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return mv;
 	}
+		
 	
 	/**从EXCEL导入到数据库
 	 * @param file
@@ -395,58 +415,50 @@ public class BgUserController extends BaseController {
 			@RequestParam(value="excel",required=false) MultipartFile file
 			) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		if (null != file && !file.isEmpty()) {
-			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
-			String fileName =  FileUpload.fileUp(file, filePath, "userexcel");							//执行上传
-			List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
-			/*存入数据库操作======================================*/
-			pd.put("RIGHTS", "");					//权限
-			pd.put("LAST_LOGIN", "");				//最后登录时间
-			pd.put("IP", "");						//IP
-			pd.put("STATUS", "0");					//状态
-			pd.put("SKIN", "default");				//默认皮肤
-			pd.put("ROLE_ID", "1");
-			List<Role> roleList = roleService.listAllRolesByPId(pd);//列出所有系统用户角色
-			pd.put("ROLE_ID", roleList.get(0).getROLE_ID());		//设置角色ID为随便第一个
-			/**
-			 * var0 :编号
-			 * var1 :姓名
-			 * var2 :手机
-			 * var3 :邮箱
-			 * var4 :备注
-			 */
-			for(int i=0;i<listPd.size();i++){		
-				pd.put("USER_ID", this.get32UUID());										//ID
-				pd.put("NAME", listPd.get(i).getString("var1"));							//姓名
+		Date nowTime = new Date();
+		try {
+			if (null != file && !file.isEmpty()) {
+				String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+				String fileName =  FileUpload.fileUp(file, filePath, "userexcel");							//执行上传
+				List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+				/*存入数据库操作======================================*/
 				
-				String USERNAME = GetPinyin.getPingYin(listPd.get(i).getString("var1"));	//根据姓名汉字生成全拼
-				pd.put("USERNAME", USERNAME);	
-				if(userService.findByUsername(pd) != null){									//判断用户名是否重复
-					USERNAME = GetPinyin.getPingYin(listPd.get(i).getString("var1"))+Tools.getRandomNum();
-					pd.put("USERNAME", USERNAME);
-				}
-				pd.put("BZ", listPd.get(i).getString("var4"));								//备注
-				if(Tools.checkEmail(listPd.get(i).getString("var3"))){						//邮箱格式不对就跳过
-					pd.put("EMAIL", listPd.get(i).getString("var3"));						
-					if(userService.findByUE(pd) != null){									//邮箱已存在就跳过
-						continue;
-					}
-				}else{
-					continue;
-				}
-				pd.put("NUMBER", listPd.get(i).getString("var0"));							//编号已存在就跳过
-				pd.put("PHONE", listPd.get(i).getString("var2"));							//手机号
+				BgUser bgUser = new BgUser();
+				bgUser.setUserRights("0");			// 权限
+				bgUser.setLastLoginTime(nowTime);	// 最后登录时间
+				bgUser.setLastLoginIp("127.0.0.1"); // loginIp
+				bgUser.setUserIconSrc("static/ace/avatars/user.jpg"); // userIconSrc
+				bgUser.setStatus("1");				// 状态
+				bgUser.setModifyTime(nowTime); 		// 修改时间时间
+				bgUser.setRoleId(5);
 				
-				pd.put("PASSWORD", new SimpleHash("SHA-1", USERNAME, "123").toString());	//默认密码123
-				if(userService.findByUN(pd) != null){
-					continue;
+				/**
+				 * var0 :用户名
+				 * var1 :姓名
+				 * var2 :用户编号
+				 * var3 :电子邮箱
+				 * var4 :手机号码
+				 * var5 :备注
+				 */
+				for(int i=0;i<listPd.size();i++){	
+					
+					bgUser.setUserCode(listPd.get(i).getString("var0"));
+					bgUser.setUserName(listPd.get(i).getString("var1"));
+					bgUser.setUserNumber(listPd.get(i).getString("var2")); // loginIp
+					bgUser.setPhone(listPd.get(i).getString("var3")); // loginIp
+					bgUser.setEmail(listPd.get(i).getString("var4")); // loginIp
+					bgUser.setRemarks(listPd.get(i).getString("var5")); // loginIp
+					
+					bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserName(), bgUser.getUserName(),2).toString());
+					bgUserService.add(bgUser);
 				}
-				userService.saveU(pd);
+				/*存入数据库操作======================================*/
+				mv.addObject("msg","success");
 			}
-			/*存入数据库操作======================================*/
-			mv.addObject("msg","success");
-		}
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}	
+		
 		mv.setViewName("save_result");
 		return mv;
 	}

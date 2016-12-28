@@ -21,9 +21,10 @@ import com.jx.common.config.PageData;
  * @author FH 作者单位： 联系方式：
  * @version 1.0
  */
+@SuppressWarnings("deprecation")
 public class ObjectExcelView extends AbstractExcelView {
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
@@ -57,16 +58,17 @@ public class ObjectExcelView extends AbstractExcelView {
 		HSSFCellStyle contentStyle = workbook.createCellStyle(); // 内容样式
 		contentStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		List<PageData> varList = (List<PageData>) model.get("varList");
-		int varCount = varList.size();
-		for (int i = 0; i < varCount; i++) {
-			PageData vpd = varList.get(i);
-			for (int j = 0; j < len; j++) {
-				String varstr = vpd.getString("var" + (j + 1)) != null ? vpd.getString("var" + (j + 1)) : "";
-				cell = getCell(sheet, i + 1, j);
-				cell.setCellStyle(contentStyle);
-				setText(cell, varstr);
+		if(varList != null && varList.size() !=0){
+			for (int i = 0; i < varList.size(); i++) {
+				PageData vpd = varList.get(i);
+				for (int j = 0; j < len; j++) {
+					String varstr = vpd.getString("var" + (j + 1)) != null ? vpd.getString("var" + (j + 1)) : "";
+					cell = getCell(sheet, i + 1, j);
+					cell.setCellStyle(contentStyle);
+					setText(cell, varstr);
+				}
+				
 			}
-
 		}
 
 	}
