@@ -9,11 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jx.background.config.BgPage;
 import com.jx.background.entity.BgRole;
 import com.jx.background.entity.BgUser;
+import com.jx.background.entity.BgUser.Add;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
@@ -121,19 +125,24 @@ public class BgUserController extends BaseController {
 	 * 新增
 	 */
 	@RequestMapping(value="/add")
-	public ModelAndView add() throws Exception{
+	public ModelAndView add(@Validated({Add.class}) BgUser bgUser, BindingResult result) throws Exception{
 		logBefore(logger, "新增bgUser");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Date nowTime = new Date();
+		
+		if(result.hasErrors()) {
+			mv.setViewName("background/user/bgUserEdit");
+            return mv;  
+        }
+		
 		try {
 			if(bgUserService.findByLoginName(pd.getString("userCode")) == null ||
 					bgUserService.findByLoginName(pd.getString("userNumber")) == null ||
 					bgUserService.findByLoginName(pd.getString("email")) == null ||
 					bgUserService.findByLoginName(pd.getString("phone")) == null){
 				
-				BgUser bgUser = new BgUser();
 				bgUser.setUserCode(pd.getString("userCode"));
 				bgUser.setUserName(pd.getString("userName"));
 				bgUser.setRoleId(Integer.parseInt(pd.getString("roleId")));

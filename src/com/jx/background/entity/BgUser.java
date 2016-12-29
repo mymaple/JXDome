@@ -3,6 +3,10 @@ package com.jx.background.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.jx.background.config.BgPage;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -88,13 +92,21 @@ public class BgUser implements Serializable {
 	
 	/**************************table prop satrt*********************************/
 	
+	public interface Add {  
+	}  
+	  
+	public interface Edit {  
+	} 
+	
 	/** 后台用户表 主键id */
 	private int userId;
 	
 	/** 用户名 */
+	@NotEmpty(message = "用户名不能为空",groups={Add.class})
 	private String userCode;
 		
 	/** 密码 */
+	@NotEmpty(message = "密码不能为空",groups={Add.class})
 	private String password;
 		
 	/** 真实姓名 */
@@ -104,6 +116,7 @@ public class BgUser implements Serializable {
 	private String userRights;
 		
 	/** 角色id */
+	@NotNull(message = "角色不能为空",groups={Add.class})
 	private int roleId;
 		
 	/** 最后登录时间 */
@@ -116,12 +129,15 @@ public class BgUser implements Serializable {
 	private String userIconSrc;
 		
 	/** 用户编号 */
+	@NotNull(message = "角色不能为空",groups={Add.class})
 	private String userNumber;
 		
 	/** 电子邮箱 */
+	@NotEmpty(message = "角色不能为空",groups={Add.class})
 	private String email;
 		
 	/** 手机号码 */
+	@NotEmpty(message = "角色不能为空",groups={Add.class})
 	private String phone;
 		
 	/** 状态 */

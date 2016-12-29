@@ -120,7 +120,7 @@
 	});
 	//保存
 	function save(){
-		if($("#roleId").val()==""){
+		/* if($("#roleId").val()==""){
 			$("#juese").tips({
 				side:3,
 	            msg:'选择角色',
@@ -236,7 +236,7 @@
 	        });
 			$("#email").focus();
 			return false;
-		}
+		} */
 		$("#userForm").submit();
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
