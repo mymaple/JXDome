@@ -31,11 +31,13 @@ import com.jx.background.entity.BgUser;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
+import com.jx.background.util.BgSessionUtil;
 import com.jx.background.util.JudgeRightsUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
+import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.RightsHelper;
 import com.jx.common.util.Tools;
@@ -65,25 +67,20 @@ public class BgRoleController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(BgPage bgPage){
 		logBefore(logger, "列表bgRole");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
 			String roleId = (null == pd.get("roleId") || "".equals(pd.getString("roleId")))?"1":pd.getString("roleId");
 			pd.put("roleId", roleId);
-			List<BgRole> subBgRoleList = bgRoleService.listSubBgRoleByParentId(Integer.parseInt(roleId));
+			bgPage.setPd(pd);
+			List<PageData> subBgRoleList = bgRoleService.listPage(bgPage);
 			List<BgRole> topBgRoleList = bgRoleService.listSubBgRoleByParentId(0);
 			
 			mv.addObject("subBgRoleList", subBgRoleList);
 			mv.addObject("topBgRoleList", topBgRoleList);
-			
-//			bgPage.setPd(pd);
-//			List<PageData>	varList = bgRoleService.listAllPd(bgPage);	//列出bgRole列表
-//			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
-//			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
-			mv.addObject("BGQX", pd);
+			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());	//按钮权限
 			
 			mv.setViewName("background/role/bgRoleList");
 		} catch(Exception e){
@@ -118,7 +115,6 @@ public class BgRoleController extends BaseController {
 	@RequestMapping(value="/add")
 	public ModelAndView add() throws Exception{
 		logBefore(logger, "新增bgRole");
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -175,7 +171,6 @@ public class BgRoleController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
 		logBefore(logger, "修改bgRole");
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -203,7 +198,6 @@ public class BgRoleController extends BaseController {
 	@ResponseBody
 	public Object toDelete(@RequestParam String roleId)throws Exception{
 		logBefore(logger, "删除bgRole");
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		
@@ -224,11 +218,6 @@ public class BgRoleController extends BaseController {
 					errInfo = "success";
 				}
 			}
-			
-			
-//			bgRoleService.deleteByPd(pd);
-//			out.write("success");
-//			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -373,7 +362,6 @@ public class BgRoleController extends BaseController {
 	@RequestMapping(value="/changeRoleRights")
 	@ResponseBody
 	public Object changeRoleRights()throws Exception{
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){} //校验权限
 		logBefore(logger, "修改菜单权限");
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -390,7 +378,7 @@ public class BgRoleController extends BaseController {
 			bgRole.setModifyTime(new Date());
 			String rights = "0";
 			if(null != menuIds && !"".equals(menuIds.trim())){
-				rights = RightsHelper.sumRights(Tools.str2StrArray(menuIds)).toString();//用菜单ID做权处理
+				rights = RightsHelper.sumRights(MapleStringUtil.str2StrArray(menuIds)).toString();//用菜单ID做权处理
 			}
 			
 			if("roleRights".equals(msg)){

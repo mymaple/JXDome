@@ -126,7 +126,7 @@ public class BgUserService {
 	 * @param PageData pd
 	 * @throws Exception
 	 */
-	public void batchDeleteByIds(String ids) throws Exception {
+	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("BgUserMapper.batchDeleteByIds", ids);
 	}
 

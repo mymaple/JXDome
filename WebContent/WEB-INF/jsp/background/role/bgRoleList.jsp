@@ -92,8 +92,6 @@
 								<c:choose>
 									<c:when test="${not empty subBgRoleList}">
 										<c:forEach items="${subBgRoleList}" var="var" varStatus="vs">
-										
-										
 										<tr>
 										<td class='center' style="width:30px;">${vs.index+1}</td>
 										<td id="roleNameTd${var.roleId }">${var.roleName }</td>
@@ -130,9 +128,19 @@
 									</c:otherwise>
 								</c:choose>
 							</table>
-							<div>
-								&nbsp;&nbsp;<a class="btn btn-sm btn-success" onclick="toAdd('${pd.roleId }');">新增角色</a>
+							<div class="page-header position-relative">
+								<table style="width:100%;">
+									<tr>
+										<td style="vertical-align:top;">
+										<c:if test="${RIGHTS.add}">
+											<a class="btn btn-mini btn-success" onclick="toAdd('${pd.roleId }');">新增</a>
+										</c:if>
+										</td>
+										<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
+									</tr>
+								</table>   
 							</div>
+							
 							
 						</div>
 						<!-- /.col -->
@@ -175,8 +183,12 @@
 			 diag.Height = 100;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					top.jzts();
-					setTimeout("self.location.reload()",100);
+					 if('${bgPage.currentPage}' == '0'){
+						 top.jzts();
+						 setTimeout("self.location=self.location",100);
+					 }else{
+						 nextPage('${bgPage.currentPage}');
+					 }
 				}
 				diag.close();
 			 };
@@ -194,8 +206,7 @@
 			 diag.Height = 100;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					top.jzts();
-					setTimeout("self.location.reload()",100);
+					 nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
 			 };
@@ -210,14 +221,7 @@
 					top.jzts();
 					$.get(url,function(data){
 						if("success" == data.result){
-							if(msg == 'c'){
-								top.jzts();
-								document.location.reload();
-							}else{
-								top.jzts();
-								window.location.href="background/role/list.do";
-							}
-							
+							nextPage('${bgPage.currentPage}');
 						}else if("false" == data.result){
 							top.hangge();
 							bootbox.dialog({

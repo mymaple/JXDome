@@ -150,8 +150,8 @@ public class BgMenuController extends BaseController {
 		}
 		
 		mv.addObject("msg","success");
-		mv.setViewName("redirect:list?msg='change'&menuId="+pd.get("parentId")); //保存成功跳转到列表页面
-//		mv.setViewName("background/bgSaveResult");
+//		mv.setViewName("redirect:list?msg='change'&menuId="+pd.get("parentId")); //保存成功跳转到列表页面
+		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	
@@ -341,10 +341,11 @@ public class BgMenuController extends BaseController {
 	 */
 	@RequestMapping(value="/toChangeMenuIcon")
 	public ModelAndView toChangeMenuIcon()throws Exception{
-		if(JudgeRightsUtil.getRights(RIGHTS_BG_MENUCODE_STR).isEdit()){
-			return null;
-		}
 		ModelAndView mv = this.getModelAndView();
+		if(!JudgeRightsUtil.getRights(RIGHTS_BG_MENUCODE_STR).isEdit()){
+			mv.setViewName("background/bgWithoutRights");
+			return mv;
+		}
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -363,11 +364,12 @@ public class BgMenuController extends BaseController {
 	 */
 	@RequestMapping(value="/changeMenuIcon")
 	public ModelAndView changeMenuIcon()throws Exception{
-		if(JudgeRightsUtil.getRights(RIGHTS_BG_MENUCODE_STR).isEdit()){
-			return null;
-		}
 		logBefore(logger, "修改菜单图标");
 		ModelAndView mv = this.getModelAndView();
+		if(!JudgeRightsUtil.getRights(RIGHTS_BG_MENUCODE_STR).isEdit()){
+			mv.setViewName("background/bgWithoutRights");
+			return mv;
+		}
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -380,16 +382,5 @@ public class BgMenuController extends BaseController {
 		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

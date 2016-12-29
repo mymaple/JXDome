@@ -211,7 +211,10 @@
 	<delete id="batchDeleteByIds" parameterType="String">
 		delete from bgUser 
 		where 
-			userId in (#{ids})
+			userId in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->

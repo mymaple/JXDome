@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 
@@ -30,14 +29,10 @@ import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
-import com.jx.common.util.FileDownload;
-import com.jx.common.util.FileUpload;
-import com.jx.common.util.GetPinyin;
+import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
-import com.jx.common.util.ObjectExcelRead;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
-import com.jx.common.util.Tools;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
 import com.jx.background.util.BgSessionUtil;
@@ -186,9 +181,9 @@ public class BgUserController extends BaseController {
 			pd = bgUserService.findPdByPd(pd);	//根据ID读取
 			List<BgRole> bgRoleList = bgRoleService.listSubBgRoleByParentId(1);//列出所有系统用户角色
 			mv.addObject("bgRoleList", bgRoleList);
-			mv.addObject("pd", pd);
 			mv.addObject("fx", "user");
 			mv.addObject("msg", "edit");
+			mv.addObject("pd", pd);
 			
 			mv.setViewName("background/user/bgUserEdit");
 		} catch (Exception e) {
@@ -277,7 +272,7 @@ public class BgUserController extends BaseController {
 			List<PageData> pdList = new ArrayList<PageData>();
 			String userIds = pd.getString("userIds");
 			if(MapleStringUtil.notEmpty(userIds)){
-				bgUserService.batchDeleteByIds(userIds);
+				bgUserService.batchDeleteByIds(userIds.split(","));
 				pd.put("msg", "ok");
 			}else{
 				pd.put("msg", "no");
@@ -339,21 +334,21 @@ public class BgUserController extends BaseController {
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var1", String.valueOf(varOList.get(i).getUserId()));
-				vpd.put("var2", varOList.get(i).getUserCode());			//2
-				vpd.put("var3", varOList.get(i).getPassword());			//3
-				vpd.put("var4", varOList.get(i).getUserName());			//4
-				vpd.put("var5", varOList.get(i).getUserRights());		//5
-				vpd.put("var6", String.valueOf(varOList.get(i).getRoleId()));			//6
-				vpd.put("var7", varOList.get(i).getLastLoginTimeStr());	//7
-				vpd.put("var8", varOList.get(i).getLastLoginIp());		//8
-				vpd.put("var9", varOList.get(i).getUserIconSrc());		//9
-				vpd.put("var10", varOList.get(i).getUserNumber());		//10
-				vpd.put("var11", varOList.get(i).getEmail());			//11
-				vpd.put("var12", varOList.get(i).getPhone());			//12
-				vpd.put("var13", varOList.get(i).getStatus());			//13
-				vpd.put("var14", varOList.get(i).getRemarks());			//14
-				vpd.put("var15", varOList.get(i).getModifyTimeStr());		//15
+				vpd.put("var0", String.valueOf(varOList.get(i).getUserId()));
+				vpd.put("var1", varOList.get(i).getUserCode());			//2
+				vpd.put("var2", varOList.get(i).getPassword());			//3
+				vpd.put("var3", varOList.get(i).getUserName());			//4
+				vpd.put("var4", varOList.get(i).getUserRights());		//5
+				vpd.put("var5", String.valueOf(varOList.get(i).getRoleId()));			//6
+				vpd.put("var6", varOList.get(i).getLastLoginTimeStr());	//7
+				vpd.put("var7", varOList.get(i).getLastLoginIp());		//8
+				vpd.put("var8", varOList.get(i).getUserIconSrc());		//9
+				vpd.put("var9", varOList.get(i).getUserNumber());		//10
+				vpd.put("var10", varOList.get(i).getEmail());			//11
+				vpd.put("var11", varOList.get(i).getPhone());			//12
+				vpd.put("var12", varOList.get(i).getStatus());			//13
+				vpd.put("var13", varOList.get(i).getRemarks());			//14
+				vpd.put("var14", varOList.get(i).getModifyTimeStr());		//15
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -410,6 +405,7 @@ public class BgUserController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/uploadExcel")
 	public ModelAndView uploadExcel(
 			@RequestParam(value="excel",required=false) MultipartFile file
@@ -419,8 +415,8 @@ public class BgUserController extends BaseController {
 		try {
 			if (null != file && !file.isEmpty()) {
 				String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
-				String fileName =  FileUpload.fileUp(file, filePath, "userexcel");							//执行上传
-				List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+				String fileName =  MapleFileUtil.fileUp(file, filePath, "userexcel");							//执行上传
+				List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 				/*存入数据库操作======================================*/
 				
 				BgUser bgUser = new BgUser();
@@ -445,8 +441,8 @@ public class BgUserController extends BaseController {
 					bgUser.setUserCode(listPd.get(i).getString("var0"));
 					bgUser.setUserName(listPd.get(i).getString("var1"));
 					bgUser.setUserNumber(listPd.get(i).getString("var2")); // loginIp
-					bgUser.setPhone(listPd.get(i).getString("var3")); // loginIp
-					bgUser.setEmail(listPd.get(i).getString("var4")); // loginIp
+					bgUser.setEmail(listPd.get(i).getString("var3")); // loginIp
+					bgUser.setPhone(listPd.get(i).getString("var4")); // loginIp
 					bgUser.setRemarks(listPd.get(i).getString("var5")); // loginIp
 					
 					bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserName(), bgUser.getUserName(),2).toString());
@@ -459,7 +455,7 @@ public class BgUserController extends BaseController {
 			logger.error(e.toString(), e);
 		}	
 		
-		mv.setViewName("save_result");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	
@@ -491,9 +487,5 @@ public class BgUserController extends BaseController {
 		map.put("result", errInfo); // 返回结果
 		return AppUtil.returnObject(new PageData(), map);
 	}
-	
-	
-	
-	
 	
 }

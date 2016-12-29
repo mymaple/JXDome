@@ -77,6 +77,7 @@
 									<th class="center">姓名</th>
 									<th class="center">角色</th>
 									<th class="center"><i class="ace-icon fa fa-envelope-o"></i>邮箱</th>
+									<th class="center">手机号码</th>
 									<th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>最近登录</th>
 									<th class="center">上次登录IP</th>
 									<th class="center">操作</th>
@@ -103,6 +104,7 @@
 											<td class="center">
 											<a title="发送电子邮件" style="text-decoration:none;cursor:pointer;" <%-- <c:if test="${RIGHTS.email }">onclick="toSendEmail('${user.email }');"</c:if> --%>>${user.email }&nbsp;<i class="ace-icon fa fa-envelope-o"></i></a>
 											</td>
+											<td class="center">${user.phone }</td>
 											<td class="center">${user.lastLoginTime}</td>
 											<td class="center">${user.lastLoginIp}</td>
 											<td class="center">
@@ -152,22 +154,22 @@
 						</table>
 						
 					<div class="page-header position-relative">
-					<table style="width:100%;">
-						<tr>
-							<td style="vertical-align:top;">
-								<c:if test="${RIGHTS.add }">
-								<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
-								</c:if>
-								<%-- <c:if test="${RIGHTS.FHSMS }"><a title="批量发送站内信" class="btn btn-mini btn-info" onclick="makeAll('确定要给选中的用户发送站内信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
-								<c:if test="${RIGHTS.email }"><a title="批量发送电子邮件" class="btn btn-mini btn-primary" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="ace-icon fa fa-envelope bigger-120"></i></a></c:if>
-								<c:if test="${RIGHTS.sms }"><a title="批量发送短信" class="btn btn-mini btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
-								 --%><c:if test="${RIGHTS.del }">
-								<a title="批量删除" class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-								</c:if>
-							</td>
-							<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
-						</tr>
-					</table>
+						<table style="width:100%;">
+							<tr>
+								<td style="vertical-align:top;">
+									<c:if test="${RIGHTS.add }">
+									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
+									</c:if>
+									<%-- <c:if test="${RIGHTS.FHSMS }"><a title="批量发送站内信" class="btn btn-mini btn-info" onclick="makeAll('确定要给选中的用户发送站内信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
+									<c:if test="${RIGHTS.email }"><a title="批量发送电子邮件" class="btn btn-mini btn-primary" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="ace-icon fa fa-envelope bigger-120"></i></a></c:if>
+									<c:if test="${RIGHTS.sms }"><a title="批量发送短信" class="btn btn-mini btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="ace-icon fa fa-envelope-o bigger-120"></i></a></c:if>
+									 --%><c:if test="${RIGHTS.del }">
+									<a title="批量删除" class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
+									</c:if>
+								</td>
+								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
+							</tr>
+						</table>
 					</div>
 					</form>
 	

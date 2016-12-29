@@ -17,14 +17,14 @@
 <%@ include file="../main/bgIndexTop.jsp"%>
 	<script type="text/javascript">
 		//刷新ztree
-		function parentReload(){
-			if(null != '${msg}' && '' != '${msg}' && 'change' == '${msg}'){
+		function parentReload(msg){
+			if(null != msg && '' != msg && 'change' == msg){
 				parent.location.href="<%=basePath%>background/menu/main.do";
 			}else{
 				//什么也不干
 			}
 		}
-		parentReload();
+		parentReload('${msg}');
 	</script>
 </head>
 <body class="no-skin">
@@ -122,17 +122,6 @@
 								</table>
 							</div>
 							
-							
-							<%-- <div>
-								&nbsp;&nbsp;
-								<c:if test="${RIGHTS.add}">
-									<a class="btn btn-sm btn-success" onclick="toAdd('${menuId}');">新增</a>
-								</c:if>
-								<c:if test="${null != pd.menuId && pd.menuId != '0' && pd.menuId != ''}">
-									<a class="btn btn-sm btn-success" onclick="toSubMenu('${pd.parentId}');">返回</a>
-								</c:if>
-							</div> --%>
-							
 						</div>
 						<!-- /.col -->
 					</div>
@@ -188,7 +177,8 @@
 						 top.jzts();
 						 setTimeout("self.location=self.location",100);
 					 }else{
-						 nextPage('${bgPage.currentPage}');
+						 parentReload('change');
+						 //nextPage('${bgPage.currentPage}');
 					 }
 				}
 				diag.close();
@@ -197,17 +187,18 @@
 		}
 		
 		//修改
-		function toEdit(userId){
+		function toEdit(menuId){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="修改";
-			 diag.URL = '<%=basePath%>background/menu/toEdit.do?menuId='+userId;
+			 diag.URL = '<%=basePath%>background/menu/toEdit.do?menuId='+menuId;
 			 diag.Width = 469;
 			 diag.Height = 510;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					nextPage('${bgPage.currentPage}');
+					 parentReload('change');
+					// nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
 			 };
@@ -222,7 +213,8 @@
 					top.jzts();
 					$.get(url,function(data){
 						if("success" == data.result){
-							nextPage('${bgPage.currentPage}');
+							parentReload('change');
+							//nextPage('${bgPage.currentPage}');
 						}else if("false" == data.result){
 							top.hangge();
 							bootbox.dialog({

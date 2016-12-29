@@ -173,6 +173,10 @@
 			<include refid="roleColumns"/>
 		from 
 			bgRole
+		where 1=1 
+		<if test="pd.roleId != null and pd.roleId != ''"><!-- 角色检索 -->
+			and parentId = #{pd.roleId }
+		</if>
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->
