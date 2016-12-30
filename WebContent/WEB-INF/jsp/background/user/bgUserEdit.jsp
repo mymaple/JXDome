@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -28,6 +29,7 @@
 						<div class="col-xs-12">
 								<form action="background/user/${msg }.do" name="userForm" id="userForm" method="post">
 									<input type="hidden" name="userId" id="userId" value="${pd.userId }"/>
+									<input type="hidden" name="msg" id="msg" value="${msg }"/>
 									<div id="zhongxin" style="padding-top: 13px;">
 									<table id="table_report" class="table table-striped table-bordered table-hover">
 										<c:if test="${fx != 'head'}">
@@ -48,7 +50,9 @@
 										</c:if>
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">用户名:</td>
-											<td><input type="text" name="userCode" id="userCode" value="${pd.userCode }" maxlength="32" placeholder="这里输入用户名" title="用户名" onblur="hasLoginName(this)" style="width:98%;"/></td>
+											<td><input type="text" name="userCode" id="userCode" value="${pd.userCode }" maxlength="32" placeholder="这里输入用户名" title="用户名" onblur="hasLoginName(this)" style="width:98%;"/>
+												<form:errors path="userCode"></form:errors>
+											</td>
 										</tr>
 										<tr>
 											<td style="width:79px;text-align: right;padding-top: 13px;">编号:</td>
@@ -117,6 +121,14 @@
 			$("#userCode").attr("readonly","readonly");
 			$("#userCode").css("color","gray");
 		}
+		/* alert("asdasd");
+		alert('${errors.fieldErrorCount}'); */
+		if(Number('${errors.fieldErrorCount}') > 0){
+			$.each('${errors.fieldErrors}',function(key,error){
+				alert(error.code+"-----------"+error.arguments+"---------"+error.defaultMessage);
+			})
+		}
+		
 	});
 	//保存
 	function save(){

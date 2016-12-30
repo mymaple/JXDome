@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgMapleDetailMapper">
+
+	<sql id="mapleDetailAddColumns">mapleDetailCode,mapleDetailName,mapleDetailType,length,decimalLength,isEdit,isNull,defaultValue,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleDetailColumns">mapleDetailId,mapleDetailCode,mapleDetailName,mapleDetailType,length,decimalLength,isEdit,isNull,defaultValue,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	
+	<resultMap type="bgMapleDetail" id="mapleDetailResultMap">
+		<id column="mapleDetailId" property="mapleDetailId"/>
+		<result column="mapleDetailCode" property="mapleDetailCode"/>
+		<result column="mapleDetailName" property="mapleDetailName"/>
+		<result column="mapleDetailType" property="mapleDetailType"/>
+		<result column="length" property="length"/>
+		<result column="decimalLength" property="decimalLength"/>
+		<result column="isEdit" property="isEdit"/>
+		<result column="isNull" property="isNull"/>
+		<result column="defaultValue" property="defaultValue"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="status" property="status"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="mapleDetailId" parameterType="bgMapleDetail">
+		insert into bgMapleDetail ( 
+			<include refid="mapleDetailAddColumns"/>
+		) values (
+			#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{length},#{decimalLength},#{isEdit},#{isNull},#{defaultValue},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 新增 -->
+	<insert id="addByPd" useGeneratedKeys="true" keyProperty="mapleDetailId" parameterType="pd">
+		insert into bgMapleDetail ( 
+			<include refid="mapleDetailAddColumns"/>
+		) values (
+			#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{length},#{decimalLength},#{isEdit},#{isNull},#{defaultValue},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="bgMapleDetail">
+		update  bgMapleDetail
+			set 
+				mapleDetailCode = #{mapleDetailCode},
+				mapleDetailName = #{mapleDetailName},
+				mapleDetailType = #{mapleDetailType},
+				length = #{length},
+				decimalLength = #{decimalLength},
+				isEdit = #{isEdit},
+				isNull = #{isNull},
+				defaultValue = #{defaultValue},
+				orderNum = #{orderNum},
+				status = #{status},
+				effective = #{effective},
+				createUserId = #{createUserId},
+				createTime = #{createTime},
+				modifyUserId = #{modifyUserId},
+				modifyTime = #{modifyTime}
+			where 
+				mapleDetailId = #{mapleDetailId}
+	</update>
+	
+	<!-- 修改 -->
+	<update id="editByPd" parameterType="pd">
+		update  bgMapleDetail
+			set 
+				mapleDetailCode = #{mapleDetailCode},
+				mapleDetailName = #{mapleDetailName},
+				mapleDetailType = #{mapleDetailType},
+				length = #{length},
+				decimalLength = #{decimalLength},
+				isEdit = #{isEdit},
+				isNull = #{isNull},
+				defaultValue = #{defaultValue},
+				orderNum = #{orderNum},
+				status = #{status},
+				effective = #{effective},
+				createUserId = #{createUserId},
+				createTime = #{createTime},
+				modifyUserId = #{modifyUserId},
+				modifyTime = #{modifyTime}
+			where 
+				mapleDetailId = #{mapleDetailId}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="int">
+		delete from bgMapleDetail 
+		where 
+			mapleDetailId = #{mapleDetailId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from bgMapleDetail 
+		where 
+			mapleDetailId = #{mapleDetailId}
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from comTable 
+		where 
+			tableId in (#{ids})
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="int" resultType="bgMapleDetail">
+		select 
+			<include refid="mapleDetailColumns"/>
+		from 
+			bgMapleDetail
+		where 
+			mapleDetailId = #{mapleDetailId}
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="findPdById" parameterType="int" resultType="pd">
+		select 
+			<include refid="mapleDetailColumns"/>
+		from 
+			bgMapleDetail
+		where 
+			mapleDetailId = #{mapleDetailId}
+	</select>
+	
+	<!-- 通过pd获取(PageData)数据  -->
+	<select id="findPdByPd" parameterType="pd" resultType="pd">
+		select 
+			<include refid="mapleDetailColumns"/>
+		from 
+			bgMapleDetail
+		where 
+			mapleDetailId = #{mapleDetailId}
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAllByPd" parameterType="pd" resultMap="mapleDetailResultMap">
+		select 
+			<include refid="mapleDetailColumns"/>
+		from 
+			bgMapleDetail
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+		select 
+			<include refid="mapleDetailColumns"/>
+		from 
+			bgMapleDetail
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

@@ -1,6 +1,94 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for bgMapleDetail
+-- ----------------------------
+DROP TABLE IF EXISTS `bgMapleDetail`;
+CREATE TABLE `bgMapleDetail` (
+ 	`mapleDetailId` int(11) NOT NULL AUTO_INCREMENT COMMENT '代码生成详细id',
+	`mapleDetailCode` varchar(50)
+		 DEFAULT NULL  COMMENT '属性代号' ,	
+	`mapleDetailName` varchar(50)
+		 DEFAULT NULL  COMMENT '属性名称' ,	
+	`mapleDetailType` varchar(50)
+		 DEFAULT NULL  COMMENT '属性类型' ,	
+	`length` varchar(50)
+		 DEFAULT NULL  COMMENT '长度' ,	
+	`decimalLength` varchar(50)
+		 DEFAULT NULL  COMMENT '小数长度' ,	
+	`isEdit` varchar(50)
+		 DEFAULT NULL  COMMENT '是否录入' ,	
+	`isNull` varchar(50)
+		 DEFAULT NULL  COMMENT '是否null' ,	
+	`defaultValue` varchar(50)
+		 DEFAULT NULL  COMMENT '默认值' ,	
+	`orderNum` varchar(50)
+		 DEFAULT NULL  COMMENT '排序编号' ,	
+	`status` varchar(10)
+		 DEFAULT NULL  COMMENT '状态标识' ,	
+	`effective` varchar(10)
+		 DEFAULT NULL  COMMENT '有效标识' ,	
+	`createUserId` varchar(50)
+		 DEFAULT NULL  COMMENT '创建人员id' ,	
+	`createTime` datetime
+		 DEFAULT NULL  COMMENT '创建时间' ,	
+	`modifyUserId` varchar(50)
+		 DEFAULT NULL  COMMENT '修改人员id' ,	
+	`modifyTime` datetime
+		 DEFAULT NULL  COMMENT '修改时间' ,	
+  
+  PRIMARY KEY (`mapleDetailId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '代码生成详细';
+
+
+-- ----------------------------
+-- Table structure for bgMaple
+-- ----------------------------
+DROP TABLE IF EXISTS `bgMaple`;
+CREATE TABLE `bgMaple` (
+ 	`mapleId` int(11) NOT NULL AUTO_INCREMENT COMMENT '代码生成id',
+	`mapleCode` varchar(50)
+		 DEFAULT NULL  COMMENT '代号' ,	
+	`mapleName` varchar(50)
+		 DEFAULT NULL  COMMENT '名称' ,	
+	`mapleType` varchar(50)
+		 DEFAULT NULL  COMMENT '类型' ,	
+	`controllerPackage` varchar(50)
+		 DEFAULT NULL  COMMENT '控制器包代号' ,	
+	`entityPackage` varchar(50)
+		 DEFAULT NULL  COMMENT '实体类包代号' ,	
+	`mapleControllerUpper` varchar(150)
+		 DEFAULT NULL  COMMENT '控制器中的代号（大写）' ,	
+	`mapleControllerLower` varchar(150)
+		 DEFAULT NULL  COMMENT '控制器中的代号（小写）' ,	
+	`mapleEntityUpper` varchar(150)
+		 DEFAULT NULL  COMMENT '实体类中的代号（大写）' ,	
+	`mapleEntityLower` varchar(150)
+		 DEFAULT NULL  COMMENT '实体类中的代号（小写）' ,	
+	`tableCode` varchar(150)
+		 DEFAULT NULL  COMMENT '数据表代号' ,	
+	`orderNum` varchar(50)
+		 DEFAULT NULL  COMMENT '排序编号' ,	
+	`status` varchar(10)
+		 DEFAULT NULL  COMMENT '状态标识' ,	
+	`effective` varchar(10)
+		 DEFAULT NULL  COMMENT '有效标识' ,	
+	`createUserId` varchar(50)
+		 DEFAULT NULL  COMMENT '新增人员' ,	
+	`createTime` datetime
+		 DEFAULT NULL  COMMENT '新增时间' ,	
+	`modifyUserId` varchar(50)
+		 DEFAULT NULL  COMMENT '修改人员id' ,	
+	`modifyTime` datetime
+		 DEFAULT NULL  COMMENT '修改时间' ,	
+  
+  PRIMARY KEY (`mapleId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '代码生成';
+
 -- ----------------------------
 -- Table structure for bgUser
 -- ----------------------------

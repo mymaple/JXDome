@@ -213,6 +213,11 @@ public class Tools {
 
 	public static void main(String[] args) {
 		System.out.println(getRandomNum());
+		
+		String ss= ".do";
+		ss = ss.split(".do")[0].split("\\?")[0];
+		System.out.println(ss);
+		
 	}
 
 }
