@@ -1,7 +1,3 @@
-
-SET FOREIGN_KEY_CHECKS=0;
-
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -26,6 +22,8 @@ CREATE TABLE `bgMapleDetail` (
 		 DEFAULT NULL  COMMENT '是否null' ,	
 	`defaultValue` varchar(50)
 		 DEFAULT NULL  COMMENT '默认值' ,	
+	`mapleId` varchar(50)
+		 DEFAULT NULL  COMMENT '代码生成id' ,	
 	`orderNum` varchar(50)
 		 DEFAULT NULL  COMMENT '排序编号' ,	
 	`status` varchar(10)
@@ -43,6 +41,23 @@ CREATE TABLE `bgMapleDetail` (
   
   PRIMARY KEY (`mapleDetailId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '代码生成详细';
+
+-- ----------------------------
+-- Records of bgmapledetail
+-- ----------------------------
+INSERT INTO `bgmapledetail` VALUES ('2', 'userCode', '用户代号', '01', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('3', 'userName', '用户名称', '01', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('4', 'userType', '用户类型', '00', '50', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('5', 'userNum', '用户编号', '01', '50', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('6', 'userRights', '用户权限', '01', '255', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('7', 'userIconSrc', '用户头像路径', '01', '255', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('8', 'password', '密码', '01', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('9', 'roleId', '角色编号', '01', '100', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('10', 'lastLoginTime', '上次登录时间', '03', '', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('11', 'lastLoginIp', '上次登录Ip', '01', '100', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('12', 'email', '电子邮箱', '01', '100', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('13', 'phone', '电话号码', '01', '11', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('14', 'remarks', '备注信息', '01', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
 
 
 -- ----------------------------
@@ -88,6 +103,11 @@ CREATE TABLE `bgMaple` (
   
   PRIMARY KEY (`mapleId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '代码生成';
+
+-- ----------------------------
+-- Records of bgmaple
+-- ----------------------------
+INSERT INTO `bgmaple` VALUES ('3', 'user', '用户', '01', 'background', 'background', 'BgUser', 'bgUser', 'BgUser', 'bgUser', '', '', '', '', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
 
 -- ----------------------------
 -- Table structure for bgUser

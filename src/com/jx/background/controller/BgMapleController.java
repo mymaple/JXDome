@@ -1,6 +1,7 @@
 package com.jx.background.controller;
 
-import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,41 +9,55 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
-import com.jx.background.service.BgMapleService;
-import com.jx.background.util.BgSessionUtil;
+import com.jx.background.entity.BgMaple;
+import com.jx.background.entity.BgRights;
+import com.jx.background.entity.BgUser.Add;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.PageData;
+import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleStringUtil;
+import com.jx.common.util.ObjectExcelView;
+import com.jx.background.service.BgMapleService;
+import com.jx.background.util.BgSessionUtil;
 
+/** 
+ * 类名称：BgMapleController
+ * 创建人：maple
+ * 创建时间：2016-12-30
+ */
 @Controller
 @RequestMapping(value="/background/maple")
 public class BgMapleController extends BaseController {
 	
-	/**
-	 * 后台 菜单标记名称(权限用)
-	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "background/maple";
 	@Resource(name="bgMapleService")
 	private BgMapleService bgMapleService;
 	
-	/**列表
-	 * @param page
-	 * @return
+	
+	/**
+	 * 列表
 	 */
 	@RequestMapping(value="/list")
-	public ModelAndView list(BgPage bgPage) throws Exception{
+	public ModelAndView list(BgPage bgPage){
+		logBefore(logger, "列表bgMaple");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		pd = this.getPageData();
 		try{
+			pd = this.getPageData();
+			bgPage.setPd(pd);
 			String keywords = pd.getString("keywords");	//检索条件
 			if(null != keywords && !"".equals(keywords)){
 				keywords = keywords.trim();
@@ -52,9 +67,10 @@ public class BgMapleController extends BaseController {
 			List<PageData> bgMapleList = bgMapleService.listPage(bgPage);	//列出CreateCode列表
 			mv.addObject("bgMapleList", bgMapleList);
 			mv.addObject("pd", pd);
-			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());	//按钮权限
+			BgRights bgRights = BgSessionUtil.getSessionBgRights();
+			mv.addObject("RIGHTS", bgRights);	//按钮权限
 			
-			mv.setViewName("background/bgMaple/bgMapleList");
+			mv.setViewName("background/maple/bgMapleList");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -85,24 +101,26 @@ public class BgMapleController extends BaseController {
 	 * 新增
 	 */
 	@RequestMapping(value="/add")
-	public ModelAndView add() throws Exception{
+	public ModelAndView add(@Valid BgMaple bgMaple, BindingResult result) throws Exception{
 		logBefore(logger, "新增bgMaple");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		
-		try{
-			bgMapleService.addByPd(pd); //保存菜单
-			mv.addObject("msg","success");
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-			mv.addObject("msg","failed");
-		}
+		String mapleCodeUpper = MapleStringUtil.firstToUpper(bgMaple.getMapleCode());
+		bgMaple.setMapleControllerLower("bg"+mapleCodeUpper);
+		bgMaple.setMapleControllerUpper("Bg"+mapleCodeUpper);
+		bgMaple.setMapleEntityLower("bg"+mapleCodeUpper);
+		bgMaple.setMapleEntityUpper("Bg"+mapleCodeUpper);
+		
+
+		bgMapleService.add(bgMaple);
+		
+		mv.addObject("msg","success");
 		
 		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
-	
 	
 	/**
 	 * 去修改页面
@@ -114,10 +132,7 @@ public class BgMapleController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			int mapleId = Integer.parseInt(pd.get("mapleId").toString());
 			pd = bgMapleService.findPdByPd(pd);	//根据ID读取
-			
-			mv.addObject("mapleId", mapleId);
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
 			
@@ -137,191 +152,51 @@ public class BgMapleController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		try{
-			bgMapleService.editByPd(pd);
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-			mv.addObject("msg","failed");
-		}
-		
+		bgMapleService.editByPd(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	
-	
-	
-	/**去代码生成器页面(进入弹窗)
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/toDetail")
-	public ModelAndView goProductCode() throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		String CREATECODE_ID = pd.getString("CREATECODE_ID");
-		if(!"add".equals(CREATECODE_ID)){
-			pd = bgMapleService.findById(pd);
-			mv.addObject("pd", pd);
-			mv.addObject("msg", "edit");
-			
-		}else{
-			mv.addObject("msg", "add");
-		}
-		List<PageData> varList = bgMapleService.listFa(); //列出所有主表结构的
-		mv.addObject("varList", varList);
-		mv.setViewName("system/bgMaple/productCode");
-		return mv;
-	}
-	
-	/**生成代码
-	 * @param response
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/proCode")
-	public void proCode(HttpServletResponse response) throws Exception{
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){} 		//校验权限
-		logBefore(logger, Jurisdiction.getUsername()+"执行代码生成器");
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		save(pd);	//保存到数据库
-		/* ============================================================================================= */
-		String faobject = pd.getString("faobject");  				//主表名				========参数0-1 主附结构用
-		String FHTYPE = pd.getString("FHTYPE");  					//模块类型			========参数0-2 类型，单表、树形结构、主表明细表
-		String TITLE = pd.getString("TITLE");  						//说明				========参数0
-		String packageName = pd.getString("packageName");  			//包名				========参数1
-		String objectName = pd.getString("objectName");	   			//类名				========参数2
-		String tabletop = pd.getString("tabletop");	   				//表前缀				========参数3
-		tabletop = null == tabletop?"":tabletop.toUpperCase();		//表前缀转大写
-		String zindext = pd.getString("zindex");	   	   			//属性总数
-		int zindex = 0;
-		if(null != zindext && !"".equals(zindext)){
-			zindex = Integer.parseInt(zindext);
-		}
-		List<String[]> fieldList = new ArrayList<String[]>();   	//属性集合			========参数4
-		for(int i=0; i< zindex; i++){
-			fieldList.add(pd.getString("field"+i).split(",fh,"));	//属性放到集合里面
-		}
-		Map<String,Object> root = new HashMap<String,Object>();		//创建数据模型
-		root.put("fieldList", fieldList);
-		root.put("faobject", faobject.toUpperCase());				//主附结构用，主表名
-		root.put("TITLE", TITLE);									//说明
-		root.put("packageName", packageName);						//包名
-		root.put("objectName", objectName);							//类名
-		root.put("objectNameLower", objectName.toLowerCase());		//类名(全小写)
-		root.put("objectNameUpper", objectName.toUpperCase());		//类名(全大写)
-		root.put("tabletop", tabletop);								//表前缀	
-		root.put("nowDate", new Date());							//当前日期
-		
-		DelAllFile.delFolder(PathUtil.getClasspath()+"admin/ftl"); //生成代码前,先清空之前生成的代码
-		/* ============================================================================================= */
-		String filePath = "admin/ftl/code/";						//存放路径
-		String ftlPath = "bgMaple";								//ftl路径
-		if("tree".equals(FHTYPE)){
-			ftlPath = "createTreeCode";
-			/*生成实体类*/
-			Freemarker.printFile("entityTemplate.ftl", root, "entity/"+packageName+"/"+objectName+".java", filePath, ftlPath);
-			/*生成jsp_tree页面*/
-			Freemarker.printFile("jsp_tree_Template.ftl", root, "jsp/"+packageName+"/"+objectName.toLowerCase()+"/"+objectName.toLowerCase()+"_tree.jsp", filePath, ftlPath);
-		}else if("fathertable".equals(FHTYPE)){
-			ftlPath = "createFaCode";	//主表
-		}else if("sontable".equals(FHTYPE)){
-			ftlPath = "createSoCode";	//明细表
-		}
-		/*生成controller*/
-		Freemarker.printFile("controllerTemplate.ftl", root, "controller/"+packageName+"/"+objectName.toLowerCase()+"/"+objectName+"Controller.java", filePath, ftlPath);
-		/*生成service*/
-		Freemarker.printFile("serviceTemplate.ftl", root, "service/"+packageName+"/"+objectName.toLowerCase()+"/impl/"+objectName+"Service.java", filePath, ftlPath);
-		/*生成manager*/
-		Freemarker.printFile("managerTemplate.ftl", root, "service/"+packageName+"/"+objectName.toLowerCase()+"/"+objectName+"Manager.java", filePath, ftlPath);
-		/*生成mybatis xml*/
-		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis_mysql/"+packageName+"/"+objectName+"Mapper.xml", filePath, ftlPath);
-		Freemarker.printFile("mapperOracleTemplate.ftl", root, "mybatis_oracle/"+packageName+"/"+objectName+"Mapper.xml", filePath, ftlPath);
-		Freemarker.printFile("mapperSqlserverTemplate.ftl", root, "mybatis_sqlserver/"+packageName+"/"+objectName+"Mapper.xml", filePath, ftlPath);
-		/*生成SQL脚本*/
-		Freemarker.printFile("mysql_SQL_Template.ftl", root, "mysql数据库脚本/"+tabletop+objectName.toUpperCase()+".sql", filePath, ftlPath);
-		Freemarker.printFile("oracle_SQL_Template.ftl", root, "oracle数据库脚本/"+tabletop+objectName.toUpperCase()+".sql", filePath, ftlPath);
-		Freemarker.printFile("sqlserver_SQL_Template.ftl", root, "sqlserver数据库脚本/"+tabletop+objectName.toUpperCase()+".sql", filePath, ftlPath);
-		/*生成jsp页面*/
-		Freemarker.printFile("jsp_list_Template.ftl", root, "jsp/"+packageName+"/"+objectName.toLowerCase()+"/"+objectName.toLowerCase()+"_list.jsp", filePath, ftlPath);
-		Freemarker.printFile("jsp_edit_Template.ftl", root, "jsp/"+packageName+"/"+objectName.toLowerCase()+"/"+objectName.toLowerCase()+"_edit.jsp", filePath, ftlPath);
-		/*生成说明文档*/
-		Freemarker.printFile("docTemplate.ftl", root, "部署说明.doc", filePath, ftlPath);
-		//this.print("oracle_SQL_Template.ftl", root);  控制台打印
-		/*生成的全部代码压缩成zip文件*/
-		if(FileZip.zip(PathUtil.getClasspath()+"admin/ftl/code", PathUtil.getClasspath()+"admin/ftl/code.zip")){
-			/*下载代码*/
-			FileDownload.fileDownload(response, PathUtil.getClasspath()+"admin/ftl/code.zip", "code.zip");
-		}
-	}
-	
-	/**保存到数据库
-	 * @throws Exception
-	 */
-	public void save(PageData pd) throws Exception{
-		pd.put("PACKAGENAME", pd.getString("packageName"));	//包名
-		pd.put("OBJECTNAME", pd.getString("objectName"));	//类名
-		pd.put("TABLENAME", pd.getString("tabletop")+",fh,"+pd.getString("objectName").toUpperCase());	//表名
-		pd.put("FIELDLIST", pd.getString("FIELDLIST"));		//属性集合
-		pd.put("CREATETIME", DateUtil.getTime());			//创建时间
-		pd.put("TITLE", pd.getString("TITLE"));				//说明
-		pd.put("CREATECODE_ID", this.get32UUID());			//主键
-		bgMapleService.save(pd);
-	}
-	
 	/**
-	 * 通过ID获取数据
+	 * 删除
 	 */
-	@RequestMapping(value="/findById")
+	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object findById() throws Exception {
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
+	public Object toDelete(@RequestParam String mapleId)throws Exception{
+		logBefore(logger, "删除bgUser");
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		Map<String,Object> map = new HashMap<String,Object>();
-		try {
-			pd = bgMapleService.findById(pd);
-		} catch (Exception e) {
+		
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "";
+		try{
+			bgMapleService.deleteByPd(pd);
+			errInfo = "success";
+		} catch(Exception e){
 			logger.error(e.toString(), e);
-		} finally {
-			logAfter(logger);
+			errInfo = "false";
 		}
-		map.put("pd", pd);
-		return AppUtil.returnObject(pd, map);
+		map.put("result", errInfo);
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
-	/**删除
-	 * @param out
-	 */
-	@RequestMapping(value="/delete")
-	public void delete(PrintWriter out) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"删除CreateCode");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		bgMapleService.delete(pd);
-		out.write("success");
-		out.close();
-	}
 	
 	/**
 	 * 批量删除
 	 */
-	@RequestMapping(value="/deleteAll")
+	@RequestMapping(value="/batchDelete")
 	@ResponseBody
-	public Object deleteAll() throws Exception {
-		logBefore(logger, Jurisdiction.getUsername()+"批量删除CreateCode");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
+	public Object batchDelete() {
+		logBefore(logger, "批量删除bgMaple");
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			pd = this.getPageData();
 			List<PageData> pdList = new ArrayList<PageData>();
-			String DATA_IDS = pd.getString("DATA_IDS");
-			if(null != DATA_IDS && !"".equals(DATA_IDS)){
-				String ArrayDATA_IDS[] = DATA_IDS.split(",");
-				bgMapleService.deleteAll(ArrayDATA_IDS);
+			String mapleIds = pd.getString("mapleIds");
+			if(null != mapleIds && !"".equals(mapleIds)){
+				bgMapleService.batchDeleteByIds(mapleIds);
 				pd.put("msg", "ok");
 			}else{
 				pd.put("msg", "no");
@@ -336,5 +211,75 @@ public class BgMapleController extends BaseController {
 		return AppUtil.returnObject(pd, map);
 	}
 	
+	/*
+	 * 导出到excel
+	 * @return
+	 */
+	@RequestMapping(value="/excel")
+	public ModelAndView exportExcel(){
+		logBefore(logger, "导出bgMaple到excel");
+		ModelAndView mv = new ModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try{
+			Map<String,Object> dataMap = new HashMap<String,Object>();
+			List<String> titles = new ArrayList<String>();
+			titles.add("代码生成 主键id");   //1
+			titles.add("代号");	//0+2
+			titles.add("名称");	//1+2
+			titles.add("类型");	//2+2
+			titles.add("控制器包代号");	//3+2
+			titles.add("实体类包代号");	//4+2
+			titles.add("控制器中的代号（大写）");	//5+2
+			titles.add("控制器中的代号（小写）");	//6+2
+			titles.add("实体类中的代号（大写）");	//7+2
+			titles.add("实体类中的代号（小写）");	//8+2
+			titles.add("数据表代号");	//9+2
+			titles.add("排序编号");	//10+2
+			titles.add("状态标识");	//11+2
+			titles.add("有效标识");	//12+2
+			titles.add("新增人员");	//13+2
+			titles.add("新增时间");	//14+2
+			titles.add("修改人员id");	//15+2
+			titles.add("修改时间");	//16+2
+			dataMap.put("titles", titles);
+			List<BgMaple> varOList = bgMapleService.listAllByPd(pd);
+			List<PageData> varList = new ArrayList<PageData>();
+			for(int i=0;i<varOList.size();i++){
+				PageData vpd = new PageData();
+				
+				vpd.put("var1",varOList.get(i).getMapleId());
+				vpd.put("var2", varOList.get(i).getMapleCode());	//2
+				vpd.put("var3", varOList.get(i).getMapleName());	//3
+				vpd.put("var4", varOList.get(i).getMapleType());	//4
+				vpd.put("var5", varOList.get(i).getControllerPackage());	//5
+				vpd.put("var6", varOList.get(i).getEntityPackage());	//6
+				vpd.put("var7", varOList.get(i).getMapleControllerUpper());	//7
+				vpd.put("var8", varOList.get(i).getMapleControllerLower());	//8
+				vpd.put("var9", varOList.get(i).getMapleEntityUpper());	//9
+				vpd.put("var10", varOList.get(i).getMapleEntityLower());	//10
+				vpd.put("var11", varOList.get(i).getTableCode());	//11
+				vpd.put("var12", varOList.get(i).getOrderNum());	//12
+				vpd.put("var13", varOList.get(i).getStatus());	//13
+				vpd.put("var14", varOList.get(i).getEffective());	//14
+				vpd.put("var15", varOList.get(i).getCreateUserId());	//15
+				vpd.put("var16", varOList.get(i).getCreateTime());	//16
+				vpd.put("var17", varOList.get(i).getModifyUserId());	//17
+				vpd.put("var18", varOList.get(i).getModifyTime());	//18
+				varList.add(vpd);
+			}
+			dataMap.put("varList", varList);
+			ObjectExcelView erv = new ObjectExcelView();
+			mv = new ModelAndView(erv,dataMap);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return mv;
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder){
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
+	}
 }
-//FHQ 3 1 3 5 9 6 7 9 0

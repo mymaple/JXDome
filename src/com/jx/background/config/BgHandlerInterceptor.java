@@ -42,7 +42,7 @@ public class BgHandlerInterceptor extends HandlerInterceptorAdapter {
 						}else{
 							return true;
 						}
-						boolean b = JudgeRightsUtil.hasRights(pathArr[1]+"/"+pathArr[2], type);
+						boolean b = JudgeRightsUtil.hasRights(pathArr[1]+"/"+pathArr[2].split("Detail")[0], type);
 						if (!b) {
 							response.sendRedirect(request.getContextPath() + Const.PATH_BG_LOGIN_STR);
 						}

@@ -50,6 +50,9 @@ public class BgMapleDetail implements Serializable {
 		
 	/** 默认值 */
 	private String defaultValue;
+	
+	/** 默认值 */
+	private String mapleId;
 		
 	/** 排序编号 */
 	private String orderNum;
@@ -234,6 +237,24 @@ public class BgMapleDetail implements Serializable {
 	 */
 	public String getDefaultValue() {
 		return this.defaultValue;
+	}
+	
+	/**
+	 * 设置 默认值
+	 * 
+	 * @param String mapleId
+	 */
+	public void setMapleId(String mapleId) {
+		this.mapleId = MapleStringUtil.trim(mapleId);
+	}
+	
+	/**
+	 * 获取 默认值
+	 * 
+	 * @return String mapleId
+	 */
+	public String getMapleId() {
+		return this.mapleId;
 	}
 	
 	/**

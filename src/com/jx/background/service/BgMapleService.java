@@ -135,8 +135,8 @@ public class BgMapleService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PageData> listAllPd(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("BgMapleMapper.listAllPd", bgPage);
+	public List<PageData> listPage(BgPage bgPage) throws Exception {
+		return (List<PageData>) dao.findForList("BgMapleMapper.listPage", bgPage);
 	}
 	
 	/****************************common * end***********************************/

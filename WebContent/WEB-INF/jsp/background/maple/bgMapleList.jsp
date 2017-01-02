@@ -30,7 +30,7 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="background/createCode/list.do" method="post" name="createCodeFrom" id="createCodeFrom">
+						<form action="background/maple/list.do" method="post" name="createCodeFrom" id="createCodeFrom">
 						<table style="margin-top:5px;width:100%">
 							<tr>
 								<td style="width:10%">
@@ -58,7 +58,7 @@
 									<th class="center">名称</th>
 									<th class="center">类型</th>
 									<th class="center">控制包名</th>
-									<th class="center">类包名</th>
+									<th class="center">实体类包名</th>
 									<th class="center">上次修改时间</th>
 									<th class="center">操作</th>
 								</tr>
@@ -67,75 +67,42 @@
 							<tbody>
 							<!-- 开始循环 -->	
 							<c:choose>
-								<c:when test="${not empty varList}">
-									<c:if test="${QX.cha == 1 }">
-									<c:forEach items="${varList}" var="var" varStatus="vs">
+								<c:when test="${not empty bgMapleList}">
+									<c:if test="${RIGHTS.sele }">
+									<c:forEach items="${bgMapleList}" var="bgMaple" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.CREATECODE_ID}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${bgMaple.mapleId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-													<td class="center">${var.TITLE}</td>
-													<td class="center">${var.PACKAGENAME}</td>
-													<td class="center">${var.OBJECTNAME}</td>
-													<td class="center">${fn:replace(var.TABLENAME, ',fh,', '')}</td>
-													<td class="center">
-														${var.FHTYPE == "single"?"单表":""}
-														${var.FHTYPE == "tree"?"树形":""}
-														${var.FHTYPE == "fathertable"?"主表":""}
-														${var.FHTYPE == "sontable"?"明细表":""}
-													</td>
-													<td class="center">${var.CREATETIME}</td>
+											<td class="center">${bgMaple.mapleCode}</td>
+											<td class="center"><a onclick="toMapleDetail('${bgMaple.mapleId}')" style="cursor:pointer;">${bgMaple.mapleName}</a></td>
+											<td class="center">${bgMaple.mapleType}</td>
+											<td class="center">${bgMaple.controllerPackage}</td>
+											<td class="center">${bgMaple.entityPackage}</td>
+											<td class="center">${bgMaple.modifyTime}</td>
 											<td class="center">
-												<c:if test="${QX.edit != 1 && QX.del != 1 }">
+												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
-													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="productCode('${var.CREATECODE_ID}');">
+													<c:if test="${RIGHTS.edit }">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${bgMaple.mapleId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
-													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.CREATECODE_ID}');">
+													<c:if test="${RIGHTS.del }">
+													<a class="btn btn-xs btn-danger" onclick="toDelete('${bgMaple.mapleId}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
-												</div>
-												<div class="hidden-md hidden-lg">
-													<div class="inline pos-rel">
-														<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-															<i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-														</button>
-			
-														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-															<c:if test="${QX.edit == 1 }">
-															<li>
-																<a style="cursor:pointer;" onclick="productCode('${var.CREATECODE_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
-																	<span class="green">
-																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																	</span>
-																</a>
-															</li>
-															</c:if>
-															<c:if test="${QX.del == 1 }">
-															<li>
-																<a style="cursor:pointer;" onclick="del('${var.CREATECODE_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
-																	<span class="red">
-																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																	</span>
-																</a>
-															</li>
-															</c:if>
-														</ul>
-													</div>
 												</div>
 											</td>
 										</tr>
 									
 									</c:forEach>
 									</c:if>
-									<c:if test="${QX.cha == 0 }">
+									<c:if test="${RIGHTS.sele}">
 										<tr>
 											<td colspan="100" class="center">您无权查看</td>
 										</tr>
@@ -153,14 +120,14 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<c:if test="${QX.add == 1 }">
-									<a class="btn btn-mini btn-success" onclick="productCode('add');">启动生成器</a>
+									<c:if test="${RIGHTS.add }">
+									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
-									<c:if test="${QX.del == 1 }">
+									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
 								</td>
-								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
+								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
 							</tr>
 						</table>
 						</div>
@@ -214,25 +181,37 @@
 			});
 		});
 		
-		//启动代码生成器
-		function productCode(CREATECODE_ID){
+		//删除
+		function toDelete(mapleId,msg){
+			bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/maple/toDelete.do?mapleId="+mapleId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if("success" == data.result){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				};
+			});
+		}
+
+		//新增
+		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="代码生成器";
-			 diag.URL = '<%=basePath%>createCode/goProductCode.do?CREATECODE_ID='+CREATECODE_ID;
-			 diag.Width = 800;
-			 diag.Height = 500;
-			 diag.Modal = true;				//有无遮罩窗口
-			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮
+			 diag.Title ="新增";
+			 diag.URL = '<%=basePath%>background/maple/toAdd.do';
+			 diag.Width = 469;
+			 diag.Height = 510;
 			 diag.CancelEvent = function(){ //关闭事件
-				if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					if('${page.currentPage}' == '0'){
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 if('${bgPage.currentPage}' == '0'){
 						 top.jzts();
 						 setTimeout("self.location=self.location",100);
 					 }else{
-						 nextPage("${page.currentPage}");
+						 nextPage('${bgPage.currentPage}');
 					 }
 				}
 				diag.close();
@@ -240,17 +219,30 @@
 			 diag.show();
 		}
 		
-		//删除
-		function del(Id){
-			bootbox.confirm("确定要删除吗?", function(result) {
-				if(result) {
-					top.jzts();
-					var url = "<%=basePath%>createCode/delete.do?CREATECODE_ID="+Id+"&tm="+new Date().getTime();
-					$.get(url,function(data){
-						nextPage(${page.currentPage});
-					});
+		//启动代码生成器
+		function toEdit(mapleId){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="代码生成器";
+			 diag.URL = '<%=basePath%>background/maple/toEdit.do?mapleId='+mapleId;
+			 diag.Width = 800;
+			 diag.Height = 500;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag.ShowMaxButton = true;		//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
+			 diag.CancelEvent = function(){ //关闭事件
+				if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					if('${bgPage.currentPage}' == '0'){
+						 top.jzts();
+						 setTimeout("self.location=self.location",100);
+					 }else{
+						 nextPage('${bgPage.currentPage}');
+					 }
 				}
-			});
+				diag.close();
+			 };
+			 diag.show();
 		}
 		
 		//批量操作
@@ -282,14 +274,14 @@
 							top.jzts();
 							$.ajax({
 								type:"POST",
-								url:'<%=basePath%>createCode/deleteAll.do?tm='+new Date().getTime(),
+								url:'<%=basePath%>background/maple/deleteAll.do?tm='+new Date().getTime(),
 						    	data:{DATA_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,
 								cache:false,
 								success:function(data){
 									 $.each(data.list, function(i, list){
-											nextPage(${page.currentPage});
+											nextPage('${bgPage.currentPage}');
 									 });
 								}
 							});
@@ -298,6 +290,14 @@
 				}
 			});
 		};
+		
+		function toMapleDetail(mapleId){
+			top.jzts();
+			window.location.href="<%=basePath%>background/mapleDetail/list.do?mapleId="+mapleId;
+		}
+		
+		
+		
 	</script>
 
 
