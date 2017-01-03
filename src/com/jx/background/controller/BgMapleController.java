@@ -112,27 +112,48 @@ public class BgMapleController extends BaseController {
 		
 		String mapleCode = bgMaple.getMapleCode();
 		String mapleCodeUpper = MapleStringUtil.firstToUpper(mapleCode);
+		String mapleName= bgMaple.getMapleName();
+		String mapleType = bgMaple.getMapleType();
 		bgMaple.setMapleCodeUpper(mapleCodeUpper);
 		bgMaple.setMapleControllerLower("bg"+mapleCodeUpper);
 		bgMaple.setMapleControllerUpper("Bg"+mapleCodeUpper);
-		bgMaple.setMapleEntityLower("bg"+mapleCodeUpper);
-		bgMaple.setMapleEntityUpper("Bg"+mapleCodeUpper);
-		String mapleId = String.valueOf(bgMapleService.add(bgMaple));
+		bgMaple.setMapleEntityLower("com"+mapleCodeUpper);
+		bgMaple.setMapleEntityUpper("Com"+mapleCodeUpper);
+		bgMapleService.add(bgMaple);
+		String mapleId = String.valueOf(bgMaple.getMapleId());
 		
+		
+		pd.put("mapleId", "00000");
 		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.listAllByPd(pd);
 		for(int i=0;i<bgMapleDetailList.size();i++){
 			BgMapleDetail bgMapleDetail = bgMapleDetailList.get(i);
-			if("01".equals(mapleCode)&&"01".equals(bgMapleDetail.getMapleDetailCode())){
-				bgMapleDetail.setMapleDetailCode(mapleCode + bgMapleDetail.getMapleDetailCodeUpper());
-			}
 			bgMapleDetail.setMapleId(mapleId);
-			bgMapleDetailService.add(bgMapleDetail);
+			if("id".equals(bgMapleDetail.getMapleDetailCode())){
+				bgMapleDetail.setMapleDetailCode(mapleCode + bgMapleDetail.getMapleDetailCodeUpper());
+				bgMapleDetail.setMapleDetailCodeUpper(mapleCodeUpper + bgMapleDetail.getMapleDetailCodeUpper());
+				bgMapleDetail.setMapleDetailName(mapleName+bgMapleDetail.getMapleDetailName());
+				bgMapleDetailService.add(bgMapleDetail);
+			}else if(!"00".equals(mapleType)){ 
+				if("code".equals(bgMapleDetail.getMapleDetailCode()) 
+					|| "name".equals(bgMapleDetail.getMapleDetailCode())
+					|| "type".equals(bgMapleDetail.getMapleDetailCode())
+					|| "status".equals(bgMapleDetail.getMapleDetailCode())){
+					bgMapleDetail.setMapleDetailCode(mapleCode + bgMapleDetail.getMapleDetailCodeUpper());
+					bgMapleDetail.setMapleDetailCodeUpper(mapleCodeUpper + bgMapleDetail.getMapleDetailCodeUpper());
+					bgMapleDetail.setMapleDetailName(mapleName+bgMapleDetail.getMapleDetailName());
+					bgMapleDetailService.add(bgMapleDetail);
+				}else if("parentId".equals(bgMapleDetail.getMapleDetailCode())){
+					if("02".equals(mapleType)){
+						bgMapleDetailService.add(bgMapleDetail);
+					}
+				}else{
+					bgMapleDetailService.add(bgMapleDetail);
+				}
+			}
+			
 		}
 		
-		
-		
 		mv.addObject("msg","success");
-		
 		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}

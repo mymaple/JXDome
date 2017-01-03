@@ -61,6 +61,10 @@
 									<td><input type="text" name="isNull" id="isNull" value="${pd.isNull }" maxlength="32" placeholder="这里输入菜单链接" title="菜单链接" style="width:98%;"/></td>
 								</tr>
 								<tr>
+									<td style="width:79px;text-align: right;padding-top: 13px;">是否key :</td>
+									<td><input type="text" name="isKey" id="isKey" value="${pd.isKey }" maxlength="32" placeholder="这里输入菜单链接" title="菜单链接" style="width:98%;"/></td>
+								</tr>
+								<tr>
 									<td style="width:79px;text-align: right;padding-top: 13px;">默认值 :</td>
 									<td><input type="text" name="defaultValue" id="defaultValue" value="${pd.defaultValue }" maxlength="32" placeholder="这里输入菜单链接" title="菜单链接" style="width:98%;"/></td>
 								</tr>

@@ -126,7 +126,7 @@ public class BgMapleDetailService {
 	 * @throws Exception
 	 */
 	public List<BgMapleDetail> listAllByPd(PageData pd) throws Exception {
-		return (List<BgMapleDetail>) dao.findForList("BgMapleDetailMapper.listAllByPd", null);
+		return (List<BgMapleDetail>) dao.findForList("BgMapleDetailMapper.listAllByPd", pd);
 	}
 	
 	/**

@@ -79,6 +79,7 @@
 									<th class="center">属性长度</th>
 									<th class="center">是否录入</th>
 									<th class="center">是否null</th>
+									<th class="center">是否key</th>
 									<th class="center">默认值</th>
 									<th class="center">上次修改时间</th>
 									<th class="center">操作</th>
@@ -102,6 +103,7 @@
 											<td class="center">${bgMapleDetail.length}</td>
 											<td class="center">${bgMapleDetail.isEdit}</td>
 											<td class="center">${bgMapleDetail.isNull}</td>
+											<td class="center">${bgMapleDetail.isKey}</td>
 											<td class="center">${bgMapleDetail.defaultValue}</td>
 											<td class="center">${bgMapleDetail.modifyTime}</td>
 											<td class="center">

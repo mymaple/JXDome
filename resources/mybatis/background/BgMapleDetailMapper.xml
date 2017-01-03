@@ -3,8 +3,8 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMapleDetailMapper">
 
-	<sql id="mapleDetailAddColumns">mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailCodeUpper,length,decimalLength,isEdit,isNull,defaultValue,mapleId,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="mapleDetailColumns">mapleDetailId,mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailCodeUpper,length,decimalLength,isEdit,isNull,defaultValue,mapleId,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleDetailAddColumns">mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailCodeUpper,length,decimalLength,isEdit,isNull,isKey,defaultValue,mapleId,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleDetailColumns">mapleDetailId,mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailCodeUpper,length,decimalLength,isEdit,isNull,isKey,defaultValue,mapleId,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	
 	<resultMap type="bgMapleDetail" id="mapleDetailResultMap">
 		<id column="mapleDetailId" property="mapleDetailId"/>
@@ -16,6 +16,7 @@
 		<result column="decimalLength" property="decimalLength"/>
 		<result column="isEdit" property="isEdit"/>
 		<result column="isNull" property="isNull"/>
+		<result column="isKey" property="isKey"/>
 		<result column="defaultValue" property="defaultValue"/>
 		<result column="mapleId" property="mapleId"/>
 		<result column="orderNum" property="orderNum"/>
@@ -40,7 +41,7 @@
 		insert into bgMapleDetail ( 
 			<include refid="mapleDetailAddColumns"/>
 		) values (
-			#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailCodeUpper},#{length},#{decimalLength},#{isEdit},#{isNull},#{defaultValue},#{mapleId},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailCodeUpper},#{length},#{decimalLength},#{isEdit},#{isNull},#{isKey},#{defaultValue},#{mapleId},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -49,7 +50,7 @@
 		insert into bgMapleDetail ( 
 			<include refid="mapleDetailAddColumns"/>
 		) values (
-			#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailCodeUpper},#{length},#{decimalLength},#{isEdit},#{isNull},#{defaultValue},#{mapleId},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailCodeUpper},#{length},#{decimalLength},#{isEdit},#{isNull},#{isKey},#{defaultValue},#{mapleId},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -65,6 +66,7 @@
 				decimalLength = #{decimalLength},
 				isEdit = #{isEdit},
 				isNull = #{isNull},
+				isKey = #{isKey},
 				defaultValue = #{defaultValue},
 				mapleId = #{mapleId},
 				orderNum = #{orderNum},
@@ -90,6 +92,7 @@
 				decimalLength = #{decimalLength},
 				isEdit = #{isEdit},
 				isNull = #{isNull},
+				isKey = #{isKey},
 				defaultValue = #{defaultValue},
 				mapleId = #{mapleId},
 				orderNum = #{orderNum},
@@ -160,6 +163,11 @@
 			<include refid="mapleDetailColumns"/>
 		from 
 			bgMapleDetail
+		where 1=1 
+		<if test="mapleId != null and mapleId != ''"><!-- 角色检索 -->
+			and mapleId = #{mapleId}
+		</if>
+		order by orderNum
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -172,6 +180,7 @@
 		<if test="pd.mapleId != null and pd.mapleId != ''"><!-- 角色检索 -->
 			and mapleId = #{pd.mapleId}
 		</if>
+		order by orderNum
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

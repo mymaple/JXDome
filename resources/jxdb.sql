@@ -22,6 +22,8 @@ CREATE TABLE `bgMapleDetail` (
 		 DEFAULT NULL  COMMENT '是否录入' ,	
 	`isNull` varchar(50)
 		 DEFAULT NULL  COMMENT '是否null' ,	
+	`iskey` varchar(50)
+		 DEFAULT NULL  COMMENT '是否null' ,
 	`defaultValue` varchar(50)
 		 DEFAULT NULL  COMMENT '默认值' ,	
 	`mapleId` varchar(50)
@@ -42,25 +44,50 @@ CREATE TABLE `bgMapleDetail` (
 		 DEFAULT NULL  COMMENT '修改时间' ,	
   
   PRIMARY KEY (`mapleDetailId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '代码生成详细';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT = '代码生成详细';
 
 -- ----------------------------
 -- Records of bgmapledetail
 -- ----------------------------
-INSERT INTO `bgmapledetail` VALUES ('2', 'userCode', '用户代号', '01', 'UserCode', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('3', 'userName', '用户名称', '01', 'UserName', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('4', 'userType', '用户类型', '01', 'UserType', '50', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('5', 'userNum', '用户编号', '01', 'UserNum', '50', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('6', 'userRights', '用户权限', '01', 'UserRights', '255', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('7', 'userIconSrc', '用户头像路径', '01','UserIconSrc', '255', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('8', 'password', '密码', '01', 'Password', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('9', 'roleId', '角色编号', '01', 'RoleId', '100', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('10', 'lastLoginTime', '上次登录时间', '03', 'LastLoginTime', '', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('11', 'lastLoginIp', '上次登录Ip', '01', 'LastLoginIp', '100', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('12', 'email', '电子邮箱', '01', 'Email', '100', '', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('13', 'phone', '电话号码', '01', 'Phone', '11', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('14', 'remarks', '备注信息', '01', 'Remarks', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-
+INSERT INTO `bgmapledetail` VALUES ('2', 'userCode', '用户代号', '01', 'UserCode', '255', '', '01', '01', '00', '', '3', '00001', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('3', 'userName', '用户名称', '01', 'UserName', '255', '', '01', '01', '00', '', '3', '00002', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('4', 'userType', '用户类型', '01', 'UserType', '50', '', '00', '01', '00', '', '3', '00003', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('5', 'userNum', '用户编号', '01', 'UserNum', '50', '', '01', '01', '00', '', '3', '00004', '', null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('6', 'userRights', '用户权限', '01', 'UserRights', '255', '', '00', '01', '00', '', '3', '00005', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('7', 'userIconSrc', '用户头像路径', '01', 'UserIconSrc', '255', '', '00', '01', '00', '', '3', '00006', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('8', 'password', '密码', '01', 'Password', '255', '', '01', '01', '00', '', '3', '00007', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('9', 'roleId', '角色编号', '01', 'RoleId', '100', '', '01', '01', '00', '', '3', '00008', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('10', 'lastLoginTime', '上次登录时间', '03', 'LastLoginTime', '', '', '00', '01', '00', '', '3', '00009', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('11', 'lastLoginIp', '上次登录Ip', '01', 'LastLoginIp', '100', '', '00', '01', '00', '', '3', '00011', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('12', 'email', '电子邮箱', '01', 'Email', '100', '', '01', '01', '00', '', '3', '00012', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('13', 'phone', '电话号码', '01', 'Phone', '11', '', '01', '01', '00', '', '3', '00013', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('14', 'remarks', '备注信息', '01', 'Remarks', '255', '', '01', '01', '00', '', '3', '00014', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('15', 'id', '主键id', '01', 'Id', '100', '', '00', '00', '01', '', '00000', '00015', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('16', 'code', '代号', '01', 'Code', '100', '', '01', '01', '00', '', '00000', '00016', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('17', 'name', '名称', '01', 'Name', '100', '', '01', '01', '00', '', '00000', '00017', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('18', 'type', '类型', '01', 'Type', '100', '', '01', '01', '00', '', '00000', '00018', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('19', 'status', '状态', '01', 'Status', '100', '', '00', '01', '00', '00', '00000', '00019', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('20', 'effective', '有效性', '01', 'Effective', '100', '', '00', '01', '00', '01', '00000', '00021', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('21', 'createUserId', '创建人员id', '01', 'CreateUserId', '100', '', '00', '01', '00', '', '00000', '00022', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('22', 'createTime', '创建时间', '03', 'CreateTime', '', '', '00', '01', '00', '', '00000', '00023', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('23', 'modifyUserId', '修改人员id', '01', 'ModifyUserId', '100', '', '00', '01', '00', '', '00000', '00024', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('24', 'modifyTime', '修改时间', '03', 'ModifyTime', '', '', '00', '01', '00', '', '00000', '00025', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('25', 'parentId', '上级id', '01', 'ParentId', '100', '', '00', '00', '01', '', '00000', '00026', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('26', 'orderNum', '排序编号', '01', 'OrderNum', '100', '', '00', '01', '00', '', '00000', '000209', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('62', 'dictId', '数据字典主键id', '01', 'DictId', '100', '', '00', '00', '01', '', '10', '00015', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('63', 'dictCode', '数据字典代号', '01', 'DictCode', '100', '', '01', '01', '00', '', '10', '00016', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('64', 'dictName', '数据字典名称', '01', 'DictName', '100', '', '01', '01', '00', '', '10', '00017', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('65', 'dictType', '数据字典类型', '01', 'DictType', '100', '', '01', '01', '00', '', '10', '00018', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('66', 'dictStatus', '数据字典状态', '01', 'DictStatus', '100', '', '00', '01', '00', '00', '10', '00019', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('67', 'effective', '有效性', '01', 'Effective', '100', '', '00', '01', '00', '01', '10', '00021', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('68', 'createUserId', '创建人员id', '01', 'CreateUserId', '100', '', '00', '01', '00', '', '10', '00022', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('69', 'createTime', '创建时间', '03', 'CreateTime', '', '', '00', '01', '00', '', '10', '00023', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('70', 'modifyUserId', '修改人员id', '01', 'ModifyUserId', '100', '', '00', '01', '00', '', '10', '00024', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('71', 'modifyTime', '修改时间', '03', 'ModifyTime', '', '', '00', '01', '00', '', '10', '00025', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('72', 'parentId', '上级id', '01', 'ParentId', '100', '', '00', '00', '01', '', '10', '00020', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmapledetail` VALUES ('73', 'dictValue', '数据字典值', '01', 'DictValue', '100', '', '01', '01', '00', '', '10', '000191', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('74', 'level', '级别', '02', 'Level', '10', '', '00', '01', '00', '', '10', '000192', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('78', 'orderNum', '排序编号', '01', 'OrderNum', '100', '', '00', '01', '00', '', '10', '000209', '00', '01', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for bgMaple
@@ -106,12 +133,13 @@ CREATE TABLE `bgMaple` (
 		 DEFAULT NULL  COMMENT '修改时间' ,	
   
   PRIMARY KEY (`mapleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '代码生成';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT = '代码生成';
 
 -- ----------------------------
 -- Records of bgmaple
 -- ----------------------------
 INSERT INTO `bgmaple` VALUES ('3', 'user', '用户', '01', 'User', 'background', 'background', 'BgUser', 'bgUser', 'BgUser', 'bgUser', '', '', '', '', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmaple` VALUES ('10', 'dict', '数据字典', '02', 'Dict', 'background', 'common', 'BgDict', 'bgDict', 'ComDict', 'comDict', '', '', '', '', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
 
 -- ----------------------------
 -- Table structure for bgUser

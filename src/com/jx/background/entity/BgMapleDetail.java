@@ -38,6 +38,8 @@ public class BgMapleDetail implements Serializable {
 	
 	/** 属性代号(大写) */
 	private String mapleDetailCodeUpper;
+	
+	private String mapleDetailComment;
 		
 	/** 长度 */
 	private String length;
@@ -50,6 +52,9 @@ public class BgMapleDetail implements Serializable {
 		
 	/** 是否null */
 	private String isNull;
+	
+	/** 是否主键 */
+	private String isKey;
 		
 	/** 默认值 */
 	private String defaultValue;
@@ -80,6 +85,22 @@ public class BgMapleDetail implements Serializable {
 		
 	
 	
+	public String getMapleDetailComment() {
+		return mapleDetailComment;
+	}
+
+	public void setMapleDetailComment(String mapleDetailComment) {
+		this.mapleDetailComment = mapleDetailComment;
+	}
+
+	public String getIsKey() {
+		return isKey;
+	}
+
+	public void setIsKey(String isKey) {
+		this.isKey = isKey;
+	}
+
 	public String getMapleDetailCodeUpper() {
 		return mapleDetailCodeUpper;
 	}

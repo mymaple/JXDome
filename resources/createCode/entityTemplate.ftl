@@ -24,9 +24,6 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	/**************************table prop satrt*********************************/
 	
-	/** ${bgMaple.mapleName} 主键id */
-	private String ${bgMaple.mapleCode}Id;
-	
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
 		<#if bgMapleDetail.mapleDetailType == '01'>
@@ -40,45 +37,6 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 		</#if>
 		
 	</#list>
-	
-	/** 排序编号 */
-	private String orderNum;
-		
-	/** 状态标识 00 初始状态 */
-	private String ${bgMaple.mapleCode}Status;
-		
-	/** 有效标识  00 无效;01 有效*/
-	private String effective;
-		
-	/** 创建人员id */
-	private String createUserId;
-		
-	/** 创建时间 */
-	private Date createTime;
-		
-	/** 修改人员id */
-	private String modifyUserId;
-		
-	/** 修改时间 */
-	private Date modifyTime;
-	
-	/**
-	 * 设置 ${bgMaple.mapleName} 主键id
-	 * 
-	 * @param String ${bgMaple.mapleCode}Id
-	 */
-	public void set${bgMaple.mapleCodeUpper}Id(String ${bgMaple.mapleCode}Id) {
-		this.${bgMaple.mapleCode}Id = ${bgMaple.mapleCode}Id;
-	}
-	
-	/**
-	 * 获取 ${bgMaple.mapleName} 主键id
-	 * 
-	 * @return String ${bgMaple.mapleCode}Id
-	 */
-	public String get${bgMaple.mapleCodeUpper}Id() {
-		return this.${bgMaple.mapleCode}Id;
-	}
 	
 	<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailType == '01'>
@@ -183,169 +141,13 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	</#list>
 	
-		/**
-	 * 设置 排序编号
-	 * 
-	 * @param String orderNum
-	 */
-	public void setOrderNum(String orderNum) {
-		this.orderNum = MapleStringUtil.trim(orderNum);
-	}
-	
-	/**
-	 * 获取 排序编号
-	 * 
-	 * @return String orderNum
-	 */
-	public String getOrderNum() {
-		return this.orderNum;
-	}
-	
-	/**
-	 * 设置 状态标识 00 初始状态
-	 * 
-	 * @param String ${bgMaple.mapleCode}Status
-	 */
-	public void set${bgMaple.mapleCodeUpper}Status(String ${bgMaple.mapleCode}Status) {
-		this.${bgMaple.mapleCode}Status = MapleStringUtil.trim(${bgMaple.mapleCode}Status);
-	}
-	
-	/**
-	 * 获取 状态标识 00 初始状态
-	 * 
-	 * @return String ${bgMaple.mapleCode}Status
-	 */
-	public String get${bgMaple.mapleCodeUpper}Status() {
-		return this.${bgMaple.mapleCode}Status;
-	}
-	
-	/**
-	 * 设置 有效标识 00 无效;01 有效
-	 * 
-	 * @param String effective
-	 */
-	public void setEffective(String effective) {
-		this.effective = MapleStringUtil.trim(effective);
-	}
-	
-	/**
-	 * 获取 有效标识 00 无效;01 有效
-	 * 
-	 * @return String effective
-	 */
-	public String getEffective() {
-		return this.effective;
-	}
-	
-	/**
-	 * 设置 创建人员id
-	 * 
-	 * @param String createUserId
-	 */
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = MapleStringUtil.trim(createUserId);
-	}
-	
-	/**
-	 * 获取 创建人员id
-	 * 
-	 * @return String createUserId
-	 */
-	public String getCreateUserId() {
-		return this.createUserId;
-	}
-	
-	/**
-	 * 设置 创建时间
-	 * 
-	 * @param Date createTime
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	
-	/**
-	 * 获取 创建时间
-	 * 
-	 * @return Date createTime
-	 */
-	public Date getCreateTime() {
-		return this.createTime;
-	}	
-		
-	public void setCreateTimeStr(String createTimeStr) throws Exception{
-		createTimeStr = MapleStringUtil.trim(createTimeStr);
-		if(!createTimeStr.equals("")){
-			try{
-				setCreateTime(MapleDateUtil.parseDate(createTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
 
-	public String getCreateTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getCreateTime());
-	}	
-	
-	/**
-	 * 设置 修改人员id
-	 * 
-	 * @param String modifyUserId
-	 */
-	public void setModifyUserId(String modifyUserId) {
-		this.modifyUserId = MapleStringUtil.trim(modifyUserId);
-	}
-	
-	/**
-	 * 获取 修改人员id
-	 * 
-	 * @return String modifyUserId
-	 */
-	public String getModifyUserId() {
-		return this.modifyUserId;
-	}
-	
-	/**
-	 * 设置 修改时间
-	 * 
-	 * @param Date modifyTime
-	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
-	
-	/**
-	 * 获取 修改时间
-	 * 
-	 * @return Date modifyTime
-	 */
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}	
-		
-	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
-		if(!modifyTimeStr.equals("")){
-			try{
-				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getModifyTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getModifyTime());
-	}
-	
 	
 	public ${bgMaple.mapleEntityUpper}(){
 		init();
 	}
 	
 	public void init() {
-		set${bgMaple.mapleCodeUpper}Id("");
 	
 	<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailType == '01'>
@@ -363,20 +165,6 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 		</#if>
 	</#list>
 	
-		set${bgMaple.mapleCodeUpper}Status("");
-		setEffective("");
-		setCreateUserId("");
-		try {
-			setCreateTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		setModifyUserId("");
-		try {
-			setModifyTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	/**************************table prop  end  *********************************/
 }

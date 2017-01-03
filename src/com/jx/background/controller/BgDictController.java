@@ -1,4 +1,4 @@
-package com.jx.${bgMaple.controllerPackage}.controller;
+package com.jx.background.controller;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -22,34 +22,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.${bgMaple.controllerPackage}.config.BgPage;
+import com.jx.background.config.BgPage;
 import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
-import com.jx.common.entity.${bgMaple.mapleEntityUpper};
+import com.jx.common.entity.ComDict;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
-import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper}Service;
+import com.jx.common.service.ComDictService;
 
 /** 
- * 类名称：${bgMaple.mapleControllerUpper}Controller
+ * 类名称：BgDictController
  * 创建人：maple
- * 创建时间：${nowDate?string("yyyy-MM-dd")}
+ * 创建时间：2017-01-04
  */
 @Controller
-@RequestMapping(value="/${bgMaple.controllerPackage}/${bgMaple.mapleCode}")
-public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
+@RequestMapping(value="/background/dict")
+public class BgDictController extends BaseController {
 	
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}/${bgMaple.mapleCode}";
+	public static final String RIGHTS_BG_MENUCODE_STR = "background/dict";
 	
-	@Resource(name="${bgMaple.mapleEntityLower}Service")
-	private ${bgMaple.mapleEntityUpper}Service ${bgMaple.mapleEntityLower}Service;
+	@Resource(name="comDictService")
+	private ComDictService comDictService;
 	
 	
 	/**
@@ -57,22 +57,22 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(BgPage bgPage) throws Exception{
-		logBefore(logger, "列表${bgMaple.mapleEntityLower}");
+		logBefore(logger, "列表comDict");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
 			bgPage.setPd(pd);
-			List<PageData>	${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.listPage(bgPage);	//列出${bgMaple.mapleEntityLower}列表
+			List<PageData>	comDictList = comDictService.listPage(bgPage);	//列出comDict列表
 			
-			mv.addObject("${bgMaple.mapleEntityLower}List", ${bgMaple.mapleEntityLower}List);
+			mv.addObject("comDictList", comDictList);
 			mv.addObject("pd", pd);
 			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());	//按钮权限
 			
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}List");
+		mv.setViewName("background/dict/bgDictList");
 		return mv;
 	}
 	
@@ -81,7 +81,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/toAdd")
 	public ModelAndView toAdd() throws Exception{
-		logBefore(logger, "去新增${bgMaple.mapleEntityLower}页面");
+		logBefore(logger, "去新增comDict页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
@@ -92,7 +92,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}						
-		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
+		mv.setViewName("background/dict/bgDictEdit");
 		return mv;
 	}	
 	
@@ -100,8 +100,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * 新增
 	 */
 	@RequestMapping(value="/add")
-	public ModelAndView add(@Valid ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
-		logBefore(logger, "新增${bgMaple.mapleEntityLower}");
+	public ModelAndView add(@Valid ComDict comDict, BindingResult result) throws Exception{
+		logBefore(logger, "新增comDict");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		
@@ -110,35 +110,17 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			Date nowTime = new Date();
 			
 			if(result.hasErrors()) {
-				mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
+				mv.setViewName("background/dict/bgDictEdit");
 	            return mv;  
 	        }
 			
-			
-			<#list bgMapleDetailList as bgMapleDetail>
-				<#if bgMapleDetail.mapleDetailType == '01'>
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}();
-				<#elseif bgMapleDetail.mapleDetailType == '02'>
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}();
-				<#elseif bgMapleDetail.mapleDetailType == '03'>
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}();
-				<#elseif bgMapleDetail.mapleDetailType == '04'>
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}();
-				</#if>
-				
-			</#list>
-			
-			
-			
-			
-			
-			${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
+			comDictService.add(comDict);
 			mv.addObject("msg","success");
 		} catch (Exception e) {
 			mv.addObject("msg","false");
 			logger.error(e.toString(), e);
 		}
-		mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	
@@ -147,19 +129,19 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/toEdit")
 	public ModelAndView toEdit() throws Exception{
-		logBefore(logger, "去修改${bgMaple.mapleEntityLower}页面");
+		logBefore(logger, "去修改comDict页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = ${bgMaple.mapleEntityLower}Service.findById(pd);	//根据ID读取
+			ComDict comDict = comDictService.findById(pd);	//根据ID读取
 			mv.addObject("pathMsg", "edit");
-			mv.addObject("${bgMaple.mapleEntityLower}", ${bgMaple.mapleEntityLower});
+			mv.addObject("comDict", comDict);
 			
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}						
-		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
+		mv.setViewName("background/dict/bgDictEdit");
 		return mv;
 	}	
 	
@@ -167,8 +149,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * 修改
 	 */
 	@RequestMapping(value="/edit")
-	public ModelAndView edit(@Valid ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
-		logBefore(logger, "修改${bgMaple.mapleEntityLower}");
+	public ModelAndView edit(@Valid ComDict comDict, BindingResult result) throws Exception{
+		logBefore(logger, "修改comDict");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		
@@ -177,17 +159,17 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			Date nowTime = new Date();
 			
 			if(result.hasErrors()) {
-				mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
+				mv.setViewName("background/dict/bgDictEdit");
 	            return mv;  
 	        }
-			${bgMaple.mapleEntityLower}Service.edit(${bgMaple.mapleEntityLower});
+			comDictService.edit(comDict);
 			mv.addObject("msg","success");
 		} catch (Exception e) {
 			mv.addObject("msg","false");
 			logger.error(e.toString(), e);
 		}
 		
-		mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	
@@ -196,8 +178,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(@RequestParam String ${bgMaple.mapleCode}Id)throws Exception{
-		logBefore(logger, "删除${bgMaple.mapleEntityLower}");
+	public Object toDelete(@RequestParam String dictId)throws Exception{
+		logBefore(logger, "删除comDict");
 		
 		Map<String,String> map = new HashMap<String,String>();
 		String errInfo = "";
@@ -205,7 +187,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		
 		try{
 			pd = this.getPageData();
-			${bgMaple.mapleEntityLower}Service.deleteById(${bgMaple.mapleCode}Id);
+			comDictService.deleteById(dictId);
 			errInfo = "success";
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -221,14 +203,14 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	@RequestMapping(value="/toBatchDelete")
 	@ResponseBody
 	public Object toBatchDelete() {
-		logBefore(logger, "批量删除${bgMaple.mapleEntityLower}");
+		logBefore(logger, "批量删除comDict");
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			pd = this.getPageData();
-			String ${bgMaple.mapleCode}Ids = pd.getString("${bgMaple.mapleCode}Ids");
-			if(null != ${bgMaple.mapleCode}Ids && !"".equals(${bgMaple.mapleCode}Ids)){
-				${bgMaple.mapleEntityLower}Service.batchDeleteByIds(${bgMaple.mapleCode}Ids.split(","));
+			String dictIds = pd.getString("dictIds");
+			if(null != dictIds && !"".equals(dictIds)){
+				comDictService.batchDeleteByIds(dictIds.split(","));
 				pd.put("msg", "success");
 			}else{
 				pd.put("msg", "false");
@@ -246,27 +228,47 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel(){
-		logBefore(logger, "导出${bgMaple.mapleEntityLower}到excel");
+		logBefore(logger, "导出comDict到excel");
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("${bgMaple.mapleCode} 主键id");   	//1
-	<#list bgMapleDetailList as bgMapleDetail>
-			titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index+2}
-	</#list>
+			titles.add("dict 主键id");   	//1
+			titles.add("数据字典主键id");	//2
+			titles.add("数据字典代号");	//3
+			titles.add("数据字典名称");	//4
+			titles.add("数据字典类型");	//5
+			titles.add("数据字典状态");	//6
+			titles.add("数据字典值");	//7
+			titles.add("级别");	//8
+			titles.add("上级id");	//9
+			titles.add("有效性");	//10
+			titles.add("创建人员id");	//11
+			titles.add("创建时间");	//12
+			titles.add("修改人员id");	//13
+			titles.add("修改时间");	//14
 			dataMap.put("titles", titles);
-			List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.listByPd(pd);
+			List<ComDict> varOList = comDictService.listByPd(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var${1}",varOList.get(i).get${bgMaple.mapleCodeUpper}Id());		//1
-	<#list bgMapleDetailList as bgMapleDetail>
-				vpd.put("var${bgMapleDetail_index+2}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}));	//${bgMapleDetail_index+2}
-	</#list>
+				vpd.put("var1",varOList.get(i).getDictId());		//1
+				vpd.put("var2", varOList.get(i).getDictId);	//2
+				vpd.put("var3", varOList.get(i).getDictCode);	//3
+				vpd.put("var4", varOList.get(i).getDictName);	//4
+				vpd.put("var5", varOList.get(i).getDictType);	//5
+				vpd.put("var6", varOList.get(i).getDictStatus);	//6
+				vpd.put("var7", varOList.get(i).getDictValue);	//7
+				vpd.put("var8", varOList.get(i).getLevel);	//8
+				vpd.put("var9", varOList.get(i).getParentId);	//9
+				vpd.put("var10", varOList.get(i).getEffective);	//10
+				vpd.put("var11", varOList.get(i).getCreateUserId);	//11
+				vpd.put("var12", varOList.get(i).getCreateTime);	//12
+				vpd.put("var13", varOList.get(i).getModifyUserId);	//13
+				vpd.put("var14", varOList.get(i).getModifyTime);	//14
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -285,7 +287,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	@RequestMapping(value="/toUploadExcel")
 	public ModelAndView goUploadExcel()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		mv.addObject("pathObj","${bgMaple.mapleCode}");
+		mv.addObject("pathObj","dict");
 		mv.setViewName("background/bgUploadExcel");
 		return mv;
 	}
