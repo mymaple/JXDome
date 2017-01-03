@@ -35,6 +35,9 @@ public class BgMapleDetail implements Serializable {
 		
 	/** 属性类型 */
 	private String mapleDetailType;
+	
+	/** 属性代号(大写) */
+	private String mapleDetailCodeUpper;
 		
 	/** 长度 */
 	private String length;
@@ -77,6 +80,14 @@ public class BgMapleDetail implements Serializable {
 		
 	
 	
+	public String getMapleDetailCodeUpper() {
+		return mapleDetailCodeUpper;
+	}
+
+	public void setMapleDetailCodeUpper(String mapleDetailCodeUpper) {
+		this.mapleDetailCodeUpper = mapleDetailCodeUpper;
+	}
+
 	/**
 	 * 设置 代码生成详细 主键id
 	 * 

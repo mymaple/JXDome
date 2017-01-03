@@ -29,7 +29,10 @@ import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.Freemarker;
+import com.jx.common.util.MapleFileUtil;
+import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ObjectExcelView;
+import com.jx.common.util.PathUtil;
 import com.jx.background.service.BgMapleDetailService;
 import com.jx.background.service.BgMapleService;
 import com.jx.background.util.BgSessionUtil;
@@ -105,7 +108,7 @@ public class BgMapleDetailController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-
+		pd.put("mapleDetailCodeUpper", MapleStringUtil.firstToUpper(pd.getString("mapleDetailCode")));
 		bgMapleDetailService.addByPd(pd);
 		
 		mv.addObject("msg","success");
@@ -275,90 +278,46 @@ public class BgMapleDetailController extends BaseController {
 	/**
 	 * 生成代码
 	 */
-	@RequestMapping(value = "/codeCreate")
-	public void codeCreate(HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/toCreateCode")
+	public void toCreateCode(HttpServletResponse response)throws Exception{
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		
 		String mapleId = pd.getString("mapleId");
 		BgMaple bgMaple = bgMapleService.findById(Integer.parseInt(mapleId));
 		List<BgMapleDetail>	bgMapleDetailList = bgMapleDetailService.listAllByPd(pd);
-		
-
-		/* ============================================================================================= */
-		String controlModule = pd.getString("controlModule"); // 控制模块名 ========1
-		ComDict comDict = comDictService.findByAllEncode(controlModule);
-		String controlModuleNL = comDict.getName();
-		String controlModuleNU = StringUtil.firstToUpper(controlModuleNL);
-		String controlModuleEL = comDict.getEncode();
-		String controlModuleEU = StringUtil.firstToUpper(controlModuleEL);
-		
-		String objectModule = pd.getString("objectModule"); // 控制模块名 ========2
-		comDict = comDictService.findByAllEncode(objectModule);
-		String objectModuleNL = comDict.getName();
-		String objectModuleNU = StringUtil.firstToUpper(objectModuleNL);
-		String objectModuleEL = comDict.getEncode();
-		String objectModuleEU = StringUtil.firstToUpper(objectModuleEL);
-		
-		String objectNameL = StringUtil.firstToLower(pd.getString("objectName")); // 类名 ========3
-		String objectNameU = StringUtil.firstToUpper(objectNameL);
-		
-		String tableName = pd.getString("tableName"); // 表中文名 ========4
-		
-		String fieldCountStr = pd.getString("fieldCount"); // 属性总数
-		int fieldCount = 0;
-		if (null != fieldCountStr && !"".equals(fieldCountStr)) {
-			fieldCount = Integer.parseInt(fieldCountStr);
-		}
-		List<String[]> fieldList = new ArrayList<String[]>(); // 属性集合 ========5
-		for (int i = 0; i < fieldCount; i++) {
-			String[] field = pd.getString("field" + i).split(",maple,");
-			field[0] = StringUtil.firstToLower(field[0]);
-			String[] fieldAdd = {StringUtil.firstToUpper(field[0])};
-			fieldList.add((String[])ArrayUtils.addAll(fieldAdd, field)); // 属性放到集合里面
-		}
 
 		Map<String, Object> root = new HashMap<String, Object>(); // 创建数据模型
 		
-		root.put("controlModuleNL", controlModuleNL); // background
-		root.put("controlModuleNU", controlModuleNU); // Background
-		root.put("controlModuleEL", controlModuleEL); // bg
-		root.put("controlModuleEU", controlModuleEU); // Bg
-		root.put("objectModuleNL", objectModuleNL); // comon
-		root.put("objectModuleNU", objectModuleNU); // Comon
-		root.put("objectModuleEL", objectModuleEL); // com
-		root.put("objectModuleEU", objectModuleEU); // 	Com
-		root.put("objectNameL", objectNameL); // user
-		root.put("objectNameU", objectNameU); // User
-		root.put("tableName", tableName); // User
+		root.put("bgMaple", bgMaple); // User
 		
-		root.put("fieldCount", fieldCount);
-		root.put("fieldList", fieldList);
+		root.put("fieldCount", bgMapleDetailList.size());
+		root.put("bgMapleDetailList", bgMapleDetailList);
 		
 		root.put("nowDate", new Date()); // 当前日期
 
-		DelAllFile.delFolder(PathUtil.getClasspath() + "admin/ftl"); // 生成代码前,先清空之前生成的代码
+		MapleFileUtil.delFolder(PathUtil.getClasspath() + "admin/ftl"); // 生成代码前,先清空之前生成的代码
 		/* ============================================================================================= */
 
 		String filePath = "admin/ftl/code/"; // 存放路径
 		String ftlPath = "createCode"; // ftl路径
 
-		/* 生成controller */
-		Freemarker.printFile("controllerTemplate.ftl", root, controlModuleNL + "/controller/" + controlModuleEU + objectNameU + "Controller.java", filePath, ftlPath);
-
+//		/* 生成controller */
+		Freemarker.printFile("controllerTemplate.ftl", root, bgMaple.getControllerPackage() + "/controller/" + bgMaple.getMapleControllerUpper() + "Controller.java", filePath, ftlPath);
+//
 		/* 生成service */
-		Freemarker.printFile("serviceTemplate.ftl", root, objectModuleNU + "/service/" + objectModuleEU  + objectNameU + "Service.java", filePath, ftlPath);
+//		Freemarker.printFile("serviceTemplate.ftl", root, bgMaple.getEntityPackage() + "/service/" + bgMaple.getMapleEntityUpper() + "Service.java", filePath, ftlPath);
 
 		/* 生成entity */
-		Freemarker.printFile("entityTemplate.ftl", root, objectModuleNU + "/entity/" + objectModuleEU  + objectNameU + ".java", filePath, ftlPath);
+		Freemarker.printFile("entityTemplate.ftl", root, bgMaple.getEntityPackage() + "/entity/" + bgMaple.getMapleEntityUpper() + ".java", filePath, ftlPath);
 		
-		/* 生成mybatis xml Mysql*/
-		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis/" + objectModuleNU + "/" + objectModuleEU  + objectNameU + "Mapper.xml", filePath, ftlPath);
-		/* 生成mybatis xml Oracle*/
-		//Freemarker.printFile("mapperOracleTemplate.ftl", root, "mybatis_oracle/" + packageName + "/" + objectName + "Mapper.xml", filePath, ftlPath);
-
-		/* 生成SQL脚本 Mysql*/
-		Freemarker.printFile("mysql_SQL_Template.ftl", root, "mysql数据库脚本/" + objectModuleEL + objectNameU + ".sql", filePath, ftlPath);
+//		/* 生成mybatis xml Mysql*/
+//		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis/" + bgMaple.getEntityPackage() + "/" + bgMaple.getMapleEntityUpper() + "Mapper.xml", filePath, ftlPath);
+//		/* 生成mybatis xml Oracle*/
+//		//Freemarker.printFile("mapperOracleTemplate.ftl", root, "mybatis_oracle/" + packageName + "/" + objectName + "Mapper.xml", filePath, ftlPath);
+//
+//		/* 生成SQL脚本 Mysql*/
+//		Freemarker.printFile("mysql_SQL_Template.ftl", root, "mysql数据库脚本/" + bgMaple.getMapleEntityUpper() + ".sql", filePath, ftlPath);
+//		
 		/* 生成SQL脚本 Oracle*/
 		//Freemarker.printFile("oracle_SQL_Template.ftl", root, "oracle数据库脚本/" + tabletop + objectName.toUpperCase() + ".sql", filePath, ftlPath);
 
@@ -372,11 +331,10 @@ public class BgMapleDetailController extends BaseController {
 		// this.print("oracle_SQL_Template.ftl", root); 控制台打印
 
 		/* 生成的全部代码压缩成zip文件 */
-		FileZip.zip(PathUtil.getClasspath() + "admin/ftl/code", PathUtil.getClasspath() + "admin/ftl/code.zip");
+		MapleFileUtil.zip(PathUtil.getClasspath() + "admin/ftl/code", PathUtil.getClasspath() + "admin/ftl/code.zip");
 
 		/* 下载代码 */
-		FileDownload.fileDownload(response, PathUtil.getClasspath() + "admin/ftl/code.zip", objectNameL+"Code.zip");
-
+		MapleFileUtil.fileDownload(response, PathUtil.getClasspath() + "admin/ftl/code.zip", bgMaple.getMapleCode()+"Code.zip");
 	}
 	
 }

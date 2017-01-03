@@ -35,6 +35,9 @@ public class BgMaple implements Serializable {
 		
 	/** 类型 */
 	private String mapleType;
+	
+	/** 代号 */
+	private String mapleCodeUpper;
 		
 	/** 控制器包代号 */
 	private String controllerPackage;
@@ -80,6 +83,14 @@ public class BgMaple implements Serializable {
 		
 	
 	
+	public String getMapleCodeUpper() {
+		return mapleCodeUpper;
+	}
+
+	public void setMapleCodeUpper(String mapleCodeUpper) {
+		this.mapleCodeUpper = mapleCodeUpper;
+	}
+
 	/**
 	 * 设置 代码生成 主键id
 	 * 

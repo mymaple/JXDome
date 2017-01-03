@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
 import com.jx.background.entity.BgMaple;
+import com.jx.background.entity.BgMapleDetail;
 import com.jx.background.entity.BgRights;
 import com.jx.background.entity.BgUser.Add;
 import com.jx.common.config.BaseController;
@@ -31,6 +32,7 @@ import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ObjectExcelView;
+import com.jx.background.service.BgMapleDetailService;
 import com.jx.background.service.BgMapleService;
 import com.jx.background.util.BgSessionUtil;
 
@@ -45,7 +47,8 @@ public class BgMapleController extends BaseController {
 	
 	@Resource(name="bgMapleService")
 	private BgMapleService bgMapleService;
-	
+	@Resource(name="bgMapleDetailService")
+	private BgMapleDetailService bgMapleDetailService;
 	
 	/**
 	 * 列表
@@ -107,14 +110,26 @@ public class BgMapleController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		
-		String mapleCodeUpper = MapleStringUtil.firstToUpper(bgMaple.getMapleCode());
+		String mapleCode = bgMaple.getMapleCode();
+		String mapleCodeUpper = MapleStringUtil.firstToUpper(mapleCode);
+		bgMaple.setMapleCodeUpper(mapleCodeUpper);
 		bgMaple.setMapleControllerLower("bg"+mapleCodeUpper);
 		bgMaple.setMapleControllerUpper("Bg"+mapleCodeUpper);
 		bgMaple.setMapleEntityLower("bg"+mapleCodeUpper);
 		bgMaple.setMapleEntityUpper("Bg"+mapleCodeUpper);
+		String mapleId = String.valueOf(bgMapleService.add(bgMaple));
 		
-
-		bgMapleService.add(bgMaple);
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.listAllByPd(pd);
+		for(int i=0;i<bgMapleDetailList.size();i++){
+			BgMapleDetail bgMapleDetail = bgMapleDetailList.get(i);
+			if("01".equals(mapleCode)&&"01".equals(bgMapleDetail.getMapleDetailCode())){
+				bgMapleDetail.setMapleDetailCode(mapleCode + bgMapleDetail.getMapleDetailCodeUpper());
+			}
+			bgMapleDetail.setMapleId(mapleId);
+			bgMapleDetailService.add(bgMapleDetail);
+		}
+		
+		
 		
 		mv.addObject("msg","success");
 		

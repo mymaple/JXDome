@@ -1,4 +1,4 @@
-package com.jx.${objectModuleNL}.service;
+package com.jx.${bgMaple.entityPackage}.service;
 
 import java.util.List;
 
@@ -6,13 +6,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.jx.${controlModuleNL}.config.${controlModuleEU}Page;
+import com.jx.${bgMaple.controllerPackage}.config.${controlModuleEU}Page;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
-import com.jx.${objectModuleNL}.entity.${objectModuleEU}${objectNameU};
+import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
 
-@Service("${objectModuleEL}${objectNameU}Service")
-public class ${objectModuleEU}${objectNameU}Service {
+@Service("${bgMaple.mapleEntityLower}Service")
+public class ${bgMaple.mapleEntityUpper}Service {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -27,12 +27,12 @@ public class ${objectModuleEU}${objectNameU}Service {
 	
 	/**
 	 * 新增 
-	 * @param ${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}
+	 * @param ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}
 	 * @return 主键 id
 	 * @throws Exception
 	 */
-	public int add(${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}) throws Exception {
-		return (int)dao.add("${objectModuleEU}${objectNameU}Mapper.add", ${objectModuleEL}${objectNameU});
+	public int add(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+		return (int)dao.add("${bgMaple.mapleEntityUpper}Mapper.add", ${bgMaple.mapleEntityLower});
 	}
 	
 	/**
@@ -42,16 +42,16 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @throws Exception
 	 */
 	public int addByPd(PageData pd) throws Exception {
-		return (int)dao.add("${objectModuleEU}${objectNameU}Mapper.addByPd", pd);
+		return (int)dao.add("${bgMaple.mapleEntityUpper}Mapper.addByPd", pd);
 	}
 	
 	/**
 	 * 修改 
-	 * @param ${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}
+	 * @param ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}
 	 * @throws Exception
 	 */
-	public void edit(${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}) throws Exception {
-		dao.edit("${objectModuleEU}${objectNameU}Mapper.edit", ${objectModuleEL}${objectNameU});
+	public void edit(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+		dao.edit("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @throws Exception
 	 */
 	public void editByPd(PageData pd) throws Exception {
-		dao.edit("${objectModuleEU}${objectNameU}Mapper.editByPd", pd);
+		dao.edit("${bgMaple.mapleEntityUpper}Mapper.editByPd", pd);
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @throws Exception
 	 */
 	public void deleteById(int id) throws Exception {
-		dao.delete("${objectModuleEU}${objectNameU}Mapper.deleteById", id);
+		dao.delete("${bgMaple.mapleEntityUpper}Mapper.deleteById", id);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @throws Exception
 	 */
 	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("${objectModuleEU}${objectNameU}Mapper.deleteByPd", pd);
+		dao.delete("${bgMaple.mapleEntityUpper}Mapper.deleteByPd", pd);
 	}
 	
 	/**
@@ -87,17 +87,17 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String ids) throws Exception {
-		dao.delete("${objectModuleEU}${objectNameU}Mapper.batchDeleteByIds", ids);
+		dao.delete("${bgMaple.mapleEntityUpper}Mapper.batchDeleteByIds", ids);
 	}
 
 	/**
 	 * 通过id获取(类)数据
 	 * @param int id
-	 * @return ${objectModuleEU}${objectNameU}
+	 * @return ${bgMaple.mapleEntityUpper}
 	 * @throws Exception
 	 */
-	public ${objectModuleEU}${objectNameU} findById(int id) throws Exception {
-		return (${objectModuleEU}${objectNameU}) dao.findForObject("${objectModuleEU}${objectNameU}Mapper.findById", id);
+	public ${bgMaple.mapleEntityUpper} findById(int id) throws Exception {
+		return (${bgMaple.mapleEntityUpper}) dao.findForObject("${bgMaple.mapleEntityUpper}Mapper.findById", id);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @throws Exception
 	 */
 	public PageData findPdById(int id) throws Exception {
-		return (PageData) dao.findForObject("${objectModuleEU}${objectNameU}Mapper.findPdById", id);
+		return (PageData) dao.findForObject("${bgMaple.mapleEntityUpper}Mapper.findPdById", id);
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @throws Exception
 	 */
 	public PageData findPdByPd(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("${objectModuleEU}${objectNameU}Mapper.findPdByPd", pd);
+		return (PageData) dao.findForObject("${bgMaple.mapleEntityUpper}Mapper.findPdByPd", pd);
 	}
 	
 	/**
@@ -125,8 +125,8 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${objectModuleEU}${objectNameU}> listAllByPd(PageData pd) throws Exception {
-		return (List<${objectModuleEU}${objectNameU}>) dao.findForList("${objectModuleEU}${objectNameU}Mapper.listAllByPd", null);
+	public List<${bgMaple.mapleEntityUpper}> listAllByPd(PageData pd) throws Exception {
+		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listAllByPd", null);
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @throws Exception
 	 */
 	public List<PageData> listAllPd(${controlModuleEU}Page ${controlModuleEL}Page) throws Exception {
-		return (List<PageData>) dao.findForList("${objectModuleEU}${objectNameU}Mapper.listAllPd", ${controlModuleEL}Page);
+		return (List<PageData>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listAllPd", ${controlModuleEL}Page);
 	}
 	
 	/****************************common * end***********************************/

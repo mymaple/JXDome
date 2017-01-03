@@ -143,6 +143,7 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
+									<a class="btn btn-mini btn-success" onclick="toCreateCode();">生成代码</a>
 									<c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
@@ -209,7 +210,7 @@
 			bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/mapleDetail/toDelete.do?mapleId='+mapleId+'&mapleDetailId="+mapleDetailId+"&tm="+new Date().getTime();
+					var url = '<%=basePath%>background/mapleDetail/toDelete.do?mapleId='+mapleId+'&mapleDetailId='+mapleDetailId+'&tm='+new Date().getTime();
 					$.get(url,function(data){
 						if("success" == data.result){
 							nextPage('${bgPage.currentPage}');
@@ -316,15 +317,12 @@
 			});
 		};
 		
-		function toMapleDetail(mapleId){
-			top.jzts();
-			window.location.href="<%=basePath%>background/mapleDetail/list.do?mapleId="+mapleId;
+		function toCreateCode(){
+			var mapleId = $('#mapleId').val();
+			var url = '<%=basePath%>background/mapleDetail/toCreateCode.do?mapleId='+mapleId+'&tm='+new Date().getTime();
+			window.location.href=url;
 		}
 		
-		
-		
 	</script>
-
-
 </body>
 </html>

@@ -3,14 +3,15 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMapleMapper">
 
-	<sql id="mapleAddColumns">mapleCode,mapleName,mapleType,controllerPackage,entityPackage,mapleControllerUpper,mapleControllerLower,mapleEntityUpper,mapleEntityLower,tableCode,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="mapleColumns">mapleId,mapleCode,mapleName,mapleType,controllerPackage,entityPackage,mapleControllerUpper,mapleControllerLower,mapleEntityUpper,mapleEntityLower,tableCode,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleAddColumns">mapleCode,mapleName,mapleType,mapleCodeUpper,controllerPackage,entityPackage,mapleControllerUpper,mapleControllerLower,mapleEntityUpper,mapleEntityLower,tableCode,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleColumns">mapleId,mapleCode,mapleName,mapleType,mapleCodeUpper,controllerPackage,entityPackage,mapleControllerUpper,mapleControllerLower,mapleEntityUpper,mapleEntityLower,tableCode,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	
 	<resultMap type="bgMaple" id="mapleResultMap">
 		<id column="mapleId" property="mapleId"/>
 		<result column="mapleCode" property="mapleCode"/>
 		<result column="mapleName" property="mapleName"/>
 		<result column="mapleType" property="mapleType"/>
+		<result column="mapleCodeUpper" property="mapleCodeUpper"/>
 		<result column="controllerPackage" property="controllerPackage"/>
 		<result column="entityPackage" property="entityPackage"/>
 		<result column="mapleControllerUpper" property="mapleControllerUpper"/>
@@ -40,7 +41,7 @@
 		insert into bgMaple ( 
 			<include refid="mapleAddColumns"/>
 		) values (
-			#{mapleCode},#{mapleName},#{mapleType},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleCode},#{mapleName},#{mapleType},#{mapleCodeUpper},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -49,7 +50,7 @@
 		insert into bgMaple ( 
 			<include refid="mapleAddColumns"/>
 		) values (
-			#{mapleCode},#{mapleName},#{mapleType},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleCode},#{mapleName},#{mapleType},#{mapleCodeUpper},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -60,6 +61,7 @@
 				mapleCode = #{mapleCode},
 				mapleName = #{mapleName},
 				mapleType = #{mapleType},
+				mapleCodeUpper = #{mapleCodeUpper},
 				controllerPackage = #{controllerPackage},
 				entityPackage = #{entityPackage},
 				mapleControllerUpper = #{mapleControllerUpper},
@@ -85,6 +87,7 @@
 				mapleCode = #{mapleCode},
 				mapleName = #{mapleName},
 				mapleType = #{mapleType},
+				mapleCodeUpper = #{mapleCodeUpper},
 				controllerPackage = #{controllerPackage},
 				entityPackage = #{entityPackage},
 				mapleControllerUpper = #{mapleControllerUpper},

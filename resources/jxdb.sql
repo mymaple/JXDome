@@ -12,6 +12,8 @@ CREATE TABLE `bgMapleDetail` (
 		 DEFAULT NULL  COMMENT '属性名称' ,	
 	`mapleDetailType` varchar(50)
 		 DEFAULT NULL  COMMENT '属性类型' ,	
+	`mapleDetailCodeUpper` varchar(50)
+		 DEFAULT NULL  COMMENT '代号' ,	
 	`length` varchar(50)
 		 DEFAULT NULL  COMMENT '长度' ,	
 	`decimalLength` varchar(50)
@@ -45,19 +47,19 @@ CREATE TABLE `bgMapleDetail` (
 -- ----------------------------
 -- Records of bgmapledetail
 -- ----------------------------
-INSERT INTO `bgmapledetail` VALUES ('2', 'userCode', '用户代号', '01', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('3', 'userName', '用户名称', '01', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('4', 'userType', '用户类型', '00', '50', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('5', 'userNum', '用户编号', '01', '50', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('6', 'userRights', '用户权限', '01', '255', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('7', 'userIconSrc', '用户头像路径', '01', '255', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('8', 'password', '密码', '01', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('9', 'roleId', '角色编号', '01', '100', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('10', 'lastLoginTime', '上次登录时间', '03', '', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('11', 'lastLoginIp', '上次登录Ip', '01', '100', '', '00', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('12', 'email', '电子邮箱', '01', '100', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('13', 'phone', '电话号码', '01', '11', '', '01', '01', '', '3', null, null, null, null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('14', 'remarks', '备注信息', '01', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('2', 'userCode', '用户代号', '01', 'UserCode', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('3', 'userName', '用户名称', '01', 'UserName', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('4', 'userType', '用户类型', '01', 'UserType', '50', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('5', 'userNum', '用户编号', '01', 'UserNum', '50', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('6', 'userRights', '用户权限', '01', 'UserRights', '255', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('7', 'userIconSrc', '用户头像路径', '01','UserIconSrc', '255', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('8', 'password', '密码', '01', 'Password', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('9', 'roleId', '角色编号', '01', 'RoleId', '100', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('10', 'lastLoginTime', '上次登录时间', '03', 'LastLoginTime', '', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('11', 'lastLoginIp', '上次登录Ip', '01', 'LastLoginIp', '100', '', '00', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('12', 'email', '电子邮箱', '01', 'Email', '100', '', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('13', 'phone', '电话号码', '01', 'Phone', '11', '', '01', '01', '', '3', null, null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('14', 'remarks', '备注信息', '01', 'Remarks', '255', '', '01', '01', '', '3', null, null, null, null, null, null, null);
 
 
 -- ----------------------------
@@ -72,6 +74,8 @@ CREATE TABLE `bgMaple` (
 		 DEFAULT NULL  COMMENT '名称' ,	
 	`mapleType` varchar(50)
 		 DEFAULT NULL  COMMENT '类型' ,	
+	`mapleCodeUpper` varchar(50)
+		 DEFAULT NULL  COMMENT '代号' ,	
 	`controllerPackage` varchar(50)
 		 DEFAULT NULL  COMMENT '控制器包代号' ,	
 	`entityPackage` varchar(50)
@@ -107,7 +111,7 @@ CREATE TABLE `bgMaple` (
 -- ----------------------------
 -- Records of bgmaple
 -- ----------------------------
-INSERT INTO `bgmaple` VALUES ('3', 'user', '用户', '01', 'background', 'background', 'BgUser', 'bgUser', 'BgUser', 'bgUser', '', '', '', '', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
+INSERT INTO `bgmaple` VALUES ('3', 'user', '用户', '01', 'User', 'background', 'background', 'BgUser', 'bgUser', 'BgUser', 'bgUser', '', '', '', '', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
 
 -- ----------------------------
 -- Table structure for bgUser

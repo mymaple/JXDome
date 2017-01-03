@@ -1,12 +1,12 @@
-package com.jx.${objectModuleNL}.entity;
+package com.jx.${bgMaple.entityPackage}.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import com.jx.common.util.DateUtil;
-import com.jx.common.util.StringUtil;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleStringUtil;
 
-public class ${objectModuleEU}${objectNameU} implements Serializable {
+public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	/**
 	 * 
@@ -24,167 +24,359 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 	
 	/**************************table prop satrt*********************************/
 	
-	/** ${tableName} 主键id */
-	private int ${objectNameL}Id;
+	/** ${bgMaple.mapleName} 主键id */
+	private String ${bgMaple.mapleCode}Id;
 	
-	<#list fieldList as var>
-	/** ${var[2]} */
-		<#if var[3] == 'propType_String'>
-	private String ${var[1]};
-		<#elseif var[3] == 'propType_Int'>
-	private int ${var[1]};
-		<#elseif var[3] == 'propType_Date'>
-	private Date ${var[1]};
-		<#elseif var[3] == 'propType_Double'>
-	private double ${var[1]};
+	<#list bgMapleDetailList as bgMapleDetail>
+	/** ${bgMapleDetail.mapleDetailName} */
+		<#if bgMapleDetail.mapleDetailType == '01'>
+	private String ${bgMapleDetail.mapleDetailCode};
+		<#elseif bgMapleDetail.mapleDetailType == '02'>
+	private int ${bgMapleDetail.mapleDetailCode};
+		<#elseif bgMapleDetail.mapleDetailType == '03'>
+	private Date ${bgMapleDetail.mapleDetailCode};
+		<#elseif bgMapleDetail.mapleDetailType == '04'>
+	private double ${bgMapleDetail.mapleDetailCode};
 		</#if>
 		
 	</#list>
 	
+	/** 排序编号 */
+	private String orderNum;
+		
+	/** 状态标识 00 初始状态 */
+	private String ${bgMaple.mapleCode}Status;
+		
+	/** 有效标识  00 无效;01 有效*/
+	private String effective;
+		
+	/** 创建人员id */
+	private String createUserId;
+		
+	/** 创建时间 */
+	private Date createTime;
+		
+	/** 修改人员id */
+	private String modifyUserId;
+		
+	/** 修改时间 */
+	private Date modifyTime;
 	
 	/**
-	 * 设置 ${tableName} 主键id
+	 * 设置 ${bgMaple.mapleName} 主键id
 	 * 
-	 * @param int ${objectNameL}Id
+	 * @param String ${bgMaple.mapleCode}Id
 	 */
-	public void set${objectNameU}Id(int ${objectNameL}Id) {
-		this.${objectNameL}Id = ${objectNameL}Id;
-	}
-	
-	/**
-	 * 获取 ${tableName} 主键id
-	 * 
-	 * @return int ${objectNameL}Id
-	 */
-	public int get${objectNameU}Id() {
-		return this.${objectNameL}Id;
-	}
-	
-	<#list fieldList as var>
-		<#if var[3] == 'propType_String'>
-	/**
-	 * 设置 ${var[2]}
-	 * 
-	 * @param String ${var[1]}
-	 */
-	public void set${var[0]}(String ${var[1]}) {
-		this.${var[1]} = StringUtil.trim(${var[1]});
-	}
-	
-	/**
-	 * 获取 ${var[2]}
-	 * 
-	 * @return String ${var[1]}
-	 */
-	public String get${var[0]}() {
-		return this.${var[1]};
-	}
-		<#elseif var[3] == 'propType_Int'>
-	/**
-	 * 设置 ${var[2]}
-	 * 
-	 * @param int ${var[1]}
-	 */
-	public void set${var[0]}(int ${var[1]}) {
-		this.${var[1]} = ${var[1]};
+	public void set${bgMaple.mapleCodeUpper}Id(String ${bgMaple.mapleCode}Id) {
+		this.${bgMaple.mapleCode}Id = ${bgMaple.mapleCode}Id;
 	}
 	
 	/**
-	 * 获取 ${var[2]}
+	 * 获取 ${bgMaple.mapleName} 主键id
 	 * 
-	 * @return int ${var[1]}
+	 * @return String ${bgMaple.mapleCode}Id
 	 */
-	public int get${var[0]}() {
-		return this.${var[1]};
+	public String get${bgMaple.mapleCodeUpper}Id() {
+		return this.${bgMaple.mapleCode}Id;
 	}
-		<#elseif var[3] == 'propType_Date'>
+	
+	<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.mapleDetailType == '01'>
 	/**
-	 * 设置 ${var[2]}
+	 * 设置 ${bgMapleDetail.mapleDetailName}
 	 * 
-	 * @param Date ${var[1]}
+	 * @param String ${bgMapleDetail.mapleDetailCode}
 	 */
-	public void set${var[0]}(Date ${var[1]}) {
-		this.${var[1]} = ${var[1]};
+	public void set${bgMapleDetail.mapleDetailCodeUpper}(String ${bgMapleDetail.mapleDetailCode}) {
+		this.${bgMapleDetail.mapleDetailCode} = MapleStringUtil.trim(${bgMapleDetail.mapleDetailCode});
 	}
 	
 	/**
-	 * 获取 ${var[2]}
+	 * 获取 ${bgMapleDetail.mapleDetailName}
 	 * 
-	 * @return Date ${var[1]}
+	 * @return String ${bgMapleDetail.mapleDetailCode}
 	 */
-	public Date get${var[0]}() {
-		return this.${var[1]};
+	public String get${bgMapleDetail.mapleDetailCodeUpper}() {
+		return this.${bgMapleDetail.mapleDetailCode};
+	}
+		<#elseif bgMapleDetail.mapleDetailType == '02'>
+	/**
+	 * 设置 ${bgMapleDetail.mapleDetailName}
+	 * 
+	 * @param int ${bgMapleDetail.mapleDetailCode}
+	 */
+	public void set${bgMapleDetail.mapleDetailCodeUpper}(int ${bgMapleDetail.mapleDetailCode}) {
+		this.${bgMapleDetail.mapleDetailCode} = ${bgMapleDetail.mapleDetailCode};
+	}
+	
+	/**
+	 * 获取 ${bgMapleDetail.mapleDetailName}
+	 * 
+	 * @return int ${bgMapleDetail.mapleDetailCode}
+	 */
+	public int get${bgMapleDetail.mapleDetailCodeUpper}() {
+		return this.${bgMapleDetail.mapleDetailCode};
+	}
+		<#elseif bgMapleDetail.mapleDetailType == '03'>
+	/**
+	 * 设置 ${bgMapleDetail.mapleDetailName}
+	 * 
+	 * @param Date ${bgMapleDetail.mapleDetailCode}
+	 */
+	public void set${bgMapleDetail.mapleDetailCodeUpper}(Date ${bgMapleDetail.mapleDetailCode}) {
+		this.${bgMapleDetail.mapleDetailCode} = ${bgMapleDetail.mapleDetailCode};
+	}
+	
+	/**
+	 * 获取 ${bgMapleDetail.mapleDetailName}
+	 * 
+	 * @return Date ${bgMapleDetail.mapleDetailCode}
+	 */
+	public Date get${bgMapleDetail.mapleDetailCodeUpper}() {
+		return this.${bgMapleDetail.mapleDetailCode};
 	}	
 		
-	public void set${var[0]}Str(String ${var[1]}Str) throws Exception{
-		${var[1]}Str = StringUtil.trim(${var[1]}Str);
-		if(!${var[1]}Str.equals("")){
+	public void set${bgMapleDetail.mapleDetailCodeUpper}Str(String ${bgMapleDetail.mapleDetailCode}Str) throws Exception{
+		${bgMapleDetail.mapleDetailCode}Str = MapleStringUtil.trim(${bgMapleDetail.mapleDetailCode}Str);
+		if(!${bgMapleDetail.mapleDetailCode}Str.equals("")){
 			try{
-				set${var[0]}(DateUtil.parseDate(${var[1]}Str));
+				set${bgMapleDetail.mapleDetailCodeUpper}(MapleDateUtil.parseDate(${bgMapleDetail.mapleDetailCode}Str));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
 		}
 	}
 
-	public String get${var[0]}Str(){
-		return DateUtil.getFormatedDateString(get${var[0]}());
+	public String get${bgMapleDetail.mapleDetailCodeUpper}Str(){
+		return MapleDateUtil.getFormatedDateString(get${bgMapleDetail.mapleDetailCodeUpper}());
 	}	
-		<#elseif var[3] == 'propType_Double'>
+		<#elseif bgMapleDetail.mapleDetailType == '04'>
 	/**
-	 * 设置 ${var[2]}
+	 * 设置 ${bgMapleDetail.mapleDetailName}
 	 * 
-	 * @param double ${var[1]}
+	 * @param double ${bgMapleDetail.mapleDetailCode}
 	 */
-	public void set${var[0]}(double ${var[1]}) {
-		this.${var[1]} = ${var[1]};
+	public void set${bgMapleDetail.mapleDetailCodeUpper}(double ${bgMapleDetail.mapleDetailCode}) {
+		this.${bgMapleDetail.mapleDetailCode} = ${bgMapleDetail.mapleDetailCode};
 	}
 	
 	/**
-	 * 获取 ${var[2]}
+	 * 获取 ${bgMapleDetail.mapleDetailName}
 	 * 
-	 * @return double ${var[1]}
+	 * @return double ${bgMapleDetail.mapleDetailCode}
 	 */
-	public double get${var[0]}() {
-		return this.${var[1]};
+	public double get${bgMapleDetail.mapleDetailCodeUpper}() {
+		return this.${bgMapleDetail.mapleDetailCode};
 	}
 	
-	public void set${var[0]}Str(String ${var[1]}Str){
-		brateStr = com.cvicse.util.StringUtil.trim(${var[1]}Str);
-		if(!${var[1]}Str.equals("")){
-			set${var[0]}(DecimalUtil.strToDouble(${var[1]}Str));
+	public void set${bgMapleDetail.mapleDetailCodeUpper}Str(String ${bgMapleDetail.mapleDetailCode}Str){
+		brateStr = com.cvicse.util.MapleStringUtil.trim(${bgMapleDetail.mapleDetailCode}Str);
+		if(!${bgMapleDetail.mapleDetailCode}Str.equals("")){
+			set${bgMapleDetail.mapleDetailCodeUpper}(DecimalUtil.strToDouble(${bgMapleDetail.mapleDetailCode}Str));
 		}
 	}
 
-	public String get${var[0]}Str(){
-		return DecimalUtil.doubleToStr(get${var[0]});
+	public String get${bgMapleDetail.mapleDetailCodeUpper}Str(){
+		return DecimalUtil.doubleToStr(get${bgMapleDetail.mapleDetailCodeUpper});
 	}	
 		</#if>
 	
 	</#list>
 	
-	public ${objectModuleEU}${objectNameU}(){
+		/**
+	 * 设置 排序编号
+	 * 
+	 * @param String orderNum
+	 */
+	public void setOrderNum(String orderNum) {
+		this.orderNum = MapleStringUtil.trim(orderNum);
+	}
+	
+	/**
+	 * 获取 排序编号
+	 * 
+	 * @return String orderNum
+	 */
+	public String getOrderNum() {
+		return this.orderNum;
+	}
+	
+	/**
+	 * 设置 状态标识 00 初始状态
+	 * 
+	 * @param String ${bgMaple.mapleCode}Status
+	 */
+	public void set${bgMaple.mapleCodeUpper}Status(String ${bgMaple.mapleCode}Status) {
+		this.${bgMaple.mapleCode}Status = MapleStringUtil.trim(${bgMaple.mapleCode}Status);
+	}
+	
+	/**
+	 * 获取 状态标识 00 初始状态
+	 * 
+	 * @return String ${bgMaple.mapleCode}Status
+	 */
+	public String get${bgMaple.mapleCodeUpper}Status() {
+		return this.${bgMaple.mapleCode}Status;
+	}
+	
+	/**
+	 * 设置 有效标识 00 无效;01 有效
+	 * 
+	 * @param String effective
+	 */
+	public void setEffective(String effective) {
+		this.effective = MapleStringUtil.trim(effective);
+	}
+	
+	/**
+	 * 获取 有效标识 00 无效;01 有效
+	 * 
+	 * @return String effective
+	 */
+	public String getEffective() {
+		return this.effective;
+	}
+	
+	/**
+	 * 设置 创建人员id
+	 * 
+	 * @param String createUserId
+	 */
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = MapleStringUtil.trim(createUserId);
+	}
+	
+	/**
+	 * 获取 创建人员id
+	 * 
+	 * @return String createUserId
+	 */
+	public String getCreateUserId() {
+		return this.createUserId;
+	}
+	
+	/**
+	 * 设置 创建时间
+	 * 
+	 * @param Date createTime
+	 */
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	
+	/**
+	 * 获取 创建时间
+	 * 
+	 * @return Date createTime
+	 */
+	public Date getCreateTime() {
+		return this.createTime;
+	}	
+		
+	public void setCreateTimeStr(String createTimeStr) throws Exception{
+		createTimeStr = MapleStringUtil.trim(createTimeStr);
+		if(!createTimeStr.equals("")){
+			try{
+				setCreateTime(MapleDateUtil.parseDate(createTimeStr));
+			}catch(java.text.ParseException e){
+				throw new Exception(e);
+			}
+		}
+	}
+
+	public String getCreateTimeStr(){
+		return MapleDateUtil.getFormatedDateString(getCreateTime());
+	}	
+	
+	/**
+	 * 设置 修改人员id
+	 * 
+	 * @param String modifyUserId
+	 */
+	public void setModifyUserId(String modifyUserId) {
+		this.modifyUserId = MapleStringUtil.trim(modifyUserId);
+	}
+	
+	/**
+	 * 获取 修改人员id
+	 * 
+	 * @return String modifyUserId
+	 */
+	public String getModifyUserId() {
+		return this.modifyUserId;
+	}
+	
+	/**
+	 * 设置 修改时间
+	 * 
+	 * @param Date modifyTime
+	 */
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+	
+	/**
+	 * 获取 修改时间
+	 * 
+	 * @return Date modifyTime
+	 */
+	public Date getModifyTime() {
+		return this.modifyTime;
+	}	
+		
+	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
+		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
+		if(!modifyTimeStr.equals("")){
+			try{
+				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
+			}catch(java.text.ParseException e){
+				throw new Exception(e);
+			}
+		}
+	}
+
+	public String getModifyTimeStr(){
+		return MapleDateUtil.getFormatedDateString(getModifyTime());
+	}
+	
+	
+	public ${bgMaple.mapleEntityUpper}(){
 		init();
 	}
 	
 	public void init() {
-		set${objectNameU}Id(0);
+		set${bgMaple.mapleCodeUpper}Id("");
 	
-	<#list fieldList as var>
-		<#if var[3] == 'propType_String'>
-		set${var[0]}("");
-		<#elseif var[3] == 'propType_Int'>
-		set${var[0]}(0);
-		<#elseif var[3] == 'propType_Date'>
+	<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.mapleDetailType == '01'>
+		set${bgMapleDetail.mapleDetailCodeUpper}("");
+		<#elseif bgMapleDetail.mapleDetailType == '02'>
+		set${bgMapleDetail.mapleDetailCodeUpper}(0);
+		<#elseif bgMapleDetail.mapleDetailType == '03'>
 		try {
-			set${var[0]}Str("1900-01-01");
+			set${bgMapleDetail.mapleDetailCodeUpper}Str("1900-01-01");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		<#elseif var[3] == 'propType_Double'>
-		set${var[0]}(0.00);
+		<#elseif bgMapleDetail.mapleDetailType == '04'>
+		set${bgMapleDetail.mapleDetailCodeUpper}(0.00);
 		</#if>
 	</#list>
+	
+		set${bgMaple.mapleCodeUpper}Status("");
+		setEffective("");
+		setCreateUserId("");
+		try {
+			setCreateTimeStr("1900-01-01");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		setModifyUserId("");
+		try {
+			setModifyTimeStr("1900-01-01");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	/**************************table prop  end  *********************************/
 }

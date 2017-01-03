@@ -27,7 +27,7 @@
 				<div class="page-content">
 					<div class="row">
 						<div class="col-xs-12">
-							<form action="background/${objStr }/uploadExcel.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
+							<form action="background/${pathObj }/uploadExcel.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
 								<div id="zhongxin">
 								<table style="width:95%;" >
 									<tr>
@@ -37,7 +37,7 @@
 										<td style="text-align: center;padding-top: 10px;">
 											<a class="btn btn-mini btn-primary" onclick="save();">导入</a>
 											<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
-											<a class="btn btn-mini btn-success" onclick="window.location.href='<%=basePath%>background/${objStr }/downExcelModel.do'">下载模版</a>
+											<a class="btn btn-mini btn-success" onclick="window.location.href='<%=basePath%>background/${pathObj }/downExcelModel.do'">下载模版</a>
 										</td>
 									</tr>
 								</table>
