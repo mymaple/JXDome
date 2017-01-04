@@ -1,6 +1,5 @@
 package com.jx.background.controller;
 
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
@@ -114,6 +114,17 @@ public class BgDictController extends BaseController {
 	            return mv;  
 	        }
 			
+			comDict.setDictId(this.get32UUID());
+			comDict.setParentId("");
+			comDict.setDictStatus("00");
+			comDict.setLevel(0);
+			comDict.setOrderNum("");
+			comDict.setEffective("01");
+			comDict.setCreateUserId("");
+			comDict.setCreateTime(nowTime);
+			comDict.setModifyUserId("");
+			comDict.setModifyTime(nowTime);
+			
 			comDictService.add(comDict);
 			mv.addObject("msg","success");
 		} catch (Exception e) {
@@ -128,13 +139,13 @@ public class BgDictController extends BaseController {
 	 * 去修改页面
 	 */
 	@RequestMapping(value="/toEdit")
-	public ModelAndView toEdit() throws Exception{
+	public ModelAndView toEdit(@RequestParam String dictId ,@RequestParam String parentId) throws Exception{
 		logBefore(logger, "去修改comDict页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			ComDict comDict = comDictService.findById(pd);	//根据ID读取
+			ComDict comDict = comDictService.findById(dictId ,parentId);	//根据ID读取
 			mv.addObject("pathMsg", "edit");
 			mv.addObject("comDict", comDict);
 			
@@ -162,6 +173,18 @@ public class BgDictController extends BaseController {
 				mv.setViewName("background/dict/bgDictEdit");
 	            return mv;  
 	        }
+	        
+			comDict.setDictId("");
+			comDict.setParentId("");
+			comDict.setDictStatus("00");
+			comDict.setLevel(0);
+			comDict.setOrderNum("");
+			comDict.setEffective("01");
+			comDict.setCreateUserId("");
+			comDict.setCreateTime(nowTime);
+			comDict.setModifyUserId("");
+			comDict.setModifyTime(nowTime);
+	        
 			comDictService.edit(comDict);
 			mv.addObject("msg","success");
 		} catch (Exception e) {
@@ -178,7 +201,7 @@ public class BgDictController extends BaseController {
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(@RequestParam String dictId)throws Exception{
+	public Object toDelete(@RequestParam String dictId ,@RequestParam String parentId)throws Exception{
 		logBefore(logger, "删除comDict");
 		
 		Map<String,String> map = new HashMap<String,String>();
@@ -187,7 +210,7 @@ public class BgDictController extends BaseController {
 		
 		try{
 			pd = this.getPageData();
-			comDictService.deleteById(dictId);
+			comDictService.deleteById(dictId ,parentId);
 			errInfo = "success";
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -235,40 +258,40 @@ public class BgDictController extends BaseController {
 			pd = this.getPageData();
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("dict 主键id");   	//1
-			titles.add("数据字典主键id");	//2
-			titles.add("数据字典代号");	//3
-			titles.add("数据字典名称");	//4
-			titles.add("数据字典类型");	//5
-			titles.add("数据字典状态");	//6
-			titles.add("数据字典值");	//7
-			titles.add("级别");	//8
-			titles.add("上级id");	//9
-			titles.add("有效性");	//10
-			titles.add("创建人员id");	//11
-			titles.add("创建时间");	//12
-			titles.add("修改人员id");	//13
-			titles.add("修改时间");	//14
+			titles.add("数据字典主键id");	//0
+			titles.add("上级id");	//1
+			titles.add("数据字典代号");	//2
+			titles.add("数据字典名称");	//3
+			titles.add("数据字典类型");	//4
+			titles.add("数据字典状态");	//5
+			titles.add("数据字典值");	//6
+			titles.add("级别");	//7
+			titles.add("排序编号");	//8
+			titles.add("有效性");	//9
+			titles.add("创建人员id");	//10
+			titles.add("创建时间");	//11
+			titles.add("修改人员id");	//12
+			titles.add("修改时间");	//13
 			dataMap.put("titles", titles);
 			List<ComDict> varOList = comDictService.listByPd(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var1",varOList.get(i).getDictId());		//1
-				vpd.put("var2", varOList.get(i).getDictId);	//2
-				vpd.put("var3", varOList.get(i).getDictCode);	//3
-				vpd.put("var4", varOList.get(i).getDictName);	//4
-				vpd.put("var5", varOList.get(i).getDictType);	//5
-				vpd.put("var6", varOList.get(i).getDictStatus);	//6
-				vpd.put("var7", varOList.get(i).getDictValue);	//7
-				vpd.put("var8", varOList.get(i).getLevel);	//8
-				vpd.put("var9", varOList.get(i).getParentId);	//9
-				vpd.put("var10", varOList.get(i).getEffective);	//10
-				vpd.put("var11", varOList.get(i).getCreateUserId);	//11
-				vpd.put("var12", varOList.get(i).getCreateTime);	//12
-				vpd.put("var13", varOList.get(i).getModifyUserId);	//13
-				vpd.put("var14", varOList.get(i).getModifyTime);	//14
+				vpd.put("var0", varOList.get(i).getDictId());	//0
+				vpd.put("var1", varOList.get(i).getParentId());	//1
+				vpd.put("var2", varOList.get(i).getDictCode());	//2
+				vpd.put("var3", varOList.get(i).getDictName());	//3
+				vpd.put("var4", varOList.get(i).getDictType());	//4
+				vpd.put("var5", varOList.get(i).getDictStatus());	//5
+				vpd.put("var6", varOList.get(i).getDictValue());	//6
+				vpd.put("var7", varOList.get(i).getLevel());	//7
+				vpd.put("var8", varOList.get(i).getOrderNum());	//8
+				vpd.put("var9", varOList.get(i).getEffective());	//9
+				vpd.put("var10", varOList.get(i).getCreateUserId());	//10
+				vpd.put("var11", varOList.get(i).getCreateTime());	//11
+				vpd.put("var12", varOList.get(i).getModifyUserId());	//12
+				vpd.put("var13", varOList.get(i).getModifyTime());	//13
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -304,7 +327,10 @@ public class BgDictController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("用户名");				//0+2
+			titles.add("数据字典代号");	//2
+			titles.add("数据字典名称");	//3
+			titles.add("数据字典类型");	//4
+			titles.add("数据字典值");	//6
 			dataMap.put("titles", titles);
 			ObjectExcelView erv = new ObjectExcelView();
 			mv = new ModelAndView(erv,dataMap);
@@ -326,42 +352,39 @@ public class BgDictController extends BaseController {
 			@RequestParam(value="excel",required=false) MultipartFile file
 			) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		Date nowTime = new Date();
 		try {
+			Date nowTime = new Date();
 			if (null != file && !file.isEmpty()) {
 				String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
 				String fileName =  MapleFileUtil.fileUp(file, filePath, "userexcel");							//执行上传
 				List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 				/*存入数据库操作======================================*/
 				
-				BgUser bgUser = new BgUser();
-				bgUser.setUserRights("0");			// 权限
-				bgUser.setLastLoginTime(nowTime);	// 最后登录时间
-				bgUser.setLastLoginIp("127.0.0.1"); // loginIp
-				bgUser.setUserIconSrc("static/ace/avatars/user.jpg"); // userIconSrc
-				bgUser.setStatus("1");				// 状态
-				bgUser.setModifyTime(nowTime); 		// 修改时间时间
-				bgUser.setRoleId(5);
+				ComDict comDict = new ComDict();
+				comDict.setDictId("");
+				comDict.setParentId("");
+				comDict.setDictStatus("00");
+				comDict.setLevel(0);
+				comDict.setOrderNum("");
+				comDict.setEffective("01");
+				comDict.setCreateUserId("");
+				comDict.setCreateTime(nowTime);
+				comDict.setModifyUserId("");
+				comDict.setModifyTime(nowTime);
 				
 				/**
-				 * var0 :用户名
-				 * var1 :姓名
-				 * var2 :用户编号
-				 * var3 :电子邮箱
-				 * var4 :手机号码
-				 * var5 :备注
+				 * var2 :数据字典代号;	//2
+				 * var3 :数据字典名称;	//3
+				 * var4 :数据字典类型;	//4
+				 * var6 :数据字典值;	//6
 				 */
 				for(int i=0;i<listPd.size();i++){	
 					
-					bgUser.setUserCode(listPd.get(i).getString("var0"));
-					bgUser.setUserName(listPd.get(i).getString("var1"));
-					bgUser.setUserNumber(listPd.get(i).getString("var2")); // loginIp
-					bgUser.setEmail(listPd.get(i).getString("var3")); // loginIp
-					bgUser.setPhone(listPd.get(i).getString("var4")); // loginIp
-					bgUser.setRemarks(listPd.get(i).getString("var5")); // loginIp
-					
-					bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserName(), bgUser.getUserName(),2).toString());
-					bgUserService.add(bgUser);
+				comDict.setDictCode("");
+				comDict.setDictName("");
+				comDict.setDictType("");
+				comDict.setDictValue("");
+					comDictService.add(comDict);
 				}
 				/*存入数据库操作======================================*/
 				mv.addObject("msg","success");

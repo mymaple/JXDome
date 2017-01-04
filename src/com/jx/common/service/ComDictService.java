@@ -20,29 +20,6 @@ public class ComDictService {
 	
 	/****************************custom * start***********************************/
 	
-	// 查询总数
-	public PageData findCount(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("ComDictMapper.findCount", pd);
-	}
-
-	// 查询某编码
-	public PageData hasEncodeByPd(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("ComDictMapper.hasEncodeByPd", pd);
-	}
-
-	// 列出同一父类id下的数据
-	public List<PageData> dictlistPage(BgPage page) throws Exception {
-		return (List<PageData>) dao.findForList("ComDictMapper.dictlistPage", page);
-	}
-	
-	//获取字典参数列表
-	public List<ComDict> listParamByAllEncode(String allEncode) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.listParamByAllEncode", allEncode);
-	}
-	
-	public ComDict findByAllEncode(String allEncode) throws Exception {
-		return (ComDict) dao.findForObject("ComDictMapper.findByAllEncode", allEncode);
-	}
 	
 	/****************************custom * end  ***********************************/
 	
@@ -54,18 +31,8 @@ public class ComDictService {
 	 * @return 主键 id
 	 * @throws Exception
 	 */
-	public int add(ComDict comDict) throws Exception {
-		return (int)dao.add("ComDictMapper.add", comDict);
-	}
-	
-	/**
-	 * 新增
-	 * @param PageData pd
-	 * @return 主键 id
-	 * @throws Exception
-	 */
-	public int addByPd(PageData pd) throws Exception {
-		return (int)dao.add("ComDictMapper.addByPd", pd);
+	public void add(ComDict comDict) throws Exception {
+		dao.add("ComDictMapper.add", comDict);
 	}
 	
 	/**
@@ -78,21 +45,15 @@ public class ComDictService {
 	}
 
 	/**
-	 * 修改 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void editByPd(PageData pd) throws Exception {
-		dao.edit("ComDictMapper.editByPd", pd);
-	}
-	
-	/**
 	 * 删除 
-	 * @param int id
+	 * @param String dictId ,String parentId 
 	 * @throws Exception
 	 */
-	public void deleteById(int id) throws Exception {
-		dao.delete("ComDictMapper.deleteById", id);
+	public void deleteById(String dictId ,String parentId ) throws Exception {
+		PageData pd = new PageData();
+		pd.put("dictId",dictId);
+		pd.put("parentId",parentId);
+		this.deleteByPd(pd);
 	}
 	
 	/**
@@ -109,28 +70,44 @@ public class ComDictService {
 	 * @param PageData pd
 	 * @throws Exception
 	 */
-	public void batchDeleteByIds(String ids) throws Exception {
-		dao.delete("ComDictMapper.batchDeleteByIds", ids);
+	public void batchDeleteByIds(String[] ids) throws Exception {
+		dao.delete("BgUserMapper.batchDeleteByIds", ids);
 	}
 
 	/**
 	 * 通过id获取(类)数据
-	 * @param int id
+	 * @param String dictId ,String parentId 
 	 * @return ComDict
 	 * @throws Exception
 	 */
-	public ComDict findById(int id) throws Exception {
-		return (ComDict) dao.findForObject("ComDictMapper.findById", id);
+	public ComDict findById(String dictId ,String parentId ) throws Exception {
+		PageData pd = new PageData();
+		pd.put("dictId",dictId);
+		pd.put("parentId",parentId);
+		return this.findByPd(pd);
+	}
+	
+	/**
+	 * 通过pd获取(ComDict)数据 
+	 * @param PageData pd
+	 * @return ComDict
+	 * @throws Exception
+	 */
+	public ComDict findByPd(PageData pd) throws Exception {
+		return (ComDict) dao.findForObject("ComDictMapper.findByPd", pd);
 	}
 	
 	/**
 	 * 通过id获取(PageData)数据 
-	 * @param int id
+	 * @param String dictId ,String parentId 
 	 * @return PageData
 	 * @throws Exception
 	 */
-	public PageData findPdById(int id) throws Exception {
-		return (PageData) dao.findForObject("ComDictMapper.findPdById", id);
+	public PageData findPdById(String dictId ,String parentId ) throws Exception {
+		PageData pd = new PageData();
+		pd.put("dictId",dictId);
+		pd.put("parentId",parentId);
+		return this.findPdByPd(pd);
 	}
 	
 	/**
@@ -148,18 +125,20 @@ public class ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComDict> listAllByPd(PageData pd) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.listAllByPd", null);
+	@SuppressWarnings("unchecked")
+	public List<ComDict> listByPd(PageData pd) throws Exception {
+		return (List<ComDict>) dao.findForList("ComDictMapper.listByPd", null);
 	}
 	
 	/**
 	 * 获取分页(PageData)List数据
-	 * @param bgPage
+	 * @param BgPage BgPage
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PageData> listAllPd(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("ComDictMapper.listAllPd", bgPage);
+	@SuppressWarnings("unchecked")
+	public List<PageData> listPage(BgPage bgPage) throws Exception {
+		return (List<PageData>) dao.findForList("ComDictMapper.listPage", bgPage);
 	}
 	
 	/****************************common * end***********************************/

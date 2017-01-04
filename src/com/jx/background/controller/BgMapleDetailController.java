@@ -285,14 +285,17 @@ public class BgMapleDetailController extends BaseController {
 		String mapleId = pd.getString("mapleId");
 		BgMaple bgMaple = bgMapleService.findById(Integer.parseInt(mapleId));
 		List<BgMapleDetail>	bgMapleDetailList = bgMapleDetailService.listAllByPd(pd);
+		List<BgMapleDetail> bgMapleDetailKeyList = new ArrayList<BgMapleDetail>();
+		for(int i = 0;i<bgMapleDetailList.size();i++){
+			if("01".equals(bgMapleDetailList.get(i).getIsKey()))
+				bgMapleDetailKeyList.add(bgMapleDetailList.get(i));
+		}
 
 		Map<String, Object> root = new HashMap<String, Object>(); // 创建数据模型
 		
-		root.put("bgMaple", bgMaple); // User
-		
-		root.put("fieldCount", bgMapleDetailList.size());
+		root.put("bgMaple", bgMaple);
 		root.put("bgMapleDetailList", bgMapleDetailList);
-		
+		root.put("bgMapleDetailKeyList", bgMapleDetailKeyList);
 		root.put("nowDate", new Date()); // 当前日期
 
 		MapleFileUtil.delFolder(PathUtil.getClasspath() + "admin/ftl"); // 生成代码前,先清空之前生成的代码
@@ -305,18 +308,18 @@ public class BgMapleDetailController extends BaseController {
 		Freemarker.printFile("controllerTemplate.ftl", root, bgMaple.getControllerPackage() + "/controller/" + bgMaple.getMapleControllerUpper() + "Controller.java", filePath, ftlPath);
 //
 		/* 生成service */
-//		Freemarker.printFile("serviceTemplate.ftl", root, bgMaple.getEntityPackage() + "/service/" + bgMaple.getMapleEntityUpper() + "Service.java", filePath, ftlPath);
+		Freemarker.printFile("serviceTemplate.ftl", root, bgMaple.getEntityPackage() + "/service/" + bgMaple.getMapleEntityUpper() + "Service.java", filePath, ftlPath);
 
 		/* 生成entity */
 		Freemarker.printFile("entityTemplate.ftl", root, bgMaple.getEntityPackage() + "/entity/" + bgMaple.getMapleEntityUpper() + ".java", filePath, ftlPath);
 		
 //		/* 生成mybatis xml Mysql*/
-//		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis/" + bgMaple.getEntityPackage() + "/" + bgMaple.getMapleEntityUpper() + "Mapper.xml", filePath, ftlPath);
+		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis/" + bgMaple.getEntityPackage() + "/" + bgMaple.getMapleEntityUpper() + "Mapper.xml", filePath, ftlPath);
 //		/* 生成mybatis xml Oracle*/
 //		//Freemarker.printFile("mapperOracleTemplate.ftl", root, "mybatis_oracle/" + packageName + "/" + objectName + "Mapper.xml", filePath, ftlPath);
 //
 //		/* 生成SQL脚本 Mysql*/
-//		Freemarker.printFile("mysql_SQL_Template.ftl", root, "mysql数据库脚本/" + bgMaple.getMapleEntityUpper() + ".sql", filePath, ftlPath);
+		Freemarker.printFile("mysql_SQL_Template.ftl", root, "mysql数据库脚本/" + bgMaple.getMapleEntityUpper() + ".sql", filePath, ftlPath);
 //		
 		/* 生成SQL脚本 Oracle*/
 		//Freemarker.printFile("oracle_SQL_Template.ftl", root, "oracle数据库脚本/" + tabletop + objectName.toUpperCase() + ".sql", filePath, ftlPath);

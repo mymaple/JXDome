@@ -3,214 +3,158 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComDictMapper">
 
-	<sql id="dictAddColumns">name,encode,orderBy,parentId,level,allEncode,modifyTime</sql>
-	<sql id="dictColumns">dictId,name,encode,orderBy,parentId,level,allEncode,modifyTime</sql>
+	<sql id="dictColumns">dictId,parentId,dictCode,dictName,dictType,dictStatus,dictValue,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="dictTable">com_dict</sql>
 	
-	<resultMap type="comDict" id="dictResultMap">
+	<resultMap type="comDict" id="comDictResultMap">
 		<id column="dictId" property="dictId"/>
-		<result column="name" property="name"/>
-		<result column="encode" property="encode"/>
-		<result column="orderBy" property="orderBy"/>
-		<result column="parentId" property="parentId"/>
+		<id column="parentId" property="parentId"/>
+		<result column="dictCode" property="dictCode"/>
+		<result column="dictName" property="dictName"/>
+		<result column="dictType" property="dictType"/>
+		<result column="dictStatus" property="dictStatus"/>
+		<result column="dictValue" property="dictValue"/>
 		<result column="level" property="level"/>
-		<result column="allEncode" property="allEncode"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
 	</resultMap>
 	
 	
 	<!-- ****************************custom * start*********************************** -->
 	
-	<!-- 列表 -->
-	<select id="dictlistPage" parameterType="bgPage" resultType="pd">
-		select  z1.dictId,
-				z1.name,
-				z1.encode,
-				z1.orderBy,
-				z1.parentId,
-				z1.level,
-				z1.allEncode,
-				z2.name pname
-		from comDict z1
-		left join
-			comDict z2 
-		on  z1.parentId = z2.dictId 
-		where 
-		    z1.parentId = #{pd.parentId}
-		<if test="pd.name != null and pd.name != ''">
-			and z1.name LIKE CONCAT(CONCAT('%', #{pd.name}),'%') 
-		</if>
-		order by z1.orderBy
-	</select>
-	
-	<!-- 查询总数 -->
-	<select id="findCount" parameterType="pd" resultType="pd">
-		select 
-			count(dictId) count
-		from 
-			comDict
-		where 
-			parentId = #{dictId}
-	</select>
-	
-	<!-- 查询某编码 -->
-	<select id="hasEncodeByPd" parameterType="pd" resultType="pd">
-		select 
-			dictId
-		from 
-			comDict
-		where 
-			encode = #{encode}
-		<if test="dictId != null and dictId != ''">
-			and dictId != #{dictId} 
-		</if>
-	</select>
-	
-	
-	<!-- 获取字典参数列表 -->
-	<select id="listParamByAllEncode" parameterType="String" resultType="comDict">
-		select  z1.dictId,
-				z1.name,
-				z1.encode,
-				z1.orderBy,
-				z1.parentId,
-				z1.level,
-				z1.allEncode
-		from comDict z1
-		left join
-			comDict z2 
-		on  z1.parentId = z2.dictId 
-		where 
-		    z2.allEncode = #{allEncode}
-		order by z1.orderBy
-	</select>
-	
-	<!-- 通过id获取(类)数据 -->
-	<select id="findByAllEncode" parameterType="String" resultType="comDict">
-		select 
-			<include refid="dictColumns"/>
-		from 
-			comDict
-		where 
-			allEncode = #{allEncode}
-	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="dictId" parameterType="comDict">
-		insert into comDict ( 
-			<include refid="dictAddColumns"/>
+	<insert id="add" parameterType="comDict">
+		insert into 
+	<include refid="dictTable"/>
+		( 
+	<include refid="dictColumns"/>
 		) values (
-			#{name},#{encode},#{orderBy},#{parentId},#{level},#{allEncode},#{modifyTime}
+			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 新增 -->
-	<insert id="addByPd" useGeneratedKeys="true" keyProperty="dictId" parameterType="pd">
-		insert into comDict ( 
-			<include refid="dictAddColumns"/>
+	<insert id="addByPd" parameterType="pd">
+		insert into 
+	<include refid="dictTable"/>
+		( 
+	<include refid="dictColumns"/>
 		) values (
-			#{name},#{encode},#{orderBy},#{parentId},#{level},#{allEncode},#{modifyTime}
+			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 修改 -->
 	<update id="edit" parameterType="comDict">
-		update  comDict
-			set 
-				name = #{name},
-				encode = #{encode},
-				orderBy = #{orderBy},
-				parentId = #{parentId},
-				level = #{level},
-				allEncode = #{allEncode},
-				modifyTime = #{modifyTime}
-			where 
-				dictId = #{dictId}
+		update
+	<include refid="dictTable"/>
+		set 
+			dictCode = #{dictCode},
+			dictName = #{dictName},
+			dictType = #{dictType},
+			dictStatus = #{dictStatus},
+			dictValue = #{dictValue},
+			level = #{level},
+			orderNum = #{orderNum},
+			effective = #{effective},
+			createUserId = #{createUserId},
+			createTime = #{createTime},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			dictId = #{dictId} and 
+			parentId = #{parentId}
 	</update>
 	
 	<!-- 修改 -->
 	<update id="editByPd" parameterType="pd">
-		update  comDict
-			set 
-				name = #{name},
-				encode = #{encode},
-				orderBy = #{orderBy},
-				parentId = #{parentId},
-				level = #{level},
-				allEncode = #{allEncode},
-				modifyTime = #{modifyTime}
-			where 
-				dictId = #{dictId}
+		update
+	<include refid="dictTable"/>
+		set 
+			dictCode = #{dictCode},
+			dictName = #{dictName},
+			dictType = #{dictType},
+			dictStatus = #{dictStatus},
+			dictValue = #{dictValue},
+			level = #{level},
+			orderNum = #{orderNum},
+			effective = #{effective},
+			createUserId = #{createUserId},
+			createTime = #{createTime},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			dictId = #{dictId} and 
+			parentId = #{parentId}
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteById" parameterType="int">
-		delete from comDict 
-		where 
-			dictId = #{dictId}
-	</delete>
-	
-	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from comDict 
+		delete from 
+	<include refid="dictTable"/>
 		where 
-			dictId = #{dictId}
+			dictId = #{dictId} and 
+			parentId = #{parentId}
 	</delete>
 	
 	<!-- 批量删除 -->
 	<delete id="batchDeleteByIds" parameterType="String">
-		delete from comTable 
+		delete from 
+ <include refid="dictTable"/>
 		where 
-			tableId in (#{ids})
+			dictId in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="comDict">
+	<select id="findByPd" parameterType="pd" resultType="comDict">
 		select 
-			<include refid="dictColumns"/>
+	<include refid="dictColumns"/>
 		from 
-			comDict
+	<include refid="dictTable"/>
 		where 
-			dictId = #{dictId}
-	</select>
-	
-	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="int" resultType="pd">
-		select 
-			<include refid="dictColumns"/>
-		from 
-			comDict
-		where 
-			dictId = #{dictId}
+			dictId = #{dictId} and 
+			parentId = #{parentId}
 	</select>
 	
 	<!-- 通过pd获取(PageData)数据  -->
 	<select id="findPdByPd" parameterType="pd" resultType="pd">
 		select 
-			<include refid="dictColumns"/>
+	<include refid="dictColumns"/>
 		from 
-			comDict
+	<include refid="dictTable"/>
 		where 
-			dictId = #{dictId}
+			dictId = #{dictId} and 
+			parentId = #{parentId}
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAllByPd" parameterType="pd" resultMap="dictResultMap">
+	<select id="listByPd" parameterType="pd" resultMap="comDictResultMap">
 		select 
-			<include refid="dictColumns"/>
+	<include refid="dictColumns"/>
 		from 
-			comDict
+	<include refid="dictTable"/>
+		where 1=1
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
-	<select id="listAllPd" parameterType="bgPage" resultType="pd">
-		select 
-			<include refid="dictColumns"/>
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="dictColumns"/>
 		from 
-			comDict
+	<include refid="dictTable"/>
+		where 1=1
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

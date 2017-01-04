@@ -1,24 +1,22 @@
 
-SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for ${bgMaple.tableCode}
+-- ----------------------------
+DROP TABLE IF EXISTS `${bgMaple.tableCode}`;
+CREATE TABLE `${bgMaple.tableCode}` (
 
--- ----------------------------
--- Table structure for ${objectModuleEL}${objectNameU}
--- ----------------------------
-DROP TABLE IF EXISTS `${objectModuleEL}${objectNameU}`;
-CREATE TABLE `${objectModuleEL}${objectNameU}` (
- 	`${objectNameL}Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '${tableName}id',
- 	<#list fieldList as var>
-		<#if var[3] == 'propType_String'>
-	`${var[1]}` varchar(${var[4]})
-		<#elseif var[3] == 'propType_Int'>
-	`${var[1]}` int(${var[4]})
-		<#elseif var[3] == 'propType_Date'>
-	`${var[1]}` datetime
-		<#elseif var[3] == 'propType_Double'>
-	`${var[1]}` double(${var[4]},2)
+	<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.mapleDetailType == '01'>
+	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.length})
+		<#elseif bgMapleDetail.mapleDetailType == '02'>
+	`${bgMapleDetail.mapleDetailCode}` int(${bgMapleDetail.length})
+		<#elseif bgMapleDetail.mapleDetailType == '03'>
+	`${bgMapleDetail.mapleDetailCode}` datetime
+		<#elseif bgMapleDetail.mapleDetailType == '04'>
+	`${bgMapleDetail.mapleDetailCode}` double(${bgMapleDetail.length},${bgMapleDetail.decimalLength})
 		</#if>
-		<#if var[6] == '0'> NOT NULL <#if var[7] != '(null)'> DEFAULT var[7] </#if><#else> DEFAULT NULL </#if> COMMENT '${var[2]}' ,	
+			<#if bgMapleDetail.isNull == '00'> NOT NULL <#else> DEFAULT NULL </#if> COMMENT '${bgMapleDetail.mapleDetailName}' ,
 	</#list>
   
-  PRIMARY KEY (`${objectNameL}Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '${tableName}';
+  PRIMARY KEY (<#list bgMapleDetailKeyList as bgMapleDetail>`${bgMapleDetail.mapleDetailCode}`<#if bgMapleDetail_has_next> ,</#if></#list>)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '${bgMaple.tableCode}';

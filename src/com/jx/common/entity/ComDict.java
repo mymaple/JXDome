@@ -27,6 +27,9 @@ public class ComDict implements Serializable {
 	/** 数据字典主键id */
 	private String dictId;
 		
+	/** 上级id */
+	private String parentId;
+		
 	/** 数据字典代号 */
 	private String dictCode;
 		
@@ -44,9 +47,6 @@ public class ComDict implements Serializable {
 		
 	/** 级别 */
 	private int level;
-		
-	/** 上级id */
-	private String parentId;
 		
 	/** 排序编号 */
 	private String orderNum;
@@ -83,6 +83,24 @@ public class ComDict implements Serializable {
 	 */
 	public String getDictId() {
 		return this.dictId;
+	}
+	
+	/**
+	 * 设置 上级id
+	 * 
+	 * @param String parentId
+	 */
+	public void setParentId(String parentId) {
+		this.parentId = MapleStringUtil.trim(parentId);
+	}
+	
+	/**
+	 * 获取 上级id
+	 * 
+	 * @return String parentId
+	 */
+	public String getParentId() {
+		return this.parentId;
 	}
 	
 	/**
@@ -191,24 +209,6 @@ public class ComDict implements Serializable {
 	 */
 	public int getLevel() {
 		return this.level;
-	}
-	
-	/**
-	 * 设置 上级id
-	 * 
-	 * @param String parentId
-	 */
-	public void setParentId(String parentId) {
-		this.parentId = MapleStringUtil.trim(parentId);
-	}
-	
-	/**
-	 * 获取 上级id
-	 * 
-	 * @return String parentId
-	 */
-	public String getParentId() {
-		return this.parentId;
 	}
 	
 	/**
@@ -359,13 +359,13 @@ public class ComDict implements Serializable {
 	public void init() {
 	
 		setDictId("");
+		setParentId("");
 		setDictCode("");
 		setDictName("");
 		setDictType("");
 		setDictStatus("");
 		setDictValue("");
 		setLevel(0);
-		setParentId("");
 		setOrderNum("");
 		setEffective("");
 		setCreateUserId("");

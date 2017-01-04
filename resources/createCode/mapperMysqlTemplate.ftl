@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="${objectModuleEU}${objectNameU}Mapper">
+<mapper namespace="${bgMaple.mapleEntityUpper}Mapper">
 
-	<sql id="${objectNameL}AddColumns"><#list fieldList as var>${var[1]}<#if var_has_next>,</#if></#list></sql>
-	<sql id="${objectNameL}Columns">${objectNameL}Id,<#list fieldList as var>${var[1]}<#if var_has_next>,</#if></#list></sql>
+	<sql id="${bgMaple.mapleCode}Columns"><#list bgMapleDetailList as bgMapleDetail>${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next>,</#if></#list></sql>
+	<sql id="${bgMaple.mapleCode}Table">${bgMaple.tableCode}</sql>
 	
-	<resultMap type="${objectModuleEL}${objectNameU}" id="$${objectNameL}ResultMap">
-		<id column="${objectNameL}Id" property="${objectNameL}Id"/>
-			<#list fieldList as var>
-		<result column="${var[1]}" property="${var[1]}"/>
+	<resultMap type="${bgMaple.mapleEntityLower}" id="${bgMaple.mapleEntityLower}ResultMap">
+			<#list bgMapleDetailList as bgMapleDetail>
+		<<#if bgMapleDetail.isKey == '01'>id<#else>result</#if> column="${bgMapleDetail.mapleDetailCode}" property="${bgMapleDetail.mapleDetailCode}"/>
 			</#list>
 	</resultMap>
 	
@@ -22,110 +21,120 @@
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="${objectNameL}Id" parameterType="${objectModuleEL}${objectNameU}">
-		insert into ${objectModuleEL}${objectNameU} ( 
-			<include refid="${objectNameL}AddColumns"/>
+	<insert id="add" parameterType="${bgMaple.mapleEntityLower}">
+		insert into 
+	<include refid="${bgMaple.mapleCode}Table"/>
+		( 
+	<include refid="${bgMaple.mapleCode}Columns"/>
 		) values (
-			<#list fieldList as var>${r"#{"}${var[1]}${r"}"}<#if var_has_next>,</#if></#list>
+			<#list bgMapleDetailList as bgMapleDetail>${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if></#list>
 		)
 	</insert>
 	
 	<!-- 新增 -->
-	<insert id="addByPd" useGeneratedKeys="true" keyProperty="${objectNameL}Id" parameterType="pd">
-		insert into ${objectModuleEL}${objectNameU} ( 
-			<include refid="${objectNameL}AddColumns"/>
+	<insert id="addByPd" parameterType="pd">
+		insert into 
+	<include refid="${bgMaple.mapleCode}Table"/>
+		( 
+	<include refid="${bgMaple.mapleCode}Columns"/>
 		) values (
-			<#list fieldList as var>${r"#{"}${var[1]}${r"}"}<#if var_has_next>,</#if></#list>
+			<#list bgMapleDetailList as bgMapleDetail>${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if></#list>
 		)
 	</insert>
 	
 	<!-- 修改 -->
-	<update id="edit" parameterType="${objectModuleEL}${objectNameU}">
-		update  ${objectModuleEL}${objectNameU}
-			set 
-				<#list fieldList as var>
-				${var[1]} = ${r"#{"}${var[1]}${r"}"}<#if var_has_next>,</#if>
-				</#list>
-			where 
-				${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
+	<update id="edit" parameterType="${bgMaple.mapleEntityLower}">
+		update
+	<include refid="${bgMaple.mapleCode}Table"/>
+		set 
+			<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.isKey == '00'>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if>
+			</#if>
+			</#list>
+		where 
+			<#list bgMapleDetailKeyList as bgMapleDetail>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			</#list>
 	</update>
 	
 	<!-- 修改 -->
 	<update id="editByPd" parameterType="pd">
-		update  ${objectModuleEL}${objectNameU}
-			set 
-				<#list fieldList as var>
-				${var[1]} = ${r"#{"}${var[1]}${r"}"}<#if var_has_next>,</#if>
-				</#list>
-			where 
-				${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
+		update
+	<include refid="${bgMaple.mapleCode}Table"/>
+		set 
+			<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.isKey == '00'>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if>
+			</#if>
+			</#list>
+		where 
+			<#list bgMapleDetailKeyList as bgMapleDetail>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			</#list>
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteById" parameterType="int">
-		delete from ${objectModuleEL}${objectNameU} 
-		where 
-			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
-	</delete>
-	
-	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from ${objectModuleEL}${objectNameU} 
+		delete from 
+	<include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
+			<#list bgMapleDetailKeyList as bgMapleDetail>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			</#list>
 	</delete>
 	
 	<!-- 批量删除 -->
 	<delete id="batchDeleteByIds" parameterType="String">
-		delete from comTable 
+		delete from 
+ <include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			tableId in (${r"#{"}ids${r"}"})
+			${bgMaple.mapleCode}Id in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            ${r"#{"}id${r"}"}
+        </foreach>
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="${objectModuleEL}${objectNameU}">
+	<select id="findByPd" parameterType="pd" resultType="${bgMaple.mapleEntityLower}">
 		select 
-			<include refid="${objectNameL}Columns"/>
+	<include refid="${bgMaple.mapleCode}Columns"/>
 		from 
-			${objectModuleEL}${objectNameU}
+	<include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
-	</select>
-	
-	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="int" resultType="pd">
-		select 
-			<include refid="${objectNameL}Columns"/>
-		from 
-			${objectModuleEL}${objectNameU}
-		where 
-			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
+			<#list bgMapleDetailKeyList as bgMapleDetail>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			</#list>
 	</select>
 	
 	<!-- 通过pd获取(PageData)数据  -->
 	<select id="findPdByPd" parameterType="pd" resultType="pd">
 		select 
-			<include refid="${objectNameL}Columns"/>
+	<include refid="${bgMaple.mapleCode}Columns"/>
 		from 
-			${objectModuleEL}${objectNameU}
+	<include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
+			<#list bgMapleDetailKeyList as bgMapleDetail>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			</#list>
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAllByPd" parameterType="pd" resultMap="$${objectNameL}ResultMap">
+	<select id="listByPd" parameterType="pd" resultMap="${bgMaple.mapleEntityLower}ResultMap">
 		select 
-			<include refid="${objectNameL}Columns"/>
+	<include refid="${bgMaple.mapleCode}Columns"/>
 		from 
-			${objectModuleEL}${objectNameU}
+	<include refid="${bgMaple.mapleCode}Table"/>
+		where 1=1
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
-	<select id="listAllPd" parameterType="${controlModuleEL}Page" resultType="pd">
-		select 
-			<include refid="${objectNameL}Columns"/>
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="${bgMaple.mapleCode}Columns"/>
 		from 
-			${objectModuleEL}${objectNameU}
+	<include refid="${bgMaple.mapleCode}Table"/>
+		where 1=1
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

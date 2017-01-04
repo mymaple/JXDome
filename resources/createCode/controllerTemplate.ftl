@@ -1,6 +1,5 @@
 package com.jx.${bgMaple.controllerPackage}.controller;
 
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.${bgMaple.controllerPackage}.config.BgPage;
@@ -114,23 +114,19 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	            return mv;  
 	        }
 			
-			
 			<#list bgMapleDetailList as bgMapleDetail>
+				<#if bgMapleDetail.isEdit == '00'>
 				<#if bgMapleDetail.mapleDetailType == '01'>
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}();
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>"${bgMapleDetail.defaultValue}"<#else>""</#if>);
 				<#elseif bgMapleDetail.mapleDetailType == '02'>
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}();
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
 				<#elseif bgMapleDetail.mapleDetailType == '03'>
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}();
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
 				<#elseif bgMapleDetail.mapleDetailType == '04'>
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}();
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
 				</#if>
-				
+				</#if>
 			</#list>
-			
-			
-			
-			
 			
 			${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
 			mv.addObject("msg","success");
@@ -146,13 +142,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * 去修改页面
 	 */
 	@RequestMapping(value="/toEdit")
-	public ModelAndView toEdit() throws Exception{
+	public ModelAndView toEdit(<#list bgMapleDetailKeyList as bgMapleDetail>@RequestParam String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>) throws Exception{
 		logBefore(logger, "去修改${bgMaple.mapleEntityLower}页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = ${bgMaple.mapleEntityLower}Service.findById(pd);	//根据ID读取
+			${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = ${bgMaple.mapleEntityLower}Service.findById(<#list bgMapleDetailKeyList as bgMapleDetail>${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>);	//根据ID读取
 			mv.addObject("pathMsg", "edit");
 			mv.addObject("${bgMaple.mapleEntityLower}", ${bgMaple.mapleEntityLower});
 			
@@ -180,6 +176,21 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
 	            return mv;  
 	        }
+	        
+	        <#list bgMapleDetailList as bgMapleDetail>
+				<#if bgMapleDetail.isEdit == '00'>
+				<#if bgMapleDetail.mapleDetailType == '01'>
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>"${bgMapleDetail.defaultValue}"<#else>""</#if>);
+				<#elseif bgMapleDetail.mapleDetailType == '02'>
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+				<#elseif bgMapleDetail.mapleDetailType == '03'>
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+				<#elseif bgMapleDetail.mapleDetailType == '04'>
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+				</#if>
+				</#if>
+			</#list>
+	        
 			${bgMaple.mapleEntityLower}Service.edit(${bgMaple.mapleEntityLower});
 			mv.addObject("msg","success");
 		} catch (Exception e) {
@@ -196,7 +207,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(@RequestParam String ${bgMaple.mapleCode}Id)throws Exception{
+	public Object toDelete(<#list bgMapleDetailKeyList as bgMapleDetail>@RequestParam String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>)throws Exception{
 		logBefore(logger, "删除${bgMaple.mapleEntityLower}");
 		
 		Map<String,String> map = new HashMap<String,String>();
@@ -205,7 +216,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		
 		try{
 			pd = this.getPageData();
-			${bgMaple.mapleEntityLower}Service.deleteById(${bgMaple.mapleCode}Id);
+			${bgMaple.mapleEntityLower}Service.deleteById(<#list bgMapleDetailKeyList as bgMapleDetail>${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>);
 			errInfo = "success";
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -253,20 +264,18 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			pd = this.getPageData();
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("${bgMaple.mapleCode} 主键id");   	//1
-	<#list bgMapleDetailList as bgMapleDetail>
-			titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index+2}
-	</#list>
+		<#list bgMapleDetailList as bgMapleDetail>
+			titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index}
+		</#list>
 			dataMap.put("titles", titles);
 			List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.listByPd(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var${1}",varOList.get(i).get${bgMaple.mapleCodeUpper}Id());		//1
-	<#list bgMapleDetailList as bgMapleDetail>
-				vpd.put("var${bgMapleDetail_index+2}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}));	//${bgMapleDetail_index+2}
-	</#list>
+			<#list bgMapleDetailList as bgMapleDetail>
+				vpd.put("var${bgMapleDetail_index}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}());	//${bgMapleDetail_index}
+			</#list>
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -302,7 +311,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("用户名");				//0+2
+	<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.isEdit == '01'>	
+			titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index}
+		</#if>
+	</#list>
 			dataMap.put("titles", titles);
 			ObjectExcelView erv = new ObjectExcelView();
 			mv = new ModelAndView(erv,dataMap);
@@ -324,42 +337,51 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			@RequestParam(value="excel",required=false) MultipartFile file
 			) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		Date nowTime = new Date();
 		try {
+			Date nowTime = new Date();
 			if (null != file && !file.isEmpty()) {
 				String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
 				String fileName =  MapleFileUtil.fileUp(file, filePath, "userexcel");							//执行上传
 				List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 				/*存入数据库操作======================================*/
 				
-				BgUser bgUser = new BgUser();
-				bgUser.setUserRights("0");			// 权限
-				bgUser.setLastLoginTime(nowTime);	// 最后登录时间
-				bgUser.setLastLoginIp("127.0.0.1"); // loginIp
-				bgUser.setUserIconSrc("static/ace/avatars/user.jpg"); // userIconSrc
-				bgUser.setStatus("1");				// 状态
-				bgUser.setModifyTime(nowTime); 		// 修改时间时间
-				bgUser.setRoleId(5);
+				${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
+				<#list bgMapleDetailList as bgMapleDetail>
+					<#if bgMapleDetail.isEdit == '00'>
+					<#if bgMapleDetail.mapleDetailType == '01'>
+				${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>"${bgMapleDetail.defaultValue}"<#else>""</#if>);
+					<#elseif bgMapleDetail.mapleDetailType == '02'>
+				${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+					<#elseif bgMapleDetail.mapleDetailType == '03'>
+				${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+					<#elseif bgMapleDetail.mapleDetailType == '04'>
+				${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+					</#if>
+					</#if>
+				</#list>
 				
 				/**
-				 * var0 :用户名
-				 * var1 :姓名
-				 * var2 :用户编号
-				 * var3 :电子邮箱
-				 * var4 :手机号码
-				 * var5 :备注
+				<#list bgMapleDetailList as bgMapleDetail>
+					<#if bgMapleDetail.isEdit == '01'>	
+				 * var${bgMapleDetail_index} :${bgMapleDetail.mapleDetailName};	//${bgMapleDetail_index}
+					</#if>
+				</#list>
 				 */
 				for(int i=0;i<listPd.size();i++){	
-					
-					bgUser.setUserCode(listPd.get(i).getString("var0"));
-					bgUser.setUserName(listPd.get(i).getString("var1"));
-					bgUser.setUserNumber(listPd.get(i).getString("var2")); // loginIp
-					bgUser.setEmail(listPd.get(i).getString("var3")); // loginIp
-					bgUser.setPhone(listPd.get(i).getString("var4")); // loginIp
-					bgUser.setRemarks(listPd.get(i).getString("var5")); // loginIp
-					
-					bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserName(), bgUser.getUserName(),2).toString());
-					bgUserService.add(bgUser);
+					<#list bgMapleDetailList as bgMapleDetail>
+						<#if bgMapleDetail.isEdit == '01'>
+						<#if bgMapleDetail.mapleDetailType == '01'>
+					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>"${bgMapleDetail.defaultValue}"<#else>""</#if>);
+						<#elseif bgMapleDetail.mapleDetailType == '02'>
+					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+						<#elseif bgMapleDetail.mapleDetailType == '03'>
+					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+						<#elseif bgMapleDetail.mapleDetailType == '04'>
+					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+						</#if>
+						</#if>
+					</#list>
+					${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
 				}
 				/*存入数据库操作======================================*/
 				mv.addObject("msg","success");
