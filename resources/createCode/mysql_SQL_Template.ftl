@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS `${bgMaple.tableCode}`;
 CREATE TABLE `${bgMaple.tableCode}` (
 
 	<#list bgMapleDetailList as bgMapleDetail>
+	`${bgMaple.mapleCode}Id` varchar(100) NOT NULL COMMENT '${bgMaple.mapleName} 主键id',
 		<#if bgMapleDetail.mapleDetailType == '01'>
 	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.length})
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
@@ -18,5 +19,5 @@ CREATE TABLE `${bgMaple.tableCode}` (
 			<#if bgMapleDetail.isNull == '00'> NOT NULL <#else> DEFAULT NULL </#if> COMMENT '${bgMapleDetail.mapleDetailName}' ,
 	</#list>
   
-  PRIMARY KEY (<#list bgMapleDetailKeyList as bgMapleDetail>`${bgMapleDetail.mapleDetailCode}`<#if bgMapleDetail_has_next> ,</#if></#list>)
+  PRIMARY KEY (`${bgMaple.mapleCode}Id`<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,`${bgMapleDetail.mapleDetailCode}`</#if></#list>)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '${bgMaple.tableCode}';

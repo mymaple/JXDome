@@ -37,7 +37,7 @@ import com.jx.common.service.ComDictService;
 /** 
  * 类名称：BgDictController
  * 创建人：maple
- * 创建时间：2017-01-04
+ * 创建时间：2017-01-05
  */
 @Controller
 @RequestMapping(value="/background/dict")
@@ -174,7 +174,6 @@ public class BgDictController extends BaseController {
 	            return mv;  
 	        }
 	        
-			comDict.setDictId("");
 			comDict.setParentId("");
 			comDict.setDictStatus("00");
 			comDict.setLevel(0);
@@ -201,7 +200,7 @@ public class BgDictController extends BaseController {
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(@RequestParam String dictId ,@RequestParam String parentId)throws Exception{
+	public Object toDelete(@RequestParam String dictId ,@RequestParam String parentId) throws Exception{
 		logBefore(logger, "删除comDict");
 		
 		Map<String,String> map = new HashMap<String,String>();
@@ -210,7 +209,7 @@ public class BgDictController extends BaseController {
 		
 		try{
 			pd = this.getPageData();
-			comDictService.deleteById(dictId ,parentId);
+			comDictService.deleteById(dictId ,parentId);	//根据ID删除
 			errInfo = "success";
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -232,8 +231,10 @@ public class BgDictController extends BaseController {
 		try {
 			pd = this.getPageData();
 			String dictIds = pd.getString("dictIds");
+			String parentId = pd.getString("parentId");
+			
 			if(null != dictIds && !"".equals(dictIds)){
-				comDictService.batchDeleteByIds(dictIds.split(","));
+				comDictService.batchDeleteByIds(dictIds.split(",") ,parentId);	//根据ID删除
 				pd.put("msg", "success");
 			}else{
 				pd.put("msg", "false");
@@ -258,7 +259,7 @@ public class BgDictController extends BaseController {
 			pd = this.getPageData();
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("数据字典主键id");	//0
+			titles.add("数据字典 主键id");
 			titles.add("上级id");	//1
 			titles.add("数据字典代号");	//2
 			titles.add("数据字典名称");	//3
@@ -278,7 +279,7 @@ public class BgDictController extends BaseController {
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var0", varOList.get(i).getDictId());	//0
+				vpd.put("var0",varOList.get(i).getDictId());
 				vpd.put("var1", varOList.get(i).getParentId());	//1
 				vpd.put("var2", varOList.get(i).getDictCode());	//2
 				vpd.put("var3", varOList.get(i).getDictName());	//3
@@ -327,10 +328,10 @@ public class BgDictController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("数据字典代号");	//2
-			titles.add("数据字典名称");	//3
-			titles.add("数据字典类型");	//4
-			titles.add("数据字典值");	//6
+			titles.add("数据字典代号");	//1
+			titles.add("数据字典名称");	//2
+			titles.add("数据字典类型");	//3
+			titles.add("数据字典值");	//5
 			dataMap.put("titles", titles);
 			ObjectExcelView erv = new ObjectExcelView();
 			mv = new ModelAndView(erv,dataMap);
@@ -356,12 +357,11 @@ public class BgDictController extends BaseController {
 			Date nowTime = new Date();
 			if (null != file && !file.isEmpty()) {
 				String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
-				String fileName =  MapleFileUtil.fileUp(file, filePath, "userexcel");							//执行上传
+				String fileName =  MapleFileUtil.fileUp(file, filePath, "dictexcel");		//执行上传
 				List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 				/*存入数据库操作======================================*/
 				
 				ComDict comDict = new ComDict();
-				comDict.setDictId("");
 				comDict.setParentId("");
 				comDict.setDictStatus("00");
 				comDict.setLevel(0);
@@ -373,17 +373,17 @@ public class BgDictController extends BaseController {
 				comDict.setModifyTime(nowTime);
 				
 				/**
-				 * var2 :数据字典代号;	//2
-				 * var3 :数据字典名称;	//3
-				 * var4 :数据字典类型;	//4
-				 * var6 :数据字典值;	//6
+				 * var1 :数据字典代号;	//1
+				 * var2 :数据字典名称;	//2
+				 * var3 :数据字典类型;	//3
+				 * var5 :数据字典值;	//5
 				 */
 				for(int i=0;i<listPd.size();i++){	
-					
-				comDict.setDictCode("");
-				comDict.setDictName("");
-				comDict.setDictType("");
-				comDict.setDictValue("");
+					comDict.setDictId(this.get32UUID());
+					comDict.setDictCode("");
+					comDict.setDictName("");
+					comDict.setDictType("");
+					comDict.setDictValue("");
 					comDictService.add(comDict);
 				}
 				/*存入数据库操作======================================*/

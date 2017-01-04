@@ -4,7 +4,7 @@
 <mapper namespace="ComDictMapper">
 
 	<sql id="dictColumns">dictId,parentId,dictCode,dictName,dictType,dictStatus,dictValue,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="dictTable">com_dict</sql>
+	<sql id="dictTable"></sql>
 	
 	<resultMap type="comDict" id="comDictResultMap">
 		<id column="dictId" property="dictId"/>
@@ -38,7 +38,7 @@
 		( 
 	<include refid="dictColumns"/>
 		) values (
-			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -49,7 +49,7 @@
 		( 
 	<include refid="dictColumns"/>
 		) values (
-			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -71,8 +71,8 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			dictId = #{dictId} and 
-			parentId = #{parentId}
+			dictId = #{dictId} 
+			 and parentId = #{parentId}
 	</update>
 	
 	<!-- 修改 -->
@@ -93,8 +93,8 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			dictId = #{dictId} and 
-			parentId = #{parentId}
+			dictId = #{dictId} 
+			 and parentId = #{parentId}
 	</update>
 	
 	<!-- 删除 -->
@@ -102,8 +102,8 @@
 		delete from 
 	<include refid="dictTable"/>
 		where 
-			dictId = #{dictId} and 
-			parentId = #{parentId}
+			dictId = #{dictId} 
+			 and parentId = #{parentId}
 	</delete>
 	
 	<!-- 批量删除 -->
@@ -124,8 +124,7 @@
 		from 
 	<include refid="dictTable"/>
 		where 
-			dictId = #{dictId} and 
-			parentId = #{parentId}
+			parentId = #{parentId} and 
 	</select>
 	
 	<!-- 通过pd获取(PageData)数据  -->
@@ -135,8 +134,7 @@
 		from 
 	<include refid="dictTable"/>
 		where 
-			dictId = #{dictId} and 
-			parentId = #{parentId}
+			parentId = #{parentId} and 
 	</select>
 	
 	<!-- 获取(类)List数据  -->

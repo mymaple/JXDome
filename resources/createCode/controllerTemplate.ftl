@@ -114,6 +114,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	            return mv;  
 	        }
 			
+			${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 			<#list bgMapleDetailList as bgMapleDetail>
 				<#if bgMapleDetail.isEdit == '00'>
 				<#if bgMapleDetail.mapleDetailType == '01'>
@@ -142,13 +143,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * 去修改页面
 	 */
 	@RequestMapping(value="/toEdit")
-	public ModelAndView toEdit(<#list bgMapleDetailKeyList as bgMapleDetail>@RequestParam String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>) throws Exception{
+	public ModelAndView toEdit(@RequestParam String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,@RequestParam String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception{
 		logBefore(logger, "去修改${bgMaple.mapleEntityLower}页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = ${bgMaple.mapleEntityLower}Service.findById(<#list bgMapleDetailKeyList as bgMapleDetail>${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>);	//根据ID读取
+			${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = ${bgMaple.mapleEntityLower}Service.findById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID读取
 			mv.addObject("pathMsg", "edit");
 			mv.addObject("${bgMaple.mapleEntityLower}", ${bgMaple.mapleEntityLower});
 			
@@ -207,7 +208,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(<#list bgMapleDetailKeyList as bgMapleDetail>@RequestParam String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>)throws Exception{
+	public Object toDelete(@RequestParam String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,@RequestParam String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception{
 		logBefore(logger, "删除${bgMaple.mapleEntityLower}");
 		
 		Map<String,String> map = new HashMap<String,String>();
@@ -216,7 +217,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		
 		try{
 			pd = this.getPageData();
-			${bgMaple.mapleEntityLower}Service.deleteById(<#list bgMapleDetailKeyList as bgMapleDetail>${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>);
+			${bgMaple.mapleEntityLower}Service.deleteById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
 			errInfo = "success";
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -238,8 +239,14 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		try {
 			pd = this.getPageData();
 			String ${bgMaple.mapleCode}Ids = pd.getString("${bgMaple.mapleCode}Ids");
+		<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.isKey == "01">
+			String ${bgMapleDetail.mapleDetailCode} = pd.getString("${bgMapleDetail.mapleDetailCode}");
+		</#if>
+		</#list>
+			
 			if(null != ${bgMaple.mapleCode}Ids && !"".equals(${bgMaple.mapleCode}Ids)){
-				${bgMaple.mapleEntityLower}Service.batchDeleteByIds(${bgMaple.mapleCode}Ids.split(","));
+				${bgMaple.mapleEntityLower}Service.batchDeleteByIds(${bgMaple.mapleCode}Ids.split(",")<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
 				pd.put("msg", "success");
 			}else{
 				pd.put("msg", "false");
@@ -264,8 +271,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			pd = this.getPageData();
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
+			titles.add("${bgMaple.mapleName} 主键id");
 		<#list bgMapleDetailList as bgMapleDetail>
-			titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index}
+			titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index+1}
 		</#list>
 			dataMap.put("titles", titles);
 			List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.listByPd(pd);
@@ -273,8 +281,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
+				vpd.put("var0",varOList.get(i).get${bgMaple.mapleCodeUpper}Id());
 			<#list bgMapleDetailList as bgMapleDetail>
-				vpd.put("var${bgMapleDetail_index}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}());	//${bgMapleDetail_index}
+				vpd.put("var${bgMapleDetail_index+1}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}());	//${bgMapleDetail_index+1}
 			</#list>
 				varList.add(vpd);
 			}
@@ -341,7 +350,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			Date nowTime = new Date();
 			if (null != file && !file.isEmpty()) {
 				String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
-				String fileName =  MapleFileUtil.fileUp(file, filePath, "userexcel");							//执行上传
+				String fileName =  MapleFileUtil.fileUp(file, filePath, "${bgMaple.mapleCode}excel");		//执行上传
 				List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 				/*存入数据库操作======================================*/
 				
@@ -368,6 +377,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				</#list>
 				 */
 				for(int i=0;i<listPd.size();i++){	
+					${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 					<#list bgMapleDetailList as bgMapleDetail>
 						<#if bgMapleDetail.isEdit == '01'>
 						<#if bgMapleDetail.mapleDetailType == '01'>

@@ -24,9 +24,9 @@ public class ComDict implements Serializable {
 	
 	/**************************table prop satrt*********************************/
 	
-	/** 数据字典主键id */
+	/** 数据字典 主键id */
 	private String dictId;
-		
+	
 	/** 上级id */
 	private String parentId;
 		
@@ -67,17 +67,18 @@ public class ComDict implements Serializable {
 	private Date modifyTime;
 		
 	
+	
 	/**
-	 * 设置 数据字典主键id
+	 * 设置数据字典 主键id
 	 * 
 	 * @param String dictId
 	 */
 	public void setDictId(String dictId) {
-		this.dictId = MapleStringUtil.trim(dictId);
+		this.dictId = dictId;
 	}
 	
 	/**
-	 * 获取 数据字典主键id
+	 * 获取数据字典 主键id
 	 * 
 	 * @return String dictId
 	 */
@@ -358,7 +359,6 @@ public class ComDict implements Serializable {
 	
 	public void init() {
 	
-		setDictId("");
 		setParentId("");
 		setDictCode("");
 		setDictName("");

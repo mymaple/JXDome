@@ -45,13 +45,16 @@ public class ${bgMaple.mapleEntityUpper}Service {
 
 	/**
 	 * 删除 
-	 * @param <#list bgMapleDetailKeyList as bgMapleDetail>String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>
 	 * @throws Exception
 	 */
-	public void deleteById(<#list bgMapleDetailKeyList as bgMapleDetail>String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>) throws Exception {
+	public void deleteById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
 		PageData pd = new PageData();
-	<#list bgMapleDetailKeyList as bgMapleDetail>
+		pd.put("$${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.isKey == "01">
 		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
+	</#if>
 	</#list>
 		this.deleteByPd(pd);
 	}
@@ -76,14 +79,17 @@ public class ${bgMaple.mapleEntityUpper}Service {
 
 	/**
 	 * 通过id获取(类)数据
-	 * @param <#list bgMapleDetailKeyList as bgMapleDetail>String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>
 	 * @return ${bgMaple.mapleEntityUpper}
 	 * @throws Exception
 	 */
-	public ${bgMaple.mapleEntityUpper} findById(<#list bgMapleDetailKeyList as bgMapleDetail>String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>) throws Exception {
+	public ${bgMaple.mapleEntityUpper} findById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
 		PageData pd = new PageData();
-	<#list bgMapleDetailKeyList as bgMapleDetail>
+	pd.put("$${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.isKey == "01">
 		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
+	</#if>
 	</#list>
 		return this.findByPd(pd);
 	}
@@ -100,14 +106,17 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	
 	/**
 	 * 通过id获取(PageData)数据 
-	 * @param <#list bgMapleDetailKeyList as bgMapleDetail>String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>
 	 * @return PageData
 	 * @throws Exception
 	 */
-	public PageData findPdById(<#list bgMapleDetailKeyList as bgMapleDetail>String ${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next> ,</#if></#list>) throws Exception {
+	public PageData findPdById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
 		PageData pd = new PageData();
-	<#list bgMapleDetailKeyList as bgMapleDetail>
+	pd.put("$${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.isKey == "01">
 		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
+	</#if>
 	</#list>
 		return this.findPdByPd(pd);
 	}

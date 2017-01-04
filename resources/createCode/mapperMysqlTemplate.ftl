@@ -3,10 +3,11 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${bgMaple.mapleEntityUpper}Mapper">
 
-	<sql id="${bgMaple.mapleCode}Columns"><#list bgMapleDetailList as bgMapleDetail>${bgMapleDetail.mapleDetailCode}<#if bgMapleDetail_has_next>,</#if></#list></sql>
+	<sql id="${bgMaple.mapleCode}Columns">${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail>,${bgMapleDetail.mapleDetailCode}</#list></sql>
 	<sql id="${bgMaple.mapleCode}Table">${bgMaple.tableCode}</sql>
 	
 	<resultMap type="${bgMaple.mapleEntityLower}" id="${bgMaple.mapleEntityLower}ResultMap">
+		<id column="${bgMaple.mapleCode}Id" property="${bgMaple.mapleCode}Id"/>
 			<#list bgMapleDetailList as bgMapleDetail>
 		<<#if bgMapleDetail.isKey == '01'>id<#else>result</#if> column="${bgMapleDetail.mapleDetailCode}" property="${bgMapleDetail.mapleDetailCode}"/>
 			</#list>
@@ -53,8 +54,11 @@
 			</#if>
 			</#list>
 		where 
-			<#list bgMapleDetailKeyList as bgMapleDetail>
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
+			<#list bgMapleDetailList as bgMapleDetail> 
+			<#if bgMapleDetail.isKey == "01">
+			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
+			</#if>
 			</#list>
 	</update>
 	
@@ -69,8 +73,11 @@
 			</#if>
 			</#list>
 		where 
-			<#list bgMapleDetailKeyList as bgMapleDetail>
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
+			<#list bgMapleDetailList as bgMapleDetail> 
+			<#if bgMapleDetail.isKey == "01">
+			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
+			</#if>
 			</#list>
 	</update>
 	
@@ -79,8 +86,11 @@
 		delete from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			<#list bgMapleDetailKeyList as bgMapleDetail>
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
+			<#list bgMapleDetailList as bgMapleDetail> 
+			<#if bgMapleDetail.isKey == "01">
+			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
+			</#if>
 			</#list>
 	</delete>
 	
@@ -102,8 +112,10 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			<#list bgMapleDetailKeyList as bgMapleDetail>
+			<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.isKey == "01">
 			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			</#if>
 			</#list>
 	</select>
 	
@@ -114,8 +126,10 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			<#list bgMapleDetailKeyList as bgMapleDetail>
+			<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.isKey == "01">
 			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			</#if>
 			</#list>
 	</select>
 	

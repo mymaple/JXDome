@@ -24,6 +24,9 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	/**************************table prop satrt*********************************/
 	
+	/** ${bgMaple.mapleName} 主键id */
+	private String ${bgMaple.mapleCode}Id;
+	
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
 		<#if bgMapleDetail.mapleDetailType == '01'>
@@ -37,6 +40,25 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 		</#if>
 		
 	</#list>
+	
+	
+	/**
+	 * 设置${bgMaple.mapleName} 主键id
+	 * 
+	 * @param String ${bgMaple.mapleCode}Id
+	 */
+	public void set${bgMaple.mapleCodeUpper}Id(String ${bgMaple.mapleCode}Id) {
+		this.${bgMaple.mapleCode}Id = ${bgMaple.mapleCode}Id;
+	}
+	
+	/**
+	 * 获取${bgMaple.mapleName} 主键id
+	 * 
+	 * @return String ${bgMaple.mapleCode}Id
+	 */
+	public String get${bgMaple.mapleCodeUpper}Id() {
+		return this.${bgMaple.mapleCode}Id;
+	}
 	
 	<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailType == '01'>

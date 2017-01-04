@@ -1,7 +1,7 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -71,7 +71,7 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 								<#list bgMapleDetailList as bgMapleDetail>
-								<#if bgMapleDetail.isEdit == "01">
+								<#if bgMapleDetail.isEdit = "01">
 									<th class="center">${bgMapleDetail.mapleDetailName}</th>
 								</#if>
 								</#list>
@@ -87,11 +87,11 @@
 									<c:forEach items="${r"${${bgMaple.mapleEntityLower}List}"}" var="${bgMaple.mapleEntityLower}" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">-${bgMapleDetail.mapleDetailCode}</#if></#list>" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
 										<#list bgMapleDetailList as bgMapleDetail>
-										<#if bgMapleDetail.isEdit == "01">
+										<#if bgMapleDetail.isEdit == "01" >
 											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
 										</#if>
 										</#list>
@@ -101,12 +101,12 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${r"${RIGHTS.edit}" }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${r"${RIGHTS.del }"}">
-													<a class="btn btn-xs btn-danger" onclick="toDelete('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}');">
+													<a class="btn btn-xs btn-danger" onclick="toDelete('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -134,10 +134,10 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<c:if test="${r"${RIGHTS.add == 1 }"}">
+									<c:if test="${r"${RIGHTS.add }"}">
 									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
-									<c:if test="${r"${RIGHTS.del == 1 }"}">
+									<c:if test="${r"${RIGHTS.del }"}">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
 								</td>
@@ -236,11 +236,11 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do';
+			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do";
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
-			 diag. ShowMaxButton = true;	//最大化按钮
+			 diag.ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
@@ -248,7 +248,7 @@
 						 top.jzts();
 						 setTimeout("self.location=self.location",100);
 					 }else{
-						 nextPage(${r"${bgPage.currentPage}"});
+						 nextPage('${r"${bgPage.currentPage}"}');
 					 }
 				}
 				diag.close();
@@ -257,25 +257,25 @@
 		}
 		
 		//删除
-		function toDelete(${bgMaple.mapleCode}Id){
+		function toDelete(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toDelete.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toDelete.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
 					$.get(url,function(data){
-						nextPage(${r"${bgPage.currentPage}"});
+						nextPage('${r"${bgPage.currentPage}"}');
 					});
 				}
 			});
 		}
 		
 		//修改
-		function toEdit(Id){
+		function toEdit(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toEdit.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
+			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toEdit.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -320,7 +320,7 @@
 							$.ajax({
 								type: "POST",
 								url: '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toBatchDelete.do?tm='+new Date().getTime(),
-						    	data: {${bgMaple.mapleCode}Ids:str},
+						    	data: {ids:str},
 								dataType:'json',
 								//beforeSend: validateData,
 								cache: false,

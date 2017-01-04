@@ -325,8 +325,8 @@ public class BgMapleDetailController extends BaseController {
 		//Freemarker.printFile("oracle_SQL_Template.ftl", root, "oracle数据库脚本/" + tabletop + objectName.toUpperCase() + ".sql", filePath, ftlPath);
 
 		/* 生成jsp页面 */
-//		Freemarker.printFile("jsp_list_Template.ftl", root, "jsp/" + controlModuleNL + "/" + objectNameL + "/" + objectModuleEL + objectNameU + "List.jsp", filePath, ftlPath);
-//		Freemarker.printFile("jsp_edit_Template.ftl", root, "jsp/" + controlModuleNL + "/" + objectNameL + "/" + objectModuleEL + objectNameU + "Edit.jsp", filePath, ftlPath);
+		Freemarker.printFile("jsp_list_Template.ftl", root, "jsp/" + bgMaple.getControllerPackage() + bgMaple.getMapleCode() + "/" + bgMaple.getMapleControllerLower() + "List.jsp", filePath, ftlPath);
+		Freemarker.printFile("jsp_edit_Template.ftl", root, "jsp/" + bgMaple.getControllerPackage() + bgMaple.getMapleCode() + "/" + bgMaple.getMapleControllerLower() + "Edit.jsp", filePath, ftlPath);
 
 		/* 生成说明文档 */
 //		Freemarker.printFile("docTemplate.ftl", root, "说明.doc", filePath, ftlPath);
