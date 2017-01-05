@@ -393,14 +393,13 @@ public class BgDictController extends BaseController {
 				comDict.setModifyTime(nowTime);
 				
 				/**
-				 * var1 :数据字典代号;	//1
-				 * var2 :数据字典名称;	//2
-				 * var3 :数据字典类型;	//3
-				 * var5 :数据字典值;	//5
+				 * var0 :数据字典代号;	//0
+				 * var1 :数据字典名称;	//1
+				 * var2 :数据字典类型;	//2
+				 * var3 :数据字典值;	//3
 				 */
 				for(int i=0;i<listPd.size();i++){	
 					comDict.setDictId(this.get32UUID());
-					comDict.setParentId(this.get32UUID());
 					comDict.setDictCode(listPd.get(i).getString("var0"));
 					comDict.setDictName(listPd.get(i).getString("var1"));
 					comDict.setDictType(listPd.get(i).getString("var2"));

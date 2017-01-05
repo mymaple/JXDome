@@ -42,6 +42,15 @@ public class ComDictService {
 	public void edit(ComDict comDict) throws Exception {
 		dao.edit("ComDictMapper.edit", comDict);
 	}
+	
+	/**
+	 * 更改
+	 * @param ComDict comDict
+	 * @throws Exception
+	 */
+	public void change(ComDict comDict) throws Exception {
+		dao.edit("ComDictMapper.change", comDict);
+	}
 
 	/**
 	 * 删除 
@@ -126,7 +135,17 @@ public class ComDictService {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ComDict> listByPd(PageData pd) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.listByPd", null);
+		return (List<ComDict>) dao.findForList("ComDictMapper.listByPd", pd);
+	}
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComDict> has(ComDict comDict) throws Exception {
+		return (List<ComDict>) dao.findForList("ComDictMapper.has", comDict);
 	}
 	
 	/**

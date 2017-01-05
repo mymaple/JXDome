@@ -97,6 +97,42 @@
 			 and parentId = #{parentId}
 	</update>
 	
+	<!-- 改变 -->
+	<update id="change" parameterType="comDict">
+		update
+	<include refid="dictTable"/>
+		set 
+			<if test="dictCode!=null and dictCode!=''">
+			dictCode = #{dictCode},
+			</if>
+			<if test="dictName!=null and dictName!=''">
+			dictName = #{dictName},
+			</if>
+			<if test="dictType!=null and dictType!=''">
+			dictType = #{dictType},
+			</if>
+			<if test="dictStatus!=null and dictStatus!=''">
+			dictStatus = #{dictStatus},
+			</if>
+			<if test="dictValue!=null and dictValue!=''">
+			dictValue = #{dictValue},
+			</if>
+			<if test="level!=null and level!=''">
+			level = #{level},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			dictId = #{dictId} 
+			 and parentId = #{parentId}
+	</update>
+	
 	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
 		delete from 
@@ -146,6 +182,57 @@
 		from 
 	<include refid="dictTable"/>
 		where 1=1
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="has" parameterType="comDict" resultMap="comDictResultMap">
+		select 
+	<include refid="dictColumns"/>
+		from 
+	<include refid="dictTable"/>
+		where 1=1
+			<if test="dictId!=null and dictId!=''">
+			 and dictId = #{dictId} 
+			</if>
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId}
+			</if>
+			<if test="dictCode!=null and dictCode!=''">
+			 and dictCode = #{dictCode}
+			</if>
+			<if test="dictName!=null and dictName!=''">
+			 and dictName = #{dictName}
+			</if>
+			<if test="dictType!=null and dictType!=''">
+			 and dictType = #{dictType}
+			</if>
+			<if test="dictStatus!=null and dictStatus!=''">
+			 and dictStatus = #{dictStatus}
+			</if>
+			<if test="dictValue!=null and dictValue!=''">
+			 and dictValue = #{dictValue}
+			</if>
+			<if test="level!=null and level!=''">
+			 and level = #{level}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->

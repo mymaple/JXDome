@@ -110,10 +110,14 @@ public class BgMapleController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		
+		String mapleType = bgMaple.getMapleType();
+		if("04".equals(mapleType)){
+			bgMaple.setMapleCode(bgMaple.getMapleCode()+"Detail");
+			bgMaple.setMapleName(bgMaple.getMapleName()+"详细");
+		}
 		String mapleCode = bgMaple.getMapleCode();
 		String mapleCodeUpper = MapleStringUtil.firstToUpper(mapleCode);
 		String mapleName= bgMaple.getMapleName();
-		String mapleType = bgMaple.getMapleType();
 		bgMaple.setMapleCodeUpper(mapleCodeUpper);
 		bgMaple.setMapleControllerLower("bg"+mapleCodeUpper);
 		bgMaple.setMapleControllerUpper("Bg"+mapleCodeUpper);

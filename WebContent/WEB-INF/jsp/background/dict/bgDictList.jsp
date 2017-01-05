@@ -50,9 +50,6 @@
 									<option value="">全部</option>
 									<option value="">1</option>
 									<option value="">2</option>
-									<option value="">sadsad</option>
-									<option value="">所发生的</option>
-									<option value="">说说各话</option>
 								  	</select>
 								</td>
 								<c:if test="${RIGHTS.sele}">

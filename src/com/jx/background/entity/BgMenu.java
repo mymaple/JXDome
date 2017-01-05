@@ -18,7 +18,7 @@ public class BgMenu implements Serializable {
 	
 	/**************************custom prop satrt********************************/
 	
-	/**  */
+	/** 指标 */
 	private String target;
 	
 	/** 上级菜单 */
@@ -32,7 +32,7 @@ public class BgMenu implements Serializable {
 	
 	
 	/**
-	 * 获取 
+	 * 获取 指标
 	 * 
 	 * @return String target
 	 */
@@ -41,7 +41,7 @@ public class BgMenu implements Serializable {
 	}
 	
 	/**
-	 * 设置
+	 * 设置 指标
 	 * 
 	 * @param String target
 	 */
