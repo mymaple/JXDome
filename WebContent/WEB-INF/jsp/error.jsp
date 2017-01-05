@@ -31,7 +31,7 @@
     <h1>应用程序异常</h1> 
     <p>抱歉！您访问的页面出现异常，请稍后重试或联系管理员。</p> 
     <p><a href="javascript:showErr();">详 情</a> 
-<a href="javascript:history.back(-1)">返 回</a> 
+		<a href="javascript:history.back(-1)">返 回</a> 
     </p> 
     <div style="display:none;text-align: left;" id="err">${exception }</div>
   </div>

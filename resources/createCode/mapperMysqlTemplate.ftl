@@ -28,7 +28,7 @@
 		( 
 	<include refid="${bgMaple.mapleCode}Columns"/>
 		) values (
-			<#list bgMapleDetailList as bgMapleDetail>${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if></#list>
+			${r"#{"}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>
 		)
 	</insert>
 	
@@ -39,7 +39,7 @@
 		( 
 	<include refid="${bgMaple.mapleCode}Columns"/>
 		) values (
-			<#list bgMapleDetailList as bgMapleDetail>${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if></#list>
+			${r"#{"}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>
 		)
 	</insert>
 	
@@ -81,6 +81,27 @@
 			</#list>
 	</update>
 	
+	<!-- 改变 -->
+	<update id="change" parameterType="${bgMaple.mapleEntityLower}">
+		update
+	<include refid="${bgMaple.mapleCode}Table"/>
+		set 
+			<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.isKey == '00'>
+			
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if>
+			
+			</#if>
+			</#list>
+		where 
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
+			<#list bgMapleDetailList as bgMapleDetail> 
+			<#if bgMapleDetail.isKey == "01">
+			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
+			</#if>
+			</#list>
+	</update>
+	
 	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
 		delete from 
@@ -99,7 +120,7 @@
 		delete from 
  <include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			${bgMaple.mapleCode}Id in 
+			CONCAT(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">,'-',${bgMapleDetail.mapleDetailCode}</#if></#list>) in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             ${r"#{"}id${r"}"}
         </foreach>
@@ -112,9 +133,10 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			<#list bgMapleDetailList as bgMapleDetail>
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
+			<#list bgMapleDetailList as bgMapleDetail> 
 			<#if bgMapleDetail.isKey == "01">
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
 			</#if>
 			</#list>
 	</select>
@@ -126,9 +148,10 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			<#list bgMapleDetailList as bgMapleDetail>
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
+			<#list bgMapleDetailList as bgMapleDetail> 
 			<#if bgMapleDetail.isKey == "01">
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next> and </#if>
+			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
 			</#if>
 			</#list>
 	</select>

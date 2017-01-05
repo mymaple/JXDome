@@ -32,6 +32,13 @@ public class BaseController {
 	public ModelAndView getModelAndView() {
 		return new ModelAndView();
 	}
+	
+	/**
+	 * 得到ResultInfo
+	 */
+	public ResultInfo getResultInfo() {
+		return new ResultInfo();
+	}
 
 	/**
 	 * 得到response对象

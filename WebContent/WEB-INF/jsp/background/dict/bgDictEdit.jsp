@@ -27,29 +27,27 @@
 				<div class="row">
 					<div class="col-xs-12">
 					
-					<form action="${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${r"${pathMsg }"}.do" name="${bgMaple.mapleCode}Form" id="${bgMaple.mapleCode}Form" method="post">
-						<input type="hidden" name="${bgMaple.mapleCode}Id" id="${bgMaple.mapleCode}Id" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}"/>
-				<#list bgMapleDetailList as bgMapleDetail>
-					<#if bgMapleDetail.isKey == "01" >
-						<input type="hidden" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/>
-					</#if>
-				</#list>	
+					<form action="background/dict/${pathMsg }.do" name="dictForm" id="dictForm" method="post">
+						<input type="hidden" name="dictId" id="dictId" value="${comDict.dictId}"/>
+						<input type="hidden" name="parentId" id="parentId" value="${comDict.parentId}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
-				<#list bgMapleDetailList as bgMapleDetail>
-					<#if bgMapleDetail.isEdit == "01" >
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
-						<#if bgMapleDetail.mapleDetailType == '01'>
-								<td><input type="text" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.length}" placeholder="这里输入${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
-						<#elseif bgMapleDetail.mapleDetailType == '02' || bgMapleDetail.mapleDetailType == '04'>
-								<td><input type="number" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.length}" placeholder="这里输入${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
-						<#elseif bgMapleDetail.mapleDetailType == '03'>
-								<td><input class="span10 date-picker" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="${var[2] }" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
-						</#if>
+								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典代号:</td>
+								<td><input type="text" name="dictCode" id="dictCode" value="${comDict.dictCode}" maxlength="100" placeholder="这里输入数据字典代号" title="数据字典代号" style="width:98%;"/></td>
 							</tr>
-					</#if>
-				</#list>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典名称:</td>
+								<td><input type="text" name="dictName" id="dictName" value="${comDict.dictName}" maxlength="100" placeholder="这里输入数据字典名称" title="数据字典名称" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典类型:</td>
+								<td><input type="text" name="dictType" id="dictType" value="${comDict.dictType}" maxlength="100" placeholder="这里输入数据字典类型" title="数据字典类型" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典值:</td>
+								<td><input type="text" name="dictValue" id="dictValue" value="${comDict.dictValue}" maxlength="100" placeholder="这里输入数据字典值" title="数据字典值" style="width:98%;"/></td>
+							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
@@ -87,21 +85,47 @@
 		$(top.hangge());
 		//保存
 		function save(){
-		<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.isEdit == "01" >
-			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
-				$("#${bgMapleDetail.mapleDetailCode }").tips({
+			if($("#dictCode").val()==""){
+				$("#dictCode").tips({
 					side:3,
-		            msg:'请输入${bgMapleDetail.mapleDetailName }',
+		            msg:'请输入数据字典代号',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#${bgMapleDetail.mapleDetailCode }").focus();
+				$("#dictCode").focus();
 			return false;
 			}
-		</#if>
-		</#list>
-			$("#${bgMaple.mapleCode}Form").submit();
+			if($("#dictName").val()==""){
+				$("#dictName").tips({
+					side:3,
+		            msg:'请输入数据字典名称',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#dictName").focus();
+			return false;
+			}
+			if($("#dictType").val()==""){
+				$("#dictType").tips({
+					side:3,
+		            msg:'请输入数据字典类型',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#dictType").focus();
+			return false;
+			}
+			if($("#dictValue").val()==""){
+				$("#dictValue").tips({
+					side:3,
+		            msg:'请输入数据字典值',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#dictValue").focus();
+			return false;
+			}
+			$("#dictForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
 		}

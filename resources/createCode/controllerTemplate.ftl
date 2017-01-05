@@ -27,6 +27,7 @@ import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
+import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.${bgMaple.mapleEntityUpper};
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
@@ -59,19 +60,22 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	public ModelAndView list(BgPage bgPage) throws Exception{
 		logBefore(logger, "列表${bgMaple.mapleEntityLower}");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try{
-			pd = this.getPageData();
 			bgPage.setPd(pd);
 			List<PageData>	${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.listPage(bgPage);	//列出${bgMaple.mapleEntityLower}列表
 			
 			mv.addObject("${bgMaple.mapleEntityLower}List", ${bgMaple.mapleEntityLower}List);
 			mv.addObject("pd", pd);
 			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());	//按钮权限
-			
+			resultInfo.setResultCode("success");
 		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("列表失败");
 			logger.error(e.toString(), e);
 		}
+		mv.addObject(resultInfo);
 		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}List");
 		return mv;
 	}
@@ -83,15 +87,18 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	public ModelAndView toAdd() throws Exception{
 		logBefore(logger, "去新增${bgMaple.mapleEntityLower}页面");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try {
-			pd = this.getPageData();
 			mv.addObject("pathMsg", "add");
 			mv.addObject("pd", pd);
-			
-		} catch (Exception e) {
+			resultInfo.setResultCode("success");
+		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("去新增页面失败");
 			logger.error(e.toString(), e);
-		}						
+		}
+		mv.addObject(resultInfo);					
 		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
 		return mv;
 	}	
@@ -103,14 +110,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	public ModelAndView add(@Valid ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
 		logBefore(logger, "新增${bgMaple.mapleEntityLower}");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try {
-			pd = this.getPageData();
 			Date nowTime = new Date();
 			
 			if(result.hasErrors()) {
-				mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
+				mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
 	            return mv;  
 	        }
 			
@@ -130,11 +136,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			</#list>
 			
 			${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
-			mv.addObject("msg","success");
-		} catch (Exception e) {
-			mv.addObject("msg","false");
+			resultInfo.setResultCode("success");
+		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("新增失败");
 			logger.error(e.toString(), e);
 		}
+		mv.addObject(resultInfo);
 		mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
 		return mv;
 	}
@@ -143,19 +151,22 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * 去修改页面
 	 */
 	@RequestMapping(value="/toEdit")
-	public ModelAndView toEdit(@RequestParam String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,@RequestParam String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception{
+	public ModelAndView toEdit(@RequestParam String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, @RequestParam String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception{
 		logBefore(logger, "去修改${bgMaple.mapleEntityLower}页面");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try {
-			pd = this.getPageData();
-			${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = ${bgMaple.mapleEntityLower}Service.findById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID读取
+			${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = ${bgMaple.mapleEntityLower}Service.findById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID读取
 			mv.addObject("pathMsg", "edit");
-			mv.addObject("${bgMaple.mapleEntityLower}", ${bgMaple.mapleEntityLower});
-			
-		} catch (Exception e) {
+			mv.addObject(${bgMaple.mapleEntityLower});
+			resultInfo.setResultCode("success");
+		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("去修改页面失败");
 			logger.error(e.toString(), e);
-		}						
+		}
+		mv.addObject(resultInfo);						
 		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
 		return mv;
 	}	
@@ -167,14 +178,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	public ModelAndView edit(@Valid ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
 		logBefore(logger, "修改${bgMaple.mapleEntityLower}");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try {
-			pd = this.getPageData();
 			Date nowTime = new Date();
 			
 			if(result.hasErrors()) {
-				mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
+				mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
 	            return mv;  
 	        }
 	        
@@ -193,12 +203,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			</#list>
 	        
 			${bgMaple.mapleEntityLower}Service.edit(${bgMaple.mapleEntityLower});
-			mv.addObject("msg","success");
-		} catch (Exception e) {
-			mv.addObject("msg","false");
+			resultInfo.setResultCode("success");
+		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("编辑失败");
 			logger.error(e.toString(), e);
 		}
-		
+		mv.addObject(resultInfo);
 		mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
 		return mv;
 	}
@@ -208,23 +219,20 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(@RequestParam String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,@RequestParam String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception{
+	public Object toDelete(@RequestParam String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, @RequestParam String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception{
 		logBefore(logger, "删除${bgMaple.mapleEntityLower}");
-		
-		Map<String,String> map = new HashMap<String,String>();
-		String errInfo = "";
-		PageData pd = new PageData();
-		
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try{
-			pd = this.getPageData();
-			${bgMaple.mapleEntityLower}Service.deleteById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
-			errInfo = "success";
+			${bgMaple.mapleEntityLower}Service.deleteById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
+			resultInfo.setResultCode("success");
 		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("删除失败");
 			logger.error(e.toString(), e);
-			errInfo = "false";
 		}
-		map.put("result", errInfo);
-		return AppUtil.returnObject(new PageData(), map);
+		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
 	/**
@@ -234,41 +242,38 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	@ResponseBody
 	public Object toBatchDelete() {
 		logBefore(logger, "批量删除${bgMaple.mapleEntityLower}");
-		PageData pd = new PageData();		
-		Map<String,Object> map = new HashMap<String,Object>();
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try {
-			pd = this.getPageData();
-			String ${bgMaple.mapleCode}Ids = pd.getString("${bgMaple.mapleCode}Ids");
-		<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.isKey == "01">
-			String ${bgMapleDetail.mapleDetailCode} = pd.getString("${bgMapleDetail.mapleDetailCode}");
-		</#if>
-		</#list>
+			String ids = pd.getString("ids");
 			
-			if(null != ${bgMaple.mapleCode}Ids && !"".equals(${bgMaple.mapleCode}Ids)){
-				${bgMaple.mapleEntityLower}Service.batchDeleteByIds(${bgMaple.mapleCode}Ids.split(",")<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
+			if(null != ids && !"".equals(ids)){
+				${bgMaple.mapleEntityLower}Service.batchDeleteByIds(ids.split(","));	//根据ID删除
 				pd.put("msg", "success");
 			}else{
 				pd.put("msg", "false");
 			}
-		} catch (Exception e) {
+			resultInfo.setResultCode("success");
+		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("批量删除失败");
 			logger.error(e.toString(), e);
-			pd.put("msg", "false");
-		} 
-		return AppUtil.returnObject(pd, map);
+		}
+		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
 	/*
 	 * 导出到excel
 	 * @return
 	 */
-	@RequestMapping(value="/excel")
-	public ModelAndView exportExcel(){
+	@RequestMapping(value="/toExportExcel")
+	public ModelAndView toExportExcel(){
 		logBefore(logger, "导出${bgMaple.mapleEntityLower}到excel");
-		ModelAndView mv = new ModelAndView();
-		PageData pd = new PageData();
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try{
-			pd = this.getPageData();
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
 			titles.add("${bgMaple.mapleName} 主键id");
@@ -290,9 +295,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			dataMap.put("varList", varList);
 			ObjectExcelView erv = new ObjectExcelView();
 			mv = new ModelAndView(erv,dataMap);
+			resultInfo.setResultCode("success");
 		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("列表失败");
 			logger.error(e.toString(), e);
 		}
+		mv.addObject(resultInfo);
 		return mv;
 	}
 	
@@ -301,7 +310,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/toUploadExcel")
-	public ModelAndView goUploadExcel()throws Exception{
+	public ModelAndView toUploadExcel()throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		mv.addObject("pathObj","${bgMaple.mapleCode}");
 		mv.setViewName("background/bgUploadExcel");
@@ -314,9 +323,10 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/downExcelModel")
 	public ModelAndView downExcelModel()throws Exception{
-		
 		logBefore(logger, "导出bgUser到excel");
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
@@ -328,9 +338,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			dataMap.put("titles", titles);
 			ObjectExcelView erv = new ObjectExcelView();
 			mv = new ModelAndView(erv,dataMap);
+			resultInfo.setResultCode("success");
 		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("下载模版失败");
 			logger.error(e.toString(), e);
 		}
+		mv.addObject(resultInfo);
 		return mv;
 	}
 		
@@ -346,6 +360,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			@RequestParam(value="excel",required=false) MultipartFile file
 			) throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		try {
 			Date nowTime = new Date();
 			if (null != file && !file.isEmpty()) {
@@ -380,15 +396,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 					${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 					<#list bgMapleDetailList as bgMapleDetail>
 						<#if bgMapleDetail.isEdit == '01'>
-						<#if bgMapleDetail.mapleDetailType == '01'>
-					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>"${bgMapleDetail.defaultValue}"<#else>""</#if>);
-						<#elseif bgMapleDetail.mapleDetailType == '02'>
-					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
-						<#elseif bgMapleDetail.mapleDetailType == '03'>
-					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
-						<#elseif bgMapleDetail.mapleDetailType == '04'>
-					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
-						</#if>
+					${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(listPd.get(i).getString("var${bgMapleDetail_index}"));
 						</#if>
 					</#list>
 					${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
@@ -396,9 +404,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				/*存入数据库操作======================================*/
 				mv.addObject("msg","success");
 			}
-		} catch (Exception e) {
+			resultInfo.setResultCode("success");
+		} catch(Exception e){
+			resultInfo.setResultCode("false");
+			resultInfo.setResultContent("EXCEL导入失败");
 			logger.error(e.toString(), e);
-		}	
+		}
+		mv.addObject(resultInfo);
 		
 		mv.setViewName("background/bgSaveResult");
 		return mv;

@@ -45,12 +45,12 @@ public class ComDictService {
 
 	/**
 	 * 删除 
-	 * @param String dictId ,String parentId
+	 * @param String dictId, String parentId
 	 * @throws Exception
 	 */
-	public void deleteById(String dictId ,String parentId) throws Exception {
+	public void deleteById(String dictId, String parentId) throws Exception {
 		PageData pd = new PageData();
-		pd.put("$dictId",dictId);
+		pd.put("dictId",dictId);
 		pd.put("parentId",parentId);
 		this.deleteByPd(pd);
 	}
@@ -70,18 +70,18 @@ public class ComDictService {
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
-		dao.delete("BgUserMapper.batchDeleteByIds", ids);
+		dao.delete("ComDictMapper.batchDeleteByIds", ids);
 	}
 
 	/**
 	 * 通过id获取(类)数据
-	 * @param String dictId ,String parentId
+	 * @param String dictId, String parentId
 	 * @return ComDict
 	 * @throws Exception
 	 */
-	public ComDict findById(String dictId ,String parentId) throws Exception {
+	public ComDict findById(String dictId, String parentId) throws Exception {
 		PageData pd = new PageData();
-	pd.put("$dictId",dictId);
+		pd.put("dictId",dictId);
 		pd.put("parentId",parentId);
 		return this.findByPd(pd);
 	}
@@ -98,13 +98,13 @@ public class ComDictService {
 	
 	/**
 	 * 通过id获取(PageData)数据 
-	 * @param String dictId ,String parentId
+	 * @param String dictId, String parentId
 	 * @return PageData
 	 * @throws Exception
 	 */
-	public PageData findPdById(String dictId ,String parentId) throws Exception {
+	public PageData findPdById(String dictId, String parentId) throws Exception {
 		PageData pd = new PageData();
-	pd.put("$dictId",dictId);
+	pd.put("dictId",dictId);
 		pd.put("parentId",parentId);
 		return this.findPdByPd(pd);
 	}

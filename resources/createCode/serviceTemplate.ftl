@@ -42,15 +42,24 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	public void edit(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
 		dao.edit("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
 	}
+	
+	/**
+	 * 更改
+	 * @param ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}
+	 * @throws Exception
+	 */
+	public void change(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+		dao.edit("${bgMaple.mapleEntityUpper}Mapper.change", ${bgMaple.mapleEntityLower});
+	}
 
 	/**
 	 * 删除 
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
 	 * @throws Exception
 	 */
-	public void deleteById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
+	public void deleteById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
 		PageData pd = new PageData();
-		pd.put("$${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
+		pd.put("${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
 	<#list bgMapleDetailList as bgMapleDetail>
 	<#if bgMapleDetail.isKey == "01">
 		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
@@ -74,18 +83,18 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
-		dao.delete("BgUserMapper.batchDeleteByIds", ids);
+		dao.delete("${bgMaple.mapleEntityUpper}Mapper.batchDeleteByIds", ids);
 	}
 
 	/**
 	 * 通过id获取(类)数据
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
 	 * @return ${bgMaple.mapleEntityUpper}
 	 * @throws Exception
 	 */
-	public ${bgMaple.mapleEntityUpper} findById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
+	public ${bgMaple.mapleEntityUpper} findById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
 		PageData pd = new PageData();
-	pd.put("$${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
+		pd.put("${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
 	<#list bgMapleDetailList as bgMapleDetail>
 	<#if bgMapleDetail.isKey == "01">
 		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
@@ -106,13 +115,13 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	
 	/**
 	 * 通过id获取(PageData)数据 
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
 	 * @return PageData
 	 * @throws Exception
 	 */
-	public PageData findPdById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01"> ,String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
+	public PageData findPdById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
 		PageData pd = new PageData();
-	pd.put("$${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
+	pd.put("${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
 	<#list bgMapleDetailList as bgMapleDetail>
 	<#if bgMapleDetail.isKey == "01">
 		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
@@ -138,7 +147,17 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<${bgMaple.mapleEntityUpper}> listByPd(PageData pd) throws Exception {
-		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listByPd", null);
+		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listByPd", pd);
+	}
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<${bgMaple.mapleEntityUpper}> have(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.have", ${bgMaple.mapleEntityLower);
 	}
 	
 	/**
@@ -149,7 +168,7 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> listPage(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listPage", bgPage);
+		return (List<PageData>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listPage", pd);
 	}
 	
 	/****************************common * end***********************************/

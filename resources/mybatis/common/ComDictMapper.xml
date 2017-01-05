@@ -4,7 +4,7 @@
 <mapper namespace="ComDictMapper">
 
 	<sql id="dictColumns">dictId,parentId,dictCode,dictName,dictType,dictStatus,dictValue,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="dictTable"></sql>
+	<sql id="dictTable">com_dict</sql>
 	
 	<resultMap type="comDict" id="comDictResultMap">
 		<id column="dictId" property="dictId"/>
@@ -38,7 +38,7 @@
 		( 
 	<include refid="dictColumns"/>
 		) values (
-			#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -49,7 +49,7 @@
 		( 
 	<include refid="dictColumns"/>
 		) values (
-			#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -111,7 +111,7 @@
 		delete from 
  <include refid="dictTable"/>
 		where 
-			dictId in 
+			CONCAT(dictId,'-',parentId) in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
@@ -124,7 +124,8 @@
 		from 
 	<include refid="dictTable"/>
 		where 
-			parentId = #{parentId} and 
+			dictId = #{dictId} 
+			 and parentId = #{parentId}
 	</select>
 	
 	<!-- 通过pd获取(PageData)数据  -->
@@ -134,7 +135,8 @@
 		from 
 	<include refid="dictTable"/>
 		where 
-			parentId = #{parentId} and 
+			dictId = #{dictId} 
+			 and parentId = #{parentId}
 	</select>
 	
 	<!-- 获取(类)List数据  -->

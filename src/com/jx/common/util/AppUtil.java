@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.util.JSONPObject;
 import com.jx.common.config.Const;
 import com.jx.common.config.Logger;
 import com.jx.common.config.PageData;
+import com.jx.common.config.ResultInfo;
 
 public class AppUtil {
 
@@ -117,6 +118,15 @@ public class AppUtil {
 			return new JSONPObject(callback, map);
 		} else {
 			return map;
+		}
+	}
+	
+	public static Object returnResult(PageData pd, ResultInfo resultInfo) {
+		if (pd.containsKey("callback")) {
+			String callback = pd.get("callback").toString();
+			return new JSONPObject(callback, resultInfo);
+		} else {
+			return resultInfo;
 		}
 	}
 }

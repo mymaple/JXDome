@@ -31,13 +31,13 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do" method="post" name="${bgMaple.mapleCode}Form" id="${bgMaple.mapleCode}Form">
+						<form action="background/dict/list.do" method="post" name="dictForm" id="dictForm">
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${r"${pd.keywords }"}" placeholder="这里输入关键词"/>
+											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
@@ -50,13 +50,16 @@
 									<option value="">全部</option>
 									<option value="">1</option>
 									<option value="">2</option>
+									<option value="">sadsad</option>
+									<option value="">所发生的</option>
+									<option value="">说说各话</option>
 								  	</select>
 								</td>
-								<c:if test="${r"${RIGHTS.sele}"}">
+								<c:if test="${RIGHTS.sele}">
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toSearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
-								<%-- <c:if test="${r"${RIGHTS.toExcel}"}"> --%>
+								<%-- <c:if test="${RIGHTS.toExcel}"> --%>
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExportExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td>
-								<%-- <c:if test="${r"${RIGHTS.fromExcel}"}"> --%>
+								<%-- <c:if test="${RIGHTS.fromExcel}"> --%>
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toUploadExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td>
 								</c:if>
 							</tr>
@@ -70,11 +73,10 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-								<#list bgMapleDetailList as bgMapleDetail>
-								<#if bgMapleDetail.isEdit = "01">
-									<th class="center">${bgMapleDetail.mapleDetailName}</th>
-								</#if>
-								</#list>
+									<th class="center">数据字典代号</th>
+									<th class="center">数据字典名称</th>
+									<th class="center">数据字典类型</th>
+									<th class="center">数据字典值</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -82,31 +84,30 @@
 							<tbody>
 							<!-- 开始循环 -->	
 							<c:choose>
-								<c:when test="${r"${not empty "}${bgMaple.mapleEntityLower}List${r"}"}">
-									<c:if test="${r"${RIGHTS.sele}"}">
-									<c:forEach items="${r"${"}${bgMaple.mapleEntityLower}List${r"}"}" var="${bgMaple.mapleEntityLower}" varStatus="vs">
+								<c:when test="${not empty comDictList}">
+									<c:if test="${RIGHTS.sele}">
+									<c:forEach items="${comDictList}" var="comDict" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">-${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</#if></#list>" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${comDict.dictId}-${comDict.parentId}" class="ace" /><span class="lbl"></span></label>
 											</td>
-											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
-										<#list bgMapleDetailList as bgMapleDetail>
-										<#if bgMapleDetail.isEdit == "01" >
-											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
-										</#if>
-										</#list>
+											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center'>${comDict.dictCode}</td>
+											<td class='center'>${comDict.dictName}</td>
+											<td class='center'>${comDict.dictType}</td>
+											<td class='center'>${comDict.dictValue}</td>
 											<td class="center">
-												<c:if test="${r"${!RIGHTS.edit && !RIGHTS.del }"}">
+												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
-													<c:if test="${r"${RIGHTS.edit}" }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}'<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, '${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}'</#if></#list>);">
+													<c:if test="${RIGHTS.edit}">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comDict.dictId}', '${comDict.parentId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
-													<c:if test="${r"${RIGHTS.del }"}">
-													<a class="btn btn-xs btn-danger" onclick="toDelete('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}'<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, '${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}'</#if></#list>);">
+													<c:if test="${RIGHTS.del }">
+													<a class="btn btn-xs btn-danger" onclick="toDelete('${comDict.dictId}', '${comDict.parentId}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -116,7 +117,7 @@
 									
 									</c:forEach>
 									</c:if>
-									<c:if test="${r"${!RIGHTS.sele}"}">
+									<c:if test="${!RIGHTS.sele}">
 										<tr>
 											<td colspan="100" class="center">您无权查看</td>
 										</tr>
@@ -134,14 +135,14 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<c:if test="${r"${RIGHTS.add }"}">
+									<c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
-									<c:if test="${r"${RIGHTS.del }"}">
+									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
 								</td>
-								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${r"${bgPage.pageStr}"}</div></td>
+								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
 							</tr>
 						</table>
 						</div>
@@ -183,7 +184,7 @@
 		//检索
 		function toSearch(){
 			top.jzts();
-			$("#${bgMaple.mapleCode}Form").submit();
+			$("#dictForm").submit();
 		}
 		$(function() {
 			//日期框
@@ -236,7 +237,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do";
+			 diag.URL = "<%=basePath%>background/dict/toAdd.do";
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -244,11 +245,11 @@
 		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${r"${bgPage.currentPage}"}' == '0'){
+					 if('${bgPage.currentPage}' == '0'){
 						 top.jzts();
 						 setTimeout("self.location=self.location",100);
 					 }else{
-						 nextPage('${r"${bgPage.currentPage}"}');
+						 nextPage('${bgPage.currentPage}');
 					 }
 				}
 				diag.close();
@@ -257,14 +258,14 @@
 		}
 		
 		//删除
-		function toDelete(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>){
+		function toDelete(dictId, parentId){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toDelete.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/dict/toDelete.do?dictId="+dictId+"&parentId="+parentId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							nextPage('${r"${bgPage.currentPage}"}');
+							nextPage('${bgPage.currentPage}');
 						}else{
 							
 						}
@@ -274,12 +275,12 @@
 		}
 		
 		//修改
-		function toEdit(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>){
+		function toEdit(dictId, parentId){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toEdit.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
+			 diag.URL = "<%=basePath%>background/dict/toEdit.do?dictId="+dictId+"&parentId="+parentId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -287,7 +288,7 @@
 		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 nextPage('${r"${bgPage.currentPage}"}');
+					 nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
 			 };
@@ -323,14 +324,14 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toBatchDelete.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>background/dict/toBatchDelete.do?tm='+new Date().getTime(),
 						    	data: {ids:str},
 								dataType:'json',
 								//beforeSend: validateData,
 								cache: false,
 								success: function(data){
 									if(data.resultCode == "success"){
-										nextPage('${r"${bgPage.currentPage}"}');
+										nextPage('${bgPage.currentPage}');
 									}else{
 										
 									}
@@ -344,11 +345,7 @@
 		
 		//导出excel
 		function toExportExcel(){
-			var keywords = $("#nav-search-input").val();
-			var lastLoginStart = $("#lastLoginStart").val();
-			var lastLoginEnd = $("#lastLoginEnd").val();
-			var roleId = $("#roleId").val();
-			window.location.href='<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toExportExcel.do?keywords='+keywords+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&roleId='+roleId;
+			window.location.href='<%=basePath%>background/dict/toExportExcel.do';
 		}
 		
 		//打开上传excel页面
@@ -357,16 +354,16 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do';
+			 diag.URL = '<%=basePath%>background/dict/toUploadExcel.do';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${r"${bgPage.currentPage}"}' == '0'){
+					 if('${bgPage.currentPage}' == '0'){
 						 top.jzts();
 						 setTimeout("self.location.reload()",100);
 					 }else{
-						 nextPage('${r"${bgPage.currentPage}"}');
+						 nextPage('${bgPage.currentPage}');
 					 }
 				}
 				diag.close();

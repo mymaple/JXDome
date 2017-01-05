@@ -58,9 +58,34 @@ public class MapleStringUtil {
 		return str2StrArray(str, ",\\s*");
 	}
 	
+	/**
+	 * 字符串转换为字符串数组
+	 * @param str 字符串
+	 * @param splitRegex 分隔符
+	 * @return
+	 */
+	public static String[][] str2StrArray2(String str, String splitRegex1, String splitRegex2,boolean spin) {
+		String[] strArr = str2StrArray(str,splitRegex1);
+		if (strArr == null) {
+			return null;
+		}
+		String[][] strArr2 = new String[strArr.length][];
+		for(int i=0;i<strArr.length;i++){
+			strArr2[i] = str2StrArray(strArr[i],splitRegex2);
+		}
+		if(spin){
+			String[][] strArr3 = new String[strArr2[0].length][strArr2.length];
+			for(int j=0;j<strArr2.length;j++){
+				for(int k=0;k<strArr2[j].length;k++){
+					strArr3[k][j] = strArr2[j][k];
+				}
+			}
+			return strArr3;
+		}
+		return strArr2;
+	}
 	
-	
-	public static final int LEFT_SPACE = 0;
+	  public static final int LEFT_SPACE = 0;
 	  public static final int RIGHT_SPACE = 1;
 	  public static final int TRUNC_LEFT = 0;
 	  public static final int TRUNC_RIGHT = 1;
