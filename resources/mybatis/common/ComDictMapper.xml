@@ -8,7 +8,6 @@
 	
 	<resultMap type="comDict" id="comDictResultMap">
 		<id column="dictId" property="dictId"/>
-		<id column="parentId" property="parentId"/>
 		<result column="dictCode" property="dictCode"/>
 		<result column="dictName" property="dictName"/>
 		<result column="dictType" property="dictType"/>
@@ -21,11 +20,20 @@
 		<result column="createTime" property="createTime"/>
 		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
+		<result column="parentId" property="parentId"/>
 	</resultMap>
 	
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<!-- 根据parentId 获取所有直接子菜单 -->
+	<select id="listByParentId" parameterType="String" resultMap="comDictResultMap">
+		select  
+<include refid="dictColumns"/>
+		from 
+<include refid="dictTable"/>		
+		where parentId = #{parentId} order by (orderNum+0) 
+	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
@@ -58,6 +66,7 @@
 		update
 	<include refid="dictTable"/>
 		set 
+			parentId = #{parentId},
 			dictCode = #{dictCode},
 			dictName = #{dictName},
 			dictType = #{dictType},
@@ -72,7 +81,6 @@
 			modifyTime = #{modifyTime}
 		where 
 			dictId = #{dictId} 
-			 and parentId = #{parentId}
 	</update>
 	
 	<!-- 修改 -->
@@ -80,6 +88,7 @@
 		update
 	<include refid="dictTable"/>
 		set 
+			parentId = #{parentId},
 			dictCode = #{dictCode},
 			dictName = #{dictName},
 			dictType = #{dictType},
@@ -94,7 +103,6 @@
 			modifyTime = #{modifyTime}
 		where 
 			dictId = #{dictId} 
-			 and parentId = #{parentId}
 	</update>
 	
 	<!-- 改变 -->
@@ -102,6 +110,9 @@
 		update
 	<include refid="dictTable"/>
 		set 
+			<if test="parentId!=null and parentId!=''">
+			parentId = #{parentId},
+			</if>
 			<if test="dictCode!=null and dictCode!=''">
 			dictCode = #{dictCode},
 			</if>
@@ -130,7 +141,6 @@
 			modifyTime = #{modifyTime}
 		where 
 			dictId = #{dictId} 
-			 and parentId = #{parentId}
 	</update>
 	
 	<!-- 删除 -->
@@ -139,7 +149,6 @@
 	<include refid="dictTable"/>
 		where 
 			dictId = #{dictId} 
-			 and parentId = #{parentId}
 	</delete>
 	
 	<!-- 批量删除 -->
@@ -147,7 +156,7 @@
 		delete from 
  <include refid="dictTable"/>
 		where 
-			CONCAT(dictId,'-',parentId) in 
+			CONCAT(dictId) in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
@@ -161,7 +170,6 @@
 	<include refid="dictTable"/>
 		where 
 			dictId = #{dictId} 
-			 and parentId = #{parentId}
 	</select>
 	
 	<!-- 通过pd获取(PageData)数据  -->
@@ -172,7 +180,6 @@
 	<include refid="dictTable"/>
 		where 
 			dictId = #{dictId} 
-			 and parentId = #{parentId}
 	</select>
 	
 	<!-- 获取(类)List数据  -->
@@ -195,7 +202,7 @@
 			 and dictId = #{dictId} 
 			</if>
 			<if test="parentId!=null and parentId!=''">
-			 and parentId = #{parentId}
+			 and parentId = #{parentId} 
 			</if>
 			<if test="dictCode!=null and dictCode!=''">
 			 and dictCode = #{dictCode}

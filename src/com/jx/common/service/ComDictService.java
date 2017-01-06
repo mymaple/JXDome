@@ -20,7 +20,32 @@ public class ComDictService {
 	
 	/****************************custom * start***********************************/
 	
+	/**
+	 * 根据parentId 获取所有直接子
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComDict> listByParentId(String parentId) throws Exception {
+		return (List<ComDict>) dao.findForList("ComDictMapper.listByParentId", parentId);
+	}
 	
+	/**
+	 * 获取所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComDict> listInRank(String dictId) throws Exception {
+		List<ComDict> comDictList = this.listByParentId(dictId);
+		for(ComDict comDict : comDictList){
+			comDict.setSubComDictPath("background/dict/list.do?parentId="+comDict.getDictId());
+			comDict.setSubComDictList(this.listInRank(comDict.getDictId()));
+			comDict.setTarget("treeFrame");
+		}
+		return comDictList;
+	}
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -54,13 +79,12 @@ public class ComDictService {
 
 	/**
 	 * 删除 
-	 * @param String dictId, String parentId
+	 * @param String dictId
 	 * @throws Exception
 	 */
-	public void deleteById(String dictId, String parentId) throws Exception {
+	public void deleteById(String dictId) throws Exception {
 		PageData pd = new PageData();
 		pd.put("dictId",dictId);
-		pd.put("parentId",parentId);
 		this.deleteByPd(pd);
 	}
 	
@@ -84,14 +108,13 @@ public class ComDictService {
 
 	/**
 	 * 通过id获取(类)数据
-	 * @param String dictId, String parentId
+	 * @param String dictId
 	 * @return ComDict
 	 * @throws Exception
 	 */
-	public ComDict findById(String dictId, String parentId) throws Exception {
+	public ComDict findById(String dictId) throws Exception {
 		PageData pd = new PageData();
 		pd.put("dictId",dictId);
-		pd.put("parentId",parentId);
 		return this.findByPd(pd);
 	}
 	
@@ -107,14 +130,13 @@ public class ComDictService {
 	
 	/**
 	 * 通过id获取(PageData)数据 
-	 * @param String dictId, String parentId
+	 * @param String dictId
 	 * @return PageData
 	 * @throws Exception
 	 */
-	public PageData findPdById(String dictId, String parentId) throws Exception {
+	public PageData findPdById(String dictId) throws Exception {
 		PageData pd = new PageData();
 	pd.put("dictId",dictId);
-		pd.put("parentId",parentId);
 		return this.findPdByPd(pd);
 	}
 	

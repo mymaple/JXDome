@@ -13,7 +13,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -32,12 +31,9 @@ import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.${bgMaple.mapleEntityUpper};
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
-import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
 import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper}Service;
-
-import net.sf.json.JSONArray;
 
 /** 
  * 类名称：${bgMaple.mapleControllerUpper}Controller
@@ -57,6 +53,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	private ${bgMaple.mapleEntityUpper}Service ${bgMaple.mapleEntityLower}Service;
 	
 	
+	<#if bgMaple.mapleType == '02'>
 	/**
 	 * 显示列表ztree
 	 * @param model
@@ -66,30 +63,24 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	public ModelAndView main(Model model)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		ResultInfo resultInfo = this.getResultInfo();
-		PageData pd = this.getPageData();
-		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		try{
-			String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
-			JSONArray arr = JSONArray.fromObject(${bgMaple.mapleEntityLower}Service.listInRank("0"));
+			JSONArray arr = JSONArray.fromObject(${bgMaple.mapleEntityLower}.listInRank("0"));
 			String json = arr.toString();
 			json = json.replaceAll("${bgMaple.mapleCode}Id", "id").replaceAll("parentId", "pId")
 					.replaceAll("${bgMaple.mapleCode}Name", "name").replaceAll("sub${bgMaple.mapleEntityUpper}List", "nodes")
-					.replaceAll("has${bgMaple.mapleCodeUpper}", "checked").replaceAll("sub${bgMaple.mapleEntityUpper}Path", "url");
+					.replaceAll("hasRight", "checked").replaceAll("sub${bgMaple.mapleEntityUpper}ListPath", "url");
 			model.addAttribute("zTreeNodes", json);
-			mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
-			mv.addObject("parentId", parentId);
-			mv.addObject("currentPage", pd.get("currentPage"));
-			mv.addObject("showCount", pd.get("showCount"));
 			resultInfo.setResultCode("success");
-			mv.setViewName("${bgMaple.controllerPackage}/bgMainTree");
 		} catch(Exception e){
 			resultInfo.setResultCode("false");
 			resultInfo.setResultContent("列表ztree失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
+		mv.setViewName("${bgMaple.controllerPackage}/bgMainTree");
 		return mv;
 	}
+	</#if>
 	
 	/**
 	 * 列表
@@ -100,32 +91,25 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		try{
-			String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
-			pd.put("parentId", parentId);											//上级id
-			
-			String keywords = pd.getString("keywords");								//关键词检索条件
-			if(null != keywords && !"".equals(keywords)){
-				pd.put("keywords", keywords.trim());
-			}
-			
+			<#if bgMaple.mapleType == '02'>
+			String parentId = MapleStringUtil.isEmpty(pd.getString("menuId"))?"0":pd.getString("menuId");
+			pd.put("parentId", parentId);
+			</#if>
 			bgPage.setPd(pd);
 			List<PageData>	${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.listPage(bgPage);	//列出${bgMaple.mapleEntityLower}列表
 			
 			mv.addObject("${bgMaple.mapleEntityLower}List", ${bgMaple.mapleEntityLower}List);
-			mv.addObject("parent${bgMaple.mapleEntityUpper}", ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>));
-			mv.addObject("parentId", parentId);
-			mv.addObject("returnMsg", MapleStringUtil.isEmpty(pd.getString("returnMsg"))?"list":pd.getString("returnMsg")); //MSG=change 则为新增编辑或删除后跳转过来的
-			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
+			mv.addObject("pd", pd);
+			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());	//按钮权限
 			resultInfo.setResultCode("success");
-			mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}List");
 		} catch(Exception e){
 			resultInfo.setResultCode("false");
 			resultInfo.setResultContent("列表失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
+		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}List");
 		return mv;
 	}
 	
@@ -138,28 +122,17 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		try {
-			String parentId = MapleStringUtil.isEmpty(pd.getString("parentId"))?"0":pd.getString("parentId");//上级id
-			
-			if(!"0".equals(parentId) && ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>)==null){
-				resultInfo.setResultCode("false");
-				resultInfo.setResultContent("去新增页面失败");
-			}else{
-				${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-				${bgMaple.mapleEntityLower}.setParentId(parentId);
-				mv.addObject("methodPath", "add");
-				mv.addObject(${bgMaple.mapleEntityLower});
-				resultInfo.setResultCode("success");
-				mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
-			}
-			
+			mv.addObject("pathMsg", "add");
+			mv.addObject("pd", pd);
+			resultInfo.setResultCode("success");
 		} catch(Exception e){
 			resultInfo.setResultCode("false");
 			resultInfo.setResultContent("去新增页面失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);					
+		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
 		return mv;
 	}	
 	
@@ -172,11 +145,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		try {
 			Date nowTime = new Date();
 			
 			if(result.hasErrors()) {
+				mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
 	            return mv;  
 	        }
 			
@@ -203,6 +176,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
+		mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
 		return mv;
 	}
 	
@@ -215,24 +189,18 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		try {
 			${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = ${bgMaple.mapleEntityLower}Service.findById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID读取
-			if(${bgMaple.mapleEntityLower} == null){
-				resultInfo.setResultCode("false");
-				resultInfo.setResultContent("去新增页面失败");
-			}else{
-				mv.addObject("methodPath", "edit");
-				mv.addObject(${bgMaple.mapleEntityLower});
-				resultInfo.setResultCode("success");
-				mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
-			}
+			mv.addObject("pathMsg", "edit");
+			mv.addObject(${bgMaple.mapleEntityLower});
+			resultInfo.setResultCode("success");
 		} catch(Exception e){
 			resultInfo.setResultCode("false");
 			resultInfo.setResultContent("去修改页面失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);						
+		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
 		return mv;
 	}	
 	
@@ -245,11 +213,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		try {
 			Date nowTime = new Date();
 			
 			if(result.hasErrors()) {
+				mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
 	            return mv;  
 	        }
 	        
@@ -275,6 +243,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
+		mv.setViewName("${bgMaple.controllerPackage}/bgSaveResult");
 		return mv;
 	}
 	
@@ -341,9 +310,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
 			titles.add("${bgMaple.mapleName} 主键id");
-			titles.add("上级 id");
 		<#list bgMapleDetailList as bgMapleDetail>
-			titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index+2}
+			titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index+1}
 		</#list>
 			dataMap.put("titles", titles);
 			List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.listByPd(pd);
@@ -352,9 +320,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				PageData vpd = new PageData();
 				
 				vpd.put("var0",varOList.get(i).get${bgMaple.mapleCodeUpper}Id());
-				vpd.put("var1",varOList.get(i).getParentId());
 			<#list bgMapleDetailList as bgMapleDetail>
-				vpd.put("var${bgMapleDetail_index+2}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}());	//${bgMapleDetail_index+2}
+				vpd.put("var${bgMapleDetail_index+1}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}());	//${bgMapleDetail_index+1}
 			</#list>
 				varList.add(vpd);
 			}
@@ -378,10 +345,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	@RequestMapping(value="/toUploadExcel")
 	public ModelAndView toUploadExcel()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
-		String parentId = MapleStringUtil.isEmpty(pd.getString("parentId"))?"0":pd.getString("parentId");//上级id
-		mv.addObject("parentId",parentId);
-		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
+		mv.addObject("pathObj","${bgMaple.mapleCode}");
 		mv.setViewName("background/bgUploadExcel");
 		return mv;
 	}
@@ -439,9 +403,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 				/*存入数据库操作======================================*/
 				
-				String parentId = MapleStringUtil.isEmpty(pd.getString("parentId"))?"0":pd.getString("parentId");//上级id
 				${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-				${bgMaple.mapleEntityLower}.setParentId(parentId);
 				<#list bgMapleDetailList as bgMapleDetail>
 					<#if bgMapleDetail.isEdit == '00'>
 					<#if bgMapleDetail.mapleDetailType == '01'>
@@ -487,7 +449,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		}
 		mv.addObject(resultInfo);
 		
-		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	

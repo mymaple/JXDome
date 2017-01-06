@@ -7,8 +7,6 @@ CREATE TABLE `${bgMaple.tableCode}` (
 
 	`${bgMaple.mapleCode}Id` varchar(100) 
 			NOT NULL COMMENT '${bgMaple.mapleName} 主键id',
-	`parentId` varchar(100) 
-			NOT NULL COMMENT '上级 id',
 	<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailType == '01'>
 	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.length})

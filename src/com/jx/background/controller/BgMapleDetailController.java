@@ -303,6 +303,13 @@ public class BgMapleDetailController extends BaseController {
 
 		String filePath = "admin/ftl/code/"; // 存放路径
 		String ftlPath = "createCode"; // ftl路径
+		if("02".equals(bgMaple.getMapleType())){
+			ftlPath = "createCodeTree";
+		}else if("03".equals(bgMaple.getMapleType())){
+			ftlPath = "createCodeMain";
+		}else if("04".equals(bgMaple.getMapleType())){
+			ftlPath = "createCodeDetail";
+		}
 
 //		/* 生成controller */
 		Freemarker.printFile("controllerTemplate.ftl", root, bgMaple.getControllerPackage() + "/controller/" + bgMaple.getMapleControllerUpper() + "Controller.java", filePath, ftlPath);

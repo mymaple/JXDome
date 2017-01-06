@@ -2,6 +2,7 @@ package com.jx.common.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -17,6 +18,90 @@ public class ComDict implements Serializable {
 	
 	/**************************custom prop satrt********************************/
 	
+	/** 指标 */
+	private String target;
+	
+	/** 子列表 */
+	private List<ComDict> subComDictList;
+	
+	/** 子列表 路径*/
+	private String subComDictPath;
+	
+	/** 是否有此数据字典 */
+	private boolean hasDict;
+	
+	
+	/**
+	 * 获取 指标
+	 * 
+	 * @return String target
+	 */
+	public String getTarget() {
+		return target;
+	}
+	
+	/**
+	 * 设置 指标
+	 * 
+	 * @param String target
+	 */
+	public void setTarget(String target) {
+		this.target = MapleStringUtil.trim(target);
+	}
+	
+	/**
+	 * 获取 子列表
+	 * 
+	 * @return List<ComDict> subComDictList
+	 */
+	public List<ComDict> getSubComDictList() {
+		return this.subComDictList;
+	}
+	
+	/**
+	 * 设置 子列表
+	 * 
+	 * @param List<ComDict> subComDictList
+	 */
+	public void setSubComDictList(List<ComDict> subComDictList) {
+		this.subComDictList = subComDictList;
+	}
+	
+	/**
+	 * 获取 子列表 路径
+	 * 
+	 * @return String subComDictPath
+	 */
+	public String getSubComDictPath() {
+		return this.subComDictPath;
+	}
+	
+	/**
+	 * 设置 子列表 路径
+	 * 
+	 * @param String subComDictPath
+	 */
+	public void setSubComDictPath(String subComDictPath) {
+		this.subComDictPath = MapleStringUtil.trim(subComDictPath);
+	}
+	
+	/**
+	 * 获取 是否有此数据字典 
+	 * 
+	 * @return boolean hasDict
+	 */
+	public boolean isHasDict() {
+		return this.hasDict;
+	}
+	
+	/**
+	 * 设置 是否有此数据字典
+	 * 
+	 * @param boolean hasDict
+	 */
+	public void setHasDict(boolean hasDict) {
+		this.hasDict = hasDict;
+	}
 	
 	/**************************custom prop end**********************************/
 	
@@ -27,9 +112,9 @@ public class ComDict implements Serializable {
 	/** 数据字典 主键id */
 	private String dictId;
 	
-	/** 上级id */
+	/** 上级 id */
 	private String parentId;
-		
+	
 	/** 数据字典代号 */
 	private String dictCode;
 		
@@ -74,7 +159,7 @@ public class ComDict implements Serializable {
 	 * @param String dictId
 	 */
 	public void setDictId(String dictId) {
-		this.dictId = dictId;
+		this.dictId = MapleStringUtil.trim(dictId);
 	}
 	
 	/**
@@ -351,36 +436,5 @@ public class ComDict implements Serializable {
 	}	
 	
 	
-
-	
-	public ComDict(){
-		init();
-	}
-	
-	public void init() {
-	
-		setParentId("");
-		setDictCode("");
-		setDictName("");
-		setDictType("");
-		setDictStatus("");
-		setDictValue("");
-		setLevel(0);
-		setOrderNum("");
-		setEffective("");
-		setCreateUserId("");
-		try {
-			setCreateTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		setModifyUserId("");
-		try {
-			setModifyTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	
-	}
 	/**************************table prop  end  *********************************/
 }

@@ -27,8 +27,9 @@
 				<div class="row">
 					<div class="col-xs-12">
 					
-					<form action="${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${r"${pathMsg }"}.do" name="${bgMaple.mapleCode}Form" id="${bgMaple.mapleCode}Form" method="post">
+					<form action="${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${r"${methodPath }"}.do" name="${bgMaple.mapleCode}Form" id="${bgMaple.mapleCode}Form" method="post">
 						<input type="hidden" name="${bgMaple.mapleCode}Id" id="${bgMaple.mapleCode}Id" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}"/>
+						<input type="hidden" name="parentId" id="parentId" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}parentId${r"}"}"/>
 				<#list bgMapleDetailList as bgMapleDetail>
 					<#if bgMapleDetail.isKey == "01" >
 						<input type="hidden" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/>
@@ -36,6 +37,14 @@
 				</#list>	
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">上级:</td>
+								<td>
+									<div class="col-xs-4 label label-lg label-light arrowed-in arrowed-right">
+										<b>${r"${"}${bgMaple.mapleEntityLower}${r"."}parentId${r"}"}</b>
+									</div>
+								</td>
+							</tr>
 				<#list bgMapleDetailList as bgMapleDetail>
 					<#if bgMapleDetail.isEdit == "01" >
 							<tr>

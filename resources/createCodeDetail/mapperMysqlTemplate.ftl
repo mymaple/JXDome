@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${bgMaple.mapleEntityUpper}Mapper">
 
-	<sql id="${bgMaple.mapleCode}Columns">${bgMaple.mapleCode}Id,parentId<#list bgMapleDetailList as bgMapleDetail>,${bgMapleDetail.mapleDetailCode}</#list></sql>
+	<sql id="${bgMaple.mapleCode}Columns">${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail>,${bgMapleDetail.mapleDetailCode}</#list></sql>
 	<sql id="${bgMaple.mapleCode}Table">${bgMaple.tableCode}</sql>
 	
 	<resultMap type="${bgMaple.mapleEntityLower}" id="${bgMaple.mapleEntityLower}ResultMap">
@@ -11,20 +11,11 @@
 			<#list bgMapleDetailList as bgMapleDetail>
 		<<#if bgMapleDetail.isKey == '01'>id<#else>result</#if> column="${bgMapleDetail.mapleDetailCode}" property="${bgMapleDetail.mapleDetailCode}"/>
 			</#list>
-		<result column="parentId" property="parentId"/>
 	</resultMap>
 	
 	
 	<!-- ****************************custom * start*********************************** -->
 	
-	<!-- 根据parentId 获取所有直接子菜单 -->
-	<select id="listByParentId" parameterType="String" resultMap="${bgMaple.mapleEntityLower}ResultMap">
-		select  
-<include refid="${bgMaple.mapleCode}Columns"/>
-		from 
-<include refid="${bgMaple.mapleCode}Table"/>		
-		where parentId = ${r"#{"}parentId${r"}"} order by (orderNum+0) 
-	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
@@ -37,7 +28,7 @@
 		( 
 	<include refid="${bgMaple.mapleCode}Columns"/>
 		) values (
-			${r"#{"}${bgMaple.mapleCode}Id${r"}"},${r"#{"}parentId${r"}"}<#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>
+			${r"#{"}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>
 		)
 	</insert>
 	
@@ -48,7 +39,7 @@
 		( 
 	<include refid="${bgMaple.mapleCode}Columns"/>
 		) values (
-			${r"#{"}${bgMaple.mapleCode}Id${r"}"},${r"#{"}parentId${r"}"}<#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>
+			${r"#{"}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>
 		)
 	</insert>
 	
@@ -57,7 +48,6 @@
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
-			parentId = ${r"#{"}parentId${r"}"},
 			<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isKey == '00'>
 			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if>
@@ -77,7 +67,6 @@
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
-			parentId = ${r"#{"}parentId${r"}"},
 			<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isKey == '00'>
 			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if>
@@ -97,9 +86,6 @@
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
-			<if test="parentId!=null and parentId!=''">
-			parentId = ${r"#{"}parentId${r"}"},
-			</if>
 			<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isKey == '00' 
 			&& bgMapleDetail.mapleDetailCode != 'createUserId'
@@ -197,9 +183,6 @@
 		where 1=1
 			<if test="${bgMaple.mapleCode}Id!=null and ${bgMaple.mapleCode}Id!=''">
 			 and ${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
-			</if>
-			<if test="parentId!=null and parentId!=''">
-			 and parentId = ${r"#{"}parentId${r"}"} 
 			</if>
 			<#list bgMapleDetailList as bgMapleDetail> 
 			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">

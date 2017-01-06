@@ -18,6 +18,16 @@
 <%@ include file="../main/bgIndexTop.jsp"%>
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
+
+<script type="text/javascript">
+	//刷新ztree
+	function parentReload(returnMsg,currentPage,showCount){
+		if('change' == returnMsg){
+			parent.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/main.do?parentId="+${r"${parentId}"}+"&currentPage="+currentPage+"&showCount="+showCount;
+		}
+	}
+</script>
+
 </head>
 <body class="no-skin">
 
@@ -41,16 +51,6 @@
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
-								</td>
-								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期" title="开始日期"/></td>
-								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期" title="结束日期"/></td>
-								<td style="vertical-align:top;padding-left:2px;">
-								 	<select class="chosen-select form-control" name="name" id="id" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
-									<option value=""></option>
-									<option value="">全部</option>
-									<option value="">1</option>
-									<option value="">2</option>
-								  	</select>
 								</td>
 								<c:if test="${r"${RIGHTS.sele}"}">
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toSearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
@@ -135,10 +135,13 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${r"${RIGHTS.add }"}">
-									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
+									<a class="btn btn-mini btn-success" onclick="toAdd('${r"${"}parentId${r"}"}');">新增</a>
 									</c:if>
 									<c:if test="${r"${RIGHTS.del }"}">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
+									</c:if>
+									<c:if test="${r"${"}null != ${bgMaple.mapleEntityLower}.${bgMaple.mapleEntityLower}Id && ${bgMaple.mapleEntityLower}.${bgMaple.mapleEntityLower}Id != '0' && ${bgMaple.mapleEntityLower}.${bgMaple.mapleEntityLower}Id != ''${r"}"}">
+										<a class="btn btn-mini btn-primary" onclick="toSub('${r"${"}${bgMaple.mapleEntityLower}.parentId${r"}"}');">返回</a>
 									</c:if>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${r"${bgPage.pageStr}"}</div></td>
@@ -230,13 +233,19 @@
 			});
 		});
 		
+		//去此ID下子菜单列表
+		function toSub(parentId){
+			top.jzts();
+			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?parentId="+parentId;
+		};
+		
 		//新增
-		function toAdd(){
+		function toAdd(parentId){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do";
+			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?parentId="+parentId;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -244,12 +253,7 @@
 		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${r"${bgPage.currentPage}"}' == '0'){
-						 top.jzts();
-						 setTimeout("self.location=self.location",100);
-					 }else{
-						 nextPage('${r"${bgPage.currentPage}"}');
-					 }
+					 parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 				}
 				diag.close();
 			 };
@@ -264,9 +268,7 @@
 					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toDelete.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							nextPage('${r"${bgPage.currentPage}"}');
-						}else{
-							
+							parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 						}
 					});
 				}
@@ -287,7 +289,7 @@
 		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 nextPage('${r"${bgPage.currentPage}"}');
+					 parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 				}
 				diag.close();
 			 };
@@ -330,9 +332,7 @@
 								cache: false,
 								success: function(data){
 									if(data.resultCode == "success"){
-										nextPage('${r"${bgPage.currentPage}"}');
-									}else{
-										
+										parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 									}
 								}
 							});
@@ -353,17 +353,12 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do';
+			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?parentId='+${r"${parentId}"};
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${r"${bgPage.currentPage}"}' == '0'){
-						 top.jzts();
-						 setTimeout("self.location.reload()",100);
-					 }else{
-						 nextPage('${r"${bgPage.currentPage}"}');
-					 }
+					 parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 				}
 				diag.close();
 			 };

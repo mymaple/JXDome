@@ -20,13 +20,13 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	
 	/****************************custom * start***********************************/
 	
+	<#if bgMaple.mapleType == '02'>
 	/**
 	 * 根据parentId 获取所有直接子
 	 * @param String parentId
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public List<${bgMaple.mapleEntityUpper}> listByParentId(String parentId) throws Exception {
 		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listByParentId", parentId);
 	}
@@ -40,12 +40,13 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	public List<${bgMaple.mapleEntityUpper}> listInRank(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
 		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = this.listByParentId(${bgMaple.mapleCode}Id);
 		for(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} : ${bgMaple.mapleEntityLower}List){
-			${bgMaple.mapleEntityLower}.setSub${bgMaple.mapleEntityUpper}Path("background/${bgMaple.mapleCode}/list.do?parentId="+${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id());
+			${bgMaple.mapleEntityLower}.setSub${bgMaple.mapleEntityUpper}ListPath("background/${bgMaple.mapleCode}/list.do?parentId="+${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id());
 			${bgMaple.mapleEntityLower}.setSub${bgMaple.mapleEntityUpper}List(this.listInRank(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>));
 			${bgMaple.mapleEntityLower}.setTarget("treeFrame");
 		}
-		return ${bgMaple.mapleEntityLower}List;
+		return bgMenuList;
 	}
+	</#if>
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
