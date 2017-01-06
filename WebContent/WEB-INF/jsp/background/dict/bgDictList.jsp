@@ -23,7 +23,7 @@
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
 		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>background/menu/main.do?parentId="+${parentId}+"&currentPage="+currentPage+"&showCount="+showCount;
+			parent.location.href="<%=basePath%>background/dict/main.do?pId="+${parentId}+"&currentPage="+currentPage+"&showCount="+showCount;
 		}
 	}
 </script>
@@ -74,6 +74,7 @@
 									<th class="center">数据字典名称</th>
 									<th class="center">数据字典类型</th>
 									<th class="center">数据字典值</th>
+									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -93,6 +94,7 @@
 											<td class='center'>${comDict.dictName}</td>
 											<td class='center'>${comDict.dictType}</td>
 											<td class='center'>${comDict.dictValue}</td>
+											<td class='center'>${comDict.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -234,7 +236,7 @@
 		//去此ID下子菜单列表
 		function toSub(parentId){
 			top.jzts();
-			window.location.href="<%=basePath%>background/dict/list.do?parentId="+parentId;
+			window.location.href="<%=basePath%>background/dict/list.do?pId="+parentId;
 		};
 		
 		//新增
@@ -243,7 +245,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/dict/toAdd.do?parentId="+parentId;
+			 diag.URL = "<%=basePath%>background/dict/toAdd.do?pId="+parentId;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -351,7 +353,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/dict/toUploadExcel.do?parentId='+${parentId};
+			 diag.URL = '<%=basePath%>background/dict/toUploadExcel.do?pId='+${parentId};
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

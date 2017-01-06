@@ -10,7 +10,7 @@ public class ResultInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/** 结果代号 :
-	 * success:成功;false:失败
+	 * success:成功;failure:失败
 	 */
 	private String resultCode;
 	
@@ -21,7 +21,7 @@ public class ResultInfo implements Serializable {
 	
 	/**
 	 * 设置 结果代号
-	 * success:成功;false:失败
+	 * success:成功;failure:失败
 	 * @param String resultCode
 	 */
 	public void setResultCode(String resultCode) {
@@ -30,7 +30,7 @@ public class ResultInfo implements Serializable {
 	
 	/**
 	 * 获取 结果代号
-	 * success:成功;false:失败
+	 * success:成功;failure:失败
 	 * @return String resultCode
 	 */
 	public String getResultCode() {

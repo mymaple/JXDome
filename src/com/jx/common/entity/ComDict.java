@@ -124,11 +124,11 @@ public class ComDict implements Serializable {
 	/** 数据字典类型 */
 	private String dictType;
 		
-	/** 数据字典状态 */
-	private String dictStatus;
-		
 	/** 数据字典值 */
 	private String dictValue;
+		
+	/** 数据字典状态 */
+	private String dictStatus;
 		
 	/** 级别 */
 	private int level;
@@ -244,24 +244,6 @@ public class ComDict implements Serializable {
 	}
 	
 	/**
-	 * 设置 数据字典状态
-	 * 
-	 * @param String dictStatus
-	 */
-	public void setDictStatus(String dictStatus) {
-		this.dictStatus = MapleStringUtil.trim(dictStatus);
-	}
-	
-	/**
-	 * 获取 数据字典状态
-	 * 
-	 * @return String dictStatus
-	 */
-	public String getDictStatus() {
-		return this.dictStatus;
-	}
-	
-	/**
 	 * 设置 数据字典值
 	 * 
 	 * @param String dictValue
@@ -277,6 +259,24 @@ public class ComDict implements Serializable {
 	 */
 	public String getDictValue() {
 		return this.dictValue;
+	}
+	
+	/**
+	 * 设置 数据字典状态
+	 * 
+	 * @param String dictStatus
+	 */
+	public void setDictStatus(String dictStatus) {
+		this.dictStatus = MapleStringUtil.trim(dictStatus);
+	}
+	
+	/**
+	 * 获取 数据字典状态
+	 * 
+	 * @return String dictStatus
+	 */
+	public String getDictStatus() {
+		return this.dictStatus;
 	}
 	
 	/**

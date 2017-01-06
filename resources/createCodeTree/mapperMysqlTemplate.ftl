@@ -57,12 +57,13 @@
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
-			parentId = ${r"#{"}parentId${r"}"},
 			<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isKey == '00'>
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if>
+			<#if bgMapleDetail.isKey == '00' && bgMapleDetail.isEdit == '01'>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"},
 			</#if>
 			</#list>
+			modifyUserId = ${r"#{"}modifyUserId${r"}"},
+			modifyTime = ${r"#{"}modifyTime${r"}"}
 		where 
 			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
 			<#list bgMapleDetailList as bgMapleDetail> 
@@ -79,10 +80,12 @@
 		set 
 			parentId = ${r"#{"}parentId${r"}"},
 			<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isKey == '00'>
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if>
+			<#if bgMapleDetail.isKey == '00' && bgMapleDetail.isEdit == '01'>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
 			</#if>
 			</#list>
+			modifyUserId = ${r"#{"}modifyUserId${r"}"},
+			modifyTime = ${r"#{"}modifyTime${r"}"}
 		where 
 			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
 			<#list bgMapleDetailList as bgMapleDetail> 

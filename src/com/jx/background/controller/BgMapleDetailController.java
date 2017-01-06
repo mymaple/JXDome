@@ -113,7 +113,7 @@ public class BgMapleDetailController extends BaseController {
 		
 		mv.addObject("msg","success");
 		
-		mv.setViewName("background/bgSaveResult");
+		mv.setViewName("background/bgResult");
 		return mv;
 	}
 	
@@ -149,7 +149,7 @@ public class BgMapleDetailController extends BaseController {
 		pd = this.getPageData();
 		bgMapleDetailService.editByPd(pd);
 		mv.addObject("msg","success");
-		mv.setViewName("background/bgSaveResult");
+		mv.setViewName("background/bgResult");
 		return mv;
 	}
 	

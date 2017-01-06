@@ -40,7 +40,7 @@ public class ComDictService {
 	public List<ComDict> listInRank(String dictId) throws Exception {
 		List<ComDict> comDictList = this.listByParentId(dictId);
 		for(ComDict comDict : comDictList){
-			comDict.setSubComDictPath("background/dict/list.do?parentId="+comDict.getDictId());
+			comDict.setSubComDictPath("background/dict/list.do?pId="+comDict.getDictId());
 			comDict.setSubComDictList(this.listInRank(comDict.getDictId()));
 			comDict.setTarget("treeFrame");
 		}

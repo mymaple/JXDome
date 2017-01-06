@@ -23,7 +23,7 @@
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
 		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/main.do?parentId="+${r"${parentId}"}+"&currentPage="+currentPage+"&showCount="+showCount;
+			parent.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/main.do?pId="+${r"${parentId}"}+"&currentPage="+currentPage+"&showCount="+showCount;
 		}
 	}
 </script>
@@ -236,7 +236,7 @@
 		//去此ID下子菜单列表
 		function toSub(parentId){
 			top.jzts();
-			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?parentId="+parentId;
+			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?pId="+parentId;
 		};
 		
 		//新增
@@ -245,7 +245,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?parentId="+parentId;
+			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?pId="+parentId;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -353,7 +353,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?parentId='+${r"${parentId}"};
+			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?pId='+${r"${parentId}"};
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

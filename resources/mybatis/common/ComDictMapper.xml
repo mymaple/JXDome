@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComDictMapper">
 
-	<sql id="dictColumns">dictId,parentId,dictCode,dictName,dictType,dictStatus,dictValue,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="dictColumns">dictId,parentId,dictCode,dictName,dictType,dictValue,dictStatus,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="dictTable">com_dict</sql>
 	
 	<resultMap type="comDict" id="comDictResultMap">
@@ -11,8 +11,8 @@
 		<result column="dictCode" property="dictCode"/>
 		<result column="dictName" property="dictName"/>
 		<result column="dictType" property="dictType"/>
-		<result column="dictStatus" property="dictStatus"/>
 		<result column="dictValue" property="dictValue"/>
+		<result column="dictStatus" property="dictStatus"/>
 		<result column="level" property="level"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
@@ -46,7 +46,7 @@
 		( 
 	<include refid="dictColumns"/>
 		) values (
-			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictValue},#{dictStatus},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -57,7 +57,7 @@
 		( 
 	<include refid="dictColumns"/>
 		) values (
-			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictValue},#{dictStatus},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -67,16 +67,11 @@
 	<include refid="dictTable"/>
 		set 
 			parentId = #{parentId},
-			dictCode = #{dictCode},
-			dictName = #{dictName},
-			dictType = #{dictType},
-			dictStatus = #{dictStatus},
-			dictValue = #{dictValue},
-			level = #{level},
-			orderNum = #{orderNum},
-			effective = #{effective},
-			createUserId = #{createUserId},
-			createTime = #{createTime},
+			dictCode = #{dictCode}
+			dictName = #{dictName}
+			dictType = #{dictType}
+			dictValue = #{dictValue}
+			orderNum = #{orderNum}
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
@@ -89,16 +84,11 @@
 	<include refid="dictTable"/>
 		set 
 			parentId = #{parentId},
-			dictCode = #{dictCode},
-			dictName = #{dictName},
-			dictType = #{dictType},
-			dictStatus = #{dictStatus},
-			dictValue = #{dictValue},
-			level = #{level},
-			orderNum = #{orderNum},
-			effective = #{effective},
-			createUserId = #{createUserId},
-			createTime = #{createTime},
+			dictCode = #{dictCode}
+			dictName = #{dictName}
+			dictType = #{dictType}
+			dictValue = #{dictValue}
+			orderNum = #{orderNum}
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
@@ -122,11 +112,11 @@
 			<if test="dictType!=null and dictType!=''">
 			dictType = #{dictType},
 			</if>
-			<if test="dictStatus!=null and dictStatus!=''">
-			dictStatus = #{dictStatus},
-			</if>
 			<if test="dictValue!=null and dictValue!=''">
 			dictValue = #{dictValue},
+			</if>
+			<if test="dictStatus!=null and dictStatus!=''">
+			dictStatus = #{dictStatus},
 			</if>
 			<if test="level!=null and level!=''">
 			level = #{level},
@@ -213,11 +203,11 @@
 			<if test="dictType!=null and dictType!=''">
 			 and dictType = #{dictType}
 			</if>
-			<if test="dictStatus!=null and dictStatus!=''">
-			 and dictStatus = #{dictStatus}
-			</if>
 			<if test="dictValue!=null and dictValue!=''">
 			 and dictValue = #{dictValue}
+			</if>
+			<if test="dictStatus!=null and dictStatus!=''">
+			 and dictStatus = #{dictStatus}
 			</if>
 			<if test="level!=null and level!=''">
 			 and level = #{level}

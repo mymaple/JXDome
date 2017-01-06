@@ -40,7 +40,7 @@ public class ${bgMaple.mapleEntityUpper}Service {
 	public List<${bgMaple.mapleEntityUpper}> listInRank(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
 		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = this.listByParentId(${bgMaple.mapleCode}Id);
 		for(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} : ${bgMaple.mapleEntityLower}List){
-			${bgMaple.mapleEntityLower}.setSub${bgMaple.mapleEntityUpper}Path("background/${bgMaple.mapleCode}/list.do?parentId="+${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id());
+			${bgMaple.mapleEntityLower}.setSub${bgMaple.mapleEntityUpper}Path("background/${bgMaple.mapleCode}/list.do?pId="+${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id());
 			${bgMaple.mapleEntityLower}.setSub${bgMaple.mapleEntityUpper}List(this.listInRank(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>));
 			${bgMaple.mapleEntityLower}.setTarget("treeFrame");
 		}

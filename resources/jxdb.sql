@@ -74,20 +74,18 @@ INSERT INTO `bgmapledetail` VALUES ('23', 'modifyUserId', '修改人员id', '01'
 INSERT INTO `bgmapledetail` VALUES ('24', 'modifyTime', '修改时间', '03', 'ModifyTime', '', '', '00', '01', '00', '', '00000', '00025', '00', '01', null, null, null, null);
 INSERT INTO `bgmapledetail` VALUES ('25', 'parentId', '上级id', '01', 'ParentId', '100', '', '00', '00', '01', '', '00000', '00026', '00', '01', null, null, null, null);
 INSERT INTO `bgmapledetail` VALUES ('26', 'orderNum', '排序编号', '01', 'OrderNum', '100', '', '00', '01', '00', '', '00000', '000209', '00', '01', null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('62', 'dictId', '数据字典主键id', '01', 'DictId', '100', '', '00', '00', '01', '', '10', '00015', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
 INSERT INTO `bgmapledetail` VALUES ('63', 'dictCode', '数据字典代号', '01', 'DictCode', '100', '', '01', '01', '00', '', '10', '00016', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
 INSERT INTO `bgmapledetail` VALUES ('64', 'dictName', '数据字典名称', '01', 'DictName', '100', '', '01', '01', '00', '', '10', '00017', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
 INSERT INTO `bgmapledetail` VALUES ('65', 'dictType', '数据字典类型', '01', 'DictType', '100', '', '01', '01', '00', '', '10', '00018', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
-INSERT INTO `bgmapledetail` VALUES ('66', 'dictStatus', '数据字典状态', '01', 'DictStatus', '100', '', '00', '01', '00', '00', '10', '00019', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
-INSERT INTO `bgmapledetail` VALUES ('67', 'effective', '有效性', '01', 'Effective', '100', '', '00', '01', '00', '01', '10', '00021', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
-INSERT INTO `bgmapledetail` VALUES ('68', 'createUserId', '创建人员id', '01', 'CreateUserId', '100', '', '00', '01', '00', '', '10', '00022', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
-INSERT INTO `bgmapledetail` VALUES ('69', 'createTime', '创建时间', '03', 'CreateTime', '', '', '00', '01', '00', '', '10', '00023', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
-INSERT INTO `bgmapledetail` VALUES ('70', 'modifyUserId', '修改人员id', '01', 'ModifyUserId', '100', '', '00', '01', '00', '', '10', '00024', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
-INSERT INTO `bgmapledetail` VALUES ('71', 'modifyTime', '修改时间', '03', 'ModifyTime', '', '', '00', '01', '00', '', '10', '00025', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
-INSERT INTO `bgmapledetail` VALUES ('72', 'parentId', '上级id', '01', 'ParentId', '100', '', '00', '00', '01', '', '10', '00020', '00', '01', '', '1900-01-01 00:00:00', '', '1900-01-01 00:00:00');
-INSERT INTO `bgmapledetail` VALUES ('73', 'dictValue', '数据字典值', '01', 'DictValue', '100', '', '01', '01', '00', '', '10', '000191', '00', '01', null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('74', 'level', '级别', '02', 'Level', '10', '', '00', '01', '00', '', '10', '000192', '00', '01', null, null, null, null);
-INSERT INTO `bgmapledetail` VALUES ('78', 'orderNum', '排序编号', '01', 'OrderNum', '100', '', '00', '01', '00', '', '10', '000209', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('66', 'dictStatus', '数据字典状态', '01', 'DictStatus', '100', '', '00', '01', '00', '\"00\"', '10', '20', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('67', 'effective', '有效性', '01', 'Effective', '100', '', '00', '01', '00', '\"01\"', '10', '995', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('68', 'createUserId', '创建人员id', '01', 'CreateUserId', '100', '', '00', '01', '00', 'String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId())', '10', '996', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('69', 'createTime', '创建时间', '03', 'CreateTime', '', '', '00', '01', '00', 'nowTime', '10', '997', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('70', 'modifyUserId', '修改人员id', '01', 'ModifyUserId', '100', '', '00', '01', '00', 'String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId())', '10', '998', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('71', 'modifyTime', '修改时间', '03', 'ModifyTime', '', '', '00', '01', '00', 'nowTime', '10', '999', null, null, null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('73', 'dictValue', '数据字典值', '01', 'DictValue', '100', '', '01', '01', '00', '', '10', '19', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('74', 'level', '级别', '02', 'Level', '10', '', '00', '01', '00', '\"0\".equals(parentId)?0:parentComDict.getLevel()+1', '10', '21', '00', '01', null, null, null, null);
+INSERT INTO `bgmapledetail` VALUES ('78', 'orderNum', '排序编号', '01', 'OrderNum', '100', '', '01', '01', '00', 'String.valueOf(nowTime.getTime())', '10', '994', '00', '01', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for bgMaple

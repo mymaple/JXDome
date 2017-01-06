@@ -42,7 +42,7 @@ import net.sf.json.JSONArray;
 /** 
  * 类名称：BgDictController
  * 创建人：maple
- * 创建时间：2017-01-06
+ * 创建时间：2017-01-07
  */
 @Controller
 @RequestMapping(value="/background/dict")
@@ -65,11 +65,11 @@ public class BgDictController extends BaseController {
 	@RequestMapping(value="/main")
 	public ModelAndView main(Model model)throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		ResultInfo resultInfo = this.getResultInfo();
 		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		try{
-			String parentId = MapleStringUtil.isEmpty(pd.getString("parentId"))?"0":pd.getString("parentId");
+			String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
 			JSONArray arr = JSONArray.fromObject(comDictService.listInRank("0"));
 			String json = arr.toString();
 			json = json.replaceAll("dictId", "id").replaceAll("parentId", "pId")
@@ -78,11 +78,11 @@ public class BgDictController extends BaseController {
 			model.addAttribute("zTreeNodes", json);
 			mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
 			mv.addObject("parentId", parentId);
+			mv.addObject("currentPage", pd.get("currentPage"));
+			mv.addObject("showCount", pd.get("showCount"));
 			resultInfo.setResultCode("success");
 			mv.setViewName("background/bgMainTree");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("列表ztree失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
@@ -100,7 +100,7 @@ public class BgDictController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		try{
-			String parentId = MapleStringUtil.isEmpty(pd.getString("parentId"))?"0":pd.getString("parentId");
+			String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
 			pd.put("parentId", parentId);											//上级id
 			
 			String keywords = pd.getString("keywords");								//关键词检索条件
@@ -119,8 +119,6 @@ public class BgDictController extends BaseController {
 			resultInfo.setResultCode("success");
 			mv.setViewName("background/dict/bgDictList");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("列表失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
@@ -138,23 +136,21 @@ public class BgDictController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		try {
-			String parentId = MapleStringUtil.isEmpty(pd.getString("parentId"))?"0":pd.getString("parentId");//上级id
+			String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
 			
-			if(!"0".equals(parentId)&&comDictService.findById(parentId)==null){
-				resultInfo.setResultCode("false");
-				resultInfo.setResultContent("去新增页面失败");
-			}else{
-				ComDict comDict = new ComDict();
-				comDict.setParentId(parentId);
-				mv.addObject("methodPath", "add");
-				mv.addObject(comDict);
-				resultInfo.setResultCode("success");
-				mv.setViewName("background/dict/bgDictEdit");
+			ComDict parentComDict = comDictService.findById(parentId);
+			if(!"0".equals(parentId) && parentComDict==null){
+				mv.addObject(resultInfo);					
+				return mv;
 			}
+			ComDict comDict = new ComDict();
+			comDict.setParentId(parentId);
+			mv.addObject("methodPath", "add");
+			mv.addObject(comDict);
+			resultInfo.setResultCode("success");
+			mv.setViewName("background/dict/bgDictEdit");
 			
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("去新增页面失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);					
@@ -168,31 +164,37 @@ public class BgDictController extends BaseController {
 	public ModelAndView add(@Valid ComDict comDict, BindingResult result) throws Exception{
 		logBefore(logger, "新增comDict");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
+		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		try {
 			Date nowTime = new Date();
-			
+			String parentId = comDict.getParentId();
+			ComDict parentComDict = comDictService.findById(parentId);
+			if(!"0".equals(parentId) && parentComDict==null){
+				mv.addObject(resultInfo);					
+				return mv;
+			}
 			if(result.hasErrors()) {
-	            return mv;  
+				mv.addObject(resultInfo);					
+				return mv; 
 	        }
 			
 			comDict.setDictId(this.get32UUID());
 			comDict.setDictStatus("00");
-			comDict.setLevel(0);
-			comDict.setOrderNum(String.valueOf(nowTime.getTime()));
+			comDict.setLevel("0".equals(parentId)?0:parentComDict.getLevel()+1);
 			comDict.setEffective("01");
 			comDict.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 			comDict.setCreateTime(nowTime);
 			comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 			comDict.setModifyTime(nowTime);
+			if(MapleStringUtil.isEmpty(comDict.getOrderNum())){
+				comDict.setOrderNum(String.valueOf(nowTime.getTime()));
+			}
 			
 			comDictService.add(comDict);
 			resultInfo.setResultCode("success");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("新增失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
@@ -206,23 +208,20 @@ public class BgDictController extends BaseController {
 	public ModelAndView toEdit(@RequestParam String dictId) throws Exception{
 		logBefore(logger, "去修改comDict页面");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
+		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		try {
 			ComDict comDict = comDictService.findById(dictId);	//根据ID读取
 			if(comDict == null){
-				resultInfo.setResultCode("false");
-				resultInfo.setResultContent("去新增页面失败");
-			}else{
-				mv.addObject("methodPath", "edit");
-				mv.addObject(comDict);
-				resultInfo.setResultCode("success");
-				mv.setViewName("background/dict/bgDictEdit");
+				mv.addObject(resultInfo);
+				return mv;
 			}
+			mv.addObject("methodPath", "edit");
+			mv.addObject(comDict);
+			resultInfo.setResultCode("success");
+			mv.setViewName("background/dict/bgDictEdit");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("去修改页面失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);						
@@ -236,7 +235,7 @@ public class BgDictController extends BaseController {
 	public ModelAndView edit(@Valid ComDict comDict, BindingResult result) throws Exception{
 		logBefore(logger, "修改comDict");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
+		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		try {
@@ -246,20 +245,12 @@ public class BgDictController extends BaseController {
 	            return mv;  
 	        }
 	        
-			comDict.setDictStatus("00");
-			comDict.setLevel(0);
-			comDict.setOrderNum("");
-			comDict.setEffective("01");
-			comDict.setCreateUserId("");
-			comDict.setCreateTime(nowTime);
-			comDict.setModifyUserId("");
+			comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 			comDict.setModifyTime(nowTime);
 	        
 			comDictService.edit(comDict);
 			resultInfo.setResultCode("success");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("编辑失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
@@ -273,15 +264,12 @@ public class BgDictController extends BaseController {
 	@ResponseBody
 	public Object toDelete(@RequestParam String dictId) throws Exception{
 		logBefore(logger, "删除comDict");
-		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		try{
 			comDictService.deleteById(dictId);	//根据ID删除
 			resultInfo.setResultCode("success");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("删除失败");
 			logger.error(e.toString(), e);
 		}
 		return AppUtil.returnResult(pd, resultInfo);
@@ -294,28 +282,22 @@ public class BgDictController extends BaseController {
 	@ResponseBody
 	public Object toBatchDelete() {
 		logBefore(logger, "批量删除comDict");
-		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		try {
 			String ids = pd.getString("ids");
-			
-			if(null != ids && !"".equals(ids)){
-				comDictService.batchDeleteByIds(ids.split(","));	//根据ID删除
-				pd.put("msg", "success");
-			}else{
-				pd.put("msg", "false");
+			if(null == ids || "".equals(ids)){
+				return AppUtil.returnResult(pd, resultInfo);
 			}
+			comDictService.batchDeleteByIds(ids.split(","));	//根据ID删除
 			resultInfo.setResultCode("success");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("批量删除失败");
 			logger.error(e.toString(), e);
 		}
 		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
-	/*
+	/**
 	 * 导出到excel
 	 * @return
 	 */
@@ -333,8 +315,8 @@ public class BgDictController extends BaseController {
 			titles.add("数据字典代号");	//2
 			titles.add("数据字典名称");	//3
 			titles.add("数据字典类型");	//4
-			titles.add("数据字典状态");	//5
-			titles.add("数据字典值");	//6
+			titles.add("数据字典值");	//5
+			titles.add("数据字典状态");	//6
 			titles.add("级别");	//7
 			titles.add("排序编号");	//8
 			titles.add("有效性");	//9
@@ -353,8 +335,8 @@ public class BgDictController extends BaseController {
 				vpd.put("var2", varOList.get(i).getDictCode());	//2
 				vpd.put("var3", varOList.get(i).getDictName());	//3
 				vpd.put("var4", varOList.get(i).getDictType());	//4
-				vpd.put("var5", varOList.get(i).getDictStatus());	//5
-				vpd.put("var6", varOList.get(i).getDictValue());	//6
+				vpd.put("var5", varOList.get(i).getDictValue());	//5
+				vpd.put("var6", varOList.get(i).getDictStatus());	//6
 				vpd.put("var7", varOList.get(i).getLevel());	//7
 				vpd.put("var8", varOList.get(i).getOrderNum());	//8
 				vpd.put("var9", varOList.get(i).getEffective());	//9
@@ -385,10 +367,24 @@ public class BgDictController extends BaseController {
 	public ModelAndView toUploadExcel()throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		String parentId = MapleStringUtil.isEmpty(pd.getString("parentId"))?"0":pd.getString("parentId");//上级id
-		mv.addObject("parentId",parentId);
-		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
-		mv.setViewName("background/bgUploadExcel");
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		try {
+			String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
+			
+			ComDict parentComDict = comDictService.findById(parentId);
+			if(!"0".equals(parentId) && parentComDict==null){
+				mv.addObject(resultInfo);					
+				return mv;
+			}
+			
+			mv.addObject("parentId",parentId);
+			mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
+			mv.setViewName("background/bgUploadExcel");
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		mv.addObject(resultInfo);					
 		return mv;
 	}
 	
@@ -400,7 +396,7 @@ public class BgDictController extends BaseController {
 	public ModelAndView downExcelModel()throws Exception{
 		logBefore(logger, "导出bgUser到excel");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
+		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
@@ -408,14 +404,13 @@ public class BgDictController extends BaseController {
 			titles.add("数据字典代号");	//0
 			titles.add("数据字典名称");	//1
 			titles.add("数据字典类型");	//2
-			titles.add("数据字典值");	//4
+			titles.add("数据字典值");	//3
+			titles.add("排序编号");	//6
 			dataMap.put("titles", titles);
 			ObjectExcelView erv = new ObjectExcelView();
 			mv = new ModelAndView(erv,dataMap);
 			resultInfo.setResultCode("success");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("下载模版失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
@@ -438,50 +433,56 @@ public class BgDictController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		try {
 			Date nowTime = new Date();
-			if (null != file && !file.isEmpty()) {
-				String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
-				String fileName =  MapleFileUtil.fileUp(file, filePath, "dictexcel");		//执行上传
-				List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
-				/*存入数据库操作======================================*/
-				
-				String parentId = MapleStringUtil.isEmpty(pd.getString("parentId"))?"0":pd.getString("parentId");//上级id
-				ComDict comDict = new ComDict();
-				comDict.setParentId(parentId);
-				comDict.setDictStatus("00");
-				comDict.setLevel(0);
-				comDict.setOrderNum("");
-				comDict.setEffective("01");
-				comDict.setCreateUserId("");
-				comDict.setCreateTime(nowTime);
-				comDict.setModifyUserId("");
-				comDict.setModifyTime(nowTime);
-				
-				/**
-				 * var0 :数据字典代号;	//0
-				 * var1 :数据字典名称;	//1
-				 * var2 :数据字典类型;	//2
-				 * var3 :数据字典值;	//3
-				 */
-				for(int i=0;i<listPd.size();i++){	
-					comDict.setDictId(this.get32UUID());
-					comDict.setDictCode(listPd.get(i).getString("var0"));
-					comDict.setDictName(listPd.get(i).getString("var1"));
-					comDict.setDictType(listPd.get(i).getString("var2"));
-					comDict.setDictValue(listPd.get(i).getString("var3"));
-					comDictService.add(comDict);
-				}
-				/*存入数据库操作======================================*/
-				mv.addObject("msg","success");
+			String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
+			ComDict parentComDict = comDictService.findById(parentId);
+			if(!"0".equals(parentId) && parentComDict==null){
+				mv.addObject(resultInfo);					
+				return mv;
 			}
+			if (null != file && !file.isEmpty()) {
+				mv.addObject(resultInfo);					
+				return mv;
+			}
+			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+			String fileName =  MapleFileUtil.fileUp(file, filePath, "dictexcel");		//执行上传
+			List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+			/*存入数据库操作======================================*/
+			
+			
+			ComDict comDict = new ComDict();
+			comDict.setParentId(parentId);
+			comDict.setDictStatus("00");
+			comDict.setLevel("0".equals(parentId)?0:parentComDict.getLevel()+1);
+			comDict.setEffective("01");
+			comDict.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+			comDict.setCreateTime(nowTime);
+			comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+			comDict.setModifyTime(nowTime);
+			
+			/**
+			 * var0 :数据字典代号;	//0
+			 * var1 :数据字典名称;	//1
+			 * var2 :数据字典类型;	//2
+			 * var3 :数据字典值;	//3
+			 * var4 :排序编号;	//4
+			 */
+			for(int i=0;i<listPd.size();i++){	
+				comDict.setDictId(this.get32UUID());
+				comDict.setDictCode(listPd.get(i).getString("var0"));
+				comDict.setDictName(listPd.get(i).getString("var1"));
+				comDict.setDictType(listPd.get(i).getString("var2"));
+				comDict.setDictValue(listPd.get(i).getString("var3"));
+				comDict.setOrderNum(listPd.get(i).getString("var4"));
+				comDictService.add(comDict);
+			}
+			/*存入数据库操作======================================*/
 			resultInfo.setResultCode("success");
+			mv.setViewName("background/bgResult");
 		} catch(Exception e){
-			resultInfo.setResultCode("false");
-			resultInfo.setResultContent("EXCEL导入失败");
 			logger.error(e.toString(), e);
 		}
 		mv.addObject(resultInfo);
 		
-		mv.setViewName("background/bgResult");
 		return mv;
 	}
 	

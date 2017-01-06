@@ -37,7 +37,10 @@ public class BaseController {
 	 * 得到ResultInfo
 	 */
 	public ResultInfo getResultInfo() {
-		return new ResultInfo();
+		ResultInfo resultInfo = new ResultInfo();
+		resultInfo.setResultCode("failure");
+		resultInfo.setResultContent("数据异常");
+		return resultInfo;
 	}
 
 	/**

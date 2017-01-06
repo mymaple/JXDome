@@ -167,7 +167,7 @@
 		<if test="mapleId != null and mapleId != ''"><!-- 角色检索 -->
 			and mapleId = #{mapleId}
 		</if>
-		order by isKey DESC, orderNum
+		order by isKey DESC, (orderNum+0)
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -180,7 +180,7 @@
 		<if test="pd.mapleId != null and pd.mapleId != ''"><!-- 角色检索 -->
 			and mapleId = #{pd.mapleId}
 		</if>
-		order by isKey DESC, orderNum
+		order by isKey DESC, (orderNum+0)
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

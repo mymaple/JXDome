@@ -57,6 +57,10 @@
 								<td><input type="text" name="dictValue" id="dictValue" value="${comDict.dictValue}" maxlength="100" placeholder="这里输入数据字典值" title="数据字典值" style="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${comDict.orderNum}" maxlength="100" placeholder="这里输入排序编号" title="排序编号" style="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
@@ -131,6 +135,16 @@
 		            time:2
 		        });
 				$("#dictValue").focus();
+			return false;
+			}
+			if($("#orderNum").val()==""){
+				$("#orderNum").tips({
+					side:3,
+		            msg:'请输入排序编号',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#orderNum").focus();
 			return false;
 			}
 			$("#dictForm").submit();
