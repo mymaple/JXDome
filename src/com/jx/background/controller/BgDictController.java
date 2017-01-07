@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
+import com.jx.background.service.BgRoleService;
 import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
@@ -55,7 +57,8 @@ public class BgDictController extends BaseController {
 	
 	@Resource(name="comDictService")
 	private ComDictService comDictService;
-	
+	@Resource(name="bgRoleService")
+	private BgRoleService bgRoleService;
 	
 	/**
 	 * 显示列表ztree
@@ -486,6 +489,39 @@ public class BgDictController extends BaseController {
 		return mv;
 	}
 	
+	/**
+	 * 修改
+	 */
+	@RequestMapping(value="/test")
+	public ModelAndView test() throws Exception{
+		logBefore(logger, "修改comDict");
+		ModelAndView mv = this.getModelAndView();
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		try {
+			ComDict	comDict1 = new ComDict();
+			comDict1.setDictId("d86275372307463abff3ea4202c0d620");
+			comDict1.setDictName("1111111111111111");
+//			comDictService.edit(comDict1);
+			
+//			bgRoleService.deleteById(6);
+			
+			ComDict	comDict = new ComDict();
+			comDict.setDictName("2222222222222");
+			comDict.setOrderNum("1");
+			comDict.setDictName("weajdfpojdkpoasdkj;laskd;lsakd;laskdl;askd;lasdsadsadbnsakjdhbsajkdjksadhkjsahdkjsadhjksahdkjsahdkjsadhjksadhsakjdhasdjsal;jdk;laskd;laskd;lsakd;lsakd;lsadk;lsaaskdaposdiopqwieqweqwewqpeoqw[eoqwoqweqwehqwkjeqkwjejqkwhejkqwhejkqwhekjqwhejkqwhkjhwqkjehqkwjehjwqkehkjdkljhdlkajsdlkasjdlksajdlkasjdlkasdjsasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+			comDict.setDictId(this.get32UUID());
+//			comDictService.add(comDict);
+			comDictService.test(comDict1, comDict);
+			
+			resultInfo.setResultCode("success");
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		mv.addObject(resultInfo);
+		return mv;
+	}
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder){

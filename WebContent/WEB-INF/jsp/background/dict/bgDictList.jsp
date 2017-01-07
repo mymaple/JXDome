@@ -134,6 +134,7 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
+									<a class="btn btn-mini btn-success" href="<%=basePath%>background/dict/test.do">test</a>
 									<c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd('${parentId}');">新增</a>
 									</c:if>

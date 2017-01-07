@@ -66,14 +66,7 @@
 		update
 	<include refid="dictTable"/>
 		set 
-			parentId = #{parentId},
-			dictCode = #{dictCode}
 			dictName = #{dictName}
-			dictType = #{dictType}
-			dictValue = #{dictValue}
-			orderNum = #{orderNum}
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
 		where 
 			dictId = #{dictId} 
 	</update>
@@ -84,11 +77,11 @@
 	<include refid="dictTable"/>
 		set 
 			parentId = #{parentId},
-			dictCode = #{dictCode}
-			dictName = #{dictName}
-			dictType = #{dictType}
-			dictValue = #{dictValue}
-			orderNum = #{orderNum}
+			dictCode = #{dictCode},
+			dictName = #{dictName},
+			dictType = #{dictType},
+			dictValue = #{dictValue},
+			orderNum = #{orderNum},
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 

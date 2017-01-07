@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
@@ -89,6 +90,7 @@ public class BgRoleService {
 	 * @param int id
 	 * @throws Exception
 	 */
+	@Transactional
 	public void deleteById(int id) throws Exception {
 		dao.delete("BgRoleMapper.deleteById", id);
 	}

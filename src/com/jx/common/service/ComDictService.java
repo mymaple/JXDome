@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
@@ -66,6 +67,11 @@ public class ComDictService {
 	 */
 	public void edit(ComDict comDict) throws Exception {
 		dao.edit("ComDictMapper.edit", comDict);
+	}
+	
+	public void test(ComDict comDict1,ComDict comDict2) throws Exception {
+		this.edit(comDict1);
+		this.add(comDict2);
 	}
 	
 	/**

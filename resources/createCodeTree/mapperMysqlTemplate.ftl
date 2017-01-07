@@ -59,7 +59,9 @@
 		set 
 			<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isKey == '00' && bgMapleDetail.isEdit == '01'>
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"},
+			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
+			</if>
 			</#if>
 			</#list>
 			modifyUserId = ${r"#{"}modifyUserId${r"}"},
@@ -81,7 +83,9 @@
 			parentId = ${r"#{"}parentId${r"}"},
 			<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isKey == '00' && bgMapleDetail.isEdit == '01'>
+			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">
 			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
+			</if>
 			</#if>
 			</#list>
 			modifyUserId = ${r"#{"}modifyUserId${r"}"},
