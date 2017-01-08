@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+	">
+
+	<!-- AOP记录操作日志案例 -->
+	<bean id="loggerConfig" class="com.jx.common.config.LoggerConfig">
+	</bean>
+<!--   
+    配置日志 使用Aop 记录日志    
+    注意:  
+    1). 此处proxy-target-class="true" 否则Action内的参数会被拦截掉,导致action内无法获得前台传递的参数   
+    2). Action需交给spring容器去管理  
+-->  
+	<aop:config expose-proxy="true" proxy-target-class="true">  
+	    <!-- 公用同一个pointcut -->
+	    <aop:aspect id="loggerAspect" ref="loggerConfig">
+	   		<aop:pointcut id="actionPointcut" expression="execution(* com.jx.*.controller.*.*(..))"/>
+	        <aop:before pointcut-ref="actionPointcut" method="doBefore"/>
+	        <aop:after pointcut-ref="actionPointcut" method="doAfter"/>
+	        <aop:around pointcut-ref="actionPointcut" method="doAfter"/>
+	        <aop:after-throwing pointcut-ref="actionPointcut" method="doExec" throwing="ex"/>
+	    </aop:aspect>
+	</aop:config>
+
+     
+</beans>

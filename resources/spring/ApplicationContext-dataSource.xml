@@ -55,20 +55,20 @@
 	
 	<!-- 事物处理 -->
 	<aop:config>
-		<aop:pointcut id="pc" expression="execution(* com.jx.*.service.*(..))" />
+		<aop:pointcut id="pc" expression="execution(* com.jx.*.service.*.*(..))" />
 		<aop:advisor pointcut-ref="pc" advice-ref="txAdvice" />
 	</aop:config>
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="add*" propagation="NESTED" read-only="false" 
+			<tx:method name="add*" propagation="REQUIRED" read-only="false" 
 			           rollback-for="java.lang.Exception"/>
-			<tx:method name="delete*" propagation="NESTED" read-only="false" 
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" 
 			           rollback-for="java.lang.Exception" />
-			<tx:method name="edit*" propagation="NESTED" read-only="false" 
+			<tx:method name="edit*" propagation="REQUIRED" read-only="false" 
 			           rollback-for="java.lang.Exception" />
-			<tx:method name="batch*" propagation="NESTED" read-only="false" 
+			<tx:method name="batch*" propagation="REQUIRED" read-only="false" 
 			           rollback-for="java.lang.Exception" />
-			<tx:method name="test*" propagation="NESTED" read-only="false" 
+			<tx:method name="test*" propagation="REQUIRED" read-only="false" 
 			           rollback-for="java.lang.Exception" />
 		</tx:attributes>
 	</tx:advice>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jx.background.config.BgPage;
+import com.jx.background.service.BgRoleService;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.entity.ComDict;
@@ -18,7 +19,8 @@ public class ComDictService {
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
 	
-	
+	@Resource(name="bgRoleService")
+	private BgRoleService bgRoleService;
 	/****************************custom * start***********************************/
 	
 	/**
@@ -71,6 +73,7 @@ public class ComDictService {
 	
 	public void test(ComDict comDict1,ComDict comDict2) throws Exception {
 		this.edit(comDict1);
+		bgRoleService.deleteById(5);
 		this.add(comDict2);
 	}
 	

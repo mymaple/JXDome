@@ -13,7 +13,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -501,19 +500,24 @@ public class BgDictController extends BaseController {
 		mv.setViewName("background/bgResult");
 		try {
 			ComDict	comDict1 = new ComDict();
-			comDict1.setDictId("d86275372307463abff3ea4202c0d620");
+			comDict1.setDictId("e014e5d7811e4bbd926e6e3e7696b98b");
 			comDict1.setDictName("1111111111111111");
-//			comDictService.edit(comDict1);
+			comDictService.edit(comDict1);
 			
-//			bgRoleService.deleteById(6);
+			ComDict	comDict2 = new ComDict();
+			comDict2.setDictId("ac9bacafb50a492fa95ae21247f8311e");
+			comDict2.setDictName("333333333333");
+			comDictService.edit(comDict1);
+			
+			bgRoleService.deleteById(6);
 			
 			ComDict	comDict = new ComDict();
 			comDict.setDictName("2222222222222");
-			comDict.setOrderNum("1");
-			comDict.setDictName("weajdfpojdkpoasdkj;laskd;lsakd;laskdl;askd;lasdsadsadbnsakjdhbsajkdjksadhkjsahdkjsadhjksahdkjsahdkjsadhjksadhsakjdhasdjsal;jdk;laskd;laskd;lsakd;lsakd;lsadk;lsaaskdaposdiopqwieqweqwewqpeoqw[eoqwoqweqwehqwkjeqkwjejqkwhejkqwhejkqwhekjqwhejkqwhkjhwqkjehqkwjehjwqkehkjdkljhdlkajsdlkasjdlksajdlkasjdlkasdjsasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+			comDict.setParentId("sa");
+//			comDict.setDictName("weajdfpojdkpoasdkj;laskd;lsakd;laskdl;askd;lasdsadsadbnsakjdhbsajkdjksadhkjsahdkjsadhjksahdkjsahdkjsadhjksadhsakjdhasdjsal;jdk;laskd;laskd;lsakd;lsakd;lsadk;lsaaskdaposdiopqwieqweqwewqpeoqw[eoqwoqweqwehqwkjeqkwjejqkwhejkqwhejkqwhekjqwhejkqwhkjhwqkjehqkwjehjwqkehkjdkljhdlkajsdlkasjdlksajdlkasjdlkasdjsasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
 			comDict.setDictId(this.get32UUID());
 //			comDictService.add(comDict);
-			comDictService.test(comDict1, comDict);
+			comDictService.test(comDict2, comDict);
 			
 			resultInfo.setResultCode("success");
 		} catch(Exception e){
