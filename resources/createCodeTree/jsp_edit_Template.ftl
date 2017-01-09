@@ -97,6 +97,9 @@
 		//保存
 		function save(){
 		<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.mapleDetailCode = "orderNum">
+		if(${r"${methodPath == "edit" }"}){
+		</#if>
 		<#if bgMapleDetail.isEdit == "01" >
 			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
 				$("#${bgMapleDetail.mapleDetailCode }").tips({
@@ -108,6 +111,9 @@
 				$("#${bgMapleDetail.mapleDetailCode }").focus();
 			return false;
 			}
+		</#if>
+		<#if bgMapleDetail.mapleDetailCode = "orderNum">
+		}
 		</#if>
 		</#list>
 			$("#${bgMaple.mapleCode}Form").submit();

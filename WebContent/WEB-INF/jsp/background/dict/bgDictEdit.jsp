@@ -97,7 +97,7 @@
 		$(top.hangge());
 		//保存
 		function save(){
-			if($("#dictCode").val()==""){
+			/* if($("#dictCode").val()==""){
 				$("#dictCode").tips({
 					side:3,
 		            msg:'请输入数据字典代号',
@@ -136,7 +136,7 @@
 		        });
 				$("#dictValue").focus();
 			return false;
-			}
+			} */
 			$("#dictForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

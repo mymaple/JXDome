@@ -61,6 +61,18 @@ public class ComDictService {
 		}
 	}
 	
+	/**
+	 * 批量删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public void batchDeleteInRank(String[] ids) throws Exception {
+		for(String id : ids){
+			this.deleteInRank(id);
+		}
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

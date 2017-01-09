@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -29,6 +30,28 @@
 							<tr>
 								<td style="text-align: left;">失败原因:${resultInfo.resultContent}</td>
 							</tr>
+							<%-- <c:if test="${empty errorPosition}">
+							    <c:set var="errorPosition" value="topRight"/>
+							</c:if> --%>
+							<spring:hasBindErrors name="${resultInfo.resultEntity }">  
+							    <c:if test="${errors.fieldErrorCount > 0}">
+							    <tr><td style="text-align: left;">字段错误：</td></tr>
+							        <c:forEach items="${errors.fieldErrors}" var="error">  
+							            <spring:message var="message" code="${error.code}" arguments="${error.arguments}" text="${error.defaultMessage}"/>  
+							    <tr><td style="text-align: center;"><%-- ${error.field} --%>${message}</td></tr>
+							        </c:forEach>  
+							    </c:if>  
+							  
+							    <c:if test="${errors.globalErrorCount > 0}">  
+							    <tr><td style="text-align: left;">全局错误：</td><td></td></tr>
+							        <c:forEach items="${errors.globalErrors}" var="error">  
+							            <spring:message var="message" code="${error.code}" arguments="${error.arguments}" text="${error.defaultMessage}"/>  
+							            <c:if test="${not empty message}">  
+							    <tr><td style="text-align: center;">${message}</td></tr>
+							            </c:if>  
+							        </c:forEach>  
+							    </c:if>  
+							</spring:hasBindErrors>  
 							<tr>
 								<td style="text-align: center;">
 									<a class="btn btn-mini btn-primary" href="javascript:history.back(-1)">返 回</a> 

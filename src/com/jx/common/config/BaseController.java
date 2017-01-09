@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
@@ -106,6 +108,12 @@ public class BaseController {
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder){
+		
+		binder.registerCustomEditor(Integer.class, null,new CustomNumberEditor(Integer.class, null, true));
+        binder.registerCustomEditor(Long.class, null,new CustomNumberEditor(Long.class, null, true));
+        binder.registerCustomEditor(Double.class, null,new CustomNumberEditor(Double.class, null, true));
+        binder.registerCustomEditor(byte[].class,new ByteArrayMultipartFileEditor());
+		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
 	}

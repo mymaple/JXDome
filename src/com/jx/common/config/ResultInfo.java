@@ -2,6 +2,8 @@ package com.jx.common.config;
 
 import java.io.Serializable;
 
+import com.jx.common.util.MapleStringUtil;
+
 public class ResultInfo implements Serializable {
 	
 	/**
@@ -17,7 +19,8 @@ public class ResultInfo implements Serializable {
 	/** 结果内容 */
 	private String resultContent;
 	
-	
+	/** 实体类名 */
+	private String resultEntity;
 	
 	/**
 	 * 设置 结果代号
@@ -25,7 +28,7 @@ public class ResultInfo implements Serializable {
 	 * @param String resultCode
 	 */
 	public void setResultCode(String resultCode) {
-		this.resultCode = resultCode;
+		this.resultCode = MapleStringUtil.trim(resultCode);
 	}
 	
 	/**
@@ -43,7 +46,7 @@ public class ResultInfo implements Serializable {
 	 * @param String resultContent
 	 */
 	public void setResultContent(String resultContent) {
-		this.resultContent = resultContent;
+		this.resultContent = MapleStringUtil.trim(resultContent);
 	}
 	
 	/**
@@ -53,5 +56,23 @@ public class ResultInfo implements Serializable {
 	 */
 	public String getResultContent() {
 		return this.resultContent;
+	}
+	
+	/**
+	 * 设置 实体类名
+	 * 
+	 * @param String resultEntity
+	 */
+	public void setResultEntity(String resultEntity) {
+		this.resultEntity = MapleStringUtil.trim(resultEntity);
+	}
+	
+	/**
+	 * 获取 实体类名
+	 * 
+	 * @return String resultEntity
+	 */
+	public String getResultEntity() {
+		return this.resultEntity;
 	}
 }

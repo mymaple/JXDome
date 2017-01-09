@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 
@@ -105,26 +109,42 @@ public class ComDict implements Serializable {
 	
 	/**************************custom prop end**********************************/
 	
+	//新增校验分组
+	public interface ValidationAdd
+	{
+	//接口中不需要任何定义
+	}
 	
+	//编辑校验分组
+	public interface ValidationEdit
+	{
+	//接口中不需要任何定义
+	}
 	
 	/**************************table prop satrt*********************************/
 	
 	/** 数据字典 主键id */
+	@NotEmpty(message="数据字典 主键id 不能为空", groups={ValidationEdit.class})
 	private String dictId;
 	
 	/** 上级 id */
+	@NotEmpty(message="上级 id 不能为空", groups={ValidationAdd.class})
 	private String parentId;
 	
 	/** 数据字典代号 */
+	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]*$", message="数据字典代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String dictCode;
 		
 	/** 数据字典名称 */
+	@NotEmpty(message="数据字典名称  不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String dictName;
 		
 	/** 数据字典类型 */
+	@NotEmpty(message="数据字典类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String dictType;
 		
 	/** 数据字典值 */
+	@NotEmpty(message="数据字典值 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String dictValue;
 		
 	/** 数据字典状态 */
@@ -134,6 +154,7 @@ public class ComDict implements Serializable {
 	private int level;
 		
 	/** 排序编号 */
+	@NotEmpty(message="排序编号 不能为空", groups={ValidationEdit.class})
 	private String orderNum;
 		
 	/** 有效性 */

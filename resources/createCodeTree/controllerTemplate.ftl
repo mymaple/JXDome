@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +24,9 @@ import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
-import com.jx.common.entity.${bgMaple.mapleEntityUpper};
+import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
+import com.jx.${bgMaple.entityPackage}.entity.ComDict.ValidationAdd;
+import com.jx.${bgMaple.entityPackage}.entity.ComDict.ValidationEdit;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -147,12 +149,17 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * 新增
 	 */
 	@RequestMapping(value="/add")
-	public ModelAndView add(@Valid ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
+	public ModelAndView add(@Validated(ValidationAdd.class) ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 
+		if(result.hasErrors()) {
+			resultInfo.setResultEntity("${bgMaple.mapleEntityLower}");
+			mv.addObject(resultInfo);				
+			return mv; 
+		}
 		Date nowTime = new Date();
 		String parentId = comDict.getParentId();
 		${bgMaple.mapleEntityUpper} parent${bgMaple.mapleEntityUpper} = ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);
@@ -160,10 +167,6 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		if(result.hasErrors()) {
-			mv.addObject(resultInfo);					
-			return mv; 
-        }
 			
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 		<#list bgMapleDetailList as bgMapleDetail>
@@ -218,18 +221,20 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * 修改
 	 */
 	@RequestMapping(value="/edit")
-	public ModelAndView edit(@Valid ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
+	public ModelAndView edit(@Validated(ValidationEdit.class) ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
 		logBefore(logger, "修改${bgMaple.mapleEntityLower}");
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		
-		Date nowTime = new Date();
 			
 		if(result.hasErrors()) {
-            return mv;  
-        }
+			resultInfo.setResultEntity("${bgMaple.mapleEntityLower}");
+			mv.addObject(resultInfo);				
+			return mv; 
+		}
+		Date nowTime = new Date();
 	        
 		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);

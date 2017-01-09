@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +25,8 @@ import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.ComDict;
+import com.jx.common.entity.ComDict.ValidationAdd;
+import com.jx.common.entity.ComDict.ValidationEdit;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -147,12 +149,17 @@ public class BgDictController extends BaseController {
 	 * 新增
 	 */
 	@RequestMapping(value="/add")
-	public ModelAndView add(@Valid ComDict comDict, BindingResult result) throws Exception{
+	public ModelAndView add(@Validated(ValidationAdd.class) ComDict comDict, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
+		if(result.hasErrors()) {
+			resultInfo.setResultEntity("comDict");
+			mv.addObject(resultInfo);				
+			return mv; 
+		}
 		Date nowTime = new Date();
 		String parentId = comDict.getParentId();
 		ComDict parentComDict = comDictService.findById(parentId);
@@ -160,10 +167,6 @@ public class BgDictController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		if(result.hasErrors()) {
-			mv.addObject(resultInfo);					
-			return mv; 
-        }
 			
 		comDict.setDictId(this.get32UUID());
 		comDict.setDictStatus("00");
@@ -212,7 +215,7 @@ public class BgDictController extends BaseController {
 	 * 修改
 	 */
 	@RequestMapping(value="/edit")
-	public ModelAndView edit(@Valid ComDict comDict, BindingResult result) throws Exception{
+	public ModelAndView edit(@Validated(ValidationEdit.class) ComDict comDict, BindingResult result) throws Exception{
 		logBefore(logger, "修改comDict");
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
@@ -222,6 +225,8 @@ public class BgDictController extends BaseController {
 		Date nowTime = new Date();
 			
 		if(result.hasErrors()) {
+			resultInfo.setResultEntity("comDict");
+			mv.addObject(resultInfo);	
             return mv;  
         }
 	        
@@ -263,7 +268,7 @@ public class BgDictController extends BaseController {
 		if(null == ids || "".equals(ids)){
 			return AppUtil.returnResult(pd, resultInfo);
 		}
-		comDictService.batchDeleteByIds(ids.split(","));	//根据ID删除
+		comDictService.batchDeleteInRank(ids.split(","));	//根据ID删除
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);

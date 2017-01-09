@@ -46,6 +46,33 @@ public class ${bgMaple.mapleEntityUpper}Service {
 		}
 		return ${bgMaple.mapleEntityLower}List;
 	}
+	
+	/**
+	 * 删除所有子列表(递归处理)
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteInRank(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
+		this.deleteById(${bgMaple.mapleCode}Id);
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = this.listByParentId(${bgMaple.mapleCode}Id);
+		for(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} : ${bgMaple.mapleEntityLower}List){
+			this.deleteInRank(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>));
+		}
+	}
+	
+	/**
+	 * 批量删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public void batchDeleteInRank(String[] ids) throws Exception {
+		for(String id : ids){
+			this.deleteInRank(id);
+		}
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
