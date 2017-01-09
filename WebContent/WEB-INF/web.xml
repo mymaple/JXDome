@@ -9,7 +9,6 @@
 		<param-value>
 			classpath:spring/ApplicationContext-head.xml,
 			classpath:spring/ApplicationContext-dataSource.xml,
-			classpath:spring/ApplicationContext-log4j.xml,
 			classpath:spring/ApplicationContext-shiro.xml,
 			classpath:spring/ApplicationContext-redis.xml
 		</param-value>
@@ -89,7 +88,10 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring/ApplicationContext-springmvc.xml</param-value>
+			<param-value>
+				classpath:spring/ApplicationContext-springmvc.xml,
+				classpath:spring/ApplicationContext-log4j.xml
+			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

@@ -137,16 +137,6 @@
 				$("#dictValue").focus();
 			return false;
 			}
-			if($("#orderNum").val()==""){
-				$("#orderNum").tips({
-					side:3,
-		            msg:'请输入排序编号',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#orderNum").focus();
-			return false;
-			}
 			$("#dictForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

@@ -5,10 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.jx.background.config.BgPage;
-import com.jx.background.service.BgRoleService;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.entity.ComDict;
@@ -19,8 +17,7 @@ public class ComDictService {
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
 	
-	@Resource(name="bgRoleService")
-	private BgRoleService bgRoleService;
+	
 	/****************************custom * start***********************************/
 	
 	/**
@@ -49,6 +46,21 @@ public class ComDictService {
 		}
 		return comDictList;
 	}
+	
+	/**
+	 * 删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteInRank(String dictId) throws Exception {
+		this.deleteById(dictId);
+		List<ComDict> comDictList = this.listByParentId(dictId);
+		for(ComDict comDict : comDictList){
+			this.deleteInRank(comDict.getDictId());
+		}
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -69,12 +81,6 @@ public class ComDictService {
 	 */
 	public void edit(ComDict comDict) throws Exception {
 		dao.edit("ComDictMapper.edit", comDict);
-	}
-	
-	public void test(ComDict comDict1,ComDict comDict2) throws Exception {
-		this.edit(comDict1);
-		bgRoleService.deleteById(5);
-		this.add(comDict2);
 	}
 	
 	/**

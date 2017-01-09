@@ -32,7 +32,8 @@
 <include refid="dictColumns"/>
 		from 
 <include refid="dictTable"/>		
-		where parentId = #{parentId} order by (orderNum+0) 
+		where parentId = #{parentId} 
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
@@ -66,7 +67,23 @@
 		update
 	<include refid="dictTable"/>
 		set 
-			dictName = #{dictName}
+			<if test="dictCode!=null and dictCode!=''">
+			dictCode = #{dictCode},
+			</if>
+			<if test="dictName!=null and dictName!=''">
+			dictName = #{dictName},
+			</if>
+			<if test="dictType!=null and dictType!=''">
+			dictType = #{dictType},
+			</if>
+			<if test="dictValue!=null and dictValue!=''">
+			dictValue = #{dictValue},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
 		where 
 			dictId = #{dictId} 
 	</update>
@@ -76,12 +93,21 @@
 		update
 	<include refid="dictTable"/>
 		set 
-			parentId = #{parentId},
+			<if test="dictCode!=null and dictCode!=''">
 			dictCode = #{dictCode},
+			</if>
+			<if test="dictName!=null and dictName!=''">
 			dictName = #{dictName},
+			</if>
+			<if test="dictType!=null and dictType!=''">
 			dictType = #{dictType},
+			</if>
+			<if test="dictValue!=null and dictValue!=''">
 			dictValue = #{dictValue},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
+			</if>
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
@@ -172,6 +198,7 @@
 		from 
 	<include refid="dictTable"/>
 		where 1=1
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
@@ -223,15 +250,28 @@
 			<if test="modifyTime!=null and modifyTime!=''">
 			 and modifyTime = #{modifyTime}
 			</if>
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listPage" parameterType="bgPage" resultType="pd">
-			select 
+		select 
 	<include refid="dictColumns"/>
 		from 
 	<include refid="dictTable"/>
 		where 1=1
+		<if test="pd.parentId != null and pd.parentId != ''"><!-- 角色检索 -->
+			and parentId= #{pd.parentId}
+		</if>
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				dictCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				dictName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

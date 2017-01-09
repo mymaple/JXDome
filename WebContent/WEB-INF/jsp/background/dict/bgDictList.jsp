@@ -23,7 +23,7 @@
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
 		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>background/dict/main.do?pId="+${parentId}+"&currentPage="+currentPage+"&showCount="+showCount;
+			parent.location.href="<%=basePath%>background/dict/main.do?pId="+'${parentId}'+"&currentPage="+currentPage+"&showCount="+showCount;
 		}
 	}
 </script>
@@ -91,7 +91,7 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${comDict.dictCode}</td>
-											<td class='center'>${comDict.dictName}</td>
+											<td class='center'><a href="javascript:toSub('${comDict.dictId}')">${comDict.dictName}</a></td>
 											<td class='center'>${comDict.dictType}</td>
 											<td class='center'>${comDict.dictValue}</td>
 											<td class='center'>${comDict.orderNum}</td>
@@ -134,15 +134,14 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<a class="btn btn-mini btn-success" href="<%=basePath%>background/dict/test.do">test</a>
 									<c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd('${parentId}');">新增</a>
 									</c:if>
 									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
-									<c:if test="${null != comDict.comDictId && comDict.comDictId != '0' && comDict.comDictId != ''}">
-										<a class="btn btn-mini btn-primary" onclick="toSub('${comDict.parentId}');">返回</a>
+									<c:if test="${null != parentComDict.dictId && parentComDict.dictId != '0' && parentComDict.dictId != ''}">
+										<a class="btn btn-mini btn-primary" onclick="toSub('${parentComDict.parentId}');">返回</a>
 									</c:if>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
@@ -354,7 +353,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/dict/toUploadExcel.do?pId='+${parentId};
+			 diag.URL = '<%=basePath%>background/dict/toUploadExcel.do?pId='+'${parentId}';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

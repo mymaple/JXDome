@@ -23,7 +23,7 @@
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
 		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/main.do?pId="+${r"${parentId}"}+"&currentPage="+currentPage+"&showCount="+showCount;
+			parent.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/main.do?pId="+'${r"${parentId}"}'+"&currentPage="+currentPage+"&showCount="+showCount;
 		}
 	}
 </script>
@@ -92,7 +92,7 @@
 											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
 										<#list bgMapleDetailList as bgMapleDetail>
 										<#if bgMapleDetail.isEdit == "01" >
-											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
+											<td class='center'><#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ><a href="javascript:toSub('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')"></#if>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ></a></#if></td>
 										</#if>
 										</#list>
 											<td class="center">
@@ -135,13 +135,13 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${r"${RIGHTS.add }"}">
-									<a class="btn btn-mini btn-success" onclick="toAdd('${r"${"}parentId${r"}"}');">新增</a>
+									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
 									<c:if test="${r"${RIGHTS.del }"}">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
-									<c:if test="${r"${"}null != ${bgMaple.mapleEntityLower}.${bgMaple.mapleEntityLower}Id && ${bgMaple.mapleEntityLower}.${bgMaple.mapleEntityLower}Id != '0' && ${bgMaple.mapleEntityLower}.${bgMaple.mapleEntityLower}Id != ''${r"}"}">
-										<a class="btn btn-mini btn-primary" onclick="toSub('${r"${"}${bgMaple.mapleEntityLower}.parentId${r"}"}');">返回</a>
+									<c:if test="${r"${"}null != parent${bgMaple.mapleEntityUpper}.${bgMaple.mapleCode}Id && parent${bgMaple.mapleEntityUpper}.${bgMaple.mapleCode}Id != '0' && parent${bgMaple.mapleEntityUpper}.${bgMaple.mapleCode}Id != ''${r"}"}">
+										<a class="btn btn-mini btn-primary" onclick="toSub('${r"${"}parent${bgMaple.mapleEntityUpper}.parentId${r"}"}');">返回</a>
 									</c:if>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${r"${bgPage.pageStr}"}</div></td>
@@ -240,12 +240,12 @@
 		};
 		
 		//新增
-		function toAdd(parentId){
+		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?pId="+parentId;
+			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?pId="+'${r"${parentId}"}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -353,7 +353,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?pId='+${r"${parentId}"};
+			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?pId='+'${r"${parentId}"}';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

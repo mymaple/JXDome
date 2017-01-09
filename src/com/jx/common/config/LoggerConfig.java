@@ -5,7 +5,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 
 public class LoggerConfig {
 	
-	private Logger logger = Logger.getLogger(this.getClass());
+	private final static Logger logger = Logger.getLogger(LoggerConfig.class);
 	
 	private String logStr = "" ; 
 	 /** 
@@ -48,8 +48,8 @@ public class LoggerConfig {
     /** 
      * 异常通知 
      */  
-    public void doExec(Exception ex){
-        logger.error(ex.toString());  
+    public void doExec(JoinPoint jp, Exception ex){
+        logger.error("异常处理"+ex.toString());  
     }  
     
 }

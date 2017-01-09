@@ -23,7 +23,8 @@
 <include refid="${bgMaple.mapleCode}Columns"/>
 		from 
 <include refid="${bgMaple.mapleCode}Table"/>		
-		where parentId = ${r"#{"}parentId${r"}"} order by (orderNum+0) 
+		where parentId = ${r"#{"}parentId${r"}"} 
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
@@ -60,7 +61,7 @@
 			<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isKey == '00' && bgMapleDetail.isEdit == '01'>
 			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"},
 			</if>
 			</#if>
 			</#list>
@@ -80,11 +81,10 @@
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
-			parentId = ${r"#{"}parentId${r"}"},
 			<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isKey == '00' && bgMapleDetail.isEdit == '01'>
 			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"},
 			</if>
 			</#if>
 			</#list>
@@ -115,14 +115,12 @@
 			&& bgMapleDetail.mapleDetailCode != 'modifyTime'
 			>
 			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail_has_next>,</#if>
+			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"},
 			</if>
 			</#if>
 			</#list>
-			<#if bgMaple.mapleType != '00'>
 			modifyUserId = ${r"#{"}modifyUserId${r"}"},
 			modifyTime = ${r"#{"}modifyTime${r"}"}
-			</#if>
 		where 
 			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
 			<#list bgMapleDetailList as bgMapleDetail> 
@@ -193,6 +191,7 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 1=1
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
@@ -213,6 +212,7 @@
 			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
 			</if>
 			</#list>
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -222,6 +222,18 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 1=1
+		<if test="pd.parentId != null and pd.parentId != ''"><!-- 角色检索 -->
+			and parentId= ${r"#{pd.parentId}"}
+		</if>
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				${bgMaple.mapleCode}Code LIKE CONCAT(CONCAT('%', ${r"#{pd.keywords})"},'%')
+				or
+				${bgMaple.mapleCode}Name LIKE CONCAT(CONCAT('%', ${r"#{pd.keywords})"},'%')
+				)
+		</if>
+		order by (orderNum+0)
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

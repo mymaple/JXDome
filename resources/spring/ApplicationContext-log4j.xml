@@ -15,23 +15,14 @@
 						http://www.springframework.org/schema/tx/spring-tx.xsd
 	">
 
-	<!-- AOP记录操作日志案例 -->
-	<bean id="loggerConfig" class="com.jx.common.config.LoggerConfig">
-	</bean>
-<!--   
-    配置日志 使用Aop 记录日志    
-    注意:  
-    1). 此处proxy-target-class="true" 否则Action内的参数会被拦截掉,导致action内无法获得前台传递的参数   
-    2). Action需交给spring容器去管理  
--->  
-	<aop:config expose-proxy="true" proxy-target-class="true">  
-	    <!-- 公用同一个pointcut -->
-	    <aop:aspect id="loggerAspect" ref="loggerConfig">
-	   		<aop:pointcut id="actionPointcut" expression="execution(* com.jx.*.controller.*.*(..))"/>
-	        <aop:before pointcut-ref="actionPointcut" method="doBefore"/>
-	        <aop:after pointcut-ref="actionPointcut" method="doAfter"/>
-	        <aop:around pointcut-ref="actionPointcut" method="doAfter"/>
-	        <aop:after-throwing pointcut-ref="actionPointcut" method="doExec" throwing="ex"/>
+	<!-- AOP记录操作日志 -->
+	<bean id="logBean" class="com.jx.common.config.LoggerConfig"></bean>
+	<aop:config>  
+	    <aop:aspect id="logAspect" ref="logBean" order="1">
+	   		<aop:pointcut id="logPointcut" expression="execution(* com.jx.*.controller.*.*(..))"/>
+	        <aop:before pointcut-ref="logPointcut" method="doBefore"/>
+	        <aop:after pointcut-ref="logPointcut" method="doAfter"/>
+	        <aop:after-throwing pointcut-ref="logPointcut" method="doExec" throwing="ex"/>
 	    </aop:aspect>
 	</aop:config>
 

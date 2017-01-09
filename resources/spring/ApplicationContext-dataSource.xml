@@ -55,8 +55,8 @@
 	
 	<!-- 事物处理 -->
 	<aop:config>
-		<aop:pointcut id="pc" expression="execution(* com.jx.*.service.*.*(..))" />
-		<aop:advisor pointcut-ref="pc" advice-ref="txAdvice" />
+		<aop:pointcut id="txPointcut" expression="execution(* com.jx.*.service.*.*(..))" />
+		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice" order="2"/>
 	</aop:config>
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
