@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -92,7 +93,7 @@
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${comDict.dictCode}</td>
 											<td class='center'><a href="javascript:toSub('${comDict.dictId}')">${comDict.dictName}</a></td>
-											<td class='center'>${comDict.dictType}</td>
+											<td class='center'><param:display type="bg_dictType" value="${comDict.dictType}"/></td>
 											<td class='center'>${comDict.dictValue}</td>
 											<td class='center'>${comDict.orderNum}</td>
 											<td class="center">
@@ -135,7 +136,7 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${RIGHTS.add }">
-									<a class="btn btn-mini btn-success" onclick="toAdd('${parentId}');">新增</a>
+									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
 									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
@@ -240,12 +241,12 @@
 		};
 		
 		//新增
-		function toAdd(parentId){
+		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/dict/toAdd.do?pId="+parentId;
+			 diag.URL = "<%=basePath%>background/dict/toAdd.do?pId="+'${parentId}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口

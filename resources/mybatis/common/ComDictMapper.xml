@@ -26,6 +26,32 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<select id="getDisplayName" parameterType="pd" resultType="String">
+		select dictName 
+		from
+<include refid="dictTable"/>
+		where parentId = (select dictId 
+							from 
+							<include refid="dictTable"/> 
+							where dictCode = #{type} 
+							)
+			and dictValue = #{value}		
+	</select>
+	
+	<!-- 根据type 获取下拉列表 -->
+	<select id="listSelect" parameterType="String" resultMap="comDictResultMap">
+		select  
+<include refid="dictColumns"/>
+		from 
+<include refid="dictTable"/>		
+		where parentId = (select dictId 
+							from 
+							<include refid="dictTable"/> 
+							where dictCode = #{type} 
+							)
+		order by (orderNum+0) 
+	</select>
+	
 	<!-- 根据parentId 获取所有直接子菜单 -->
 	<select id="listByParentId" parameterType="String" resultMap="comDictResultMap">
 		select  
@@ -255,7 +281,7 @@
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listPage" parameterType="bgPage" resultType="pd">
-		select 
+			select 
 	<include refid="dictColumns"/>
 		from 
 	<include refid="dictTable"/>

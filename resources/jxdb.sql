@@ -346,39 +346,63 @@ INSERT INTO `bgConfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务�
 
 
 -- ----------------------------
--- Table structure for comDict
+-- Table structure for com_dict
 -- ----------------------------
-DROP TABLE IF EXISTS `comDict`;
-CREATE TABLE `comDict` (
- 	`dictId` int(11) NOT NULL AUTO_INCREMENT COMMENT '数据字典表id',
-	`name` varchar(50)
-		 DEFAULT NULL  COMMENT '字典名称' ,	
-	`encode` varchar(50)
-		 DEFAULT NULL  COMMENT '编码' ,	
-	`orderBy` varchar(50)
-		 DEFAULT NULL  COMMENT '排序' ,	
-	`parentId` int(11)
-		 DEFAULT NULL  COMMENT '上级ID' ,	
-	`level` varchar(50)
-		 DEFAULT NULL  COMMENT '级别' ,	
-	`allEncode` varchar(255)
-		 DEFAULT NULL  COMMENT '组合编码' ,	
+DROP TABLE IF EXISTS `com_dict`;
+CREATE TABLE `com_dict` (
+
+	`dictId` varchar(100) 
+			NOT NULL COMMENT '数据字典 主键id',
+	`parentId` varchar(100) 
+			NOT NULL COMMENT '上级 id',
+	`dictCode` varchar(100)
+			 DEFAULT NULL  COMMENT '数据字典代号', 
+	`dictName` varchar(100)
+			 DEFAULT NULL  COMMENT '数据字典名称', 
+	`dictType` varchar(100)
+			 DEFAULT NULL  COMMENT '数据字典类型', 
+	`dictValue` varchar(100)
+			 DEFAULT NULL  COMMENT '数据字典值', 
+	`dictStatus` varchar(100)
+			 DEFAULT NULL  COMMENT '数据字典状态', 
+	`level` int(10)
+			 DEFAULT NULL  COMMENT '级别', 
+	`orderNum` varchar(100)
+			 DEFAULT NULL  COMMENT '排序编号', 
+	`effective` varchar(100)
+			 DEFAULT NULL  COMMENT '有效性', 
+	`createUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '创建人员id', 
+	`createTime` datetime
+			 DEFAULT NULL  COMMENT '创建时间', 
+	`modifyUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '修改人员id', 
 	`modifyTime` datetime
-		 DEFAULT NULL  COMMENT '修改时间' ,	
+			 DEFAULT NULL  COMMENT '修改时间', 
   
   PRIMARY KEY (`dictId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '数据字典表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = 'com_dict';
 
 -- ----------------------------
--- Records of comDict
+-- Records of com_dict
 -- ----------------------------
-INSERT INTO `comDict` VALUES ('1', '属性类型', 'propType', '1', '0', '1', 'propType', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('2', '字符串String', 'String', '0', '1', '2', 'propType_String', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('3', '整形Int', 'Int', '1', '1', '2', 'propType_Int', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('4', '日期型Date', 'Date', '2', '1', '2', 'propType_Date', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('5', '开发模块', 'developModule', '0', '0', '1', 'developModule', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('6', 'common', 'com', '0', '5', '2', 'developModule_com', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('7', 'background', 'bg', '1', '5', '2', 'developModule_bg', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('8', 'weixin', 'wx', '2', '5', '2', 'developModule_wx', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('9', 'web', 'web', '3', '5', '2', 'developModule_web', '2015-06-03 22:09:13');
-INSERT INTO `comDict` VALUES ('10', 'mobile', 'mb', '4', '5', '2', 'developModule_mb', '2015-06-03 22:09:13');
+INSERT INTO `com_dict` VALUES ('0c608e9327344f588eebd8edce01de8b', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_01', '标准型', '01', '01', '00', '1', '1484025817953', '01', '1', '2017-01-10 13:23:38', '1', '2017-01-10 13:23:38');
+INSERT INTO `com_dict` VALUES ('1c0caa13e3514c87a3280f2f48653d83', '28510c12e9834ea29bbb5621f99e804e', 'bg_propType_02', 'Int', '01', '02', '00', '1', '1484018861734', '01', '1', '2017-01-10 11:27:42', '1', '2017-01-10 11:27:42');
+INSERT INTO `com_dict` VALUES ('28510c12e9834ea29bbb5621f99e804e', '0', 'bg_propType', '字段属性类型', '01', 'bg_propType', '00', '0', '1484018714788', '01', '1', '2017-01-10 11:25:15', '1', '2017-01-10 11:25:15');
+INSERT INTO `com_dict` VALUES ('42293fbe78a649568d01da16ff66040f', 'b120815786714648a7247046fe7186d9', 'bg_dictType_02', '数据库字典', '01', '02', '00', '1', '1484017474427', '01', '1', '2017-01-10 11:04:34', '1', '2017-01-10 11:04:34');
+INSERT INTO `com_dict` VALUES ('4324f08d02c943ab96e9078b01f703d8', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_04', '主从型（从）', '01', '04', '00', '1', '1484025928454', '01', '1', '2017-01-10 13:25:28', '1', '2017-01-10 13:25:28');
+INSERT INTO `com_dict` VALUES ('4ed0b868ed2b4d69887bcef4932eb4ef', '28510c12e9834ea29bbb5621f99e804e', 'bg_propType_05', 'Dict', '01', '05', '00', '1', '1484019114333', '01', '1', '2017-01-10 11:31:54', '1', '2017-01-10 11:31:54');
+INSERT INTO `com_dict` VALUES ('540b4214c9ea4927867b1a878365ec9c', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_wx', 'weixin', '01', 'wx', '00', '1', '1484018416335', '01', '1', '2017-01-10 11:20:16', '1', '2017-01-10 11:20:16');
+INSERT INTO `com_dict` VALUES ('54467b4e2dc84c1ca9e21828803eb9b8', '28510c12e9834ea29bbb5621f99e804e', 'bg_propType_04', 'Double', '01', '04', '00', '1', '1484019019767', '01', '1', '2017-01-10 11:30:20', '1', '2017-01-10 11:30:20');
+INSERT INTO `com_dict` VALUES ('609bbe934cd24f7588af2f717a8d49f3', '28510c12e9834ea29bbb5621f99e804e', 'bg_propType_03', 'Time', '01', '03', '00', '1', '1484019001039', '01', '1', '2017-01-10 11:30:01', '1', '2017-01-10 11:30:01');
+INSERT INTO `com_dict` VALUES ('6d58e343386e47afbf79fb2dbc8c7d76', 'b120815786714648a7247046fe7186d9', 'bg_dictType_01', '参数字典', '01', '01', '00', '1', '1484017427635', '01', '1', '2017-01-10 11:03:48', '1', '2017-01-10 11:03:48');
+INSERT INTO `com_dict` VALUES ('7faad10eb0424cf29a51fb5add0f1b50', '28510c12e9834ea29bbb5621f99e804e', 'bg_propType_01', 'String', '01', '01', '00', '1', '1484018802176', '01', '1', '2017-01-10 11:26:42', '1', '2017-01-10 11:26:42');
+INSERT INTO `com_dict` VALUES ('b120815786714648a7247046fe7186d9', '0', 'bg_dictType', '字典类型', '01', 'bg_dictType', '00', '0', '1484017251117', '01', '1', '2017-01-10 11:00:51', '1', '2017-01-10 11:00:51');
+INSERT INTO `com_dict` VALUES ('d8cf8becf1db4418a098a43500d5cf3f', '0', 'com_packageType', '模块包分类', '01', 'com_packageType', '00', '0', '1484017801545', '01', '1', '2017-01-10 11:10:02', '1', '2017-01-10 11:10:02');
+INSERT INTO `com_dict` VALUES ('e53230ed682741f4ad63e470e0d86488', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_mb', 'mobile', '01', 'mb', '00', '1', '1484018478585', '01', '1', '2017-01-10 11:21:19', '1', '2017-01-10 11:21:33');
+INSERT INTO `com_dict` VALUES ('e69288a45145429c8c3a865024d4b83c', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_02', '树形', '01', '02', '00', '1', '1484025846486', '01', '1', '2017-01-10 13:24:06', '1', '2017-01-10 13:24:06');
+INSERT INTO `com_dict` VALUES ('f0cde8fcc255428fae4cceb7f1a3abf1', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_bg', 'background', '01', 'bg', '00', '1', '1484018374289', '01', '1', '2017-01-10 11:19:34', '1', '2017-01-10 11:19:34');
+INSERT INTO `com_dict` VALUES ('f29b6b4266b54c67a3d9f629abc95560', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_com', 'common', '01', 'com', '00', '1', '1484017926047', '01', '1', '2017-01-10 11:12:06', '1', '2017-01-10 11:13:22');
+INSERT INTO `com_dict` VALUES ('f2b727ee2e654654bd91363660fe2197', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_03', '主从型（主）', '01', '03', '00', '1', '1484025903963', '01', '1', '2017-01-10 13:25:04', '1', '2017-01-10 13:25:04');
+INSERT INTO `com_dict` VALUES ('f9831d6e9c3b482381bb940ffc5edf20', '0', 'bg_mapleType', '代码结构类型', '01', 'bg_mapleType', '00', '0', '1484025760602', '01', '1', '2017-01-10 13:22:41', '1', '2017-01-10 13:22:41');
+

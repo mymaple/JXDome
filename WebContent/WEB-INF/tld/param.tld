@@ -73,13 +73,38 @@
         </attribute>
         <!--select 未选择时显示内容 如："请选择"或者"所有"等-->
         <attribute>
-            <name>nullStr</name>
+            <name>placeholder</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     
-
-        
-        
+		 <!--标题-->
+        <attribute>
+            <name>title</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
+    
+    <tag>
+        <!--定义属性的名称。每个标签的是属性名称必须是唯一的。-->
+        <name>display</name>
+        <tag-class>com.jx.common.tag.ParameterDisplayTag</tag-class>
+        <body-content>empty</body-content>
+        
+        <!--type-->
+        <attribute>
+            <name>type</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+        <!--value 选中的值-->
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>   
+    
 </taglib>

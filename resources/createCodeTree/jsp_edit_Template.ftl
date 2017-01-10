@@ -94,12 +94,43 @@
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
+		
+		//判断${bgMaple.mapleCode}Code是否存在
+		function hasCode(){
+			var ${bgMaple.mapleCode}Code = $("#${bgMaple.mapleCode}Code").val();
+			var url = "<%=basePath%>background/${bgMaple.mapleCode}/hasCode.do?${bgMaple.mapleCode}Code="+${bgMaple.mapleCode}Code+"&tm="+new Date().getTime();
+			$.get(url,function(data){
+				if(data.resultCode != "success"){
+					$("#${bgMaple.mapleCode}Code").tips({
+						side:3,
+			            msg:'${bgMaple.mapleName}代号 已存在',
+			            bg:'#AE81FF',
+			            time:2
+			        });
+					$("#${bgMaple.mapleCode}Code").focus();
+					return false;
+				}
+			});
+		}
+		
 		//保存
 		function save(){
 		<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailCode = "orderNum">
-		if(${r"${methodPath == "edit" }"}){
+		if("${r"${methodPath }"}" == "edit"){
 		</#if>
+		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
+			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+			if(!codeExp.test($("#${bgMapleDetail.mapleDetailCode }").val())){
+				$("#${bgMapleDetail.mapleDetailCode }").tips({
+					side:3,
+		            msg:'请输入${bgMapleDetail.mapleDetailName } 需以小写字母开头的字母数字',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#${bgMapleDetail.mapleDetailCode }").focus();
+			return false;
+			}
 		<#if bgMapleDetail.isEdit == "01" >
 			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
 				$("#${bgMapleDetail.mapleDetailCode }").tips({

@@ -2,23 +2,31 @@ package com.jx.common.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.jx.background.config.BgPage;
-import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.entity.ComDict;
 
-@Service("comDictService")
-public class ComDictService {
+public interface ComDictService {
 
-	@Resource(name = "daoSupport")
-	private DaoSupport dao;
-	
 	
 	/****************************custom * start***********************************/
+	
+	/**
+	 * 显示名称获取
+	 * @param type
+	 * @param value
+	 * @return
+	 * @throws Exception
+	 */
+	public String getDisplayName(String type, String value) throws Exception ;
+	
+	/**
+	 * 根据code 获取所有直接子
+	 * @param String code
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComDict> listSelect(String type) throws Exception ;
 	
 	/**
 	 * 根据parentId 获取所有直接子
@@ -26,10 +34,7 @@ public class ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	public List<ComDict> listByParentId(String parentId) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.listByParentId", parentId);
-	}
+	public List<ComDict> listByParentId(String parentId) throws Exception ;
 	
 	/**
 	 * 获取所有子列表(递归处理)
@@ -37,15 +42,7 @@ public class ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComDict> listInRank(String dictId) throws Exception {
-		List<ComDict> comDictList = this.listByParentId(dictId);
-		for(ComDict comDict : comDictList){
-			comDict.setSubComDictPath("background/dict/list.do?pId="+comDict.getDictId());
-			comDict.setSubComDictList(this.listInRank(comDict.getDictId()));
-			comDict.setTarget("treeFrame");
-		}
-		return comDictList;
-	}
+	public List<ComDict> listInRank(String dictId) throws Exception ;
 	
 	/**
 	 * 删除所有子列表(递归处理)
@@ -53,13 +50,7 @@ public class ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	public void deleteInRank(String dictId) throws Exception {
-		this.deleteById(dictId);
-		List<ComDict> comDictList = this.listByParentId(dictId);
-		for(ComDict comDict : comDictList){
-			this.deleteInRank(comDict.getDictId());
-		}
-	}
+	public void deleteInRank(String dictId) throws Exception ;
 	
 	/**
 	 * 批量删除所有子列表(递归处理)
@@ -67,11 +58,7 @@ public class ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	public void batchDeleteInRank(String[] ids) throws Exception {
-		for(String id : ids){
-			this.deleteInRank(id);
-		}
-	}
+	public void batchDeleteInRank(String[] ids) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	
@@ -82,56 +69,42 @@ public class ComDictService {
 	 * @param ComDict comDict
 	 * @throws Exception
 	 */
-	public void add(ComDict comDict) throws Exception {
-		dao.add("ComDictMapper.add", comDict);
-	}
+	public void add(ComDict comDict) throws Exception ;
 	
 	/**
 	 * 修改 
 	 * @param ComDict comDict
 	 * @throws Exception
 	 */
-	public void edit(ComDict comDict) throws Exception {
-		dao.edit("ComDictMapper.edit", comDict);
-	}
+	public void edit(ComDict comDict) throws Exception ;
 	
 	/**
 	 * 更改
 	 * @param ComDict comDict
 	 * @throws Exception
 	 */
-	public void change(ComDict comDict) throws Exception {
-		dao.edit("ComDictMapper.change", comDict);
-	}
+	public void change(ComDict comDict) throws Exception ;
 
 	/**
 	 * 删除 
 	 * @param String dictId
 	 * @throws Exception
 	 */
-	public void deleteById(String dictId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("dictId",dictId);
-		this.deleteByPd(pd);
-	}
+	public void deleteById(String dictId) throws Exception ;
 	
 	/**
 	 * 删除 
 	 * @param PageData pd
 	 * @throws Exception
 	 */
-	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("ComDictMapper.deleteByPd", pd);
-	}
+	public void deleteByPd(PageData pd) throws Exception ;
 	
 	/**
 	 * 批量删除 
 	 * @param PageData pd
 	 * @throws Exception
 	 */
-	public void batchDeleteByIds(String[] ids) throws Exception {
-		dao.delete("ComDictMapper.batchDeleteByIds", ids);
-	}
+	public void batchDeleteByIds(String[] ids) throws Exception ;
 
 	/**
 	 * 通过id获取(类)数据
@@ -139,11 +112,7 @@ public class ComDictService {
 	 * @return ComDict
 	 * @throws Exception
 	 */
-	public ComDict findById(String dictId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("dictId",dictId);
-		return this.findByPd(pd);
-	}
+	public ComDict findById(String dictId) throws Exception ;
 	
 	/**
 	 * 通过pd获取(ComDict)数据 
@@ -151,9 +120,7 @@ public class ComDictService {
 	 * @return ComDict
 	 * @throws Exception
 	 */
-	public ComDict findByPd(PageData pd) throws Exception {
-		return (ComDict) dao.findForObject("ComDictMapper.findByPd", pd);
-	}
+	public ComDict findByPd(PageData pd) throws Exception ;
 	
 	/**
 	 * 通过id获取(PageData)数据 
@@ -161,11 +128,7 @@ public class ComDictService {
 	 * @return PageData
 	 * @throws Exception
 	 */
-	public PageData findPdById(String dictId) throws Exception {
-		PageData pd = new PageData();
-	pd.put("dictId",dictId);
-		return this.findPdByPd(pd);
-	}
+	public PageData findPdById(String dictId) throws Exception ;
 	
 	/**
 	 * 通过pd获取(PageData)数据 
@@ -173,29 +136,28 @@ public class ComDictService {
 	 * @return PageData
 	 * @throws Exception
 	 */
-	public PageData findPdByPd(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("ComDictMapper.findPdByPd", pd);
-	}
+	public PageData findPdByPd(PageData pd) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	public List<ComDict> listByPd(PageData pd) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.listByPd", pd);
-	}
+	public List<ComDict> listByPd(PageData pd) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	public List<ComDict> has(ComDict comDict) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.has", comDict);
-	}
+	public List<ComDict> has(ComDict comDict) throws Exception ;
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComDict> hasCode(String dictCode) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据
@@ -203,10 +165,7 @@ public class ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	public List<PageData> listPage(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("ComDictMapper.listPage", bgPage);
-	}
+	public List<PageData> listPage(BgPage bgPage) throws Exception ;
 	
 	/****************************common * end***********************************/
 }

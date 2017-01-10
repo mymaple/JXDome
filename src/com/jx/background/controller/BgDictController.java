@@ -30,6 +30,7 @@ import com.jx.common.entity.ComDict.ValidationEdit;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
+import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
 import com.jx.common.service.ComDictService;
@@ -39,7 +40,7 @@ import net.sf.json.JSONArray;
 /** 
  * 类名称：BgDictController
  * 创建人：maple
- * 创建时间：2017-01-09
+ * 创建时间：2017-01-10
  */
 @Controller
 @RequestMapping(value="/background/dict")
@@ -94,8 +95,8 @@ public class BgDictController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
-		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
-		pd.put("parentId", parentId);											
+		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
+		pd.put("parentId", parentId);											//上级id
 			
 		String keywords = pd.getString("keywords");								//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
@@ -103,7 +104,7 @@ public class BgDictController extends BaseController {
 		}
 			
 		bgPage.setPd(pd);
-		List<PageData>	comDictList = comDictService.listPage(bgPage);			//列出comDict列表
+		List<PageData>	comDictList = comDictService.listPage(bgPage);	//列出comDict列表
 			
 		mv.addObject("comDictList", comDictList);
 		mv.addObject("parentComDict", comDictService.findById(parentId));
@@ -167,6 +168,12 @@ public class BgDictController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
+		
+		List<ComDict> comDictList = comDictService.hasCode(comDict.getDictCode());	
+		if(MapleUtil.notEmptyList(comDictList)){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
 			
 		comDict.setDictId(this.get32UUID());
 		comDict.setDictStatus("00");
@@ -222,13 +229,18 @@ public class BgDictController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-		Date nowTime = new Date();
 			
 		if(result.hasErrors()) {
 			resultInfo.setResultEntity("comDict");
-			mv.addObject(resultInfo);	
-            return mv;  
-        }
+			mv.addObject(resultInfo);				
+			return mv; 
+		}
+		List<ComDict> comDictList = comDictService.hasCode(comDict.getDictCode());	
+		if(MapleUtil.notEmptyList(comDictList)){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+		Date nowTime = new Date();
 	        
 		comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comDict.setModifyTime(nowTime);
@@ -238,6 +250,23 @@ public class BgDictController extends BaseController {
 		
 		mv.addObject(resultInfo);
 		return mv;
+	}
+	
+	/**
+	 * 判断是否存在dictCode
+	 */
+	@RequestMapping(value="/hasCode")
+	@ResponseBody
+	public Object hasCode(@RequestParam String dictCode) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+
+		List<ComDict> comDictList = comDictService.hasCode(dictCode);	
+		if(MapleUtil.emptyList(comDictList)){
+			resultInfo.setResultCode("success");
+		}
+
+		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
 	/**

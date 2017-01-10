@@ -30,6 +30,7 @@ import com.jx.${bgMaple.entityPackage}.entity.ComDict.ValidationEdit;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
+import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
 import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper}Service;
@@ -160,14 +161,21 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
-		Date nowTime = new Date();
+		
 		String parentId = comDict.getParentId();
 		${bgMaple.mapleEntityUpper} parent${bgMaple.mapleEntityUpper} = ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);
 		if(!"0".equals(parentId) && parent${bgMaple.mapleEntityUpper}==null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
+		
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
+		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
 			
+		Date nowTime = new Date();
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 		<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isEdit == '00'>
@@ -227,13 +235,19 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
-		
 			
 		if(result.hasErrors()) {
 			resultInfo.setResultEntity("${bgMaple.mapleEntityLower}");
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
+		
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
+		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+		
 		Date nowTime = new Date();
 	        
 		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
@@ -247,6 +261,23 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	}
 	
 	/**
+	 * 判断是否存在dictCode
+	 */
+	@RequestMapping(value="/hasCode")
+	@ResponseBody
+	public Object hasCode(@RequestParam String ${bgMaple.mapleCode}Code) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleCode}Code);	
+		if(MapleUtil.emptyList(${bgMaple.mapleEntityLower}List)){
+			resultInfo.setResultCode("success");
+		}
+
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 删除
 	 */
 	@RequestMapping(value="/toDelete")
@@ -255,7 +286,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		${bgMaple.mapleEntityLower}Service.deleteById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
+		${bgMaple.mapleEntityLower}Service.deleteInRank(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
 		resultInfo.setResultCode("success");
 
 		return AppUtil.returnResult(pd, resultInfo);
@@ -274,7 +305,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		if(null == ids || "".equals(ids)){
 			return AppUtil.returnResult(pd, resultInfo);
 		}
-		${bgMaple.mapleEntityLower}Service.batchDeleteByIds(ids.split(","));	//根据ID删除
+		${bgMaple.mapleEntityLower}Service.batchDeleteInRank(ids.split(","));	//根据ID删除
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);

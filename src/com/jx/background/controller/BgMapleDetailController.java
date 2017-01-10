@@ -316,6 +316,9 @@ public class BgMapleDetailController extends BaseController {
 //
 		/* 生成service */
 		Freemarker.printFile("serviceTemplate.ftl", root, bgMaple.getEntityPackage() + "/service/" + bgMaple.getMapleEntityUpper() + "Service.java", filePath, ftlPath);
+		
+		/* 生成serviceImpl */
+		Freemarker.printFile("serviceImplTemplate.ftl", root, bgMaple.getEntityPackage() + "/service/Impl/" + bgMaple.getMapleEntityUpper() + "ServiceImpl.java", filePath, ftlPath);
 
 		/* 生成entity */
 		Freemarker.printFile("entityTemplate.ftl", root, bgMaple.getEntityPackage() + "/entity/" + bgMaple.getMapleEntityUpper() + ".java", filePath, ftlPath);

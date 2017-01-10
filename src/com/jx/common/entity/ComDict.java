@@ -132,11 +132,11 @@ public class ComDict implements Serializable {
 	private String parentId;
 	
 	/** 数据字典代号 */
-	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]*$", message="数据字典代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="数据字典代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String dictCode;
 		
 	/** 数据字典名称 */
-	@NotEmpty(message="数据字典名称  不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotEmpty(message="数据字典名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String dictName;
 		
 	/** 数据字典类型 */

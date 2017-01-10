@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -36,29 +37,33 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">上级:</td>
 								<td>
 									<div class="col-xs-4 label label-lg label-light arrowed-in arrowed-right">
-										<b>${comDict.parentId}</b>
+										<b><c:if test = ${comDict.parentId == "0"}>顶级</</c:if>
+											<c:if test = ${comDict.parentId ！= "0"}>
+												<%-- <param:display type="bg_di" value="${comDict.parentId}"/> --%>
+											</</c:if>
+										</b>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典代号:</td>
-								<td><input type="text" name="dictCode" id="dictCode" value="${comDict.dictCode}" maxlength="100" placeholder="这里输入数据字典代号" title="数据字典代号" style="width:98%;"/></td>
+								<td><input type="text" name="dictCode" id="dictCode" value="${comDict.dictCode}" maxlength="100" placeholder="这里输入 数据字典代号" title="数据字典代号" style="width:98%;" onblur="hasCode()"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典名称:</td>
-								<td><input type="text" name="dictName" id="dictName" value="${comDict.dictName}" maxlength="100" placeholder="这里输入数据字典名称" title="数据字典名称" style="width:98%;"/></td>
+								<td><input type="text" name="dictName" id="dictName" value="${comDict.dictName}" maxlength="100" placeholder="这里输入 数据字典名称" title="数据字典名称" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典类型:</td>
-								<td><input type="text" name="dictType" id="dictType" value="${comDict.dictType}" maxlength="100" placeholder="这里输入数据字典类型" title="数据字典类型" style="width:98%;"/></td>
+								<td><param:select type="bg_dictType" name="dictType" id="dictType" value="${comDict.dictType}" placeholder="请选择 数据字典类型" title="数据字典名称" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典值:</td>
-								<td><input type="text" name="dictValue" id="dictValue" value="${comDict.dictValue}" maxlength="100" placeholder="这里输入数据字典值" title="数据字典值" style="width:98%;"/></td>
+								<td><input type="text" name="dictValue" id="dictValue" value="${comDict.dictValue}" maxlength="100" placeholder="这里输入 数据字典值" title="数据字典值" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
-								<td><input type="text" name="orderNum" id="orderNum" value="${comDict.orderNum}" maxlength="100" placeholder="这里输入排序编号" title="排序编号" style="width:98%;"/></td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${comDict.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -93,14 +98,34 @@
 	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 		$(top.hangge());
+		
+		//判断dictCode是否存在
+		function hasCode(){
+			var dictCode = $("#dictCode").val();
+			var url = "<%=basePath%>background/dict/hasCode.do?dictCode="+dictCode+"&tm="+new Date().getTime();
+			$.get(url,function(data){
+				if(data.resultCode != "success"){
+					$("#dictCode").tips({
+						side:3,
+			            msg:'数据字典代号 已存在',
+			            bg:'#AE81FF',
+			            time:2
+			        });
+					$("#dictCode").focus();
+					return false;
+				}
+			});
+		}
+		
 		//保存
 		function save(){
-			/* if($("#dictCode").val()==""){
+			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+			if(!codeExp.test($("#dictCode").val())){
 				$("#dictCode").tips({
 					side:3,
-		            msg:'请输入数据字典代号',
+		            msg:'请输入数据字典代号 需以小写字母开头的字母数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -118,13 +143,12 @@
 			return false;
 			}
 			if($("#dictType").val()==""){
-				$("#dictType").tips({
+				$("#dictType").next().tips({
 					side:3,
-		            msg:'请输入数据字典类型',
+		            msg:'请选择数据字典类型',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#dictType").focus();
 			return false;
 			}
 			if($("#dictValue").val()==""){
@@ -136,7 +160,19 @@
 		        });
 				$("#dictValue").focus();
 			return false;
-			} */
+			}
+		if("${methodPath }" == "edit"){
+			if($("#orderNum").val()==""){
+				$("#orderNum").tips({
+					side:3,
+		            msg:'请输入排序编号',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#orderNum").focus();
+			return false;
+			}
+		}
 			$("#dictForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
@@ -171,6 +207,6 @@
 			});
 		}
 	});
-		</script>
+	</script>
 </body>
 </html>

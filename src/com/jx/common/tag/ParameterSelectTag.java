@@ -33,7 +33,9 @@ public class ParameterSelectTag extends TagSupport {
 	private String onChange;
 
 	private String value;
-	private String nullStr;
+	private String placeholder;
+	private String title;
+	
 
 	public int doEndTag() throws JspException {
 
@@ -42,7 +44,7 @@ public class ParameterSelectTag extends TagSupport {
 		}
 		List<ComDict> comDictList = new ArrayList<ComDict>();
 		try {
-			comDictList = comDictService.listParamByAllEncode(this.getType());
+			comDictList = comDictService.listSelect(this.getType());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -60,28 +62,27 @@ public class ParameterSelectTag extends TagSupport {
 		if (!StringUtils.isEmpty(this.getStyleClass())) {
 			sb.append("style=\"" + this.getStyleClass() + "\"");
 		}
-		if (!StringUtils.isEmpty(this.getType())) {
-			sb.append("style=\"" + this.getType() + "\"");
-		}
 		if (!StringUtils.isEmpty(this.getMultiple())) {
 			sb.append("multiple=\"" + this.getMultiple() + "\"");
 		}
 		if (!StringUtils.isEmpty(this.getOnChange())) {
 			sb.append("onchange=\"" + this.getOnChange() + "\"");
 		}
-		sb.append(">");
-
-		if (!StringUtils.isEmpty(this.getNullStr())) {
-			sb.append("<option value=\"\">--" + this.getNullStr() + "--</option>");
+		if (!StringUtils.isEmpty(this.getPlaceholder())) {
+			sb.append("data-placeholder=\"" + this.getPlaceholder() + "\"");
 		}
-
+		if (!StringUtils.isEmpty(this.getTitle())) {
+			sb.append("title=\"" + this.getTitle() + "\"");
+		}
+		sb.append(">");
+		sb.append("<option value=\"\">");
 		for (ComDict comDict : comDictList) {
-			if (comDict.getAllEncode().equals(this.getValue())) {
-				sb.append("<option value=\"" + comDict.getAllEncode() + "\" selected>");
+			if (comDict.getDictValue().equals(this.getValue())) {
+				sb.append("<option value=\"" + comDict.getDictValue() + "\" selected>");
 			} else {
-				sb.append("<option value=\"" + comDict.getAllEncode() + "\">");
+				sb.append("<option value=\"" + comDict.getDictValue() + "\">");
 			}
-			sb.append(comDict.getName() + "</option>");
+			sb.append(comDict.getDictName() + "</option>");
 		}
 		sb.append("</select>");
 		try {
@@ -142,12 +143,12 @@ public class ParameterSelectTag extends TagSupport {
 		this.value = value;
 	}
 
-	public String getNullStr() {
-		return nullStr;
+	public String getPlaceholder() {
+		return placeholder;
 	}
 
-	public void setNullStr(String nullStr) {
-		this.nullStr = nullStr;
+	public void setPlaceholder(String placeholder) {
+		this.placeholder = placeholder;
 	}
 
 	public String getMultiple() {
@@ -166,4 +167,12 @@ public class ParameterSelectTag extends TagSupport {
 		this.onChange = onChange;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 }

@@ -133,9 +133,8 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
-		
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
-	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		<#elseif bgMapleDetail.mapleDetailCode = "orderNum">
 	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationEdit.class})
 		<#elseif bgMapleDetail.isEdit = "01">
