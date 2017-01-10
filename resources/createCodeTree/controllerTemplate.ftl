@@ -179,7 +179,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 		<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isEdit == '00'>
-			<#if bgMapleDetail.mapleDetailType == '01'>
+			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
 			<#elseif bgMapleDetail.mapleDetailType == '02'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
@@ -440,7 +440,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		${bgMaple.mapleEntityLower}.setParentId(parentId);
 		<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isEdit == '00'>
-			<#if bgMapleDetail.mapleDetailType == '01'>
+			<#if bgMapleDetail.mapleDetailType == '01'|| bgMapleDetail.mapleDetailType == '05'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
 			<#elseif bgMapleDetail.mapleDetailType == '02'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);

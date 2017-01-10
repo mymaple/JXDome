@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -50,11 +51,13 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 						<#if bgMapleDetail.mapleDetailType == '01'>
-								<td><input type="text" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.length}" placeholder="这里输入${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
+								<td><input type="text" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.length}" placeholder="这里输入 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;" <#if bgMapleDetail.mapleDetailCode == '${bgMaple.mapleCode }Code'>onblur="hasCode()"</#if>/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '02' || bgMapleDetail.mapleDetailType == '04'>
-								<td><input type="number" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.length}" placeholder="这里输入${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
+								<td><input type="number" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.length}" placeholder="这里输入 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '03'>
-								<td><input class="span10 date-picker" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="${var[2] }" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
+								<td><input class="span10 date-picker" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
+						<#elseif bgMapleDetail.mapleDetailType == '05'>
+								<td><param:select type="bg_${bgMaple.mapleCode}Type" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.length}" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 						</#if>
 							</tr>
 					</#if>
@@ -92,7 +95,7 @@
 	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 		$(top.hangge());
 		
 		//判断${bgMaple.mapleCode}Code是否存在
@@ -131,7 +134,17 @@
 				$("#${bgMapleDetail.mapleDetailCode }").focus();
 			return false;
 			}
-		<#if bgMapleDetail.isEdit == "01" >
+		<#elseif bgMapleDetail.mapleDetailType == "05" >
+			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
+				$("#${bgMapleDetail.mapleDetailCode }").next().tips({
+					side:3,
+		            msg:'请选择 ${bgMapleDetail.mapleDetailName }',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+			return false;
+			}
+		<#elseif bgMapleDetail.isEdit == "01" >
 			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
 				$("#${bgMapleDetail.mapleDetailCode }").tips({
 					side:3,
@@ -181,6 +194,6 @@
 			});
 		}
 	});
-		</script>
+	</script>
 </body>
 </html>

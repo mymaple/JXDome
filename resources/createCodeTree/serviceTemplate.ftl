@@ -2,12 +2,7 @@ package com.jx.${bgMaple.entityPackage}.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.jx.${bgMaple.controllerPackage}.config.BgPage;
-import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
 
@@ -145,7 +140,7 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${bgMaple.mapleEntityUpper}> hasCode(String ${bgMaple.mapleLower}Code) throws Exception ;
+	public List<${bgMaple.mapleEntityUpper}> hasCode(String ${bgMaple.mapleCode}Code) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

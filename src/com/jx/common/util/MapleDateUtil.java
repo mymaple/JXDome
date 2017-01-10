@@ -9,20 +9,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class MapleDateUtil {
-	private final static SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
+	private final static SimpleDateFormat SDF_YEAR = new SimpleDateFormat("yyyy");
 
-	private final static SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
+	private final static SimpleDateFormat SDF_DAY = new SimpleDateFormat("yyyy-MM-dd");
 
-	private final static SimpleDateFormat sdfDays = new SimpleDateFormat("yyyyMMdd");
+	private final static SimpleDateFormat SDF_DAYS = new SimpleDateFormat("yyyyMMdd");
 
-	private final static SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private final static SimpleDateFormat SDF_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * 获取YYYY格式
 	 * @return
 	 */
 	public static String getYear() {
-		return sdfYear.format(new Date());
+		return SDF_YEAR.format(new Date());
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class MapleDateUtil {
 	 * @return
 	 */
 	public static String getDay() {
-		return sdfDay.format(new Date());
+		return SDF_DAY.format(new Date());
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class MapleDateUtil {
 	 * @return
 	 */
 	public static String getDays() {
-		return sdfDays.format(new Date());
+		return SDF_DAYS.format(new Date());
 	}
 
 	/**
@@ -46,12 +46,12 @@ public class MapleDateUtil {
 	 * @return
 	 */
 	public static String getTime() {
-		return sdfTime.format(new Date());
+		return SDF_TIME.format(new Date());
 	}
 
 	/**
 	 * @Title: compareDate
-	 * @Description: TODO(日期比较，如果s>=e 返回true 否则返回false)
+	 * @Description: 日期比较，如果s>=e 返回true 否则返回false
 	 * @param s
 	 * @param e
 	 * @return boolean

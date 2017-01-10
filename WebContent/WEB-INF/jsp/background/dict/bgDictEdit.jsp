@@ -37,8 +37,8 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">上级:</td>
 								<td>
 									<div class="col-xs-4 label label-lg label-light arrowed-in arrowed-right">
-										<b><c:if test = ${comDict.parentId == "0"}>顶级</</c:if>
-											<c:if test = ${comDict.parentId ！= "0"}>
+										<b><c:if test="${comDict.parentId == '0'}">顶级</</c:if>
+											<c:if test="${comDict.parentId != '0'}">
 												<%-- <param:display type="bg_di" value="${comDict.parentId}"/> --%>
 											</</c:if>
 										</b>

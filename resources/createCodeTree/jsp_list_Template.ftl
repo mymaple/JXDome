@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -92,7 +93,11 @@
 											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
 										<#list bgMapleDetailList as bgMapleDetail>
 										<#if bgMapleDetail.isEdit == "01" >
+										<#if bgMapleDetail.mapleDetailType == "05">
+											<td class='center'><param:display type="bg_${bgMaple.mapleCode}Type" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/></td>
+										<#else>
 											<td class='center'><#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ><a href="javascript:toSub('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')"></#if>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ></a></#if></td>
+										</#if>
 										</#if>
 										</#list>
 											<td class="center">

@@ -140,7 +140,7 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 		<#elseif bgMapleDetail.isEdit = "01">
 	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>
-		<#if bgMapleDetail.mapleDetailType == '01'>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	private String ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
 	private int ${bgMapleDetail.mapleDetailCode};
@@ -190,7 +190,7 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	}
 	
 	<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.mapleDetailType == '01'>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	/**
 	 * 设置 ${bgMapleDetail.mapleDetailName}
 	 * 

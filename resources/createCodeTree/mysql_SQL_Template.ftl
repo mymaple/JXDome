@@ -10,7 +10,7 @@ CREATE TABLE `${bgMaple.tableCode}` (
 	`parentId` varchar(100) 
 			NOT NULL COMMENT '上级 id',
 	<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.mapleDetailType == '01'>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.length})
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
 	`${bgMapleDetail.mapleDetailCode}` int(${bgMapleDetail.length})

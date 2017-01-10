@@ -92,6 +92,23 @@
         <tag-class>com.jx.common.tag.ParameterDisplayTag</tag-class>
         <body-content>empty</body-content>
         
+        <!--id-->
+        <attribute>
+            <name>id</name>
+            <!--指定属性是否是必须的或者可选的,如果设置为false为可选。-->
+            <required>false</required>
+            <!--声明在运行表达式时，标签属性是否有效。-->
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <!--select 的name值-->
+        <attribute>
+            <name>name</name>
+            <!--指定属性是否是必须的或者可选的,如果设置为false为可选。-->
+            <required>false</required>
+            <!--声明在运行表达式时，标签属性是否有效。-->
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
         <!--type-->
         <attribute>
             <name>type</name>
@@ -105,6 +122,13 @@
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        
+        <!--hidden 选中的值-->
+       <attribute>
+			<name>hidden</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
     </tag>   
     
 </taglib>
