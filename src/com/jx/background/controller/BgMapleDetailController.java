@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,11 +24,13 @@ import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
+import com.jx.common.service.ComDictService;
 import com.jx.background.entity.BgMaple;
 import com.jx.background.entity.BgMapleDetail;
 import com.jx.background.entity.BgMapleDetail.ValidationAdd;
 import com.jx.background.entity.BgMapleDetail.ValidationEdit;
 import com.jx.common.util.AppUtil;
+import com.jx.common.util.Freemarker;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
@@ -54,6 +57,8 @@ public class BgMapleDetailController extends BaseController {
 	private BgMapleDetailService bgMapleDetailService;
 	@Resource(name="bgMapleService")
 	private BgMapleService bgMapleService;
+	@Resource(name="comDictService")
+	private ComDictService comDictService;
 	
 	
 	/**
@@ -135,7 +140,7 @@ public class BgMapleDetailController extends BaseController {
 			return mv;
 		}
 		
-		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.hasCode(bgMapleDetail.getMapleDetailCode());	
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.hasCode("", bgMapleDetail.getMapleDetailCode());	
 		if(MapleUtil.notEmptyList(bgMapleDetailList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -201,7 +206,7 @@ public class BgMapleDetailController extends BaseController {
 			return mv; 
 		}
 		
-		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.hasCode(bgMapleDetail.getMapleDetailCode());	
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.hasCode(bgMapleDetail.getMapleDetailId(), bgMapleDetail.getMapleDetailCode());	
 		if(MapleUtil.notEmptyList(bgMapleDetailList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -224,11 +229,11 @@ public class BgMapleDetailController extends BaseController {
 	 */
 	@RequestMapping(value="/hasCode")
 	@ResponseBody
-	public Object hasCode(@RequestParam String mapleDetailCode) throws Exception{
+	public Object hasCode(@RequestParam String mapleDetailId, @RequestParam String mapleDetailCode) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.hasCode(mapleDetailCode);	
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.hasCode(mapleDetailId, mapleDetailCode);	
 		if(MapleUtil.emptyList(bgMapleDetailList)){
 			resultInfo.setResultCode("success");
 		}
@@ -461,5 +466,100 @@ public class BgMapleDetailController extends BaseController {
 	}
 	
 	
+	/**
+	 * 生成代码
+	 */
+	@RequestMapping(value="/toCreateCode")
+	public void toCreateCode(HttpServletResponse response)throws Exception{
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String mapleId = pd.getString("mapleId");
+		BgMaple bgMaple = bgMapleService.findById(mapleId);
+		bgMaple.setMapleCodeUpper(MapleStringUtil.firstToUpper(bgMaple.getMapleCode()));
+		bgMaple.setMapleControllerLower(bgMaple.getControllerPackage()+bgMaple.getMapleCodeUpper());
+		bgMaple.setMapleControllerUpper(MapleStringUtil.firstToUpper(bgMaple.getControllerPackage())+bgMaple.getMapleCodeUpper());
+		bgMaple.setMapleEntityLower(bgMaple.getEntityPackage()+bgMaple.getMapleCodeUpper());
+		bgMaple.setMapleEntityUpper(MapleStringUtil.firstToUpper(bgMaple.getEntityPackage())+bgMaple.getMapleCodeUpper());
+		
+		String tableCode = bgMaple.getEntityPackage()+"_"+bgMaple.getMapleCode();
+		if("01".equals(bgMaple.getMapleType())){
+			tableCode += "_info";
+		}else if("02".equals(bgMaple.getMapleType())){
+			tableCode += "_tree";
+		}else if("03".equals(bgMaple.getMapleType())){
+			tableCode += "_main";
+		}else if("04".equals(bgMaple.getMapleType())){
+			tableCode += "_detail";
+		}
+		bgMaple.setTableCode(tableCode);
+		bgMaple.setControllerPackage(comDictService.getDisplayName("com_packageType", bgMaple.getControllerPackage()));
+		bgMaple.setEntityPackage(comDictService.getDisplayName("com_packageType", bgMaple.getEntityPackage()));
+		
+		List<BgMapleDetail>	bgMapleDetailList = bgMapleDetailService.listByMapleId(mapleId);
+		List<BgMapleDetail> bgMapleDetailKeyList = new ArrayList<BgMapleDetail>();
+		for(int i = 0;i<bgMapleDetailList.size();i++){
+			bgMapleDetailKeyList.get(i).setMapleDetailCodeUpper(MapleStringUtil.firstToUpper(bgMapleDetailKeyList.get(i).getMapleDetailCode()));
+			if("01".equals(bgMapleDetailList.get(i).getIsKey()))
+				bgMapleDetailKeyList.add(bgMapleDetailList.get(i));
+		}
 
+		Map<String, Object> root = new HashMap<String, Object>(); // 创建数据模型
+		
+		root.put("bgMaple", bgMaple);
+		root.put("bgMapleDetailList", bgMapleDetailList);
+		root.put("bgMapleDetailKeyList", bgMapleDetailKeyList);
+		root.put("nowDate", new Date()); // 当前日期
+
+		MapleFileUtil.delFolder(PathUtil.getClasspath() + "admin/ftl"); // 生成代码前,先清空之前生成的代码
+		/* ============================================================================================= */
+
+		String filePath = "admin/ftl/code/"; // 存放路径
+		String ftlPath = "createCode"; // ftl路径
+		if("02".equals(bgMaple.getMapleType())){
+			ftlPath = "createCodeTree";
+		}else if("03".equals(bgMaple.getMapleType())){
+			ftlPath = "createCodeMain";
+		}else if("04".equals(bgMaple.getMapleType())){
+			ftlPath = "createCodeDetail";
+		}
+
+//		/* 生成controller */
+		Freemarker.printFile("controllerTemplate.ftl", root, bgMaple.getControllerPackage() + "/controller/" + bgMaple.getMapleControllerUpper() + "Controller.java", filePath, ftlPath);
+//
+		/* 生成service */
+		Freemarker.printFile("serviceTemplate.ftl", root, bgMaple.getEntityPackage() + "/service/" + bgMaple.getMapleEntityUpper() + "Service.java", filePath, ftlPath);
+		
+		/* 生成serviceImpl */
+		Freemarker.printFile("serviceImplTemplate.ftl", root, bgMaple.getEntityPackage() + "/service/Impl/" + bgMaple.getMapleEntityUpper() + "ServiceImpl.java", filePath, ftlPath);
+
+		/* 生成entity */
+		Freemarker.printFile("entityTemplate.ftl", root, bgMaple.getEntityPackage() + "/entity/" + bgMaple.getMapleEntityUpper() + ".java", filePath, ftlPath);
+		
+//		/* 生成mybatis xml Mysql*/
+		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis/" + bgMaple.getEntityPackage() + "/" + bgMaple.getMapleEntityUpper() + "Mapper.xml", filePath, ftlPath);
+//		/* 生成mybatis xml Oracle*/
+//		//Freemarker.printFile("mapperOracleTemplate.ftl", root, "mybatis_oracle/" + packageName + "/" + objectName + "Mapper.xml", filePath, ftlPath);
+//
+//		/* 生成SQL脚本 Mysql*/
+		Freemarker.printFile("mysql_SQL_Template.ftl", root, "mysql数据库脚本/" + bgMaple.getMapleEntityUpper() + ".sql", filePath, ftlPath);
+//		
+		/* 生成SQL脚本 Oracle*/
+		//Freemarker.printFile("oracle_SQL_Template.ftl", root, "oracle数据库脚本/" + tabletop + objectName.toUpperCase() + ".sql", filePath, ftlPath);
+
+		/* 生成jsp页面 */
+		Freemarker.printFile("jsp_list_Template.ftl", root, "jsp/" + bgMaple.getControllerPackage() + "/" + bgMaple.getMapleCode() + "/" + bgMaple.getMapleControllerLower() + "List.jsp", filePath, ftlPath);
+		Freemarker.printFile("jsp_edit_Template.ftl", root, "jsp/" + bgMaple.getControllerPackage() + "/" + bgMaple.getMapleCode() + "/" + bgMaple.getMapleControllerLower() + "Edit.jsp", filePath, ftlPath);
+
+		/* 生成说明文档 */
+//		Freemarker.printFile("docTemplate.ftl", root, "说明.doc", filePath, ftlPath);
+
+		// this.print("oracle_SQL_Template.ftl", root); 控制台打印
+
+		/* 生成的全部代码压缩成zip文件 */
+		MapleFileUtil.zip(PathUtil.getClasspath() + "admin/ftl/code", PathUtil.getClasspath() + "admin/ftl/code.zip");
+
+		/* 下载代码 */
+		MapleFileUtil.fileDownload(response, PathUtil.getClasspath() + "admin/ftl/code.zip", bgMaple.getMapleCode()+"Code.zip");
+	}
+	
 }

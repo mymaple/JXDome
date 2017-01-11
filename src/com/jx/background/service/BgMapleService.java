@@ -108,7 +108,7 @@ public interface BgMapleService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMaple> hasCode(String mapleCode) throws Exception ;
+	public List<BgMaple> hasCode(String mapleId, String mapleCode) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

@@ -169,7 +169,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			return mv;
 		}
 		
-		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id(), ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
 		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -242,7 +242,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			return mv; 
 		}
 		
-		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id(), ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
 		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -265,11 +265,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/hasCode")
 	@ResponseBody
-	public Object hasCode(@RequestParam String ${bgMaple.mapleCode}Code) throws Exception{
+	public Object hasCode(@RequestParam String ${bgMaple.mapleCode}Id, @RequestParam String ${bgMaple.mapleCode}Code) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleCode}Code);	
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleCode}Id, ${bgMaple.mapleCode}Code);	
 		if(MapleUtil.emptyList(${bgMaple.mapleEntityLower}List)){
 			resultInfo.setResultCode("success");
 		}

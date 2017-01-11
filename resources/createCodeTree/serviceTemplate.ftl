@@ -140,7 +140,7 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${bgMaple.mapleEntityUpper}> hasCode(String ${bgMaple.mapleCode}Code) throws Exception ;
+	public List<${bgMaple.mapleEntityUpper}> hasCode(String ${bgMaple.mapleCode}Id, String ${bgMaple.mapleCode}Code) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

@@ -114,8 +114,9 @@
 		
 		//判断mapleDetailCode是否存在
 		function hasCode(){
+			var mapleDetailId = $("#mapleDetailId").val();
 			var mapleDetailCode = $("#mapleDetailCode").val();
-			var url = "<%=basePath%>background/mapleDetail/hasCode.do?mapleDetailCode="+mapleDetailCode+"&tm="+new Date().getTime();
+			var url = "<%=basePath%>background/mapleDetail/hasCode.do?mapleDetailId="+mapleDetailId+"&mapleDetailCode="+mapleDetailCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#mapleDetailCode").tips({

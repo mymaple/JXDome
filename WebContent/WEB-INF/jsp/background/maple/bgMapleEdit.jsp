@@ -90,8 +90,10 @@
 		
 		//判断mapleCode是否存在
 		function hasCode(){
+			var mapleId = $("#mapleCode").val();
 			var mapleCode = $("#mapleCode").val();
-			var url = "<%=basePath%>background/maple/hasCode.do?mapleCode="+mapleCode+"&tm="+new Date().getTime();
+			if(mapleCode == "") return false;
+			var url = "<%=basePath%>background/maple/hasCode.do?mapleId="+mapleId+"&mapleCode="+mapleCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#mapleCode").tips({

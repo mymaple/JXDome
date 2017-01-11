@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.util.MapleStringUtil;
+import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgMaple;
+import com.jx.background.entity.BgMapleDetail;
+import com.jx.background.service.BgMapleDetailService;
 import com.jx.background.service.BgMapleService;
 
 @Service("bgMapleService")
@@ -17,7 +21,8 @@ public class BgMapleServiceImpl implements BgMapleService{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	
+	@Resource(name="bgMapleDetailService")
+	private BgMapleDetailService bgMapleDetailService;
 	
 	/****************************custom * start***********************************/
 	
@@ -32,7 +37,25 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 */
 	public void add(BgMaple bgMaple) throws Exception {
 		dao.add("BgMapleMapper.add", bgMaple);
+		
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.listByMapleId("27a853950d0e4876ba0eccf8d7e2dd8f");
+		for(int i=0;i<bgMapleDetailList.size();i++){
+			BgMapleDetail bgMapleDetail = bgMapleDetailList.get(i);
+			bgMapleDetail.setMapleDetailId(UuidUtil.get32UUID());
+			bgMapleDetail.setMapleId(bgMaple.getMapleId());
+			if(i<4){
+				bgMapleDetail.setMapleDetailCode(bgMaple.getMapleCode() + MapleStringUtil.firstToUpper(bgMapleDetail.getMapleDetailCode()));
+				bgMapleDetail.setMapleDetailName(bgMaple.getMapleName() + bgMapleDetail.getMapleDetailName());
+			}
+			bgMapleDetail.setCreateUserId(bgMaple.getCreateUserId());
+			bgMapleDetail.setCreateTime(bgMaple.getCreateTime());
+			bgMapleDetail.setModifyUserId(bgMaple.getModifyUserId());
+			bgMapleDetail.setModifyTime(bgMaple.getModifyTime());
+			bgMapleDetailService.add(bgMapleDetail);
+		}
 	}
+			
+		
 	
 	/**
 	 * 修改 
@@ -150,8 +173,9 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMaple> hasCode(String mapleCode) throws Exception {
+	public List<BgMaple> hasCode(String mapleId, String mapleCode) throws Exception {
 		BgMaple bgMaple = new BgMaple();
+		bgMaple.setMapleId(mapleId);
 		bgMaple.setMapleCode(mapleCode);
 		return this.has(bgMaple);
 	}

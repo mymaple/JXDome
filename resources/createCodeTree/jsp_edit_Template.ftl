@@ -100,8 +100,9 @@
 		
 		//判断${bgMaple.mapleCode}Code是否存在
 		function hasCode(){
+			var ${bgMaple.mapleCode}Id = $("#${bgMaple.mapleCode}Id").val();
 			var ${bgMaple.mapleCode}Code = $("#${bgMaple.mapleCode}Code").val();
-			var url = "<%=basePath%>background/${bgMaple.mapleCode}/hasCode.do?${bgMaple.mapleCode}Code="+${bgMaple.mapleCode}Code+"&tm="+new Date().getTime();
+			var url = "<%=basePath%>background/${bgMaple.mapleCode}/hasCode.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&${bgMaple.mapleCode}Code="+${bgMaple.mapleCode}Code+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#${bgMaple.mapleCode}Code").tips({

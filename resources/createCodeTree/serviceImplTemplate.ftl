@@ -218,8 +218,9 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${bgMaple.mapleEntityUpper}> hasCode(String ${bgMaple.mapleCode}Code) throws Exception {
+	public List<${bgMaple.mapleEntityUpper}> hasCode(String ${bgMaple.mapleCode}Id, String ${bgMaple.mapleCode}Code) throws Exception {
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
+		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(${bgMaple.mapleCode}Id);
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Code(${bgMaple.mapleCode}Code);
 		return this.has(${bgMaple.mapleEntityLower});
 	}

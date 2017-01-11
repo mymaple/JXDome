@@ -10,7 +10,14 @@ public interface BgMapleDetailService {
 
 	
 	/****************************custom * start***********************************/
-
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BgMapleDetail> listByMapleId(String mapleId) throws Exception ;
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -108,7 +115,7 @@ public interface BgMapleDetailService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> hasCode(String mapleDetailCode) throws Exception ;
+	public List<BgMapleDetail> hasCode(String mapleDetailId, String mapleDetailCode) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

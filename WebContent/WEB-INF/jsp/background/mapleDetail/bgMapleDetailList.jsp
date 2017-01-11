@@ -34,6 +34,7 @@
 							
 						<!-- 检索  -->
 						<form action="background/mapleDetail/list.do" method="post" name="mapleDetailForm" id="mapleDetailForm">
+						<input type="hidden" name="mapleId" id="mapleId" value="${pd.mapleId }"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -136,6 +137,7 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
+									<a class="btn btn-mini btn-success" onclick="toCreateCode();">生成代码</a>
 									<c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
@@ -361,6 +363,12 @@
 				diag.close();
 			 };
 			 diag.show();
+		}
+		
+		function toCreateCode(){
+			var mapleId = $('#mapleId').val();
+			var url = '<%=basePath%>background/mapleDetail/toCreateCode.do?mapleId='+mapleId+'&tm='+new Date().getTime();
+			window.location.href=url;
 		}
 	</script>
 

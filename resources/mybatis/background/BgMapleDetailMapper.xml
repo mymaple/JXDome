@@ -5,6 +5,7 @@
 
 	<sql id="mapleDetailColumns">mapleDetailId,mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailStatus,mapleDetailCodeUpper,mapleId,totalLength,decimalLength,typeCode,isEdit,isNull,isKey,defaultValue,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="mapleDetailTable">bg_maple_Detail</sql>
+	<sql id="mapleTable">bg_maple_main</sql>
 	
 	<resultMap type="bgMapleDetail" id="bgMapleDetailResultMap">
 		<id column="mapleDetailId" property="mapleDetailId"/>
@@ -31,6 +32,21 @@
 	
 	
 	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByMapleCode" parameterType="String" resultMap="bgMapleDetailResultMap">
+		select 
+	<include refid="mapleDetailColumns"/>
+		from 
+	<include refid="mapleDetailTable"/>
+		where mapleId = (
+							select mapleId 
+							from 
+						<include refid="mapleTable"/>
+							where mapleCode = #{mapleCode}
+						)
+		order by (orderNum+0) 
+	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
@@ -322,6 +338,9 @@
 		from 
 	<include refid="mapleDetailTable"/>
 		where 1=1
+		<if test="pd.mapleId != null and pd.mapleId != ''"><!-- 角色检索 -->
+			and mapleId= #{pd.mapleId}
+		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

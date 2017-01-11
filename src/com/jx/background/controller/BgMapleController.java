@@ -51,8 +51,6 @@ public class BgMapleController extends BaseController {
 	
 	@Resource(name="bgMapleService")
 	private BgMapleService bgMapleService;
-	@Resource(name="bgMapleDetailService")
-	private BgMapleDetailService bgMapleDetailService;
 	
 	
 	/**
@@ -117,7 +115,7 @@ public class BgMapleController extends BaseController {
 			return mv; 
 		}
 		
-		List<BgMaple> bgMapleList = bgMapleService.hasCode(bgMaple.getMapleCode());	
+		List<BgMaple> bgMapleList = bgMapleService.hasCode(bgMaple.getMapleId(), bgMaple.getMapleCode());	
 		if(MapleUtil.notEmptyList(bgMapleList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -126,12 +124,6 @@ public class BgMapleController extends BaseController {
 		Date nowTime = new Date();
 		bgMaple.setMapleId(this.get32UUID());
 		bgMaple.setMapleStatus("00");
-		bgMaple.setMapleCodeUpper("");
-		bgMaple.setMapleControllerUpper("");
-		bgMaple.setMapleControllerLower("");
-		bgMaple.setMapleEntityUpper("");
-		bgMaple.setMapleEntityLower("");
-		bgMaple.setTableCode("");
 		bgMaple.setOrderNum(String.valueOf(nowTime.getTime()));
 		bgMaple.setEffective("01");
 		bgMaple.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
@@ -141,7 +133,6 @@ public class BgMapleController extends BaseController {
 		if(MapleStringUtil.isEmpty(bgMaple.getOrderNum())){
 			bgMaple.setOrderNum(String.valueOf(nowTime.getTime()));
 		}
-			
 		bgMapleService.add(bgMaple);
 		resultInfo.setResultCode("success");
 
@@ -190,7 +181,7 @@ public class BgMapleController extends BaseController {
 			return mv; 
 		}
 		
-		List<BgMaple> bgMapleList = bgMapleService.hasCode(bgMaple.getMapleCode());	
+		List<BgMaple> bgMapleList = bgMapleService.hasCode(bgMaple.getMapleId(), bgMaple.getMapleCode());
 		if(MapleUtil.notEmptyList(bgMapleList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -213,11 +204,11 @@ public class BgMapleController extends BaseController {
 	 */
 	@RequestMapping(value="/hasCode")
 	@ResponseBody
-	public Object hasCode(@RequestParam String mapleCode) throws Exception{
+	public Object hasCode(@RequestParam String mapleId, @RequestParam String mapleCode) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<BgMaple> bgMapleList = bgMapleService.hasCode(mapleCode);	
+		List<BgMaple> bgMapleList = bgMapleService.hasCode(mapleId, mapleCode);
 		if(MapleUtil.emptyList(bgMapleList)){
 			resultInfo.setResultCode("success");
 		}

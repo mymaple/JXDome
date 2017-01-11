@@ -21,6 +21,17 @@ public class BgMapleDetailServiceImpl implements BgMapleDetailService{
 	
 	/****************************custom * start***********************************/
 	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BgMapleDetail> listByMapleId(String mapleId) throws Exception {
+		BgMapleDetail bgMapleDetail = new BgMapleDetail();
+		bgMapleDetail.setMapleId(mapleId);
+		return this.has(bgMapleDetail);
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -150,8 +161,9 @@ public class BgMapleDetailServiceImpl implements BgMapleDetailService{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> hasCode(String mapleDetailCode) throws Exception {
+	public List<BgMapleDetail> hasCode(String mapleDetailId, String mapleDetailCode) throws Exception {
 		BgMapleDetail bgMapleDetail = new BgMapleDetail();
+		bgMapleDetail.setMapleDetailId(mapleDetailId);
 		bgMapleDetail.setMapleDetailCode(mapleDetailCode);
 		return this.has(bgMapleDetail);
 	}
