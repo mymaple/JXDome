@@ -2,6 +2,11 @@ package com.jx.background.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -17,58 +22,80 @@ public class BgMapleDetail implements Serializable {
 	
 	/**************************custom prop satrt********************************/
 	
-	
 	/**************************custom prop end**********************************/
 	
+	//新增校验分组
+	public interface ValidationAdd
+	{
+	//接口中不需要任何定义
+	}
 	
+	//编辑校验分组
+	public interface ValidationEdit
+	{
+	//接口中不需要任何定义
+	}
 	
 	/**************************table prop satrt*********************************/
 	
 	/** 代码生成详细 主键id */
-	private int mapleDetailId;
+	@NotEmpty(message="代码生成详细 主键id 不能为空", groups={ValidationEdit.class})
+	private String mapleDetailId;
 	
-	/** 属性代号 */
+	/** 代码生成详细代号 */
+	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="代码生成详细代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String mapleDetailCode;
 		
-	/** 属性名称 */
+	/** 代码生成详细名称 */
+	@NotEmpty(message="代码生成详细名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String mapleDetailName;
 		
-	/** 属性类型 */
+	/** 代码生成详细类型 */
+	@NotEmpty(message="代码生成详细类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String mapleDetailType;
-	
-	/** 属性代号(大写) */
-	private String mapleDetailCodeUpper;
-	
-	private String mapleDetailComment;
 		
-	/** 长度 */
-	private String length;
+	/** 代码生成详细状态 */
+	private String mapleDetailStatus;
+		
+	/** 代码生成详情代号（大写） */
+	private String mapleDetailCodeUpper;
+		
+	/** 代码生成id */
+	private String mapleId;
+		
+	/** 总长度 */
+	@NotEmpty(message="总长度 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String totalLength;
 		
 	/** 小数长度 */
+//	@NotEmpty(message="小数长度 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String decimalLength;
 		
+	/** 类型代号 */
+//	@NotEmpty(message="类型代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String typeCode;
+		
 	/** 是否录入 */
+	@NotEmpty(message="是否录入 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String isEdit;
 		
 	/** 是否null */
+	@NotEmpty(message="是否null 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String isNull;
-	
+		
 	/** 是否主键 */
+	@NotEmpty(message="是否主键 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String isKey;
 		
 	/** 默认值 */
+//	@NotEmpty(message="默认值 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String defaultValue;
-	
-	/** 默认值 */
-	private String mapleId;
 		
 	/** 排序编号 */
+	@NotEmpty(message="排序编号 不能为空", groups={ValidationEdit.class})
 	private String orderNum;
 		
-	/** 状态标识 */
-	private String status;
-		
-	/** 有效标识 */
+	/** 有效性 */
 	private String effective;
 		
 	/** 创建人员id */
@@ -85,50 +112,26 @@ public class BgMapleDetail implements Serializable {
 		
 	
 	
-	public String getMapleDetailComment() {
-		return mapleDetailComment;
-	}
-
-	public void setMapleDetailComment(String mapleDetailComment) {
-		this.mapleDetailComment = mapleDetailComment;
-	}
-
-	public String getIsKey() {
-		return isKey;
-	}
-
-	public void setIsKey(String isKey) {
-		this.isKey = isKey;
-	}
-
-	public String getMapleDetailCodeUpper() {
-		return mapleDetailCodeUpper;
-	}
-
-	public void setMapleDetailCodeUpper(String mapleDetailCodeUpper) {
-		this.mapleDetailCodeUpper = mapleDetailCodeUpper;
-	}
-
 	/**
-	 * 设置 代码生成详细 主键id
+	 * 设置代码生成详细 主键id
 	 * 
-	 * @param int mapleDetailId
+	 * @param String mapleDetailId
 	 */
-	public void setMapleDetailId(int mapleDetailId) {
-		this.mapleDetailId = mapleDetailId;
+	public void setMapleDetailId(String mapleDetailId) {
+		this.mapleDetailId = MapleStringUtil.trim(mapleDetailId);
 	}
 	
 	/**
-	 * 获取 代码生成详细 主键id
+	 * 获取代码生成详细 主键id
 	 * 
-	 * @return int mapleDetailId
+	 * @return String mapleDetailId
 	 */
-	public int getMapleDetailId() {
+	public String getMapleDetailId() {
 		return this.mapleDetailId;
 	}
 	
 	/**
-	 * 设置 属性代号
+	 * 设置 代码生成详细代号
 	 * 
 	 * @param String mapleDetailCode
 	 */
@@ -137,7 +140,7 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
-	 * 获取 属性代号
+	 * 获取 代码生成详细代号
 	 * 
 	 * @return String mapleDetailCode
 	 */
@@ -146,7 +149,7 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
-	 * 设置 属性名称
+	 * 设置 代码生成详细名称
 	 * 
 	 * @param String mapleDetailName
 	 */
@@ -155,7 +158,7 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
-	 * 获取 属性名称
+	 * 获取 代码生成详细名称
 	 * 
 	 * @return String mapleDetailName
 	 */
@@ -164,7 +167,7 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
-	 * 设置 属性类型
+	 * 设置 代码生成详细类型
 	 * 
 	 * @param String mapleDetailType
 	 */
@@ -173,7 +176,7 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
-	 * 获取 属性类型
+	 * 获取 代码生成详细类型
 	 * 
 	 * @return String mapleDetailType
 	 */
@@ -182,21 +185,75 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
-	 * 设置 长度
+	 * 设置 代码生成详细状态
 	 * 
-	 * @param String length
+	 * @param String mapleDetailStatus
 	 */
-	public void setLength(String length) {
-		this.length = MapleStringUtil.trim(length);
+	public void setMapleDetailStatus(String mapleDetailStatus) {
+		this.mapleDetailStatus = MapleStringUtil.trim(mapleDetailStatus);
 	}
 	
 	/**
-	 * 获取 长度
+	 * 获取 代码生成详细状态
 	 * 
-	 * @return String length
+	 * @return String mapleDetailStatus
 	 */
-	public String getLength() {
-		return this.length;
+	public String getMapleDetailStatus() {
+		return this.mapleDetailStatus;
+	}
+	
+	/**
+	 * 设置 代码生成详情代号（大写）
+	 * 
+	 * @param String mapleDetailCodeUpper
+	 */
+	public void setMapleDetailCodeUpper(String mapleDetailCodeUpper) {
+		this.mapleDetailCodeUpper = MapleStringUtil.trim(mapleDetailCodeUpper);
+	}
+	
+	/**
+	 * 获取 代码生成详情代号（大写）
+	 * 
+	 * @return String mapleDetailCodeUpper
+	 */
+	public String getMapleDetailCodeUpper() {
+		return this.mapleDetailCodeUpper;
+	}
+	
+	/**
+	 * 设置 代码生成id
+	 * 
+	 * @param String mapleId
+	 */
+	public void setMapleId(String mapleId) {
+		this.mapleId = MapleStringUtil.trim(mapleId);
+	}
+	
+	/**
+	 * 获取 代码生成id
+	 * 
+	 * @return String mapleId
+	 */
+	public String getMapleId() {
+		return this.mapleId;
+	}
+	
+	/**
+	 * 设置 总长度
+	 * 
+	 * @param String totalLength
+	 */
+	public void setTotalLength(String totalLength) {
+		this.totalLength = MapleStringUtil.trim(totalLength);
+	}
+	
+	/**
+	 * 获取 总长度
+	 * 
+	 * @return String totalLength
+	 */
+	public String getTotalLength() {
+		return this.totalLength;
 	}
 	
 	/**
@@ -215,6 +272,24 @@ public class BgMapleDetail implements Serializable {
 	 */
 	public String getDecimalLength() {
 		return this.decimalLength;
+	}
+	
+	/**
+	 * 设置 类型代号
+	 * 
+	 * @param String typeCode
+	 */
+	public void setTypeCode(String typeCode) {
+		this.typeCode = MapleStringUtil.trim(typeCode);
+	}
+	
+	/**
+	 * 获取 类型代号
+	 * 
+	 * @return String typeCode
+	 */
+	public String getTypeCode() {
+		return this.typeCode;
 	}
 	
 	/**
@@ -254,6 +329,24 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
+	 * 设置 是否主键
+	 * 
+	 * @param String isKey
+	 */
+	public void setIsKey(String isKey) {
+		this.isKey = MapleStringUtil.trim(isKey);
+	}
+	
+	/**
+	 * 获取 是否主键
+	 * 
+	 * @return String isKey
+	 */
+	public String getIsKey() {
+		return this.isKey;
+	}
+	
+	/**
 	 * 设置 默认值
 	 * 
 	 * @param String defaultValue
@@ -269,24 +362,6 @@ public class BgMapleDetail implements Serializable {
 	 */
 	public String getDefaultValue() {
 		return this.defaultValue;
-	}
-	
-	/**
-	 * 设置 默认值
-	 * 
-	 * @param String mapleId
-	 */
-	public void setMapleId(String mapleId) {
-		this.mapleId = MapleStringUtil.trim(mapleId);
-	}
-	
-	/**
-	 * 获取 默认值
-	 * 
-	 * @return String mapleId
-	 */
-	public String getMapleId() {
-		return this.mapleId;
 	}
 	
 	/**
@@ -308,25 +383,7 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
-	 * 设置 状态标识
-	 * 
-	 * @param String status
-	 */
-	public void setStatus(String status) {
-		this.status = MapleStringUtil.trim(status);
-	}
-	
-	/**
-	 * 获取 状态标识
-	 * 
-	 * @return String status
-	 */
-	public String getStatus() {
-		return this.status;
-	}
-	
-	/**
-	 * 设置 有效标识
+	 * 设置 有效性
 	 * 
 	 * @param String effective
 	 */
@@ -335,7 +392,7 @@ public class BgMapleDetail implements Serializable {
 	}
 	
 	/**
-	 * 获取 有效标识
+	 * 获取 有效性
 	 * 
 	 * @return String effective
 	 */
@@ -446,36 +503,5 @@ public class BgMapleDetail implements Serializable {
 	}	
 	
 	
-	public BgMapleDetail(){
-		init();
-	}
-	
-	public void init() {
-		setMapleDetailId(0);
-	
-		setMapleDetailCode("");
-		setMapleDetailName("");
-		setMapleDetailType("");
-		setLength("");
-		setDecimalLength("");
-		setIsEdit("");
-		setIsNull("");
-		setDefaultValue("");
-		setOrderNum("");
-		setStatus("");
-		setEffective("");
-		setCreateUserId("");
-		try {
-			setCreateTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		setModifyUserId("");
-		try {
-			setModifyTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	/**************************table prop  end  *********************************/
 }

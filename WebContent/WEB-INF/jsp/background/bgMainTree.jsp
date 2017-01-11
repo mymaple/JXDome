@@ -23,7 +23,7 @@
 			</div>
 		</td>
 		<td style="width:85%;" valign="top" >
-			<iframe name="treeFrame" id="treeFrame" frameborder="0" src="<%=basePath%>${controllerPath }/list.do?pId=${parentId}<c:if test="${not empty currentPage }">&currentPage=${currentPage }</c:if><c:if test="${not empty currentPage }">&showCount=${showCount }</c:if>" style="margin:0 auto;width:100%;height:100%;"></iframe>
+			<iframe name="treeFrame" id="treeFrame" frameborder="0" src="<%=basePath%>${controllerPath }/list.do?pId=${pd.pId}<c:if test="${not empty pd.currentPage }">&currentPage=${pd.currentPage }</c:if><c:if test="${not empty pd.showCount }">&showCount=${pd.showCount }</c:if>" style="margin:0 auto;width:100%;height:100%;"></iframe>
 		</td>
 	</tr>
 </table>

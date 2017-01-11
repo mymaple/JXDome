@@ -222,8 +222,8 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 1=1
-		<if test="pd.parentId != null and pd.parentId != ''"><!-- 角色检索 -->
-			and parentId= ${r"#{pd.parentId}"}
+		<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
+			and parentId= ${r"#{pd.pId}"}
 		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and

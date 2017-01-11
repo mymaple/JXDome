@@ -2,6 +2,11 @@ package com.jx.${bgMaple.entityPackage}.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -17,99 +22,36 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	/**************************custom prop satrt********************************/
 	
-	<#if bgMaple.mapleType == '02'>
-	/** 指标 */
-	private String target;
-	
-	/** 子列表 */
-	private List<${bgMaple.mapleEntityUpper}> sub${bgMaple.mapleEntityUpper}List;
-	
-	/** 子列表 路径*/
-	private String sub${bgMaple.mapleEntityUpper}ListPath;
-	
-	</#if>
-	
-	
-	
-	<#if bgMaple.mapleType == '02'>
-	/**
-	 * 获取 指标
-	 * 
-	 * @return String target
-	 */
-	public String getTarget() {
-		return target;
-	}
-	
-	/**
-	 * 设置 指标
-	 * 
-	 * @param String target
-	 */
-	public void setTarget(String target) {
-		this.target = MapleStringUtil.trim(target);
-	}
-	
-	/**
-	 * 获取 子列表
-	 * 
-	 * @return List<${bgMaple.mapleEntityUpper}> sub${bgMaple.mapleEntityUpper}List
-	 */
-	public List<${bgMaple.mapleEntityUpper}> getSub${bgMaple.mapleEntityUpper}List() {
-		return this.sub${bgMaple.mapleEntityUpper}List;
-	}
-	
-	/**
-	 * 设置 子列表
-	 * 
-	 * @param List<${bgMaple.mapleEntityUpper}> sub${bgMaple.mapleEntityUpper}List
-	 */
-	public void setSub${bgMaple.mapleEntityUpper}List(List<${bgMaple.mapleEntityUpper}> sub${bgMaple.mapleEntityUpper}List) {
-		this.sub${bgMaple.mapleEntityUpper}List = sub${bgMaple.mapleEntityUpper}List;
-	}
-	
-	/**
-	 * 获取 子列表 路径
-	 * 
-	 * @return String sub${bgMaple.mapleEntityUpper}ListPath
-	 */
-	public String getSub${bgMaple.mapleEntityUpper}ListPath() {
-		return this.sub${bgMaple.mapleEntityUpper}ListPath;
-	}
-	
-	/**
-	 * 设置 子列表 路径
-	 * 
-	 * @param String sub${bgMaple.mapleEntityUpper}ListPath
-	 */
-	public void setSub${bgMaple.mapleEntityUpper}ListPath(String sub${bgMaple.mapleEntityUpper}ListPath) {
-		this.sub${bgMaple.mapleEntityUpper}ListPath = MapleStringUtil.trim(sub${bgMaple.mapleEntityUpper}ListPath);
-	}
-	
-	</#if>
-	
 	/**************************custom prop end**********************************/
 	
+	//新增校验分组
+	public interface ValidationAdd
+	{
+	//接口中不需要任何定义
+	}
 	
+	//编辑校验分组
+	public interface ValidationEdit
+	{
+	//接口中不需要任何定义
+	}
 	
 	/**************************table prop satrt*********************************/
 	
 	/** ${bgMaple.mapleName} 主键id */
+	@NotEmpty(message="${bgMaple.mapleName} 主键id 不能为空", groups={ValidationEdit.class})
 	private String ${bgMaple.mapleCode}Id;
-	
-	<#if bgMaple.mapleType == '02'>
-	/** 上级 id */
-	private String parentId;
-	</#if>
-	
-	<#if bgMaple.mapleType == '04'>
-	/** ${bgMaple.mapleName?replace("详细","")} 主键id */
-	private String ${bgMaple.mapleCode?replace("Detail","")}Id;
-	</#if>
 	
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
-		<#if bgMapleDetail.mapleDetailType == '01'>
+		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
+	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+		<#elseif bgMapleDetail.mapleDetailCode = "orderNum">
+	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationEdit.class})
+		<#elseif bgMapleDetail.isEdit = "01">
+	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+		</#if>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	private String ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
 	private int ${bgMapleDetail.mapleDetailCode};
@@ -140,48 +82,8 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 		return this.${bgMaple.mapleCode}Id;
 	}
 	
-	<#if bgMaple.mapleType == '02'>
-	/**
-	 * 设置 上级id
-	 * 
-	 * @param String parentId
-	 */
-	public void setParentId(String parentId) {
-		this.parentId = MapleStringUtil.trim(parentId);
-	}
-	
-	/**
-	 * 获取 上级id
-	 * 
-	 * @return String parentId
-	 */
-	public String getParentId() {
-		return this.parentId;
-	}
-	</#if>
-	
-	<#if bgMaple.mapleType == '04'>
-	/**
-	 * 设置${bgMaple.mapleName?replace("详细","")} 主键id
-	 * 
-	 * @param String ${bgMaple.mapleCode?replace("Detail","")}Id
-	 */
-	public void set${bgMaple.mapleCodeUpper?replace("Detail","")}Id(String ${bgMaple.mapleCode?replace("Detail","")}Id) {
-		this.${bgMaple.mapleCode?replace("Detail","")}Id = MapleStringUtil.trim(${bgMaple.mapleCode?replace("Detail","")}Id);
-	}
-	
-	/**
-	 * 获取${bgMaple.mapleName?replace("详细","")} 主键id
-	 * 
-	 * @return String ${bgMaple.mapleCode?replace("Detail","")}Id
-	 */
-	public String get${bgMaple.mapleCodeUpper?replace("Detail","")}Id() {
-		return this.${bgMaple.mapleCode?replace("Detail","")}Id;
-	}
-	</#if>
-	
 	<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.mapleDetailType == '01'>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	/**
 	 * 设置 ${bgMapleDetail.mapleDetailName}
 	 * 
@@ -283,30 +185,5 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	</#list>
 	
-
-	
-	public ${bgMaple.mapleEntityUpper}(){
-		init();
-	}
-	
-	public void init() {
-	
-	<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.mapleDetailType == '01'>
-		set${bgMapleDetail.mapleDetailCodeUpper}("");
-		<#elseif bgMapleDetail.mapleDetailType == '02'>
-		set${bgMapleDetail.mapleDetailCodeUpper}(0);
-		<#elseif bgMapleDetail.mapleDetailType == '03'>
-		try {
-			set${bgMapleDetail.mapleDetailCodeUpper}Str("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		<#elseif bgMapleDetail.mapleDetailType == '04'>
-		set${bgMapleDetail.mapleDetailCodeUpper}(0.00);
-		</#if>
-	</#list>
-	
-	}
 	/**************************table prop  end  *********************************/
 }

@@ -7,8 +7,10 @@ CREATE TABLE `${bgMaple.tableCode}` (
 
 	`${bgMaple.mapleCode}Id` varchar(100) 
 			NOT NULL COMMENT '${bgMaple.mapleName} 主键id',
+	`parentId` varchar(100) 
+			NOT NULL COMMENT '上级 id',
 	<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.mapleDetailType == '01'>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.length})
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
 	`${bgMapleDetail.mapleDetailCode}` int(${bgMapleDetail.length})
@@ -21,4 +23,4 @@ CREATE TABLE `${bgMaple.tableCode}` (
 	</#list>
   
   PRIMARY KEY (`${bgMaple.mapleCode}Id`<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, `${bgMapleDetail.mapleDetailCode}`</#if></#list>)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '${bgMaple.tableCode}';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '${bgMaple.mapleName}';

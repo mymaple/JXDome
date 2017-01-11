@@ -23,4 +23,4 @@ CREATE TABLE `${bgMaple.tableCode}` (
 	</#list>
   
   PRIMARY KEY (`${bgMaple.mapleCode}Id`<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, `${bgMapleDetail.mapleDetailCode}`</#if></#list>)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '${bgMaple.tableCode}';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '${bgMaple.mapleName}';

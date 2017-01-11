@@ -67,7 +67,9 @@ public class BgDictController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
-		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
+		if(MapleStringUtil.isEmpty(pd.getString("pId"))){
+			pd.put("pId", "0");
+		}
 		JSONArray arr = JSONArray.fromObject(comDictService.listInRank("0"));
 		String json = arr.toString();
 		json = json.replaceAll("dictId", "id").replaceAll("parentId", "pId")
@@ -75,9 +77,7 @@ public class BgDictController extends BaseController {
 				.replaceAll("hasDict", "checked").replaceAll("subComDictPath", "url");
 		model.addAttribute("zTreeNodes", json);
 		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
-		mv.addObject("parentId", parentId);
-		mv.addObject("currentPage", pd.get("currentPage"));
-		mv.addObject("showCount", pd.get("showCount"));
+		mv.addObject("pd", pd);
 		resultInfo.setResultCode("success");
 		mv.setViewName("background/bgMainTree");
 	
@@ -95,8 +95,9 @@ public class BgDictController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
-		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
-		pd.put("parentId", parentId);											//上级id
+		if(MapleStringUtil.isEmpty(pd.getString("pId"))){
+			pd.put("pId", "0");
+		}																		//上级id
 			
 		String keywords = pd.getString("keywords");								//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
@@ -104,12 +105,11 @@ public class BgDictController extends BaseController {
 		}
 			
 		bgPage.setPd(pd);
-		List<PageData>	comDictList = comDictService.listPage(bgPage);	//列出comDict列表
+		List<PageData> comDictList = comDictService.listPage(bgPage);			//列出comDict列表
 			
 		mv.addObject("comDictList", comDictList);
-		mv.addObject("parentComDict", comDictService.findById(parentId));
-		mv.addObject("parentId", parentId);
-		mv.addObject("returnMsg", MapleStringUtil.isEmpty(pd.getString("returnMsg"))?"list":pd.getString("returnMsg")); //MSG=change 则为新增编辑或删除后跳转过来的
+		mv.addObject("parentComDict", comDictService.findById(pd.getString("pId")));
+		mv.addObject("pd", pd);
 		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
 		resultInfo.setResultCode("success");
 		mv.setViewName("background/dict/bgDictList");
@@ -229,7 +229,6 @@ public class BgDictController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-			
 		if(result.hasErrors()) {
 			resultInfo.setResultEntity("comDict");
 			mv.addObject(resultInfo);				

@@ -1,8 +1,8 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -13,9 +13,12 @@
 <html lang="en">
 <head>
 <base href="<%=basePath%>">
-
+<!-- 下拉框 -->
+<link rel="stylesheet" href="static/ace/css/chosen.css" />
 <!-- jsp文件头和头部 -->
 <%@ include file="../main/bgIndexTop.jsp"%>
+<!-- 日期框 -->
+<link rel="stylesheet" href="static/ace/css/datepicker.css" />
 
 </head>
 <body class="no-skin">
@@ -26,46 +29,32 @@
 		<div class="main-content">
 			<div class="main-content-inner">
 				<div class="page-content">
-					<div class="page-header">
-							<h1>
-								Dashboard
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small>
-							</h1>
-					</div>
-					<!-- /.page-header -->
-					
 					<div class="row">
 						<div class="col-xs-12">
-						<div class="table-header center">asdasdas</div>
-						<input type="hidden" name="mapleId" id="mapleId" value="${bgMaple.mapleId }"/>
-						<table class="table table-striped table-bordered table-hover" style="margin-top:5px;">
-							<tbody>
+							
+						<!-- 检索  -->
+						<form action="background/mapleDetail/list.do" method="post" name="mapleDetailForm" id="mapleDetailForm">
+						<table style="margin-top:5px;">
 							<tr>
-								<td>代号</td>
-								<td>${bgMaple.mapleCode}</td>
-								<td>名称</td>
-								<td>${bgMaple.mapleName}</td>
+								<td>
+									<div class="nav-search">
+										<span class="input-icon">
+											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
+											<i class="ace-icon fa fa-search nav-search-icon"></i>
+										</span>
+									</div>
+								</td>
+								<c:if test="${RIGHTS.sele}">
+								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toSearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
+								<%-- <c:if test="${RIGHTS.toExcel}"> --%>
+								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExportExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td>
+								<%-- <c:if test="${RIGHTS.fromExcel}"> --%>
+								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toUploadExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td>
+								</c:if>
 							</tr>
-							<tr>
-								<td>类型</td>
-								<td>${bgMaple.mapleType}</td>
-								<td>控制包名</td>
-								<td>${bgMaple.controllerPackage}</td>
-							</tr>
-							<tr>
-								<td>实体类包名</td>
-								<td>${bgMaple.entityPackage}</td>
-								<td>上次修改时间</td>
-								<td>${bgMaple.modifyTime}</td>
-							</tr>
-							</tbody>
 						</table>
-						
-						<div class="hr hr-18 dotted hr-double"></div>
-						
+						<!-- 检索  -->
+					
 						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">	
 							<thead>
 								<tr>
@@ -73,15 +62,16 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">属性代号</th>
-									<th class="center">属性名称</th>
-									<th class="center">属性类型</th>
-									<th class="center">属性长度</th>
+									<th class="center">代码生成详细代号</th>
+									<th class="center">代码生成详细名称</th>
+									<th class="center">代码生成详细类型</th>
+									<th class="center">总长度</th>
+									<th class="center">小数长度</th>
+									<th class="center">类型代号</th>
 									<th class="center">是否录入</th>
 									<th class="center">是否null</th>
-									<th class="center">是否key</th>
+									<th class="center">是否主键</th>
 									<th class="center">默认值</th>
-									<th class="center">上次修改时间</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -90,28 +80,29 @@
 							<!-- 开始循环 -->	
 							<c:choose>
 								<c:when test="${not empty bgMapleDetailList}">
-									<c:if test="${RIGHTS.sele }">
+									<c:if test="${RIGHTS.sele}">
 									<c:forEach items="${bgMapleDetailList}" var="bgMapleDetail" varStatus="vs">
 										<tr>
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${bgMapleDetail.mapleDetailId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class="center">${bgMapleDetail.mapleDetailCode}</td>
-											<td class="center">${bgMapleDetail.mapleDetailName}</td>
-											<td class="center">${bgMapleDetail.mapleDetailType}</td>
-											<td class="center">${bgMapleDetail.length}</td>
-											<td class="center">${bgMapleDetail.isEdit}</td>
-											<td class="center">${bgMapleDetail.isNull}</td>
-											<td class="center">${bgMapleDetail.isKey}</td>
-											<td class="center">${bgMapleDetail.defaultValue}</td>
-											<td class="center">${bgMapleDetail.modifyTime}</td>
+											<td class='center'>${bgMapleDetail.mapleDetailCode}</td>
+											<td class='center'><a href="javascript:toSub('${bgMapleDetail.mapleDetailId}')">${bgMapleDetail.mapleDetailName}</a></td>
+											<td class='center'><param:display type="bg_mapleDetailType" value="${bgMapleDetail.mapleDetailType}"/></td>
+											<td class='center'>${bgMapleDetail.totalLength}</td>
+											<td class='center'>${bgMapleDetail.decimalLength}</td>
+											<td class='center'>${bgMapleDetail.typeCode}</td>
+											<td class='center'>${bgMapleDetail.isEdit}</td>
+											<td class='center'>${bgMapleDetail.isNull}</td>
+											<td class='center'>${bgMapleDetail.isKey}</td>
+											<td class='center'>${bgMapleDetail.defaultValue}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
-													<c:if test="${RIGHTS.edit }">
+													<c:if test="${RIGHTS.edit}">
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${bgMapleDetail.mapleDetailId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -127,7 +118,7 @@
 									
 									</c:forEach>
 									</c:if>
-									<c:if test="${RIGHTS.sele}">
+									<c:if test="${!RIGHTS.sele}">
 										<tr>
 											<td colspan="100" class="center">您无权查看</td>
 										</tr>
@@ -145,7 +136,6 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<a class="btn btn-mini btn-success" onclick="toCreateCode();">生成代码</a>
 									<c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
@@ -157,6 +147,7 @@
 							</tr>
 						</table>
 						</div>
+						</form>
 					
 						</div>
 						<!-- /.col -->
@@ -167,7 +158,6 @@
 			</div>
 		</div>
 		<!-- /.main-content -->
-
 
 		<!-- 返回顶部 -->
 		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
@@ -184,16 +174,52 @@
 	<script src="static/ace/js/bootbox.js"></script>
 	<!-- ace scripts -->
 	<script src="static/ace/js/ace/ace.js"></script>
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<script type="text/javascript">
 		$(top.hangge());//关闭加载状态
 		//检索
-		function searchs(){
+		function toSearch(){
 			top.jzts();
-			$("#createCodeFrom").submit();
+			$("#mapleDetailForm").submit();
 		}
 		$(function() {
+			//日期框
+			$('.date-picker').datepicker({
+				autoclose: true,
+				todayHighlight: true
+			});
+			
+			//下拉框
+			if(!ace.vars['touch']) {
+				$('.chosen-select').chosen({allow_single_deselect:true}); 
+				$(window)
+				.off('resize.chosen')
+				.on('resize.chosen', function() {
+					$('.chosen-select').each(function() {
+						 var $this = $(this);
+						 $this.next().css({'width': $this.parent().width()});
+					});
+				}).trigger('resize.chosen');
+				$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
+					if(event_name != 'sidebar_collapsed') return;
+					$('.chosen-select').each(function() {
+						 var $this = $(this);
+						 $this.next().css({'width': $this.parent().width()});
+					});
+				});
+				$('#chosen-multiple-style .btn').on('click', function(e){
+					var target = $(this).find('input[type=radio]');
+					var which = parseInt(target.val());
+					if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+					 else $('#form-field-select-4').removeClass('tag-input-style');
+				});
+			}
+			
 			//复选框全选控制
 			var active_class = 'active';
 			$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
@@ -206,32 +232,18 @@
 			});
 		});
 		
-		//删除
-		function toDelete(mapleDetailId,msg){
-			var mapleId = $('#mapleId').val();
-			bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
-				if(result) {
-					top.jzts();
-					var url = '<%=basePath%>background/mapleDetail/toDelete.do?mapleId='+mapleId+'&mapleDetailId='+mapleDetailId+'&tm='+new Date().getTime();
-					$.get(url,function(data){
-						if("success" == data.result){
-							nextPage('${bgPage.currentPage}');
-						}
-					});
-				};
-			});
-		}
-
 		//新增
 		function toAdd(){
-			var mapleId = $('#mapleId').val();
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>background/mapleDetail/toAdd.do?mapleId='+mapleId;
-			 diag.Width = 469;
-			 diag.Height = 510;
+			 diag.URL = "<%=basePath%>background/mapleDetail/toAdd.do?mapleId=${pd.mapleId}";
+			 diag.Width = 450;
+			 diag.Height = 355;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag.ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 if('${bgPage.currentPage}' == '0'){
@@ -246,27 +258,36 @@
 			 diag.show();
 		}
 		
-		//启动代码生成器
+		//删除
+		function toDelete(mapleDetailId){
+			bootbox.confirm("确定要删除吗?", function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/mapleDetail/toDelete.do?mapleDetailId="+mapleDetailId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		//修改
 		function toEdit(mapleDetailId){
-			var mapleId = $('#mapleId').val();
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="代码生成器";
-			 diag.URL = '<%=basePath%>background/mapleDetail/toEdit.do?mapleId='+mapleId+'&mapleDetailId='+mapleDetailId;
-			 diag.Width = 800;
-			 diag.Height = 500;
+			 diag.Title ="编辑";
+			 diag.URL = "<%=basePath%>background/mapleDetail/toEdit.do?mapleDetailId="+mapleDetailId+"&tm="+new Date().getTime();
+			 diag.Width = 450;
+			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
-			 diag.ShowMaxButton = true;		//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
-				if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					if('${bgPage.currentPage}' == '0'){
-						 top.jzts();
-						 setTimeout("self.location=self.location",100);
-					 }else{
-						 nextPage('${bgPage.currentPage}');
-					 }
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
 			 };
@@ -301,16 +322,16 @@
 						if(msg == '确定要删除选中的数据吗?'){
 							top.jzts();
 							$.ajax({
-								type:"POST",
-								url:'<%=basePath%>background/maple/deleteAll.do?tm='+new Date().getTime(),
-						    	data:{DATA_IDS:str},
+								type: "POST",
+								url: '<%=basePath%>background/mapleDetail/toBatchDelete.do?tm='+new Date().getTime(),
+						    	data: {ids:str},
 								dataType:'json',
 								//beforeSend: validateData,
-								cache:false,
-								success:function(data){
-									 $.each(data.list, function(i, list){
-											nextPage('${bgPage.currentPage}');
-									 });
+								cache: false,
+								success: function(data){
+									if(data.resultCode == "success"){
+										nextPage('${bgPage.currentPage}');
+									}
 								}
 							});
 						}
@@ -319,12 +340,29 @@
 			});
 		};
 		
-		function toCreateCode(){
-			var mapleId = $('#mapleId').val();
-			var url = '<%=basePath%>background/mapleDetail/toCreateCode.do?mapleId='+mapleId+'&tm='+new Date().getTime();
-			window.location.href=url;
+		//导出excel
+		function toExportExcel(){
+			window.location.href='<%=basePath%>background/mapleDetail/toExportExcel.do';
 		}
 		
+		//打开上传excel页面
+		function toUploadExcel(){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="EXCEL 导入到数据库";
+			 diag.URL = '<%=basePath%>background/mapleDetail/toUploadExcel.do?pId=${pd.mapleId}';
+			 diag.Width = 300;
+			 diag.Height = 150;
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 nextPage('${bgPage.currentPage}');
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
 	</script>
+
 </body>
 </html>

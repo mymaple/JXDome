@@ -24,7 +24,7 @@
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
 		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>background/dict/main.do?pId="+'${parentId}'+"&currentPage="+currentPage+"&showCount="+showCount;
+			parent.location.href="<%=basePath%>background/dict/main.do?pId="+'${pd.pId}'+"&currentPage="+currentPage+"&showCount="+showCount;
 		}
 	}
 </script>
@@ -246,7 +246,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/dict/toAdd.do?pId="+'${parentId}';
+			 diag.URL = "<%=basePath%>background/dict/toAdd.do?pId="+'${pd.pId}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -354,7 +354,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/dict/toUploadExcel.do?pId='+'${parentId}';
+			 diag.URL = '<%=basePath%>background/dict/toUploadExcel.do?pId='+'${pd.pId}';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

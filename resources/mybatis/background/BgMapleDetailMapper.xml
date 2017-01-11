@@ -3,24 +3,25 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMapleDetailMapper">
 
-	<sql id="mapleDetailAddColumns">mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailCodeUpper,length,decimalLength,isEdit,isNull,isKey,defaultValue,mapleId,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="mapleDetailColumns">mapleDetailId,mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailCodeUpper,length,decimalLength,isEdit,isNull,isKey,defaultValue,mapleId,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleDetailColumns">mapleDetailId,mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailStatus,mapleDetailCodeUpper,mapleId,totalLength,decimalLength,typeCode,isEdit,isNull,isKey,defaultValue,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleDetailTable">bg_maple_Detail</sql>
 	
-	<resultMap type="bgMapleDetail" id="mapleDetailResultMap">
+	<resultMap type="bgMapleDetail" id="bgMapleDetailResultMap">
 		<id column="mapleDetailId" property="mapleDetailId"/>
 		<result column="mapleDetailCode" property="mapleDetailCode"/>
 		<result column="mapleDetailName" property="mapleDetailName"/>
 		<result column="mapleDetailType" property="mapleDetailType"/>
+		<result column="mapleDetailStatus" property="mapleDetailStatus"/>
 		<result column="mapleDetailCodeUpper" property="mapleDetailCodeUpper"/>
-		<result column="length" property="length"/>
+		<result column="mapleId" property="mapleId"/>
+		<result column="totalLength" property="totalLength"/>
 		<result column="decimalLength" property="decimalLength"/>
+		<result column="typeCode" property="typeCode"/>
 		<result column="isEdit" property="isEdit"/>
 		<result column="isNull" property="isNull"/>
 		<result column="isKey" property="isKey"/>
 		<result column="defaultValue" property="defaultValue"/>
-		<result column="mapleId" property="mapleId"/>
 		<result column="orderNum" property="orderNum"/>
-		<result column="status" property="status"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
 		<result column="createTime" property="createTime"/>
@@ -31,156 +32,305 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
-	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="mapleDetailId" parameterType="bgMapleDetail">
-		insert into bgMapleDetail ( 
-			<include refid="mapleDetailAddColumns"/>
+	<insert id="add" parameterType="bgMapleDetail">
+		insert into 
+	<include refid="mapleDetailTable"/>
+		( 
+	<include refid="mapleDetailColumns"/>
 		) values (
-			#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailCodeUpper},#{length},#{decimalLength},#{isEdit},#{isNull},#{isKey},#{defaultValue},#{mapleId},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleDetailId},#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailStatus},#{mapleDetailCodeUpper},#{mapleId},#{totalLength},#{decimalLength},#{typeCode},#{isEdit},#{isNull},#{isKey},#{defaultValue},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 新增 -->
-	<insert id="addByPd" useGeneratedKeys="true" keyProperty="mapleDetailId" parameterType="pd">
-		insert into bgMapleDetail ( 
-			<include refid="mapleDetailAddColumns"/>
+	<insert id="addByPd" parameterType="pd">
+		insert into 
+	<include refid="mapleDetailTable"/>
+		( 
+	<include refid="mapleDetailColumns"/>
 		) values (
-			#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailCodeUpper},#{length},#{decimalLength},#{isEdit},#{isNull},#{isKey},#{defaultValue},#{mapleId},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleDetailId},#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailStatus},#{mapleDetailCodeUpper},#{mapleId},#{totalLength},#{decimalLength},#{typeCode},#{isEdit},#{isNull},#{isKey},#{defaultValue},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 修改 -->
 	<update id="edit" parameterType="bgMapleDetail">
-		update  bgMapleDetail
-			set 
-				mapleDetailCode = #{mapleDetailCode},
-				mapleDetailName = #{mapleDetailName},
-				mapleDetailType = #{mapleDetailType},
-				mapleDetailCodeUpper = #{mapleDetailCodeUpper},
-				length = #{length},
-				decimalLength = #{decimalLength},
-				isEdit = #{isEdit},
-				isNull = #{isNull},
-				isKey = #{isKey},
-				defaultValue = #{defaultValue},
-				mapleId = #{mapleId},
-				orderNum = #{orderNum},
-				status = #{status},
-				effective = #{effective},
-				createUserId = #{createUserId},
-				createTime = #{createTime},
-				modifyUserId = #{modifyUserId},
-				modifyTime = #{modifyTime}
-			where 
-				mapleDetailId = #{mapleDetailId}
+		update
+	<include refid="mapleDetailTable"/>
+		set 
+			<if test="mapleDetailCode!=null and mapleDetailCode!=''">
+			mapleDetailCode = #{mapleDetailCode},
+			</if>
+			<if test="mapleDetailName!=null and mapleDetailName!=''">
+			mapleDetailName = #{mapleDetailName},
+			</if>
+			<if test="mapleDetailType!=null and mapleDetailType!=''">
+			mapleDetailType = #{mapleDetailType},
+			</if>
+			<if test="totalLength!=null and totalLength!=''">
+			totalLength = #{totalLength},
+			</if>
+			<if test="decimalLength!=null and decimalLength!=''">
+			decimalLength = #{decimalLength},
+			</if>
+			<if test="typeCode!=null and typeCode!=''">
+			typeCode = #{typeCode},
+			</if>
+			<if test="isEdit!=null and isEdit!=''">
+			isEdit = #{isEdit},
+			</if>
+			<if test="isNull!=null and isNull!=''">
+			isNull = #{isNull},
+			</if>
+			<if test="isKey!=null and isKey!=''">
+			isKey = #{isKey},
+			</if>
+			<if test="defaultValue!=null and defaultValue!=''">
+			defaultValue = #{defaultValue},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			mapleDetailId = #{mapleDetailId} 
 	</update>
 	
 	<!-- 修改 -->
 	<update id="editByPd" parameterType="pd">
-		update  bgMapleDetail
-			set 
-				mapleDetailCode = #{mapleDetailCode},
-				mapleDetailName = #{mapleDetailName},
-				mapleDetailType = #{mapleDetailType},
-				mapleDetailCodeUpper = #{mapleDetailCodeUpper},
-				length = #{length},
-				decimalLength = #{decimalLength},
-				isEdit = #{isEdit},
-				isNull = #{isNull},
-				isKey = #{isKey},
-				defaultValue = #{defaultValue},
-				mapleId = #{mapleId},
-				orderNum = #{orderNum},
-				status = #{status},
-				effective = #{effective},
-				createUserId = #{createUserId},
-				createTime = #{createTime},
-				modifyUserId = #{modifyUserId},
-				modifyTime = #{modifyTime}
-			where 
-				mapleDetailId = #{mapleDetailId}
+		update
+	<include refid="mapleDetailTable"/>
+		set 
+			<if test="mapleDetailCode!=null and mapleDetailCode!=''">
+			mapleDetailCode = #{mapleDetailCode},
+			</if>
+			<if test="mapleDetailName!=null and mapleDetailName!=''">
+			mapleDetailName = #{mapleDetailName},
+			</if>
+			<if test="mapleDetailType!=null and mapleDetailType!=''">
+			mapleDetailType = #{mapleDetailType},
+			</if>
+			<if test="totalLength!=null and totalLength!=''">
+			totalLength = #{totalLength},
+			</if>
+			<if test="decimalLength!=null and decimalLength!=''">
+			decimalLength = #{decimalLength},
+			</if>
+			<if test="typeCode!=null and typeCode!=''">
+			typeCode = #{typeCode},
+			</if>
+			<if test="isEdit!=null and isEdit!=''">
+			isEdit = #{isEdit},
+			</if>
+			<if test="isNull!=null and isNull!=''">
+			isNull = #{isNull},
+			</if>
+			<if test="isKey!=null and isKey!=''">
+			isKey = #{isKey},
+			</if>
+			<if test="defaultValue!=null and defaultValue!=''">
+			defaultValue = #{defaultValue},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			mapleDetailId = #{mapleDetailId} 
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="bgMapleDetail">
+		update
+	<include refid="mapleDetailTable"/>
+		set 
+			<if test="mapleDetailCode!=null and mapleDetailCode!=''">
+			mapleDetailCode = #{mapleDetailCode},
+			</if>
+			<if test="mapleDetailName!=null and mapleDetailName!=''">
+			mapleDetailName = #{mapleDetailName},
+			</if>
+			<if test="mapleDetailType!=null and mapleDetailType!=''">
+			mapleDetailType = #{mapleDetailType},
+			</if>
+			<if test="mapleDetailStatus!=null and mapleDetailStatus!=''">
+			mapleDetailStatus = #{mapleDetailStatus},
+			</if>
+			<if test="mapleDetailCodeUpper!=null and mapleDetailCodeUpper!=''">
+			mapleDetailCodeUpper = #{mapleDetailCodeUpper},
+			</if>
+			<if test="mapleId!=null and mapleId!=''">
+			mapleId = #{mapleId},
+			</if>
+			<if test="totalLength!=null and totalLength!=''">
+			totalLength = #{totalLength},
+			</if>
+			<if test="decimalLength!=null and decimalLength!=''">
+			decimalLength = #{decimalLength},
+			</if>
+			<if test="typeCode!=null and typeCode!=''">
+			typeCode = #{typeCode},
+			</if>
+			<if test="isEdit!=null and isEdit!=''">
+			isEdit = #{isEdit},
+			</if>
+			<if test="isNull!=null and isNull!=''">
+			isNull = #{isNull},
+			</if>
+			<if test="isKey!=null and isKey!=''">
+			isKey = #{isKey},
+			</if>
+			<if test="defaultValue!=null and defaultValue!=''">
+			defaultValue = #{defaultValue},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			mapleDetailId = #{mapleDetailId} 
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteById" parameterType="int">
-		delete from bgMapleDetail 
-		where 
-			mapleDetailId = #{mapleDetailId}
-	</delete>
-	
-	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from bgMapleDetail 
+		delete from 
+	<include refid="mapleDetailTable"/>
 		where 
-			mapleDetailId = #{mapleDetailId}
+			mapleDetailId = #{mapleDetailId} 
 	</delete>
 	
 	<!-- 批量删除 -->
 	<delete id="batchDeleteByIds" parameterType="String">
-		delete from comTable 
+		delete from 
+ <include refid="mapleDetailTable"/>
 		where 
-			tableId in (#{ids})
+			CONCAT(mapleDetailId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="bgMapleDetail">
+	<select id="findByPd" parameterType="pd" resultType="bgMapleDetail">
 		select 
-			<include refid="mapleDetailColumns"/>
+	<include refid="mapleDetailColumns"/>
 		from 
-			bgMapleDetail
+	<include refid="mapleDetailTable"/>
 		where 
-			mapleDetailId = #{mapleDetailId}
-	</select>
-	
-	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="int" resultType="pd">
-		select 
-			<include refid="mapleDetailColumns"/>
-		from 
-			bgMapleDetail
-		where 
-			mapleDetailId = #{mapleDetailId}
+			mapleDetailId = #{mapleDetailId} 
 	</select>
 	
 	<!-- 通过pd获取(PageData)数据  -->
 	<select id="findPdByPd" parameterType="pd" resultType="pd">
 		select 
-			<include refid="mapleDetailColumns"/>
+	<include refid="mapleDetailColumns"/>
 		from 
-			bgMapleDetail
+	<include refid="mapleDetailTable"/>
 		where 
-			mapleDetailId = #{mapleDetailId}
+			mapleDetailId = #{mapleDetailId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAllByPd" parameterType="pd" resultMap="mapleDetailResultMap">
+	<select id="listByPd" parameterType="pd" resultMap="bgMapleDetailResultMap">
 		select 
-			<include refid="mapleDetailColumns"/>
+	<include refid="mapleDetailColumns"/>
 		from 
-			bgMapleDetail
-		where 1=1 
-		<if test="mapleId != null and mapleId != ''"><!-- 角色检索 -->
-			and mapleId = #{mapleId}
-		</if>
-		order by isKey DESC, (orderNum+0)
+	<include refid="mapleDetailTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="has" parameterType="bgMapleDetail" resultMap="bgMapleDetailResultMap">
+		select 
+	<include refid="mapleDetailColumns"/>
+		from 
+	<include refid="mapleDetailTable"/>
+		where 1=1
+			<if test="mapleDetailId!=null and mapleDetailId!=''">
+			 and mapleDetailId = #{mapleDetailId} 
+			</if>
+			<if test="mapleDetailCode!=null and mapleDetailCode!=''">
+			 and mapleDetailCode = #{mapleDetailCode}
+			</if>
+			<if test="mapleDetailName!=null and mapleDetailName!=''">
+			 and mapleDetailName = #{mapleDetailName}
+			</if>
+			<if test="mapleDetailType!=null and mapleDetailType!=''">
+			 and mapleDetailType = #{mapleDetailType}
+			</if>
+			<if test="mapleDetailStatus!=null and mapleDetailStatus!=''">
+			 and mapleDetailStatus = #{mapleDetailStatus}
+			</if>
+			<if test="mapleDetailCodeUpper!=null and mapleDetailCodeUpper!=''">
+			 and mapleDetailCodeUpper = #{mapleDetailCodeUpper}
+			</if>
+			<if test="mapleId!=null and mapleId!=''">
+			 and mapleId = #{mapleId}
+			</if>
+			<if test="totalLength!=null and totalLength!=''">
+			 and totalLength = #{totalLength}
+			</if>
+			<if test="decimalLength!=null and decimalLength!=''">
+			 and decimalLength = #{decimalLength}
+			</if>
+			<if test="typeCode!=null and typeCode!=''">
+			 and typeCode = #{typeCode}
+			</if>
+			<if test="isEdit!=null and isEdit!=''">
+			 and isEdit = #{isEdit}
+			</if>
+			<if test="isNull!=null and isNull!=''">
+			 and isNull = #{isNull}
+			</if>
+			<if test="isKey!=null and isKey!=''">
+			 and isKey = #{isKey}
+			</if>
+			<if test="defaultValue!=null and defaultValue!=''">
+			 and defaultValue = #{defaultValue}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listPage" parameterType="bgPage" resultType="pd">
-		select 
-			<include refid="mapleDetailColumns"/>
+			select 
+	<include refid="mapleDetailColumns"/>
 		from 
-			bgMapleDetail
+	<include refid="mapleDetailTable"/>
 		where 1=1
-		<if test="pd.mapleId != null and pd.mapleId != ''"><!-- 角色检索 -->
-			and mapleId = #{pd.mapleId}
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				mapleDetailCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				mapleDetailName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
 		</if>
-		order by isKey DESC, (orderNum+0)
+		order by (orderNum+0)
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

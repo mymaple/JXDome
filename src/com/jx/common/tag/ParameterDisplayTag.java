@@ -9,6 +9,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.jx.common.service.ComDictService;
+import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ServletContextUtil;
 
 public class ParameterDisplayTag extends TagSupport {
@@ -53,7 +54,9 @@ public class ParameterDisplayTag extends TagSupport {
 			sb.append("/>");
 		}
 		try {
-			sb.append(comDictService.getDisplayName(this.getType(), this.getValue()));
+			String displayName = comDictService.getDisplayName(this.getType(), this.getValue());
+			displayName = MapleStringUtil.isEmpty(displayName)?this.getValue():displayName;
+			sb.append(displayName);
 			out.write(sb.toString());
 		} catch (IOException e) {
 			throw new JspException(e);

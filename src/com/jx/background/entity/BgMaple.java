@@ -2,6 +2,11 @@ package com.jx.background.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -17,32 +22,50 @@ public class BgMaple implements Serializable {
 	
 	/**************************custom prop satrt********************************/
 	
-	
 	/**************************custom prop end**********************************/
 	
+	//新增校验分组
+	public interface ValidationAdd
+	{
+	//接口中不需要任何定义
+	}
 	
+	//编辑校验分组
+	public interface ValidationEdit
+	{
+	//接口中不需要任何定义
+	}
 	
 	/**************************table prop satrt*********************************/
 	
 	/** 代码生成 主键id */
-	private int mapleId;
+	@NotEmpty(message="代码生成 主键id 不能为空", groups={ValidationEdit.class})
+	private String mapleId;
 	
-	/** 代号 */
+	/** 代码生成代号 */
+	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="代码生成代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String mapleCode;
 		
-	/** 名称 */
+	/** 代码生成名称 */
+	@NotEmpty(message="代码生成名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String mapleName;
 		
-	/** 类型 */
+	/** 代码生成类型 */
+	@NotEmpty(message="代码生成类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String mapleType;
-	
-	/** 代号 */
+		
+	/** 代码生成状态 */
+	private String mapleStatus;
+		
+	/** 代号（大写） */
 	private String mapleCodeUpper;
 		
 	/** 控制器包代号 */
+	@NotEmpty(message="控制器包代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String controllerPackage;
 		
 	/** 实体类包代号 */
+	@NotEmpty(message="实体类包代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String entityPackage;
 		
 	/** 控制器中的代号（大写） */
@@ -61,18 +84,16 @@ public class BgMaple implements Serializable {
 	private String tableCode;
 		
 	/** 排序编号 */
+	@NotEmpty(message="排序编号 不能为空", groups={ValidationEdit.class})
 	private String orderNum;
 		
-	/** 状态标识 */
-	private String status;
-		
-	/** 有效标识 */
+	/** 有效性 */
 	private String effective;
 		
-	/** 新增人员 */
+	/** 创建人员id */
 	private String createUserId;
 		
-	/** 新增时间 */
+	/** 创建时间 */
 	private Date createTime;
 		
 	/** 修改人员id */
@@ -83,34 +104,26 @@ public class BgMaple implements Serializable {
 		
 	
 	
-	public String getMapleCodeUpper() {
-		return mapleCodeUpper;
-	}
-
-	public void setMapleCodeUpper(String mapleCodeUpper) {
-		this.mapleCodeUpper = mapleCodeUpper;
-	}
-
 	/**
-	 * 设置 代码生成 主键id
+	 * 设置代码生成 主键id
 	 * 
-	 * @param int mapleId
+	 * @param String mapleId
 	 */
-	public void setMapleId(int mapleId) {
-		this.mapleId = mapleId;
+	public void setMapleId(String mapleId) {
+		this.mapleId = MapleStringUtil.trim(mapleId);
 	}
 	
 	/**
-	 * 获取 代码生成 主键id
+	 * 获取代码生成 主键id
 	 * 
-	 * @return int mapleId
+	 * @return String mapleId
 	 */
-	public int getMapleId() {
+	public String getMapleId() {
 		return this.mapleId;
 	}
 	
 	/**
-	 * 设置 代号
+	 * 设置 代码生成代号
 	 * 
 	 * @param String mapleCode
 	 */
@@ -119,7 +132,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 获取 代号
+	 * 获取 代码生成代号
 	 * 
 	 * @return String mapleCode
 	 */
@@ -128,7 +141,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 设置 名称
+	 * 设置 代码生成名称
 	 * 
 	 * @param String mapleName
 	 */
@@ -137,7 +150,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 获取 名称
+	 * 获取 代码生成名称
 	 * 
 	 * @return String mapleName
 	 */
@@ -146,7 +159,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 设置 类型
+	 * 设置 代码生成类型
 	 * 
 	 * @param String mapleType
 	 */
@@ -155,12 +168,48 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 获取 类型
+	 * 获取 代码生成类型
 	 * 
 	 * @return String mapleType
 	 */
 	public String getMapleType() {
 		return this.mapleType;
+	}
+	
+	/**
+	 * 设置 代码生成状态
+	 * 
+	 * @param String mapleStatus
+	 */
+	public void setMapleStatus(String mapleStatus) {
+		this.mapleStatus = MapleStringUtil.trim(mapleStatus);
+	}
+	
+	/**
+	 * 获取 代码生成状态
+	 * 
+	 * @return String mapleStatus
+	 */
+	public String getMapleStatus() {
+		return this.mapleStatus;
+	}
+	
+	/**
+	 * 设置 代号（大写）
+	 * 
+	 * @param String mapleCodeUpper
+	 */
+	public void setMapleCodeUpper(String mapleCodeUpper) {
+		this.mapleCodeUpper = MapleStringUtil.trim(mapleCodeUpper);
+	}
+	
+	/**
+	 * 获取 代号（大写）
+	 * 
+	 * @return String mapleCodeUpper
+	 */
+	public String getMapleCodeUpper() {
+		return this.mapleCodeUpper;
 	}
 	
 	/**
@@ -308,25 +357,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 设置 状态标识
-	 * 
-	 * @param String status
-	 */
-	public void setStatus(String status) {
-		this.status = MapleStringUtil.trim(status);
-	}
-	
-	/**
-	 * 获取 状态标识
-	 * 
-	 * @return String status
-	 */
-	public String getStatus() {
-		return this.status;
-	}
-	
-	/**
-	 * 设置 有效标识
+	 * 设置 有效性
 	 * 
 	 * @param String effective
 	 */
@@ -335,7 +366,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 获取 有效标识
+	 * 获取 有效性
 	 * 
 	 * @return String effective
 	 */
@@ -344,7 +375,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 设置 新增人员
+	 * 设置 创建人员id
 	 * 
 	 * @param String createUserId
 	 */
@@ -353,7 +384,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 获取 新增人员
+	 * 获取 创建人员id
 	 * 
 	 * @return String createUserId
 	 */
@@ -362,7 +393,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 设置 新增时间
+	 * 设置 创建时间
 	 * 
 	 * @param Date createTime
 	 */
@@ -371,7 +402,7 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 获取 新增时间
+	 * 获取 创建时间
 	 * 
 	 * @return Date createTime
 	 */
@@ -446,38 +477,5 @@ public class BgMaple implements Serializable {
 	}	
 	
 	
-	public BgMaple(){
-		init();
-	}
-	
-	public void init() {
-		setMapleId(0);
-	
-		setMapleCode("");
-		setMapleName("");
-		setMapleType("");
-		setControllerPackage("");
-		setEntityPackage("");
-		setMapleControllerUpper("");
-		setMapleControllerLower("");
-		setMapleEntityUpper("");
-		setMapleEntityLower("");
-		setTableCode("");
-		setOrderNum("");
-		setStatus("");
-		setEffective("");
-		setCreateUserId("");
-		try {
-			setCreateTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		setModifyUserId("");
-		try {
-			setModifyTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	/**************************table prop  end  *********************************/
 }

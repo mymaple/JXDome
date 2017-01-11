@@ -3,14 +3,15 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMapleMapper">
 
-	<sql id="mapleAddColumns">mapleCode,mapleName,mapleType,mapleCodeUpper,controllerPackage,entityPackage,mapleControllerUpper,mapleControllerLower,mapleEntityUpper,mapleEntityLower,tableCode,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="mapleColumns">mapleId,mapleCode,mapleName,mapleType,mapleCodeUpper,controllerPackage,entityPackage,mapleControllerUpper,mapleControllerLower,mapleEntityUpper,mapleEntityLower,tableCode,orderNum,status,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleColumns">mapleId,mapleCode,mapleName,mapleType,mapleStatus,mapleCodeUpper,controllerPackage,entityPackage,mapleControllerUpper,mapleControllerLower,mapleEntityUpper,mapleEntityLower,tableCode,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleTable">bg_maple_main</sql>
 	
-	<resultMap type="bgMaple" id="mapleResultMap">
+	<resultMap type="bgMaple" id="bgMapleResultMap">
 		<id column="mapleId" property="mapleId"/>
 		<result column="mapleCode" property="mapleCode"/>
 		<result column="mapleName" property="mapleName"/>
 		<result column="mapleType" property="mapleType"/>
+		<result column="mapleStatus" property="mapleStatus"/>
 		<result column="mapleCodeUpper" property="mapleCodeUpper"/>
 		<result column="controllerPackage" property="controllerPackage"/>
 		<result column="entityPackage" property="entityPackage"/>
@@ -20,7 +21,6 @@
 		<result column="mapleEntityLower" property="mapleEntityLower"/>
 		<result column="tableCode" property="tableCode"/>
 		<result column="orderNum" property="orderNum"/>
-		<result column="status" property="status"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
 		<result column="createTime" property="createTime"/>
@@ -31,159 +31,271 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
-	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="mapleId" parameterType="bgMaple">
-		insert into bgMaple ( 
-			<include refid="mapleAddColumns"/>
+	<insert id="add" parameterType="bgMaple">
+		insert into 
+	<include refid="mapleTable"/>
+		( 
+	<include refid="mapleColumns"/>
 		) values (
-			#{mapleCode},#{mapleName},#{mapleType},#{mapleCodeUpper},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleId},#{mapleCode},#{mapleName},#{mapleType},#{mapleStatus},#{mapleCodeUpper},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 新增 -->
-	<insert id="addByPd" useGeneratedKeys="true" keyProperty="mapleId" parameterType="pd">
-		insert into bgMaple ( 
-			<include refid="mapleAddColumns"/>
+	<insert id="addByPd" parameterType="pd">
+		insert into 
+	<include refid="mapleTable"/>
+		( 
+	<include refid="mapleColumns"/>
 		) values (
-			#{mapleCode},#{mapleName},#{mapleType},#{mapleCodeUpper},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{status},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleId},#{mapleCode},#{mapleName},#{mapleType},#{mapleStatus},#{mapleCodeUpper},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 修改 -->
 	<update id="edit" parameterType="bgMaple">
-		update  bgMaple
-			set 
-				mapleCode = #{mapleCode},
-				mapleName = #{mapleName},
-				mapleType = #{mapleType},
-				mapleCodeUpper = #{mapleCodeUpper},
-				controllerPackage = #{controllerPackage},
-				entityPackage = #{entityPackage},
-				mapleControllerUpper = #{mapleControllerUpper},
-				mapleControllerLower = #{mapleControllerLower},
-				mapleEntityUpper = #{mapleEntityUpper},
-				mapleEntityLower = #{mapleEntityLower},
-				tableCode = #{tableCode},
-				orderNum = #{orderNum},
-				status = #{status},
-				effective = #{effective},
-				createUserId = #{createUserId},
-				createTime = #{createTime},
-				modifyUserId = #{modifyUserId},
-				modifyTime = #{modifyTime}
-			where 
-				mapleId = #{mapleId}
+		update
+	<include refid="mapleTable"/>
+		set 
+			<if test="mapleCode!=null and mapleCode!=''">
+			mapleCode = #{mapleCode},
+			</if>
+			<if test="mapleName!=null and mapleName!=''">
+			mapleName = #{mapleName},
+			</if>
+			<if test="mapleType!=null and mapleType!=''">
+			mapleType = #{mapleType},
+			</if>
+			<if test="controllerPackage!=null and controllerPackage!=''">
+			controllerPackage = #{controllerPackage},
+			</if>
+			<if test="entityPackage!=null and entityPackage!=''">
+			entityPackage = #{entityPackage},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			mapleId = #{mapleId} 
 	</update>
 	
 	<!-- 修改 -->
 	<update id="editByPd" parameterType="pd">
-		update  bgMaple
-			set 
-				mapleCode = #{mapleCode},
-				mapleName = #{mapleName},
-				mapleType = #{mapleType},
-				mapleCodeUpper = #{mapleCodeUpper},
-				controllerPackage = #{controllerPackage},
-				entityPackage = #{entityPackage},
-				mapleControllerUpper = #{mapleControllerUpper},
-				mapleControllerLower = #{mapleControllerLower},
-				mapleEntityUpper = #{mapleEntityUpper},
-				mapleEntityLower = #{mapleEntityLower},
-				tableCode = #{tableCode},
-				orderNum = #{orderNum},
-				status = #{status},
-				effective = #{effective},
-				createUserId = #{createUserId},
-				createTime = #{createTime},
-				modifyUserId = #{modifyUserId},
-				modifyTime = #{modifyTime}
-			where 
-				mapleId = #{mapleId}
+		update
+	<include refid="mapleTable"/>
+		set 
+			<if test="mapleCode!=null and mapleCode!=''">
+			mapleCode = #{mapleCode},
+			</if>
+			<if test="mapleName!=null and mapleName!=''">
+			mapleName = #{mapleName},
+			</if>
+			<if test="mapleType!=null and mapleType!=''">
+			mapleType = #{mapleType},
+			</if>
+			<if test="controllerPackage!=null and controllerPackage!=''">
+			controllerPackage = #{controllerPackage},
+			</if>
+			<if test="entityPackage!=null and entityPackage!=''">
+			entityPackage = #{entityPackage},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			mapleId = #{mapleId} 
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="bgMaple">
+		update
+	<include refid="mapleTable"/>
+		set 
+			<if test="mapleCode!=null and mapleCode!=''">
+			mapleCode = #{mapleCode},
+			</if>
+			<if test="mapleName!=null and mapleName!=''">
+			mapleName = #{mapleName},
+			</if>
+			<if test="mapleType!=null and mapleType!=''">
+			mapleType = #{mapleType},
+			</if>
+			<if test="mapleStatus!=null and mapleStatus!=''">
+			mapleStatus = #{mapleStatus},
+			</if>
+			<if test="mapleCodeUpper!=null and mapleCodeUpper!=''">
+			mapleCodeUpper = #{mapleCodeUpper},
+			</if>
+			<if test="controllerPackage!=null and controllerPackage!=''">
+			controllerPackage = #{controllerPackage},
+			</if>
+			<if test="entityPackage!=null and entityPackage!=''">
+			entityPackage = #{entityPackage},
+			</if>
+			<if test="mapleControllerUpper!=null and mapleControllerUpper!=''">
+			mapleControllerUpper = #{mapleControllerUpper},
+			</if>
+			<if test="mapleControllerLower!=null and mapleControllerLower!=''">
+			mapleControllerLower = #{mapleControllerLower},
+			</if>
+			<if test="mapleEntityUpper!=null and mapleEntityUpper!=''">
+			mapleEntityUpper = #{mapleEntityUpper},
+			</if>
+			<if test="mapleEntityLower!=null and mapleEntityLower!=''">
+			mapleEntityLower = #{mapleEntityLower},
+			</if>
+			<if test="tableCode!=null and tableCode!=''">
+			tableCode = #{tableCode},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			mapleId = #{mapleId} 
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteById" parameterType="int">
-		delete from bgMaple 
-		where 
-			mapleId = #{mapleId}
-	</delete>
-	
-	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from bgMaple 
+		delete from 
+	<include refid="mapleTable"/>
 		where 
-			mapleId = #{mapleId}
+			mapleId = #{mapleId} 
 	</delete>
 	
 	<!-- 批量删除 -->
 	<delete id="batchDeleteByIds" parameterType="String">
-		delete from comTable 
+		delete from 
+ <include refid="mapleTable"/>
 		where 
-			tableId in (#{ids})
+			CONCAT(mapleId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="bgMaple">
+	<select id="findByPd" parameterType="pd" resultType="bgMaple">
 		select 
-			<include refid="mapleColumns"/>
+	<include refid="mapleColumns"/>
 		from 
-			bgMaple
+	<include refid="mapleTable"/>
 		where 
-			mapleId = #{mapleId}
-	</select>
-	
-	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="int" resultType="pd">
-		select 
-			<include refid="mapleColumns"/>
-		from 
-			bgMaple
-		where 
-			mapleId = #{mapleId}
+			mapleId = #{mapleId} 
 	</select>
 	
 	<!-- 通过pd获取(PageData)数据  -->
 	<select id="findPdByPd" parameterType="pd" resultType="pd">
 		select 
-			<include refid="mapleColumns"/>
+	<include refid="mapleColumns"/>
 		from 
-			bgMaple
+	<include refid="mapleTable"/>
 		where 
-			mapleId = #{mapleId}
+			mapleId = #{mapleId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAllByPd" parameterType="pd" resultMap="mapleResultMap">
+	<select id="listByPd" parameterType="pd" resultMap="bgMapleResultMap">
 		select 
-			<include refid="mapleColumns"/>
+	<include refid="mapleColumns"/>
 		from 
-			bgMaple
+	<include refid="mapleTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="has" parameterType="bgMaple" resultMap="bgMapleResultMap">
+		select 
+	<include refid="mapleColumns"/>
+		from 
+	<include refid="mapleTable"/>
+		where 1=1
+			<if test="mapleId!=null and mapleId!=''">
+			 and mapleId = #{mapleId} 
+			</if>
+			<if test="mapleCode!=null and mapleCode!=''">
+			 and mapleCode = #{mapleCode}
+			</if>
+			<if test="mapleName!=null and mapleName!=''">
+			 and mapleName = #{mapleName}
+			</if>
+			<if test="mapleType!=null and mapleType!=''">
+			 and mapleType = #{mapleType}
+			</if>
+			<if test="mapleStatus!=null and mapleStatus!=''">
+			 and mapleStatus = #{mapleStatus}
+			</if>
+			<if test="mapleCodeUpper!=null and mapleCodeUpper!=''">
+			 and mapleCodeUpper = #{mapleCodeUpper}
+			</if>
+			<if test="controllerPackage!=null and controllerPackage!=''">
+			 and controllerPackage = #{controllerPackage}
+			</if>
+			<if test="entityPackage!=null and entityPackage!=''">
+			 and entityPackage = #{entityPackage}
+			</if>
+			<if test="mapleControllerUpper!=null and mapleControllerUpper!=''">
+			 and mapleControllerUpper = #{mapleControllerUpper}
+			</if>
+			<if test="mapleControllerLower!=null and mapleControllerLower!=''">
+			 and mapleControllerLower = #{mapleControllerLower}
+			</if>
+			<if test="mapleEntityUpper!=null and mapleEntityUpper!=''">
+			 and mapleEntityUpper = #{mapleEntityUpper}
+			</if>
+			<if test="mapleEntityLower!=null and mapleEntityLower!=''">
+			 and mapleEntityLower = #{mapleEntityLower}
+			</if>
+			<if test="tableCode!=null and tableCode!=''">
+			 and tableCode = #{tableCode}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listPage" parameterType="bgPage" resultType="pd">
-		select 
-			<include refid="mapleColumns"/>
+			select 
+	<include refid="mapleColumns"/>
 		from 
-			bgMaple
+	<include refid="mapleTable"/>
 		where 1=1
-		<if test="pd.keywords != null and pd.keywords != ''"><!-- 角色检索 -->
-			and (
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
 				mapleCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				or
-				mapleType LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-				or
-				controllerPackage LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-				or
-				entityPackage LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				mapleName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
+		order by (orderNum+0)
 	</select>
+	
 	<!-- ****************************common * end  ********************************** -->
 	
 </mapper>

@@ -406,3 +406,116 @@ INSERT INTO `com_dict` VALUES ('f29b6b4266b54c67a3d9f629abc95560', 'd8cf8becf1db
 INSERT INTO `com_dict` VALUES ('f2b727ee2e654654bd91363660fe2197', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_03', '主从型（主）', '01', '03', '00', '1', '1484025903963', '01', '1', '2017-01-10 13:25:04', '1', '2017-01-10 13:25:04');
 INSERT INTO `com_dict` VALUES ('f9831d6e9c3b482381bb940ffc5edf20', '0', 'bg_mapleType', '代码结构类型', '01', 'bg_mapleType', '00', '0', '1484025760602', '01', '1', '2017-01-10 13:22:41', '1', '2017-01-10 13:22:41');
 
+
+-- ----------------------------
+-- Table structure for bg_maple_main
+-- ----------------------------
+DROP TABLE IF EXISTS `bg_maple_main`;
+CREATE TABLE `bg_maple_main` (
+
+	`mapleId` varchar(100) 
+			NOT NULL COMMENT '代码生成 主键id',
+	`mapleCode` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成代号', 
+	`mapleName` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成名称',
+	`mapleType` varchar(100)		  
+			 DEFAULT NULL  COMMENT '代码生成类型', 
+	`mapleStatus` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成状态', 
+	`mapleCodeUpper` varchar(100)
+			 DEFAULT NULL  COMMENT '代号（大写）', 
+	`controllerPackage` varchar(100)
+			 DEFAULT NULL  COMMENT '控制器包代号', 
+	`entityPackage` varchar(100)
+			 DEFAULT NULL  COMMENT '实体类包代号', 
+	`mapleControllerUpper` varchar(100)
+			 DEFAULT NULL  COMMENT '控制器中的代号（大写）', 
+	`mapleControllerLower` varchar(100)
+			 DEFAULT NULL  COMMENT '控制器中的代号（小写）', 
+	`mapleEntityUpper` varchar(100)
+			 DEFAULT NULL  COMMENT '实体类中的代号（大写）', 
+	`mapleEntityLower` varchar(100)
+			 DEFAULT NULL  COMMENT '实体类中的代号（小写）', 
+	`tableCode` varchar(100)
+			 DEFAULT NULL  COMMENT '数据表代号', 
+	`orderNum` varchar(100)
+			 DEFAULT NULL  COMMENT '排序编号', 
+	`effective` varchar(100)
+			 DEFAULT NULL  COMMENT '有效性', 
+	`createUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '创建人员id', 
+	`createTime` datetime
+			 DEFAULT NULL  COMMENT '创建时间', 
+	`modifyUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '修改人员id', 
+	`modifyTime` datetime
+			 DEFAULT NULL  COMMENT '修改时间', 
+  
+  PRIMARY KEY (`mapleId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = 'bg_maple_main';
+
+-- ----------------------------
+-- Records of bg_maple_main
+-- ----------------------------
+INSERT INTO `bg_maple_main` VALUES ('27a853950d0e4876ba0eccf8d7e2dd8f', 'baseField', '基本字段', '01', '00', '', 'bg', 'bg', '', '', '', '', '', '1484122184486', '01', '1', '2017-01-11 16:09:44', '1', '2017-01-11 16:09:44');
+
+-- ----------------------------
+-- Table structure for bg_maple_Detail
+-- ----------------------------
+DROP TABLE IF EXISTS `bg_maple_Detail`;
+CREATE TABLE `bg_maple_Detail` (
+
+	`mapleDetailId` varchar(100) 
+			NOT NULL COMMENT '代码生成详细 主键id',
+	`mapleDetailCode` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成详细代号', 
+	`mapleDetailName` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成详细名称', 
+	`mapleDetailType` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成详细类型', 
+	`mapleDetailStatus` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成详细状态', 
+	`mapleDetailCodeUpper` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成详情代号（大写）', 
+	`mapleId` varchar(100)
+			 DEFAULT NULL  COMMENT '代码生成id', 
+	`totalLength` varchar(100)
+			 DEFAULT NULL  COMMENT '总长度', 
+	`decimalLength` varchar(100)
+			 DEFAULT NULL  COMMENT '小数长度', 
+	`typeCode` varchar(100)
+			 DEFAULT NULL  COMMENT '类型代号', 
+	`isEdit` varchar(100)
+			 DEFAULT NULL  COMMENT '是否录入', 
+	`isNull` varchar(100)
+			 DEFAULT NULL  COMMENT '是否null', 
+	`isKey` varchar(100)
+			 DEFAULT NULL  COMMENT '是否主键', 
+	`defaultValue` varchar(100)
+			 DEFAULT NULL  COMMENT '默认值', 
+	`orderNum` varchar(100)
+			 DEFAULT NULL  COMMENT '排序编号', 
+	`effective` varchar(100)
+			 DEFAULT NULL  COMMENT '有效性', 
+	`createUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '创建人员id', 
+	`createTime` datetime
+			 DEFAULT NULL  COMMENT '创建时间', 
+	`modifyUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '修改人员id', 
+	`modifyTime` datetime
+			 DEFAULT NULL  COMMENT '修改时间', 
+  
+  PRIMARY KEY (`mapleDetailId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '代码生成详细';
+
+-- ----------------------------
+-- Records of bg_maple_detail
+-- ----------------------------
+INSERT INTO `bg_maple_detail` VALUES ('15a98f494b794541816d4fc808de92df', 'orderNum', '排序编号', '01', '00', null, '27a853950d0e4876ba0eccf8d7e2dd8f', '100', '', '', '00', '01', '00', '', '1484126532349', '01', '1', '2017-01-11 17:22:12', '1', '2017-01-11 17:22:12');
+INSERT INTO `bg_maple_detail` VALUES ('1e010e65fb2741e08e1ad6e6fc0dce9c', 'effective', '有效标志', '01', '00', null, '27a853950d0e4876ba0eccf8d7e2dd8f', '100', '', '', '00', '01', '00', '', '1484126735316', '01', '1', '2017-01-11 17:25:35', '1', '2017-01-11 17:25:35');
+INSERT INTO `bg_maple_detail` VALUES ('54398981fb824b04bafb3f1d3cd48f6f', 'status', '状态', '01', '00', null, '27a853950d0e4876ba0eccf8d7e2dd8f', '100', '', '', '01', '01', '00', '', '1484125894956', '01', '1', '2017-01-11 17:11:35', '1', '2017-01-11 17:11:35');
+INSERT INTO `bg_maple_detail` VALUES ('688f191c23ef4d1f98a3559e470cf6e4', 'code', '代号', '01', '00', null, '27a853950d0e4876ba0eccf8d7e2dd8f', '100', '', '', '01', '01', '00', '', '1484124762857', '01', '1', '2017-01-11 16:52:43', '1', '2017-01-11 16:52:43');
+INSERT INTO `bg_maple_detail` VALUES ('6e1c83d28e19411ab4778f546e107435', 'type', '类型', '05', '00', null, '27a853950d0e4876ba0eccf8d7e2dd8f', '100', '', '', '01', '01', '00', '', '1484125735327', '01', '1', '2017-01-11 17:08:55', '1', '2017-01-11 17:08:55');
+INSERT INTO `bg_maple_detail` VALUES ('eeafe483879b40c6aaeb56083f9b8c44', 'name', '名称', '01', '00', null, '27a853950d0e4876ba0eccf8d7e2dd8f', '100', '', '', '01', '01', '00', '', '1484125641163', '01', '1', '2017-01-11 17:07:21', '1', '2017-01-11 17:07:21');

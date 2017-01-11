@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -18,6 +19,7 @@
 <%@ include file="../main/bgIndexTop.jsp"%>
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
+
 </head>
 <body class="no-skin">
 
@@ -41,16 +43,6 @@
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
-								</td>
-								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期" title="开始日期"/></td>
-								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期" title="结束日期"/></td>
-								<td style="vertical-align:top;padding-left:2px;">
-								 	<select class="chosen-select form-control" name="name" id="id" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
-									<option value=""></option>
-									<option value="">全部</option>
-									<option value="">1</option>
-									<option value="">2</option>
-								  	</select>
 								</td>
 								<c:if test="${r"${RIGHTS.sele}"}">
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toSearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
@@ -92,7 +84,11 @@
 											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
 										<#list bgMapleDetailList as bgMapleDetail>
 										<#if bgMapleDetail.isEdit == "01" >
-											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
+										<#if bgMapleDetail.mapleDetailType == "05">
+											<td class='center'><param:display type="bg_${bgMaple.mapleCode}Type" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/></td>
+										<#else>
+											<td class='center'><#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ><a href="javascript:toSub('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')"></#if>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ></a></#if></td>
+										</#if>
 										</#if>
 										</#list>
 											<td class="center">
@@ -230,6 +226,12 @@
 			});
 		});
 		
+		//去此ID下子菜单列表
+		function toSub(parentId){
+			top.jzts();
+			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?pId="+parentId;
+		};
+		
 		//新增
 		function toAdd(){
 			 top.jzts();
@@ -265,8 +267,6 @@
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${r"${bgPage.currentPage}"}');
-						}else{
-							
 						}
 					});
 				}
@@ -331,8 +331,6 @@
 								success: function(data){
 									if(data.resultCode == "success"){
 										nextPage('${r"${bgPage.currentPage}"}');
-									}else{
-										
 									}
 								}
 							});
@@ -358,12 +356,7 @@
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${r"${bgPage.currentPage}"}' == '0'){
-						 top.jzts();
-						 setTimeout("self.location.reload()",100);
-					 }else{
-						 nextPage('${r"${bgPage.currentPage}"}');
-					 }
+					 nextPage('${r"${bgPage.currentPage}"}');
 				}
 				diag.close();
 			 };

@@ -25,8 +25,8 @@ import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
 import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
-import com.jx.${bgMaple.entityPackage}.entity.ComDict.ValidationAdd;
-import com.jx.${bgMaple.entityPackage}.entity.ComDict.ValidationEdit;
+import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper}.ValidationAdd;
+import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper}.ValidationEdit;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
@@ -67,7 +67,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 
-		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
+		if(MapleStringUtil.isEmpty(pd.getString("pId"))){
+			pd.put("pId", "0");
+		}
 		JSONArray arr = JSONArray.fromObject(${bgMaple.mapleEntityLower}Service.listInRank("0"));
 		String json = arr.toString();
 		json = json.replaceAll("${bgMaple.mapleCode}Id", "id").replaceAll("parentId", "pId")
@@ -75,9 +77,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				.replaceAll("has${bgMaple.mapleCodeUpper}", "checked").replaceAll("sub${bgMaple.mapleEntityUpper}Path", "url");
 		model.addAttribute("zTreeNodes", json);
 		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
-		mv.addObject("parentId", parentId);
-		mv.addObject("currentPage", pd.get("currentPage"));
-		mv.addObject("showCount", pd.get("showCount"));
+		mv.addObject("pd", pd);
 		resultInfo.setResultCode("success");
 		mv.setViewName("${bgMaple.controllerPackage}/bgMainTree");
 	
@@ -95,8 +95,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 
-		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");
-		pd.put("parentId", parentId);											//上级id
+		if(MapleStringUtil.isEmpty(pd.getString("pId"))){
+			pd.put("pId", "0");
+		}																		//上级id
 			
 		String keywords = pd.getString("keywords");								//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
@@ -107,9 +108,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		List<PageData>	${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.listPage(bgPage);	//列出${bgMaple.mapleEntityLower}列表
 			
 		mv.addObject("${bgMaple.mapleEntityLower}List", ${bgMaple.mapleEntityLower}List);
-		mv.addObject("parent${bgMaple.mapleEntityUpper}", ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>));
-		mv.addObject("parentId", parentId);
-		mv.addObject("returnMsg", MapleStringUtil.isEmpty(pd.getString("returnMsg"))?"list":pd.getString("returnMsg")); //MSG=change 则为新增编辑或删除后跳转过来的
+		mv.addObject("parent${bgMaple.mapleEntityUpper}", ${bgMaple.mapleEntityLower}Service.findById(pd.getString("pId")<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>));
+		mv.addObject("pd", pd);
 		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
 		resultInfo.setResultCode("success");
 		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}List");

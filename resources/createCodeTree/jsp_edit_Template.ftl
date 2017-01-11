@@ -57,7 +57,7 @@
 						<#elseif bgMapleDetail.mapleDetailType == '03'>
 								<td><input class="span10 date-picker" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '05'>
-								<td><param:select type="bg_${bgMaple.mapleCode}Type" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.length}" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td><param:select type="bg_${bgMaple.mapleCode}Type" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 						</#if>
 							</tr>
 					</#if>
