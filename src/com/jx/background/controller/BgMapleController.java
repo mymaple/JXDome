@@ -28,11 +28,9 @@ import com.jx.background.entity.BgMaple.ValidationAdd;
 import com.jx.background.entity.BgMaple.ValidationEdit;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
-import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
-import com.jx.background.service.BgMapleDetailService;
 import com.jx.background.service.BgMapleService;
 
 /** 
@@ -90,7 +88,17 @@ public class BgMapleController extends BaseController {
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
-
+		
+		Date nowTime = new Date();
+		BgMaple bgMaple = new BgMaple();
+		bgMaple.setMapleCode("");
+		bgMaple.setMapleName("");
+		bgMaple.setMapleType("01");
+		bgMaple.setControllerPackage("bg");
+		bgMaple.setEntityPackage("bg");
+		bgMaple.setOrderNum(String.valueOf(nowTime.getTime()));
+		
+		mv.addObject(bgMaple);
 		mv.addObject("methodPath", "add");
 		resultInfo.setResultCode("success");
 		mv.setViewName("background/maple/bgMapleEdit");
@@ -111,11 +119,11 @@ public class BgMapleController extends BaseController {
 
 		if(result.hasErrors()) {
 			resultInfo.setResultEntity("bgMaple");
-			mv.addObject(resultInfo);				
+			mv.addObject(resultInfo);
 			return mv; 
 		}
 		
-		List<BgMaple> bgMapleList = bgMapleService.hasCode(bgMaple.getMapleId(), bgMaple.getMapleCode());	
+		List<BgMaple> bgMapleList = bgMapleService.hasCode(bgMaple.getMapleId(), bgMaple.getMapleCode());
 		if(MapleUtil.notEmptyList(bgMapleList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -124,15 +132,12 @@ public class BgMapleController extends BaseController {
 		Date nowTime = new Date();
 		bgMaple.setMapleId(this.get32UUID());
 		bgMaple.setMapleStatus("00");
-		bgMaple.setOrderNum(String.valueOf(nowTime.getTime()));
 		bgMaple.setEffective("01");
 		bgMaple.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMaple.setCreateTime(nowTime);
 		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMaple.setModifyTime(nowTime);
-		if(MapleStringUtil.isEmpty(bgMaple.getOrderNum())){
-			bgMaple.setOrderNum(String.valueOf(nowTime.getTime()));
-		}
+			
 		bgMapleService.add(bgMaple);
 		resultInfo.setResultCode("success");
 
@@ -181,7 +186,7 @@ public class BgMapleController extends BaseController {
 			return mv; 
 		}
 		
-		List<BgMaple> bgMapleList = bgMapleService.hasCode(bgMaple.getMapleId(), bgMaple.getMapleCode());
+		List<BgMaple> bgMapleList = bgMapleService.hasCode(bgMaple.getMapleId(), bgMaple.getMapleCode());	
 		if(MapleUtil.notEmptyList(bgMapleList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -208,7 +213,7 @@ public class BgMapleController extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<BgMaple> bgMapleList = bgMapleService.hasCode(mapleId, mapleCode);
+		List<BgMaple> bgMapleList = bgMapleService.hasCode(mapleId, mapleCode);	
 		if(MapleUtil.emptyList(bgMapleList)){
 			resultInfo.setResultCode("success");
 		}
@@ -267,20 +272,14 @@ public class BgMapleController extends BaseController {
 		titles.add("代码生成名称");	//2
 		titles.add("代码生成类型");	//3
 		titles.add("代码生成状态");	//4
-		titles.add("代号（大写）");	//5
-		titles.add("控制器包代号");	//6
-		titles.add("实体类包代号");	//7
-		titles.add("控制器中的代号（大写）");	//8
-		titles.add("控制器中的代号（小写）");	//9
-		titles.add("实体类中的代号（大写）");	//10
-		titles.add("实体类中的代号（小写）");	//11
-		titles.add("数据表代号");	//12
-		titles.add("排序编号");	//13
-		titles.add("有效性");	//14
-		titles.add("创建人员id");	//15
-		titles.add("创建时间");	//16
-		titles.add("修改人员id");	//17
-		titles.add("修改时间");	//18
+		titles.add("控制器包代号");	//5
+		titles.add("实体类包代号");	//6
+		titles.add("排序编号");	//7
+		titles.add("有效标志");	//8
+		titles.add("创建人员id");	//9
+		titles.add("创建时间");	//10
+		titles.add("修改人员id");	//11
+		titles.add("修改时间");	//12
 		dataMap.put("titles", titles);
 		List<BgMaple> varOList = bgMapleService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
@@ -292,20 +291,14 @@ public class BgMapleController extends BaseController {
 			vpd.put("var2", varOList.get(i).getMapleName());	//2
 			vpd.put("var3", varOList.get(i).getMapleType());	//3
 			vpd.put("var4", varOList.get(i).getMapleStatus());	//4
-			vpd.put("var5", varOList.get(i).getMapleCodeUpper());	//5
-			vpd.put("var6", varOList.get(i).getControllerPackage());	//6
-			vpd.put("var7", varOList.get(i).getEntityPackage());	//7
-			vpd.put("var8", varOList.get(i).getMapleControllerUpper());	//8
-			vpd.put("var9", varOList.get(i).getMapleControllerLower());	//9
-			vpd.put("var10", varOList.get(i).getMapleEntityUpper());	//10
-			vpd.put("var11", varOList.get(i).getMapleEntityLower());	//11
-			vpd.put("var12", varOList.get(i).getTableCode());	//12
-			vpd.put("var13", varOList.get(i).getOrderNum());	//13
-			vpd.put("var14", varOList.get(i).getEffective());	//14
-			vpd.put("var15", varOList.get(i).getCreateUserId());	//15
-			vpd.put("var16", varOList.get(i).getCreateTime());	//16
-			vpd.put("var17", varOList.get(i).getModifyUserId());	//17
-			vpd.put("var18", varOList.get(i).getModifyTime());	//18
+			vpd.put("var5", varOList.get(i).getControllerPackage());	//5
+			vpd.put("var6", varOList.get(i).getEntityPackage());	//6
+			vpd.put("var7", varOList.get(i).getOrderNum());	//7
+			vpd.put("var8", varOList.get(i).getEffective());	//8
+			vpd.put("var9", varOList.get(i).getCreateUserId());	//9
+			vpd.put("var10", varOList.get(i).getCreateTime());	//10
+			vpd.put("var11", varOList.get(i).getModifyUserId());	//11
+			vpd.put("var12", varOList.get(i).getModifyTime());	//12
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -351,8 +344,8 @@ public class BgMapleController extends BaseController {
 		titles.add("代码生成代号");	//0
 		titles.add("代码生成名称");	//1
 		titles.add("代码生成类型");	//2
-		titles.add("控制器包代号");	//5
-		titles.add("实体类包代号");	//6
+		titles.add("控制器包代号");	//3
+		titles.add("实体类包代号");	//4
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -377,7 +370,6 @@ public class BgMapleController extends BaseController {
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		Date nowTime = new Date();
 		if (null != file && !file.isEmpty()) {
 			mv.addObject(resultInfo);					
 			return mv;
@@ -389,20 +381,14 @@ public class BgMapleController extends BaseController {
 			
 			
 		BgMaple bgMaple = new BgMaple();
+		Date nowTime = new Date();
 		bgMaple.setMapleStatus("00");
-		bgMaple.setMapleCodeUpper("");
-		bgMaple.setMapleControllerUpper("");
-		bgMaple.setMapleControllerLower("");
-		bgMaple.setMapleEntityUpper("");
-		bgMaple.setMapleEntityLower("");
-		bgMaple.setTableCode("");
-		bgMaple.setOrderNum(String.valueOf(nowTime.getTime()));
 		bgMaple.setEffective("01");
 		bgMaple.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMaple.setCreateTime(nowTime);
 		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMaple.setModifyTime(nowTime);
-			
+				
 		/**
 		 * var0 :代码生成代号;	//0
 		 * var1 :代码生成名称;	//1
@@ -417,6 +403,8 @@ public class BgMapleController extends BaseController {
 			bgMaple.setMapleType(listPd.get(i).getString("var2"));
 			bgMaple.setControllerPackage(listPd.get(i).getString("var3"));
 			bgMaple.setEntityPackage(listPd.get(i).getString("var4"));
+			nowTime = new Date();
+			bgMaple.setOrderNum(String.valueOf(nowTime.getTime()));
 			bgMapleService.add(bgMaple);
 		}
 		/*存入数据库操作======================================*/

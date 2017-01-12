@@ -34,6 +34,9 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	/** 是否有此${bgMaple.mapleName} */
 	private boolean has${bgMaple.mapleCodeUpper};
 	
+	/** 修改时间 */
+	private Date lastModifyTime;
+	
 	
 	/**
 	 * 获取 指标
@@ -107,6 +110,39 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 		this.has${bgMaple.mapleCodeUpper} = has${bgMaple.mapleCodeUpper};
 	}
 	
+	/**
+	 * 设置 修改时间
+	 * 
+	 * @param Date lastModifyTime
+	 */
+	public void setLastModifyTime(Date lastModifyTime) {
+		this.lastModifyTime = lastModifyTime;
+	}
+	
+	/**
+	 * 获取 修改时间
+	 * 
+	 * @return Date lastModifyTime
+	 */
+	public Date getLastModifyTime() {
+		return this.lastModifyTime;
+	}	
+		
+	public void setLastModifyTimeStr(String lastModifyTimeStr) throws Exception{
+		lastModifyTimeStr = MapleStringUtil.trim(lastModifyTimeStr);
+		if(!lastModifyTimeStr.equals("")){
+			try{
+				setLastModifyTime(MapleDateUtil.parseDate(lastModifyTimeStr));
+			}catch(java.text.ParseException e){
+				throw new Exception(e);
+			}
+		}
+	}
+
+	public String getLastModifyTimeStr(){
+		return MapleDateUtil.getFormatedDateString(getLastModifyTime());
+	}
+	
 	/**************************custom prop end**********************************/
 	
 	//新增校验分组
@@ -134,7 +170,9 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
-	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = "^[a-z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+		<#elseif bgMapleDetail.mapleDetailCode = "orderNum">
+	@Pattern(regexp = "^[0-9]*$", message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		<#elseif bgMapleDetail.mapleDetailCode = "orderNum">
 	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationEdit.class})
 		<#elseif bgMapleDetail.isEdit = "01">

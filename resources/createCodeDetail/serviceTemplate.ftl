@@ -11,6 +11,13 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BgMapleDetail> listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) throws Exception ;
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

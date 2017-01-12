@@ -34,6 +34,7 @@
 							
 						<!-- 检索  -->
 						<form action="${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do" method="post" name="${bgMaple.mapleCode}Form" id="${bgMaple.mapleCode}Form">
+						<input type="hidden" name="${bgMaple.mapleCode ?replace('Detail','')}Id" id="${bgMaple.mapleCode ?replace('Detail','')}Id" value="${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -87,7 +88,7 @@
 										<#if bgMapleDetail.mapleDetailType == "05">
 											<td class='center'><param:display type="bg_${bgMaple.mapleCode}Type" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/></td>
 										<#else>
-											<td class='center'><#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ><a href="javascript:toSub('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')"></#if>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ></a></#if></td>
+											<td class='center'><#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ><a href="javascript:toDetail('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')"></#if>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ></a></#if></td>
 										</#if>
 										</#if>
 										</#list>
@@ -226,11 +227,11 @@
 			});
 		});
 		
-		//去此ID下子菜单列表
-		function toSub(parentId){
+		//去此ID下详情页面
+		function toDetail(${bgMaple.mapleCode}Id){
 			top.jzts();
-			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?pId="+parentId;
-		};
+			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id;
+		}
 		
 		//新增
 		function toAdd(){
@@ -238,7 +239,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do";
+			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?${bgMaple.mapleCode ?replace('Detail','')}Id=${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}";
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -351,7 +352,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do';
+			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?pId=${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

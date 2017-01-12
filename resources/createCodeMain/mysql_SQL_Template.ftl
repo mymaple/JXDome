@@ -11,13 +11,13 @@ CREATE TABLE `${bgMaple.tableCode}` (
 			NOT NULL COMMENT '上级 id',
 	<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
-	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.length})
+	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.totalLength})
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
-	`${bgMapleDetail.mapleDetailCode}` int(${bgMapleDetail.length})
+	`${bgMapleDetail.mapleDetailCode}` int(${bgMapleDetail.totalLength})
 		<#elseif bgMapleDetail.mapleDetailType == '03'>
 	`${bgMapleDetail.mapleDetailCode}` datetime
 		<#elseif bgMapleDetail.mapleDetailType == '04'>
-	`${bgMapleDetail.mapleDetailCode}` double(${bgMapleDetail.length},${bgMapleDetail.decimalLength})
+	`${bgMapleDetail.mapleDetailCode}` double(${bgMapleDetail.totalLength},${bgMapleDetail.decimalLength})
 		</#if>
 			<#if bgMapleDetail.isNull == '00'> NOT NULL <#else> DEFAULT NULL </#if> COMMENT '${bgMapleDetail.mapleDetailName}', 
 	</#list>

@@ -34,19 +34,19 @@
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
-								<td align="center"><param:display type="bg_mapleDetailType" name="mapleId" id="mapleId" value="${bgMapleDetail.mapleId}" hidden="true"/></td>
+								<td align="center"><param:display type="bg_mapleDetailType" name="mapleId" id="mapleId" value="${bgMapleDetail.mapleId }" hidden="true"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详细代号:</td>
-								<td><input type="text" name="mapleDetailCode" id="mapleDetailCode" value="${bgMapleDetail.mapleDetailCode}" maxlength="100" placeholder="这里输入 代码生成详细代号" title="代码生成详细代号" style="width:98%;" onblur="hasCode()"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情代号:</td>
+								<td><input type="text" name="mapleDetailCode" id="mapleDetailCode" value="${bgMapleDetail.mapleDetailCode}" maxlength="100" placeholder="这里输入 代码生成详情代号" title="代码生成详情代号" style="width:98%;" onblur="hasCode()"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详细名称:</td>
-								<td><input type="text" name="mapleDetailName" id="mapleDetailName" value="${bgMapleDetail.mapleDetailName}" maxlength="100" placeholder="这里输入 代码生成详细名称" title="代码生成详细名称" style="width:98%;" /></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情名称:</td>
+								<td><input type="text" name="mapleDetailName" id="mapleDetailName" value="${bgMapleDetail.mapleDetailName}" maxlength="100" placeholder="这里输入 代码生成详情名称" title="代码生成详情名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详细类型:</td>
-								<td><param:select type="bg_mapleDetailType" name="mapleDetailType" id="mapleDetailType" value="${bgMapleDetail.mapleDetailType}" placeholder="这里请选择 代码生成详细类型" title="代码生成详细类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情类型:</td>
+								<td><param:select type="bg_mapleDetailType" name="mapleDetailType" id="mapleDetailType" value="${bgMapleDetail.mapleDetailType}" placeholder="这里请选择 代码生成详情类型" title="代码生成详情类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">总长度:</td>
@@ -61,6 +61,10 @@
 								<td><input type="text" name="typeCode" id="typeCode" value="${bgMapleDetail.typeCode}" maxlength="100" placeholder="这里输入 类型代号" title="类型代号" style="width:98%;" /></td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">是否主键:</td>
+								<td><input type="text" name="isKey" id="isKey" value="${bgMapleDetail.isKey}" maxlength="100" placeholder="这里输入 是否主键" title="是否主键" style="width:98%;" /></td>
+							</tr>
+							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">是否录入:</td>
 								<td><input type="text" name="isEdit" id="isEdit" value="${bgMapleDetail.isEdit}" maxlength="100" placeholder="这里输入 是否录入" title="是否录入" style="width:98%;" /></td>
 							</tr>
@@ -69,12 +73,12 @@
 								<td><input type="text" name="isNull" id="isNull" value="${bgMapleDetail.isNull}" maxlength="100" placeholder="这里输入 是否null" title="是否null" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">是否主键:</td>
-								<td><input type="text" name="isKey" id="isKey" value="${bgMapleDetail.isKey}" maxlength="100" placeholder="这里输入 是否主键" title="是否主键" style="width:98%;" /></td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">默认值:</td>
 								<td><input type="text" name="defaultValue" id="defaultValue" value="${bgMapleDetail.defaultValue}" maxlength="100" placeholder="这里输入 默认值" title="默认值" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${bgMapleDetail.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -114,14 +118,15 @@
 		
 		//判断mapleDetailCode是否存在
 		function hasCode(){
-			var mapleDetailId = $("#mapleDetailId").val();
 			var mapleDetailCode = $("#mapleDetailCode").val();
+			if(mapleDetailCode == "") return false;
+			var mapleDetailId = $("#mapleDetailId").val();
 			var url = "<%=basePath%>background/mapleDetail/hasCode.do?mapleDetailId="+mapleDetailId+"&mapleDetailCode="+mapleDetailCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#mapleDetailCode").tips({
 						side:3,
-			            msg:'代码生成详细代号 已存在',
+			            msg:'代码生成详情代号 已存在',
 			            bg:'#AE81FF',
 			            time:2
 			        });
@@ -137,7 +142,7 @@
 			if(!codeExp.test($("#mapleDetailCode").val())){
 				$("#mapleDetailCode").tips({
 					side:3,
-		            msg:'请输入代码生成详细代号 需以小写字母开头的字母数字',
+		            msg:'请输入代码生成详情代号 需以小写字母开头的字母数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -147,7 +152,7 @@
 			if($("#mapleDetailName").val()==""){
 				$("#mapleDetailName").tips({
 					side:3,
-		            msg:'请输入代码生成详细名称',
+		            msg:'请输入代码生成详情名称',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -157,7 +162,7 @@
 			if($("#mapleDetailType").val()==""){
 				$("#mapleDetailType").next().tips({
 					side:3,
-		            msg:'请选择 代码生成详细类型',
+		            msg:'请选择 代码生成详情类型',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -192,7 +197,17 @@
 		        });
 				$("#typeCode").focus();
 			return false;
-			} */
+			}
+			if($("#isKey").val()==""){
+				$("#isKey").tips({
+					side:3,
+		            msg:'请输入是否主键',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#isKey").focus();
+			return false;
+			}
 			if($("#isEdit").val()==""){
 				$("#isEdit").tips({
 					side:3,
@@ -213,17 +228,7 @@
 				$("#isNull").focus();
 			return false;
 			}
-			if($("#isKey").val()==""){
-				$("#isKey").tips({
-					side:3,
-		            msg:'请输入是否主键',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#isKey").focus();
-			return false;
-			}
-			/* if($("#defaultValue").val()==""){
+			if($("#defaultValue").val()==""){
 				$("#defaultValue").tips({
 					side:3,
 		            msg:'请输入默认值',
@@ -233,8 +238,16 @@
 				$("#defaultValue").focus();
 			return false;
 			} */
-		if("${methodPath }" == "edit"){
-		}
+			if($("#orderNum").val()==""){
+				$("#orderNum").tips({
+					side:3,
+		            msg:'请输入排序编号',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#orderNum").focus();
+			return false;
+			}
 			$("#mapleDetailForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

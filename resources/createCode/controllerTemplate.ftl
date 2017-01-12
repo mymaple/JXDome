@@ -324,9 +324,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
+<#assign iii = 0 >
 <#list bgMapleDetailList as bgMapleDetail>
-	<#if bgMapleDetail.isEdit == '01'>	
-		titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index}
+	<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.MapleDetailName != "orderNum">	
+		titles.add("${bgMapleDetail.mapleDetailName}");	//#{iii}
+		<#assign iii=iii+1 />
 	</#if>
 </#list>
 		dataMap.put("titles", titles);
@@ -353,7 +355,6 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		Date nowTime = new Date();
 		if (null != file && !file.isEmpty()) {
 			mv.addObject(resultInfo);					
 			return mv;
@@ -365,24 +366,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			
 			
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-		<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isEdit == '00'>
-			<#if bgMapleDetail.mapleDetailType == '01'|| bgMapleDetail.mapleDetailType == '05'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '02'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '03'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '04'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
-			</#if>
-			</#if>
-		</#list>
 			
 		/**
 		<#assign iii = 0 >
 		<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isEdit == '01'>	
+			<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.MapleDetailName != "orderNum">
 		 * var#{iii} :${bgMapleDetail.mapleDetailName};	//#{iii}
 			<#assign iii=iii+1 />
 			</#if>
@@ -392,11 +380,27 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 			<#assign iii = 0 >
 			<#list bgMapleDetailList as bgMapleDetail>
-				<#if bgMapleDetail.isEdit == '01'>
+				<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.MapleDetailName != "orderNum">	
 			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(listPd.get(i).getString("var#{iii}"));
 				<#assign iii=iii+1 />
 				</#if>
 			</#list>
+			
+			Date nowTime = new Date();
+			<#list bgMapleDetailList as bgMapleDetail>
+				<#if bgMapleDetail.isEdit != '01' && bgMapleDetail.MapleDetailName == "orderNum">	
+			<#if bgMapleDetail.mapleDetailType == '01'|| bgMapleDetail.mapleDetailType == '05'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '02'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '03'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '04'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+				</#if>
+			</#if>
+			</#list>
+			
 			${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
 		}
 		/*存入数据库操作======================================*/

@@ -2,7 +2,6 @@ package com.jx.background.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
@@ -21,6 +20,170 @@ public class BgMaple implements Serializable {
 	
 	
 	/**************************custom prop satrt********************************/
+	
+	/** 代号（大写） */
+	private String mapleCodeUpper;
+	
+	/** 控制器中的代号（大写） */
+	private String mapleControllerUpper;
+		
+	/** 控制器中的代号（小写） */
+	private String mapleControllerLower;
+		
+	/** 实体类中的代号（大写） */
+	private String mapleEntityUpper;
+		
+	/** 实体类中的代号（小写） */
+	private String mapleEntityLower;
+		
+	/** 数据表代号 */
+	private String tableCode;
+		
+	/** 上次修改时间 */
+	private Date lastModifyTime;
+	
+	
+	/**
+	 * 设置 代号（大写）
+	 * 
+	 * @param String mapleCodeUpper
+	 */
+	public void setMapleCodeUpper(String mapleCodeUpper) {
+		this.mapleCodeUpper = MapleStringUtil.trim(mapleCodeUpper);
+	}
+	
+	/**
+	 * 获取 代号（大写）
+	 * 
+	 * @return String mapleCodeUpper
+	 */
+	public String getMapleCodeUpper() {
+		return this.mapleCodeUpper;
+	}
+	
+
+	/**
+	 * 设置 控制器中的代号（大写）
+	 * 
+	 * @param String mapleControllerUpper
+	 */
+	public void setMapleControllerUpper(String mapleControllerUpper) {
+		this.mapleControllerUpper = MapleStringUtil.trim(mapleControllerUpper);
+	}
+	
+	/**
+	 * 获取 控制器中的代号（大写）
+	 * 
+	 * @return String mapleControllerUpper
+	 */
+	public String getMapleControllerUpper() {
+		return this.mapleControllerUpper;
+	}
+	
+	/**
+	 * 设置 控制器中的代号（小写）
+	 * 
+	 * @param String mapleControllerLower
+	 */
+	public void setMapleControllerLower(String mapleControllerLower) {
+		this.mapleControllerLower = MapleStringUtil.trim(mapleControllerLower);
+	}
+	
+	/**
+	 * 获取 控制器中的代号（小写）
+	 * 
+	 * @return String mapleControllerLower
+	 */
+	public String getMapleControllerLower() {
+		return this.mapleControllerLower;
+	}
+	
+	/**
+	 * 设置 实体类中的代号（大写）
+	 * 
+	 * @param String mapleEntityUpper
+	 */
+	public void setMapleEntityUpper(String mapleEntityUpper) {
+		this.mapleEntityUpper = MapleStringUtil.trim(mapleEntityUpper);
+	}
+	
+	/**
+	 * 获取 实体类中的代号（大写）
+	 * 
+	 * @return String mapleEntityUpper
+	 */
+	public String getMapleEntityUpper() {
+		return this.mapleEntityUpper;
+	}
+	
+	/**
+	 * 设置 实体类中的代号（小写）
+	 * 
+	 * @param String mapleEntityLower
+	 */
+	public void setMapleEntityLower(String mapleEntityLower) {
+		this.mapleEntityLower = MapleStringUtil.trim(mapleEntityLower);
+	}
+	
+	/**
+	 * 获取 实体类中的代号（小写）
+	 * 
+	 * @return String mapleEntityLower
+	 */
+	public String getMapleEntityLower() {
+		return this.mapleEntityLower;
+	}
+	
+	/**
+	 * 设置 数据表代号
+	 * 
+	 * @param String tableCode
+	 */
+	public void setTableCode(String tableCode) {
+		this.tableCode = MapleStringUtil.trim(tableCode);
+	}
+	
+	/**
+	 * 获取 数据表代号
+	 * 
+	 * @return String tableCode
+	 */
+	public String getTableCode() {
+		return this.tableCode;
+	}
+	
+	/**
+	 * 设置 修改时间
+	 * 
+	 * @param Date lastModifyTime
+	 */
+	public void setLastModifyTime(Date lastModifyTime) {
+		this.lastModifyTime = lastModifyTime;
+	}
+	
+	/**
+	 * 获取 修改时间
+	 * 
+	 * @return Date lastModifyTime
+	 */
+	public Date getLastModifyTime() {
+		return this.lastModifyTime;
+	}	
+		
+	public void setLastModifyTimeStr(String lastModifyTimeStr) throws Exception{
+		lastModifyTimeStr = MapleStringUtil.trim(lastModifyTimeStr);
+		if(!lastModifyTimeStr.equals("")){
+			try{
+				setLastModifyTime(MapleDateUtil.parseDate(lastModifyTimeStr));
+			}catch(java.text.ParseException e){
+				throw new Exception(e);
+			}
+		}
+	}
+
+	public String getLastModifyTimeStr(){
+		return MapleDateUtil.getFormatedDateString(getLastModifyTime());
+	}	
 	
 	/**************************custom prop end**********************************/
 	
@@ -57,9 +220,6 @@ public class BgMaple implements Serializable {
 	/** 代码生成状态 */
 	private String mapleStatus;
 		
-	/** 代号（大写） */
-	private String mapleCodeUpper;
-		
 	/** 控制器包代号 */
 	@NotEmpty(message="控制器包代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String controllerPackage;
@@ -68,23 +228,8 @@ public class BgMaple implements Serializable {
 	@NotEmpty(message="实体类包代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String entityPackage;
 		
-	/** 控制器中的代号（大写） */
-	private String mapleControllerUpper;
-		
-	/** 控制器中的代号（小写） */
-	private String mapleControllerLower;
-		
-	/** 实体类中的代号（大写） */
-	private String mapleEntityUpper;
-		
-	/** 实体类中的代号（小写） */
-	private String mapleEntityLower;
-		
-	/** 数据表代号 */
-	private String tableCode;
-		
 	/** 排序编号 */
-	@NotEmpty(message="排序编号 不能为空", groups={ValidationEdit.class})
+	@NotEmpty(message="排序编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String orderNum;
 		
 	/** 有效性 */
@@ -195,24 +340,6 @@ public class BgMaple implements Serializable {
 	}
 	
 	/**
-	 * 设置 代号（大写）
-	 * 
-	 * @param String mapleCodeUpper
-	 */
-	public void setMapleCodeUpper(String mapleCodeUpper) {
-		this.mapleCodeUpper = MapleStringUtil.trim(mapleCodeUpper);
-	}
-	
-	/**
-	 * 获取 代号（大写）
-	 * 
-	 * @return String mapleCodeUpper
-	 */
-	public String getMapleCodeUpper() {
-		return this.mapleCodeUpper;
-	}
-	
-	/**
 	 * 设置 控制器包代号
 	 * 
 	 * @param String controllerPackage
@@ -246,96 +373,6 @@ public class BgMaple implements Serializable {
 	 */
 	public String getEntityPackage() {
 		return this.entityPackage;
-	}
-	
-	/**
-	 * 设置 控制器中的代号（大写）
-	 * 
-	 * @param String mapleControllerUpper
-	 */
-	public void setMapleControllerUpper(String mapleControllerUpper) {
-		this.mapleControllerUpper = MapleStringUtil.trim(mapleControllerUpper);
-	}
-	
-	/**
-	 * 获取 控制器中的代号（大写）
-	 * 
-	 * @return String mapleControllerUpper
-	 */
-	public String getMapleControllerUpper() {
-		return this.mapleControllerUpper;
-	}
-	
-	/**
-	 * 设置 控制器中的代号（小写）
-	 * 
-	 * @param String mapleControllerLower
-	 */
-	public void setMapleControllerLower(String mapleControllerLower) {
-		this.mapleControllerLower = MapleStringUtil.trim(mapleControllerLower);
-	}
-	
-	/**
-	 * 获取 控制器中的代号（小写）
-	 * 
-	 * @return String mapleControllerLower
-	 */
-	public String getMapleControllerLower() {
-		return this.mapleControllerLower;
-	}
-	
-	/**
-	 * 设置 实体类中的代号（大写）
-	 * 
-	 * @param String mapleEntityUpper
-	 */
-	public void setMapleEntityUpper(String mapleEntityUpper) {
-		this.mapleEntityUpper = MapleStringUtil.trim(mapleEntityUpper);
-	}
-	
-	/**
-	 * 获取 实体类中的代号（大写）
-	 * 
-	 * @return String mapleEntityUpper
-	 */
-	public String getMapleEntityUpper() {
-		return this.mapleEntityUpper;
-	}
-	
-	/**
-	 * 设置 实体类中的代号（小写）
-	 * 
-	 * @param String mapleEntityLower
-	 */
-	public void setMapleEntityLower(String mapleEntityLower) {
-		this.mapleEntityLower = MapleStringUtil.trim(mapleEntityLower);
-	}
-	
-	/**
-	 * 获取 实体类中的代号（小写）
-	 * 
-	 * @return String mapleEntityLower
-	 */
-	public String getMapleEntityLower() {
-		return this.mapleEntityLower;
-	}
-	
-	/**
-	 * 设置 数据表代号
-	 * 
-	 * @param String tableCode
-	 */
-	public void setTableCode(String tableCode) {
-		this.tableCode = MapleStringUtil.trim(tableCode);
-	}
-	
-	/**
-	 * 获取 数据表代号
-	 * 
-	 * @return String tableCode
-	 */
-	public String getTableCode() {
-		return this.tableCode;
 	}
 	
 	/**

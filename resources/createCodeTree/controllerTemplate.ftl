@@ -137,8 +137,21 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		}
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
 		${bgMaple.mapleEntityLower}.setParentId(parentId);
-		mv.addObject("methodPath", "add");
+		<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.isEdit == '01'>
+			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '02'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '03'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '04'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+			</#if>
+			</#if>
+		</#list>
 		mv.addObject(${bgMaple.mapleEntityLower});
+		mv.addObject("methodPath", "add");
 		resultInfo.setResultCode("success");
 		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
 			
@@ -361,15 +374,15 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
-		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
+		String pId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
 			
-		ComDict parentComDict = comDictService.findById(parentId);
-		if(!"0".equals(parentId) && parentComDict==null){
+		${bgMaple.mapleEntityUpper} parent${bgMaple.mapleEntityUpper} = ${bgMaple.mapleEntityLower}Service.findById(pId);
+		if(!"0".equals(pId) && parent${bgMaple.mapleEntityUpper}==null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
 			
-		mv.addObject("parentId",parentId);
+		mv.addObject("pId",pId);
 		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
 		mv.setViewName("background/bgUploadExcel");
 
@@ -390,9 +403,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
+<#assign iii = 0 >
 <#list bgMapleDetailList as bgMapleDetail>
-	<#if bgMapleDetail.isEdit == '01'>	
-		titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index}
+	<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.MapleDetailName != "orderNum">	
+		titles.add("${bgMapleDetail.mapleDetailName}");	//#{iii}
+		<#assign iii=iii+1 />
 	</#if>
 </#list>
 		dataMap.put("titles", titles);
@@ -416,16 +431,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			@RequestParam(value="excel",required=false) MultipartFile file
 			) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
+		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		Date nowTime = new Date();
-		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
-		${bgMaple.mapleEntityUpper} parent${bgMaple.mapleEntityUpper} = ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);
-		if(!"0".equals(parentId) && parent${bgMaple.mapleEntityUpper}==null){
-			mv.addObject(resultInfo);					
-			return mv;
-		}
 		if (null != file && !file.isEmpty()) {
 			mv.addObject(resultInfo);					
 			return mv;
@@ -435,27 +443,14 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
 			
-			
+		String pId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id	
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-		${bgMaple.mapleEntityLower}.setParentId(parentId);
-		<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isEdit == '00'>
-			<#if bgMapleDetail.mapleDetailType == '01'|| bgMapleDetail.mapleDetailType == '05'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '02'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '03'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '04'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
-			</#if>
-			</#if>
-		</#list>
+		${bgMaple.mapleEntityLower}.setParentId(pId);
 			
 		/**
 		<#assign iii = 0 >
 		<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isEdit == '01'>	
+			<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.MapleDetailName != "orderNum">
 		 * var#{iii} :${bgMapleDetail.mapleDetailName};	//#{iii}
 			<#assign iii=iii+1 />
 			</#if>
@@ -465,11 +460,27 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 			<#assign iii = 0 >
 			<#list bgMapleDetailList as bgMapleDetail>
-				<#if bgMapleDetail.isEdit == '01'>
+				<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.MapleDetailName != "orderNum">	
 			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(listPd.get(i).getString("var#{iii}"));
 				<#assign iii=iii+1 />
 				</#if>
 			</#list>
+			
+			Date nowTime = new Date();
+			<#list bgMapleDetailList as bgMapleDetail>
+				<#if bgMapleDetail.isEdit != '01' && bgMapleDetail.MapleDetailName == "orderNum">	
+			<#if bgMapleDetail.mapleDetailType == '01'|| bgMapleDetail.mapleDetailType == '05'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '02'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '03'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '04'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+				</#if>
+			</#if>
+			</#list>
+			
 			${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
 		}
 		/*存入数据库操作======================================*/

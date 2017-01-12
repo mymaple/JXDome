@@ -71,8 +71,8 @@ public class BgMapleDetailController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
-		String mapleId = pd.getString("mapleId");
-		
+		String mapleId = pd.getString("mapleId");								//代码生成 id 
+
 		String keywords = pd.getString("keywords");								//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
@@ -80,9 +80,9 @@ public class BgMapleDetailController extends BaseController {
 			
 		bgPage.setPd(pd);
 		List<PageData>	bgMapleDetailList = bgMapleDetailService.listPage(bgPage);	//列出bgMapleDetail列表
-		
+			
 		mv.addObject("bgMapleDetailList", bgMapleDetailList);
-		mv.addObject("bgMaple", bgMapleService.findById(mapleId));
+		mv.addObject("bgMaple", bgMapleService.findById(mapleId ));
 		mv.addObject("pd", pd);
 		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
 		resultInfo.setResultCode("success");
@@ -102,6 +102,7 @@ public class BgMapleDetailController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
+		Date nowTime = new Date();
 		String mapleId = pd.getString("mapleId");
 		if(bgMapleService.findById(mapleId) == null){
 			mv.addObject(resultInfo);					
@@ -109,6 +110,19 @@ public class BgMapleDetailController extends BaseController {
 		}
 		BgMapleDetail bgMapleDetail = new BgMapleDetail();
 		bgMapleDetail.setMapleId(mapleId);
+		
+		bgMapleDetail.setMapleDetailCode("");
+		bgMapleDetail.setMapleDetailName("");
+		bgMapleDetail.setMapleDetailType("01");
+		bgMapleDetail.setTotalLength("100");
+		bgMapleDetail.setDecimalLength("");
+		bgMapleDetail.setTypeCode("");
+		bgMapleDetail.setIsKey("00");
+		bgMapleDetail.setIsEdit("01");
+		bgMapleDetail.setIsNull("01");
+		bgMapleDetail.setDefaultValue("");
+		bgMapleDetail.setOrderNum(String.valueOf(nowTime.getTime()));
+		
 		mv.addObject(bgMapleDetail);
 		mv.addObject("methodPath", "add");
 		resultInfo.setResultCode("success");
@@ -140,7 +154,7 @@ public class BgMapleDetailController extends BaseController {
 			return mv;
 		}
 		
-		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.hasCode("", bgMapleDetail.getMapleDetailCode());	
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.hasCode("", bgMapleDetail.getMapleDetailCode());
 		if(MapleUtil.notEmptyList(bgMapleDetailList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -287,26 +301,25 @@ public class BgMapleDetailController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("代码生成详细 主键id");
-		titles.add("代码生成详细代号");	//1
-		titles.add("代码生成详细名称");	//2
-		titles.add("代码生成详细类型");	//3
-		titles.add("代码生成详细状态");	//4
-		titles.add("代码生成详情代号（大写）");	//5
-		titles.add("代码生成id");	//6
-		titles.add("总长度");	//7
-		titles.add("小数长度");	//8
-		titles.add("类型代号");	//9
+		titles.add("代码生成详情 主键id");
+		titles.add("代码生成 id");
+		titles.add("代码生成详情代号");	//2
+		titles.add("代码生成详情名称");	//3
+		titles.add("代码生成详情类型");	//4
+		titles.add("代码生成详情状态");	//5
+		titles.add("总长度");	//6
+		titles.add("小数长度");	//7
+		titles.add("类型代号");	//8
+		titles.add("是否主键");	//9
 		titles.add("是否录入");	//10
 		titles.add("是否null");	//11
-		titles.add("是否主键");	//12
-		titles.add("默认值");	//13
-		titles.add("排序编号");	//14
-		titles.add("有效性");	//15
-		titles.add("创建人员id");	//16
-		titles.add("创建时间");	//17
-		titles.add("修改人员id");	//18
-		titles.add("修改时间");	//19
+		titles.add("默认值");	//12
+		titles.add("排序编号");	//13
+		titles.add("有效标志");	//14
+		titles.add("创建人员id");	//15
+		titles.add("创建时间");	//16
+		titles.add("修改人员id");	//17
+		titles.add("修改时间");	//18
 		dataMap.put("titles", titles);
 		List<BgMapleDetail> varOList = bgMapleDetailService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
@@ -314,25 +327,24 @@ public class BgMapleDetailController extends BaseController {
 			PageData vpd = new PageData();
 				
 			vpd.put("var0",varOList.get(i).getMapleDetailId());
-			vpd.put("var1", varOList.get(i).getMapleDetailCode());	//1
-			vpd.put("var2", varOList.get(i).getMapleDetailName());	//2
-			vpd.put("var3", varOList.get(i).getMapleDetailType());	//3
-			vpd.put("var4", varOList.get(i).getMapleDetailStatus());	//4
-			vpd.put("var5", varOList.get(i).getMapleDetailCodeUpper());	//5
-			vpd.put("var6", varOList.get(i).getMapleId());	//6
-			vpd.put("var7", varOList.get(i).getTotalLength());	//7
-			vpd.put("var8", varOList.get(i).getDecimalLength());	//8
-			vpd.put("var9", varOList.get(i).getTypeCode());	//9
+			vpd.put("var1",varOList.get(i).getMapleId());
+			vpd.put("var2", varOList.get(i).getMapleDetailCode());	//2
+			vpd.put("var3", varOList.get(i).getMapleDetailName());	//3
+			vpd.put("var4", varOList.get(i).getMapleDetailType());	//4
+			vpd.put("var5", varOList.get(i).getMapleDetailStatus());	//5
+			vpd.put("var6", varOList.get(i).getTotalLength());	//6
+			vpd.put("var7", varOList.get(i).getDecimalLength());	//7
+			vpd.put("var8", varOList.get(i).getTypeCode());	//8
+			vpd.put("var9", varOList.get(i).getIsKey());	//9
 			vpd.put("var10", varOList.get(i).getIsEdit());	//10
 			vpd.put("var11", varOList.get(i).getIsNull());	//11
-			vpd.put("var12", varOList.get(i).getIsKey());	//12
-			vpd.put("var13", varOList.get(i).getDefaultValue());	//13
-			vpd.put("var14", varOList.get(i).getOrderNum());	//14
-			vpd.put("var15", varOList.get(i).getEffective());	//15
-			vpd.put("var16", varOList.get(i).getCreateUserId());	//16
-			vpd.put("var17", varOList.get(i).getCreateTime());	//17
-			vpd.put("var18", varOList.get(i).getModifyUserId());	//18
-			vpd.put("var19", varOList.get(i).getModifyTime());	//19
+			vpd.put("var12", varOList.get(i).getDefaultValue());	//12
+			vpd.put("var13", varOList.get(i).getOrderNum());	//13
+			vpd.put("var14", varOList.get(i).getEffective());	//14
+			vpd.put("var15", varOList.get(i).getCreateUserId());	//15
+			vpd.put("var16", varOList.get(i).getCreateTime());	//16
+			vpd.put("var17", varOList.get(i).getModifyUserId());	//17
+			vpd.put("var18", varOList.get(i).getModifyTime());	//18
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -351,10 +363,18 @@ public class BgMapleDetailController extends BaseController {
 	@RequestMapping(value="/toUploadExcel")
 	public ModelAndView toUploadExcel()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		//PageData pd = this.getPageData();
+		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
+		String pId = pd.getString("pId");//上级id
+				
+		if(bgMapleService.findById(pId) == null){
+			mv.addObject(resultInfo);					
+			return mv;
+		}	
+			
+		mv.addObject("pId",pId);
 		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
 		mv.setViewName("background/bgUploadExcel");
 
@@ -375,16 +395,16 @@ public class BgMapleDetailController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("代码生成详细代号");	//0
-		titles.add("代码生成详细名称");	//1
-		titles.add("代码生成详细类型");	//2
-		titles.add("总长度");	//6
-		titles.add("小数长度");	//7
-		titles.add("类型代号");	//8
-		titles.add("是否录入");	//9
-		titles.add("是否null");	//10
-		titles.add("是否主键");	//11
-		titles.add("默认值");	//12
+		titles.add("代码生成详情代号");	//0
+		titles.add("代码生成详情名称");	//1
+		titles.add("代码生成详情类型");	//2
+		titles.add("总长度");	//3
+		titles.add("小数长度");	//4
+		titles.add("类型代号");	//5
+		titles.add("是否主键");	//6
+		titles.add("是否录入");	//7
+		titles.add("是否null");	//8
+		titles.add("默认值");	//9
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -406,10 +426,9 @@ public class BgMapleDetailController extends BaseController {
 			@RequestParam(value="excel",required=false) MultipartFile file
 			) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		//PageData pd = this.getPageData();
+		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		Date nowTime = new Date();
 		if (null != file && !file.isEmpty()) {
 			mv.addObject(resultInfo);					
 			return mv;
@@ -419,28 +438,27 @@ public class BgMapleDetailController extends BaseController {
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
 			
-			
+		String mapleId = pd.getString("pId");//上级id	
 		BgMapleDetail bgMapleDetail = new BgMapleDetail();
+		bgMapleDetail.setMapleId(mapleId);
+		Date nowTime = new Date();
 		bgMapleDetail.setMapleDetailStatus("00");
-		bgMapleDetail.setMapleDetailCodeUpper("");
-		bgMapleDetail.setMapleId("");
-		bgMapleDetail.setOrderNum(String.valueOf(nowTime.getTime()));
 		bgMapleDetail.setEffective("01");
 		bgMapleDetail.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMapleDetail.setCreateTime(nowTime);
 		bgMapleDetail.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMapleDetail.setModifyTime(nowTime);
-			
+				
 		/**
-		 * var0 :代码生成详细代号;	//0
-		 * var1 :代码生成详细名称;	//1
-		 * var2 :代码生成详细类型;	//2
+		 * var0 :代码生成详情代号;	//0
+		 * var1 :代码生成详情名称;	//1
+		 * var2 :代码生成详情类型;	//2
 		 * var3 :总长度;	//3
 		 * var4 :小数长度;	//4
 		 * var5 :类型代号;	//5
-		 * var6 :是否录入;	//6
-		 * var7 :是否null;	//7
-		 * var8 :是否主键;	//8
+		 * var6 :是否主键;	//6
+		 * var7 :是否录入;	//7
+		 * var8 :是否null;	//8
 		 * var9 :默认值;	//9
 		 */
 		for(int i=0;i<listPd.size();i++){	
@@ -451,10 +469,13 @@ public class BgMapleDetailController extends BaseController {
 			bgMapleDetail.setTotalLength(listPd.get(i).getString("var3"));
 			bgMapleDetail.setDecimalLength(listPd.get(i).getString("var4"));
 			bgMapleDetail.setTypeCode(listPd.get(i).getString("var5"));
-			bgMapleDetail.setIsEdit(listPd.get(i).getString("var6"));
-			bgMapleDetail.setIsNull(listPd.get(i).getString("var7"));
-			bgMapleDetail.setIsKey(listPd.get(i).getString("var8"));
+			bgMapleDetail.setIsKey(listPd.get(i).getString("var6"));
+			bgMapleDetail.setIsEdit(listPd.get(i).getString("var7"));
+			bgMapleDetail.setIsNull(listPd.get(i).getString("var8"));
 			bgMapleDetail.setDefaultValue(listPd.get(i).getString("var9"));
+			nowTime = new Date();
+			bgMapleDetail.setOrderNum(String.valueOf(nowTime.getTime()));
+			
 			bgMapleDetailService.add(bgMapleDetail);
 		}
 		/*存入数据库操作======================================*/
@@ -489,6 +510,7 @@ public class BgMapleDetailController extends BaseController {
 		}else if("03".equals(bgMaple.getMapleType())){
 			tableCode += "_main";
 		}else if("04".equals(bgMaple.getMapleType())){
+			tableCode = tableCode.split("Detail")[0];
 			tableCode += "_detail";
 		}
 		bgMaple.setTableCode(tableCode);
@@ -498,7 +520,7 @@ public class BgMapleDetailController extends BaseController {
 		List<BgMapleDetail>	bgMapleDetailList = bgMapleDetailService.listByMapleId(mapleId);
 		List<BgMapleDetail> bgMapleDetailKeyList = new ArrayList<BgMapleDetail>();
 		for(int i = 0;i<bgMapleDetailList.size();i++){
-			bgMapleDetailKeyList.get(i).setMapleDetailCodeUpper(MapleStringUtil.firstToUpper(bgMapleDetailKeyList.get(i).getMapleDetailCode()));
+			bgMapleDetailList.get(i).setMapleDetailCodeUpper(MapleStringUtil.firstToUpper(bgMapleDetailList.get(i).getMapleDetailCode()));
 			if("01".equals(bgMapleDetailList.get(i).getIsKey()))
 				bgMapleDetailKeyList.add(bgMapleDetailList.get(i));
 		}

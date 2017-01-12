@@ -21,6 +21,17 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	
 	/****************************custom * start***********************************/
 	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BgMapleDetail> listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) throws Exception {
+		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
+		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(${bgMaple.mapleCode ?replace('Detail','')}Id);
+		return this.has(${bgMaple.mapleEntityLower});
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

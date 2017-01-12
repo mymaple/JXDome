@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMapleMapper">
 
-	<sql id="mapleColumns">mapleId,mapleCode,mapleName,mapleType,mapleStatus,mapleCodeUpper,controllerPackage,entityPackage,mapleControllerUpper,mapleControllerLower,mapleEntityUpper,mapleEntityLower,tableCode,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleColumns">mapleId,mapleCode,mapleName,mapleType,mapleStatus,controllerPackage,entityPackage,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="mapleTable">bg_maple_main</sql>
 	
 	<resultMap type="bgMaple" id="bgMapleResultMap">
@@ -12,14 +12,8 @@
 		<result column="mapleName" property="mapleName"/>
 		<result column="mapleType" property="mapleType"/>
 		<result column="mapleStatus" property="mapleStatus"/>
-		<result column="mapleCodeUpper" property="mapleCodeUpper"/>
 		<result column="controllerPackage" property="controllerPackage"/>
 		<result column="entityPackage" property="entityPackage"/>
-		<result column="mapleControllerUpper" property="mapleControllerUpper"/>
-		<result column="mapleControllerLower" property="mapleControllerLower"/>
-		<result column="mapleEntityUpper" property="mapleEntityUpper"/>
-		<result column="mapleEntityLower" property="mapleEntityLower"/>
-		<result column="tableCode" property="tableCode"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
@@ -42,7 +36,7 @@
 		( 
 	<include refid="mapleColumns"/>
 		) values (
-			#{mapleId},#{mapleCode},#{mapleName},#{mapleType},#{mapleStatus},#{mapleCodeUpper},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleId},#{mapleCode},#{mapleName},#{mapleType},#{mapleStatus},#{controllerPackage},#{entityPackage},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -53,7 +47,7 @@
 		( 
 	<include refid="mapleColumns"/>
 		) values (
-			#{mapleId},#{mapleCode},#{mapleName},#{mapleType},#{mapleStatus},#{mapleCodeUpper},#{controllerPackage},#{entityPackage},#{mapleControllerUpper},#{mapleControllerLower},#{mapleEntityUpper},#{mapleEntityLower},#{tableCode},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleId},#{mapleCode},#{mapleName},#{mapleType},#{mapleStatus},#{controllerPackage},#{entityPackage},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -76,6 +70,9 @@
 			</if>
 			<if test="entityPackage!=null and entityPackage!=''">
 			entityPackage = #{entityPackage},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
 			</if>
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
@@ -103,6 +100,9 @@
 			<if test="entityPackage!=null and entityPackage!=''">
 			entityPackage = #{entityPackage},
 			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
@@ -126,29 +126,11 @@
 			<if test="mapleStatus!=null and mapleStatus!=''">
 			mapleStatus = #{mapleStatus},
 			</if>
-			<if test="mapleCodeUpper!=null and mapleCodeUpper!=''">
-			mapleCodeUpper = #{mapleCodeUpper},
-			</if>
 			<if test="controllerPackage!=null and controllerPackage!=''">
 			controllerPackage = #{controllerPackage},
 			</if>
 			<if test="entityPackage!=null and entityPackage!=''">
 			entityPackage = #{entityPackage},
-			</if>
-			<if test="mapleControllerUpper!=null and mapleControllerUpper!=''">
-			mapleControllerUpper = #{mapleControllerUpper},
-			</if>
-			<if test="mapleControllerLower!=null and mapleControllerLower!=''">
-			mapleControllerLower = #{mapleControllerLower},
-			</if>
-			<if test="mapleEntityUpper!=null and mapleEntityUpper!=''">
-			mapleEntityUpper = #{mapleEntityUpper},
-			</if>
-			<if test="mapleEntityLower!=null and mapleEntityLower!=''">
-			mapleEntityLower = #{mapleEntityLower},
-			</if>
-			<if test="tableCode!=null and tableCode!=''">
-			tableCode = #{tableCode},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -233,29 +215,11 @@
 			<if test="mapleStatus!=null and mapleStatus!=''">
 			 and mapleStatus = #{mapleStatus}
 			</if>
-			<if test="mapleCodeUpper!=null and mapleCodeUpper!=''">
-			 and mapleCodeUpper = #{mapleCodeUpper}
-			</if>
 			<if test="controllerPackage!=null and controllerPackage!=''">
 			 and controllerPackage = #{controllerPackage}
 			</if>
 			<if test="entityPackage!=null and entityPackage!=''">
 			 and entityPackage = #{entityPackage}
-			</if>
-			<if test="mapleControllerUpper!=null and mapleControllerUpper!=''">
-			 and mapleControllerUpper = #{mapleControllerUpper}
-			</if>
-			<if test="mapleControllerLower!=null and mapleControllerLower!=''">
-			 and mapleControllerLower = #{mapleControllerLower}
-			</if>
-			<if test="mapleEntityUpper!=null and mapleEntityUpper!=''">
-			 and mapleEntityUpper = #{mapleEntityUpper}
-			</if>
-			<if test="mapleEntityLower!=null and mapleEntityLower!=''">
-			 and mapleEntityLower = #{mapleEntityLower}
-			</if>
-			<if test="tableCode!=null and tableCode!=''">
-			 and tableCode = #{tableCode}
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			 and orderNum = #{orderNum}

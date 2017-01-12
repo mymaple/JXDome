@@ -10,7 +10,7 @@ public interface BgMapleDetailService {
 
 	
 	/****************************custom * start***********************************/
-	
+
 	/**
 	 * 获取(类)List数据
 	 * @return

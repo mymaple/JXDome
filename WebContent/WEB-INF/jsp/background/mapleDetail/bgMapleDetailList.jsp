@@ -63,16 +63,17 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">代码生成详细代号</th>
-									<th class="center">代码生成详细名称</th>
-									<th class="center">代码生成详细类型</th>
+									<th class="center">代码生成详情代号</th>
+									<th class="center">代码生成详情名称</th>
+									<th class="center">代码生成详情类型</th>
 									<th class="center">总长度</th>
 									<th class="center">小数长度</th>
 									<th class="center">类型代号</th>
+									<th class="center">是否主键</th>
 									<th class="center">是否录入</th>
 									<th class="center">是否null</th>
-									<th class="center">是否主键</th>
 									<th class="center">默认值</th>
+									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -89,15 +90,16 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${bgMapleDetail.mapleDetailCode}</td>
-											<td class='center'><a href="javascript:toSub('${bgMapleDetail.mapleDetailId}')">${bgMapleDetail.mapleDetailName}</a></td>
+											<td class='center'><a href="javascript:toDetail('${bgMapleDetail.mapleDetailId}')">${bgMapleDetail.mapleDetailName}</a></td>
 											<td class='center'><param:display type="bg_mapleDetailType" value="${bgMapleDetail.mapleDetailType}"/></td>
 											<td class='center'>${bgMapleDetail.totalLength}</td>
 											<td class='center'>${bgMapleDetail.decimalLength}</td>
 											<td class='center'>${bgMapleDetail.typeCode}</td>
+											<td class='center'>${bgMapleDetail.isKey}</td>
 											<td class='center'>${bgMapleDetail.isEdit}</td>
 											<td class='center'>${bgMapleDetail.isNull}</td>
-											<td class='center'>${bgMapleDetail.isKey}</td>
 											<td class='center'>${bgMapleDetail.defaultValue}</td>
+											<td class='center'>${bgMapleDetail.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -234,13 +236,19 @@
 			});
 		});
 		
+		//去此ID下详情页面
+		function toDetail(mapleDetailId){
+			top.jzts();
+			window.location.href="<%=basePath%>background/mapleDetail/list.do?mapleDetailId="+mapleDetailId;
+		}
+		
 		//新增
 		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/mapleDetail/toAdd.do?mapleId=${pd.mapleId}";
+			 diag.URL = "<%=basePath%>background/mapleDetail/toAdd.do?mapleId=${pd.mapleId }";
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -353,7 +361,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/mapleDetail/toUploadExcel.do?pId=${pd.mapleId}';
+			 diag.URL = '<%=basePath%>background/mapleDetail/toUploadExcel.do?pId=${pd.mapleId }';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

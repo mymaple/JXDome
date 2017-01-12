@@ -31,17 +31,6 @@
 		)
 	</insert>
 	
-	<!-- 新增 -->
-	<insert id="addByPd" parameterType="pd">
-		insert into 
-	<include refid="${bgMaple.mapleCode}Table"/>
-		( 
-	<include refid="${bgMaple.mapleCode}Columns"/>
-		) values (
-			${r"#{"}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>
-		)
-	</insert>
-	
 	<!-- 修改 -->
 	<update id="edit" parameterType="${bgMaple.mapleEntityLower}">
 		update
@@ -63,29 +52,9 @@
 			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
 			</#if>
 			</#list>
-	</update>
-	
-	<!-- 修改 -->
-	<update id="editByPd" parameterType="pd">
-		update
-	<include refid="${bgMaple.mapleCode}Table"/>
-		set 
-			<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isKey == '00' && bgMapleDetail.isEdit == '01'>
-			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">
-			${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"},
+			<if test="lastModifyTime!=null and lastModifyTime!=''">
+			and lastModifyTime = ${r"#{"}lastModifyTime${r"}"}
 			</if>
-			</#if>
-			</#list>
-			modifyUserId = ${r"#{"}modifyUserId${r"}"},
-			modifyTime = ${r"#{"}modifyTime${r"}"}
-		where 
-			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
-			<#list bgMapleDetailList as bgMapleDetail> 
-			<#if bgMapleDetail.isKey == "01">
-			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
-			</#if>
-			</#list>
 	</update>
 	
 	<!-- 改变 -->
@@ -114,6 +83,9 @@
 			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
 			</#if>
 			</#list>
+			<if test="lastModifyTime!=null and lastModifyTime!=''">
+			and lastModifyTime = ${r"#{"}lastModifyTime${r"}"}
+			</if>
 	</update>
 	
 	<!-- 删除 -->
@@ -142,21 +114,6 @@
 	
 	<!-- 通过id获取(类)数据 -->
 	<select id="findByPd" parameterType="pd" resultType="${bgMaple.mapleEntityLower}">
-		select 
-	<include refid="${bgMaple.mapleCode}Columns"/>
-		from 
-	<include refid="${bgMaple.mapleCode}Table"/>
-		where 
-			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
-			<#list bgMapleDetailList as bgMapleDetail> 
-			<#if bgMapleDetail.isKey == "01">
-			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
-			</#if>
-			</#list>
-	</select>
-	
-	<!-- 通过pd获取(PageData)数据  -->
-	<select id="findPdByPd" parameterType="pd" resultType="pd">
 		select 
 	<include refid="${bgMaple.mapleCode}Columns"/>
 		from 

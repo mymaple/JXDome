@@ -67,6 +67,7 @@
 									<th class="center">代码生成类型</th>
 									<th class="center">控制器包代号</th>
 									<th class="center">实体类包代号</th>
+									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -85,8 +86,9 @@
 											<td class='center'>${bgMaple.mapleCode}</td>
 											<td class='center'><a href="javascript:toDetail('${bgMaple.mapleId}')">${bgMaple.mapleName}</a></td>
 											<td class='center'><param:display type="bg_mapleType" value="${bgMaple.mapleType}"/></td>
-											<td class='center'>${bgMaple.controllerPackage}</td>
-											<td class='center'>${bgMaple.entityPackage}</td>
+											<td class='center'><param:display type="com_packageType" value="${bgMaple.controllerPackage}"/></td>
+											<td class='center'><param:display type="com_packageType" value="${bgMaple.entityPackage}"/></td>
+											<td class='center'>${bgMaple.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -236,7 +238,7 @@
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/maple/toAdd.do";
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 370;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -277,7 +279,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/maple/toEdit.do?mapleId="+mapleId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 370;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮 

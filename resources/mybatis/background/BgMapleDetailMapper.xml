@@ -3,9 +3,8 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMapleDetailMapper">
 
-	<sql id="mapleDetailColumns">mapleDetailId,mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailStatus,mapleDetailCodeUpper,mapleId,totalLength,decimalLength,typeCode,isEdit,isNull,isKey,defaultValue,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="mapleDetailTable">bg_maple_Detail</sql>
-	<sql id="mapleTable">bg_maple_main</sql>
+	<sql id="mapleDetailColumns">mapleDetailId,mapleId,mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailStatus,totalLength,decimalLength,typeCode,isKey,isEdit,isNull,defaultValue,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="mapleDetailTable">bg_maple_detail</sql>
 	
 	<resultMap type="bgMapleDetail" id="bgMapleDetailResultMap">
 		<id column="mapleDetailId" property="mapleDetailId"/>
@@ -13,14 +12,12 @@
 		<result column="mapleDetailName" property="mapleDetailName"/>
 		<result column="mapleDetailType" property="mapleDetailType"/>
 		<result column="mapleDetailStatus" property="mapleDetailStatus"/>
-		<result column="mapleDetailCodeUpper" property="mapleDetailCodeUpper"/>
-		<result column="mapleId" property="mapleId"/>
 		<result column="totalLength" property="totalLength"/>
 		<result column="decimalLength" property="decimalLength"/>
 		<result column="typeCode" property="typeCode"/>
+		<result column="isKey" property="isKey"/>
 		<result column="isEdit" property="isEdit"/>
 		<result column="isNull" property="isNull"/>
-		<result column="isKey" property="isKey"/>
 		<result column="defaultValue" property="defaultValue"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
@@ -28,25 +25,11 @@
 		<result column="createTime" property="createTime"/>
 		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
+		<result column="mapleId" property="mapleId"/>
 	</resultMap>
 	
 	
 	<!-- ****************************custom * start*********************************** -->
-	
-	<!-- 获取(类)List数据  -->
-	<select id="listByMapleCode" parameterType="String" resultMap="bgMapleDetailResultMap">
-		select 
-	<include refid="mapleDetailColumns"/>
-		from 
-	<include refid="mapleDetailTable"/>
-		where mapleId = (
-							select mapleId 
-							from 
-						<include refid="mapleTable"/>
-							where mapleCode = #{mapleCode}
-						)
-		order by (orderNum+0) 
-	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
@@ -59,7 +42,7 @@
 		( 
 	<include refid="mapleDetailColumns"/>
 		) values (
-			#{mapleDetailId},#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailStatus},#{mapleDetailCodeUpper},#{mapleId},#{totalLength},#{decimalLength},#{typeCode},#{isEdit},#{isNull},#{isKey},#{defaultValue},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleDetailId},#{mapleId},#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailStatus},#{totalLength},#{decimalLength},#{typeCode},#{isKey},#{isEdit},#{isNull},#{defaultValue},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -70,7 +53,7 @@
 		( 
 	<include refid="mapleDetailColumns"/>
 		) values (
-			#{mapleDetailId},#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailStatus},#{mapleDetailCodeUpper},#{mapleId},#{totalLength},#{decimalLength},#{typeCode},#{isEdit},#{isNull},#{isKey},#{defaultValue},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{mapleDetailId},#{mapleId},#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailStatus},#{totalLength},#{decimalLength},#{typeCode},#{isKey},#{isEdit},#{isNull},#{defaultValue},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -97,17 +80,20 @@
 			<if test="typeCode!=null and typeCode!=''">
 			typeCode = #{typeCode},
 			</if>
+			<if test="isKey!=null and isKey!=''">
+			isKey = #{isKey},
+			</if>
 			<if test="isEdit!=null and isEdit!=''">
 			isEdit = #{isEdit},
 			</if>
 			<if test="isNull!=null and isNull!=''">
 			isNull = #{isNull},
 			</if>
-			<if test="isKey!=null and isKey!=''">
-			isKey = #{isKey},
-			</if>
 			<if test="defaultValue!=null and defaultValue!=''">
 			defaultValue = #{defaultValue},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
 			</if>
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
@@ -138,17 +124,20 @@
 			<if test="typeCode!=null and typeCode!=''">
 			typeCode = #{typeCode},
 			</if>
+			<if test="isKey!=null and isKey!=''">
+			isKey = #{isKey},
+			</if>
 			<if test="isEdit!=null and isEdit!=''">
 			isEdit = #{isEdit},
 			</if>
 			<if test="isNull!=null and isNull!=''">
 			isNull = #{isNull},
 			</if>
-			<if test="isKey!=null and isKey!=''">
-			isKey = #{isKey},
-			</if>
 			<if test="defaultValue!=null and defaultValue!=''">
 			defaultValue = #{defaultValue},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
 			</if>
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
@@ -161,6 +150,9 @@
 		update
 	<include refid="mapleDetailTable"/>
 		set 
+			<if test="mapleId!=null and mapleId!=''">
+			mapleId = #{mapleId},
+			</if>
 			<if test="mapleDetailCode!=null and mapleDetailCode!=''">
 			mapleDetailCode = #{mapleDetailCode},
 			</if>
@@ -173,12 +165,6 @@
 			<if test="mapleDetailStatus!=null and mapleDetailStatus!=''">
 			mapleDetailStatus = #{mapleDetailStatus},
 			</if>
-			<if test="mapleDetailCodeUpper!=null and mapleDetailCodeUpper!=''">
-			mapleDetailCodeUpper = #{mapleDetailCodeUpper},
-			</if>
-			<if test="mapleId!=null and mapleId!=''">
-			mapleId = #{mapleId},
-			</if>
 			<if test="totalLength!=null and totalLength!=''">
 			totalLength = #{totalLength},
 			</if>
@@ -188,14 +174,14 @@
 			<if test="typeCode!=null and typeCode!=''">
 			typeCode = #{typeCode},
 			</if>
+			<if test="isKey!=null and isKey!=''">
+			isKey = #{isKey},
+			</if>
 			<if test="isEdit!=null and isEdit!=''">
 			isEdit = #{isEdit},
 			</if>
 			<if test="isNull!=null and isNull!=''">
 			isNull = #{isNull},
-			</if>
-			<if test="isKey!=null and isKey!=''">
-			isKey = #{isKey},
 			</if>
 			<if test="defaultValue!=null and defaultValue!=''">
 			defaultValue = #{defaultValue},
@@ -271,6 +257,9 @@
 			<if test="mapleDetailId!=null and mapleDetailId!=''">
 			 and mapleDetailId = #{mapleDetailId} 
 			</if>
+			<if test="mapleId!=null and mapleId!=''">
+			and mapleId = #{mapleId}
+			</if>
 			<if test="mapleDetailCode!=null and mapleDetailCode!=''">
 			 and mapleDetailCode = #{mapleDetailCode}
 			</if>
@@ -283,12 +272,6 @@
 			<if test="mapleDetailStatus!=null and mapleDetailStatus!=''">
 			 and mapleDetailStatus = #{mapleDetailStatus}
 			</if>
-			<if test="mapleDetailCodeUpper!=null and mapleDetailCodeUpper!=''">
-			 and mapleDetailCodeUpper = #{mapleDetailCodeUpper}
-			</if>
-			<if test="mapleId!=null and mapleId!=''">
-			 and mapleId = #{mapleId}
-			</if>
 			<if test="totalLength!=null and totalLength!=''">
 			 and totalLength = #{totalLength}
 			</if>
@@ -298,14 +281,14 @@
 			<if test="typeCode!=null and typeCode!=''">
 			 and typeCode = #{typeCode}
 			</if>
+			<if test="isKey!=null and isKey!=''">
+			 and isKey = #{isKey}
+			</if>
 			<if test="isEdit!=null and isEdit!=''">
 			 and isEdit = #{isEdit}
 			</if>
 			<if test="isNull!=null and isNull!=''">
 			 and isNull = #{isNull}
-			</if>
-			<if test="isKey!=null and isKey!=''">
-			 and isKey = #{isKey}
 			</if>
 			<if test="defaultValue!=null and defaultValue!=''">
 			 and defaultValue = #{defaultValue}
@@ -338,9 +321,7 @@
 		from 
 	<include refid="mapleDetailTable"/>
 		where 1=1
-		<if test="pd.mapleId != null and pd.mapleId != ''"><!-- 角色检索 -->
-			and mapleId= #{pd.mapleId}
-		</if>
+			and mapleId = #{pd.mapleId}
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

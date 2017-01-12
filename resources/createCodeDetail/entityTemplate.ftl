@@ -2,7 +2,6 @@ package com.jx.${bgMaple.entityPackage}.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
@@ -21,6 +20,42 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	
 	/**************************custom prop satrt********************************/
+	
+	/** 修改时间 */
+	private Date lastModifyTime;
+	
+	/**
+	 * 设置 修改时间
+	 * 
+	 * @param Date lastModifyTime
+	 */
+	public void setLastModifyTime(Date lastModifyTime) {
+		this.lastModifyTime = lastModifyTime;
+	}
+	
+	/**
+	 * 获取 修改时间
+	 * 
+	 * @return Date lastModifyTime
+	 */
+	public Date getLastModifyTime() {
+		return this.lastModifyTime;
+	}	
+		
+	public void setLastModifyTimeStr(String lastModifyTimeStr) throws Exception{
+		lastModifyTimeStr = MapleStringUtil.trim(lastModifyTimeStr);
+		if(!lastModifyTimeStr.equals("")){
+			try{
+				setLastModifyTime(MapleDateUtil.parseDate(lastModifyTimeStr));
+			}catch(java.text.ParseException e){
+				throw new Exception(e);
+			}
+		}
+	}
+
+	public String getLastModifyTimeStr(){
+		return MapleDateUtil.getFormatedDateString(getLastModifyTime());
+	}
 	
 	/**************************custom prop end**********************************/
 	
@@ -42,12 +77,16 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	@NotEmpty(message="${bgMaple.mapleName} 主键id 不能为空", groups={ValidationEdit.class})
 	private String ${bgMaple.mapleCode}Id;
 	
+	/** ${bgMaple.mapleName ?replace('详情','')} id */
+	@NotEmpty(message="${bgMaple.mapleName ?replace('详情','')}id 不能为空", groups={ValidationAdd.class})
+	private String ${bgMaple.mapleCode ?replace('Detail','')}Id;
+	
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
-	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = "^[a-z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		<#elseif bgMapleDetail.mapleDetailCode = "orderNum">
-	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationEdit.class})
+	@Pattern(regexp = "^[0-9]*$", message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		<#elseif bgMapleDetail.isEdit = "01">
 	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>
@@ -80,6 +119,24 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	 */
 	public String get${bgMaple.mapleCodeUpper}Id() {
 		return this.${bgMaple.mapleCode}Id;
+	}
+	
+	/**
+	 * 设置 ${bgMaple.mapleName ?replace('详情','')} id 
+	 * 
+	 * @param String ${bgMaple.mapleCode ?replace('Detail','')}Id
+	 */
+	public void set${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) {
+		this.${bgMaple.mapleCode ?replace('Detail','')}Id = MapleStringUtil.trim(${bgMaple.mapleCode ?replace('Detail','')}Id);
+	}
+	
+	/**
+	 * 获取 ${bgMaple.mapleName ?replace('详情','')} id 
+	 * 
+	 * @return String ${bgMaple.mapleCode ?replace('Detail','')}Id
+	 */
+	public String get${bgMaple.mapleCodeUpper ?replace('Detail','')}Id() {
+		return this.${bgMaple.mapleCode ?replace('Detail','')}Id;
 	}
 	
 	<#list bgMapleDetailList as bgMapleDetail>

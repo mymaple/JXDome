@@ -89,7 +89,24 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
-
+		
+		Date nowTime = new Date();
+		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
+		<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.isEdit == '01'>
+			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '02'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '03'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '04'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+			</#if>
+			</#if>
+		</#list>
+		
+		mv.addObject(${bgMaple.mapleEntityLower});
 		mv.addObject("methodPath", "add");
 		resultInfo.setResultCode("success");
 		mv.setViewName("${bgMaple.controllerPackage}/${bgMaple.mapleCode}/${bgMaple.mapleControllerLower}Edit");
@@ -114,7 +131,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			return mv; 
 		}
 		
-		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id(), ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode("", ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());
 		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -135,9 +152,6 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			</#if>
 			</#if>
 		</#list>
-		if(MapleStringUtil.isEmpty(${bgMaple.mapleEntityLower}.getOrderNum())){
-			${bgMaple.mapleEntityLower}.setOrderNum(String.valueOf(nowTime.getTime()));
-		}
 			
 		${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
 		resultInfo.setResultCode("success");
@@ -324,9 +338,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
+<#assign iii = 0 >
 <#list bgMapleDetailList as bgMapleDetail>
-	<#if bgMapleDetail.isEdit == '01'>	
-		titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index}
+	<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.mapleDetailCode  != 'orderNum'>	
+		titles.add("${bgMapleDetail.mapleDetailName}");	//#{iii}
+		<#assign iii=iii+1 />
 	</#if>
 </#list>
 		dataMap.put("titles", titles);
@@ -353,7 +369,6 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		Date nowTime = new Date();
 		if (null != file && !file.isEmpty()) {
 			mv.addObject(resultInfo);					
 			return mv;
@@ -365,8 +380,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			
 			
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-		<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isEdit == '00'>
+		Date nowTime = new Date();
+			<#list bgMapleDetailList as bgMapleDetail>
+				<#if bgMapleDetail.isEdit != '01' && bgMapleDetail.mapleDetailCode  != 'orderNum'>	
 			<#if bgMapleDetail.mapleDetailType == '01'|| bgMapleDetail.mapleDetailType == '05'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
 			<#elseif bgMapleDetail.mapleDetailType == '02'>
@@ -375,14 +391,14 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
 			<#elseif bgMapleDetail.mapleDetailType == '04'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+				</#if>
 			</#if>
-			</#if>
-		</#list>
-			
+			</#list>
+				
 		/**
 		<#assign iii = 0 >
 		<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isEdit == '01'>	
+			<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.mapleDetailCode  != 'orderNum'>
 		 * var#{iii} :${bgMapleDetail.mapleDetailName};	//#{iii}
 			<#assign iii=iii+1 />
 			</#if>
@@ -392,7 +408,10 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 			<#assign iii = 0 >
 			<#list bgMapleDetailList as bgMapleDetail>
-				<#if bgMapleDetail.isEdit == '01'>
+				<#if bgMapleDetail.mapleDetailCode == 'orderNum'>	
+			nowTime = new Date();
+			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
+				<#elseif bgMapleDetail.isEdit == '01' && bgMapleDetail.mapleDetailCode  != 'orderNum'>	
 			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(listPd.get(i).getString("var#{iii}"));
 				<#assign iii=iii+1 />
 				</#if>

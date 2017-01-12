@@ -46,11 +46,15 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">控制器包代号:</td>
-								<td><input type="text" name="controllerPackage" id="controllerPackage" value="${bgMaple.controllerPackage}" maxlength="100" placeholder="这里输入 控制器包代号" title="控制器包代号" style="width:98%;" /></td>
+								<td><param:select type="com_packageType" name="controllerPackage" id="controllerPackage" value="${bgMaple.controllerPackage}" placeholder="这里请选择 控制器包代号" title="控制器包代号" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">实体类包代号:</td>
-								<td><input type="text" name="entityPackage" id="entityPackage" value="${bgMaple.entityPackage}" maxlength="100" placeholder="这里输入 实体类包代号" title="实体类包代号" style="width:98%;" /></td>
+								<td><param:select type="com_packageType" name="entityPackage" id="entityPackage" value="${bgMaple.entityPackage}" placeholder="这里请选择 实体类包代号" title="实体类包代号" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${bgMaple.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -90,9 +94,9 @@
 		
 		//判断mapleCode是否存在
 		function hasCode(){
-			var mapleId = $("#mapleCode").val();
 			var mapleCode = $("#mapleCode").val();
 			if(mapleCode == "") return false;
+			var mapleId = $("#mapleId").val();
 			var url = "<%=basePath%>background/maple/hasCode.do?mapleId="+mapleId+"&mapleCode="+mapleCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
@@ -141,27 +145,33 @@
 			return false;
 			}
 			if($("#controllerPackage").val()==""){
-				$("#controllerPackage").tips({
+				$("#controllerPackage").next().tips({
 					side:3,
-		            msg:'请输入控制器包代号',
+		            msg:'请选择 控制器包代号',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#controllerPackage").focus();
 			return false;
 			}
 			if($("#entityPackage").val()==""){
-				$("#entityPackage").tips({
+				$("#entityPackage").next().tips({
 					side:3,
-		            msg:'请输入实体类包代号',
+		            msg:'请选择 实体类包代号',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#entityPackage").focus();
 			return false;
 			}
-		if("${methodPath }" == "edit"){
-		}
+			if($("#orderNum").val()==""){
+				$("#orderNum").tips({
+					side:3,
+		            msg:'请输入排序编号',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#orderNum").focus();
+			return false;
+			}
 			$("#mapleForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

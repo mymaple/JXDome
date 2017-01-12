@@ -28,7 +28,7 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<form action="${controllerPath }/uploadExcel.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
-								<input type="hidden" name="parentId" id="parentId" value="${parentId}"/>
+								<input type="hidden" name="pId" id="pId" value="${pId}"/>
 								<div id="zhongxin">
 								<table style="width:95%;" >
 									<tr>
