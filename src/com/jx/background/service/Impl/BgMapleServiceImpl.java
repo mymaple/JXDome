@@ -63,6 +63,9 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 * @throws Exception
 	 */
 	public void edit(BgMaple bgMaple) throws Exception {
+		if(bgMaple.getLastModifyTime()==null){
+			
+		}
 		dao.edit("BgMapleMapper.edit", bgMaple);
 	}
 	

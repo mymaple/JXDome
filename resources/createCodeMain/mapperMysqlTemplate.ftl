@@ -52,9 +52,7 @@
 			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
 			</#if>
 			</#list>
-			<if test="lastModifyTime!=null and lastModifyTime!=''">
 			and lastModifyTime = ${r"#{"}lastModifyTime${r"}"}
-			</if>
 	</update>
 	
 	<!-- 改变 -->
