@@ -1,5 +1,6 @@
 package com.jx.background.service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,12 +10,14 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgMaple;
 import com.jx.background.entity.BgMapleDetail;
 import com.jx.background.service.BgMapleDetailService;
 import com.jx.background.service.BgMapleService;
+import com.jx.background.util.BgSessionUtil;
 
 @Service("bgMapleService")
 public class BgMapleServiceImpl implements BgMapleService{
@@ -36,6 +39,15 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 * @throws Exception
 	 */
 	public void add(BgMaple bgMaple) throws Exception {
+		
+		Date nowTime = new Date();
+		bgMaple.setMapleId(UuidUtil.get32UUID());
+		bgMaple.setMapleStatus("00");
+		bgMaple.setEffective("01");
+		bgMaple.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMaple.setCreateTime(nowTime);
+		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMaple.setModifyTime(nowTime);
 		dao.add("BgMapleMapper.add", bgMaple);
 		
 		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.listByMapleId("27a853950d0e4876ba0eccf8d7e2dd8f");
@@ -63,8 +75,12 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 * @throws Exception
 	 */
 	public void edit(BgMaple bgMaple) throws Exception {
-		if(bgMaple.getLastModifyTime()==null){
-			
+		Date nowTime = new Date();
+		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMaple.setModifyTime(nowTime);
+		bgMaple.setLastModifyTime(this.findById(bgMaple.getMapleId()).getModifyTime());
+		if(bgMaple.getModifyTime().compareTo(bgMaple.getLastModifyTime()) == 0){
+			bgMaple.setModifyTime(MapleDateUtil.getNextSecond(bgMaple.getModifyTime()));
 		}
 		dao.edit("BgMapleMapper.edit", bgMaple);
 	}

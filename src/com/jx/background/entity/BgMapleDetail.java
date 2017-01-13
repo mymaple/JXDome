@@ -436,21 +436,6 @@ public class BgMapleDetail implements Serializable {
 		return this.createTime;
 	}	
 		
-	public void setCreateTimeStr(String createTimeStr) throws Exception{
-		createTimeStr = MapleStringUtil.trim(createTimeStr);
-		if(!createTimeStr.equals("")){
-			try{
-				setCreateTime(MapleDateUtil.parseDate(createTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getCreateTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getCreateTime());
-	}	
-	
 	/**
 	 * 设置 修改人员id
 	 * 
@@ -487,21 +472,5 @@ public class BgMapleDetail implements Serializable {
 		return this.modifyTime;
 	}	
 		
-	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
-		if(!modifyTimeStr.equals("")){
-			try{
-				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getModifyTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getModifyTime());
-	}	
-	
-	
 	/**************************table prop  end  *********************************/
 }

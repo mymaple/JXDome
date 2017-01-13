@@ -86,7 +86,7 @@ public class BgUserController extends BaseController {
 			bgPage.setPd(pd);
 			List<PageData>	bgUserList = bgUserService.listPage(bgPage);	//列出bgUser列表
 			List<BgRole> bgRoleList = bgRoleService.listSubBgRoleByParentId(1);//列出所有系统用户角色
-			
+			pd.put("lastLoginStart", "1923-04-09 16:23:33");
 			mv.addObject("bgUserList", bgUserList);
 			mv.addObject("bgRoleList", bgRoleList);
 			mv.addObject("pd", pd);
@@ -349,7 +349,7 @@ public class BgUserController extends BaseController {
 				vpd.put("var3", varOList.get(i).getUserName());			//4
 				vpd.put("var4", varOList.get(i).getUserRights());		//5
 				vpd.put("var5", String.valueOf(varOList.get(i).getRoleId()));			//6
-				vpd.put("var6", varOList.get(i).getLastLoginTimeStr());	//7
+				vpd.put("var6", varOList.get(i).getLastLoginTime());	//7
 				vpd.put("var7", varOList.get(i).getLastLoginIp());		//8
 				vpd.put("var8", varOList.get(i).getUserIconSrc());		//9
 				vpd.put("var9", varOList.get(i).getUserNumber());		//10
@@ -357,7 +357,7 @@ public class BgUserController extends BaseController {
 				vpd.put("var11", varOList.get(i).getPhone());			//12
 				vpd.put("var12", varOList.get(i).getStatus());			//13
 				vpd.put("var13", varOList.get(i).getRemarks());			//14
-				vpd.put("var14", varOList.get(i).getModifyTimeStr());		//15
+				vpd.put("var14", varOList.get(i).getModifyTime());		//15
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);

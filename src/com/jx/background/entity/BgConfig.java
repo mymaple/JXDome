@@ -3,7 +3,6 @@ package com.jx.background.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 
 public class BgConfig implements Serializable {
@@ -215,21 +214,6 @@ public class BgConfig implements Serializable {
 		return this.modifyTime;
 	}	
 		
-	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
-		if(!modifyTimeStr.equals("")){
-			try{
-				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getModifyTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getModifyTime());
-	}	
-	
 	
 	public BgConfig(){
 		init();
@@ -245,11 +229,6 @@ public class BgConfig implements Serializable {
 		setParam3("");
 		setParam4("");
 		setIsOpen("");
-		try {
-			setModifyTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	/**************************table prop  end  *********************************/
 }

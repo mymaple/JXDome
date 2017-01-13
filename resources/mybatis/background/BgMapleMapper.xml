@@ -201,7 +201,7 @@
 	<include refid="mapleTable"/>
 		where 1=1
 			<if test="mapleId!=null and mapleId!=''">
-			 and mapleId = #{mapleId} 
+			 and mapleId != #{mapleId} 
 			</if>
 			<if test="mapleCode!=null and mapleCode!=''">
 			 and mapleCode = #{mapleCode}

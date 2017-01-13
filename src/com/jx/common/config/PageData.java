@@ -10,7 +10,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleDateUtil.SDF;
 
+@SuppressWarnings("rawtypes")
 public class PageData extends HashMap implements Map {
 
 	private static final long serialVersionUID = 1L;
@@ -18,6 +20,7 @@ public class PageData extends HashMap implements Map {
 	Map map = null;
 	HttpServletRequest request;
 
+	@SuppressWarnings("unchecked")
 	public PageData(HttpServletRequest request) {
 		this.request = request;
 		Map properties = request.getParameterMap();
@@ -78,7 +81,7 @@ public class PageData extends HashMap implements Map {
 	    } else if (obj instanceof Boolean) {
 		   	str = String.valueOf(((Boolean) obj).booleanValue());
 	    } else if (obj instanceof Date) {
-	    	str = MapleDateUtil.getFormatedDateString((Date) obj);
+	    	str = MapleDateUtil.formatDate(SDF.TIME, (Date) obj);
 	    }  
 		
 		return str;
@@ -97,6 +100,7 @@ public class PageData extends HashMap implements Map {
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object put(Object key, Object value) {
 		return map.put(key, value);
@@ -131,6 +135,7 @@ public class PageData extends HashMap implements Map {
 		return map.keySet();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void putAll(Map t) {
 		map.putAll(t);
 	}

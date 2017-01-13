@@ -1,92 +1,149 @@
 package com.jx.common.util;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class MapleDateUtil {
-	private final static SimpleDateFormat SDF_YEAR = new SimpleDateFormat("yyyy");
+	
+	public final static SimpleDateFormat SDF_YEAR = new SimpleDateFormat("yyyy");
 
-	private final static SimpleDateFormat SDF_DAY = new SimpleDateFormat("yyyy-MM-dd");
+	public final static SimpleDateFormat SDF_DAY = new SimpleDateFormat("yyyy-MM-dd");
 
-	private final static SimpleDateFormat SDF_DAYS = new SimpleDateFormat("yyyyMMdd");
+	public final static SimpleDateFormat SDF_DAY1 = new SimpleDateFormat("yyyyMMdd");
 
-	private final static SimpleDateFormat SDF_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public final static SimpleDateFormat SDF_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	public final static SimpleDateFormat SDF_TIME1 = new SimpleDateFormat("yyyyMMddHHmmss");
 
+	public static enum SDF{  
+	    YEAR,DAY,DAY1,TIME,TIME1
+	} 
+	
 	/**
-	 * 获取YYYY格式
+	 * 获取sdf格式 字符串
+	 * @param sdf
+	 * @param date
 	 * @return
 	 */
-	public static String getYear() {
-		return SDF_YEAR.format(new Date());
-	}
-
+	public static String formatDate(SimpleDateFormat sdf, Date date) {
+		return sdf.format(date);
+	}	
+	
 	/**
-	 * 获取YYYY-MM-DD格式
+	 * 获取sdf格式 字符串
+	 * @param sdf
+	 * @param date
 	 * @return
 	 */
-	public static String getDay() {
-		return SDF_DAY.format(new Date());
-	}
-
-	/**
-	 * 获取YYYYMMDD格式
-	 * @return
-	 */
-	public static String getDays() {
-		return SDF_DAYS.format(new Date());
-	}
-
-	/**
-	 * 获取YYYY-MM-DD HH:mm:ss格式
-	 * @return
-	 */
-	public static String getTime() {
-		return SDF_TIME.format(new Date());
-	}
-
-	/**
-	 * @Title: compareDate
-	 * @Description: 日期比较，如果s>=e 返回true 否则返回false
-	 * @param s
-	 * @param e
-	 * @return boolean
-	 * @throws
-	 * @author luguosui
-	 */
-	public static boolean compareDate(String s, String e) {
-		if (fomatDate(s) == null || fomatDate(e) == null) {
-			return false;
+	public static String formatDate(SDF sdf, Date date) {
+		switch (sdf) {
+		case YEAR:
+			return SDF_YEAR.format(date);
+		case DAY:
+			return SDF_DAY.format(date);
+		case DAY1:
+			return SDF_DAY1.format(date);
+		case TIME:
+			return SDF_TIME.format(date);
+		case TIME1:
+			return SDF_TIME1.format(date);
+		default:
+			return date.toString();
 		}
-		return fomatDate(s).getTime() >= fomatDate(e).getTime();
 	}
-
+	
 	/**
-	 * 格式化日期
+	 * 获取当前时间sdf格式 字符串
+	 * @param sdf
 	 * @return
 	 */
-	public static Date fomatDate(String date) {
-		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			return fmt.parse(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
+	public static String getNow(SimpleDateFormat sdf) {
+		return sdf.format(new Date());
+	}
+	
+	/**
+	 * 获取当前时间sdf格式 字符串
+	 * @param sdf
+	 * @return
+	 */
+	public static String getNow(SDF sdf) {
+		switch (sdf) {
+		case YEAR:
+			return SDF_YEAR.format(new Date());
+		case DAY:
+			return SDF_DAY.format(new Date());
+		case DAY1:
+			return SDF_DAY1.format(new Date());
+		case TIME:
+			return SDF_TIME.format(new Date());
+		case TIME1:
+			return SDF_TIME1.format(new Date());
+		default:
+			return new Date().toString();
+		}
+	}
+	
+	/**
+	 * 获取sdf格式 日期
+	 * @param sdf
+	 * @param date
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static Date parseDateStr(SimpleDateFormat sdf, String dateStr) throws ParseException {
+		return sdf.parse(dateStr);
+	}
+	
+	/**
+	 * 获取sdf格式 日期
+	 * @param sdf
+	 * @param date
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static Date parseDateStr(SDF sdf, String dateStr) throws ParseException {
+		switch (sdf) {
+		case YEAR:
+			return SDF_YEAR.parse(dateStr);
+		case DAY:
+			return SDF_DAY.parse(dateStr);
+		case DAY1:
+			return SDF_DAY1.parse(dateStr);
+		case TIME:
+			return SDF_TIME.parse(dateStr);
+		case TIME1:
+			return SDF_TIME1.parse(dateStr);
+		default:
 			return null;
 		}
 	}
 
 	/**
+	 * 比较sdf1格式下的dateStr1与sdf2格式下的dateStr2
+	 * @param sdf1
+	 * @param dateStr1
+	 * @param sdf2
+	 * @param dateStr2
+	 * @return 2 异常; 1 dateStr1>dateStr2; 0 dateStr1=dateStr2;-1 dateStr1<dateStr2
+	 */
+	public static int compareDateStr(SDF sdf1, String dateStr1, SDF sdf2, String dateStr2) {
+		try {
+			return parseDateStr(sdf1, dateStr1).compareTo(parseDateStr(sdf2, dateStr2));
+		} catch (ParseException e) {
+			// 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
+			return 2;
+		}
+	}
+	
+	/**
 	 * 校验日期是否合法
 	 * @return
 	 */
-	public static boolean isValidDate(String s) {
-		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+	public static boolean isValidDate(SDF sdf, String dateStr) {
 		try {
-			fmt.parse(s);
+			parseDateStr(sdf, dateStr);
 			return true;
 		} catch (Exception e) {
 			// 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
@@ -94,382 +151,238 @@ public class MapleDateUtil {
 		}
 	}
 
-	public static int getDiffYear(String startTime, String endTime) {
-		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			long aa = 0;
-			int years = (int) (((fmt.parse(endTime).getTime() - fmt.parse(startTime).getTime()) / (1000 * 60 * 60 * 24)) / 365);
-			return years;
-		} catch (Exception e) {
-			// 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
-			return 0;
-		}
-	}
-
 	/**
-	 * <li>功能描述：时间相减得到天数
-	 * @param beginDateStr
-	 * @param endDateStr
-	 * @return long
-	 * @author Administrator
+	 * 相差天数(精准比较)
+	 * @param date1
+	 * @param date2
+	 * @return
 	 */
-	public static long getDaySub(String beginDateStr, String endDateStr) {
-		long day = 0;
-		java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date beginDate = null;
-		java.util.Date endDate = null;
-
-		try {
-			beginDate = format.parse(beginDateStr);
-			endDate = format.parse(endDateStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		day = (endDate.getTime() - beginDate.getTime()) / (24 * 60 * 60 * 1000);
-		// System.out.println("相隔的天数="+day);
-
-		return day;
+    public static int getDaySpace(Date date1, Date date2) {
+        return (int)(date1.getTime()-date2.getTime())/(24 * 60 * 60 * 1000);
+    }
+    
+    /**
+	 * 相差月数 date1-date2(精准比较)
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+    public static int getMonthSpace(Date date1, Date date2) {
+    	int result = 0;
+    	Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date1);//20170211
+        c2.setTime(date2);//20170121
+        
+        result = c1.get(Calendar.MONTH) - c2.get(Calendar.MONTH) ;
+        result += (c1.get(Calendar.YEAR) - c2.get(Calendar.YEAR)) * 12;
+        c1.set(Calendar.YEAR, 0);
+    	c1.set(Calendar.MONTH, 0);
+    	c2.set(Calendar.YEAR, 0);
+    	c2.set(Calendar.MONTH, 0);
+        if(result == 0){
+        	result = 0;
+        }else if(result > 0){
+        	result += c1.getTime().getTime()-c2.getTime().getTime() >= 0 ? 0 : -1;
+        }else if(result < 0){
+        	result += c1.getTime().getTime()-c2.getTime().getTime() > 0 ? 1 : 0;
+        }
+        return result;
+    }
+    
+    public static void main(String[] args) throws ParseException {
+		System.out.println(getYearSpace(parseDateStr(SDF.TIME, "2016-01-13 15:00:00"),new Date()));
+//		System.out.println(getDaySpace(parseDateStr(SDF.DAY1, "20170113"),new Date()));
 	}
+    
+    /**
+     * 相差年数(精准比较)
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static int getYearSpace(Date date1, Date date2) {
+    	int result = 0;
+    	Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date1);//20170211
+        c2.setTime(date2);//20170121
+        
+        result = c1.get(Calendar.YEAR) - c2.get(Calendar.YEAR);
+        c1.set(Calendar.YEAR, 0);
+    	c2.set(Calendar.YEAR, 0);
+        if(result == 0){
+        	result = 0;
+        }else if(result > 0){
+        	result += c1.getTime().getTime()-c2.getTime().getTime() >= 0 ? 0 : -1;
+        }else if(result < 0){
+        	result += c1.getTime().getTime()-c2.getTime().getTime() > 0 ? 1 : 0;
+        }
+        return result;
+    }
 
 	/**
 	 * 得到n天之后的日期
 	 * @param days
 	 * @return
 	 */
-	public static String getAfterDayDate(String days) {
-		int daysInt = Integer.parseInt(days);
+	public static Date getAfterDayDate(int days) {
 
 		Calendar canlendar = Calendar.getInstance(); // java.util包
-		canlendar.add(Calendar.DATE, daysInt); // 日期减 如果不够减会将月变动
+		canlendar.add(Calendar.DATE, days); // 日期减 如果不够减会将月变动
 		Date date = canlendar.getTime();
-
-		SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String dateStr = sdfd.format(date);
-
-		return dateStr;
+		return date;
 	}
+
+	
 
 	/**
-	 * 得到n天之后是周几
-	 * @param days
+	 * 闰年判断
+	 * @param year
 	 * @return
 	 */
-	public static String getAfterDayWeek(String days) {
-		int daysInt = Integer.parseInt(days);
-
-		Calendar canlendar = Calendar.getInstance(); // java.util包
-		canlendar.add(Calendar.DATE, daysInt); // 日期减 如果不够减会将月变动
-		Date date = canlendar.getTime();
-
-		SimpleDateFormat sdf = new SimpleDateFormat("E");
-		String dateStr = sdf.format(date);
-
-		return dateStr;
+	public static boolean isLeapYear(int year) {
+		if (year % 400 == 0)
+			return true;
+		if (year % 4 == 0)
+			return year % 100 != 0;
+		return false;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(getDays());
-		System.out.println(getAfterDayWeek("3"));
+	public static Date getFirstDayOfMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		return calendar.getTime();
+	}
+
+	public static Date getLastDayOfMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		switch (calendar.get(Calendar.MONTH)) {
+		case 0:
+			calendar.set(Calendar.DAY_OF_MONTH, 31);
+			break;
+		case 1:
+			calendar.set(Calendar.DAY_OF_MONTH, 28);
+			break;
+		case 2:
+			calendar.set(Calendar.DAY_OF_MONTH, 31);
+			break;
+		case 3:
+			calendar.set(Calendar.DAY_OF_MONTH, 30);
+			break;
+		case 4:
+			calendar.set(Calendar.DAY_OF_MONTH, 31);
+			break;
+		case 5:
+			calendar.set(Calendar.DAY_OF_MONTH, 30);
+			break;
+		case 6:
+			calendar.set(Calendar.DAY_OF_MONTH, 31);
+			break;
+		case 7:
+			calendar.set(Calendar.DAY_OF_MONTH, 31);
+			break;
+		case 8:
+			calendar.set(Calendar.DAY_OF_MONTH, 30);
+			break;
+		case 9:
+			calendar.set(Calendar.DAY_OF_MONTH, 31);
+			break;
+		case 10:
+			calendar.set(Calendar.DAY_OF_MONTH, 30);
+			break;
+		case 11:
+			calendar.set(Calendar.DAY_OF_MONTH, 31);
+		}
+
+		if ((calendar.get(Calendar.MONTH) == 1) && 
+				(isLeapYear(calendar.get(Calendar.MONTH)))) {
+			calendar.set(5, 29);
+		}
+		return calendar.getTime();
 	}
 	
-	private static final int[] dayArray = { 31, 28, 31, 30, 31, 30, 
-		    31, 31, 30, 31, 30, 31 };
+	public static Date getNextMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH, 1);
+		return calendar.getTime();
+	}
 
-		 
+	public static Date getPreviousMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH, -1);
+		return calendar.getTime();
+	}
 
-		  public static String[] getCloseYearList(String baseYear, int before, int after, boolean inc)
-		  {
-		    int year = Integer.parseInt(baseYear);
-		    if ((before < 0) || (after < 0)) {
-		      throw new IllegalArgumentException(
-		        "before or after year must be great than zero!");
-		    }
-		    String[] yearList = new String[before + after + 1];
-		    if (inc) {
-		      for (int i = 0; i <= before + after; i++)
-		        yearList[i] = String.valueOf(year - before + i);
-		    }
-		    else {
-		      for (int i = 0; i <= before + after; i++) {
-		        yearList[i] = String.valueOf(year + after - i);
-		      }
-		    }
-		    return yearList;
-		  }
+	public static Date getFirstDayOfPreviousMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.setTime(getPreviousMonth(calendar.getTime()));
+		calendar.setTime(getFirstDayOfMonth(calendar.getTime()));
+		return calendar.getTime();
+	}
 
-		  public static String[] getCurrentCloseYearList(int before, int after, boolean inc)
-		  {
-		    String year = getCurrentYear();
-		    return getCloseYearList(year, before, after, inc);
-		  }
+	public static Date getLastDayOfPreviousMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.setTime(getPreviousMonth(calendar.getTime()));
+		calendar.setTime(getLastDayOfMonth(calendar.getTime()));
+		return calendar.getTime();
+	}
 
-		  public static Timestamp getSQLCurTimestamp()
-		  {
-		    return Timestamp.valueOf(getFormatedCurDateString("-"));
-		  }
+	public static Date getFirstDayOfNextMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.setTime(getNextMonth(calendar.getTime()));
+		calendar.setTime(getFirstDayOfMonth(calendar.getTime()));
+		return calendar.getTime();
+	}
 
-		  public static String getCurrentYear()
-		  {
-		    Calendar calendar = new GregorianCalendar();
-		    String year = String.valueOf(calendar.get(1));
-		    return year;
-		  }
+	public static Date getLastDayOfNextMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.setTime(getNextMonth(calendar.getTime()));
+		calendar.setTime(getLastDayOfMonth(calendar.getTime()));
+		return calendar.getTime();
+	}
 
-		  public static String getFormatedDateString(long time, String delimeter)
-		  {
-		    Calendar calendar = new GregorianCalendar();
-		    calendar.setTimeInMillis(time);
-		    return getFormatedDateString(calendar, delimeter);
-		  }
+	public static Date getNextDay(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		return calendar.getTime();
+	}
 
-		  public static String getFormatedDateString(Calendar calendar, String delimeter)
-		  {
-		    String year = String.valueOf(calendar.get(1));
-		    String month = String.valueOf(calendar.get(2) + 1);
-		    if (month.length() == 1) {
-		      month = "0" + month;
-		    }
-		    String day = String.valueOf(calendar.get(5));
-		    if (day.length() == 1) {
-		      day = "0" + day;
-		    }
-		    String hour = String.valueOf(calendar.get(11));
-		    if (hour.length() == 1) {
-		      hour = "0" + hour;
-		    }
-		    String minute = String.valueOf(calendar.get(12));
-		    if (minute.length() == 1) {
-		      minute = "0" + minute;
-		    }
-		    String second = String.valueOf(calendar.get(13));
+	public static Date getPreviousDay(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+		return calendar.getTime();
+	}
 
-		    if (second.length() == 1) {
-		      second = "0" + second;
-		    }
-		    String str = "";
-		    str = year + delimeter + month + delimeter + day + " " + hour + ":" + 
-		      minute + ":" + second;
-		    return str;
-		  }
+	public static Date getNextDays(Date date, int days) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, days);
+		return calendar.getTime();
+	}
 
-		  public static String getFormatedCurDateString(String delimeter)
-		  {
-		    Calendar calendar = new GregorianCalendar();
-		    return getFormatedDateString(calendar, delimeter);
-		  }
-
-		  public static String getFormatedDateString(Date date)
-		  {
-		    return new SimpleDateFormat("yyyy-MM-dd").format(date);
-		  }
-
-		  public static int getCurrentHour()
-		  {
-		    Calendar calendar = new GregorianCalendar();
-		    return calendar.get(11);
-		  }
-
-		  public static final Date parseDate(String strPattern, String strDate)
-		    throws ParseException
-		  {
-		    SimpleDateFormat df = new SimpleDateFormat(strPattern);
-		    Date date = null;
-		    date = df.parse(strDate);
-		    return date;
-		  }
-
-		  public static Date parseDate(String strDate)
-		    throws ParseException
-		  {
-		    Date aDate = parseDate("yyyy-MM-dd", strDate);
-		    return aDate;
-		  }
-
-		  public static boolean isLeapYear(int year)
-		  {
-		    if (year % 400 == 0)
-		      return true;
-		    if (year % 4 == 0)
-		    {
-		      return year % 100 != 0;
-		    }
-
-		    return false;
-		  }
-
-		  public static boolean isLeapYear()
-		  {
-		    Calendar cal = Calendar.getInstance();
-		    int year = cal.get(1);
-		    return isLeapYear(year);
-		  }
-
-		  public static synchronized boolean isLeapYear(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    int year = gc.get(1);
-		    return isLeapYear(year);
-		  }
-
-		  public static synchronized Date getFirstDayOfMonth(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.set(5, 1);
-		    return gc.getTime();
-		  }
-
-		  public static int getLastDayOfMonth(int month)
-		  {
-		    if ((month < 1) || (month > 12)) {
-		      return -1;
-		    }
-		    int retn = 0;
-		    if (month == 2) {
-		      if (isLeapYear())
-		        retn = 29;
-		      else
-		        retn = dayArray[(month - 1)];
-		    }
-		    else {
-		      retn = dayArray[(month - 1)];
-		    }
-		    return retn;
-		  }
-
-		  public static Date getLastDayOfMonth(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    switch (gc.get(2)) {
-		    case 0:
-		      gc.set(5, 31);
-		      break;
-		    case 1:
-		      gc.set(5, 28);
-		      break;
-		    case 2:
-		      gc.set(5, 31);
-		      break;
-		    case 3:
-		      gc.set(5, 30);
-		      break;
-		    case 4:
-		      gc.set(5, 31);
-		      break;
-		    case 5:
-		      gc.set(5, 30);
-		      break;
-		    case 6:
-		      gc.set(5, 31);
-		      break;
-		    case 7:
-		      gc.set(5, 31);
-		      break;
-		    case 8:
-		      gc.set(5, 30);
-		      break;
-		    case 9:
-		      gc.set(5, 31);
-		      break;
-		    case 10:
-		      gc.set(5, 30);
-		      break;
-		    case 11:
-		      gc.set(5, 31);
-		    }
-
-		    if ((gc.get(2) == 1) && 
-		      (isLeapYear(gc.get(1)))) {
-		      gc.set(5, 29);
-		    }
-		    return gc.getTime();
-		  }
-
-		  public static Date getNextMonth(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.add(2, 1);
-		    return gc.getTime();
-		  }
-
-		  public static Date getPreviousMonth(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.add(2, -1);
-		    return gc.getTime();
-		  }
-
-		  public static Date getFirstDayOfPreviousMonth(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.setTime(getPreviousMonth(gc.getTime()));
-		    gc.setTime(getFirstDayOfMonth(gc.getTime()));
-		    return gc.getTime();
-		  }
-
-		  public static Date getLastDayOfPreviousMonth(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.setTime(getPreviousMonth(gc.getTime()));
-		    gc.setTime(getLastDayOfMonth(gc.getTime()));
-		    return gc.getTime();
-		  }
-
-		  public static Date getFirstDayOfNextMonth(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.setTime(getNextMonth(gc.getTime()));
-		    gc.setTime(getFirstDayOfMonth(gc.getTime()));
-		    return gc.getTime();
-		  }
-
-		  public static Date getLastDayOfNextMonth(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.setTime(getNextMonth(gc.getTime()));
-		    gc.setTime(getLastDayOfMonth(gc.getTime()));
-		    return gc.getTime();
-		  }
-
-		  public static Date getNextDay(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.add(5, 1);
-		    return gc.getTime();
-		  }
-
-		  public static Date getPreviousDay(Date date)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.add(5, -1);
-		    return gc.getTime();
-		  }
-
-		  public static Date getNextDays(Date date, int days)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.add(5, days);
-		    return gc.getTime();
-		  }
-
-		  public static Date getPreviousDays(Date date, int days)
-		  {
-		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
-		    gc.setTime(date);
-		    gc.add(5, -days);
-		    return gc.getTime();
-		  }
+	public static Date getPreviousDays(Date date, int days) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, -days);
+		return calendar.getTime();
+	}
 	
-
+	public static Date getNextSecond(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add (Calendar.SECOND, 1);
+		return calendar.getTime();
+	}
+	
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
+import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 
 public class BaseController {
@@ -114,8 +115,7 @@ public class BaseController {
         binder.registerCustomEditor(Double.class, null,new CustomNumberEditor(Double.class, null, true));
         binder.registerCustomEditor(byte[].class,new ByteArrayMultipartFileEditor());
 		
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(MapleDateUtil.SDF_TIME,true));
 	}
 
 }

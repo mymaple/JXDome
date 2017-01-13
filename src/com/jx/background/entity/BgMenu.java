@@ -343,22 +343,6 @@ public class BgMenu implements Serializable {
 		return this.modifyTime;
 	}	
 		
-	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
-		if(!modifyTimeStr.equals("")){
-			try{
-				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getModifyTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getModifyTime());
-	}	
-	
-	
 	public BgMenu(){
 		init();
 	}
@@ -373,11 +357,6 @@ public class BgMenu implements Serializable {
 		setMenuIcon("");
 		setMenuType("");
 		setStatus("");
-		try {
-			setModifyTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	/**************************table prop  end  *********************************/
 }

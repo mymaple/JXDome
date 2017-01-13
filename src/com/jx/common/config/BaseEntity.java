@@ -2,9 +2,9 @@ package com.jx.common.config;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 
 public class BaseEntity {
@@ -13,7 +13,7 @@ public class BaseEntity {
 	/** 排序编号 */
 	@NotEmpty(message="排序编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String orderNum;
-		
+	
 	/** 有效性 */
 	private String effective;
 		
@@ -56,7 +56,7 @@ public class BaseEntity {
 	 * @param String effective
 	 */
 	public void setEffective(String effective) {
-		this.effective = MapleStringUtil.trim(effective);
+		this.effective = StringUtils.trim(effective);
 	}
 	
 	/**
@@ -104,21 +104,6 @@ public class BaseEntity {
 		return this.createTime;
 	}	
 		
-	public void setCreateTimeStr(String createTimeStr) throws Exception{
-		createTimeStr = MapleStringUtil.trim(createTimeStr);
-		if(!createTimeStr.equals("")){
-			try{
-				setCreateTime(MapleDateUtil.parseDate(createTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getCreateTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getCreateTime());
-	}	
-	
 	/**
 	 * 设置 修改人员id
 	 * 
@@ -155,21 +140,6 @@ public class BaseEntity {
 		return this.modifyTime;
 	}	
 		
-	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
-		if(!modifyTimeStr.equals("")){
-			try{
-				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getModifyTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getModifyTime());
-	}
-	
 	/**
 	 * 设置 修改时间
 	 * 
@@ -188,19 +158,4 @@ public class BaseEntity {
 		return this.lastModifyTime;
 	}	
 		
-	public void setLastModifyTimeStr(String lastModifyTimeStr) throws Exception{
-		lastModifyTimeStr = MapleStringUtil.trim(lastModifyTimeStr);
-		if(!lastModifyTimeStr.equals("")){
-			try{
-				setLastModifyTime(MapleDateUtil.parseDate(lastModifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getLastModifyTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getLastModifyTime());
-	}
-	
 }

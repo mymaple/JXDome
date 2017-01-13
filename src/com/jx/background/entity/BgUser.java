@@ -277,21 +277,6 @@ public class BgUser implements Serializable {
 		return this.lastLoginTime;
 	}	
 		
-	public void setLastLoginTimeStr(String lastLoginTimeStr) throws Exception{
-		lastLoginTimeStr = MapleStringUtil.trim(lastLoginTimeStr);
-		if(!lastLoginTimeStr.equals("")){
-			try{
-				setLastLoginTime(MapleDateUtil.parseDate(lastLoginTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getLastLoginTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getLastLoginTime());
-	}	
-	
 	/**
 	 * 设置 最后登录IP
 	 * 
@@ -436,22 +421,6 @@ public class BgUser implements Serializable {
 		return this.modifyTime;
 	}	
 		
-	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
-		modifyTimeStr = MapleStringUtil.trim(modifyTimeStr);
-		if(!modifyTimeStr.equals("")){
-			try{
-				setModifyTime(MapleDateUtil.parseDate(modifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getModifyTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getModifyTime());
-	}	
-	
-	
 	public BgUser(){
 		init();
 	}
@@ -464,11 +433,6 @@ public class BgUser implements Serializable {
 		setUserName("");
 		setUserRights("");
 		setRoleId(0);
-		try {
-			setLastLoginTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		setLastLoginIp("");
 		setUserIconSrc("");
 		setUserNumber("");
@@ -476,11 +440,6 @@ public class BgUser implements Serializable {
 		setPhone("");
 		setStatus("");
 		setRemarks("");
-		try {
-			setModifyTimeStr("1900-01-01");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	/**************************table prop  end  *********************************/
 }

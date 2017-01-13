@@ -81,9 +81,7 @@
 			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
 			</#if>
 			</#list>
-			<if test="lastModifyTime!=null and lastModifyTime!=''">
 			and lastModifyTime = ${r"#{"}lastModifyTime${r"}"}
-			</if>
 	</update>
 	
 	<!-- 删除 -->
@@ -143,7 +141,7 @@
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 1=1
 			<if test="${bgMaple.mapleCode}Id!=null and ${bgMaple.mapleCode}Id!=''">
-			 and ${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
+			 and ${bgMaple.mapleCode}Id != ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
 			</if>
 			<#list bgMapleDetailList as bgMapleDetail> 
 			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">

@@ -129,15 +129,6 @@ public class BgMapleController extends BaseController {
 			return mv;
 		}
 			
-		Date nowTime = new Date();
-		bgMaple.setMapleId(this.get32UUID());
-		bgMaple.setMapleStatus("00");
-		bgMaple.setEffective("01");
-		bgMaple.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
-		bgMaple.setCreateTime(nowTime);
-		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
-		bgMaple.setModifyTime(nowTime);
-			
 		bgMapleService.add(bgMaple);
 		resultInfo.setResultCode("success");
 
@@ -192,11 +183,6 @@ public class BgMapleController extends BaseController {
 			return mv;
 		}
 		
-		Date nowTime = new Date();
-	        
-		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
-		bgMaple.setModifyTime(nowTime);
-	        
 		bgMapleService.edit(bgMaple);
 		resultInfo.setResultCode("success");
 		
