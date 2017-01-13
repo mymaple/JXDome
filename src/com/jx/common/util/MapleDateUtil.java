@@ -22,6 +22,28 @@ public class MapleDateUtil {
 	} 
 	
 	/**
+	 * 获取sdf格式 字符串 
+	 * 默认yyyy-MM-dd HH:mm:ss
+	 * @param date
+	 * @return
+	 */
+	public static String formatDate(Date date) {
+		return SDF_TIME.format(date);
+	}
+	
+	/**
+	 * 获取sdf格式 日期
+	 * 默认yyyy-MM-dd HH:mm:ss
+	 * @param dateStr
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static Date parseDateStr(String dateStr) throws ParseException {
+		return SDF_TIME.parse(dateStr);
+	}
+	
+	
+	/**
 	 * 获取sdf格式 字符串
 	 * @param sdf
 	 * @param date
@@ -191,7 +213,9 @@ public class MapleDateUtil {
     }
     
     public static void main(String[] args) throws ParseException {
-		System.out.println(getYearSpace(parseDateStr(SDF.TIME, "2016-01-13 15:00:00"),new Date()));
+    	
+//		System.out.println(getYearSpace(parseDateStr(SDF.TIME, "2016-01-13 15:00:00"),new Date()));
+		System.out.println(parseDateStr(SDF_TIME, "2016-01-13 15:00:00"));
 //		System.out.println(getDaySpace(parseDateStr(SDF.DAY1, "20170113"),new Date()));
 	}
     
