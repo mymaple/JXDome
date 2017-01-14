@@ -48,6 +48,7 @@ public class BgMapleServiceImpl implements BgMapleService{
 		bgMaple.setCreateTime(nowTime);
 		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMaple.setModifyTime(nowTime);
+		
 		dao.add("BgMapleMapper.add", bgMaple);
 		
 		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.listByMapleId("27a853950d0e4876ba0eccf8d7e2dd8f");
@@ -55,10 +56,10 @@ public class BgMapleServiceImpl implements BgMapleService{
 			BgMapleDetail bgMapleDetail = bgMapleDetailList.get(i);
 			bgMapleDetail.setMapleDetailId(UuidUtil.get32UUID());
 			bgMapleDetail.setMapleId(bgMaple.getMapleId());
-			if(i<4){
-				bgMapleDetail.setMapleDetailCode(bgMaple.getMapleCode() + MapleStringUtil.firstToUpper(bgMapleDetail.getMapleDetailCode()));
-				bgMapleDetail.setMapleDetailName(bgMaple.getMapleName() + bgMapleDetail.getMapleDetailName());
-			}
+			bgMapleDetail.setMapleDetailCode(bgMaple.getMapleCode() + MapleStringUtil.firstToUpper(bgMapleDetail.getMapleDetailCode()));
+			bgMapleDetail.setMapleDetailName(bgMaple.getMapleName() + bgMapleDetail.getMapleDetailName());
+			
+			bgMapleDetail.setOrderNum(String.valueOf(new Date().getTime()));
 			bgMapleDetail.setCreateUserId(bgMaple.getCreateUserId());
 			bgMapleDetail.setCreateTime(bgMaple.getCreateTime());
 			bgMapleDetail.setModifyUserId(bgMaple.getModifyUserId());
@@ -66,8 +67,6 @@ public class BgMapleServiceImpl implements BgMapleService{
 			bgMapleDetailService.add(bgMapleDetail);
 		}
 	}
-			
-		
 	
 	/**
 	 * 修改 
@@ -82,6 +81,7 @@ public class BgMapleServiceImpl implements BgMapleService{
 		if(bgMaple.getModifyTime().compareTo(bgMaple.getLastModifyTime()) == 0){
 			bgMaple.setModifyTime(MapleDateUtil.getNextSecond(bgMaple.getModifyTime()));
 		}
+	
 		dao.edit("BgMapleMapper.edit", bgMaple);
 	}
 	
@@ -91,6 +91,13 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 * @throws Exception
 	 */
 	public void change(BgMaple bgMaple) throws Exception {
+		Date nowTime = new Date();
+		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMaple.setModifyTime(nowTime);
+		bgMaple.setLastModifyTime(this.findById(bgMaple.getMapleId()).getModifyTime());
+		if(bgMaple.getModifyTime().compareTo(bgMaple.getLastModifyTime()) == 0){
+			bgMaple.setModifyTime(MapleDateUtil.getNextSecond(bgMaple.getModifyTime()));
+		}
 		dao.edit("BgMapleMapper.change", bgMaple);
 	}
 
@@ -146,28 +153,6 @@ public class BgMapleServiceImpl implements BgMapleService{
 	}
 	
 	/**
-	 * 通过id获取(PageData)数据 
-	 * @param String mapleId
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdById(String mapleId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("mapleId",mapleId);
-		return this.findPdByPd(pd);
-	}
-	
-	/**
-	 * 通过pd获取(PageData)数据 
-	 * @param PageData pd
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdByPd(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgMapleMapper.findPdByPd", pd);
-	}
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
@@ -183,8 +168,8 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<BgMaple> has(BgMaple bgMaple) throws Exception {
-		return (List<BgMaple>) dao.findForList("BgMapleMapper.has", bgMaple);
+	public List<BgMaple> otherHave(BgMaple bgMaple) throws Exception {
+		return (List<BgMaple>) dao.findForList("BgMapleMapper.otherHave", bgMaple);
 	}
 	
 	/**
@@ -192,11 +177,11 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMaple> hasCode(String mapleId, String mapleCode) throws Exception {
+	public List<BgMaple> otherHaveCode(String mapleId, String mapleCode) throws Exception {
 		BgMaple bgMaple = new BgMaple();
 		bgMaple.setMapleId(mapleId);
 		bgMaple.setMapleCode(mapleCode);
-		return this.has(bgMaple);
+		return this.otherHave(bgMaple);
 	}
 	
 	/**

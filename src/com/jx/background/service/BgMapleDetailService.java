@@ -81,22 +81,6 @@ public interface BgMapleDetailService {
 	public BgMapleDetail findByPd(PageData pd) throws Exception ;
 	
 	/**
-	 * 通过id获取(PageData)数据 
-	 * @param String mapleDetailId
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdById(String mapleDetailId) throws Exception ;
-	
-	/**
-	 * 通过pd获取(PageData)数据 
-	 * @param PageData pd
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
@@ -108,14 +92,14 @@ public interface BgMapleDetailService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> has(BgMapleDetail bgMapleDetail) throws Exception ;
+	public List<BgMapleDetail> otherHave(BgMapleDetail bgMapleDetail) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> hasCode(String mapleDetailId, String mapleDetailCode) throws Exception ;
+	public List<BgMapleDetail> otherHaveCode(String mapleDetailId, String mapleDetailCode) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

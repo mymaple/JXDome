@@ -68,6 +68,7 @@
 									<th class="center">${bgMapleDetail.mapleDetailName}</th>
 								</#if>
 								</#list>
+									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -86,12 +87,13 @@
 										<#list bgMapleDetailList as bgMapleDetail>
 										<#if bgMapleDetail.isEdit == "01" >
 										<#if bgMapleDetail.mapleDetailType == "05">
-											<td class='center'><param:display type="bg_${bgMaple.mapleCode}Type" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/></td>
+											<td class='center'><param:display type="${bgMapleDetail.typeCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/></td>
 										<#else>
 											<td class='center'><#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ><a href="javascript:toDetail('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')"></#if>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}<#if bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" ></a></#if></td>
 										</#if>
 										</#if>
 										</#list>
+											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}.orderNum${r"}"}</td>
 											<td class="center">
 												<c:if test="${r"${!RIGHTS.edit && !RIGHTS.del }"}">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

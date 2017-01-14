@@ -25,6 +25,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div id="zhongxin" style="padding-top: 13px;">
+						<c:if test="${resultInfo.resultCode != 'success'}">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr><th style="text-align: center;">保存失败</th></tr>
 							<tr>
@@ -59,6 +60,7 @@
 								</td>
 							</tr>
 						</table>
+						</c:if>
 						</div>
 					</div>
 					<!-- /.col -->

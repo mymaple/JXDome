@@ -6,12 +6,13 @@ import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
+import com.jx.common.config.BaseEntity;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 
-public class ${bgMaple.mapleEntityUpper} implements Serializable {
+public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializable {
 	
 	/**
 	 * 
@@ -145,46 +146,36 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	
 	/**************************custom prop end**********************************/
 	
-	//新增校验分组
-	public interface ValidationAdd
-	{
-	//接口中不需要任何定义
-	}
-	
-	//编辑校验分组
-	public interface ValidationEdit
-	{
-	//接口中不需要任何定义
-	}
-	
 	/**************************table prop satrt*********************************/
 	
 	/** ${bgMaple.mapleName} 主键id */
-	@NotEmpty(message="${bgMaple.mapleName} 主键id 不能为空", groups={ValidationEdit.class})
+	@NotBlank(message="${bgMaple.mapleName} 主键id 不能为空", groups={ValidationEdit.class})
 	private String ${bgMaple.mapleCode}Id;
 	
 	/** 上级 id */
-	@NotEmpty(message="上级 id 不能为空", groups={ValidationAdd.class})
+	@NotBlank(message="上级 id 不能为空", groups={ValidationAdd.class})
 	private String parentId;
 	
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
 	@Pattern(regexp = "^[a-z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
-		<#elseif bgMapleDetail.mapleDetailCode = "orderNum">
-	@Pattern(regexp = "^[0-9]*$", message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
-		<#elseif bgMapleDetail.mapleDetailCode = "orderNum">
-	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationEdit.class})
 		<#elseif bgMapleDetail.isEdit = "01">
-	@NotEmpty(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>
-		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	private String ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
+		<#if bgMapleDetail.isEdit = "01">
+	@Pattern(regexp = "^[1-9]\d*$", message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+		</#if>
 	private int ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '03'>
 	private Date ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '04'>
+		<#if bgMapleDetail.isEdit = "01">
+	@Pattern(regexp = "^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$", message="${bgMapleDetail.mapleDetailName} 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
+		</#if>
 	private double ${bgMapleDetail.mapleDetailCode};
 		</#if>
 		
@@ -287,7 +278,7 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 		${bgMapleDetail.mapleDetailCode}Str = MapleStringUtil.trim(${bgMapleDetail.mapleDetailCode}Str);
 		if(!${bgMapleDetail.mapleDetailCode}Str.equals("")){
 			try{
-				set${bgMapleDetail.mapleDetailCodeUpper}(MapleDateUtil.parseDate(${bgMapleDetail.mapleDetailCode}Str));
+				set${bgMapleDetail.mapleDetailCodeUpper}(MapleDateUtil.parseDateStr(${bgMapleDetail.mapleDetailCode}Str));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -295,7 +286,7 @@ public class ${bgMaple.mapleEntityUpper} implements Serializable {
 	}
 
 	public String get${bgMapleDetail.mapleDetailCodeUpper}Str(){
-		return MapleDateUtil.getFormatedDateString(get${bgMapleDetail.mapleDetailCodeUpper}());
+		return MapleDateUtil.formatDate(get${bgMapleDetail.mapleDetailCodeUpper}());
 	}	
 		<#elseif bgMapleDetail.mapleDetailType == '04'>
 	/**

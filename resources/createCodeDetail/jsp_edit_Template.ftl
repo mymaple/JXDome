@@ -46,17 +46,21 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 						<#if bgMapleDetail.mapleDetailType == '01'>
-								<td><input type="text" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.totalLength}" placeholder="这里输入 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;" <#if bgMapleDetail.mapleDetailCode == '${bgMaple.mapleCode }Code'>onblur="hasCode()"</#if>/></td>
+								<td><input type="text" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.totalLength}" placeholder="这里输入 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;" <#if bgMapleDetail.mapleDetailCode == '${bgMaple.mapleCode }Code'>onblur="otherNotCode()"</#if>/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '02' || bgMapleDetail.mapleDetailType == '04'>
 								<td><input type="number" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.totalLength}" placeholder="这里输入 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '03'>
-								<td><input class="span10 date-picker" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
+								<td><input class="span10 date-picker" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" type="text" data-date-format="yyyy-mm-dd 00:00:00" readonly="readonly" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '05'>
-								<td><param:select type="bg_${bgMaple.mapleCode}Type" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td><param:select type="${bgMapleDetail.typeCode}" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 						</#if>
 							</tr>
 					</#if>
 				</#list>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${r"${"}${bgMaple.mapleEntityLower}.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
+							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
@@ -94,7 +98,7 @@
 		$(top.hangge());
 		
 		//判断${bgMaple.mapleCode}Code是否存在
-		function hasCode(){
+		function otherNotCode(){
 			var ${bgMaple.mapleCode}Code = $("#${bgMaple.mapleCode}Code").val();
 			if(${bgMaple.mapleCode}Code == "") return false;
 			var ${bgMaple.mapleCode}Id = $("#${bgMaple.mapleCode}Id").val();
@@ -103,7 +107,7 @@
 					var ${bgMapleDetail.mapleDetailCode} = $("#${bgMapleDetail.mapleDetailCode}").val();
 				</#if>
 			</#list>
-			var url = "<%=basePath%>background/${bgMaple.mapleCode}/hasCode.do?${bgMaple.mapleCode}Id="<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01" >+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+${bgMaple.mapleCode}Id+"&${bgMaple.mapleCode}Code="+${bgMaple.mapleCode}Code+"&tm="+new Date().getTime();
+			var url = "<%=basePath%>background/${bgMaple.mapleCode}/otherNotCode.do?${bgMaple.mapleCode}Id="<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01" >+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+${bgMaple.mapleCode}Id+"&${bgMaple.mapleCode}Code="+${bgMaple.mapleCode}Code+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#${bgMaple.mapleCode}Code").tips({
@@ -120,9 +124,11 @@
 		
 		//保存
 		function save(){
+			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+			var intExp = /^[1-9]\d*$/;
+			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/;
 		<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
-			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			if(!codeExp.test($("#${bgMapleDetail.mapleDetailCode }").val())){
 				$("#${bgMapleDetail.mapleDetailCode }").tips({
 					side:3,
@@ -133,12 +139,35 @@
 				$("#${bgMapleDetail.mapleDetailCode }").focus();
 			return false;
 			}
-		<#elseif bgMapleDetail.mapleDetailCode = "orderNum">
-			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
-			if(!codeExp.test($("#${bgMapleDetail.mapleDetailCode }").val())){
+		<#elseif bgMapleDetail.isEdit == "01" >	
+		<#if bgMapleDetail.mapleDetailType == '01'> 
+			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
+				$("#${bgMapleDetail.mapleDetailCode }").tips({
+					side:3,
+		            msg:'请输入${bgMapleDetail.mapleDetailName }',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#${bgMapleDetail.mapleDetailCode }").focus();
+			return false;
+			}
+		<#elseif bgMapleDetail.mapleDetailType == '02'>
+			if(!intExp.test($("#${bgMapleDetail.mapleDetailCode }").val())){
 				$("#${bgMapleDetail.mapleDetailCode }").tips({
 					side:3,
 		            msg:'请输入${bgMapleDetail.mapleDetailName } 需是数字',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#${bgMapleDetail.mapleDetailCode }").focus();
+			return false;
+			}
+		<#elseif bgMapleDetail.mapleDetailType == '03'>
+		<#elseif bgMapleDetail.mapleDetailType == '04'>
+			if(!intExp.test($("#${bgMapleDetail.mapleDetailCode }").val())){
+				$("#${bgMapleDetail.mapleDetailCode }").tips({
+					side:3,
+		            msg:'请输入${bgMapleDetail.mapleDetailName } 最多为两位小数',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -155,19 +184,19 @@
 		        });
 			return false;
 			}
-		<#elseif bgMapleDetail.isEdit == "01" >
-			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
-				$("#${bgMapleDetail.mapleDetailCode }").tips({
+		</#if>
+		</#if>
+		</#list>
+			if(!intExp.test($("#orderNum").val())){
+				$("#orderNum").tips({
 					side:3,
-		            msg:'请输入${bgMapleDetail.mapleDetailName }',
+		            msg:'排序编号 需是数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#${bgMapleDetail.mapleDetailCode }").focus();
+				$("#orderNum").focus();
 			return false;
 			}
-		</#if>
-		</#list>
 			$("#${bgMaple.mapleCode}Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

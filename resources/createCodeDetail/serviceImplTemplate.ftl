@@ -1,5 +1,6 @@
 package com.jx.${bgMaple.entityPackage}.service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Service;
 import com.jx.${bgMaple.controllerPackage}.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.UuidUtil;
 import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
 import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper}Service;
+import com.jx.background.util.BgSessionUtil;
 
 @Service("${bgMaple.mapleEntityLower}Service")
 public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEntityUpper}Service{
@@ -27,9 +31,9 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	public List<BgMapleDetail> listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) throws Exception {
-		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(${bgMaple.mapleCode ?replace('Detail','')}Id);
-		return this.has(${bgMaple.mapleEntityLower});
+		PageData pd = new PageData();
+		pd.put("${bgMaple.mapleCode ?replace('Detail','')}Id",${bgMaple.mapleCode ?replace('Detail','')}Id);
+		return this.listByPd(pd);
 	}
 	
 	/****************************custom * end  ***********************************/
@@ -42,6 +46,28 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	public void add(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+		
+		Date nowTime = new Date();
+		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(UuidUtil.get32UUID());
+		<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.isEdit == '00'>
+			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '02'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '03'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+			<#elseif bgMapleDetail.mapleDetailType == '04'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+			</#if>
+			</#if>
+		</#list>
+		${bgMaple.mapleEntityLower}.setEffective("01");
+		${bgMaple.mapleEntityLower}.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		${bgMaple.mapleEntityLower}.setCreateTime(nowTime);
+		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
+		
 		dao.add("${bgMaple.mapleEntityUpper}Mapper.add", ${bgMaple.mapleEntityLower});
 	}
 	
@@ -51,6 +77,14 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	public void edit(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+		Date nowTime = new Date();
+		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
+		${bgMaple.mapleEntityLower}.setLastModifyTime(this.findById(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()).getModifyTime());
+		if(${bgMaple.mapleEntityLower}.getModifyTime().compareTo(${bgMaple.mapleEntityLower}.getLastModifyTime()) == 0){
+			${bgMaple.mapleEntityLower}.setModifyTime(MapleDateUtil.getNextSecond(${bgMaple.mapleEntityLower}.getModifyTime()));
+		}
+	
 		dao.edit("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
 	}
 	
@@ -60,6 +94,13 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	public void change(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+		Date nowTime = new Date();
+		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
+		${bgMaple.mapleEntityLower}.setLastModifyTime(this.findById(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()).getModifyTime());
+		if(${bgMaple.mapleEntityLower}.getModifyTime().compareTo(${bgMaple.mapleEntityLower}.getLastModifyTime()) == 0){
+			${bgMaple.mapleEntityLower}.setModifyTime(MapleDateUtil.getNextSecond(${bgMaple.mapleEntityLower}.getModifyTime()));
+		}
 		dao.edit("${bgMaple.mapleEntityUpper}Mapper.change", ${bgMaple.mapleEntityLower});
 	}
 
@@ -125,33 +166,6 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	}
 	
 	/**
-	 * 通过id获取(PageData)数据 
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
-		PageData pd = new PageData();
-		pd.put("${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
-	<#list bgMapleDetailList as bgMapleDetail>
-	<#if bgMapleDetail.isKey == "01">
-		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
-	</#if>
-	</#list>
-		return this.findPdByPd(pd);
-	}
-	
-	/**
-	 * 通过pd获取(PageData)数据 
-	 * @param PageData pd
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdByPd(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("${bgMaple.mapleEntityUpper}Mapper.findPdByPd", pd);
-	}
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
@@ -167,8 +181,8 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<${bgMaple.mapleEntityUpper}> has(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
-		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.has", ${bgMaple.mapleEntityLower});
+	public List<${bgMaple.mapleEntityUpper}> otherHave(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.otherHave", ${bgMaple.mapleEntityLower});
 	}
 	
 	/**
@@ -176,11 +190,11 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${bgMaple.mapleEntityUpper}> hasCode(String ${bgMaple.mapleCode}Id, String ${bgMaple.mapleCode}Code) throws Exception {
+	public List<${bgMaple.mapleEntityUpper}> otherHaveCode(String ${bgMaple.mapleCode}Id, String ${bgMaple.mapleCode}Code) throws Exception {
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(${bgMaple.mapleCode}Id);
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Code(${bgMaple.mapleCode}Code);
-		return this.has(${bgMaple.mapleEntityLower});
+		return this.otherHave(${bgMaple.mapleEntityLower});
 	}
 	
 	/**

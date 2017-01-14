@@ -34,7 +34,7 @@
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成代号:</td>
-								<td><input type="text" name="mapleCode" id="mapleCode" value="${bgMaple.mapleCode}" maxlength="100" placeholder="这里输入 代码生成代号" title="代码生成代号" style="width:98%;" onblur="hasCode()"/></td>
+								<td><input type="text" name="mapleCode" id="mapleCode" value="${bgMaple.mapleCode}" maxlength="100" placeholder="这里输入 代码生成代号" title="代码生成代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成名称:</td>
@@ -93,11 +93,11 @@
 		$(top.hangge());
 		
 		//判断mapleCode是否存在
-		function hasCode(){
+		function otherNotCode(){
 			var mapleCode = $("#mapleCode").val();
 			if(mapleCode == "") return false;
 			var mapleId = $("#mapleId").val();
-			var url = "<%=basePath%>background/maple/hasCode.do?mapleId="+mapleId+"&mapleCode="+mapleCode+"&tm="+new Date().getTime();
+			var url = "<%=basePath%>background/maple/otherNotCode.do?mapleId="+mapleId+"&mapleCode="+mapleCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#mapleCode").tips({

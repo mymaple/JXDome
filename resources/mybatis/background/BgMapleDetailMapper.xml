@@ -5,6 +5,7 @@
 
 	<sql id="mapleDetailColumns">mapleDetailId,mapleId,mapleDetailCode,mapleDetailName,mapleDetailType,mapleDetailStatus,totalLength,decimalLength,typeCode,isKey,isEdit,isNull,defaultValue,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="mapleDetailTable">bg_maple_detail</sql>
+	<sql id="mapleTable">bg_maple_main</sql>
 	
 	<resultMap type="bgMapleDetail" id="bgMapleDetailResultMap">
 		<id column="mapleDetailId" property="mapleDetailId"/>
@@ -37,17 +38,6 @@
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
 	<insert id="add" parameterType="bgMapleDetail">
-		insert into 
-	<include refid="mapleDetailTable"/>
-		( 
-	<include refid="mapleDetailColumns"/>
-		) values (
-			#{mapleDetailId},#{mapleId},#{mapleDetailCode},#{mapleDetailName},#{mapleDetailType},#{mapleDetailStatus},#{totalLength},#{decimalLength},#{typeCode},#{isKey},#{isEdit},#{isNull},#{defaultValue},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
-		)
-	</insert>
-	
-	<!-- 新增 -->
-	<insert id="addByPd" parameterType="pd">
 		insert into 
 	<include refid="mapleDetailTable"/>
 		( 
@@ -99,51 +89,9 @@
 			modifyTime = #{modifyTime}
 		where 
 			mapleDetailId = #{mapleDetailId} 
+			and modifyTime = #{lastModifyTime}
 	</update>
 	
-	<!-- 修改 -->
-	<update id="editByPd" parameterType="pd">
-		update
-	<include refid="mapleDetailTable"/>
-		set 
-			<if test="mapleDetailCode!=null and mapleDetailCode!=''">
-			mapleDetailCode = #{mapleDetailCode},
-			</if>
-			<if test="mapleDetailName!=null and mapleDetailName!=''">
-			mapleDetailName = #{mapleDetailName},
-			</if>
-			<if test="mapleDetailType!=null and mapleDetailType!=''">
-			mapleDetailType = #{mapleDetailType},
-			</if>
-			<if test="totalLength!=null and totalLength!=''">
-			totalLength = #{totalLength},
-			</if>
-			<if test="decimalLength!=null and decimalLength!=''">
-			decimalLength = #{decimalLength},
-			</if>
-			<if test="typeCode!=null and typeCode!=''">
-			typeCode = #{typeCode},
-			</if>
-			<if test="isKey!=null and isKey!=''">
-			isKey = #{isKey},
-			</if>
-			<if test="isEdit!=null and isEdit!=''">
-			isEdit = #{isEdit},
-			</if>
-			<if test="isNull!=null and isNull!=''">
-			isNull = #{isNull},
-			</if>
-			<if test="defaultValue!=null and defaultValue!=''">
-			defaultValue = #{defaultValue},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			orderNum = #{orderNum},
-			</if>
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			mapleDetailId = #{mapleDetailId} 
-	</update>
 	
 	<!-- 改变 -->
 	<update id="change" parameterType="bgMapleDetail">
@@ -196,6 +144,7 @@
 			modifyTime = #{modifyTime}
 		where 
 			mapleDetailId = #{mapleDetailId} 
+			and modifyTime = #{lastModifyTime}
 	</update>
 	
 	<!-- 删除 -->
@@ -227,16 +176,6 @@
 			mapleDetailId = #{mapleDetailId} 
 	</select>
 	
-	<!-- 通过pd获取(PageData)数据  -->
-	<select id="findPdByPd" parameterType="pd" resultType="pd">
-		select 
-	<include refid="mapleDetailColumns"/>
-		from 
-	<include refid="mapleDetailTable"/>
-		where 
-			mapleDetailId = #{mapleDetailId} 
-	</select>
-	
 	<!-- 获取(类)List数据  -->
 	<select id="listByPd" parameterType="pd" resultMap="bgMapleDetailResultMap">
 		select 
@@ -244,18 +183,21 @@
 		from 
 	<include refid="mapleDetailTable"/>
 		where 1=1
+			<if test="mapleId!=null and mapleId!=''">
+			and mapleId = #{mapleId}
+			</if>
 		order by (orderNum+0) 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="has" parameterType="bgMapleDetail" resultMap="bgMapleDetailResultMap">
+	<select id="otherHave" parameterType="bgMapleDetail" resultMap="bgMapleDetailResultMap">
 		select 
 	<include refid="mapleDetailColumns"/>
 		from 
 	<include refid="mapleDetailTable"/>
 		where 1=1
 			<if test="mapleDetailId!=null and mapleDetailId!=''">
-			 and mapleDetailId = #{mapleDetailId} 
+			 and mapleDetailId != #{mapleDetailId} 
 			</if>
 			<if test="mapleId!=null and mapleId!=''">
 			and mapleId = #{mapleId}

@@ -5,12 +5,13 @@ import java.util.Date;
 
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
+import com.jx.common.config.BaseEntity;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 
-public class BgMapleDetail implements Serializable {
+public class BgMapleDetail extends BaseEntity implements Serializable {
 	
 	/**
 	 * 
@@ -44,89 +45,58 @@ public class BgMapleDetail implements Serializable {
 	
 	/**************************custom prop end**********************************/
 	
-	//新增校验分组
-	public interface ValidationAdd
-	{
-	//接口中不需要任何定义
-	}
-	
-	//编辑校验分组
-	public interface ValidationEdit
-	{
-	//接口中不需要任何定义
-	}
-	
 	/**************************table prop satrt*********************************/
 	
 	/** 代码生成详情 主键id */
-	@NotEmpty(message="代码生成详情 主键id 不能为空", groups={ValidationEdit.class})
+	@NotBlank(message="代码生成详情 主键id 不能为空", groups={ValidationEdit.class})
 	private String mapleDetailId;
 	
 	/** 代码生成 id */
-	@NotEmpty(message="代码生成id 不能为空", groups={ValidationAdd.class})
+	@NotBlank(message="代码生成id 不能为空", groups={ValidationAdd.class})
 	private String mapleId;
 	
 	/** 代码生成详情代号 */
-	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="代码生成详情代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = "^[a-z][a-zA-Z0-9_]*$", message="代码生成详情代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String mapleDetailCode;
 		
 	/** 代码生成详情名称 */
-	@NotEmpty(message="代码生成详情名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="代码生成详情名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String mapleDetailName;
 		
 	/** 代码生成详情类型 */
-	@NotEmpty(message="代码生成详情类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="代码生成详情类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String mapleDetailType;
 		
 	/** 代码生成详情状态 */
 	private String mapleDetailStatus;
 		
 	/** 总长度 */
-//	@NotEmpty(message="总长度 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String totalLength;
+//	@Pattern(regexp = "^[1-9]\d*$", message="总长度 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	private int totalLength;
 		
 	/** 小数长度 */
-//	@NotEmpty(message="小数长度 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String decimalLength;
+//	@Pattern(regexp = "^[1-9]\d*$", message="小数长度 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	private int decimalLength;
 		
 	/** 类型代号 */
-//	@NotEmpty(message="类型代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+//	@NotBlank(message="类型代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String typeCode;
 		
 	/** 是否主键 */
-	@NotEmpty(message="是否主键 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="是否主键 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String isKey;
 		
 	/** 是否录入 */
-	@NotEmpty(message="是否录入 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="是否录入 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String isEdit;
 		
 	/** 是否null */
-	@NotEmpty(message="是否null 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="是否null 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String isNull;
 		
 	/** 默认值 */
-//	@NotEmpty(message="默认值 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+//	@NotBlank(message="默认值 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String defaultValue;
-		
-	/** 排序编号 */
-	@NotEmpty(message="排序编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String orderNum;
-		
-	/** 有效标志 */
-	private String effective;
-		
-	/** 创建人员id */
-	private String createUserId;
-		
-	/** 创建时间 */
-	private Date createTime;
-		
-	/** 修改人员id */
-	private String modifyUserId;
-		
-	/** 修改时间 */
-	private Date modifyTime;
 		
 	
 	
@@ -241,36 +211,36 @@ public class BgMapleDetail implements Serializable {
 	/**
 	 * 设置 总长度
 	 * 
-	 * @param String totalLength
+	 * @param int totalLength
 	 */
-	public void setTotalLength(String totalLength) {
-		this.totalLength = MapleStringUtil.trim(totalLength);
+	public void setTotalLength(int totalLength) {
+		this.totalLength = totalLength;
 	}
 	
 	/**
 	 * 获取 总长度
 	 * 
-	 * @return String totalLength
+	 * @return int totalLength
 	 */
-	public String getTotalLength() {
+	public int getTotalLength() {
 		return this.totalLength;
 	}
 	
 	/**
 	 * 设置 小数长度
 	 * 
-	 * @param String decimalLength
+	 * @param int decimalLength
 	 */
-	public void setDecimalLength(String decimalLength) {
-		this.decimalLength = MapleStringUtil.trim(decimalLength);
+	public void setDecimalLength(int decimalLength) {
+		this.decimalLength = decimalLength;
 	}
 	
 	/**
 	 * 获取 小数长度
 	 * 
-	 * @return String decimalLength
+	 * @return int decimalLength
 	 */
-	public String getDecimalLength() {
+	public int getDecimalLength() {
 		return this.decimalLength;
 	}
 	
@@ -364,113 +334,6 @@ public class BgMapleDetail implements Serializable {
 		return this.defaultValue;
 	}
 	
-	/**
-	 * 设置 排序编号
-	 * 
-	 * @param String orderNum
-	 */
-	public void setOrderNum(String orderNum) {
-		this.orderNum = MapleStringUtil.trim(orderNum);
-	}
 	
-	/**
-	 * 获取 排序编号
-	 * 
-	 * @return String orderNum
-	 */
-	public String getOrderNum() {
-		return this.orderNum;
-	}
-	
-	/**
-	 * 设置 有效标志
-	 * 
-	 * @param String effective
-	 */
-	public void setEffective(String effective) {
-		this.effective = MapleStringUtil.trim(effective);
-	}
-	
-	/**
-	 * 获取 有效标志
-	 * 
-	 * @return String effective
-	 */
-	public String getEffective() {
-		return this.effective;
-	}
-	
-	/**
-	 * 设置 创建人员id
-	 * 
-	 * @param String createUserId
-	 */
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = MapleStringUtil.trim(createUserId);
-	}
-	
-	/**
-	 * 获取 创建人员id
-	 * 
-	 * @return String createUserId
-	 */
-	public String getCreateUserId() {
-		return this.createUserId;
-	}
-	
-	/**
-	 * 设置 创建时间
-	 * 
-	 * @param Date createTime
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	
-	/**
-	 * 获取 创建时间
-	 * 
-	 * @return Date createTime
-	 */
-	public Date getCreateTime() {
-		return this.createTime;
-	}	
-		
-	/**
-	 * 设置 修改人员id
-	 * 
-	 * @param String modifyUserId
-	 */
-	public void setModifyUserId(String modifyUserId) {
-		this.modifyUserId = MapleStringUtil.trim(modifyUserId);
-	}
-	
-	/**
-	 * 获取 修改人员id
-	 * 
-	 * @return String modifyUserId
-	 */
-	public String getModifyUserId() {
-		return this.modifyUserId;
-	}
-	
-	/**
-	 * 设置 修改时间
-	 * 
-	 * @param Date modifyTime
-	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
-	
-	/**
-	 * 获取 修改时间
-	 * 
-	 * @return Date modifyTime
-	 */
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}	
-		
 	/**************************table prop  end  *********************************/
 }

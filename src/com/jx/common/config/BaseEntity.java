@@ -9,6 +9,14 @@ import com.jx.common.util.MapleStringUtil;
 
 public class BaseEntity {
 	
+	public interface ValidationAdd {
+
+	}
+	
+	public interface ValidationEdit {
+		
+	}
+
 	
 	/** 排序编号 */
 	@NotEmpty(message="排序编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})

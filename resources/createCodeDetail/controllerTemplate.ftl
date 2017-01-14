@@ -20,18 +20,20 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jx.${bgMaple.controllerPackage}.config.BgPage;
 import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
+import com.jx.common.config.BaseEntity.ValidationAdd;
+import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
+import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper ?replace('Detail','')};
 import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
-import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper}.ValidationAdd;
-import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper}.ValidationEdit;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
+import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper ?replace('Detail','')}Service;
 import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper}Service;
 
 /** 
@@ -46,7 +48,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}/${bgMaple.mapleCode}";
+	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}/${bgMaple.mapleCode ?replace('Detail','')}";
 	
 	@Resource(name="${bgMaple.mapleEntityLower}Service")
 	private ${bgMaple.mapleEntityUpper}Service ${bgMaple.mapleEntityLower}Service;
@@ -67,7 +69,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		String ${bgMaple.mapleCode ?replace('Detail','')}Id = pd.getString("${bgMaple.mapleCode ?replace('Detail','')}Id");								//${bgMaple.mapleName ?replace('详情','')} id 
 
 		String keywords = pd.getString("keywords");								//关键词检索条件
-		if(null != keywords && !"".equals(keywords)){
+		if(MapleStringUtil.notEmpty(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
 			
@@ -117,6 +119,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			</#if>
 			</#if>
 		</#list>
+		${bgMaple.mapleEntityLower}.setOrderNum(String.valueOf(nowTime.getTime()));
 		
 		mv.addObject(${bgMaple.mapleEntityLower});
 		mv.addObject("methodPath", "add");
@@ -149,29 +152,10 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			return mv;
 		}
 		
-		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode("", ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.otherHaveCode("", ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());
 		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
 			mv.addObject(resultInfo);					
 			return mv;
-		}
-			
-		Date nowTime = new Date();
-		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
-		<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isEdit == '00'>
-			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '02'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '03'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '04'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
-			</#if>
-			</#if>
-		</#list>
-		if(MapleStringUtil.isEmpty(${bgMaple.mapleEntityLower}.getOrderNum())){
-			${bgMaple.mapleEntityLower}.setOrderNum(String.valueOf(nowTime.getTime()));
 		}
 			
 		${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
@@ -222,17 +206,12 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			return mv; 
 		}
 		
-		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id(), ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.otherHaveCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id(), ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
 		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
 		
-		Date nowTime = new Date();
-	        
-		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
-		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
-	        
 		${bgMaple.mapleEntityLower}Service.edit(${bgMaple.mapleEntityLower});
 		resultInfo.setResultCode("success");
 		
@@ -243,13 +222,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	/**
 	 * 判断是否存在dictCode
 	 */
-	@RequestMapping(value="/hasCode")
+	@RequestMapping(value="/otherNotCode")
 	@ResponseBody
-	public Object hasCode(@RequestParam String ${bgMaple.mapleCode}Id, @RequestParam String ${bgMaple.mapleCode}Code) throws Exception{
+	public Object otherNotCode(@RequestParam String ${bgMaple.mapleCode}Id, @RequestParam String ${bgMaple.mapleCode}Code) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.hasCode(${bgMaple.mapleCode}Id, ${bgMaple.mapleCode}Code);	
+		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.otherHaveCode(${bgMaple.mapleCode}Id, ${bgMaple.mapleCode}Code);	
 		if(MapleUtil.emptyList(${bgMaple.mapleEntityLower}List)){
 			resultInfo.setResultCode("success");
 		}
@@ -282,7 +261,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 
 		String ids = pd.getString("ids");
-		if(null == ids || "".equals(ids)){
+		if(MapleStringUtil.isEmpty(ids)){
 			return AppUtil.returnResult(pd, resultInfo);
 		}
 		${bgMaple.mapleEntityLower}Service.batchDeleteByIds(ids.split(","));	//根据ID删除
@@ -305,9 +284,16 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		List<String> titles = new ArrayList<String>();
 		titles.add("${bgMaple.mapleName} 主键id");
 		titles.add("${bgMaple.mapleName ?replace('详情','')} id");
+	<#assign iii = 2 >
 	<#list bgMapleDetailList as bgMapleDetail>
-		titles.add("${bgMapleDetail.mapleDetailName}");	//${bgMapleDetail_index+2}
+		titles.add("${bgMapleDetail.mapleDetailName}");	//#{iii}<#assign iii=iii+1 />
 	</#list>
+		titles.add("排序编号");	//#{iii}<#assign iii=iii+1 />
+		titles.add("有效标志");	//#{iii}<#assign iii=iii+1 />
+		titles.add("创建人员id");	//#{iii}<#assign iii=iii+1 />
+		titles.add("创建时间");	//#{iii}<#assign iii=iii+1 />
+		titles.add("修改人员id");	//#{iii}<#assign iii=iii+1 />
+		titles.add("修改时间");	//#{iii}<#assign iii=iii+1 />
 		dataMap.put("titles", titles);
 		List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
@@ -316,9 +302,16 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				
 			vpd.put("var0",varOList.get(i).get${bgMaple.mapleCodeUpper}Id());
 			vpd.put("var1",varOList.get(i).get${bgMaple.mapleCodeUpper ?replace('Detail','')}Id());
+		<#assign iii = 2 >
 		<#list bgMapleDetailList as bgMapleDetail>
-			vpd.put("var${bgMapleDetail_index+2}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}());	//${bgMapleDetail_index+2}
+			vpd.put("var#{iii}", varOList.get(i).get${(bgMapleDetail.mapleDetailCodeUpper)}());	//#{iii}<#assign iii=iii+1 />
 		</#list>
+			vpd.put("var#{iii}", varOList.get(i).getOrderNum());		//#{iii}<#assign iii=iii+1 />
+			vpd.put("var#{iii}", varOList.get(i).getEffective());	//#{iii}<#assign iii=iii+1 />
+			vpd.put("var#{iii}", varOList.get(i).getCreateUserId());	//#{iii}<#assign iii=iii+1 />
+			vpd.put("var#{iii}", varOList.get(i).getCreateTime());	//#{iii}<#assign iii=iii+1 />
+			vpd.put("var#{iii}", varOList.get(i).getModifyUserId());//#{iii}<#assign iii=iii+1 />
+			vpd.put("var#{iii}", varOList.get(i).getModifyTime());	//#{iii}<#assign iii=iii+1 />
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -371,7 +364,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		List<String> titles = new ArrayList<String>();
 <#assign iii = 0 >
 <#list bgMapleDetailList as bgMapleDetail>
-	<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.mapleDetailCode  != 'orderNum'>	
+	<#if bgMapleDetail.isEdit == '01'>	
 		titles.add("${bgMapleDetail.mapleDetailName}");	//#{iii}
 		<#assign iii=iii+1 />
 	</#if>
@@ -412,25 +405,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		String ${bgMaple.mapleCode ?replace('Detail','')}Id = pd.getString("pId");//上级id	
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(${bgMaple.mapleCode ?replace('Detail','')}Id);
-		Date nowTime = new Date();
-			<#list bgMapleDetailList as bgMapleDetail>
-				<#if bgMapleDetail.isEdit != '01' && bgMapleDetail.mapleDetailCode  != 'orderNum'>	
-			<#if bgMapleDetail.mapleDetailType == '01'|| bgMapleDetail.mapleDetailType == '05'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '02'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '03'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
-			<#elseif bgMapleDetail.mapleDetailType == '04'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
-				</#if>
-			</#if>
-			</#list>
 				
 		/**
 		<#assign iii = 0 >
 		<#list bgMapleDetailList as bgMapleDetail>
-			<#if bgMapleDetail.isEdit == '01' && bgMapleDetail.mapleDetailCode  != 'orderNum'>
+			<#if bgMapleDetail.isEdit == '01'>
 		 * var#{iii} :${bgMapleDetail.mapleDetailName};	//#{iii}
 			<#assign iii=iii+1 />
 			</#if>
@@ -440,15 +419,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(this.get32UUID());
 			<#assign iii = 0 >
 			<#list bgMapleDetailList as bgMapleDetail>
-				<#if bgMapleDetail.mapleDetailCode == 'orderNum'>	
-			nowTime = new Date();
-			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
-				<#elseif bgMapleDetail.isEdit == '01' && bgMapleDetail.mapleDetailCode  != 'orderNum'>	
+				<#if bgMapleDetail.isEdit == '01'>	
 			${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(listPd.get(i).getString("var#{iii}"));
 				<#assign iii=iii+1 />
 				</#if>
 			</#list>
-			
 			${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
 		}
 		/*存入数据库操作======================================*/

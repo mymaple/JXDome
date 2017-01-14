@@ -21,6 +21,17 @@ CREATE TABLE `${bgMaple.tableCode}` (
 		</#if>
 			<#if bgMapleDetail.isNull == '00'> NOT NULL <#else> DEFAULT NULL </#if> COMMENT '${bgMapleDetail.mapleDetailName}', 
 	</#list>
-  
+  	`orderNum` varchar(100)
+			 DEFAULT NULL  COMMENT '排序编号', 
+	`effective` varchar(100)
+			 DEFAULT NULL  COMMENT '有效标志', 
+	`createUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '创建人员id', 
+	`createTime` datetime
+			 DEFAULT NULL  COMMENT '创建时间', 
+	`modifyUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '修改人员id', 
+	`modifyTime` datetime
+			 DEFAULT NULL  COMMENT '修改时间', 
   PRIMARY KEY (`${bgMaple.mapleCode}Id`<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, `${bgMapleDetail.mapleDetailCode}`</#if></#list>)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '${bgMaple.mapleName}';

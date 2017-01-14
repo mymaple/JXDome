@@ -81,22 +81,6 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	public ${bgMaple.mapleEntityUpper} findByPd(PageData pd) throws Exception ;
 	
 	/**
-	 * 通过id获取(PageData)数据 
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception ;
-	
-	/**
-	 * 通过pd获取(PageData)数据 
-	 * @param PageData pd
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
@@ -108,14 +92,14 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${bgMaple.mapleEntityUpper}> has(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception ;
+	public List<${bgMaple.mapleEntityUpper}> otherHave(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${bgMaple.mapleEntityUpper}> hasCode(String ${bgMaple.mapleCode}Id, String ${bgMaple.mapleCode}Code) throws Exception ;
+	public List<${bgMaple.mapleEntityUpper}> otherHaveCode(String ${bgMaple.mapleCode}Id, String ${bgMaple.mapleCode}Code) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

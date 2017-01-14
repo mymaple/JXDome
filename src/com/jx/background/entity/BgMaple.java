@@ -5,11 +5,9 @@ import java.util.Date;
 
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
-import com.jx.common.config.ValidationAdd;
-import com.jx.common.config.ValidationEdit;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 
@@ -155,36 +153,36 @@ public class BgMaple extends BaseEntity implements Serializable {
 	
 	/**************************custom prop end**********************************/
 	
-	
 	/**************************table prop satrt*********************************/
 	
 	/** 代码生成 主键id */
-	@NotEmpty(message="代码生成 主键id 不能为空", groups={ValidationEdit.class})
+	@NotBlank(message="代码生成 主键id 不能为空", groups={ValidationEdit.class})
 	private String mapleId;
 	
 	/** 代码生成代号 */
-	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="代码生成代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = "^[a-z][a-zA-Z0-9_]*$", message="代码生成代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String mapleCode;
 		
 	/** 代码生成名称 */
-	@NotEmpty(message="代码生成名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="代码生成名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String mapleName;
 		
 	/** 代码生成类型 */
-	@NotEmpty(message="代码生成类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="代码生成类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String mapleType;
 		
 	/** 代码生成状态 */
 	private String mapleStatus;
 		
 	/** 控制器包代号 */
-	@NotEmpty(message="控制器包代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="控制器包代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String controllerPackage;
 		
 	/** 实体类包代号 */
-	@NotEmpty(message="实体类包代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="实体类包代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String entityPackage;
 		
+	
 	
 	/**
 	 * 设置代码生成 主键id

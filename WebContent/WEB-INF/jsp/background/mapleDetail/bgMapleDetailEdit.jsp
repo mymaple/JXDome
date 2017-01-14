@@ -38,7 +38,7 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情代号:</td>
-								<td><input type="text" name="mapleDetailCode" id="mapleDetailCode" value="${bgMapleDetail.mapleDetailCode}" maxlength="100" placeholder="这里输入 代码生成详情代号" title="代码生成详情代号" style="width:98%;" onblur="hasCode()"/></td>
+								<td><input type="text" name="mapleDetailCode" id="mapleDetailCode" value="${bgMapleDetail.mapleDetailCode}" maxlength="100" placeholder="这里输入 代码生成详情代号" title="代码生成详情代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情名称:</td>
@@ -50,11 +50,11 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">总长度:</td>
-								<td><input type="text" name="totalLength" id="totalLength" value="${bgMapleDetail.totalLength}" maxlength="100" placeholder="这里输入 总长度" title="总长度" style="width:98%;" /></td>
+								<td><input type="number" name="totalLength" id="totalLength" value="${bgMapleDetail.totalLength}" min="0" max="9999" placeholder="这里输入 总长度" title="总长度" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">小数长度:</td>
-								<td><input type="text" name="decimalLength" id="decimalLength" value="${bgMapleDetail.decimalLength}" maxlength="100" placeholder="这里输入 小数长度" title="小数长度" style="width:98%;" /></td>
+								<td><input type="number" name="decimalLength" id="decimalLength" value="${bgMapleDetail.decimalLength}" min="0" maxlength="9" placeholder="这里输入 小数长度" title="小数长度" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">类型代号:</td>
@@ -117,11 +117,11 @@
 		$(top.hangge());
 		
 		//判断mapleDetailCode是否存在
-		function hasCode(){
+		function otherNotCode(){
 			var mapleDetailCode = $("#mapleDetailCode").val();
 			if(mapleDetailCode == "") return false;
 			var mapleDetailId = $("#mapleDetailId").val();
-			var url = "<%=basePath%>background/mapleDetail/hasCode.do?mapleDetailId="+mapleDetailId+"&mapleDetailCode="+mapleDetailCode+"&tm="+new Date().getTime();
+			var url = "<%=basePath%>background/mapleDetail/otherNotCode.do?mapleDetailId="+mapleDetailId+"&mapleDetailCode="+mapleDetailCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#mapleDetailCode").tips({
@@ -139,6 +139,7 @@
 		//保存
 		function save(){
 			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+			var intExp = /^[1-9]\d*$/;
 			if(!codeExp.test($("#mapleDetailCode").val())){
 				$("#mapleDetailCode").tips({
 					side:3,
@@ -168,26 +169,28 @@
 		        });
 			return false;
 			}
-			if($("#totalLength").val()==""){
+			
+			if(!intExp.test($("#totalLength").val())){
 				$("#totalLength").tips({
 					side:3,
-		            msg:'请输入总长度',
+		            msg:'请输入总长度 需是数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });
 				$("#totalLength").focus();
 			return false;
 			}
-			/* if($("#decimalLength").val()==""){
+			if(!intExp.test($("#decimalLength").val())){
 				$("#decimalLength").tips({
 					side:3,
-		            msg:'请输入小数长度',
+		            msg:'请输入小数长度 需是数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });
 				$("#decimalLength").focus();
 			return false;
 			}
+			/**
 			if($("#typeCode").val()==""){
 				$("#typeCode").tips({
 					side:3,

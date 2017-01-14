@@ -40,17 +40,6 @@
 		)
 	</insert>
 	
-	<!-- 新增 -->
-	<insert id="addByPd" parameterType="pd">
-		insert into 
-	<include refid="mapleTable"/>
-		( 
-	<include refid="mapleColumns"/>
-		) values (
-			#{mapleId},#{mapleCode},#{mapleName},#{mapleType},#{mapleStatus},#{controllerPackage},#{entityPackage},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
-		)
-	</insert>
-	
 	<!-- 修改 -->
 	<update id="edit" parameterType="bgMaple">
 		update
@@ -78,35 +67,7 @@
 			modifyTime = #{modifyTime}
 		where 
 			mapleId = #{mapleId} 
-	</update>
-	
-	<!-- 修改 -->
-	<update id="editByPd" parameterType="pd">
-		update
-	<include refid="mapleTable"/>
-		set 
-			<if test="mapleCode!=null and mapleCode!=''">
-			mapleCode = #{mapleCode},
-			</if>
-			<if test="mapleName!=null and mapleName!=''">
-			mapleName = #{mapleName},
-			</if>
-			<if test="mapleType!=null and mapleType!=''">
-			mapleType = #{mapleType},
-			</if>
-			<if test="controllerPackage!=null and controllerPackage!=''">
-			controllerPackage = #{controllerPackage},
-			</if>
-			<if test="entityPackage!=null and entityPackage!=''">
-			entityPackage = #{entityPackage},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			orderNum = #{orderNum},
-			</if>
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			mapleId = #{mapleId} 
+			and modifyTime = #{lastModifyTime}
 	</update>
 	
 	<!-- 改变 -->
@@ -142,6 +103,7 @@
 			modifyTime = #{modifyTime}
 		where 
 			mapleId = #{mapleId} 
+			and modifyTime = #{lastModifyTime}
 	</update>
 	
 	<!-- 删除 -->
@@ -173,16 +135,6 @@
 			mapleId = #{mapleId} 
 	</select>
 	
-	<!-- 通过pd获取(PageData)数据  -->
-	<select id="findPdByPd" parameterType="pd" resultType="pd">
-		select 
-	<include refid="mapleColumns"/>
-		from 
-	<include refid="mapleTable"/>
-		where 
-			mapleId = #{mapleId} 
-	</select>
-	
 	<!-- 获取(类)List数据  -->
 	<select id="listByPd" parameterType="pd" resultMap="bgMapleResultMap">
 		select 
@@ -194,7 +146,7 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="has" parameterType="bgMaple" resultMap="bgMapleResultMap">
+	<select id="otherHave" parameterType="bgMaple" resultMap="bgMapleResultMap">
 		select 
 	<include refid="mapleColumns"/>
 		from 
