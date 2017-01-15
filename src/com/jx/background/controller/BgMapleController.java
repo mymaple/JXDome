@@ -90,14 +90,13 @@ public class BgMapleController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-		Date nowTime = new Date();
 		BgMaple bgMaple = new BgMaple();
 		bgMaple.setMapleCode("");
 		bgMaple.setMapleName("");
 		bgMaple.setMapleType("01");
 		bgMaple.setControllerPackage("bg");
 		bgMaple.setEntityPackage("bg");
-		bgMaple.setOrderNum(String.valueOf(nowTime.getTime()));
+		bgMaple.setOrderNum(String.valueOf(new Date().getTime()));
 		
 		mv.addObject(bgMaple);
 		mv.addObject("methodPath", "add");
@@ -216,7 +215,7 @@ public class BgMapleController extends BaseController {
 	public Object toDelete(@RequestParam String mapleId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-
+		
 		bgMapleService.deleteById(mapleId);	//根据ID删除
 		resultInfo.setResultCode("success");
 
@@ -254,7 +253,7 @@ public class BgMapleController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("代码生成 主键id");
+		titles.add("代码生成 主键id");		//0
 		titles.add("代码生成代号");	//1
 		titles.add("代码生成名称");	//2
 		titles.add("代码生成类型");	//3
@@ -272,8 +271,7 @@ public class BgMapleController extends BaseController {
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-				
-			vpd.put("var0",varOList.get(i).getMapleId());
+			vpd.put("var0",varOList.get(i).getMapleId());			//0
 			vpd.put("var1", varOList.get(i).getMapleCode());	//1
 			vpd.put("var2", varOList.get(i).getMapleName());	//2
 			vpd.put("var3", varOList.get(i).getMapleType());	//3
@@ -307,7 +305,6 @@ public class BgMapleController extends BaseController {
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
-
 		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
 		mv.setViewName("background/bgUploadExcel");
 
@@ -365,8 +362,7 @@ public class BgMapleController extends BaseController {
 		String fileName =  MapleFileUtil.fileUp(file, filePath, "mapleexcel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
-			
-			
+		
 		BgMaple bgMaple = new BgMaple();
 				
 		/**

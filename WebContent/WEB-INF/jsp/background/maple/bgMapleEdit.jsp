@@ -115,6 +115,7 @@
 		//保存
 		function save(){
 			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+			var intExp = /^[1-9]\d*$/;
 			if(!codeExp.test($("#mapleCode").val())){
 				$("#mapleCode").tips({
 					side:3,
@@ -162,10 +163,10 @@
 		        });
 			return false;
 			}
-			if($("#orderNum").val()==""){
+			if(!intExp.test($("#orderNum").val())){
 				$("#orderNum").tips({
 					side:3,
-		            msg:'请输入排序编号',
+		            msg:'排序编号 需是数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });

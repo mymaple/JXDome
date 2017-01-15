@@ -7,6 +7,13 @@ CREATE TABLE `${bgMaple.tableCode}` (
 
 	`${bgMaple.mapleCode}Id` varchar(100) 
 			NOT NULL COMMENT '${bgMaple.mapleName} 主键id',
+	<#if bgMaple.mapleType = "02">
+	`parentId` varchar(100) 
+			NOT NULL COMMENT '上级 id',
+	<#elseif bgMaple.mapleType = "04">
+	`${bgMaple.mapleCode ?replace('Detail','')}Id` varchar(100) 
+			NOT NULL COMMENT '${bgMaple.mapleName ?replace('详情','')} id',
+	</#if>
 	<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.totalLength})

@@ -11,6 +11,49 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	
 	/****************************custom * start***********************************/
 
+	<#if bgMaple.mapleType = "02">
+	/**
+	 * 根据parentId 获取所有直接子
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<${bgMaple.mapleEntityUpper}> listByParentId(String parentId) throws Exception ;
+	
+	/**
+	 * 获取所有子列表(递归处理)
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * @return
+	 * @throws Exception
+	 */
+	public List<${bgMaple.mapleEntityUpper}> listInRank(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception ;
+	
+	/**
+	 * 删除所有子列表(递归处理)
+	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteInRank(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception ;
+	
+	/**
+	 * 批量删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public void batchDeleteInRank(String[] ids) throws Exception ;
+	
+	<#elseif bgMaple.mapleType = "04">
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BgMapleDetail> listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) throws Exception ;
+	
+	</#if>
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

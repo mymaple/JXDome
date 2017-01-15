@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-<#if bgMaple.mapleType = "02">
+<#if bgMaple.mapleType == "02">
 import org.springframework.ui.Model;
 </#if>
 import org.springframework.validation.BindingResult;
@@ -28,7 +28,7 @@ import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
-<#if bgMaple.mapleType = "04">
+<#if bgMaple.mapleType == "04">
 import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper ?replace('Detail','')};
 </#if>
 import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
@@ -38,12 +38,12 @@ import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
-<#if bgMaple.mapleType = "04">
+<#if bgMaple.mapleType == "04">
 import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper ?replace('Detail','')}Service;
 </#if>
 import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper}Service;
+<#if bgMaple.mapleType == "02">
 
-<#if bgMaple.mapleType = "02">
 import net.sf.json.JSONArray;
 </#if>
 
@@ -59,7 +59,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	<#if bgMaple.mapleType = "04">
+	<#if bgMaple.mapleType == "04">
 	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}/${bgMaple.mapleCode ?replace('Detail','')}";
 	<#else>
 	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}/${bgMaple.mapleCode}";
@@ -67,13 +67,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	
 	@Resource(name="${bgMaple.mapleEntityLower}Service")
 	private ${bgMaple.mapleEntityUpper}Service ${bgMaple.mapleEntityLower}Service;
-	<#if bgMaple.mapleType = "04">
+	<#if bgMaple.mapleType == "04">
 	@Resource(name="${bgMaple.mapleEntityLower ?replace('Detail','')}Service")
 	private ${bgMaple.mapleEntityUpper ?replace('Detail','')}Service ${bgMaple.mapleEntityLower ?replace('Detail','')}Service;
 	</#if>
 	
 	
-	<#if bgMaple.mapleType = "02">
+	<#if bgMaple.mapleType == "02">
 	/**
 	 * 显示列表ztree
 	 * @param model
@@ -103,8 +103,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		mv.addObject(resultInfo);
 		return mv;
 	}
-	</#if>
 	
+	</#if>
 	/**
 	 * 列表
 	 */
@@ -115,14 +115,13 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		if(MapleStringUtil.isEmpty(pd.getString("pId"))){
 			pd.put("pId", "0");
 		}
-		<#elseif bgMaple.mapleType = "04">
+		<#elseif bgMaple.mapleType == "04">
 		String ${bgMaple.mapleCode ?replace('Detail','')}Id = pd.getString("${bgMaple.mapleCode ?replace('Detail','')}Id");								//${bgMaple.mapleName ?replace('详情','')} id 
 		</#if>
-		
 		String keywords = pd.getString("keywords");								//关键词检索条件
 		if(MapleStringUtil.notEmpty(keywords)){
 			pd.put("keywords", keywords.trim());
@@ -132,9 +131,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		List<PageData>	${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.listPage(bgPage);	//列出${bgMaple.mapleEntityLower}列表
 			
 		mv.addObject("${bgMaple.mapleEntityLower}List", ${bgMaple.mapleEntityLower}List);
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		mv.addObject("parent${bgMaple.mapleEntityUpper}", ${bgMaple.mapleEntityLower}Service.findById(pd.getString("pId")<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>));
-		<#elseif bgMaple.mapleType = "04">
+		<#elseif bgMaple.mapleType == "04">
 		mv.addObject("${bgMaple.mapleEntityLower ?replace('Detail','')}", ${bgMaple.mapleEntityLower ?replace('Detail','')}Service.findById(${bgMaple.mapleCode ?replace('Detail','')}Id ));
 		</#if>
 		mv.addObject("pd", pd);
@@ -156,14 +155,14 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("${bgMaple.controllerPackage}/bgResult");
 		
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id	
 		${bgMaple.mapleEntityUpper} parent${bgMaple.mapleEntityUpper} = ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);
 		if(!"0".equals(parentId) && parent${bgMaple.mapleEntityUpper}==null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		<#elseif bgMaple.mapleType = "04">
+		<#elseif bgMaple.mapleType == "04">
 		String ${bgMaple.mapleCode ?replace('Detail','')}Id = pd.getString("${bgMaple.mapleCode ?replace('Detail','')}Id");
 		if(${bgMaple.mapleEntityLower ?replace('Detail','')}Service.findById(${bgMaple.mapleCode ?replace('Detail','')}Id) == null){
 			mv.addObject(resultInfo);					
@@ -171,12 +170,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		}
 		</#if>
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		${bgMaple.mapleEntityLower}.setParentId(parentId);
-		<#elseif bgMaple.mapleType = "04">
+		<#elseif bgMaple.mapleType == "04">
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(${bgMaple.mapleCode ?replace('Detail','')}Id);
 		</#if>
-		
 		<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isEdit == '01'>
 			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
@@ -217,21 +215,22 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			return mv; 
 		}
 		
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		String parentId = comDict.getParentId();
 		${bgMaple.mapleEntityUpper} parent${bgMaple.mapleEntityUpper} = ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);
 		if(!"0".equals(parentId) && parent${bgMaple.mapleEntityUpper}==null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		<#elseif bgMaple.mapleType = "04">
+		
+		<#elseif bgMaple.mapleType == "04">
 		String ${bgMaple.mapleCode ?replace('Detail','')}Id = ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper ?replace('Detail','')}Id();
 		if(${bgMaple.mapleEntityLower ?replace('Detail','')}Service.findById(${bgMaple.mapleCode ?replace('Detail','')}Id) == null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		</#if>
 		
+		</#if>	
 		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.otherHaveCode("", ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());
 		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
 			mv.addObject(resultInfo);					
@@ -325,7 +324,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		${bgMaple.mapleEntityLower}Service.deleteInRank(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
 		<#else>
 		${bgMaple.mapleEntityLower}Service.deleteById(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);	//根据ID删除
@@ -348,7 +347,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		if(MapleStringUtil.isEmpty(ids)){
 			return AppUtil.returnResult(pd, resultInfo);
 		}
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		${bgMaple.mapleEntityLower}Service.batchDeleteInRank(ids.split(","));	//根据ID删除
 		<#else>
 		${bgMaple.mapleEntityLower}Service.batchDeleteByIds(ids.split(","));	//根据ID删除
@@ -372,9 +371,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		List<String> titles = new ArrayList<String>();
 	<#assign iii = 0 >
 		titles.add("${bgMaple.mapleName} 主键id");		//#{iii}<#assign iii=iii+1 />
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		titles.add("上级 id");					//#{iii}<#assign iii=iii+1 />
-		<#elseif bgMaple.mapleType = "04">
+		<#elseif bgMaple.mapleType == "04">
 		titles.add("${bgMaple.mapleName ?replace('详情','')} id");	//#{iii}<#assign iii=iii+1 />
 		</#if>
 	<#list bgMapleDetailList as bgMapleDetail>
@@ -390,12 +389,12 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
-			PageData vpd = new PageData();
+			PageData vpd = new PageData();	
 		<#assign iii = 0 >		
 			vpd.put("var0",varOList.get(i).get${bgMaple.mapleCodeUpper}Id());			//#{iii}<#assign iii=iii+1 />
-			<#if bgMaple.mapleType = "02">
+			<#if bgMaple.mapleType == "02">
 			vpd.put("var1",varOList.get(i).getParentId());						//#{iii}<#assign iii=iii+1 />
-			<#elseif bgMaple.mapleType = "04">
+			<#elseif bgMaple.mapleType == "04">
 			vpd.put("var1",varOList.get(i).get${bgMaple.mapleCodeUpper ?replace('Detail','')}Id());	//#{iii}<#assign iii=iii+1 />
 			</#if>
 		<#list bgMapleDetailList as bgMapleDetail>
@@ -428,7 +427,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		<#if bgMaple.mapleType != "02" && bgMaple.mapleType != "04">//</#if>PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
-		<#if bgMaple.mapleType = "02">
+		
+		<#if bgMaple.mapleType == "02">
 		String pId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
 			
 		${bgMaple.mapleEntityUpper} parent${bgMaple.mapleEntityUpper} = ${bgMaple.mapleEntityLower}Service.findById(pId);
@@ -439,7 +439,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			
 		mv.addObject("pId",pId);
 
-		<#elseif bgMaple.mapleType = "04">
+		<#elseif bgMaple.mapleType == "04">
 		String pId = pd.getString("pId");//上级id
 				
 		if(${bgMaple.mapleEntityLower ?replace('Detail','')}Service.findById(pId) == null){
@@ -510,10 +510,10 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		/*存入数据库操作======================================*/
 		
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-		<#if bgMaple.mapleType = "02">	
+		<#if bgMaple.mapleType == "02">	
 		String pId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
 		${bgMaple.mapleEntityLower}.setParentId(pId);
-		<#elseif bgMaple.mapleType = "04">	
+		<#elseif bgMaple.mapleType == "04">	
 		String ${bgMaple.mapleCode ?replace('Detail','')}Id = pd.getString("pId");//上级id	
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(${bgMaple.mapleCode ?replace('Detail','')}Id);
 		</#if>

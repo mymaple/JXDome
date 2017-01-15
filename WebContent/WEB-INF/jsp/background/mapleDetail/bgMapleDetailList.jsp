@@ -90,7 +90,7 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${bgMapleDetail.mapleDetailCode}</td>
-											<td class='center'><a href="javascript:toDetail('${bgMapleDetail.mapleDetailId}')">${bgMapleDetail.mapleDetailName}</a></td>
+											<td class='center'>${bgMapleDetail.mapleDetailName}</td>
 											<td class='center'><param:display type="bg_mapleDetailType" value="${bgMapleDetail.mapleDetailType}"/></td>
 											<td class='center'>${bgMapleDetail.totalLength}</td>
 											<td class='center'>${bgMapleDetail.decimalLength}</td>
@@ -236,12 +236,6 @@
 			});
 		});
 		
-		//去此ID下详情页面
-		function toDetail(mapleDetailId){
-			top.jzts();
-			window.location.href="<%=basePath%>background/mapleDetail/list.do?mapleDetailId="+mapleDetailId;
-		}
-		
 		//新增
 		function toAdd(){
 			 top.jzts();
@@ -253,10 +247,10 @@
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮
+		     	 diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${bgPage.currentPage}' == '0'){
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
+					if('${bgPage.currentPage}' == '0'){
 						 top.jzts();
 						 setTimeout("self.location=self.location",100);
 					 }else{
@@ -294,10 +288,10 @@
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮 
+		     	 diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 nextPage('${bgPage.currentPage}');
+					nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
 			 };
@@ -366,7 +360,7 @@
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 nextPage('${bgPage.currentPage}');
+					nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
 			 };

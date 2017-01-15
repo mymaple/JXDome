@@ -35,7 +35,6 @@ public class BgMapleDetailServiceImpl implements BgMapleDetailService{
 		pd.put("mapleId",mapleId);
 		return this.listByPd(pd);
 	}
-	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

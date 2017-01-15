@@ -54,7 +54,7 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">小数长度:</td>
-								<td><input type="number" name="decimalLength" id="decimalLength" value="${bgMapleDetail.decimalLength}" min="0" maxlength="9" placeholder="这里输入 小数长度" title="小数长度" style="width:98%;" /></td>
+								<td><input type="number" name="decimalLength" id="decimalLength" value="${bgMapleDetail.decimalLength}" min="0" max="9" placeholder="这里输入 小数长度" title="小数长度" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">类型代号:</td>
@@ -139,7 +139,7 @@
 		//保存
 		function save(){
 			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-			var intExp = /^[1-9]\d*$/;
+			var intExp = /^[1-9]\d*|0$/;
 			if(!codeExp.test($("#mapleDetailCode").val())){
 				$("#mapleDetailCode").tips({
 					side:3,
@@ -169,7 +169,6 @@
 		        });
 			return false;
 			}
-			
 			if(!intExp.test($("#totalLength").val())){
 				$("#totalLength").tips({
 					side:3,
@@ -241,10 +240,10 @@
 				$("#defaultValue").focus();
 			return false;
 			} */
-			if($("#orderNum").val()==""){
+			if(!intExp.test($("#orderNum").val())){
 				$("#orderNum").tips({
 					side:3,
-		            msg:'请输入排序编号',
+		            msg:'排序编号 需是数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });

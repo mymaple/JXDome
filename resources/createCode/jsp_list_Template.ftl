@@ -20,7 +20,7 @@
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 
-<#if bgMaple.mapleType = "02">
+<#if bgMaple.mapleType == "02">
 <script type="text/javascript">
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
@@ -44,9 +44,9 @@
 							
 						<!-- 检索  -->
 						<form action="${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do" method="post" name="${bgMaple.mapleCode}Form" id="${bgMaple.mapleCode}Form">
-						<#if bgMaple.mapleType = "02">
+						<#if bgMaple.mapleType == "02">
 						<input type="hidden" name="parentId" id="parentId" value="${r"pd."}parentId${r"}"}"/>
-						<#elseif bgMaple.mapleType = "04">
+						<#elseif bgMaple.mapleType == "04">
 						<input type="hidden" name="${bgMaple.mapleCode ?replace('Detail','')}Id" id="${bgMaple.mapleCode ?replace('Detail','')}Id" value="${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}"/>
 						</#if>
 						<table style="margin-top:5px;">
@@ -103,15 +103,16 @@
 										<#if bgMapleDetail.mapleDetailType == "05">
 											<td class='center'><param:display type="${bgMapleDetail.typeCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/></td>
 										<#elseif bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" >
-											<#if bgMaple.mapleType = "02">
+											<#if bgMaple.mapleType == "02">
 											<td class='center'><a href="javascript:toSub('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')">${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}</a></td>
-											<#elseif bgMaple.mapleType = "03">
+											<#elseif bgMaple.mapleType == "03">
 											<td class='center'><a href="javascript:toDetail('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')">${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}</a></td>
 											<#else>
-											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}</td>
+											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
 											</#if>
 										<#else>
-										<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}</td>
+											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
+										</#if>
 										</#if>
 										</#list>
 											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}.orderNum${r"}"}</td>
@@ -250,34 +251,33 @@
 			});
 		});
 		
-		
-		
-		<#if bgMaple.mapleType = "02">
+		<#if bgMaple.mapleType == "02">
 		//去此ID下子菜单列表
 		function toSub(parentId){
 			top.jzts();
 			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?pId="+parentId;
 		};
-		<#elseif bgMaple.mapleType = "03">
+		
+		<#elseif bgMaple.mapleType == "03">
 		//去此ID下详情页面
 		function toDetail(${bgMaple.mapleCode}Id){
 			top.jzts();
 			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}Detail/list.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id;
 		}
-		</#if>
 		
+		</#if>
 		//新增
 		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 <#if bgMaple.mapleType = "02">
+			 <#if bgMaple.mapleType == "02">
 			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?pId="+'${r"${pd.pId}"}';
-			 <#elseif bgMaple.mapleType = "04">
+			 <#elseif bgMaple.mapleType == "04">
 			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?${bgMaple.mapleCode ?replace('Detail','')}Id=${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}";
 			 <#else>
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do";			 
+			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do";
 			 </#if>
 			 diag.Width = 450;
 			 diag.Height = 355;
@@ -286,7 +286,7 @@
 		     	 diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
-					<#if bgMaple.mapleType = "02">
+					<#if bgMaple.mapleType == "02">
 					parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 					<#else>
 					if('${r"${bgPage.currentPage}"}' == '0'){
@@ -310,7 +310,7 @@
 					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toDelete.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							<#if bgMaple.mapleType = "02">
+							<#if bgMaple.mapleType == "02">
 							parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 							<#else>
 							nextPage('${r"${bgPage.currentPage}"}');
@@ -335,7 +335,7 @@
 		     	 diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 <#if bgMaple.mapleType = "02">
+					 <#if bgMaple.mapleType == "02">
 					parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 					<#else>
 					nextPage('${r"${bgPage.currentPage}"}');
@@ -382,7 +382,7 @@
 								cache: false,
 								success: function(data){
 									if(data.resultCode == "success"){
-										<#if bgMaple.mapleType = "02">
+										<#if bgMaple.mapleType == "02">
 										parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 										<#else>
 										nextPage('${r"${bgPage.currentPage}"}');
@@ -407,17 +407,18 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 <#if bgMaple.mapleType = "02">
-			 <#elseif bgMaple.mapleType = "04">
+			 <#if bgMaple.mapleType == "02">
+			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?pId='+'${r"${pd.pId}"}';
+			 <#elseif bgMaple.mapleType == "04">
 			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?pId=${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}';
 			 <#else>
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do';			 
+			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do';
 			 </#if>
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 <#if bgMaple.mapleType = "02">
+					 <#if bgMaple.mapleType == "02">
 					parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
 					<#else>
 					nextPage('${r"${bgPage.currentPage}"}');

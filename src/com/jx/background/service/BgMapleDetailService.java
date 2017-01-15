@@ -18,6 +18,7 @@ public interface BgMapleDetailService {
 	 */
 	public List<BgMapleDetail> listByMapleId(String mapleId) throws Exception ;
 	
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

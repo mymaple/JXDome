@@ -72,7 +72,6 @@ public class BgMapleDetailController extends BaseController {
 		mv.setViewName("background/bgResult");
 
 		String mapleId = pd.getString("mapleId");								//代码生成 id 
-
 		String keywords = pd.getString("keywords");								//关键词检索条件
 		if(MapleStringUtil.notEmpty(keywords)){
 			pd.put("keywords", keywords.trim());
@@ -102,7 +101,6 @@ public class BgMapleDetailController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-		Date nowTime = new Date();
 		String mapleId = pd.getString("mapleId");
 		if(bgMapleService.findById(mapleId) == null){
 			mv.addObject(resultInfo);					
@@ -110,7 +108,6 @@ public class BgMapleDetailController extends BaseController {
 		}
 		BgMapleDetail bgMapleDetail = new BgMapleDetail();
 		bgMapleDetail.setMapleId(mapleId);
-		
 		bgMapleDetail.setMapleDetailCode("");
 		bgMapleDetail.setMapleDetailName("");
 		bgMapleDetail.setMapleDetailType("01");
@@ -121,7 +118,7 @@ public class BgMapleDetailController extends BaseController {
 		bgMapleDetail.setIsEdit("01");
 		bgMapleDetail.setIsNull("01");
 		bgMapleDetail.setDefaultValue("");
-		bgMapleDetail.setOrderNum(String.valueOf(nowTime.getTime()));
+		bgMapleDetail.setOrderNum(String.valueOf(new Date().getTime()));
 		
 		mv.addObject(bgMapleDetail);
 		mv.addObject("methodPath", "add");
@@ -246,7 +243,7 @@ public class BgMapleDetailController extends BaseController {
 	public Object toDelete(@RequestParam String mapleDetailId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-
+		
 		bgMapleDetailService.deleteById(mapleDetailId);	//根据ID删除
 		resultInfo.setResultCode("success");
 
@@ -284,8 +281,8 @@ public class BgMapleDetailController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("代码生成详情 主键id");
-		titles.add("代码生成 id");
+		titles.add("代码生成详情 主键id");		//0
+		titles.add("代码生成 id");	//1
 		titles.add("代码生成详情代号");	//2
 		titles.add("代码生成详情名称");	//3
 		titles.add("代码生成详情类型");	//4
@@ -307,10 +304,9 @@ public class BgMapleDetailController extends BaseController {
 		List<BgMapleDetail> varOList = bgMapleDetailService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
-			PageData vpd = new PageData();
-				
-			vpd.put("var0",varOList.get(i).getMapleDetailId());
-			vpd.put("var1",varOList.get(i).getMapleId());
+			PageData vpd = new PageData();	
+			vpd.put("var0",varOList.get(i).getMapleDetailId());			//0
+			vpd.put("var1",varOList.get(i).getMapleId());	//1
 			vpd.put("var2", varOList.get(i).getMapleDetailCode());	//2
 			vpd.put("var3", varOList.get(i).getMapleDetailName());	//3
 			vpd.put("var4", varOList.get(i).getMapleDetailType());	//4
@@ -349,7 +345,7 @@ public class BgMapleDetailController extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
-
+		
 		String pId = pd.getString("pId");//上级id
 				
 		if(bgMapleService.findById(pId) == null){
@@ -420,9 +416,9 @@ public class BgMapleDetailController extends BaseController {
 		String fileName =  MapleFileUtil.fileUp(file, filePath, "mapleDetailexcel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
-			
-		String mapleId = pd.getString("pId");//上级id	
+		
 		BgMapleDetail bgMapleDetail = new BgMapleDetail();
+		String mapleId = pd.getString("pId");//上级id	
 		bgMapleDetail.setMapleId(mapleId);
 				
 		/**
@@ -510,13 +506,13 @@ public class BgMapleDetailController extends BaseController {
 
 		String filePath = "admin/ftl/code/"; // 存放路径
 		String ftlPath = "createCode"; // ftl路径
-		if("02".equals(bgMaple.getMapleType())){
+		/*if("02".equals(bgMaple.getMapleType())){
 			ftlPath = "createCodeTree";
 		}else if("03".equals(bgMaple.getMapleType())){
 			ftlPath = "createCodeMain";
 		}else if("04".equals(bgMaple.getMapleType())){
 			ftlPath = "createCodeDetail";
-		}
+		}*/
 
 //		/* 生成controller */
 		Freemarker.printFile("controllerTemplate.ftl", root, bgMaple.getControllerPackage() + "/controller/" + bgMaple.getMapleControllerUpper() + "Controller.java", filePath, ftlPath);

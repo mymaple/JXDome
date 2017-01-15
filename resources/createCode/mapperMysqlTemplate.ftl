@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${bgMaple.mapleEntityUpper}Mapper">
 
-	<sql id="${bgMaple.mapleCode}Columns">${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail>,${bgMapleDetail.mapleDetailCode}</#list>,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="${bgMaple.mapleCode}Columns">${bgMaple.mapleCode}Id<#if bgMaple.mapleType = "02">,parentId<#elseif bgMaple.mapleType = "04">,${bgMaple.mapleCode ?replace('Detail','')}Id</#if><#list bgMapleDetailList as bgMapleDetail>,${bgMapleDetail.mapleDetailCode}</#list>,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="${bgMaple.mapleCode}Table">${bgMaple.tableCode}</sql>
 	
 	<resultMap type="${bgMaple.mapleEntityLower}" id="${bgMaple.mapleEntityLower}ResultMap">
@@ -17,6 +17,11 @@
 		<result column="createTime" property="createTime"/>
 		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
+		<#if bgMaple.mapleType = "02">
+		<result column="parentId" property="parentId"/>
+		<#elseif bgMaple.mapleType = "04">
+		<result column="${bgMaple.mapleCode ?replace('Detail','')}Id" property="${bgMaple.mapleCode ?replace('Detail','')}Id"/>
+		</#if>
 	</resultMap>
 	
 	
@@ -33,7 +38,7 @@
 		( 
 	<include refid="${bgMaple.mapleCode}Columns"/>
 		) values (
-			${r"#{"}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>,${r"#{orderNum}"},${r"#{effective}"},${r"#{createUserId}"},${r"#{createTime}"},${r"#{modifyUserId}"},${r"#{modifyTime}"}
+			${r"#{"}${bgMaple.mapleCode}Id${r"}"}<#if bgMaple.mapleType = "02">,${r"#{parentId}"}<#elseif bgMaple.mapleType = "04">,${r"#{"}${bgMaple.mapleCode ?replace('Detail','')}Id${r"}"}</#if><#list bgMapleDetailList as bgMapleDetail>,${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}</#list>,${r"#{orderNum}"},${r"#{effective}"},${r"#{createUserId}"},${r"#{createTime}"},${r"#{modifyUserId}"},${r"#{modifyTime}"}
 		)
 	</insert>
 	
@@ -69,6 +74,15 @@
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
+			<#if bgMaple.mapleType = "02">
+			<if test="parentId!=null and parentId!=''">
+			 parentId = ${r"#{"}parentId${r"}"},
+			 </if>
+			<#elseif bgMaple.mapleType = "04">
+			<if test="${bgMaple.mapleCode ?replace('Detail','')}Id!=null and ${bgMaple.mapleCode ?replace('Detail','')}Id!=''">
+			${bgMaple.mapleCode ?replace('Detail','')}Id = ${r"#{"}${bgMaple.mapleCode ?replace('Detail','')}Id${r"}"},
+			</if>
+			</#if>
 			<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isKey == '00'>
 			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">
@@ -140,6 +154,15 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 1=1
+			<#if bgMaple.mapleType = "02">
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = ${r"#{"}parentId${r"}"}
+			 </if>
+			<#elseif bgMaple.mapleType = "04">
+			<if test="${bgMaple.mapleCode ?replace('Detail','')}Id!=null and ${bgMaple.mapleCode ?replace('Detail','')}Id!=''">
+			and ${bgMaple.mapleCode ?replace('Detail','')}Id = ${r"#{"}${bgMaple.mapleCode ?replace('Detail','')}Id${r"}"}
+			</if>
+			</#if>
 		order by (orderNum+0) 
 	</select>
 	
@@ -153,6 +176,15 @@
 			<if test="${bgMaple.mapleCode}Id!=null and ${bgMaple.mapleCode}Id!=''">
 			 and ${bgMaple.mapleCode}Id != ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
 			</if>
+			<#if bgMaple.mapleType = "02">
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = ${r"#{"}parentId${r"}"} 
+			</if>
+			<#elseif bgMaple.mapleType = "04">
+			<if test="${bgMaple.mapleCode ?replace('Detail','')}Id!=null and ${bgMaple.mapleCode ?replace('Detail','')}Id!=''">
+			and ${bgMaple.mapleCode ?replace('Detail','')}Id = ${r"#{"}${bgMaple.mapleCode ?replace('Detail','')}Id${r"}"}
+			</if>
+			</#if>
 			<#list bgMapleDetailList as bgMapleDetail> 
 			<if test="${bgMapleDetail.mapleDetailCode}!=null and ${bgMapleDetail.mapleDetailCode}!=''">
 			 and ${bgMapleDetail.mapleDetailCode} = ${r"#{"}${bgMapleDetail.mapleDetailCode}${r"}"}
@@ -186,6 +218,13 @@
 		from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where 1=1
+			<#if bgMaple.mapleType = "02">
+			<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
+			and parentId= ${r"#{pd.pId}"}
+			</if>
+			<#elseif bgMaple.mapleType = "04">
+			and ${bgMaple.mapleCode ?replace('Detail','')}Id = ${r"#{pd."}${bgMaple.mapleCode ?replace('Detail','')}Id${r"}"}
+			</#if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

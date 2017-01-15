@@ -21,7 +21,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	
 	
 	/**************************custom prop satrt********************************/
-	<#if bgMaple.mapleType = "02">
+	<#if bgMaple.mapleType == "02">
 	/** 指标 */
 	private String target;
 	
@@ -152,16 +152,17 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	@NotBlank(message="${bgMaple.mapleName} 主键id 不能为空", groups={ValidationEdit.class})
 	private String ${bgMaple.mapleCode}Id;
 	
-	<#if bgMaple.mapleType = "02">
+	<#if bgMaple.mapleType == "02">
 	/** 上级 id */
 	@NotBlank(message="上级 id 不能为空", groups={ValidationAdd.class})
 	private String parentId;
-	<#elseif bgMaple.mapleType = "04">
+	
+	<#elseif bgMaple.mapleType == "04">
 	/** ${bgMaple.mapleName ?replace('详情','')} id */
 	@NotBlank(message="${bgMaple.mapleName ?replace('详情','')}id 不能为空", groups={ValidationAdd.class})
 	private String ${bgMaple.mapleCode ?replace('Detail','')}Id;
-	</#if>
 	
+	</#if>
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
 		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
@@ -206,8 +207,8 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 		return this.${bgMaple.mapleCode}Id;
 	}
 	
-	<#if bgMaple.mapleType = "02">
-		/**
+	<#if bgMaple.mapleType == "02">
+	/**
 	 * 设置 上级id
 	 * 
 	 * @param String parentId
@@ -225,7 +226,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 		return this.parentId;
 	}
 	
-	<#elseif bgMaple.mapleType = "04">	
+	<#elseif bgMaple.mapleType == "04">	
 	/**
 	 * 设置 ${bgMaple.mapleName ?replace('详情','')} id 
 	 * 
@@ -245,7 +246,6 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	}
 	
 	</#if>	
-	
 	<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 	/**
