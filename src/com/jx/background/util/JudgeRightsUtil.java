@@ -56,7 +56,7 @@ public class JudgeRightsUtil {
 		for (int i = 0; i < bgMenuList.size(); i++) {
 			BgMenu bgMenu = bgMenuList.get(i);
 			if(menuCode.equals(bgMenu.getMenuCode())){
-				if(!bgMenu.isHasRight()){
+				if(!bgMenu.isHasMenu()){
 					return false;
 				}else{
 					
@@ -119,7 +119,7 @@ public class JudgeRightsUtil {
 		for (int i = 0; i < bgMenuList.size(); i++) {
 			BgMenu bgMenu = bgMenuList.get(i);
 			if(menuCode.equals(bgMenu.getMenuCode())){
-				if(!bgMenu.isHasRight()){
+				if(!bgMenu.isHasMenu()){
 					return null;
 				}else{
 					BgRole bgRole =  BgSessionUtil.getSessionBgUserRole().getBgRole();

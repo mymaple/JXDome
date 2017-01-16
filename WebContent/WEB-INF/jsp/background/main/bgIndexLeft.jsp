@@ -43,7 +43,7 @@
 
 
 				<c:forEach items="${bgMenuInCurrentList}" var="menu1">
-				<c:if test="${menu1.hasRight && '1' == menu1.status}">
+				<c:if test="${menu1.hasMenu && '01' == menu1.menuStatus}">
 					<li class=""  id="lm${menu1.menuId }">
 						<a style="cursor:pointer;" class="dropdown-toggle">
 							<i class="${menu1.menuIcon == null ? 'menu-icon fa fa-leaf black' : menu1.menuIcon}"></i>
@@ -56,7 +56,7 @@
 						<c:if test="${'[]' != menu1.subBgMenuList}">
 						<ul class="submenu">
 						<c:forEach items="${menu1.subBgMenuList}" var="menu2">
-							<c:if test="${menu2.hasRight && '1' == menu2.status}">
+							<c:if test="${menu2.hasMenu && '01' == menu2.menuStatus}">
 							<li class="" id="z${menu2.menuId }">
 								<a style="cursor:pointer;" <c:if test="${not empty menu2.menuUrl && '#' != menu2.menuUrl}">target="mainFrame" onclick="siMenu('z${menu2.menuId }','lm${menu1.menuId }','${menu2.menuName }','${menu2.menuUrl }')"</c:if><c:if test="${'[]' != menu2.subBgMenuList}"> class="dropdown-toggle"</c:if>>
 									<i class="${menu2.menuIcon == null ? 'menu-icon fa fa-leaf black' : menu2.menuIcon}"></i>
@@ -67,7 +67,7 @@
 								<c:if test="${'[]' != menu2.subBgMenuList}">
 								<ul class="submenu">
 									<c:forEach items="${menu2.subBgMenuList}" var="menu3">
-									<c:if test="${menu3.hasRight && '1' == menu3.status}">
+									<c:if test="${menu3.hasMenu && '01' == menu3.menuStatus}">
 										<li class="" id="m${menu3.menuId }">
 											<a style="cursor:pointer;" <c:if test="${not empty menu3.menuUrl && '#' != menu3.menuUrl}">target="mainFrame" onclick="siMenu('m${menu3.menuId }','z${menu2.menuId }','${menu3.menuName }','${menu3.menuUrl }')"</c:if><c:if test="${'[]' != menu3.subBgMenuList}"> class="dropdown-toggle"</c:if>>
 												<i class="${menu3.menuIcon == null ? 'menu-icon fa fa-leaf black' : menu3.menuIcon}"></i>
@@ -79,7 +79,7 @@
 											<c:if test="${'[]' != menu3.subBgMenuList}">
 											<ul class="submenu">
 												<c:forEach items="${menu3.subBgMenuList}" var="menu4">
-												<c:if test="${menu4.hasRight && '1' == menu4.status}">
+												<c:if test="${menu4.hasMenu && '01' == menu4.menuStatus}">
 												<li class="" id="n${menu4.menuId }">
 													<c:if test="${'[]' != menu4.subBgMenuList}">
 													<a style="cursor:pointer;" target="mainFrame" target="mainFrame" onclick="siMenu('n${menu4.menuId }','m${menu3.menuId }','${menu4.menuName }','menu/otherlistMenu.do?menuId=${menu4.menuId }')">

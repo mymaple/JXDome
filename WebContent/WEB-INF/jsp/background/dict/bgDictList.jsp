@@ -28,7 +28,6 @@
 		}
 	}
 </script>
-
 </head>
 <body class="no-skin">
 
@@ -43,6 +42,7 @@
 							
 						<!-- 检索  -->
 						<form action="background/dict/list.do" method="post" name="dictForm" id="dictForm">
+						<input type="hidden" name="parentId" id="parentId" value="pd.parentId}"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -251,10 +251,10 @@
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮
+		     	 diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };
@@ -287,10 +287,10 @@
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮 
+		     	 diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };
@@ -359,7 +359,7 @@
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };

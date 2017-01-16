@@ -216,7 +216,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		}
 		
 		<#if bgMaple.mapleType == "02">
-		String parentId = comDict.getParentId();
+		String parentId = ${bgMaple.mapleEntityLower}.getParentId();
 		${bgMaple.mapleEntityUpper} parent${bgMaple.mapleEntityUpper} = ${bgMaple.mapleEntityLower}Service.findById(parentId<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>);
 		if(!"0".equals(parentId) && parent${bgMaple.mapleEntityUpper}==null){
 			mv.addObject(resultInfo);					
@@ -273,7 +273,6 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit(@Validated(ValidationEdit.class) ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}, BindingResult result) throws Exception{
-		logBefore(logger, "修改${bgMaple.mapleEntityLower}");
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
@@ -462,7 +461,6 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/downExcelModel")
 	public ModelAndView downExcelModel()throws Exception{
-		logBefore(logger, "导出bgUser到excel");
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();

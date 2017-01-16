@@ -3,16 +3,16 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComDictMapper">
 
-	<sql id="dictColumns">dictId,parentId,dictCode,dictName,dictType,dictValue,dictStatus,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="dictTable">com_dict</sql>
+	<sql id="dictColumns">dictId,parentId,dictCode,dictName,dictType,dictStatus,dictValue,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="dictTable">com_dict_tree</sql>
 	
 	<resultMap type="comDict" id="comDictResultMap">
 		<id column="dictId" property="dictId"/>
 		<result column="dictCode" property="dictCode"/>
 		<result column="dictName" property="dictName"/>
 		<result column="dictType" property="dictType"/>
-		<result column="dictValue" property="dictValue"/>
 		<result column="dictStatus" property="dictStatus"/>
+		<result column="dictValue" property="dictValue"/>
 		<result column="level" property="level"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
@@ -52,16 +52,6 @@
 		order by (orderNum+0) 
 	</select>
 	
-	<!-- 根据parentId 获取所有直接子菜单 -->
-	<select id="listByParentId" parameterType="String" resultMap="comDictResultMap">
-		select  
-<include refid="dictColumns"/>
-		from 
-<include refid="dictTable"/>		
-		where parentId = #{parentId} 
-		order by (orderNum+0) 
-	</select>
-	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
@@ -73,18 +63,7 @@
 		( 
 	<include refid="dictColumns"/>
 		) values (
-			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictValue},#{dictStatus},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
-		)
-	</insert>
-	
-	<!-- 新增 -->
-	<insert id="addByPd" parameterType="pd">
-		insert into 
-	<include refid="dictTable"/>
-		( 
-	<include refid="dictColumns"/>
-		) values (
-			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictValue},#{dictStatus},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{dictId},#{parentId},#{dictCode},#{dictName},#{dictType},#{dictStatus},#{dictValue},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -112,32 +91,7 @@
 			modifyTime = #{modifyTime}
 		where 
 			dictId = #{dictId} 
-	</update>
-	
-	<!-- 修改 -->
-	<update id="editByPd" parameterType="pd">
-		update
-	<include refid="dictTable"/>
-		set 
-			<if test="dictCode!=null and dictCode!=''">
-			dictCode = #{dictCode},
-			</if>
-			<if test="dictName!=null and dictName!=''">
-			dictName = #{dictName},
-			</if>
-			<if test="dictType!=null and dictType!=''">
-			dictType = #{dictType},
-			</if>
-			<if test="dictValue!=null and dictValue!=''">
-			dictValue = #{dictValue},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			orderNum = #{orderNum},
-			</if>
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			dictId = #{dictId} 
+			and modifyTime = #{lastModifyTime}
 	</update>
 	
 	<!-- 改变 -->
@@ -146,8 +100,8 @@
 	<include refid="dictTable"/>
 		set 
 			<if test="parentId!=null and parentId!=''">
-			parentId = #{parentId},
-			</if>
+			 parentId = #{parentId},
+			 </if>
 			<if test="dictCode!=null and dictCode!=''">
 			dictCode = #{dictCode},
 			</if>
@@ -157,11 +111,11 @@
 			<if test="dictType!=null and dictType!=''">
 			dictType = #{dictType},
 			</if>
-			<if test="dictValue!=null and dictValue!=''">
-			dictValue = #{dictValue},
-			</if>
 			<if test="dictStatus!=null and dictStatus!=''">
 			dictStatus = #{dictStatus},
+			</if>
+			<if test="dictValue!=null and dictValue!=''">
+			dictValue = #{dictValue},
 			</if>
 			<if test="level!=null and level!=''">
 			level = #{level},
@@ -176,6 +130,7 @@
 			modifyTime = #{modifyTime}
 		where 
 			dictId = #{dictId} 
+			and modifyTime = #{lastModifyTime}
 	</update>
 	
 	<!-- 删除 -->
@@ -207,16 +162,6 @@
 			dictId = #{dictId} 
 	</select>
 	
-	<!-- 通过pd获取(PageData)数据  -->
-	<select id="findPdByPd" parameterType="pd" resultType="pd">
-		select 
-	<include refid="dictColumns"/>
-		from 
-	<include refid="dictTable"/>
-		where 
-			dictId = #{dictId} 
-	</select>
-	
 	<!-- 获取(类)List数据  -->
 	<select id="listByPd" parameterType="pd" resultMap="comDictResultMap">
 		select 
@@ -224,18 +169,21 @@
 		from 
 	<include refid="dictTable"/>
 		where 1=1
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId}
+			 </if>
 		order by (orderNum+0) 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="has" parameterType="comDict" resultMap="comDictResultMap">
+	<select id="otherHave" parameterType="comDict" resultMap="comDictResultMap">
 		select 
 	<include refid="dictColumns"/>
 		from 
 	<include refid="dictTable"/>
 		where 1=1
 			<if test="dictId!=null and dictId!=''">
-			 and dictId = #{dictId} 
+			 and dictId != #{dictId} 
 			</if>
 			<if test="parentId!=null and parentId!=''">
 			 and parentId = #{parentId} 
@@ -249,11 +197,11 @@
 			<if test="dictType!=null and dictType!=''">
 			 and dictType = #{dictType}
 			</if>
-			<if test="dictValue!=null and dictValue!=''">
-			 and dictValue = #{dictValue}
-			</if>
 			<if test="dictStatus!=null and dictStatus!=''">
 			 and dictStatus = #{dictStatus}
+			</if>
+			<if test="dictValue!=null and dictValue!=''">
+			 and dictValue = #{dictValue}
 			</if>
 			<if test="level!=null and level!=''">
 			 and level = #{level}
@@ -286,9 +234,9 @@
 		from 
 	<include refid="dictTable"/>
 		where 1=1
-		<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
+			<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
 			and parentId= #{pd.pId}
-		</if>
+			</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

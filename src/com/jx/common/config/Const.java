@@ -100,7 +100,7 @@ public class Const {
 	public static final String REG_COM_ZZS_STR = "^[1-9]\\d*$";
 	
 	/**
-	 * 正则 正小数
+	 * 正则 非负小数
 	 */
 	public static final String REG_COM_FFXS_STR = "^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*|0)(?:\\.\\d{1,2})?|0$";
 	

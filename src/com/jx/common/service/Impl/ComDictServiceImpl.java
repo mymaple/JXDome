@@ -1,5 +1,6 @@
 package com.jx.common.service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,9 +10,12 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleUtil;
+import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComDict;
 import com.jx.common.service.ComDictService;
-import com.jx.common.util.MapleUtil;
+import com.jx.background.util.BgSessionUtil;
 
 @Service("comDictService")
 public class ComDictServiceImpl implements ComDictService{
@@ -33,7 +37,7 @@ public class ComDictServiceImpl implements ComDictService{
 		PageData pd = new PageData();
 		pd.put("type",type);
 		pd.put("value",value);
-		List<ComDict> comDictList = hasCode(type);
+		List<ComDict> comDictList = this.otherHaveCode("",type);
 		if(MapleUtil.notEmptyList(comDictList)){
 			String dictType = comDictList.get(0).getDictType();
 			if("01".equals(dictType)){
@@ -53,7 +57,7 @@ public class ComDictServiceImpl implements ComDictService{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ComDict> listSelect(String type) throws Exception {
-		List<ComDict> comDictList = hasCode(type);
+		List<ComDict> comDictList = this.otherHaveCode("",type);
 		if(MapleUtil.notEmptyList(comDictList)){
 			String dictType = comDictList.get(0).getDictType();
 			if("01".equals(dictType)){
@@ -71,9 +75,10 @@ public class ComDictServiceImpl implements ComDictService{
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public List<ComDict> listByParentId(String parentId) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.listByParentId", parentId);
+		PageData pd = new PageData();
+		pd.put("parentId",parentId);
+		return this.listByPd(pd);
 	}
 	
 	/**
@@ -117,8 +122,6 @@ public class ComDictServiceImpl implements ComDictService{
 			this.deleteInRank(id);
 		}
 	}
-	
-	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -129,6 +132,17 @@ public class ComDictServiceImpl implements ComDictService{
 	 * @throws Exception
 	 */
 	public void add(ComDict comDict) throws Exception {
+		
+		Date nowTime = new Date();
+		comDict.setDictId(UuidUtil.get32UUID());
+		comDict.setDictStatus("00");
+		comDict.setLevel(0);
+		comDict.setEffective("01");
+		comDict.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comDict.setCreateTime(nowTime);
+		comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comDict.setModifyTime(nowTime);
+		
 		dao.add("ComDictMapper.add", comDict);
 	}
 	
@@ -138,6 +152,14 @@ public class ComDictServiceImpl implements ComDictService{
 	 * @throws Exception
 	 */
 	public void edit(ComDict comDict) throws Exception {
+		Date nowTime = new Date();
+		comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comDict.setModifyTime(nowTime);
+		comDict.setLastModifyTime(this.findById(comDict.getDictId()).getModifyTime());
+		if(comDict.getModifyTime().compareTo(comDict.getLastModifyTime()) == 0){
+			comDict.setModifyTime(MapleDateUtil.getNextSecond(comDict.getModifyTime()));
+		}
+	
 		dao.edit("ComDictMapper.edit", comDict);
 	}
 	
@@ -147,6 +169,13 @@ public class ComDictServiceImpl implements ComDictService{
 	 * @throws Exception
 	 */
 	public void change(ComDict comDict) throws Exception {
+		Date nowTime = new Date();
+		comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comDict.setModifyTime(nowTime);
+		comDict.setLastModifyTime(this.findById(comDict.getDictId()).getModifyTime());
+		if(comDict.getModifyTime().compareTo(comDict.getLastModifyTime()) == 0){
+			comDict.setModifyTime(MapleDateUtil.getNextSecond(comDict.getModifyTime()));
+		}
 		dao.edit("ComDictMapper.change", comDict);
 	}
 
@@ -202,28 +231,6 @@ public class ComDictServiceImpl implements ComDictService{
 	}
 	
 	/**
-	 * 通过id获取(PageData)数据 
-	 * @param String dictId
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdById(String dictId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("dictId",dictId);
-		return this.findPdByPd(pd);
-	}
-	
-	/**
-	 * 通过pd获取(PageData)数据 
-	 * @param PageData pd
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdByPd(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("ComDictMapper.findPdByPd", pd);
-	}
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
@@ -239,8 +246,8 @@ public class ComDictServiceImpl implements ComDictService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComDict> has(ComDict comDict) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.has", comDict);
+	public List<ComDict> otherHave(ComDict comDict) throws Exception {
+		return (List<ComDict>) dao.findForList("ComDictMapper.otherHave", comDict);
 	}
 	
 	/**
@@ -248,10 +255,11 @@ public class ComDictServiceImpl implements ComDictService{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComDict> hasCode(String dictCode) throws Exception {
+	public List<ComDict> otherHaveCode(String dictId, String dictCode) throws Exception {
 		ComDict comDict = new ComDict();
+		comDict.setDictId(dictId);
 		comDict.setDictCode(dictCode);
-		return this.has(comDict);
+		return this.otherHave(comDict);
 	}
 	
 	/**

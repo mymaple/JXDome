@@ -1,6 +1,5 @@
 package com.jx.background.controller;
 
-import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,9 +10,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,15 +28,12 @@ import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
 import com.jx.background.util.BgSessionUtil;
-import com.jx.background.util.JudgeRightsUtil;
 import com.jx.common.config.BaseController;
-import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.RightsHelper;
-import com.jx.common.util.Tools;
 
 import net.sf.json.JSONArray;
 
@@ -336,7 +329,7 @@ public class BgRoleController extends BaseController {
 			}else if("seleRights".equals(msg)){
 				roleRights = bgRole.getSeleRights();
 			}
-			List<BgMenu> bgMenuList = bgMenuService.listAllMenuInRank(0,"");			//获取所有菜单
+			List<BgMenu> bgMenuList = bgMenuService.listInRank("0");			//获取所有菜单
 			bgMenuList = this.bgMenuListTestRights(bgMenuList, roleRights);				//根据角色权限处理菜单权限状态(递归处理)
 			JSONArray arr = JSONArray.fromObject(bgMenuList);
 			String json = arr.toString();
@@ -410,8 +403,8 @@ public class BgRoleController extends BaseController {
 	 */
 	public List<BgMenu> bgMenuListTestRights(List<BgMenu> bgMenuList,String roleRights){
 		for(int i=0;i<bgMenuList.size();i++){
-			bgMenuList.get(i).setHasRight(RightsHelper.testRights(roleRights, bgMenuList.get(i).getMenuId()));
-			if(bgMenuList.get(i).isHasRight() && "1".equals(bgMenuList.get(i).getStatus())){				//判断是否有此菜单权限并且是否隐藏
+			bgMenuList.get(i).setHasMenu(RightsHelper.testRights(roleRights, bgMenuList.get(i).getMenuId()));
+			if(bgMenuList.get(i).isHasMenu() && "01".equals(bgMenuList.get(i).getMenuStatus())){				//判断是否有此菜单权限并且是否隐藏
 				this.bgMenuListTestRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);				//是：继续排查其子菜单
 			}
 		}

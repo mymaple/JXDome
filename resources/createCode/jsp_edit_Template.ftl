@@ -40,7 +40,7 @@
 						<#if bgMaple.mapleType == "02">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
-								<td align="center"><param:display type="bg_mapleDetailType" name="${bgMaple.mapleCode }Id" id="${bgMaple.mapleCode }Id" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}parentId ${r"}"}" hidden="true"/></td>
+								<td align="center"><param:display type="bg_mapleDetailType" name="parentId" id="parentId" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}parentId ${r"}"}" hidden="true"/></td>
 							</tr>
 						<#elseif bgMaple.mapleType == "04">
 							<tr>

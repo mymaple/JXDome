@@ -1,14 +1,13 @@
 package com.jx.${bgMaple.entityPackage}.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
-import com.jx.common.util.MapleDateUtil;
+import com.jx.common.config.Const;
 import com.jx.common.util.MapleStringUtil;
 
 public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializable {
@@ -35,21 +34,21 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	/** ${bgMapleDetail.mapleDetailName} */
 		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
-	@Pattern(regexp = "^[a-z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = Const.REG_COM_CODE_STR, message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		<#elseif bgMapleDetail.isEdit = "01">
 	@NotBlank(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>
 	private String ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
 		<#if bgMapleDetail.isEdit = "01">
-	@Pattern(regexp = "^[1-9]\d*$", message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = "Const.REG_COM_FFZS_STR", message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		</#if>
 	private int ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '03'>
 	private Date ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '04'>
 		<#if bgMapleDetail.isEdit = "01">
-	@Pattern(regexp = "^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$", message="${bgMapleDetail.mapleDetailName} 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
+	@Pattern(regexp = "Const.REG_COM_FFXS_STR", message="${bgMapleDetail.mapleDetailName} 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>
 	private double ${bgMapleDetail.mapleDetailCode};
 		</#if>

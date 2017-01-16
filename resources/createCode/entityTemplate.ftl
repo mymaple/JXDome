@@ -1,14 +1,16 @@
 package com.jx.${bgMaple.entityPackage}.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+<#if bgMaple.mapleType == "02">
+import java.util.List;
+</#if>
 
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
-import com.jx.common.util.MapleDateUtil;
+import com.jx.common.config.Const;
 import com.jx.common.util.MapleStringUtil;
 
 public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializable {
@@ -33,10 +35,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	
 	/** 是否有此${bgMaple.mapleName} */
 	private boolean has${bgMaple.mapleCodeUpper};
-	
-	/** 修改时间 */
-	private Date lastModifyTime;
-	
+
 	
 	/**
 	 * 获取 指标
@@ -110,38 +109,6 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 		this.has${bgMaple.mapleCodeUpper} = has${bgMaple.mapleCodeUpper};
 	}
 	
-	/**
-	 * 设置 修改时间
-	 * 
-	 * @param Date lastModifyTime
-	 */
-	public void setLastModifyTime(Date lastModifyTime) {
-		this.lastModifyTime = lastModifyTime;
-	}
-	
-	/**
-	 * 获取 修改时间
-	 * 
-	 * @return Date lastModifyTime
-	 */
-	public Date getLastModifyTime() {
-		return this.lastModifyTime;
-	}	
-		
-	public void setLastModifyTimeStr(String lastModifyTimeStr) throws Exception{
-		lastModifyTimeStr = MapleStringUtil.trim(lastModifyTimeStr);
-		if(!lastModifyTimeStr.equals("")){
-			try{
-				setLastModifyTime(MapleDateUtil.parseDate(lastModifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getLastModifyTimeStr(){
-		return MapleDateUtil.getFormatedDateString(getLastModifyTime());
-	}
 	</#if>
 	
 	/**************************custom prop end**********************************/
@@ -167,21 +134,21 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	/** ${bgMapleDetail.mapleDetailName} */
 		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
-	@Pattern(regexp = "^[a-z][a-zA-Z0-9_]*$", message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = Const.REG_COM_CODE_STR, message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		<#elseif bgMapleDetail.isEdit = "01">
 	@NotBlank(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>
 	private String ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
 		<#if bgMapleDetail.isEdit = "01">
-	@Pattern(regexp = "^[1-9]\d*$", message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		</#if>
 	private int ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '03'>
 	private Date ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '04'>
 		<#if bgMapleDetail.isEdit = "01">
-	@Pattern(regexp = "^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$", message="${bgMapleDetail.mapleDetailName} 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
+	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="${bgMapleDetail.mapleDetailName} 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>
 	private double ${bgMapleDetail.mapleDetailCode};
 		</#if>

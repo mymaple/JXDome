@@ -193,7 +193,6 @@ public class BgMapleDetailController extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit(@Validated(ValidationEdit.class) BgMapleDetail bgMapleDetail, BindingResult result) throws Exception{
-		logBefore(logger, "修改bgMapleDetail");
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
@@ -367,7 +366,6 @@ public class BgMapleDetailController extends BaseController {
 	 */
 	@RequestMapping(value="/downExcelModel")
 	public ModelAndView downExcelModel()throws Exception{
-		logBefore(logger, "导出bgUser到excel");
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();

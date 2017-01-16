@@ -1,14 +1,13 @@
 package com.jx.background.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
-import com.jx.common.util.MapleDateUtil;
+import com.jx.common.config.Const;
 import com.jx.common.util.MapleStringUtil;
 
 public class BgMapleDetail extends BaseEntity implements Serializable {
@@ -56,7 +55,7 @@ public class BgMapleDetail extends BaseEntity implements Serializable {
 	private String mapleId;
 	
 	/** 代码生成详情代号 */
-	@Pattern(regexp = "^[a-z][a-zA-Z0-9_]*$", message="代码生成详情代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = Const.REG_COM_CODE_STR, message="代码生成详情代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String mapleDetailCode;
 		
 	/** 代码生成详情名称 */

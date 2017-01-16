@@ -30,40 +30,31 @@
 					
 					<form action="background/dict/${methodPath }.do" name="dictForm" id="dictForm" method="post">
 						<input type="hidden" name="dictId" id="dictId" value="${comDict.dictId}"/>
-						<input type="hidden" name="parentId" id="parentId" value="${comDict.parentId}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">上级:</td>
-								<td>
-									<div class="col-xs-4 label label-lg label-light arrowed-in arrowed-right">
-										<b><c:if test="${comDict.parentId == '0'}">顶级</</c:if>
-											<c:if test="${comDict.parentId != '0'}">
-												<%-- <param:display type="bg_di" value="${comDict.parentId}"/> --%>
-											</</c:if>
-										</b>
-									</div>
-								</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td align="center"><param:display type="bg_mapleDetailType" name="parentId" id="parentId" value="${comDict.parentId }" hidden="true"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典代号:</td>
-								<td><input type="text" name="dictCode" id="dictCode" value="${comDict.dictCode}" maxlength="100" placeholder="这里输入 数据字典代号" title="数据字典代号" style="width:98%;" onblur="hasCode()"/></td>
+								<td><input type="text" name="dictCode" id="dictCode" value="${comDict.dictCode}" maxlength="100" placeholder="这里输入 数据字典代号" title="数据字典代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典名称:</td>
-								<td><input type="text" name="dictName" id="dictName" value="${comDict.dictName}" maxlength="100" placeholder="这里输入 数据字典名称" title="数据字典名称" style="width:98%;"/></td>
+								<td><input type="text" name="dictName" id="dictName" value="${comDict.dictName}" maxlength="100" placeholder="这里输入 数据字典名称" title="数据字典名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典类型:</td>
-								<td><param:select type="bg_dictType" name="dictType" id="dictType" value="${comDict.dictType}" placeholder="请选择 数据字典类型" title="数据字典名称" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td><param:select type="bg_dictType" name="dictType" id="dictType" value="${comDict.dictType}" placeholder="这里请选择 数据字典类型" title="数据字典类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典值:</td>
-								<td><input type="text" name="dictValue" id="dictValue" value="${comDict.dictValue}" maxlength="100" placeholder="这里输入 数据字典值" title="数据字典值" style="width:98%;"/></td>
+								<td><input type="text" name="dictValue" id="dictValue" value="${comDict.dictValue}" maxlength="100" placeholder="这里输入 数据字典值" title="数据字典值" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
-								<td><input type="text" name="orderNum" id="orderNum" value="${comDict.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;"/></td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${comDict.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -102,9 +93,11 @@
 		$(top.hangge());
 		
 		//判断dictCode是否存在
-		function hasCode(){
+		function otherNotCode(){
 			var dictCode = $("#dictCode").val();
-			var url = "<%=basePath%>background/dict/hasCode.do?dictCode="+dictCode+"&tm="+new Date().getTime();
+			if(dictCode == "") return false;
+			var dictId = $("#dictId").val();
+			var url = "<%=basePath%>background/dict/otherNotCode.do?dictId="+dictId+"&dictCode="+dictCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#dictCode").tips({
@@ -122,6 +115,8 @@
 		//保存
 		function save(){
 			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+			var intExp = /^[1-9]\d*$/;
+			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/;
 			if(!codeExp.test($("#dictCode").val())){
 				$("#dictCode").tips({
 					side:3,
@@ -145,7 +140,7 @@
 			if($("#dictType").val()==""){
 				$("#dictType").next().tips({
 					side:3,
-		            msg:'请选择数据字典类型',
+		            msg:'请选择 数据字典类型',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -161,18 +156,16 @@
 				$("#dictValue").focus();
 			return false;
 			}
-		if("${methodPath }" == "edit"){
-			if($("#orderNum").val()==""){
+			if(!intExp.test($("#orderNum").val())){
 				$("#orderNum").tips({
 					side:3,
-		            msg:'请输入排序编号',
+		            msg:'排序编号 需是数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });
 				$("#orderNum").focus();
 			return false;
 			}
-		}
 			$("#dictForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

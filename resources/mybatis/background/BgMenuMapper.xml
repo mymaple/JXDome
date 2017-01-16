@@ -3,166 +3,236 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMenuMapper">
 
-	<sql id="menuAddColumns">menuName,menuCode,menuTag,menuUrl,parentId,menuOrder,menuIcon,menuType,status,modifyTime</sql>
-	<sql id="menuColumns">menuId,menuCode,menuTag,menuName,menuUrl,parentId,menuOrder,menuIcon,menuType,status,modifyTime</sql>
+	<sql id="menuColumns">menuId,parentId,menuCode,menuName,menuType,menuStatus,menuTag,menuUrl,menuIcon,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="menuTable">bg_menu_tree</sql>
 	
-	<resultMap type="bgMenu" id="menuResultMap">
+	<resultMap type="bgMenu" id="bgMenuResultMap">
 		<id column="menuId" property="menuId"/>
-		<result column="menuName" property="menuName"/>
 		<result column="menuCode" property="menuCode"/>
+		<result column="menuName" property="menuName"/>
+		<result column="menuType" property="menuType"/>
+		<result column="menuStatus" property="menuStatus"/>
 		<result column="menuTag" property="menuTag"/>
 		<result column="menuUrl" property="menuUrl"/>
-		<result column="parentId" property="parentId"/>
-		<result column="menuOrder" property="menuOrder"/>
 		<result column="menuIcon" property="menuIcon"/>
-		<result column="menuType" property="menuType"/>
-		<result column="status" property="status"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
+		<result column="parentId" property="parentId"/>
 	</resultMap>
 	
 	
 	<!-- ****************************custom * start*********************************** -->
-	
-	<!-- 修改菜单图标menuIcon (顶部菜单) -->
-	<update id="changeMenuIcon" parameterType="pd">
-		update bgMenu set 
-			menuIcon=#{menuIcon}
-		where menuId=#{menuId}
-	</update>
-	
-	<!-- 根据parentId 获取所有直接子菜单 -->
-	<select id="listSubBgMenuByParentId" parameterType="int" resultMap="menuResultMap">
-		select  * from bgMenu
-		where parentId = #{parentId} order by menuOrder 
-	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="menuId" parameterType="bgMenu">
-		insert into bgMenu ( 
-			<include refid="menuAddColumns"/>
+	<insert id="add" parameterType="bgMenu">
+		insert into 
+	<include refid="menuTable"/>
+		( 
+	<include refid="menuColumns"/>
 		) values (
-			#{menuName},#{menuCode},#{menuTag},#{menuUrl},#{parentId},#{menuOrder},#{menuIcon},#{menuType},#{status},#{modifyTime}
-		)
-	</insert>
-	
-	<!-- 新增 -->
-	<insert id="addByPd" useGeneratedKeys="true" keyProperty="menuId" parameterType="pd">
-		insert into bgMenu ( 
-			<include refid="menuAddColumns"/>
-		) values (
-			#{menuName},#{menuCode},#{menuTag},#{menuUrl},#{parentId},#{menuOrder},#{menuIcon},#{menuType},#{status},#{modifyTime}
+			#{menuId},#{parentId},#{menuCode},#{menuName},#{menuType},#{menuStatus},#{menuTag},#{menuUrl},#{menuIcon},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 修改 -->
 	<update id="edit" parameterType="bgMenu">
-		update  bgMenu
-			set 
-				menuName = #{menuName},
-				menuCode = #{menuCode},
-				menuTag = #{menuTag},
-				menuUrl = #{menuUrl},
-				parentId = #{parentId},
-				menuOrder = #{menuOrder},
-				menuIcon = #{menuIcon},
-				menuType = #{menuType},
-				status = #{status},
-				modifyTime = #{modifyTime}
-			where 
-				menuId = #{menuId}
-	</update>
-	
-	<!-- 修改 -->
-	<update id="editByPd" parameterType="pd">
-		update  bgMenu
-			set 
-				menuName = #{menuName},
-				menuCode = #{menuCode},
-				menuTag = #{menuTag},
-				menuUrl = #{menuUrl},
-				parentId = #{parentId},
-				menuOrder = #{menuOrder},
-				menuIcon = #{menuIcon},
-				menuType = #{menuType},
-				status = #{status},
-				modifyTime = #{modifyTime}
-			where 
-				menuId = #{menuId}
-	</update>
-	
-	<!-- 删除 -->
-	<delete id="deleteById" parameterType="int">
-		delete from bgMenu 
+		update
+	<include refid="menuTable"/>
+		set 
+			<if test="menuCode!=null and menuCode!=''">
+			menuCode = #{menuCode},
+			</if>
+			<if test="menuName!=null and menuName!=''">
+			menuName = #{menuName},
+			</if>
+			<if test="menuType!=null and menuType!=''">
+			menuType = #{menuType},
+			</if>
+			<if test="menuTag!=null and menuTag!=''">
+			menuTag = #{menuTag},
+			</if>
+			<if test="menuUrl!=null and menuUrl!=''">
+			menuUrl = #{menuUrl},
+			</if>
+			<if test="menuIcon!=null and menuIcon!=''">
+			menuIcon = #{menuIcon},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
 		where 
-			menuId = #{menuId}
-	</delete>
+			menuId = #{menuId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="bgMenu">
+		update
+	<include refid="menuTable"/>
+		set 
+			<if test="parentId!=null and parentId!=''">
+			 parentId = #{parentId},
+			 </if>
+			<if test="menuCode!=null and menuCode!=''">
+			menuCode = #{menuCode},
+			</if>
+			<if test="menuName!=null and menuName!=''">
+			menuName = #{menuName},
+			</if>
+			<if test="menuType!=null and menuType!=''">
+			menuType = #{menuType},
+			</if>
+			<if test="menuStatus!=null and menuStatus!=''">
+			menuStatus = #{menuStatus},
+			</if>
+			<if test="menuTag!=null and menuTag!=''">
+			menuTag = #{menuTag},
+			</if>
+			<if test="menuUrl!=null and menuUrl!=''">
+			menuUrl = #{menuUrl},
+			</if>
+			<if test="menuIcon!=null and menuIcon!=''">
+			menuIcon = #{menuIcon},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			menuId = #{menuId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
 	
 	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from bgMenu 
+		delete from 
+	<include refid="menuTable"/>
 		where 
-			menuId = #{menuId}
+			menuId = #{menuId} 
 	</delete>
 	
 	<!-- 批量删除 -->
 	<delete id="batchDeleteByIds" parameterType="String">
-		delete from comTable 
+		delete from 
+ <include refid="menuTable"/>
 		where 
-			tableId in (#{ids})
+			CONCAT(menuId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="bgMenu">
+	<select id="findByPd" parameterType="pd" resultType="bgMenu">
 		select 
-			<include refid="menuColumns"/>
+	<include refid="menuColumns"/>
 		from 
-			bgMenu
+	<include refid="menuTable"/>
 		where 
-			menuId = #{menuId}
-	</select>
-	
-	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="int" resultType="pd">
-		select 
-			<include refid="menuColumns"/>
-		from 
-			bgMenu
-		where 
-			menuId = #{menuId}
-	</select>
-	
-	<!-- 通过pd获取(PageData)数据  -->
-	<select id="findPdByPd" parameterType="pd" resultType="pd">
-		select 
-			<include refid="menuColumns"/>
-		from 
-			bgMenu
-		where 
-			menuId = #{menuId}
+			menuId = #{menuId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAllByPd" parameterType="pd" resultMap="menuResultMap">
+	<select id="listByPd" parameterType="pd" resultMap="bgMenuResultMap">
 		select 
-			<include refid="menuColumns"/>
+	<include refid="menuColumns"/>
 		from 
-			bgMenu
+	<include refid="menuTable"/>
+		where 1=1
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId}
+			 </if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="bgMenu" resultMap="bgMenuResultMap">
+		select 
+	<include refid="menuColumns"/>
+		from 
+	<include refid="menuTable"/>
+		where 1=1
+			<if test="menuId!=null and menuId!=''">
+			 and menuId != #{menuId} 
+			</if>
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId} 
+			</if>
+			<if test="menuCode!=null and menuCode!=''">
+			 and menuCode = #{menuCode}
+			</if>
+			<if test="menuName!=null and menuName!=''">
+			 and menuName = #{menuName}
+			</if>
+			<if test="menuType!=null and menuType!=''">
+			 and menuType = #{menuType}
+			</if>
+			<if test="menuStatus!=null and menuStatus!=''">
+			 and menuStatus = #{menuStatus}
+			</if>
+			<if test="menuTag!=null and menuTag!=''">
+			 and menuTag = #{menuTag}
+			</if>
+			<if test="menuUrl!=null and menuUrl!=''">
+			 and menuUrl = #{menuUrl}
+			</if>
+			<if test="menuIcon!=null and menuIcon!=''">
+			 and menuIcon = #{menuIcon}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listPage" parameterType="bgPage" resultType="pd">
-		select 
-			<include refid="menuColumns"/>
+			select 
+	<include refid="menuColumns"/>
 		from 
-			bgMenu
+	<include refid="menuTable"/>
 		where 1=1
-		<if test="pd.menuId != null and pd.menuId != ''"><!-- 角色检索 -->
-			and parentId = #{pd.menuId}
+			<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
+			and parentId= #{pd.pId}
+			</if>
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				menuCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				menuName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
 		</if>
+		order by (orderNum+0)
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

@@ -214,96 +214,109 @@ CREATE TABLE `bgRole` (
 INSERT INTO `bgRole` VALUES ('1', '系统管理组', '147573389638682795998', '0', '1', '1', '1', '1', '2016-06-06 02:27:47');
 
 
--- ----------------------------
--- Table structure for bgMenu
--- ----------------------------
-DROP TABLE IF EXISTS `bgMenu`;
-CREATE TABLE `bgMenu` (
- 	`menuId` int(11) NOT NULL AUTO_INCREMENT COMMENT '后台菜单表id',
-	`menuName` varchar(50)
-		 DEFAULT NULL  COMMENT '菜单名称' ,	
-	`menuCode` varchar(50)
-		 DEFAULT NULL  COMMENT '菜单标记名称' ,	
-	`menuTag` varchar(50)
-		 DEFAULT NULL  COMMENT '菜单标识 ' ,	
-	`menuUrl` varchar(255)
-		 DEFAULT NULL  COMMENT '菜单链接' ,	
-	`parentId` int(11)
-		 DEFAULT NULL  COMMENT '上级id' ,	
-	`menuOrder` varchar(50)
-		 DEFAULT NULL  COMMENT '菜单排序' ,	
-	`menuIcon` varchar(255)
-		 DEFAULT NULL  COMMENT '菜单图标' ,	
-	`menuType` varchar(50)
-		 DEFAULT NULL  COMMENT '菜单类型' ,	
-	`status` varchar(50)
-		 DEFAULT NULL  COMMENT '状态' ,	
-	`modifyTime` datetime
-		 DEFAULT NULL  COMMENT '修改时间' ,	
-  PRIMARY KEY (`menuId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '后台菜单表';
 
 -- ----------------------------
--- Records of bgMenu
+-- Table structure for bg_menu_tree
 -- ----------------------------
-INSERT INTO `bgMenu` VALUES ('1', '系统管理', '#', 1, '#', '0', '1', 'menu-icon fa fa-desktop blue', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('2', '权限管理', '#', 1, '#', '1', '1', 'menu-icon fa fa-lock black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('3', '日志管理', '#', 1, 'fhlog/list.do', '1', '6', 'menu-icon fa fa-book blue', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('4', '文件管理', '#', 1, 'fhfile/list.do', '59', '3', 'menu-icon fa fa-folder-open purple', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('6', '信息管理', '#', 1, '#', '0', '5', 'menu-icon fa fa-credit-card green', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('7', '图片管理', '#', 1, '#', '6', '1', 'menu-icon fa fa-folder-o pink', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('8', '性能监控', '#', 1, 'druid/index.html', '9', '8', 'menu-icon fa fa-tachometer red', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('9', '系统工具', '#', 1, '#', '0', '3', 'menu-icon fa fa-cog black', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('10', '接口测试', '#', 1, 'tool/interfaceTest.do', '9', '2', 'menu-icon fa fa-exchange green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('11', '发送邮件', '#', 1, 'tool/goSendEmail.do', '9', '3', 'menu-icon fa fa-envelope-o green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('12', '置二维码', '#', 1, 'tool/goTwoDimensionCode.do', '9', '4', 'menu-icon fa fa-barcode green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('14', '地图工具', '#', 1, 'tool/map.do', '9', '6', 'menu-icon fa fa-globe black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('15', '微信管理', '#', 1, '#', '0', '4', 'menu-icon fa fa-comments purple', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('16', '文本回复', '#', 1, 'textmsg/list.do', '15', '2', 'menu-icon fa fa-comment green', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('17', '应用命令', '#', 1, 'command/list.do', '15', '4', 'menu-icon fa fa-comment grey', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('18', '图文回复', '#', 1, 'imgmsg/list.do', '15', '3', 'menu-icon fa fa-comment pink', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('19', '关注回复', '#', 1, 'textmsg/goSubscribe.do', '15', '1', 'menu-icon fa fa-comment orange', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('20', '在线管理', '#', 1, 'onlinemanager/list.do', '1', '5', 'menu-icon fa fa-laptop green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('21', '打印测试', '#', 1, 'tool/printTest.do', '9', '7', 'menu-icon fa fa-hdd-o grey', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('22', '一级菜单', '#', 1, '#', '0', '10', 'menu-icon fa fa-fire orange', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('23', '二级菜单', '#', 1, '#', '22', '1', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('24', '三级菜单', '#', 1, '#', '23', '1', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('30', '四级菜单', '#', 1, '#', '24', '1', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('31', '五级菜单1', '#', 1, '#', '30', '1', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('32', '五级菜单2', '#', 1, '#', '30', '2', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('33', '六级菜单', '#', 1, '#', '31', '1', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('34', '六级菜单2', '#', 1, 'login_default.do', '31', '2', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('35', '四级菜单2', '#', 1, 'login_default.do', '24', '2', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('36', '角色(基础权限)', 'background/role', 36, 'background/role/list.do', '2', '1', 'menu-icon fa fa-key orange', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('37', '按钮权限', '#', 1, 'buttonrights/list.do', '2', '2', 'menu-icon fa fa-key green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('38', '菜单管理', 'background/menu', 38, 'background/menu/main.do', '1', '3', 'menu-icon fa fa-folder-open-o brown', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('39', '按钮管理', '#', 1, 'fhbutton/list.do', '1', '2', 'menu-icon fa fa-download orange', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('40', '用户管理', '#', 1, '#', '0', '2', 'menu-icon fa fa-users blue', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('41', '系统用户', 'background/user', 41, 'background/user/list.do', '40', '1', 'menu-icon fa fa-users green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('42', '会员管理', '#', 1, 'happuser/listUsers.do', '40', '2', 'menu-icon fa fa-users orange', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('43', '数据字典', 'background/dict', 43, 'background/dict/main.do', '1', '4', 'menu-icon fa fa-book purple', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('44', '代码生成器', '#', 1, '#', '9', '0', 'menu-icon fa fa-cogs brown', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('45', '七级菜单1', '#', 1, '#', '33', '1', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('46', '七级菜单2', '#', 1, '#', '33', '2', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('47', '八级菜单', '#', 1, 'login_default.do', '45', '1', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('48', '图表报表', '#', 1, ' tool/fusionchartsdemo.do', '9', '5', 'menu-icon fa fa-bar-chart-o black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('50', '站内信', '#', 1, 'fhsms/list.do', '6', '3', 'menu-icon fa fa-envelope green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('51', '图片列表', '#', 1, 'pictures/list.do', '7', '1', 'menu-icon fa fa-folder-open-o green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('52', '图片爬虫', '#', 1, 'pictures/goImageCrawler.do', '7', '2', 'menu-icon fa fa-cloud-download green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('53', '表单构建器', '#', 1, 'tool/goFormbuilder.do', '9', '1', 'menu-icon fa fa-leaf black', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('54', '数据库管理', '#', 1, '#', '0', '9', 'menu-icon fa fa-hdd-o blue', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('55', '数据库备份', '#', 1, 'brdb/listAllTable.do', '54', '1', 'menu-icon fa fa-cloud-upload blue', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('56', '数据库还原', '#', 1, 'brdb/list.do', '54', '3', 'menu-icon fa fa-cloud-download blue', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('57', '备份定时器', '#', 1, 'timingbackup/list.do', '54', '2', 'menu-icon fa fa-tachometer blue', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('58', 'SQL编辑器', '#', 1, 'sqledit/view.do', '54', '4', 'menu-icon fa fa-pencil-square-o blue', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('59', 'OA办公', '#', 1, '#', '0', '6', 'menu-icon fa fa-laptop pink', '2', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('60', '组织机构', '#', 1, 'department/listAllDepartment.do?DEPARTMENT_ID=0', '59', '1', 'menu-icon fa fa-users green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('61', '反向生成', '#', 1, 'recreateCode/list.do', '44', '2', 'menu-icon fa fa-cogs blue', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('62', '正向生成', '#', 1, 'createCode/list.do', '44', '1', 'menu-icon fa fa-cogs green', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('63', '主附结构', '#', 1, 'attached/list.do', '6', '2', 'menu-icon fa fa-folder-open blue', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('64', '员工管理', '#', 1, 'staff/list.do', '59', '2', 'menu-icon fa fa-users blue', '1', '1', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('65', '多数据源', '#', 1, 'datasource2/list.do', '6', '4', 'menu-icon fa fa-folder-open-o purple', '1', '0', '2016-06-06 02:27:47');
-INSERT INTO `bgMenu` VALUES ('66', '下拉联动', '#', 1, 'linkage/view.do', '6', '5', 'menu-icon fa fa-exchange green', '1', '1', '2016-06-06 02:27:47');
+DROP TABLE IF EXISTS `bg_menu_tree`;
+CREATE TABLE `bg_menu_tree` (
+
+	`menuId` varchar(100) 
+			NOT NULL COMMENT '后台菜单 主键id',
+	`parentId` varchar(100) 
+			NOT NULL COMMENT '上级 id',
+	`menuCode` varchar(100)
+			 DEFAULT NULL  COMMENT '后台菜单代号', 
+	`menuName` varchar(100)
+			 DEFAULT NULL  COMMENT '后台菜单名称', 
+	`menuType` varchar(100)
+			 DEFAULT NULL  COMMENT '后台菜单类型', 
+	`menuStatus` varchar(100)
+			 DEFAULT NULL  COMMENT '后台菜单状态', 
+	`menuTag` int(10)
+			 DEFAULT NULL  COMMENT '菜单数字标记', 
+	`menuUrl` varchar(255)
+			 DEFAULT NULL  COMMENT '菜单链接', 
+	`menuIcon` varchar(100)
+			 DEFAULT NULL  COMMENT '菜单图标', 
+  	`orderNum` varchar(100)
+			 DEFAULT NULL  COMMENT '排序编号', 
+	`effective` varchar(100)
+			 DEFAULT NULL  COMMENT '有效标志', 
+	`createUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '创建人员id', 
+	`createTime` datetime
+			 DEFAULT NULL  COMMENT '创建时间', 
+	`modifyUserId` varchar(100)
+			 DEFAULT NULL  COMMENT '修改人员id', 
+	`modifyTime` datetime
+			 DEFAULT NULL  COMMENT '修改时间', 
+  PRIMARY KEY (`menuId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '后台菜单';
+
+
+-- ----------------------------
+-- Records of bg_menu_tree
+-- ----------------------------
+INSERT INTO `bg_menu_tree` VALUES ('1', '0', '#', '系统管理', '2', '01', '1', '#', 'menu-icon fa fa-desktop blue', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('10', '9', '#', '接口测试', '1', '01', '10', 'tool/interfaceTest.do', 'menu-icon fa fa-exchange green', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('11', '9', '#', '发送邮件', '1', '01', '11', 'tool/goSendEmail.do', 'menu-icon fa fa-envelope-o green', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('12', '9', '#', '置二维码', '1', '01', '12', 'tool/goTwoDimensionCode.do', 'menu-icon fa fa-barcode green', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('14', '9', '#', '地图工具', '1', '01', '14', 'tool/map.do', 'menu-icon fa fa-globe black', '6', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('15', '0', '#', '微信管理', '2', '01', '15', '#', 'menu-icon fa fa-comments purple', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('16', '15', '#', '文本回复', '2', '01', '16', 'textmsg/list.do', 'menu-icon fa fa-comment green', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('17', '15', '#', '应用命令', '2', '01', '17', 'command/list.do', 'menu-icon fa fa-comment grey', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('18', '15', '#', '图文回复', '2', '01', '18', 'imgmsg/list.do', 'menu-icon fa fa-comment pink', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('19', '15', '#', '关注回复', '2', '01', '19', 'textmsg/goSubscribe.do', 'menu-icon fa fa-comment orange', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('2', '1', '#', '权限管理', '1', '01', '2', '#', 'menu-icon fa fa-lock black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('20', '1', '#', '在线管理', '1', '01', '20', 'onlinemanager/list.do', 'menu-icon fa fa-laptop green', '5', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('21', '9', '#', '打印测试', '1', '01', '21', 'tool/printTest.do', 'menu-icon fa fa-hdd-o grey', '7', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('22', '0', '#', '一级菜单', '2', '01', '22', '#', 'menu-icon fa fa-fire orange', '10', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('23', '22', '#', '二级菜单', '1', '01', '23', '#', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('24', '23', '#', '三级菜单', '1', '01', '24', '#', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('3', '1', '#', '日志管理', '1', '01', '3', 'fhlog/list.do', 'menu-icon fa fa-book blue', '6', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('30', '24', '#', '四级菜单', '1', '01', '30', '#', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('31', '30', '#', '五级菜单1', '1', '01', '31', '#', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('32', '30', '#', '五级菜单2', '1', '01', '32', '#', 'menu-icon fa fa-leaf black', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('33', '31', '#', '六级菜单', '1', '01', '33', '#', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('34', '31', '#', '六级菜单2', '1', '01', '34', 'login_default.do', 'menu-icon fa fa-leaf black', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('35', '24', '#', '四级菜单2', '1', '01', '35', 'login_default.do', 'menu-icon fa fa-leaf black', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('36', '2', 'background/role', '角色(基础权限)', '1', '01', '36', 'background/role/list.do', 'menu-icon fa fa-key orange', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('37', '2', '#', '按钮权限', '1', '01', '37', 'buttonrights/list.do', 'menu-icon fa fa-key green', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('38', '1', 'background/menu', '菜单管理', '1', '01', '38', 'background/menu/main.do', 'menu-icon fa fa-folder-open-o brown', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('39', '1', '#', '按钮管理', '1', '01', '39', 'fhbutton/list.do', 'menu-icon fa fa-download orange', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('4', '59', '#', '文件管理', '1', '01', '4', 'fhfile/list.do', 'menu-icon fa fa-folder-open purple', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('40', '0', '#', '用户管理', '2', '01', '40', '#', 'menu-icon fa fa-users blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('41', '40', 'background/user', '系统用户', '1', '01', '41', 'background/user/list.do', 'menu-icon fa fa-users green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('42', '40', '#', '会员管理', '1', '01', '42', 'happuser/listUsers.do', 'menu-icon fa fa-users orange', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('43', '1', 'background/dict', '数据字典', '1', '01', '43', 'background/dict/main.do', 'menu-icon fa fa-book purple', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('44', '9', '#', '代码生成器', '1', '01', '44', '#', 'menu-icon fa fa-cogs brown', '0', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('45', '33', '#', '七级菜单1', '1', '01', '45', '#', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('46', '33', '#', '七级菜单2', '1', '01', '46', '#', 'menu-icon fa fa-leaf black', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('47', '45', '#', '八级菜单', '1', '01', '47', 'login_default.do', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('48', '9', '#', '图表报表', '1', '01', '48', ' tool/fusionchartsdemo.do', 'menu-icon fa fa-bar-chart-o black', '5', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('50', '6', '#', '站内信', '1', '01', '50', 'fhsms/list.do', 'menu-icon fa fa-envelope green', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('51', '7', '#', '图片列表', '1', '01', '51', 'pictures/list.do', 'menu-icon fa fa-folder-open-o green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('52', '7', '#', '图片爬虫', '1', '01', '52', 'pictures/goImageCrawler.do', 'menu-icon fa fa-cloud-download green', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('53', '9', '#', '表单构建器', '1', '01', '53', 'tool/goFormbuilder.do', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('54', '0', '#', '数据库管理', '2', '01', '54', '#', 'menu-icon fa fa-hdd-o blue', '9', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('55', '54', '#', '数据库备份', '1', '01', '55', 'brdb/listAllTable.do', 'menu-icon fa fa-cloud-upload blue', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('56', '54', '#', '数据库还原', '1', '01', '56', 'brdb/list.do', 'menu-icon fa fa-cloud-download blue', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('57', '54', '#', '备份定时器', '1', '01', '57', 'timingbackup/list.do', 'menu-icon fa fa-tachometer blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('58', '54', '#', 'SQL编辑器', '1', '01', '58', 'sqledit/view.do', 'menu-icon fa fa-pencil-square-o blue', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('59', '0', '#', 'OA办公', '2', '01', '59', '#', 'menu-icon fa fa-laptop pink', '6', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('6', '0', '#', '信息管理', '2', '01', '6', '#', 'menu-icon fa fa-credit-card green', '5', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('60', '59', '#', '组织机构', '1', '01', '60', 'department/listAllDepartment.do?DEPARTMENT_ID=0', 'menu-icon fa fa-users green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('61', '44', 'background/maple', '反向生成', '1', '01', '61', 'background/maple/list.do', 'menu-icon fa fa-cogs blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('62', '44', 'background/maple', '正向生成', '1', '01', '62', 'background/maple/list.do', 'menu-icon fa fa-cogs green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('63', '6', '#', '主附结构', '1', '01', '63', 'attached/list.do', 'menu-icon fa fa-folder-open blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('64', '59', '#', '员工管理', '1', '01', '64', 'staff/list.do', 'menu-icon fa fa-users blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('65', '6', '#', '多数据源', '1', '01', '65', 'datasource2/list.do', 'menu-icon fa fa-folder-open-o purple', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('66', '6', '#', '下拉联动', '1', '01', '66', 'linkage/view.do', 'menu-icon fa fa-exchange green', '5', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('7', '6', '#', '图片管理', '2', '01', '7', '#', 'menu-icon fa fa-folder-o pink', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('72', '1', 'qweqqweqweqwe', 'asdsad', '1', '01', '72', 'qweqwesadfasd', 'menu-icon fa fa-adjust black', '6', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('8', '9', '#', '性能监控', '1', '01', '8', 'druid/index.html', 'menu-icon fa fa-tachometer red', '8', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('9', '0', '#', '系统工具', '2', '01', '9', '#', 'menu-icon fa fa-cog black', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 
 -- ----------------------------
 -- Table structure for bgConfig

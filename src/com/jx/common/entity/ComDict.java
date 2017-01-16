@@ -1,17 +1,17 @@
 package com.jx.common.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
-import com.jx.common.util.MapleDateUtil;
+import com.jx.common.config.BaseEntity;
+import com.jx.common.config.Const;
 import com.jx.common.util.MapleStringUtil;
 
-public class ComDict implements Serializable {
+public class ComDict extends BaseEntity implements Serializable {
 	
 	/**
 	 * 
@@ -109,68 +109,37 @@ public class ComDict implements Serializable {
 	
 	/**************************custom prop end**********************************/
 	
-	//新增校验分组
-	public interface ValidationAdd
-	{
-	//接口中不需要任何定义
-	}
-	
-	//编辑校验分组
-	public interface ValidationEdit
-	{
-	//接口中不需要任何定义
-	}
-	
 	/**************************table prop satrt*********************************/
 	
 	/** 数据字典 主键id */
-	@NotEmpty(message="数据字典 主键id 不能为空", groups={ValidationEdit.class})
+	@NotBlank(message="数据字典 主键id 不能为空", groups={ValidationEdit.class})
 	private String dictId;
 	
 	/** 上级 id */
-	@NotEmpty(message="上级 id 不能为空", groups={ValidationAdd.class})
+	@NotBlank(message="上级 id 不能为空", groups={ValidationAdd.class})
 	private String parentId;
 	
 	/** 数据字典代号 */
-	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]*$", message="数据字典代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	@Pattern(regexp = Const.REG_COM_CODE_STR, message="数据字典代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String dictCode;
 		
 	/** 数据字典名称 */
-	@NotEmpty(message="数据字典名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="数据字典名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String dictName;
 		
 	/** 数据字典类型 */
-	@NotEmpty(message="数据字典类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="数据字典类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String dictType;
-		
-	/** 数据字典值 */
-	@NotEmpty(message="数据字典值 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String dictValue;
 		
 	/** 数据字典状态 */
 	private String dictStatus;
 		
+	/** 数据字典值 */
+	@NotBlank(message="数据字典值 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String dictValue;
+		
 	/** 级别 */
 	private int level;
-		
-	/** 排序编号 */
-	@NotEmpty(message="排序编号 不能为空", groups={ValidationEdit.class})
-	private String orderNum;
-		
-	/** 有效性 */
-	private String effective;
-		
-	/** 创建人员id */
-	private String createUserId;
-		
-	/** 创建时间 */
-	private Date createTime;
-		
-	/** 修改人员id */
-	private String modifyUserId;
-		
-	/** 修改时间 */
-	private Date modifyTime;
 		
 	
 	
@@ -265,24 +234,6 @@ public class ComDict implements Serializable {
 	}
 	
 	/**
-	 * 设置 数据字典值
-	 * 
-	 * @param String dictValue
-	 */
-	public void setDictValue(String dictValue) {
-		this.dictValue = MapleStringUtil.trim(dictValue);
-	}
-	
-	/**
-	 * 获取 数据字典值
-	 * 
-	 * @return String dictValue
-	 */
-	public String getDictValue() {
-		return this.dictValue;
-	}
-	
-	/**
 	 * 设置 数据字典状态
 	 * 
 	 * @param String dictStatus
@@ -298,6 +249,24 @@ public class ComDict implements Serializable {
 	 */
 	public String getDictStatus() {
 		return this.dictStatus;
+	}
+	
+	/**
+	 * 设置 数据字典值
+	 * 
+	 * @param String dictValue
+	 */
+	public void setDictValue(String dictValue) {
+		this.dictValue = MapleStringUtil.trim(dictValue);
+	}
+	
+	/**
+	 * 获取 数据字典值
+	 * 
+	 * @return String dictValue
+	 */
+	public String getDictValue() {
+		return this.dictValue;
 	}
 	
 	/**
@@ -318,113 +287,6 @@ public class ComDict implements Serializable {
 		return this.level;
 	}
 	
-	/**
-	 * 设置 排序编号
-	 * 
-	 * @param String orderNum
-	 */
-	public void setOrderNum(String orderNum) {
-		this.orderNum = MapleStringUtil.trim(orderNum);
-	}
 	
-	/**
-	 * 获取 排序编号
-	 * 
-	 * @return String orderNum
-	 */
-	public String getOrderNum() {
-		return this.orderNum;
-	}
-	
-	/**
-	 * 设置 有效性
-	 * 
-	 * @param String effective
-	 */
-	public void setEffective(String effective) {
-		this.effective = MapleStringUtil.trim(effective);
-	}
-	
-	/**
-	 * 获取 有效性
-	 * 
-	 * @return String effective
-	 */
-	public String getEffective() {
-		return this.effective;
-	}
-	
-	/**
-	 * 设置 创建人员id
-	 * 
-	 * @param String createUserId
-	 */
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = MapleStringUtil.trim(createUserId);
-	}
-	
-	/**
-	 * 获取 创建人员id
-	 * 
-	 * @return String createUserId
-	 */
-	public String getCreateUserId() {
-		return this.createUserId;
-	}
-	
-	/**
-	 * 设置 创建时间
-	 * 
-	 * @param Date createTime
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	
-	/**
-	 * 获取 创建时间
-	 * 
-	 * @return Date createTime
-	 */
-	public Date getCreateTime() {
-		return this.createTime;
-	}	
-		
-	/**
-	 * 设置 修改人员id
-	 * 
-	 * @param String modifyUserId
-	 */
-	public void setModifyUserId(String modifyUserId) {
-		this.modifyUserId = MapleStringUtil.trim(modifyUserId);
-	}
-	
-	/**
-	 * 获取 修改人员id
-	 * 
-	 * @return String modifyUserId
-	 */
-	public String getModifyUserId() {
-		return this.modifyUserId;
-	}
-	
-	/**
-	 * 设置 修改时间
-	 * 
-	 * @param Date modifyTime
-	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
-	
-	/**
-	 * 获取 修改时间
-	 * 
-	 * @return Date modifyTime
-	 */
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}	
-		
 	/**************************table prop  end  *********************************/
 }

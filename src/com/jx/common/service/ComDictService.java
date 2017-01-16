@@ -60,6 +60,7 @@ public interface ComDictService {
 	 */
 	public void batchDeleteInRank(String[] ids) throws Exception ;
 	
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -123,22 +124,6 @@ public interface ComDictService {
 	public ComDict findByPd(PageData pd) throws Exception ;
 	
 	/**
-	 * 通过id获取(PageData)数据 
-	 * @param String dictId
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdById(String dictId) throws Exception ;
-	
-	/**
-	 * 通过pd获取(PageData)数据 
-	 * @param PageData pd
-	 * @return PageData
-	 * @throws Exception
-	 */
-	public PageData findPdByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
@@ -150,14 +135,14 @@ public interface ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComDict> has(ComDict comDict) throws Exception ;
+	public List<ComDict> otherHave(ComDict comDict) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComDict> hasCode(String dictCode) throws Exception ;
+	public List<ComDict> otherHaveCode(String dictId, String dictCode) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

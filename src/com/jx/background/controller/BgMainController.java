@@ -220,7 +220,7 @@ public class BgMainController extends BaseController {
 				//获取当前角色菜单列表
 				List<BgMenu> bgAllMenuInRankList = new ArrayList<BgMenu>();
 				if (null == BgSessionUtil.getSessionBgAllMenuInRankList()) {
-					bgAllMenuInRankList = bgMenuService.listAllMenuInRank(0,"");
+					bgAllMenuInRankList = bgMenuService.listInRank("0");
 					if (MapleStringUtil.notEmpty(roleRights)) {
 						this.bgMenuListTestRights(bgAllMenuInRankList,roleRights);
 					}
@@ -332,8 +332,8 @@ public class BgMainController extends BaseController {
 	 */
 	public List<BgMenu> bgMenuListTestRights(List<BgMenu> bgMenuList,String roleRights){
 		for(int i=0;i<bgMenuList.size();i++){
-			bgMenuList.get(i).setHasRight(RightsHelper.testRights(roleRights, bgMenuList.get(i).getMenuId()));
-			if(bgMenuList.get(i).isHasRight() && "1".equals(bgMenuList.get(i).getStatus())){				//判断是否有此菜单权限并且是否隐藏
+			bgMenuList.get(i).setHasMenu(RightsHelper.testRights(roleRights, bgMenuList.get(i).getMenuId()));
+			if(bgMenuList.get(i).isHasMenu() && "01".equals(bgMenuList.get(i).getMenuStatus())){				//判断是否有此菜单权限并且是否隐藏
 				this.bgMenuListTestRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);				//是：继续排查其子菜单
 			}else{
 				bgMenuList.remove(i);
