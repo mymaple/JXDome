@@ -54,7 +54,7 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
-								<td><input type="text" name="orderNum" id="orderNum" value="${comDict.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${comDict.orderNum}" maxlength="20" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -114,9 +114,9 @@
 		
 		//保存
 		function save(){
-			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-			var intExp = /^[1-9]\d*$/;
-			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/;
+			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
+			var intExp = /^[1-9]\d*$|^0$/;
+			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
 			if(!codeExp.test($("#dictCode").val())){
 				$("#dictCode").tips({
 					side:3,

@@ -35,48 +35,36 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
 								<td align="center"><param:display type="bg_mapleDetailType" name="mapleId" id="mapleId" value="${bgMapleDetail.mapleId }" hidden="true"/></td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情代号:</td>
 								<td><input type="text" name="mapleDetailCode" id="mapleDetailCode" value="${bgMapleDetail.mapleDetailCode}" maxlength="100" placeholder="这里输入 代码生成详情代号" title="代码生成详情代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情名称:</td>
 								<td><input type="text" name="mapleDetailName" id="mapleDetailName" value="${bgMapleDetail.mapleDetailName}" maxlength="100" placeholder="这里输入 代码生成详情名称" title="代码生成详情名称" style="width:98%;" /></td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情类型:</td>
 								<td><param:select type="bg_mapleDetailType" name="mapleDetailType" id="mapleDetailType" value="${bgMapleDetail.mapleDetailType}" placeholder="这里请选择 代码生成详情类型" title="代码生成详情类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">总长度:</td>
 								<td><input type="number" name="totalLength" id="totalLength" value="${bgMapleDetail.totalLength}" min="0" max="9999" placeholder="这里输入 总长度" title="总长度" style="width:98%;"/></td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">小数长度:</td>
 								<td><input type="number" name="decimalLength" id="decimalLength" value="${bgMapleDetail.decimalLength}" min="0" max="9" placeholder="这里输入 小数长度" title="小数长度" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">类型代号:</td>
 								<td><input type="text" name="typeCode" id="typeCode" value="${bgMapleDetail.typeCode}" maxlength="100" placeholder="这里输入 类型代号" title="类型代号" style="width:98%;" /></td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">是否主键:</td>
-								<td><input type="text" name="isKey" id="isKey" value="${bgMapleDetail.isKey}" maxlength="100" placeholder="这里输入 是否主键" title="是否主键" style="width:98%;" /></td>
+								<td><param:select type="com_sf" name="isKey" id="isKey" value="${bgMapleDetail.isKey}" placeholder="这里输入 是否主键" title="是否主键" cssClass="chosen-select form-control" styleClass="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">是否录入:</td>
-								<td><input type="text" name="isEdit" id="isEdit" value="${bgMapleDetail.isEdit}" maxlength="100" placeholder="这里输入 是否录入" title="是否录入" style="width:98%;" /></td>
-							</tr>
-							<tr>
+								<td><param:select type="com_sf" name="isEdit" id="isEdit" value="${bgMapleDetail.isEdit}" placeholder="这里输入 是否录入" title="是否录入" cssClass="chosen-select form-control" styleClass="width:98%;" /></td>
 								<td style="width:75px;text-align: right;padding-top: 13px;">是否null:</td>
-								<td><input type="text" name="isNull" id="isNull" value="${bgMapleDetail.isNull}" maxlength="100" placeholder="这里输入 是否null" title="是否null" style="width:98%;" /></td>
+								<td><param:select type="com_sf" name="isNull" id="isNull" value="${bgMapleDetail.isNull}" placeholder="这里输入 是否null" title="是否null" cssClass="chosen-select form-control" styleClass="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">默认值:</td>
 								<td><input type="text" name="defaultValue" id="defaultValue" value="${bgMapleDetail.defaultValue}" maxlength="100" placeholder="这里输入 默认值" title="默认值" style="width:98%;" /></td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="text" name="orderNum" id="orderNum" value="${bgMapleDetail.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
@@ -138,8 +126,9 @@
 		
 		//保存
 		function save(){
-			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-			var intExp = /^[1-9]\d*|0$/;
+			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
+			var intExp = /^[1-9]\d*$|^0$/;
+			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
 			if(!codeExp.test($("#mapleDetailCode").val())){
 				$("#mapleDetailCode").tips({
 					side:3,
@@ -180,6 +169,16 @@
 			return false;
 			}
 			if(!intExp.test($("#decimalLength").val())){
+				$("#decimalLength").tips({
+					side:3,
+		            msg:'请输入小数长度 需是数字',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#decimalLength").focus();
+			return false;
+			}
+			if($("#decimalLength").val().length>1){
 				$("#decimalLength").tips({
 					side:3,
 		            msg:'请输入小数长度 需是数字',

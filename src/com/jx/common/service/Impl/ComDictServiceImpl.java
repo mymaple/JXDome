@@ -27,6 +27,20 @@ public class ComDictServiceImpl implements ComDictService{
 	/****************************custom * start***********************************/
 	
 	/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<ComDict> parentList, String pId) throws Exception {
+		if("0".equals(pId)) return;
+		ComDict comDict = this.findById(pId);
+		comDict.setSubComDictPath("background/dict/list.do?pId="+pId);
+		parentList.add(0, comDict);
+		this.getParentList(parentList, comDict.getParentId());
+	}
+	
+	/**
 	 * 显示名称获取
 	 * @param type
 	 * @param value

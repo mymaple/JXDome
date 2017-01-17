@@ -34,10 +34,18 @@
 	<div class="page-header">
 		<h1>
 			<a href="<%=basePath%>background/menu/list.do">菜单管理</a>
-			<small>
-				<i class="ace-icon fa fa-angle-double-right"></i>
-				<a href="<%=basePath%>background/menu/list.do?">菜单管理</a>
-			</small>
+			<c:choose>
+				<c:when test="${not empty parentList}">
+					<c:if test="${RIGHTS.sele}">
+					<c:forEach items="${parentList}" var="bgMenu" varStatus="vs">
+						<small>
+							<i class="ace-icon fa fa-angle-double-right"></i>
+							<a href="${bgMenu.subBgMenuPath }">${bgMenu.menuName }</a>
+						</small>
+					</c:forEach>
+					</c:if>
+				</c:when>
+			</c:choose>			
 		</h1>
 	</div><!-- /.page-header -->
 	

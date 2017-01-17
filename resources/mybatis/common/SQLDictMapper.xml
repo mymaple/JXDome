@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SQLDictMapper">
+
+	<resultMap type="comDict" id="comDictResultMap">
+		<result column="dictName" property="dictName"/>
+		<result column="dictType" property="dictType"/>
+		<result column="dictValue" property="dictValue"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+		<select id="bg_userName_effective" parameterType="String" resultMap="comDictResultMap">
+			select userName as dictName, userCode as dictValue
+			from bg_user_info 
+			where effective = '01'
+			<if test="dictValue!=null and dictValue!=''">
+				userCode = #{dictValue} 
+			</if>
+		</select>
+		
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

@@ -26,6 +26,21 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	/****************************custom * start***********************************/
 	
 	<#if bgMaple.mapleType = "02">
+	
+		/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<${bgMaple.mapleEntityUpper}> parentList, String pId) throws Exception {
+		if("0".equals(pId)) return;
+		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = this.findById(pId);
+		${bgMaple.mapleEntityLower}.set${bgMaple.mapleEntityUpper}Path("background/${bgMaple.mapleCode}/list.do?pId="+pId);
+		parentList.add(0, ${bgMaple.mapleEntityLower});
+		this.getParentList(parentList, ${bgMaple.mapleEntityLower}.getParentId());
+	}
+	
 	/**
 	 * 根据parentId 获取所有直接子
 	 * @param String parentId

@@ -106,10 +106,13 @@ public class BgMenuController extends BaseController {
 		}
 			
 		bgPage.setPd(pd);
-		List<PageData>	bgMenuList = bgMenuService.listPage(bgPage);	//列出bgMenu列表
+		List<PageData>	bgMenuList = bgMenuService.listPage(bgPage);			//列出bgMenu列表
 			
+		List<BgMenu> parentList = new ArrayList<BgMenu>();
+		bgMenuService.getParentList(parentList, pd.getString("pId"));			//导航栏链接
+		
 		mv.addObject("bgMenuList", bgMenuList);
-		mv.addObject("parentBgMenu", bgMenuService.findById(pd.getString("pId")));
+		mv.addObject("parentList", parentList);
 		mv.addObject("pd", pd);
 		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
 		resultInfo.setResultCode("success");

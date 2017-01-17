@@ -70,11 +70,9 @@ public class BgMapleDetail extends BaseEntity implements Serializable {
 	private String mapleDetailStatus;
 		
 	/** 总长度 */
-//	@Pattern(regexp = "^[1-9]\d*$", message="总长度 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private int totalLength;
 		
 	/** 小数长度 */
-//	@Pattern(regexp = "^[1-9]\d*$", message="小数长度 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private int decimalLength;
 		
 	/** 类型代号 */

@@ -23,6 +23,12 @@
 </head>
 <body class="no-skin">
 
+	<div class="page-header">
+	<h1>
+		<a href="<%=basePath%>background/maple/list.do">代码生成</a>
+	</h1>
+	</div><!-- /.page-header -->
+	
 	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
 		<!-- /section:basics/sidebar -->
@@ -31,7 +37,35 @@
 				<div class="page-content">
 					<div class="row">
 						<div class="col-xs-12">
-							
+						
+						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">	
+							<thead>
+								<tr>
+									<th class="center" colspan="4">代码生成详情代号</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+								<th class="left">代码生成代号</th>
+								<td class="center">${bgMaple.mapleCode }</td>
+								<th class="left">代码生成名称</th>
+								<td class="center">${bgMaple.mapleName }</td>
+								</tr>
+								<tr>
+								<th class="left">代码生成类型</th>
+								<td class="center"><param:display type="bg_mapleType" value="${bgMaple.mapleType}"/></td>
+								<th class="left">控制器包代号</th>
+								<td class="center"><param:display type="com_packageType" value="${bgMaple.controllerPackage}"/></td>
+								</tr>
+								<tr>
+								<th class="left">实体类包代号</th>
+								<td class="center"><param:display type="com_packageType" value="${bgMaple.entityPackage}"/></td>
+								<th class="left">排序编号</th>
+								<td class="center">${bgMaple.orderNum}</td>
+								</tr>
+							</tbody>
+						</table>
+						
 						<!-- 检索  -->
 						<form action="background/mapleDetail/list.do" method="post" name="mapleDetailForm" id="mapleDetailForm">
 						<input type="hidden" name="mapleId" id="mapleId" value="${pd.mapleId }"/>
@@ -95,9 +129,9 @@
 											<td class='center'>${bgMapleDetail.totalLength}</td>
 											<td class='center'>${bgMapleDetail.decimalLength}</td>
 											<td class='center'>${bgMapleDetail.typeCode}</td>
-											<td class='center'>${bgMapleDetail.isKey}</td>
-											<td class='center'>${bgMapleDetail.isEdit}</td>
-											<td class='center'>${bgMapleDetail.isNull}</td>
+											<td class='center'><param:display type="com_sf" value="${bgMapleDetail.isKey}"/></td>
+											<td class='center'><param:display type="com_sf" value="${bgMapleDetail.isEdit}"/></td>
+											<td class='center'><param:display type="com_sf" value="${bgMapleDetail.isNull}"/></td>
 											<td class='center'>${bgMapleDetail.defaultValue}</td>
 											<td class='center'>${bgMapleDetail.orderNum}</td>
 											<td class="center">
@@ -243,11 +277,11 @@
 			 diag.Drag=true;
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/mapleDetail/toAdd.do?mapleId=${pd.mapleId }";
-			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Width = 800;
+			 diag.Height = 400;
 			 diag.Modal = true;				//有无遮罩窗口
-			 diag.ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮
+			 diag.ShowMaxButton = true;		//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
 					if('${bgPage.currentPage}' == '0'){
@@ -284,11 +318,11 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/mapleDetail/toEdit.do?mapleDetailId="+mapleDetailId+"&tm="+new Date().getTime();
-			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Width = 800;
+			 diag.Height = 400;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮 
+		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					nextPage('${bgPage.currentPage}');
@@ -359,7 +393,7 @@
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+			 	if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					nextPage('${bgPage.currentPage}');
 				}
 				diag.close();

@@ -12,6 +12,14 @@ public interface BgMenuService {
 	/****************************custom * start***********************************/
 
 	/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<BgMenu> parentList, String pId) throws Exception ;
+	
+	/**
 	 * 更改
 	 * @param BgMenu bgMenu
 	 * @throws Exception

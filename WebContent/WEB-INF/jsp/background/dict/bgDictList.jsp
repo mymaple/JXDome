@@ -31,6 +31,24 @@
 </head>
 <body class="no-skin">
 
+	<div class="page-header">
+	<h1>
+		<a href="<%=basePath%>background/dict/list.do">字典管理</a>
+		<c:choose>
+			<c:when test="${not empty parentList}">
+				<c:if test="${RIGHTS.sele}">
+				<c:forEach items="${parentList}" var="comDict" varStatus="vs">
+					<small>
+						<i class="ace-icon fa fa-angle-double-right"></i>
+						<a href="${comDict.subComDictPath }">${comDict.dictName }</a>
+					</small>
+				</c:forEach>
+				</c:if>
+			</c:when>
+		</c:choose>			
+	</h1>
+	</div><!-- /.page-header -->
+
 	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
 		<!-- /section:basics/sidebar -->
@@ -140,9 +158,6 @@
 									</c:if>
 									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-									</c:if>
-									<c:if test="${null != parentComDict.dictId && parentComDict.dictId != '0' && parentComDict.dictId != ''}">
-										<a class="btn btn-mini btn-primary" onclick="toSub('${parentComDict.parentId}');">返回</a>
 									</c:if>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>

@@ -92,7 +92,7 @@ public class Const {
 	/**
 	 * 正则 非负整数
 	 */
-	public static final String REG_COM_FFZS_STR = "^[1-9]\\d*|0$";
+	public static final String REG_COM_FFZS_STR = "^[1-9]\\d*$|^0$";
 	
 	/**
 	 * 正则 正整数
@@ -102,7 +102,7 @@ public class Const {
 	/**
 	 * 正则 非负小数
 	 */
-	public static final String REG_COM_FFXS_STR = "^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*|0)(?:\\.\\d{1,2})?|0$";
+	public static final String REG_COM_FFXS_STR = "^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*|0)(?:\\.\\d{1,2})?$|^0$";
 	
 	/**
 	 * 正则 正小数

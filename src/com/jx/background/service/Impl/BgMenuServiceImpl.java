@@ -31,9 +31,12 @@ public class BgMenuServiceImpl implements BgMenuService{
 	 * @return
 	 * @throws Exception
 	 */
-	public void getParentList(List<BgMenu> parentList, String menuId) throws Exception {
-		parentList.add(0, this.findById(menuId));
-		
+	public void getParentList(List<BgMenu> parentList, String pId) throws Exception {
+		if("0".equals(pId)) return;
+		BgMenu bgMenu = this.findById(pId);
+		bgMenu.setSubBgMenuPath("background/menu/list.do?pId="+pId);
+		parentList.add(0, bgMenu);
+		this.getParentList(parentList, bgMenu.getParentId());
 	}
 	
 	/**

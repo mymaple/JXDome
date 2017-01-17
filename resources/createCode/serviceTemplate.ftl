@@ -12,6 +12,15 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	/****************************custom * start***********************************/
 
 	<#if bgMaple.mapleType = "02">
+	
+	/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<${bgMaple.mapleEntityUpper}> parentList, String pId) throws Exception ;
+	
 	/**
 	 * 根据parentId 获取所有直接子
 	 * @param String parentId

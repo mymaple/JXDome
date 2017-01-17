@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
+import com.jx.background.entity.BgMenu;
 import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.BaseEntity.ValidationAdd;
@@ -104,10 +105,13 @@ public class BgDictController extends BaseController {
 		}
 			
 		bgPage.setPd(pd);
-		List<PageData> comDictList = comDictService.listPage(bgPage);	//列出comDict列表
-			
+		List<PageData> comDictList = comDictService.listPage(bgPage);			//列出comDict列表
+		
+		List<ComDict> parentList = new ArrayList<ComDict>();
+		comDictService.getParentList(parentList, pd.getString("pId"));			//导航栏链接
+		
 		mv.addObject("comDictList", comDictList);
-		mv.addObject("parentComDict", comDictService.findById(pd.getString("pId")));
+		mv.addObject("parentList", parentList);
 		mv.addObject("pd", pd);
 		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
 		resultInfo.setResultCode("success");

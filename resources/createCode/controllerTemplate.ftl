@@ -129,10 +129,15 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			
 		bgPage.setPd(pd);
 		List<PageData>	${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.listPage(bgPage);	//列出${bgMaple.mapleEntityLower}列表
-			
+		
+		<#if bgMaple.mapleType == "02">
+		List<${bgMaple.mapleEntityUpper}> parentList = new ArrayList<${bgMaple.mapleEntityUpper}>();
+		${bgMaple.mapleEntityLower}Service.getParentList(parentList, pd.getString("pId"));			//导航栏链接
+		
+		</#if>
 		mv.addObject("${bgMaple.mapleEntityLower}List", ${bgMaple.mapleEntityLower}List);
 		<#if bgMaple.mapleType == "02">
-		mv.addObject("parent${bgMaple.mapleEntityUpper}", ${bgMaple.mapleEntityLower}Service.findById(pd.getString("pId")<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>));
+		mv.addObject("parentList", parentList);
 		<#elseif bgMaple.mapleType == "04">
 		mv.addObject("${bgMaple.mapleEntityLower ?replace('Detail','')}", ${bgMaple.mapleEntityLower ?replace('Detail','')}Service.findById(${bgMaple.mapleCode ?replace('Detail','')}Id ));
 		</#if>

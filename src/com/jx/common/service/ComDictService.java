@@ -12,6 +12,14 @@ public interface ComDictService {
 	/****************************custom * start***********************************/
 	
 	/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<ComDict> parentList, String pId) throws Exception ;
+	
+	/**
 	 * 显示名称获取
 	 * @param type
 	 * @param value

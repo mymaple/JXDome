@@ -118,9 +118,9 @@
 		
 		//保存
 		function save(){
-			var codeExp = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-			var intExp = /^[1-9]\d*$/;
-			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/;
+			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
+			var intExp = /^[1-9]\d*$|^0$/;
+			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
 			if(!codeExp.test($("#menuCode").val())){
 				$("#menuCode").tips({
 					side:3,

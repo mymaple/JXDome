@@ -32,7 +32,36 @@
 </#if>
 </head>
 <body class="no-skin">
-
+	
+	<#if bgMaple.mapleType = "02">
+	<div class="page-header">
+	<h1>
+		<a href="<%=basePath%>background/${bgMaple.mapleCode}/list.do">管理</a>
+		<c:choose>
+			<c:when test="${r"${not empty parentList}"}">
+				<c:if test="${RIGHTS.sele}">
+				<c:forEach items="${r"${parentList}"}" var="${bgMaple.mapleEntityLower}" varStatus="vs">
+					<small>
+						<i class="ace-icon fa fa-angle-double-right"></i>
+						<a href="${r"${"}${bgMaple.mapleEntityLower}${r".sub"}${bgMaple.mapleCodeUpper}Path${r"}"}">${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Name${r"}"}</a>
+					</small>
+				</c:forEach>
+				</c:if>
+			</c:when>
+		</c:choose>			
+	</h1>
+	</div><!-- /.page-header -->
+	
+	<#elseif bgMaple.mapleType = "04">
+	<div class="page-header">
+	<h1>
+		<a href="<%=basePath%>background/${bgMaple.mapleCode}/list.do">管理</a>
+	</h1>
+	</div><!-- /.page-header -->
+	
+	</#if>
+	
+	
 	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
 		<!-- /section:basics/sidebar -->
