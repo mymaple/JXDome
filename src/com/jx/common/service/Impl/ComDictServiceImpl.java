@@ -1,5 +1,6 @@
 package com.jx.common.service.Impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,12 +56,13 @@ public class ComDictServiceImpl implements ComDictService{
 		if(MapleUtil.notEmptyList(comDictList)){
 			String dictType = comDictList.get(0).getDictType();
 			if("01".equals(dictType)){
-				
+				return (String) dao.findForObject("ComDictMapper.getDisplayName", pd);
 			}else if("02".equals(dictType)){
-				
+				ComDict comDict = (ComDict)dao.findForObject("SQLDictMapper.sqlSelect", pd);
+				return comDict.getDictName();
 			}
 		}
-		return (String) dao.findForObject("ComDictMapper.getDisplayName", pd);
+		return "";
 	}
 	
 	/**
@@ -75,12 +77,14 @@ public class ComDictServiceImpl implements ComDictService{
 		if(MapleUtil.notEmptyList(comDictList)){
 			String dictType = comDictList.get(0).getDictType();
 			if("01".equals(dictType)){
-				
+				return (List<ComDict>) dao.findForList("ComDictMapper.listSelect", type);
 			}else if("02".equals(dictType)){
-				
+				PageData pd = new PageData();
+				pd.put("type",type);
+				return (List<ComDict>) dao.findForList("SQLDictMapper.sqlSelect", pd);
 			}
 		}
-		return (List<ComDict>) dao.findForList("ComDictMapper.listSelect", type);
+		return new ArrayList<ComDict>();
 	}
 	
 	/**
@@ -150,7 +154,6 @@ public class ComDictServiceImpl implements ComDictService{
 		Date nowTime = new Date();
 		comDict.setDictId(UuidUtil.get32UUID());
 		comDict.setDictStatus("00");
-		comDict.setLevel(0);
 		comDict.setEffective("01");
 		comDict.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comDict.setCreateTime(nowTime);

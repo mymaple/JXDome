@@ -51,7 +51,7 @@ public class BgMenuController extends BaseController {
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "background/menu";
+	public static final String RIGHTS_BG_MENUCODE_STR = "background_menu";
 	
 	@Resource(name="bgMenuService")
 	private BgMenuService bgMenuService;
@@ -78,7 +78,7 @@ public class BgMenuController extends BaseController {
 				.replaceAll("menuName", "name").replaceAll("subBgMenuList", "nodes")
 				.replaceAll("hasMenu", "checked").replaceAll("subBgMenuPath", "url");
 		model.addAttribute("zTreeNodes", json);
-		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
+		mv.addObject("controllerPath", "background/menu");
 		mv.addObject("pd", pd);
 		resultInfo.setResultCode("success");
 		mv.setViewName("background/bgMainTree");
@@ -143,7 +143,7 @@ public class BgMenuController extends BaseController {
 		bgMenu.setMenuCode("");
 		bgMenu.setMenuName("");
 		bgMenu.setMenuType("01");
-		bgMenu.setMenuTag(0);
+		bgMenu.setMenuTag("");
 		bgMenu.setMenuUrl("");
 		bgMenu.setMenuIcon("");
 		bgMenu.setOrderNum(String.valueOf(new Date().getTime()));
@@ -376,7 +376,7 @@ public class BgMenuController extends BaseController {
 			
 		mv.addObject("pId",pId);
 
-		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
+		mv.addObject("controllerPath", "background/menu");
 		mv.setViewName("background/bgUploadExcel");
 
 		mv.addObject(resultInfo);					
@@ -451,7 +451,7 @@ public class BgMenuController extends BaseController {
 			bgMenu.setMenuCode(listPd.get(i).getString("var0"));
 			bgMenu.setMenuName(listPd.get(i).getString("var1"));
 			bgMenu.setMenuType(listPd.get(i).getString("var2"));
-			bgMenu.setMenuTag(Integer.valueOf(listPd.get(i).getString("var3")));
+			bgMenu.setMenuTag(listPd.get(i).getString("var3"));
 			bgMenu.setMenuUrl(listPd.get(i).getString("var4"));
 			bgMenu.setMenuIcon(listPd.get(i).getString("var5"));
 			bgMenuService.add(bgMenu);

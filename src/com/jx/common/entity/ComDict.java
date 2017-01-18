@@ -139,7 +139,7 @@ public class ComDict extends BaseEntity implements Serializable {
 	private String dictValue;
 		
 	/** 级别 */
-	private int level;
+	private String level;
 		
 	
 	
@@ -272,18 +272,18 @@ public class ComDict extends BaseEntity implements Serializable {
 	/**
 	 * 设置 级别
 	 * 
-	 * @param int level
+	 * @param String level
 	 */
-	public void setLevel(int level) {
+	public void setLevel(String level) {
 		this.level = level;
 	}
 	
 	/**
 	 * 获取 级别
 	 * 
-	 * @return int level
+	 * @return String level
 	 */
-	public int getLevel() {
+	public String getLevel() {
 		return this.level;
 	}
 	

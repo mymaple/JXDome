@@ -60,9 +60,9 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	 * 后台 菜单代号(权限用)
 	 */
 	<#if bgMaple.mapleType == "04">
-	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}/${bgMaple.mapleCode ?replace('Detail','')}";
+	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}_${bgMaple.mapleCode ?replace('Detail','')}";
 	<#else>
-	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}/${bgMaple.mapleCode}";
+	public static final String RIGHTS_BG_MENUCODE_STR = "${bgMaple.controllerPackage}_${bgMaple.mapleCode}";
 	</#if>
 	
 	@Resource(name="${bgMaple.mapleEntityLower}Service")
@@ -95,7 +95,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				.replaceAll("${bgMaple.mapleCode}Name", "name").replaceAll("sub${bgMaple.mapleEntityUpper}List", "nodes")
 				.replaceAll("has${bgMaple.mapleCodeUpper}", "checked").replaceAll("sub${bgMaple.mapleEntityUpper}Path", "url");
 		model.addAttribute("zTreeNodes", json);
-		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
+		mv.addObject("controllerPath", );
 		mv.addObject("pd", pd);
 		resultInfo.setResultCode("success");
 		mv.setViewName("${bgMaple.controllerPackage}/bgMainTree");
@@ -185,11 +185,11 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
 			<#elseif bgMapleDetail.mapleDetailType == '02'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0</#if>);
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>"0"</#if>);
 			<#elseif bgMapleDetail.mapleDetailType == '03'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>nowTime</#if>);
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>new Date()</#if>);
 			<#elseif bgMapleDetail.mapleDetailType == '04'>
-		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>0.00</#if>);
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>"0.00"</#if>);
 			</#if>
 			</#if>
 		</#list>
@@ -453,7 +453,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			
 		mv.addObject("pId",pId);
 		</#if>
-		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
+		mv.addObject("controllerPath", "${bgMaple.controllerPackage}_${bgMaple.mapleCode}");
 		mv.setViewName("background/bgUploadExcel");
 
 		mv.addObject(resultInfo);					

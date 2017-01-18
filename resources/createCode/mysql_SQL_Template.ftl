@@ -26,7 +26,7 @@ CREATE TABLE `${bgMaple.tableCode}` (
 		</#if>
 			<#if bgMapleDetail.isNull == '00'> NOT NULL <#else> DEFAULT NULL </#if> COMMENT '${bgMapleDetail.mapleDetailName}', 
 	</#list>
-  	`orderNum` varchar(100)
+  	`orderNum` int(100)
 			 DEFAULT NULL  COMMENT '排序编号', 
 	`effective` varchar(100)
 			 DEFAULT NULL  COMMENT '有效标志', 

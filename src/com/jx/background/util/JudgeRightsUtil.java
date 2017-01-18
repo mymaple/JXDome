@@ -2,8 +2,6 @@ package com.jx.background.util;
 
 import java.util.List;
 
-import org.apache.shiro.session.Session;
-
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRights;
 import com.jx.background.entity.BgRole;
@@ -12,7 +10,7 @@ import com.jx.common.util.RightsHelper;
 
 /**
  * 权限处理
- * @author:fh
+ * @author:maple
  */
 public class JudgeRightsUtil {
 
@@ -61,12 +59,12 @@ public class JudgeRightsUtil {
 				}else{
 					
 					BgRole bgRole =  BgSessionUtil.getSessionBgUserRole().getBgRole();
-					String MenuId = String.valueOf(bgMenu.getMenuId());
+					String menuTag = bgMenu.getMenuTag();
 					bgRights.setMenuCode(menuCode);
-					bgRights.setAdd(RightsHelper.testRights(bgRole.getAddRights(),MenuId));
-					bgRights.setDel(RightsHelper.testRights(bgRole.getDelRights(),MenuId));
-					bgRights.setEdit(RightsHelper.testRights(bgRole.getEditRights(),MenuId));
-					bgRights.setSele(RightsHelper.testRights(bgRole.getSeleRights(),MenuId));
+					bgRights.setAdd(RightsHelper.testRights(bgRole.getAddRights(),menuTag));
+					bgRights.setDel(RightsHelper.testRights(bgRole.getDelRights(),menuTag));
+					bgRights.setEdit(RightsHelper.testRights(bgRole.getEditRights(),menuTag));
+					bgRights.setSele(RightsHelper.testRights(bgRole.getSeleRights(),menuTag));
 					BgSessionUtil.setSessionBgRights(bgRights);
 					if("add".equals(type)){
 						return bgRights.isAdd();
@@ -123,12 +121,12 @@ public class JudgeRightsUtil {
 					return null;
 				}else{
 					BgRole bgRole =  BgSessionUtil.getSessionBgUserRole().getBgRole();
-					String MenuId = String.valueOf(bgMenu.getMenuId());
+					String menuTag = String.valueOf(bgMenu.getMenuTag());
 					bgRights.setMenuCode(menuCode);
-					bgRights.setAdd(RightsHelper.testRights(bgRole.getAddRights(),MenuId));
-					bgRights.setDel(RightsHelper.testRights(bgRole.getDelRights(),MenuId));
-					bgRights.setEdit(RightsHelper.testRights(bgRole.getEditRights(),MenuId));
-					bgRights.setSele(RightsHelper.testRights(bgRole.getSeleRights(),MenuId));
+					bgRights.setAdd(RightsHelper.testRights(bgRole.getAddRights(),menuTag));
+					bgRights.setDel(RightsHelper.testRights(bgRole.getDelRights(),menuTag));
+					bgRights.setEdit(RightsHelper.testRights(bgRole.getEditRights(),menuTag));
+					bgRights.setSele(RightsHelper.testRights(bgRole.getSeleRights(),menuTag));
 					BgSessionUtil.setSessionBgRights(bgRights);
 					return bgRights;
 				}

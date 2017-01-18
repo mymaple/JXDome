@@ -50,7 +50,7 @@ public class BgDictController extends BaseController {
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "background/dict";
+	public static final String RIGHTS_BG_MENUCODE_STR = "background_dict";
 	
 	@Resource(name="comDictService")
 	private ComDictService comDictService;
@@ -77,7 +77,7 @@ public class BgDictController extends BaseController {
 				.replaceAll("dictName", "name").replaceAll("subComDictList", "nodes")
 				.replaceAll("hasDict", "checked").replaceAll("subComDictPath", "url");
 		model.addAttribute("zTreeNodes", json);
-		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
+		mv.addObject("controllerPath", "background/dict");
 		mv.addObject("pd", pd);
 		resultInfo.setResultCode("success");
 		mv.setViewName("background/bgMainTree");
@@ -170,18 +170,19 @@ public class BgDictController extends BaseController {
 			return mv; 
 		}
 		
+		List<ComDict> comDictList = comDictService.otherHaveCode("", comDict.getDictCode());
+		if(MapleUtil.notEmptyList(comDictList)){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+		
 		String parentId = comDict.getParentId();
 		ComDict parentComDict = comDictService.findById(parentId);
 		if(!"0".equals(parentId) && parentComDict==null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		
-		List<ComDict> comDictList = comDictService.otherHaveCode("", comDict.getDictCode());
-		if(MapleUtil.notEmptyList(comDictList)){
-			mv.addObject(resultInfo);					
-			return mv;
-		}
+		comDict.setLevel("0".equals(parentId)?"0":String.valueOf(Integer.parseInt(parentComDict.getLevel())+1));
 			
 		comDictService.add(comDict);
 		resultInfo.setResultCode("success");
@@ -372,7 +373,7 @@ public class BgDictController extends BaseController {
 			
 		mv.addObject("pId",pId);
 
-		mv.addObject("controllerPath", RIGHTS_BG_MENUCODE_STR);
+		mv.addObject("controllerPath", "background/dict");
 		mv.setViewName("background/bgUploadExcel");
 
 		mv.addObject(resultInfo);					

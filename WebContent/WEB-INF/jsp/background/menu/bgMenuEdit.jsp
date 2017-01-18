@@ -58,7 +58,7 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
-								<td><input type="text" name="orderNum" id="orderNum" value="${bgMenu.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
+								<td><input type="number" name="orderNum" id="orderNum" value="${bgMenu.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">

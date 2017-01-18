@@ -3,29 +3,32 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgUserMapper">
 
-	<sql id="userAddColumns">userCode,password,userName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
-	<sql id="userColumns">userId,userCode,password,userName,userRights,roleId,lastLoginTime,lastLoginIp,userIconSrc,userNumber,email,phone,status,remarks,modifyTime</sql>
+	<sql id="userColumns">userId,roleId,userCode,password,userName,userType,userStatus,userIconSrc,email,phone,remarks,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="userTable">bg_user_info</sql>
+		
 	<sql id="userRoleColumns">
 		u.userId,u.userCode,u.password,u.userName,u.userRights
 		,u.lastLoginTime,u.lastLoginIp,u.userIconSrc,u.userNumber,u.email,u.phone,u.status,u.remarks,u.modifyTime as modifyTimeUser
 		,r.roleId,r.roleName,r.roleRights,r.parentId,r.addRights,r.delRights,r.editRights,r.seleRights,r.modifyTime as modifyTimeRole
 		</sql>
 		
-	<resultMap type="bgUser" id="userResultMap">
+	<resultMap type="bgUser" id="bgUserResultMap">
 		<id column="userId" property="userId"/>
+		<result column="roleId" property="roleId"/>
 		<result column="userCode" property="userCode"/>
 		<result column="password" property="password"/>
 		<result column="userName" property="userName"/>
-		<result column="userRights" property="userRights"/>
-		<result column="roleId" property="roleId"/>
-		<result column="lastLoginTime" property="lastLoginTime"/>
-		<result column="lastLoginIp" property="lastLoginIp"/>
+		<result column="userType" property="userType"/>
+		<result column="userStatus" property="userStatus"/>
 		<result column="userIconSrc" property="userIconSrc"/>
-		<result column="userNumber" property="userNumber"/>
 		<result column="email" property="email"/>
 		<result column="phone" property="phone"/>
-		<result column="status" property="status"/>
 		<result column="remarks" property="remarks"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
 	</resultMap>
 	
@@ -132,188 +135,221 @@
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="userId" parameterType="bgUser">
-		insert into bgUser ( 
-			<include refid="userAddColumns"/>
+	<insert id="add" parameterType="bgUser">
+		insert into 
+	<include refid="userTable"/>
+		( 
+	<include refid="userColumns"/>
 		) values (
-			#{userCode},#{password},#{userName},#{userRights},#{roleId},#{lastLoginTime},#{lastLoginIp},#{userIconSrc},#{userNumber},#{email},#{phone},#{status},#{remarks},#{modifyTime}
-		)
-	</insert>
-	
-	<!-- 新增 -->
-	<insert id="addByPd" useGeneratedKeys="true" keyProperty="userId" parameterType="pd">
-		insert into bgUser ( 
-			<include refid="userAddColumns"/>
-		) values (
-			#{userCode},#{password},#{userName},#{userRights},#{roleId},#{lastLoginTime},#{lastLoginIp},#{userIconSrc},#{userNumber},#{email},#{phone},#{status},#{remarks},#{modifyTime}
+			#{userId},#{roleId},#{userCode},#{password},#{userName},#{userType},#{userStatus},#{userIconSrc},#{email},#{phone},#{remarks},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 修改 -->
 	<update id="edit" parameterType="bgUser">
-		update  bgUser
-			set 
-				userCode = #{userCode},
-				password = #{password},
-				userName = #{userName},
-				userRights = #{userRights},
-				roleId = #{roleId},
-				lastLoginTime = #{lastLoginTime},
-				lastLoginIp = #{lastLoginIp},
-				userIconSrc = #{userIconSrc},
-				userNumber = #{userNumber},
-				email = #{email},
-				phone = #{phone},
-				status = #{status},
-				remarks = #{remarks},
-				modifyTime = #{modifyTime}
-			where 
-				userId = #{userId}
-	</update>
-	
-	<!-- 修改 -->
-	<update id="editByPd" parameterType="pd">
-		update  bgUser
-			set 
-				userCode = #{userCode},
-				password = #{password},
-				userName = #{userName},
-				userRights = #{userRights},
-				roleId = #{roleId},
-				lastLoginTime = #{lastLoginTime},
-				lastLoginIp = #{lastLoginIp},
-				userIconSrc = #{userIconSrc},
-				userNumber = #{userNumber},
-				email = #{email},
-				phone = #{phone},
-				status = #{status},
-				remarks = #{remarks},
-				modifyTime = #{modifyTime}
-			where 
-				userId = #{userId}
-	</update>
-	
-	<!-- 删除 -->
-	<delete id="deleteById" parameterType="int">
-		delete from bgUser 
+		update
+	<include refid="userTable"/>
+		set 
+			<if test="roleId!=null and roleId!=''">
+			roleId = #{roleId},
+			</if>
+			<if test="userCode!=null and userCode!=''">
+			userCode = #{userCode},
+			</if>
+			<if test="password!=null and password!=''">
+			password = #{password},
+			</if>
+			<if test="userName!=null and userName!=''">
+			userName = #{userName},
+			</if>
+			<if test="userType!=null and userType!=''">
+			userType = #{userType},
+			</if>
+			<if test="email!=null and email!=''">
+			email = #{email},
+			</if>
+			<if test="phone!=null and phone!=''">
+			phone = #{phone},
+			</if>
+			<if test="remarks!=null and remarks!=''">
+			remarks = #{remarks},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
 		where 
-			userId = #{userId}
-	</delete>
+			userId = #{userId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="bgUser">
+		update
+	<include refid="userTable"/>
+		set 
+			<if test="roleId!=null and roleId!=''">
+			roleId = #{roleId},
+			</if>
+			<if test="userCode!=null and userCode!=''">
+			userCode = #{userCode},
+			</if>
+			<if test="password!=null and password!=''">
+			password = #{password},
+			</if>
+			<if test="userName!=null and userName!=''">
+			userName = #{userName},
+			</if>
+			<if test="userType!=null and userType!=''">
+			userType = #{userType},
+			</if>
+			<if test="userStatus!=null and userStatus!=''">
+			userStatus = #{userStatus},
+			</if>
+			<if test="userIconSrc!=null and userIconSrc!=''">
+			userIconSrc = #{userIconSrc},
+			</if>
+			<if test="email!=null and email!=''">
+			email = #{email},
+			</if>
+			<if test="phone!=null and phone!=''">
+			phone = #{phone},
+			</if>
+			<if test="remarks!=null and remarks!=''">
+			remarks = #{remarks},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			userId = #{userId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
 	
 	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from bgUser 
+		delete from 
+	<include refid="userTable"/>
 		where 
-			userId = #{userId}
+			userId = #{userId} 
 	</delete>
 	
 	<!-- 批量删除 -->
 	<delete id="batchDeleteByIds" parameterType="String">
-		delete from bgUser 
+		delete from 
+ <include refid="userTable"/>
 		where 
-			userId in 
+			CONCAT(userId) in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="bgUser">
+	<select id="findByPd" parameterType="pd" resultType="bgUser">
 		select 
-			<include refid="userColumns"/>
+	<include refid="userColumns"/>
 		from 
-			bgUser
+	<include refid="userTable"/>
 		where 
-			userId = #{userId}
-	</select>
-	
-	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="int" resultType="pd">
-		select 
-			<include refid="userColumns"/>
-		from 
-			bgUser
-		where 
-			userId = #{userId}
-	</select>
-	
-	<!-- 通过pd获取(PageData)数据  -->
-	<select id="findPdByPd" parameterType="pd" resultType="pd">
-		select 
-			<include refid="userColumns"/>
-		from 
-			bgUser
-		where 
-			userId = #{userId}
+			userId = #{userId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByPd" parameterType="pd" resultMap="userResultMap">
+	<select id="listByPd" parameterType="pd" resultMap="bgUserResultMap">
 		select 
-			<include refid="userColumns"/>
+	<include refid="userColumns"/>
 		from 
-			bgUser
-		where status = 1 
-		<if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
-			and
-				(
-					 userCode LIKE CONCAT(CONCAT('%', #{keywords}),'%')
-					 or 
-					 email LIKE CONCAT(CONCAT('%', #{keywords}),'%') 
-					 or
-					 userNumber LIKE CONCAT(CONCAT('%', #{keywords}),'%')
-					 or
-					 userName LIKE CONCAT(CONCAT('%', #{keywords}),'%')
-					 or
-					 phone LIKE CONCAT(CONCAT('%', #{keywords}),'%')
-				)
-		</if>
-		<if test="roleId != null and roleId != ''"><!-- 角色检索 -->
-			and roleId=#{roleId} 
-		</if>
-		<if test="lastLoginStart!=null and lastLoginStart!=''"><!-- 登录时间检索 -->
-			and lastLoginTime &gt;= #{lastLoginStart} 
-		</if>
-		<if test="lastLoginEnd!=null and lastLoginEnd!=''"><!-- 登录时间检索 -->
-			and lastLoginTime &lt;= #{lastLoginEnd} 
-		</if>
-		order by userId
+	<include refid="userTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="bgUser" resultMap="bgUserResultMap">
+		select 
+	<include refid="userColumns"/>
+		from 
+	<include refid="userTable"/>
+		where 1=1
+			<if test="userId!=null and userId!=''">
+			 and userId != #{userId} 
+			</if>
+			<if test="roleId!=null and roleId!=''">
+			 and roleId = #{roleId}
+			</if>
+			<if test="userCode!=null and userCode!=''">
+			 and userCode = #{userCode}
+			</if>
+			<if test="password!=null and password!=''">
+			 and password = #{password}
+			</if>
+			<if test="userName!=null and userName!=''">
+			 and userName = #{userName}
+			</if>
+			<if test="userType!=null and userType!=''">
+			 and userType = #{userType}
+			</if>
+			<if test="userStatus!=null and userStatus!=''">
+			 and userStatus = #{userStatus}
+			</if>
+			<if test="userIconSrc!=null and userIconSrc!=''">
+			 and userIconSrc = #{userIconSrc}
+			</if>
+			<if test="email!=null and email!=''">
+			 and email = #{email}
+			</if>
+			<if test="phone!=null and phone!=''">
+			 and phone = #{phone}
+			</if>
+			<if test="remarks!=null and remarks!=''">
+			 and remarks = #{remarks}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listPage" parameterType="bgPage" resultType="pd">
-		select  
-			<include refid="userRoleColumns"/> 
-		from bgUser u 
-		left join bgRole r 
-		on u.roleId=r.roleId 
-		where u.status = 1 
-		and r.parentId = 1
+			select 
+	<include refid="userColumns"/>
+		from 
+	<include refid="userTable"/>
+		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
-					 u.userCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or 
-					 u.email LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-					 or
-					 u.userNumber LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or
-					 u.userName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or
-					 u.phone LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				userCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				userName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		<if test="pd.roleId != null and pd.roleId != ''"><!-- 角色检索 -->
-			and u.roleId=#{pd.roleId} 
-		</if>
-		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 登录时间检索 -->
-			and u.lastLoginTime &gt;= #{pd.lastLoginStart} 
-		</if>
-		<if test="pd.lastLoginEnd!=null and pd.lastLoginEnd!=''"><!-- 登录时间检索 -->
-			and u.lastLoginTime &lt;= #{pd.lastLoginEnd} 
-		</if>
-		order by u.userId
+		order by (orderNum+0)
 	</select>
+	
 	<!-- ****************************common * end  ********************************** -->
 	
 </mapper>

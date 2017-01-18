@@ -1,284 +1,230 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<base href="<%=basePath%>">
-<!-- 下拉框 -->
-<link rel="stylesheet" href="static/ace/css/chosen.css" />
-<!-- jsp文件头和头部 -->
-<%@ include file="../main/bgIndexTop.jsp"%>
+	<head>
+	<base href="<%=basePath%>">
+	<!-- 下拉框 -->
+	<link rel="stylesheet" href="static/ace/css/chosen.css" />
+	<!-- jsp文件头和头部 -->
+	<%@ include file="../main/bgIndexTop.jsp"%>
+	<!-- 日期框 -->
+	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
 </head>
 <body class="no-skin">
-	<!-- /section:basics/navbar.layout -->
-	<div class="main-container" id="main-container">
-		<!-- /section:basics/sidebar -->
-		<div class="main-content">
-			<div class="main-content-inner">
-				<div class="page-content">
-					<div class="row">
-						<div class="col-xs-12">
-								<form action="background/user/${msg }.do" name="userForm" id="userForm" method="post">
-									<input type="hidden" name="userId" id="userId" value="${pd.userId }"/>
-									<input type="hidden" name="msg" id="msg" value="${msg }"/>
-									<div id="zhongxin" style="padding-top: 13px;">
-									<table id="table_report" class="table table-striped table-bordered table-hover">
-										<c:if test="${fx != 'head'}">
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">角色:</td>
-											<td id="juese">
-											<select class="chosen-select form-control" name="roleId" id="roleId" data-placeholder="请选择角色" style="vertical-align:top;width:98%;" >
-											<option value=""></option>
-											<c:forEach items="${bgRoleList}" var="role">
-												<option value="${role.roleId }" <c:if test="${role.roleId == pd.roleId }">selected</c:if>>${role.roleName }</option>
-											</c:forEach>
-											</select>
-											</td>
-										</tr>
-										</c:if>
-										<c:if test="${fx == 'head'}">
-											<input name="roleId" id="roleId" value="${pd.roleId }" type="hidden" />
-										</c:if>
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">用户名:</td>
-											<td><input type="text" name="userCode" id="userCode" value="${pd.userCode }" maxlength="32" placeholder="这里输入用户名" title="用户名" onblur="hasLoginName(this)" style="width:98%;"/>
-												<form:errors path="userCode"></form:errors>
-											</td>
-										</tr>
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">编号:</td>
-											<td><input type="text" name="userNumber" id="userNumber" value="${pd.userNumber }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasLoginName(this)" style="width:98%;"/></td>
-										</tr>
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">密码:</td>
-											<td><input type="password" name="password" id="password"  maxlength="32" placeholder="输入密码" title="密码" style="width:98%;"/></td>
-										</tr>
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">确认密码:</td>
-											<td><input type="password" name="chkpwd" id="chkpwd"  maxlength="32" placeholder="确认密码" title="确认密码" style="width:98%;"/></td>
-										</tr>
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">姓名:</td>
-											<td><input type="text" name="userName" id="userName"  value="${pd.userName}"  maxlength="32" placeholder="这里输入姓名" title="姓名" style="width:98%;"/></td>
-										</tr>
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">手机号:</td>
-											<td><input type="number" name="phone" id="phone"  value="${pd.phone }"  maxlength="32" placeholder="这里输入手机号" title="手机号" onblur="hasLoginName(this)" style="width:98%;"/></td>
-										</tr>
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">邮箱:</td>
-											<td><input type="email" name="email" id="email"  value="${pd.email }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasLoginName(this)" style="width:98%;"/></td>
-										</tr>
-										<tr>
-											<td style="width:79px;text-align: right;padding-top: 13px;">备注:</td>
-											<td><input type="text" name="remarks" id="remarks"value="${pd.remarks }" placeholder="这里输入备注" maxlength="64" title="备注" style="width:98%;"/></td>
-										</tr>
-										<tr>
-											<td style="text-align: center;" colspan="10">
-												<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
-												<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
-											</td>
-										</tr>
-									</table>
-									</div>
-									<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green"></h4></div>
-								</form>
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+	<!-- /section:basics/sidebar -->
+	<div class="main-content">
+		<div class="main-content-inner">
+			<div class="page-content">
+				<div class="row">
+					<div class="col-xs-12">
+					
+					<form action="background/user/${methodPath }.do" name="userForm" id="userForm" method="post">
+						<input type="hidden" name="userId" id="userId" value="${bgUser.userId}"/>
+						<div id="zhongxin" style="padding-top: 13px;">
+						<table id="table_report" class="table table-striped table-bordered table-hover">
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">角色id:</td>
+								<td><param:select type="bg_roleEffective" name="roleId" id="roleId" value="${bgUser.roleId}" placeholder="这里请选择 角色id" title="角色id" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">后台用户代号:</td>
+								<td><input type="text" name="userCode" id="userCode" value="${bgUser.userCode}" maxlength="100" placeholder="这里输入 后台用户代号" title="后台用户代号" style="width:98%;" onblur="otherNotCode()"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">密码:</td>
+								<td><input type="text" name="password" id="password" value="${bgUser.password}" maxlength="255" placeholder="这里输入 密码" title="密码" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">后台用户名称:</td>
+								<td><input type="text" name="userName" id="userName" value="${bgUser.userName}" maxlength="100" placeholder="这里输入 后台用户名称" title="后台用户名称" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">后台用户类型:</td>
+								<td><param:select type="" name="userType" id="userType" value="${bgUser.userType}" placeholder="这里请选择 后台用户类型" title="后台用户类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">电子邮箱:</td>
+								<td><input type="text" name="email" id="email" value="${bgUser.email}" maxlength="100" placeholder="这里输入 电子邮箱" title="电子邮箱" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">手机号码:</td>
+								<td><input type="text" name="phone" id="phone" value="${bgUser.phone}" maxlength="100" placeholder="这里输入 手机号码" title="手机号码" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注信息:</td>
+								<td><input type="text" name="remarks" id="remarks" value="${bgUser.remarks}" maxlength="255" placeholder="这里输入 备注信息" title="备注信息" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${bgUser.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="text-align: center;" colspan="10">
+									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+								</td>
+							</tr>
+						</table>
 						</div>
-						<!-- /.col -->
+						<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
+					</form>
 					</div>
-					<!-- /.row -->
+					<!-- /.col -->
 				</div>
-				<!-- /.page-content -->
+				<!-- /.row -->
 			</div>
+			<!-- /.page-content -->
 		</div>
-		<!-- /.main-content -->
 	</div>
-	<!-- /.main-container -->
-	<!-- basic scripts -->
+	<!-- /.main-content -->
+</div>
+<!-- /.main-container -->
+
+<!-- basic scripts -->
 	<!-- 页面底部js¨ -->
 	<%@ include file="../main/bgIndexFoot.jsp"%>
 	<!-- ace scripts -->
 	<script src="static/ace/js/ace/ace.js"></script>
-	<!-- inline scripts related to this page -->
 	<!-- 下拉框 -->
 	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-</body>
-<script type="text/javascript">
-	$(top.hangge());
-	$(document).ready(function(){
-		if($("#userId").val()!=""){
-			$("#userCode").attr("readonly","readonly");
-			$("#userCode").css("color","gray");
-		}
-		/* alert("asdasd");
-		alert('${errors.fieldErrorCount}'); */
-		if(Number('${errors.fieldErrorCount}') > 0){
-			$.each('${errors.fieldErrors}',function(key,error){
-				alert(error.code+"-----------"+error.arguments+"---------"+error.defaultMessage);
-			})
+	<script type="text/javascript">
+		$(top.hangge());
+		
+		//判断userCode是否存在
+		function otherNotCode(){
+			var userCode = $("#userCode").val();
+			if(userCode == "") return false;
+			var userId = $("#userId").val();
+			var url = "<%=basePath%>background/user/otherNotCode.do?userId="+userId+"&userCode="+userCode+"&tm="+new Date().getTime();
+			$.get(url,function(data){
+				if(data.resultCode != "success"){
+					$("#userCode").tips({
+						side:3,
+			            msg:'后台用户代号 已存在',
+			            bg:'#AE81FF',
+			            time:2
+			        });
+					$("#userCode").focus();
+					return false;
+				}
+			});
 		}
 		
-	});
-	//保存
-	function save(){
-		/* if($("#roleId").val()==""){
-			$("#juese").tips({
-				side:3,
-	            msg:'选择角色',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#roleId").focus();
+		//保存
+		function save(){
+			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
+			var intExp = /^[1-9]\d*$|^0$/;
+			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
+			if($("#roleId").val()==""){
+				$("#roleId").next().tips({
+					side:3,
+		            msg:'请选择 角色id',
+		            bg:'#AE81FF',
+		            time:2
+		        });
 			return false;
-		}
-		
-		var codeReg = /^[a-zA-Z][a-zA-Z0-9_]*$/;		
-		if($("#userCode").val()==""){
-			$("#userCode").tips({
-				side:3,
-	            msg:'输入用户名',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#userCode").focus();
-			$("#userCode").val('');
-			return false;
-		}else if(!codeReg.test($("#userCode").val())){
-			$("#userCode").tips({
-				side:3,
-	            msg:'输入用户名以英文开头的字母或数字',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#userCode").focus();
-			$("#userCode").val('');
-			return false;
-		}
-		
-		if($("#userNumber").val()==""){
-			$("#userNumber").tips({
-				side:3,
-	            msg:'输入编号',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#userNumber").focus();
-			return false;
-		}else{
-			$("#userNumber").val($.trim($("#userNumber").val()));
-		}
-		if($("#userId").val()=="" && $("#password").val()==""){
-			$("#password").tips({
-				side:3,
-	            msg:'输入密码',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#password").focus();
-			return false;
-		}
-		if($("#password").val()!=$("#chkpwd").val()){
-			
-			$("#chkpwd").tips({
-				side:3,
-	            msg:'两次密码不相同',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#chkpwd").focus();
-			return false;
-		}
-		if($("#userName").val()==""){
-			$("#userName").tips({
-				side:3,
-	            msg:'输入姓名',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#userName").focus();
-			return false;
-		}
-		var phoneReg = /^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$/;
-		if($("#phone").val()==""){
-			$("#phone").tips({
-				side:3,
-	            msg:'输入手机号',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#phone").focus();
-			return false;
-		}else if($("#phone").val().length != 11 && !phoneReg.test($("#phone").val())){
-			$("#phone").tips({
-				side:3,
-	            msg:'手机号格式不正确',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#phone").focus();
-			return false;
-		}
-		var eamilReg = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
-		if($("#email").val()==""){
-			$("#email").tips({
-				side:3,
-	            msg:'输入邮箱',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#email").focus();
-			return false;
-		}else if(!eamilReg.test($("#email").val())){
-			$("#email").tips({
-				side:3,
-	            msg:'邮箱格式不正确',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#email").focus();
-			return false;
-		} */
-		$("#userForm").submit();
-		$("#zhongxin").hide();
-		$("#zhongxin2").show();
-	}
-	
-	//判断用户名是否存在
-	function hasLoginName(elem){
-		var loginName = $.trim($(elem).val());
-		var userId = $("#userId").val();
-		$.ajax({
-			type: "POST",
-			url: '<%=basePath%>background/user/hasLoginName.do',
-	    	data: {userId:userId,loginName:loginName,tm:new Date().getTime()},
-			dataType:'json',
-			cache: false,
-			success: function(data){
-				 if("success" != data.result){
-					 $(elem).tips({
-							side:3,
-				            msg:loginName+' 已存在',
-				            bg:'#AE81FF',
-				            time:3
-				        });
-					 $(elem).val('');
-				 }
 			}
-		});
-	}
-	
-	$(function() {
+			if(!codeExp.test($("#userCode").val())){
+				$("#userCode").tips({
+					side:3,
+		            msg:'请输入后台用户代号 需以小写字母开头的字母数字',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#userCode").focus();
+			return false;
+			}
+			if($("#password").val()==""){
+				$("#password").tips({
+					side:3,
+		            msg:'请输入密码',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#password").focus();
+			return false;
+			}
+			if($("#userName").val()==""){
+				$("#userName").tips({
+					side:3,
+		            msg:'请输入后台用户名称',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#userName").focus();
+			return false;
+			}
+			if($("#userType").val()==""){
+				$("#userType").next().tips({
+					side:3,
+		            msg:'请选择 后台用户类型',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+			return false;
+			}
+			if($("#email").val()==""){
+				$("#email").tips({
+					side:3,
+		            msg:'请输入电子邮箱',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#email").focus();
+			return false;
+			}
+			if($("#phone").val()==""){
+				$("#phone").tips({
+					side:3,
+		            msg:'请输入手机号码',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#phone").focus();
+			return false;
+			}
+			if($("#remarks").val()==""){
+				$("#remarks").tips({
+					side:3,
+		            msg:'请输入备注信息',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#remarks").focus();
+			return false;
+			}
+			if(!intExp.test($("#orderNum").val())){
+				$("#orderNum").tips({
+					side:3,
+		            msg:'排序编号 需是数字',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#orderNum").focus();
+			return false;
+			}
+			$("#userForm").submit();
+			$("#zhongxin").hide();
+			$("#zhongxin2").show();
+		}
+		
+		$(function() {
+		//日期框
+			$('.date-picker').datepicker({autoclose: true,todayHighlight: true});
 		//下拉框
 		if(!ace.vars['touch']) {
 			$('.chosen-select').chosen({allow_single_deselect:true}); 
@@ -305,5 +251,6 @@
 			});
 		}
 	});
-</script>
+	</script>
+</body>
 </html>

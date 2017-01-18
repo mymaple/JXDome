@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-01-17 17:42:14
+Date: 2017-01-18 17:44:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -95,7 +95,7 @@ CREATE TABLE `bguser` (
 -- ----------------------------
 -- Records of bguser
 -- ----------------------------
-INSERT INTO `bguser` VALUES ('1', 'admin', '802ad7f0bf5d54f941bd0a866d3fb6225af153a71d90e456b72a62e4a40008c9e8fc7a01b5d89121d90006f4628c95c4e5ba88ced2b958033791f663d97eed3a', 'FH', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-01-17 16:19:08', '0:0:0:0:0:0:0:1', 'static/ace/avatars/user.jpg', '001', 'QQ313596790@main.com', '18788888888', '1', 'zzzzzzzzzzz', '2016-06-06 02:27:47');
+INSERT INTO `bguser` VALUES ('1', 'admin', '802ad7f0bf5d54f941bd0a866d3fb6225af153a71d90e456b72a62e4a40008c9e8fc7a01b5d89121d90006f4628c95c4e5ba88ced2b958033791f663d97eed3a', 'FH', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-01-18 16:52:58', '0:0:0:0:0:0:0:1', 'static/ace/avatars/user.jpg', '001', 'QQ313596790@main.com', '18788888888', '1', 'zzzzzzzzzzz', '2016-06-06 02:27:47');
 INSERT INTO `bguser` VALUES ('4', 'eqweqwe', '22ee6e217f5f507ab0e05932a083700533d454f909fea16922d98a95064d8155e430ead134eacedb453ba9d18c7d405ade8864b5a726b7aafefd00ef31a688fc', 'efesf是的范德萨', '0', '5', '2016-12-28 14:10:00', '127.0.0.1', 'static/ace/avatars/user.jpg', '0001', 'wewqe@sa.sds', '13698751542', '1', 'fd从五色风范', '2016-12-28 14:10:00');
 INSERT INTO `bguser` VALUES ('5', 'dqwdwq', '5f634547762883d59bbb2fea284ae874ef0deba3e8395f616816765d136961b1f32be618c4b1c1979d0e960322e389292798178d7de6bd1554dbfa58aa74ebd3', '达瓦大', '0', '5', '2016-12-28 14:18:24', '127.0.0.1', 'static/ace/avatars/user.jpg', '00006', 'fsdfsdf@sad.vv', '13688877522', '1', 'asdsad', '2016-12-28 14:18:24');
 INSERT INTO `bguser` VALUES ('6', 'qweqweq', '764ac9c70fc40eedf4f5bc8489a798e627bd6767d201d7d03c5877ef0c23d4ab9197b3a20af86ffa3c9b34ea28814620bfba59df8d4ab4e6afbfff6dc421b64b', 'dad', '0', '5', '2016-12-28 14:22:01', '127.0.0.1', 'static/ace/avatars/user.jpg', '0009', 'eqweqw@w.gg', '13695215642', '1', 'adsdsa d', '2016-12-28 14:22:01');
@@ -131,18 +131,24 @@ CREATE TABLE `bg_maple_detail` (
 -- Records of bg_maple_detail
 -- ----------------------------
 INSERT INTO `bg_maple_detail` VALUES ('006671e6bef3446fa5b2db1becf2f362', 'ad181811909d4f50b3c2c802e901be84', 'level', '级别', '02', '00', '100', '0', '', '00', '00', '01', '', '1484529598922', '01', '1', '2017-01-16 09:20:54', '1', '2017-01-16 09:20:54');
+INSERT INTO `bg_maple_detail` VALUES ('0110be7e650c4e128a4f9dbe9c2560ae', '7928b5c3a71443e69dac9a775fb732aa', 'userIconSrc', '用户头像路径', '01', '00', '255', '0', '', '00', '00', '01', '\"static/ace/avatars/user.jpg\"', '1484728084351', '01', '1', '2017-01-18 16:31:30', '1', '2017-01-18 16:31:30');
+INSERT INTO `bg_maple_detail` VALUES ('018d93b604a149f594a461f41c34d9cc', '7928b5c3a71443e69dac9a775fb732aa', 'userName', '后台用户名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1484726215273', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-18 15:56:55');
 INSERT INTO `bg_maple_detail` VALUES ('022169ef83d8462ebb373e46d4ded0f6', 'c9da8f2d57774bbbad13030135b6a1cb', 'mapleName', '代码生成名称', '01', '00', '100', '0', '', '00', '01', '01', '', '2', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
 INSERT INTO `bg_maple_detail` VALUES ('06090486109a45ba91ea41fa724f629b', '0c1ea3878cd34c8b9f99283de36f25fb', 'mapleDetailCode', '代码生成详情代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1', '01', '1', '2017-01-12 11:16:28', '1', '2017-01-12 11:16:28');
 INSERT INTO `bg_maple_detail` VALUES ('0799c155ca024ee88ea6761acca8e369', '0c1ea3878cd34c8b9f99283de36f25fb', 'isEdit', '是否录入', '01', '00', '100', '0', '', '00', '01', '01', '\"01\"', '1484191624802', '01', '1', '2017-01-12 11:27:05', '1', '2017-01-12 11:27:05');
 INSERT INTO `bg_maple_detail` VALUES ('161adf42874147d78e00d72a997783e9', 'ebd0083161064722a7c37d25a0030434', 'menuTag', '菜单数字标记', '02', '00', '10', '0', '', '00', '01', '01', '', '1484546691846', '01', '1', '2017-01-16 14:07:03', '1', '2017-01-16 14:07:03');
 INSERT INTO `bg_maple_detail` VALUES ('2252b3cc015b4397b80193f919e15b89', 'ebd0083161064722a7c37d25a0030434', 'menuIcon', '菜单图标', '01', '00', '100', '0', '', '00', '01', '01', '', '1484546889624', '01', '1', '2017-01-16 14:08:42', '1', '2017-01-16 14:08:42');
+INSERT INTO `bg_maple_detail` VALUES ('28d66288b90a4cc0833f8e6cec268dbe', '7928b5c3a71443e69dac9a775fb732aa', 'userStatus', '后台用户状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1484726215275', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-18 15:56:55');
 INSERT INTO `bg_maple_detail` VALUES ('2ad3266fdcdb4a6b8d384ddc5cea4a8b', 'ad181811909d4f50b3c2c802e901be84', 'dictCode', '数据字典代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1484529542050', '01', '1', '2017-01-16 09:19:02', '1', '2017-01-16 09:19:02');
+INSERT INTO `bg_maple_detail` VALUES ('2d1f6f9eb85f4a2987afcee0e32093af', '7928b5c3a71443e69dac9a775fb732aa', 'userCode', '后台用户代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1484726215270', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-18 15:56:55');
 INSERT INTO `bg_maple_detail` VALUES ('3fa8dba2b21c4f458acbb0bf82ce6f46', 'ebd0083161064722a7c37d25a0030434', 'menuStatus', '后台菜单状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1484546688787', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
 INSERT INTO `bg_maple_detail` VALUES ('40f190c57abe431697318c35808f44c6', 'ebd0083161064722a7c37d25a0030434', 'menuCode', '后台菜单代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1484546688739', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
 INSERT INTO `bg_maple_detail` VALUES ('43deda2ca573444eaae12e6136b19356', 'c9da8f2d57774bbbad13030135b6a1cb', 'mapleStatus', '代码生成状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '4', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
 INSERT INTO `bg_maple_detail` VALUES ('4616314fd35947a69e9f0edce517b4ca', '0c1ea3878cd34c8b9f99283de36f25fb', 'typeCode', '类型代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1484191596294', '01', '1', '2017-01-12 11:26:36', '1', '2017-01-12 11:26:36');
+INSERT INTO `bg_maple_detail` VALUES ('47ec4fadae18458e8b9ee8d723939085', '7928b5c3a71443e69dac9a775fb732aa', 'phone', '手机号码', '01', '00', '100', '0', '', '00', '01', '01', '', '1484728458411', '01', '1', '2017-01-18 16:35:49', '1', '2017-01-18 16:35:49');
 INSERT INTO `bg_maple_detail` VALUES ('4c86cb30de514679be2f9af313a0e1e1', 'ebd0083161064722a7c37d25a0030434', 'menuName', '后台菜单名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1484546688782', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
 INSERT INTO `bg_maple_detail` VALUES ('4d48487873ab44f6b5cae2a9f5092c23', 'c9da8f2d57774bbbad13030135b6a1cb', 'mapleType', '代码生成类型', '05', '00', '100', '0', 'bg_mapleType', '00', '01', '01', '\"01\"', '3', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
+INSERT INTO `bg_maple_detail` VALUES ('530502b6cc5b45dfa9d4c751d095de9c', '7928b5c3a71443e69dac9a775fb732aa', 'remarks', '备注信息', '01', '00', '255', '0', '', '00', '01', '01', '', '1484728674804', '01', '1', '2017-01-18 16:38:12', '1', '2017-01-18 16:38:12');
 INSERT INTO `bg_maple_detail` VALUES ('531737534ab649f9bd4ced96cda1ffda', '0c1ea3878cd34c8b9f99283de36f25fb', 'mapleDetailType', '代码生成详情类型', '05', '00', '100', '0', 'bg_mapleDetailType', '00', '01', '01', '\"01\"', '3', '01', '1', '2017-01-12 11:16:28', '1', '2017-01-12 11:16:28');
 INSERT INTO `bg_maple_detail` VALUES ('54398981fb824b04bafb3f1d3cd48f6f', '27a853950d0e4876ba0eccf8d7e2dd8f', 'status', '状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '4', '01', '1', '2017-01-11 17:11:35', '1', '2017-01-17 16:47:23');
 INSERT INTO `bg_maple_detail` VALUES ('5712b8ad5b1c4589a7bb5a40aa391962', '0c1ea3878cd34c8b9f99283de36f25fb', 'defaultValue', '默认值', '01', '00', '100', '0', '', '00', '01', '01', '', '1484191753948', '01', '1', '2017-01-12 11:29:14', '1', '2017-01-12 11:29:14');
@@ -151,19 +157,23 @@ INSERT INTO `bg_maple_detail` VALUES ('6d5509c750f84076b65b019c7a49828f', 'ebd00
 INSERT INTO `bg_maple_detail` VALUES ('6e1c83d28e19411ab4778f546e107435', '27a853950d0e4876ba0eccf8d7e2dd8f', 'type', '类型', '05', '00', '100', '0', '', '00', '01', '01', '\"01\"', '3', '01', '1', '2017-01-11 17:08:55', '1', '2017-01-11 17:08:55');
 INSERT INTO `bg_maple_detail` VALUES ('76e8bed04d6b4e5f8acdb81b6223ccf3', 'c9da8f2d57774bbbad13030135b6a1cb', 'controllerPackage', '控制器包代号', '05', '00', '100', '0', 'com_packageType', '00', '01', '01', '\"bg\"', '1484150518096', '01', '1', '2017-01-12 00:01:58', '1', '2017-01-12 00:01:58');
 INSERT INTO `bg_maple_detail` VALUES ('77d5c1c3c1c8425ea9536c64b3614c8e', 'c9da8f2d57774bbbad13030135b6a1cb', 'mapleCode', '代码生成代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
+INSERT INTO `bg_maple_detail` VALUES ('7ad405a7439c46cf93fd4bda1bb3037b', '7928b5c3a71443e69dac9a775fb732aa', 'password', '密码', '01', '00', '255', '0', '', '00', '01', '01', '', '1484726215272', '01', '1', '2017-01-18 16:36:25', '1', '2017-01-18 16:41:14');
 INSERT INTO `bg_maple_detail` VALUES ('878e2c01af44411b957d4203417bb024', '0c1ea3878cd34c8b9f99283de36f25fb', 'mapleDetailStatus', '代码生成详情状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '4', '01', '1', '2017-01-12 11:16:28', '1', '2017-01-12 11:16:28');
 INSERT INTO `bg_maple_detail` VALUES ('969f5383c0a54b479439227e2e8adf24', '0c1ea3878cd34c8b9f99283de36f25fb', 'isKey', '是否主键', '05', '00', '100', '0', '', '00', '01', '01', '\"00\"', '1484191616190', '01', '1', '2017-01-12 11:28:16', '1', '2017-01-17 15:15:51');
 INSERT INTO `bg_maple_detail` VALUES ('9bf5394fccf044c6b01aac17acdffea6', 'ad181811909d4f50b3c2c802e901be84', 'dictStatus', '数据字典状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1484529542053', '01', '1', '2017-01-16 09:19:02', '1', '2017-01-16 09:19:02');
 INSERT INTO `bg_maple_detail` VALUES ('a35792a023f848ac897f4a7753ea6938', '0c1ea3878cd34c8b9f99283de36f25fb', 'isNull', '是否null', '01', '00', '100', '9', '', '00', '01', '01', '\"01\"', '1484191654251', '01', '1', '2017-01-12 11:27:34', '1', '2017-01-17 16:01:38');
 INSERT INTO `bg_maple_detail` VALUES ('a795aac6efd64eb4b81bafcfdba74f19', 'ebd0083161064722a7c37d25a0030434', 'menuType', '后台菜单类型', '05', '00', '100', '0', '', '00', '01', '01', '\"01\"', '1484546688785', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
+INSERT INTO `bg_maple_detail` VALUES ('a9d320b6ba534243a2e87ca11cf50eb3', '7928b5c3a71443e69dac9a775fb732aa', 'userType', '后台用户类型', '05', '00', '100', '0', '', '00', '01', '01', '\"01\"', '1484726215274', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-18 15:56:55');
 INSERT INTO `bg_maple_detail` VALUES ('be775a41a6544563b93b6a3e17ca727a', '0c1ea3878cd34c8b9f99283de36f25fb', 'mapleDetailName', '代码生成详情名称', '01', '00', '100', '0', '', '00', '01', '01', '', '2', '01', '1', '2017-01-12 11:16:28', '1', '2017-01-12 11:16:28');
 INSERT INTO `bg_maple_detail` VALUES ('c67ea20d301d4f29ac881f9cf300a2ba', 'ad181811909d4f50b3c2c802e901be84', 'dictName', '数据字典名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1484529542051', '01', '1', '2017-01-16 09:19:02', '1', '2017-01-16 09:19:02');
 INSERT INTO `bg_maple_detail` VALUES ('c997cc1f6d8a4fbbaa5e4eb0490c501a', '0c1ea3878cd34c8b9f99283de36f25fb', 'decimalLength', '小数长度', '02', '00', '1', '0', '', '00', '01', '01', '0', '1484191459111', '01', '1', '2017-01-12 11:24:19', '1', '2017-01-16 00:00:07');
 INSERT INTO `bg_maple_detail` VALUES ('d549cf2254bb4f3a8cee5fae93537a29', 'ad181811909d4f50b3c2c802e901be84', 'dictValue', '数据字典值', '01', '00', '100', '0', '', '00', '01', '01', '', '1484529553258', '01', '1', '2017-01-16 09:19:57', '1', '2017-01-16 09:19:57');
+INSERT INTO `bg_maple_detail` VALUES ('dafc3c3d3f4846e786a547cda1f17b45', '7928b5c3a71443e69dac9a775fb732aa', 'roleId', '角色id', '05', '00', '100', '0', 'bg_roleEffective', '00', '01', '01', '', '1484726205220', '01', '1', '2017-01-18 16:37:03', '1', '2017-01-18 16:39:44');
 INSERT INTO `bg_maple_detail` VALUES ('eeafe483879b40c6aaeb56083f9b8c44', '27a853950d0e4876ba0eccf8d7e2dd8f', 'name', '名称', '01', '00', '100', '0', '', '00', '01', '01', '', '2', '01', '1', '2017-01-11 17:07:21', '1', '2017-01-11 17:07:21');
 INSERT INTO `bg_maple_detail` VALUES ('ef3cc316b9bf45059bd65405e7366741', 'c9da8f2d57774bbbad13030135b6a1cb', 'entityPackage', '实体类包代号', '05', '00', '100', '0', 'com_packageType', '00', '01', '01', '\"bg\"', '1484150564639', '01', '1', '2017-01-12 00:02:44', '1', '2017-01-12 00:02:44');
 INSERT INTO `bg_maple_detail` VALUES ('ef6b8a854ab140bbb0c01b18094f9db9', '0c1ea3878cd34c8b9f99283de36f25fb', 'totalLength', '总长度', '02', '00', '20', '0', '', '00', '01', '01', '100', '1484191421616', '01', '1', '2017-01-12 11:23:42', '1', '2017-01-15 23:59:55');
 INSERT INTO `bg_maple_detail` VALUES ('f5288b368efa4b3eaf1ad35f56a2d348', 'ad181811909d4f50b3c2c802e901be84', 'dictType', '数据字典类型', '05', '00', '100', '0', 'bg_dictType', '00', '01', '01', '\"01\"', '1484529542052', '01', '1', '2017-01-16 09:19:02', '1', '2017-01-16 10:37:46');
+INSERT INTO `bg_maple_detail` VALUES ('fcbd78fd88f94fa5bbb971e88da084c4', '7928b5c3a71443e69dac9a775fb732aa', 'email', '电子邮箱', '01', '00', '100', '0', '', '00', '01', '01', '', '1484728391889', '01', '1', '2017-01-18 16:34:12', '1', '2017-01-18 16:34:12');
 
 -- ----------------------------
 -- Table structure for bg_maple_main
@@ -191,6 +201,7 @@ CREATE TABLE `bg_maple_main` (
 -- ----------------------------
 INSERT INTO `bg_maple_main` VALUES ('0c1ea3878cd34c8b9f99283de36f25fb', 'mapleDetail', '代码生成详情', '04', '00', 'bg', 'bg', '1484190988154', '01', '1', '2017-01-12 11:16:28', '1', '2017-01-12 11:16:28');
 INSERT INTO `bg_maple_main` VALUES ('27a853950d0e4876ba0eccf8d7e2dd8f', 'baseField', '基本字段', '01', '00', 'bg', 'bg', '1484122184486', '01', '1', '2017-01-11 16:09:44', '1', '2017-01-11 16:09:44');
+INSERT INTO `bg_maple_main` VALUES ('7928b5c3a71443e69dac9a775fb732aa', 'user', '后台用户', '01', '00', 'bg', 'bg', '1484726157405', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-18 15:56:55');
 INSERT INTO `bg_maple_main` VALUES ('ad181811909d4f50b3c2c802e901be84', 'dict', '数据字典', '02', '00', 'bg', 'com', '1484190988200', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-16 11:22:04');
 INSERT INTO `bg_maple_main` VALUES ('c9da8f2d57774bbbad13030135b6a1cb', 'maple', '代码生成', '03', '00', 'bg', 'bg', '1484149707387', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
 INSERT INTO `bg_maple_main` VALUES ('ebd0083161064722a7c37d25a0030434', 'menu', '后台菜单', '02', '00', 'bg', 'bg', '1484546659607', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
@@ -244,15 +255,15 @@ INSERT INTO `bg_menu_tree` VALUES ('32', '30', '#', '五级菜单2', '01', '01',
 INSERT INTO `bg_menu_tree` VALUES ('33', '31', '#', '六级菜单', '01', '01', '33', '#', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('34', '31', '#', '六级菜单2', '01', '01', '34', 'login_default.do', 'menu-icon fa fa-leaf black', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('35', '24', '#', '四级菜单2', '01', '01', '35', 'login_default.do', 'menu-icon fa fa-leaf black', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
-INSERT INTO `bg_menu_tree` VALUES ('36', '2', 'background/role', '角色(基础权限)', '01', '01', '36', 'background/role/list.do', 'menu-icon fa fa-key orange', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('36', '2', 'background_role', '角色(基础权限)', '01', '01', '36', 'background/role/list.do', 'menu-icon fa fa-key orange', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('37', '2', '#', '按钮权限', '01', '01', '37', 'buttonrights/list.do', 'menu-icon fa fa-key green', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
-INSERT INTO `bg_menu_tree` VALUES ('38', '1', 'background/menu', '菜单管理', '01', '01', '38', 'background/menu/main.do', 'menu-icon fa fa-folder-open-o brown', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('38', '1', 'background_menu', '菜单管理', '01', '01', '38', 'background/menu/main.do', 'menu-icon fa fa-folder-open-o brown', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('39', '1', '#', '按钮管理', '01', '01', '39', 'fhbutton/list.do', 'menu-icon fa fa-download orange', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('4', '59', '#', '文件管理', '01', '01', '4', 'fhfile/list.do', 'menu-icon fa fa-folder-open purple', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('40', '0', '#', '用户管理', '02', '01', '40', '#', 'menu-icon fa fa-users blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
-INSERT INTO `bg_menu_tree` VALUES ('41', '40', 'background/user', '系统用户', '01', '01', '41', 'background/user/list.do', 'menu-icon fa fa-users green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('41', '40', 'background_user', '系统用户', '01', '01', '41', 'background/user/list.do', 'menu-icon fa fa-users green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('42', '40', '#', '会员管理', '01', '01', '42', 'happuser/listUsers.do', 'menu-icon fa fa-users orange', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
-INSERT INTO `bg_menu_tree` VALUES ('43', '1', 'background/dict', '数据字典', '01', '01', '43', 'background/dict/main.do', 'menu-icon fa fa-book purple', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('43', '1', 'background_dict', '数据字典', '01', '01', '43', 'background/dict/main.do', 'menu-icon fa fa-book purple', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('44', '9', '#', '代码生成器', '01', '01', '44', '#', 'menu-icon fa fa-cogs brown', '0', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('45', '33', '#', '七级菜单1', '01', '01', '45', '#', 'menu-icon fa fa-leaf black', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('46', '33', '#', '七级菜单2', '01', '01', '46', '#', 'menu-icon fa fa-leaf black', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
@@ -270,8 +281,8 @@ INSERT INTO `bg_menu_tree` VALUES ('58', '54', '#', 'SQL编辑器', '01', '01', 
 INSERT INTO `bg_menu_tree` VALUES ('59', '0', '#', 'OA办公', '02', '01', '59', '#', 'menu-icon fa fa-laptop pink', '6', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('6', '0', '#', '信息管理', '02', '01', '6', '#', 'menu-icon fa fa-credit-card green', '5', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('60', '59', '#', '组织机构', '01', '01', '60', 'department/listAllDepartment.do?DEPARTMENT_ID=0', 'menu-icon fa fa-users green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
-INSERT INTO `bg_menu_tree` VALUES ('61', '44', 'background/maple', '反向生成', '01', '01', '61', 'background/maple/list.do', 'menu-icon fa fa-cogs blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
-INSERT INTO `bg_menu_tree` VALUES ('62', '44', 'background/maple', '正向生成', '01', '01', '62', 'background/maple/list.do', 'menu-icon fa fa-cogs green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('61', '44', 'background_maple', '反向生成', '01', '01', '61', 'background/maple/list.do', 'menu-icon fa fa-cogs blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('62', '44', 'background_maple', '正向生成', '01', '01', '62', 'background/maple/list.do', 'menu-icon fa fa-cogs green', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('63', '6', '#', '主附结构', '01', '01', '63', 'attached/list.do', 'menu-icon fa fa-folder-open blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('64', '59', '#', '员工管理', '01', '01', '64', 'staff/list.do', 'menu-icon fa fa-users blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('65', '6', '#', '多数据源', '01', '01', '65', 'datasource2/list.do', 'menu-icon fa fa-folder-open-o purple', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
@@ -280,6 +291,35 @@ INSERT INTO `bg_menu_tree` VALUES ('7', '6', '#', '图片管理', '02', '01', '7
 INSERT INTO `bg_menu_tree` VALUES ('72', '1', 'qweqqweqweqwe', 'asdsad', '01', '01', '72', 'qweqwesadfasd', 'menu-icon fa fa-adjust black', '6', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('8', '9', '#', '性能监控', '01', '01', '8', 'druid/index.html', 'menu-icon fa fa-tachometer red', '8', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('9', '0', '#', '系统工具', '02', '01', '9', '#', 'menu-icon fa fa-cog black', '3', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+
+-- ----------------------------
+-- Table structure for bg_user_info
+-- ----------------------------
+DROP TABLE IF EXISTS `bg_user_info`;
+CREATE TABLE `bg_user_info` (
+  `userId` varchar(100) NOT NULL COMMENT '后台用户 主键id',
+  `roleId` varchar(100) DEFAULT NULL COMMENT '角色id',
+  `userCode` varchar(100) DEFAULT NULL COMMENT '后台用户代号',
+  `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `userName` varchar(100) DEFAULT NULL COMMENT '后台用户名称',
+  `userType` varchar(100) DEFAULT NULL COMMENT '后台用户类型',
+  `userStatus` varchar(100) DEFAULT NULL COMMENT '后台用户状态',
+  `userIconSrc` varchar(255) DEFAULT NULL COMMENT '用户头像路径',
+  `email` varchar(100) DEFAULT NULL COMMENT '电子邮箱',
+  `phone` varchar(100) DEFAULT NULL COMMENT '手机号码',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
+  `orderNum` int(100) DEFAULT NULL COMMENT '排序编号',
+  `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
+  `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifyUserId` varchar(100) DEFAULT NULL COMMENT '修改人员id',
+  `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台用户';
+
+-- ----------------------------
+-- Records of bg_user_info
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for com_dict_tree
@@ -307,6 +347,7 @@ CREATE TABLE `com_dict_tree` (
 -- Records of com_dict_tree
 -- ----------------------------
 INSERT INTO `com_dict_tree` VALUES ('0c608e9327344f588eebd8edce01de8b', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_01', '标准型', '01', '00', '01', '1', '1484025817953', '01', '1', '2017-01-10 13:23:38', '1', '2017-01-10 13:23:38');
+INSERT INTO `com_dict_tree` VALUES ('132b054047c14abc87f6be78ad0f710a', '0', 'bg_userEffective', '后台生效用户', '02', '00', 'bg_userEffective', '0', '1484726025794', '01', '1', '2017-01-18 15:55:03', '1', '2017-01-18 15:55:09');
 INSERT INTO `com_dict_tree` VALUES ('1c0caa13e3514c87a3280f2f48653d83', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_02', 'Int', '01', '00', '02', '1', '1484018861734', '01', '1', '2017-01-10 11:27:42', '1', '2017-01-11 16:26:59');
 INSERT INTO `com_dict_tree` VALUES ('280f1698d19d49bbb676b09f95d24a51', '2c43919dfe434841a92bc2a39b2ad02e', 'bg_menuType_02', '业务菜单', '01', '00', '02', '0', '1484555389350', '01', '1', '2017-01-16 16:30:42', '1', '2017-01-16 16:30:42');
 INSERT INTO `com_dict_tree` VALUES ('28510c12e9834ea29bbb5621f99e804e', '0', 'bg_mapleDetailType', '字段属性类型', '01', '00', 'bg_mapleDetailType', '0', '1484018714788', '01', '1', '2017-01-10 11:25:15', '1', '2017-01-11 16:23:30');

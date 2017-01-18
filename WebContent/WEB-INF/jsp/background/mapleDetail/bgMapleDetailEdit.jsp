@@ -46,9 +46,9 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">总长度:</td>
-								<td><input type="number" name="totalLength" id="totalLength" value="${bgMapleDetail.totalLength}" min="0" max="9999" placeholder="这里输入 总长度" title="总长度" style="width:98%;"/></td>
+								<td><input type="number" name="totalLength" id="totalLength" value="${bgMapleDetail.totalLength}" placeholder="这里输入 总长度" title="总长度" style="width:98%;"/></td>
 								<td style="width:75px;text-align: right;padding-top: 13px;">小数长度:</td>
-								<td><input type="number" name="decimalLength" id="decimalLength" value="${bgMapleDetail.decimalLength}" min="0" max="9" placeholder="这里输入 小数长度" title="小数长度" style="width:98%;" /></td>
+								<td><input type="number" name="decimalLength" id="decimalLength" value="${bgMapleDetail.decimalLength}" placeholder="这里输入 小数长度" title="小数长度" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">类型代号:</td>
@@ -169,16 +169,6 @@
 			return false;
 			}
 			if(!intExp.test($("#decimalLength").val())){
-				$("#decimalLength").tips({
-					side:3,
-		            msg:'请输入小数长度 需是数字',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#decimalLength").focus();
-			return false;
-			}
-			if($("#decimalLength").val().length>1){
 				$("#decimalLength").tips({
 					side:3,
 		            msg:'请输入小数长度 需是数字',

@@ -51,7 +51,7 @@ public class BgMapleDetailController extends BaseController {
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "background/maple";
+	public static final String RIGHTS_BG_MENUCODE_STR = "background_maple";
 	
 	@Resource(name="bgMapleDetailService")
 	private BgMapleDetailService bgMapleDetailService;
@@ -111,8 +111,8 @@ public class BgMapleDetailController extends BaseController {
 		bgMapleDetail.setMapleDetailCode("");
 		bgMapleDetail.setMapleDetailName("");
 		bgMapleDetail.setMapleDetailType("01");
-		bgMapleDetail.setTotalLength(100);
-		bgMapleDetail.setDecimalLength(0);
+		bgMapleDetail.setTotalLength("100");
+		bgMapleDetail.setDecimalLength("0");
 		bgMapleDetail.setTypeCode("");
 		bgMapleDetail.setIsKey("00");
 		bgMapleDetail.setIsEdit("01");
@@ -436,8 +436,8 @@ public class BgMapleDetailController extends BaseController {
 			bgMapleDetail.setMapleDetailCode(listPd.get(i).getString("var0"));
 			bgMapleDetail.setMapleDetailName(listPd.get(i).getString("var1"));
 			bgMapleDetail.setMapleDetailType(listPd.get(i).getString("var2"));
-			bgMapleDetail.setTotalLength(Integer.parseInt(listPd.get(i).getString("var3")));
-			bgMapleDetail.setDecimalLength(Integer.parseInt(listPd.get(i).getString("var4")));
+			bgMapleDetail.setTotalLength(listPd.get(i).getString("var3"));
+			bgMapleDetail.setDecimalLength(listPd.get(i).getString("var4"));
 			bgMapleDetail.setTypeCode(listPd.get(i).getString("var5"));
 			bgMapleDetail.setIsKey(listPd.get(i).getString("var6"));
 			bgMapleDetail.setIsEdit(listPd.get(i).getString("var7"));

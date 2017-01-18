@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
+import com.jx.common.config.BaseEntity.ValidationAdd;
+import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.util.MapleStringUtil;
 
 public class BgMapleDetail extends BaseEntity implements Serializable {
@@ -70,10 +72,12 @@ public class BgMapleDetail extends BaseEntity implements Serializable {
 	private String mapleDetailStatus;
 		
 	/** 总长度 */
-	private int totalLength;
+	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="菜单数字标记 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	private String totalLength;
 		
 	/** 小数长度 */
-	private int decimalLength;
+	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="菜单数字标记 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	private String decimalLength;
 		
 	/** 类型代号 */
 //	@NotBlank(message="类型代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
@@ -208,36 +212,36 @@ public class BgMapleDetail extends BaseEntity implements Serializable {
 	/**
 	 * 设置 总长度
 	 * 
-	 * @param int totalLength
+	 * @param String totalLength
 	 */
-	public void setTotalLength(int totalLength) {
+	public void setTotalLength(String totalLength) {
 		this.totalLength = totalLength;
 	}
 	
 	/**
 	 * 获取 总长度
 	 * 
-	 * @return int totalLength
+	 * @return String totalLength
 	 */
-	public int getTotalLength() {
+	public String getTotalLength() {
 		return this.totalLength;
 	}
 	
 	/**
 	 * 设置 小数长度
 	 * 
-	 * @param int decimalLength
+	 * @param String decimalLength
 	 */
-	public void setDecimalLength(int decimalLength) {
+	public void setDecimalLength(String decimalLength) {
 		this.decimalLength = decimalLength;
 	}
 	
 	/**
 	 * 获取 小数长度
 	 * 
-	 * @return int decimalLength
+	 * @return String decimalLength
 	 */
-	public int getDecimalLength() {
+	public String getDecimalLength() {
 		return this.decimalLength;
 	}
 	

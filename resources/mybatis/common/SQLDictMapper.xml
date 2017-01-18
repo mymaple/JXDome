@@ -5,20 +5,23 @@
 
 	<resultMap type="comDict" id="comDictResultMap">
 		<result column="dictName" property="dictName"/>
-		<result column="dictType" property="dictType"/>
 		<result column="dictValue" property="dictValue"/>
 	</resultMap>
 	
 	
 	<!-- ****************************custom * start*********************************** -->
 	
-		<select id="bg_userName_effective" parameterType="String" resultMap="comDictResultMap">
-			select userName as dictName, userCode as dictValue
+		<select id="sqlSelect" parameterType="pd" resultMap="comDictResultMap">
+		
+		<if test="type=='bg_userEffective'">
+			select userName as dictName, userId as dictValue
 			from bg_user_info 
 			where effective = '01'
-			<if test="dictValue!=null and dictValue!=''">
-				userCode = #{dictValue} 
+			<if test="value!=null and value!=''">
+				userCode = #{value} 
 			</if>
+		</if>
+		
 		</select>
 		
 	<!-- ****************************common * end  ********************************** -->

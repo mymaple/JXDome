@@ -37,12 +37,12 @@ public class BgHandlerInterceptor extends HandlerInterceptorAdapter {
 							type = "add";
 						}else if("toDelete".equals(ss)||"toBatchDelete".equals(ss)){
 							type = "del";
-						}else if("toEdit".equals(ss)||"edit".equals(ss)){
+						}else if("toEdit".equals(ss)||"edit".equals(ss)||"toChange".equals(ss)||"change".equals(ss)){
 							type = "edit";
 						}else{
 							return true;
 						}
-						boolean b = JudgeRightsUtil.hasRights(pathArr[1]+"/"+pathArr[2].split("Detail")[0], type);
+						boolean b = JudgeRightsUtil.hasRights(pathArr[1]+"_"+pathArr[2].split("Detail")[0], type);
 						if (!b) {
 							response.sendRedirect(request.getContextPath() + Const.PATH_BG_LOGIN_STR);
 						}

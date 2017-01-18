@@ -1,17 +1,16 @@
 package com.jx.background.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
-import com.jx.background.config.BgPage;
-import com.jx.common.util.MapleDateUtil;
+import com.jx.common.config.BaseEntity;
+import com.jx.common.config.Const;
 import com.jx.common.util.MapleStringUtil;
 
-public class BgUser implements Serializable {
+public class BgUser extends BaseEntity implements Serializable {
 	
 	/**
 	 * 
@@ -24,9 +23,6 @@ public class BgUser implements Serializable {
 	
 	/** 角色 */
 	private BgRole bgRole; 
-	
-	/** 后台分页 */
-	private BgPage bgPage; 
 	
 	/** 是否为管理员 */
 	private boolean isAdmin;
@@ -50,23 +46,6 @@ public class BgUser implements Serializable {
 		this.bgRole = bgRole;
 	}
 
-	/**
-	 * 获取 后台分页
-	 * 
-	 * @return BgPage bgPage
-	 */
-	public BgPage getBgPage() {
-		return this.bgPage;
-	}
-
-	/**
-	 * 设置 后台分页
-	 * 
-	 * @param BgPage bgPage
-	 */
-	public void setBgPage(BgPage bgPage) {
-		this.bgPage = bgPage;
-	}
 	
 	/**
 	 * 获取 是否为管理员
@@ -88,89 +67,90 @@ public class BgUser implements Serializable {
 	
 	/**************************custom prop end**********************************/
 	
-	
-	
 	/**************************table prop satrt*********************************/
 	
-	public interface Add {  
-	}  
-	  
-	public interface Edit {  
-	} 
+	/** 后台用户 主键id */
+	@NotBlank(message="后台用户 主键id 不能为空", groups={ValidationEdit.class})
+	private String userId;
 	
-	/** 后台用户表 主键id */
-	private int userId;
-	
-	/** 用户名 */
-	@NotEmpty(message = "用户名不能为空",groups={Add.class})
+	/** 角色id */
+	@NotBlank(message="角色id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String roleId;
+		
+	/** 后台用户代号 */
+	@Pattern(regexp = Const.REG_COM_CODE_STR, message="后台用户代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String userCode;
 		
 	/** 密码 */
-	@NotEmpty(message = "密码不能为空",groups={Add.class})
+	@NotBlank(message="密码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String password;
 		
-	/** 真实姓名 */
+	/** 后台用户名称 */
+	@NotBlank(message="后台用户名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String userName;
 		
-	/** 用户权限 */
-	private String userRights;
+	/** 后台用户类型 */
+	@NotBlank(message="后台用户类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String userType;
 		
-	/** 角色id */
-	@NotNull(message = "角色不能为空",groups={Add.class})
-	private int roleId;
-		
-	/** 最后登录时间 */
-	private Date lastLoginTime;
-		
-	/** 最后登录IP */
-	private String lastLoginIp;
+	/** 后台用户状态 */
+	private String userStatus;
 		
 	/** 用户头像路径 */
 	private String userIconSrc;
 		
-	/** 用户编号 */
-	@NotNull(message = "角色不能为空",groups={Add.class})
-	private String userNumber;
-		
 	/** 电子邮箱 */
-	@NotEmpty(message = "角色不能为空",groups={Add.class})
+	@NotBlank(message="电子邮箱 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String email;
 		
 	/** 手机号码 */
-	@NotEmpty(message = "角色不能为空",groups={Add.class})
+	@NotBlank(message="手机号码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String phone;
 		
-	/** 状态 */
-	private String status;
-		
 	/** 备注信息 */
+	@NotBlank(message="备注信息 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String remarks;
-		
-	/** 修改时间 */
-	private Date modifyTime;
 		
 	
 	
 	/**
-	 * 设置 后台用户表 主键id
+	 * 设置后台用户 主键id
 	 * 
-	 * @param int userId
+	 * @param String userId
 	 */
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserId(String userId) {
+		this.userId = MapleStringUtil.trim(userId);
 	}
 	
 	/**
-	 * 获取 后台用户表 主键id
+	 * 获取后台用户 主键id
 	 * 
-	 * @return int userId
+	 * @return String userId
 	 */
-	public int getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
 	
 	/**
-	 * 设置 用户名
+	 * 设置 角色id
+	 * 
+	 * @param String roleId
+	 */
+	public void setRoleId(String roleId) {
+		this.roleId = MapleStringUtil.trim(roleId);
+	}
+	
+	/**
+	 * 获取 角色id
+	 * 
+	 * @return String roleId
+	 */
+	public String getRoleId() {
+		return this.roleId;
+	}
+	
+	/**
+	 * 设置 后台用户代号
 	 * 
 	 * @param String userCode
 	 */
@@ -179,7 +159,7 @@ public class BgUser implements Serializable {
 	}
 	
 	/**
-	 * 获取 用户名
+	 * 获取 后台用户代号
 	 * 
 	 * @return String userCode
 	 */
@@ -206,7 +186,7 @@ public class BgUser implements Serializable {
 	}
 	
 	/**
-	 * 设置 真实姓名
+	 * 设置 后台用户名称
 	 * 
 	 * @param String userName
 	 */
@@ -215,7 +195,7 @@ public class BgUser implements Serializable {
 	}
 	
 	/**
-	 * 获取 真实姓名
+	 * 获取 后台用户名称
 	 * 
 	 * @return String userName
 	 */
@@ -224,75 +204,39 @@ public class BgUser implements Serializable {
 	}
 	
 	/**
-	 * 设置 用户权限
+	 * 设置 后台用户类型
 	 * 
-	 * @param String userRights
+	 * @param String userType
 	 */
-	public void setUserRights(String userRights) {
-		this.userRights = MapleStringUtil.trim(userRights);
+	public void setUserType(String userType) {
+		this.userType = MapleStringUtil.trim(userType);
 	}
 	
 	/**
-	 * 获取 用户权限
+	 * 获取 后台用户类型
 	 * 
-	 * @return String userRights
+	 * @return String userType
 	 */
-	public String getUserRights() {
-		return this.userRights;
+	public String getUserType() {
+		return this.userType;
 	}
 	
 	/**
-	 * 设置 角色id
+	 * 设置 后台用户状态
 	 * 
-	 * @param int roleId
+	 * @param String userStatus
 	 */
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+	public void setUserStatus(String userStatus) {
+		this.userStatus = MapleStringUtil.trim(userStatus);
 	}
 	
 	/**
-	 * 获取 角色id
+	 * 获取 后台用户状态
 	 * 
-	 * @return int roleId
+	 * @return String userStatus
 	 */
-	public int getRoleId() {
-		return this.roleId;
-	}
-	
-	/**
-	 * 设置 最后登录时间
-	 * 
-	 * @param Date lastLoginTime
-	 */
-	public void setLastLoginTime(Date lastLoginTime) {
-		this.lastLoginTime = lastLoginTime;
-	}
-	
-	/**
-	 * 获取 最后登录时间
-	 * 
-	 * @return Date lastLoginTime
-	 */
-	public Date getLastLoginTime() {
-		return this.lastLoginTime;
-	}	
-		
-	/**
-	 * 设置 最后登录IP
-	 * 
-	 * @param String lastLoginIp
-	 */
-	public void setLastLoginIp(String lastLoginIp) {
-		this.lastLoginIp = MapleStringUtil.trim(lastLoginIp);
-	}
-	
-	/**
-	 * 获取 最后登录IP
-	 * 
-	 * @return String lastLoginIp
-	 */
-	public String getLastLoginIp() {
-		return this.lastLoginIp;
+	public String getUserStatus() {
+		return this.userStatus;
 	}
 	
 	/**
@@ -311,24 +255,6 @@ public class BgUser implements Serializable {
 	 */
 	public String getUserIconSrc() {
 		return this.userIconSrc;
-	}
-	
-	/**
-	 * 设置 用户编号
-	 * 
-	 * @param String userNumber
-	 */
-	public void setUserNumber(String userNumber) {
-		this.userNumber = MapleStringUtil.trim(userNumber);
-	}
-	
-	/**
-	 * 获取 用户编号
-	 * 
-	 * @return String userNumber
-	 */
-	public String getUserNumber() {
-		return this.userNumber;
 	}
 	
 	/**
@@ -368,24 +294,6 @@ public class BgUser implements Serializable {
 	}
 	
 	/**
-	 * 设置 状态
-	 * 
-	 * @param String status
-	 */
-	public void setStatus(String status) {
-		this.status = MapleStringUtil.trim(status);
-	}
-	
-	/**
-	 * 获取 状态
-	 * 
-	 * @return String status
-	 */
-	public String getStatus() {
-		return this.status;
-	}
-	
-	/**
 	 * 设置 备注信息
 	 * 
 	 * @param String remarks
@@ -403,43 +311,6 @@ public class BgUser implements Serializable {
 		return this.remarks;
 	}
 	
-	/**
-	 * 设置 修改时间
-	 * 
-	 * @param Date modifyTime
-	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
 	
-	/**
-	 * 获取 修改时间
-	 * 
-	 * @return Date modifyTime
-	 */
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}	
-		
-	public BgUser(){
-		init();
-	}
-	
-	public void init() {
-		setUserId(0);
-	
-		setUserCode("");
-		setPassword("");
-		setUserName("");
-		setUserRights("");
-		setRoleId(0);
-		setLastLoginIp("");
-		setUserIconSrc("");
-		setUserNumber("");
-		setEmail("");
-		setPhone("");
-		setStatus("");
-		setRemarks("");
-	}
 	/**************************table prop  end  *********************************/
 }

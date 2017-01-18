@@ -169,7 +169,6 @@
 				$("#${bgMapleDetail.mapleDetailCode }").focus();
 			return false;
 			}
-		<#elseif bgMapleDetail.mapleDetailType == '03'>
 		<#elseif bgMapleDetail.mapleDetailType == '04'>
 			if(!intExp.test($("#${bgMapleDetail.mapleDetailCode }").val())){
 				$("#${bgMapleDetail.mapleDetailCode }").tips({
@@ -181,7 +180,7 @@
 				$("#${bgMapleDetail.mapleDetailCode }").focus();
 			return false;
 			}
-		<#elseif bgMapleDetail.mapleDetailType == "05" >
+		<#elseif bgMapleDetail.mapleDetailType == "05" || bgMapleDetail.mapleDetailType == "03">
 			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
 				$("#${bgMapleDetail.mapleDetailCode }").next().tips({
 					side:3,

@@ -141,7 +141,7 @@ public class BgMenu extends BaseEntity implements Serializable {
 		
 	/** 菜单数字标记 */
 	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="菜单数字标记 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
-	private int menuTag;
+	private String menuTag;
 		
 	/** 菜单链接 */
 	@NotBlank(message="菜单链接 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
@@ -264,18 +264,18 @@ public class BgMenu extends BaseEntity implements Serializable {
 	/**
 	 * 设置 菜单数字标记
 	 * 
-	 * @param int menuTag
+	 * @param String menuTag
 	 */
-	public void setMenuTag(int menuTag) {
+	public void setMenuTag(String menuTag) {
 		this.menuTag = menuTag;
 	}
 	
 	/**
 	 * 获取 菜单数字标记
 	 * 
-	 * @return int menuTag
+	 * @return String menuTag
 	 */
-	public int getMenuTag() {
+	public String getMenuTag() {
 		return this.menuTag;
 	}
 	

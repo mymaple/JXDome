@@ -46,7 +46,7 @@ public class BgMapleController extends BaseController {
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "background/maple";
+	public static final String RIGHTS_BG_MENUCODE_STR = "background_maple";
 	
 	@Resource(name="bgMapleService")
 	private BgMapleService bgMapleService;

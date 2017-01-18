@@ -143,14 +143,14 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 		<#if bgMapleDetail.isEdit = "01">
 	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="${bgMapleDetail.mapleDetailName} 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		</#if>
-	private int ${bgMapleDetail.mapleDetailCode};
+	private String ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '03'>
 	private Date ${bgMapleDetail.mapleDetailCode};
 		<#elseif bgMapleDetail.mapleDetailType == '04'>
 		<#if bgMapleDetail.isEdit = "01">
 	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="${bgMapleDetail.mapleDetailName} 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>
-	private double ${bgMapleDetail.mapleDetailCode};
+	private String ${bgMapleDetail.mapleDetailCode};
 		</#if>
 		
 	</#list>
@@ -236,18 +236,18 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	/**
 	 * 设置 ${bgMapleDetail.mapleDetailName}
 	 * 
-	 * @param int ${bgMapleDetail.mapleDetailCode}
+	 * @param String ${bgMapleDetail.mapleDetailCode}
 	 */
-	public void set${bgMapleDetail.mapleDetailCodeUpper}(int ${bgMapleDetail.mapleDetailCode}) {
+	public void set${bgMapleDetail.mapleDetailCodeUpper}(String ${bgMapleDetail.mapleDetailCode}) {
 		this.${bgMapleDetail.mapleDetailCode} = ${bgMapleDetail.mapleDetailCode};
 	}
 	
 	/**
 	 * 获取 ${bgMapleDetail.mapleDetailName}
 	 * 
-	 * @return int ${bgMapleDetail.mapleDetailCode}
+	 * @return String ${bgMapleDetail.mapleDetailCode}
 	 */
-	public int get${bgMapleDetail.mapleDetailCodeUpper}() {
+	public String get${bgMapleDetail.mapleDetailCodeUpper}() {
 		return this.${bgMapleDetail.mapleDetailCode};
 	}
 		<#elseif bgMapleDetail.mapleDetailType == '03'>
@@ -287,18 +287,18 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	/**
 	 * 设置 ${bgMapleDetail.mapleDetailName}
 	 * 
-	 * @param double ${bgMapleDetail.mapleDetailCode}
+	 * @param String ${bgMapleDetail.mapleDetailCode}
 	 */
-	public void set${bgMapleDetail.mapleDetailCodeUpper}(double ${bgMapleDetail.mapleDetailCode}) {
+	public void set${bgMapleDetail.mapleDetailCodeUpper}(String ${bgMapleDetail.mapleDetailCode}) {
 		this.${bgMapleDetail.mapleDetailCode} = ${bgMapleDetail.mapleDetailCode};
 	}
 	
 	/**
 	 * 获取 ${bgMapleDetail.mapleDetailName}
 	 * 
-	 * @return double ${bgMapleDetail.mapleDetailCode}
+	 * @return String ${bgMapleDetail.mapleDetailCode}
 	 */
-	public double get${bgMapleDetail.mapleDetailCodeUpper}() {
+	public String get${bgMapleDetail.mapleDetailCodeUpper}() {
 		return this.${bgMapleDetail.mapleDetailCode};
 	}
 	
