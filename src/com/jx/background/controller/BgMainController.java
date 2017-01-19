@@ -35,13 +35,13 @@ import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
 import com.jx.background.util.BgSessionUtil;
+import com.jx.background.util.JudgeRightsUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.DrawImageUtil;
-import com.jx.common.util.RightsHelper;
 
 /*
  * 总入口
@@ -161,7 +161,7 @@ public class BgMainController extends BaseController {
 						bgUser = bgUserService.checkUserLogin(pd);//有问题
 						if (bgUser != null) {
 							//修改登录
-							bgUser = this.changeLoginInfo(bgUser);
+//							bgUser = this.changeLoginInfo(bgUser);
 							BgSessionUtil.setSessionBgUserRole(bgUser);
 							this.getSession().removeAttribute(BgSessionUtil.SESSION_BG_VERIFICATIONCODE_STR);
 							
@@ -208,9 +208,9 @@ public class BgMainController extends BaseController {
 			BgUser bgUser = BgSessionUtil.getSessionBgUserRole();
 			if (bgUser != null) {
 				if (null == bgUser.getBgRole()) {
-					bgUser = bgUserService.getUserRoleById(bgUser.getUserId());
+					bgUser.setBgRole(bgRoleService.findById(bgUser.getRoleId()));
 					
-					bgUser.setAdmin(1==bgUser.getBgRole().getRoleId()
+					bgUser.setAdmin("1".equals(bgUser.getBgRole().getRoleId())
 							&&bgUser.getUserCode().equals(bgConfigService.findSessionConfig(Const.CONFIG_BG_SYSTEM_OBJ).getParam3()));
 					BgSessionUtil.setSessionBgUserRole(bgUser);
 				}
@@ -222,7 +222,7 @@ public class BgMainController extends BaseController {
 				if (null == BgSessionUtil.getSessionBgAllMenuInRankList()) {
 					bgAllMenuInRankList = bgMenuService.listInRank("0");
 					if (MapleStringUtil.notEmpty(roleRights)) {
-						this.bgMenuListTestRights(bgAllMenuInRankList,roleRights);
+						JudgeRightsUtil.getBgMenuListByRoleRights(bgAllMenuInRankList,roleRights);
 					}
 					BgSessionUtil.setSessionBgAllMenuInRankList( bgAllMenuInRankList); // 菜单权限放入session中
 				} else {
@@ -311,7 +311,7 @@ public class BgMainController extends BaseController {
 		return "background/main/bgDefault";
 	}
 	
-	public BgUser changeLoginInfo(BgUser bgUser) throws Exception {
+/*	public BgUser changeLoginInfo(BgUser bgUser) throws Exception {
 		HttpServletRequest request = this.getRequest();
 		String loginIp = "";
 		if (request.getHeader("x-forwarded-for") == null) {
@@ -323,26 +323,7 @@ public class BgMainController extends BaseController {
 		bgUser.setLastLoginIp(loginIp);
 		bgUserService.changeLoginInfo(bgUser);
 		return bgUser;
-	}
-	
-	/**根据角色权限获取本权限的菜单列表(递归处理)
-	 * @param menuList：传入的总菜单
-	 * @param roleRights：加密的权限字符串
-	 * @return
-	 */
-	public List<BgMenu> bgMenuListTestRights(List<BgMenu> bgMenuList,String roleRights){
-		for(int i=0;i<bgMenuList.size();i++){
-			bgMenuList.get(i).setHasMenu(RightsHelper.testRights(roleRights, bgMenuList.get(i).getMenuId()));
-			if(bgMenuList.get(i).isHasMenu() && "01".equals(bgMenuList.get(i).getMenuStatus())){				//判断是否有此菜单权限并且是否隐藏
-				this.bgMenuListTestRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);				//是：继续排查其子菜单
-			}else{
-				bgMenuList.remove(i);
-				i--;
-			}
-		}
-		return bgMenuList;
-	}
-	
+	}*/
 	
 	/**
 	 * 获取验证码

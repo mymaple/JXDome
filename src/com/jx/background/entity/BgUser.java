@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
@@ -82,7 +83,7 @@ public class BgUser extends BaseEntity implements Serializable {
 	private String userCode;
 		
 	/** 密码 */
-	@NotBlank(message="密码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="密码 不能为空", groups={ValidationAdd.class})
 	private String password;
 		
 	/** 后台用户名称 */
@@ -101,14 +102,14 @@ public class BgUser extends BaseEntity implements Serializable {
 		
 	/** 电子邮箱 */
 	@NotBlank(message="电子邮箱 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@Email(message="电子邮箱 格式不正确", groups={ValidationAdd.class, ValidationEdit.class})
 	private String email;
 		
 	/** 手机号码 */
-	@NotBlank(message="手机号码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@Pattern(regexp = Const.REG_COM_PHONE_STR, message="手机号码 格式不正确", groups={ValidationAdd.class, ValidationEdit.class})
 	private String phone;
 		
 	/** 备注信息 */
-	@NotBlank(message="备注信息 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String remarks;
 		
 	

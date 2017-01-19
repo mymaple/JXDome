@@ -82,7 +82,7 @@
 			var roleId = "${roleId}";
 			var url = "<%=basePath%>background/role/changeRoleRights.do";
 			var postData;
-			postData = {"roleId":roleId,"menuIds":ids,"msg":"${msg}"};
+			postData = {"roleId":roleId,"tags":ids,"rightsMsg":"${rightsMsg}"};
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
 			$.post(url,postData,function(data){

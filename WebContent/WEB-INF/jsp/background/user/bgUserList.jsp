@@ -64,9 +64,8 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">角色id</th>
+									<th class="center">角色</th>
 									<th class="center">后台用户代号</th>
-									<th class="center">密码</th>
 									<th class="center">后台用户名称</th>
 									<th class="center">后台用户类型</th>
 									<th class="center">电子邮箱</th>
@@ -90,9 +89,8 @@
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'><param:display type="bg_roleEffective" value="${bgUser.roleId}"/></td>
 											<td class='center'>${bgUser.userCode}</td>
-											<td class='center'>${bgUser.password}</td>
 											<td class='center'>${bgUser.userName}</td>
-											<td class='center'><param:display type="" value="${bgUser.userType}"/></td>
+											<td class='center'><param:display type="bg_userType" value="${bgUser.userType}"/></td>
 											<td class='center'>${bgUser.email}</td>
 											<td class='center'>${bgUser.phone}</td>
 											<td class='center'>${bgUser.remarks}</td>
@@ -240,7 +238,7 @@
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/user/toAdd.do";
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 600;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮
@@ -281,7 +279,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/user/toEdit.do?userId="+userId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 600;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 

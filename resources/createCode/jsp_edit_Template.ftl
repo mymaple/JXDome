@@ -39,19 +39,19 @@
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 						<#if bgMaple.mapleType == "02">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
 								<td align="center"><param:display type="bg_mapleDetailType" name="parentId" id="parentId" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}parentId ${r"}"}" hidden="true"/></td>
 							</tr>
 						<#elseif bgMaple.mapleType == "04">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
 								<td align="center"><param:display type="bg_mapleDetailType" name="${bgMaple.mapleCode ?replace('Detail','')}Id" id="${bgMaple.mapleCode ?replace('Detail','')}Id" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}" hidden="true"/></td>
 							</tr>
 						</#if>
 				<#list bgMapleDetailList as bgMapleDetail>
 					<#if bgMapleDetail.isEdit == "01" >
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 						<#if bgMapleDetail.mapleDetailType == '01'>
 								<td><input type="text" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.totalLength}" placeholder="这里输入 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;" <#if bgMapleDetail.mapleDetailCode == '${bgMaple.mapleCode }Code'>onblur="otherNotCode()"</#if>/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '02' || bgMapleDetail.mapleDetailType == '04'>
@@ -65,7 +65,7 @@
 					</#if>
 				</#list>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="text" name="orderNum" id="orderNum" value="${r"${"}${bgMaple.mapleEntityLower}.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>

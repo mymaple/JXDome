@@ -1,12 +1,12 @@
 package com.jx.background.util;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRights;
 import com.jx.background.entity.BgRole;
 import com.jx.common.util.MapleStringUtil;
-import com.jx.common.util.RightsHelper;
 
 /**
  * 权限处理
@@ -61,10 +61,10 @@ public class JudgeRightsUtil {
 					BgRole bgRole =  BgSessionUtil.getSessionBgUserRole().getBgRole();
 					String menuTag = bgMenu.getMenuTag();
 					bgRights.setMenuCode(menuCode);
-					bgRights.setAdd(RightsHelper.testRights(bgRole.getAddRights(),menuTag));
-					bgRights.setDel(RightsHelper.testRights(bgRole.getDelRights(),menuTag));
-					bgRights.setEdit(RightsHelper.testRights(bgRole.getEditRights(),menuTag));
-					bgRights.setSele(RightsHelper.testRights(bgRole.getSeleRights(),menuTag));
+					bgRights.setAdd(testRights(bgRole.getAddRights(),menuTag));
+					bgRights.setDel(testRights(bgRole.getDelRights(),menuTag));
+					bgRights.setEdit(testRights(bgRole.getEditRights(),menuTag));
+					bgRights.setSele(testRights(bgRole.getSeleRights(),menuTag));
 					BgSessionUtil.setSessionBgRights(bgRights);
 					if("add".equals(type)){
 						return bgRights.isAdd();
@@ -123,10 +123,10 @@ public class JudgeRightsUtil {
 					BgRole bgRole =  BgSessionUtil.getSessionBgUserRole().getBgRole();
 					String menuTag = String.valueOf(bgMenu.getMenuTag());
 					bgRights.setMenuCode(menuCode);
-					bgRights.setAdd(RightsHelper.testRights(bgRole.getAddRights(),menuTag));
-					bgRights.setDel(RightsHelper.testRights(bgRole.getDelRights(),menuTag));
-					bgRights.setEdit(RightsHelper.testRights(bgRole.getEditRights(),menuTag));
-					bgRights.setSele(RightsHelper.testRights(bgRole.getSeleRights(),menuTag));
+					bgRights.setAdd(testRights(bgRole.getAddRights(),menuTag));
+					bgRights.setDel(testRights(bgRole.getDelRights(),menuTag));
+					bgRights.setEdit(testRights(bgRole.getEditRights(),menuTag));
+					bgRights.setSele(testRights(bgRole.getSeleRights(),menuTag));
 					BgSessionUtil.setSessionBgRights(bgRights);
 					return bgRights;
 				}
@@ -136,4 +136,108 @@ public class JudgeRightsUtil {
 		}
 		return null;
 	}
+	
+	/**根据角色权限获取本权限的菜单列表(递归处理)
+	 * @param menuList：传入的总菜单
+	 * @param roleRights：加密的权限字符串
+	 * @return
+	 */
+	public static List<BgMenu> bgMenuListTestRights(List<BgMenu> bgMenuList,String roleRights){
+		for(int i=0;i<bgMenuList.size();i++){
+			bgMenuList.get(i).setHasMenu(testRights(roleRights, bgMenuList.get(i).getMenuTag()));
+			if(bgMenuList.get(i).isHasMenu() && "01".equals(bgMenuList.get(i).getMenuStatus())){				//判断是否有此菜单权限并且是否隐藏
+				bgMenuListTestRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);							//是：继续排查其子菜单
+			}
+		}
+		return bgMenuList;
+	}
+	
+	/**根据角色权限获取本权限的菜单列表(递归处理)
+	 * @param menuList：传入的总菜单
+	 * @param roleRights：加密的权限字符串
+	 * @return
+	 */
+	public static List<BgMenu> getBgMenuListByRoleRights(List<BgMenu> bgMenuList,String roleRights){
+		for(int i=0;i<bgMenuList.size();i++){
+			bgMenuList.get(i).setHasMenu(testRights(roleRights, bgMenuList.get(i).getMenuId()));
+			if(bgMenuList.get(i).isHasMenu() && "01".equals(bgMenuList.get(i).getMenuStatus())){				//判断是否有此菜单权限并且是否隐藏
+				bgMenuListTestRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);				//是：继续排查其子菜单
+			}else{
+				bgMenuList.remove(i);
+				i--;
+			}
+		}
+		return bgMenuList;
+	}
+	
+	/**
+	 * 利用BigInteger对权限进行2的权的和计算
+	 * @param rights int型权限编码数组
+	 * @return 2的权的和
+	 */
+	public static BigInteger sumRights(int[] rights) {
+		BigInteger num = new BigInteger("0");
+		for (int i = 0; i < rights.length; i++) {
+			num = num.setBit(rights[i]);
+		}
+		return num;
+	}
+
+	/**
+	 * 利用BigInteger对权限进行2的权的和计算
+	 * @param rights String型权限编码数组
+	 * @return 2的权的和
+	 */
+	public static BigInteger sumRights(String[] rights) {
+		BigInteger num = new BigInteger("0");
+		for (int i = 0; i < rights.length; i++) {
+			num = num.setBit(Integer.parseInt(rights[i]));
+		}
+		return num;
+	}
+
+	/**
+	 * 测试是否具有指定编码的权限
+	 * @param sum
+	 * @param targetRights
+	 * @return
+	 */
+	public static boolean testRights(BigInteger sum, int targetRights) {
+		return sum.testBit(targetRights);
+	}
+
+	/**
+	 * 测试是否具有指定编码的权限
+	 * @param sum
+	 * @param targetRights
+	 * @return
+	 */
+	public static boolean testRights(String sum, int targetRights) {
+		if (MapleStringUtil.isEmpty(sum))
+			return false;
+		return testRights(new BigInteger(sum), targetRights);
+	}
+
+	/**
+	 * 测试是否具有指定编码的权限
+	 * @param sum
+	 * @param targetRights
+	 * @return
+	 */
+	public static boolean testRights(String sum, String targetRights) {
+		if (MapleStringUtil.isEmpty(sum))
+			return false;
+		return testRights(new BigInteger(sum), targetRights);
+	}
+
+	/**
+	 * 测试是否具有指定编码的权限
+	 * @param sum
+	 * @param targetRights
+	 * @return
+	 */
+	public static boolean testRights(BigInteger sum, String targetRights) {
+		return testRights(sum, Integer.parseInt(targetRights));
+	}
+	
 }

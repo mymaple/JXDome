@@ -58,8 +58,9 @@ public class ComDictServiceImpl implements ComDictService{
 			if("01".equals(dictType)){
 				return (String) dao.findForObject("ComDictMapper.getDisplayName", pd);
 			}else if("02".equals(dictType)){
-				ComDict comDict = (ComDict)dao.findForObject("SQLDictMapper.sqlSelect", pd);
-				return comDict.getDictName();
+				if("0".equals(value)) return "顶级";
+				ComDict comDict = (ComDict)dao.findForObject("SQLDictMapper."+type, value);
+				return comDict == null ?  "" : comDict.getDictName();
 			}
 		}
 		return "";
@@ -79,9 +80,7 @@ public class ComDictServiceImpl implements ComDictService{
 			if("01".equals(dictType)){
 				return (List<ComDict>) dao.findForList("ComDictMapper.listSelect", type);
 			}else if("02".equals(dictType)){
-				PageData pd = new PageData();
-				pd.put("type",type);
-				return (List<ComDict>) dao.findForList("SQLDictMapper.sqlSelect", pd);
+				return (List<ComDict>) dao.findForList("SQLDictMapper."+type, null);
 			}
 		}
 		return new ArrayList<ComDict>();

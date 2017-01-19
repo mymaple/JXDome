@@ -33,31 +33,31 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
-								<td align="center"><param:display type="bg_mapleDetailType" name="parentId" id="parentId" value="${bgMenu.parentId }" hidden="true"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td align="center"><param:display type="bg_menuEffective" name="parentId" id="parentId" value="${bgMenu.parentId }" hidden="true"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">后台菜单代号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">后台菜单代号:</td>
 								<td><input type="text" name="menuCode" id="menuCode" value="${bgMenu.menuCode}" maxlength="100" placeholder="这里输入 后台菜单代号" title="后台菜单代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">后台菜单名称:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">后台菜单名称:</td>
 								<td><input type="text" name="menuName" id="menuName" value="${bgMenu.menuName}" maxlength="100" placeholder="这里输入 后台菜单名称" title="后台菜单名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">后台菜单类型:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">后台菜单类型:</td>
 								<td><param:select type="bg_menuType" name="menuType" id="menuType" value="${bgMenu.menuType}" placeholder="这里请选择 后台菜单类型" title="后台菜单类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">菜单数字标记:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">菜单数字标记:</td>
 								<td><input type="number" name="menuTag" id="menuTag" value="${bgMenu.menuTag}" maxlength="10" placeholder="这里输入 菜单数字标记" title="菜单数字标记" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">菜单链接:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">菜单链接:</td>
 								<td><input type="text" name="menuUrl" id="menuUrl" value="${bgMenu.menuUrl}" maxlength="255" placeholder="这里输入 菜单链接" title="菜单链接" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="number" name="orderNum" id="orderNum" value="${bgMenu.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>

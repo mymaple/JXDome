@@ -1,12 +1,16 @@
 package com.jx.background.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import com.jx.common.util.MapleDateUtil;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+import com.jx.common.config.BaseEntity;
+import com.jx.common.config.Const;
 import com.jx.common.util.MapleStringUtil;
 
-public class BgRole implements Serializable {
+public class BgRole extends BaseEntity implements Serializable {
 	
 	/**
 	 * 
@@ -17,24 +21,31 @@ public class BgRole implements Serializable {
 	
 	/**************************custom prop satrt********************************/
 	
-	
 	/**************************custom prop end**********************************/
-	
-	
 	
 	/**************************table prop satrt*********************************/
 	
-	/** 后台角色表 主键id */
-	private int roleId;
+	/** 后台角色 主键id */
+	@NotBlank(message="后台角色 主键id 不能为空", groups={ValidationEdit.class})
+	private String roleId;
 	
-	/** 角色名称 */
+	/** 后台角色代号 */
+	@Pattern(regexp = Const.REG_COM_CODE_STR, message="后台角色代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	private String roleCode;
+		
+	/** 后台角色名称 */
+	@NotBlank(message="后台角色名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String roleName;
+		
+	/** 后台角色类型 */
+	@NotBlank(message="后台角色类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String roleType;
+		
+	/** 后台角色状态 */
+	private String roleStatus;
 		
 	/** 角色权限 */
 	private String roleRights;
-		
-	/** 上级id */
-	private int parentId;
 		
 	/** 新增权限 */
 	private String addRights;
@@ -45,34 +56,49 @@ public class BgRole implements Serializable {
 	/** 修改权限 */
 	private String editRights;
 		
-	/** 查看权限 */
+	/** 查询权限 */
 	private String seleRights;
-		
-	/** 修改时间 */
-	private Date modifyTime;
 		
 	
 	
 	/**
-	 * 设置 后台角色表 主键id
+	 * 设置后台角色 主键id
 	 * 
-	 * @param int roleId
+	 * @param String roleId
 	 */
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+	public void setRoleId(String roleId) {
+		this.roleId = MapleStringUtil.trim(roleId);
 	}
 	
 	/**
-	 * 获取 后台角色表 主键id
+	 * 获取后台角色 主键id
 	 * 
-	 * @return int roleId
+	 * @return String roleId
 	 */
-	public int getRoleId() {
+	public String getRoleId() {
 		return this.roleId;
 	}
 	
 	/**
-	 * 设置 角色名称
+	 * 设置 后台角色代号
+	 * 
+	 * @param String roleCode
+	 */
+	public void setRoleCode(String roleCode) {
+		this.roleCode = MapleStringUtil.trim(roleCode);
+	}
+	
+	/**
+	 * 获取 后台角色代号
+	 * 
+	 * @return String roleCode
+	 */
+	public String getRoleCode() {
+		return this.roleCode;
+	}
+	
+	/**
+	 * 设置 后台角色名称
 	 * 
 	 * @param String roleName
 	 */
@@ -81,12 +107,48 @@ public class BgRole implements Serializable {
 	}
 	
 	/**
-	 * 获取 角色名称
+	 * 获取 后台角色名称
 	 * 
 	 * @return String roleName
 	 */
 	public String getRoleName() {
 		return this.roleName;
+	}
+	
+	/**
+	 * 设置 后台角色类型
+	 * 
+	 * @param String roleType
+	 */
+	public void setRoleType(String roleType) {
+		this.roleType = MapleStringUtil.trim(roleType);
+	}
+	
+	/**
+	 * 获取 后台角色类型
+	 * 
+	 * @return String roleType
+	 */
+	public String getRoleType() {
+		return this.roleType;
+	}
+	
+	/**
+	 * 设置 后台角色状态
+	 * 
+	 * @param String roleStatus
+	 */
+	public void setRoleStatus(String roleStatus) {
+		this.roleStatus = MapleStringUtil.trim(roleStatus);
+	}
+	
+	/**
+	 * 获取 后台角色状态
+	 * 
+	 * @return String roleStatus
+	 */
+	public String getRoleStatus() {
+		return this.roleStatus;
 	}
 	
 	/**
@@ -105,24 +167,6 @@ public class BgRole implements Serializable {
 	 */
 	public String getRoleRights() {
 		return this.roleRights;
-	}
-	
-	/**
-	 * 设置 上级id
-	 * 
-	 * @param int parentId
-	 */
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
-	}
-	
-	/**
-	 * 获取 上级id
-	 * 
-	 * @return int parentId
-	 */
-	public int getParentId() {
-		return this.parentId;
 	}
 	
 	/**
@@ -180,7 +224,7 @@ public class BgRole implements Serializable {
 	}
 	
 	/**
-	 * 设置 查看权限
+	 * 设置 查询权限
 	 * 
 	 * @param String seleRights
 	 */
@@ -189,7 +233,7 @@ public class BgRole implements Serializable {
 	}
 	
 	/**
-	 * 获取 查看权限
+	 * 获取 查询权限
 	 * 
 	 * @return String seleRights
 	 */
@@ -197,40 +241,6 @@ public class BgRole implements Serializable {
 		return this.seleRights;
 	}
 	
-	/**
-	 * 设置 修改时间
-	 * 
-	 * @param Date modifyTime
-	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
 	
-	/**
-	 * 获取 修改时间
-	 * 
-	 * @return Date modifyTime
-	 */
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}	
-		
-	
-	
-	public BgRole(){
-		init();
-	}
-	
-	public void init() {
-		setRoleId(0);
-	
-		setRoleName("");
-		setRoleRights("");
-		setParentId(0);
-		setAddRights("");
-		setDelRights("");
-		setEditRights("");
-		setSeleRights("");
-	}
 	/**************************table prop  end  *********************************/
 }

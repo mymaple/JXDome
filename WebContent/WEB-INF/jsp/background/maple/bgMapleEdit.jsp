@@ -33,27 +33,27 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成代号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">代码生成代号:</td>
 								<td><input type="text" name="mapleCode" id="mapleCode" value="${bgMaple.mapleCode}" maxlength="100" placeholder="这里输入 代码生成代号" title="代码生成代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成名称:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">代码生成名称:</td>
 								<td><input type="text" name="mapleName" id="mapleName" value="${bgMaple.mapleName}" maxlength="100" placeholder="这里输入 代码生成名称" title="代码生成名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成类型:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">代码生成类型:</td>
 								<td><param:select type="bg_mapleType" name="mapleType" id="mapleType" value="${bgMaple.mapleType}" placeholder="这里请选择 代码生成类型" title="代码生成类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">控制器包代号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">控制器包代号:</td>
 								<td><param:select type="com_packageType" name="controllerPackage" id="controllerPackage" value="${bgMaple.controllerPackage}" placeholder="这里请选择 控制器包代号" title="控制器包代号" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">实体类包代号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">实体类包代号:</td>
 								<td><param:select type="com_packageType" name="entityPackage" id="entityPackage" value="${bgMaple.entityPackage}" placeholder="这里请选择 实体类包代号" title="实体类包代号" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="text" name="orderNum" id="orderNum" value="${bgMaple.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>

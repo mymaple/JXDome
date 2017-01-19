@@ -11,6 +11,25 @@ public interface BgUserService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 通过loginName获取(类)数据
+	 * @param PageData pd
+	 * @return BgUser
+	 * @throws Exception
+	 */
+	public BgUser findByLoginName(PageData pd) throws Exception ;
+	
+	/**
+	 * 登录判断
+	 */
+	public BgUser checkUserLogin(PageData pd) throws Exception ;
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BgUser> listByRoleId(String roleId) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

@@ -11,17 +11,48 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
-		<select id="sqlSelect" parameterType="pd" resultMap="comDictResultMap">
-		
-		<if test="type=='bg_userEffective'">
+		<select id="bg_userEffective" parameterType="String" resultMap="comDictResultMap">
 			select userName as dictName, userId as dictValue
 			from bg_user_info 
 			where effective = '01'
 			<if test="value!=null and value!=''">
-				userCode = #{value} 
+				and userId= #{value} 
 			</if>
-		</if>
+		</select>
 		
+		<select id="bg_roleEffective" parameterType="String" resultMap="comDictResultMap">
+			select roleName as dictName, roleId as dictValue
+			from bg_role_info 
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and roleId= #{value} 
+			</if>
+		</select>
+		
+		<select id="bg_menuEffective" parameterType="String" resultMap="comDictResultMap">
+			select menuName as dictName, menuId as dictValue
+			from bg_menu_tree
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and menuId= #{value} 
+			</if>
+		</select>
+		
+		<select id="bg_mapleEffective" parameterType="String" resultMap="comDictResultMap">
+			select mapleName as dictName, mapleId as dictValue
+			from bg_maple_main
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and mapleId= #{value} 
+			</if>
+		</select>
+		
+		<select id="com_dictEffective" parameterType="String" resultMap="comDictResultMap">
+			select dictName as dictName, dictId as dictValue
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and dictId = #{value} 
+			</if>
 		</select>
 		
 	<!-- ****************************common * end  ********************************** -->

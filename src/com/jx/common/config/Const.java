@@ -114,6 +114,16 @@ public class Const {
 	 */
 	public static final String REG_COM_CODE_STR = "^[a-z][a-zA-Z0-9_]*$";
 	
+	/**
+	 * 正则 手机号码
+	 */
+	public static final String REG_COM_PHONE_STR = "^1[34578]\\d{9}$";
+	
+	/**
+	 * 正则 电子邮箱
+	 */
+	public static final String REG_COM_EMAIL_STR = "^(?:[a-zA-Z0-9]+[_\\-\\+\\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\\-]?)*[a-zA-Z0-9]+\\.)+([a-zA-Z]{2,})+$";
+	
 	
 	public static ApplicationContext WEB_APP_CONTEXT = null; // 该值会在web容器启动时由WebAppContextListener初始化
 

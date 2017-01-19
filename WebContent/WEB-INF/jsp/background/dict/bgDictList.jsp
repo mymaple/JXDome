@@ -263,7 +263,7 @@
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/dict/toAdd.do?pId="+'${pd.pId}';
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 370;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮
@@ -299,7 +299,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/dict/toEdit.do?dictId="+dictId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 370;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 

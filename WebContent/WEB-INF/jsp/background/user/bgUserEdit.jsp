@@ -33,39 +33,43 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">角色id:</td>
-								<td><param:select type="bg_roleEffective" name="roleId" id="roleId" value="${bgUser.roleId}" placeholder="这里请选择 角色id" title="角色id" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">角色:</td>
+								<td><param:select type="bg_roleEffective" name="roleId" id="roleId" value="${bgUser.roleId}" placeholder="这里请选择 角色" title="角色" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">后台用户代号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">后台用户代号:</td>
 								<td><input type="text" name="userCode" id="userCode" value="${bgUser.userCode}" maxlength="100" placeholder="这里输入 后台用户代号" title="后台用户代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">密码:</td>
-								<td><input type="text" name="password" id="password" value="${bgUser.password}" maxlength="255" placeholder="这里输入 密码" title="密码" style="width:98%;" /></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">密码:</td>
+								<td><input type="password" name="password" id="password" maxlength="255" placeholder="这里输入 密码" title="密码" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">后台用户名称:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">确认密码:</td>
+								<td><input type="password" id="chkpwd" maxlength="255" placeholder="这里再次输入 密码" title="确认密码" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">后台用户名称:</td>
 								<td><input type="text" name="userName" id="userName" value="${bgUser.userName}" maxlength="100" placeholder="这里输入 后台用户名称" title="后台用户名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">后台用户类型:</td>
-								<td><param:select type="" name="userType" id="userType" value="${bgUser.userType}" placeholder="这里请选择 后台用户类型" title="后台用户类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">后台用户类型:</td>
+								<td><param:select type="bg_userType" name="userType" id="userType" value="${bgUser.userType}" placeholder="这里请选择 后台用户类型" title="后台用户类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">电子邮箱:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">电子邮箱:</td>
 								<td><input type="text" name="email" id="email" value="${bgUser.email}" maxlength="100" placeholder="这里输入 电子邮箱" title="电子邮箱" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">手机号码:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">手机号码:</td>
 								<td><input type="text" name="phone" id="phone" value="${bgUser.phone}" maxlength="100" placeholder="这里输入 手机号码" title="手机号码" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">备注信息:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">备注信息:</td>
 								<td><input type="text" name="remarks" id="remarks" value="${bgUser.remarks}" maxlength="255" placeholder="这里输入 备注信息" title="备注信息" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="text" name="orderNum" id="orderNum" value="${bgUser.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>
@@ -129,10 +133,12 @@
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
+			var emailExp = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
+			var phoneExp = /^1[34578]\d{9}$/;
 			if($("#roleId").val()==""){
 				$("#roleId").next().tips({
 					side:3,
-		            msg:'请选择 角色id',
+		            msg:'请选择 角色',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -148,15 +154,25 @@
 				$("#userCode").focus();
 			return false;
 			}
-			if($("#password").val()==""){
+			if($("#userId").val()=="" && $("#password").val()==""){
 				$("#password").tips({
 					side:3,
-		            msg:'请输入密码',
+		            msg:'输入密码',
 		            bg:'#AE81FF',
 		            time:2
 		        });
 				$("#password").focus();
-			return false;
+				return false;
+			}
+			if($("#password").val()!=$("#chkpwd").val()){
+				$("#chkpwd").tips({
+					side:3,
+		            msg:'两次密码不相同',
+		            bg:'#AE81FF',
+		            time:3
+		        });
+				$("#chkpwd").focus();
+				return false;
 			}
 			if($("#userName").val()==""){
 				$("#userName").tips({
@@ -177,34 +193,24 @@
 		        });
 			return false;
 			}
-			if($("#email").val()==""){
+			if(!emailExp.test($("#email").val())){
 				$("#email").tips({
 					side:3,
-		            msg:'请输入电子邮箱',
+		            msg:'请输入正确的电子邮箱',
 		            bg:'#AE81FF',
 		            time:2
 		        });
 				$("#email").focus();
 			return false;
 			}
-			if($("#phone").val()==""){
+			if(!phoneExp.test($("#phone").val())){
 				$("#phone").tips({
 					side:3,
-		            msg:'请输入手机号码',
+		            msg:'请输入正确的手机号码',
 		            bg:'#AE81FF',
 		            time:2
 		        });
 				$("#phone").focus();
-			return false;
-			}
-			if($("#remarks").val()==""){
-				$("#remarks").tips({
-					side:3,
-		            msg:'请输入备注信息',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#remarks").focus();
 			return false;
 			}
 			if(!intExp.test($("#orderNum").val())){

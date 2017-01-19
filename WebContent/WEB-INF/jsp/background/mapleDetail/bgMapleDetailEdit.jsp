@@ -33,39 +33,39 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
-								<td align="center"><param:display type="bg_mapleDetailType" name="mapleId" id="mapleId" value="${bgMapleDetail.mapleId }" hidden="true"/></td>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情代号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td align="center"><param:display type="bg_mapleEffective" name="mapleId" id="mapleId" value="${bgMapleDetail.mapleId }" hidden="true"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">代码生成详情代号:</td>
 								<td><input type="text" name="mapleDetailCode" id="mapleDetailCode" value="${bgMapleDetail.mapleDetailCode}" maxlength="100" placeholder="这里输入 代码生成详情代号" title="代码生成详情代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情名称:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">代码生成详情名称:</td>
 								<td><input type="text" name="mapleDetailName" id="mapleDetailName" value="${bgMapleDetail.mapleDetailName}" maxlength="100" placeholder="这里输入 代码生成详情名称" title="代码生成详情名称" style="width:98%;" /></td>
-								<td style="width:75px;text-align: right;padding-top: 13px;">代码生成详情类型:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">代码生成详情类型:</td>
 								<td><param:select type="bg_mapleDetailType" name="mapleDetailType" id="mapleDetailType" value="${bgMapleDetail.mapleDetailType}" placeholder="这里请选择 代码生成详情类型" title="代码生成详情类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">总长度:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">总长度:</td>
 								<td><input type="number" name="totalLength" id="totalLength" value="${bgMapleDetail.totalLength}" placeholder="这里输入 总长度" title="总长度" style="width:98%;"/></td>
-								<td style="width:75px;text-align: right;padding-top: 13px;">小数长度:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">小数长度:</td>
 								<td><input type="number" name="decimalLength" id="decimalLength" value="${bgMapleDetail.decimalLength}" placeholder="这里输入 小数长度" title="小数长度" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">类型代号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">类型代号:</td>
 								<td><input type="text" name="typeCode" id="typeCode" value="${bgMapleDetail.typeCode}" maxlength="100" placeholder="这里输入 类型代号" title="类型代号" style="width:98%;" /></td>
-								<td style="width:75px;text-align: right;padding-top: 13px;">是否主键:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">是否主键:</td>
 								<td><param:select type="com_sf" name="isKey" id="isKey" value="${bgMapleDetail.isKey}" placeholder="这里输入 是否主键" title="是否主键" cssClass="chosen-select form-control" styleClass="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">是否录入:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">是否录入:</td>
 								<td><param:select type="com_sf" name="isEdit" id="isEdit" value="${bgMapleDetail.isEdit}" placeholder="这里输入 是否录入" title="是否录入" cssClass="chosen-select form-control" styleClass="width:98%;" /></td>
-								<td style="width:75px;text-align: right;padding-top: 13px;">是否null:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">是否null:</td>
 								<td><param:select type="com_sf" name="isNull" id="isNull" value="${bgMapleDetail.isNull}" placeholder="这里输入 是否null" title="是否null" cssClass="chosen-select form-control" styleClass="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">默认值:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">默认值:</td>
 								<td><input type="text" name="defaultValue" id="defaultValue" value="${bgMapleDetail.defaultValue}" maxlength="100" placeholder="这里输入 默认值" title="默认值" style="width:98%;" /></td>
-								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="text" name="orderNum" id="orderNum" value="${bgMapleDetail.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>

@@ -1,7 +1,5 @@
 package com.jx.background.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,32 +8,39 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
+import com.jx.background.util.BgSessionUtil;
+import com.jx.background.util.JudgeRightsUtil;
+import com.jx.common.config.BaseController;
+import com.jx.common.config.BaseEntity.ValidationAdd;
+import com.jx.common.config.BaseEntity.ValidationEdit;
+import com.jx.common.config.Const;
+import com.jx.common.config.PageData;
+import com.jx.common.config.ResultInfo;
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRole;
-import com.jx.background.entity.BgUser;
+import com.jx.common.util.AppUtil;
+import com.jx.common.util.MapleFileUtil;
+import com.jx.common.util.MapleStringUtil;
+import com.jx.common.util.MapleUtil;
+import com.jx.common.util.ObjectExcelView;
+import com.jx.common.util.PathUtil;
+
+import net.sf.json.JSONArray;
+
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
-import com.jx.background.util.BgSessionUtil;
-import com.jx.common.config.BaseController;
-import com.jx.common.config.PageData;
-import com.jx.common.util.AppUtil;
-import com.jx.common.util.MapleStringUtil;
-import com.jx.common.util.ObjectExcelView;
-import com.jx.common.util.RightsHelper;
-
-import net.sf.json.JSONArray;
 
 /** 
  * 类名称：BgRoleController
@@ -45,6 +50,11 @@ import net.sf.json.JSONArray;
 @Controller
 @RequestMapping(value="/background/role")
 public class BgRoleController extends BaseController {
+	
+	/**
+	 * 后台 菜单代号(权限用)
+	 */
+	public static final String RIGHTS_BG_MENUCODE_STR = "background_role";
 	
 	@Resource(name="bgRoleService")
 	private BgRoleService bgRoleService;
@@ -58,27 +68,27 @@ public class BgRoleController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value="/list")
-	public ModelAndView list(BgPage bgPage){
-		logBefore(logger, "列表bgRole");
+	public ModelAndView list(BgPage bgPage) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		try{
-			pd = this.getPageData();
-			String roleId = (null == pd.get("roleId") || "".equals(pd.getString("roleId")))?"1":pd.getString("roleId");
-			pd.put("roleId", roleId);
-			bgPage.setPd(pd);
-			List<PageData> subBgRoleList = bgRoleService.listPage(bgPage);
-			List<BgRole> topBgRoleList = bgRoleService.listSubBgRoleByParentId(0);
-			
-			mv.addObject("subBgRoleList", subBgRoleList);
-			mv.addObject("topBgRoleList", topBgRoleList);
-			mv.addObject("pd", pd);
-			mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());	//按钮权限
-			
-			mv.setViewName("background/role/bgRoleList");
-		} catch(Exception e){
-			logger.error(e.toString(), e);
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		
+		String keywords = pd.getString("keywords");								//关键词检索条件
+		if(MapleStringUtil.notEmpty(keywords)){
+			pd.put("keywords", keywords.trim());
 		}
+			
+		bgPage.setPd(pd);
+		List<PageData>	bgRoleList = bgRoleService.listPage(bgPage);	//列出bgRole列表
+		
+		mv.addObject("bgRoleList", bgRoleList);
+		mv.addObject("pd", pd);
+		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
+		resultInfo.setResultCode("success");
+		mv.setViewName("background/role/bgRoleList");
+
+		mv.addObject(resultInfo);
 		return mv;
 	}
 	
@@ -86,19 +96,24 @@ public class BgRoleController extends BaseController {
 	 * 去新增页面
 	 */
 	@RequestMapping(value="/toAdd")
-	public ModelAndView toAdd(){
-		logBefore(logger, "去新增bgRole页面");
+	public ModelAndView toAdd() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		try {
-			mv.addObject("msg", "add");
-			mv.addObject("pd", pd);
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		
+		BgRole bgRole = new BgRole();
+		bgRole.setRoleCode("");
+		bgRole.setRoleName("");
+		bgRole.setRoleType("01");
+		bgRole.setOrderNum(String.valueOf(new Date().getTime()));
+		
+		mv.addObject(bgRole);
+		mv.addObject("methodPath", "add");
+		resultInfo.setResultCode("success");
+		mv.setViewName("background/role/bgRoleEdit");
 			
-			mv.setViewName("background/role/bgRoleEdit");
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
-		}
+		mv.addObject(resultInfo);					
 		return mv;
 	}	
 	
@@ -106,34 +121,28 @@ public class BgRoleController extends BaseController {
 	 * 新增
 	 */
 	@RequestMapping(value="/add")
-	public ModelAndView add() throws Exception{
-		logBefore(logger, "新增bgRole");
+	public ModelAndView add(@Validated(ValidationAdd.class) BgRole bgRole, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		try{
-			int parentId = Integer.parseInt(pd.getString("parentId"));
-			String roleName = pd.getString("roleName");
-			BgRole bgRole = new BgRole();
-			
-			bgRole.setParentId(parentId);
-			bgRole.setRoleName(roleName);
-			bgRole.setRoleRights("0");
-			bgRole.setAddRights("0");
-			bgRole.setEditRights("0");
-			bgRole.setDelRights("0");
-			bgRole.setSeleRights("0");
-			bgRole.setModifyTime(new Date());
-			
-			bgRole.setParentId(parentId);
-			bgRoleService.add(bgRole);
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-			mv.addObject("msg","failed");
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+
+		if(result.hasErrors()) {
+			resultInfo.setResultEntity("bgRole");
+			mv.addObject(resultInfo);				
+			return mv; 
 		}
-		mv.addObject("msg","success");
 		
-		mv.setViewName("background/bgSaveResult");
+		List<BgRole> bgRoleList = bgRoleService.otherHaveCode("", bgRole.getRoleCode());
+		if(MapleUtil.notEmptyList(bgRoleList)){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+			
+		bgRoleService.add(bgRole);
+		resultInfo.setResultCode("success");
+
+		mv.addObject(resultInfo);
 		return mv;
 	}
 	
@@ -141,20 +150,23 @@ public class BgRoleController extends BaseController {
 	 * 去修改页面
 	 */
 	@RequestMapping(value="/toEdit")
-	public ModelAndView toEdit(){
-		logBefore(logger, "去修改bgRole页面");
+	public ModelAndView toEdit(@RequestParam String roleId) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		try {
-			pd = bgRoleService.findPdByPd(pd);	//根据ID读取
-			mv.addObject("msg", "edit");
-			mv.addObject("pd", pd);
-			
-			mv.setViewName("background/role/bgRoleEdit");
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
-		}						
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		
+		BgRole bgRole = bgRoleService.findById(roleId);	//根据ID读取
+		if(bgRole == null){
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		mv.addObject("methodPath", "edit");
+		mv.addObject(bgRole);
+		resultInfo.setResultCode("success");
+		mv.setViewName("background/role/bgRoleEdit");
+		
+		mv.addObject(resultInfo);						
 		return mv;
 	}	
 	
@@ -162,26 +174,46 @@ public class BgRoleController extends BaseController {
 	 * 修改
 	 */
 	@RequestMapping(value="/edit")
-	public ModelAndView edit() throws Exception{
-		logBefore(logger, "修改bgRole");
+	public ModelAndView edit(@Validated(ValidationEdit.class) BgRole bgRole, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		try {
-			String roleName = pd.getString("roleName");
-			pd = bgRoleService.findPdByPd(pd);	//根据ID读取
-			pd.put("roleName", roleName);
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
 			
-			bgRoleService.editByPd(pd);
-			
-			mv.setViewName("background/role/bgRoleEdit");
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
+		if(result.hasErrors()) {
+			resultInfo.setResultEntity("bgRole");
+			mv.addObject(resultInfo);				
+			return mv; 
 		}
 		
-		mv.addObject("msg","success");
-		mv.setViewName("background/bgSaveResult");
+		List<BgRole> bgRoleList = bgRoleService.otherHaveCode(bgRole.getRoleId(), bgRole.getRoleCode());	
+		if(MapleUtil.notEmptyList(bgRoleList)){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+		
+		bgRoleService.edit(bgRole);
+		resultInfo.setResultCode("success");
+		
+		mv.addObject(resultInfo);
 		return mv;
+	}
+	
+	/**
+	 * 判断是否存在dictCode
+	 */
+	@RequestMapping(value="/otherNotCode")
+	@ResponseBody
+	public Object otherNotCode(@RequestParam String roleId, @RequestParam String roleCode) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+
+		List<BgRole> bgRoleList = bgRoleService.otherHaveCode(roleId, roleCode);	
+		if(MapleUtil.emptyList(bgRoleList)){
+			resultInfo.setResultCode("success");
+		}
+
+		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
 	/**
@@ -189,156 +221,216 @@ public class BgRoleController extends BaseController {
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(@RequestParam String roleId)throws Exception{
-		logBefore(logger, "删除bgRole");
-		PageData pd = new PageData();
-		pd = this.getPageData();
+	public Object toDelete(@RequestParam String roleId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
 		
-		Map<String,String> map = new HashMap<String,String>();
-		String errInfo = "";
-		
-		try{
-			int parentId = Integer.parseInt(roleId);
-			List<BgRole> subBgRoleList = bgRoleService.listSubBgRoleByParentId(parentId);
-			if(subBgRoleList.size()>0){
-				errInfo = "false";											//下级有数据时，删除失败
-			}else{
-				List<BgUser> bgUserList = bgUserService.listAllByRoleId(parentId);
-				if(bgUserList.size()>0){
-					errInfo = "false2";
-				}else{
-					bgRoleService.deleteById(parentId);	//执行删除
-					errInfo = "success";
-				}
-			}
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		map.put("result", errInfo);
-		return AppUtil.returnObject(pd, map);
+		bgRoleService.deleteById(roleId);	//根据ID删除
+		resultInfo.setResultCode("success");
+
+		return AppUtil.returnResult(pd, resultInfo);
 	}
-	
 	
 	/**
 	 * 批量删除
 	 */
-	@RequestMapping(value="/batchDelete")
+	@RequestMapping(value="/toBatchDelete")
 	@ResponseBody
-	public Object batchDelete() {
-		logBefore(logger, "批量删除bgRole");
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
-		PageData pd = new PageData();		
-		Map<String,Object> map = new HashMap<String,Object>();
-		try {
-			pd = this.getPageData();
-			List<PageData> pdList = new ArrayList<PageData>();
-			String roleIds = pd.getString("roleIds");
-			if(null != roleIds && !"".equals(roleIds)){
-				bgRoleService.batchDeleteByIds(roleIds);
-				pd.put("msg", "ok");
-			}else{
-				pd.put("msg", "no");
-			}
-			pdList.add(pd);
-			map.put("list", pdList);
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
-		} finally {
-			logAfter(logger);
+	public Object toBatchDelete() throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+
+		String ids = pd.getString("ids");
+		if(MapleStringUtil.isEmpty(ids)){
+			return AppUtil.returnResult(pd, resultInfo);
 		}
-		return AppUtil.returnObject(pd, map);
+		bgRoleService.batchDeleteByIds(ids.split(","));	//根据ID删除
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
-	/*
+	/**
 	 * 导出到excel
 	 * @return
 	 */
-	@RequestMapping(value="/excel")
-	public ModelAndView exportExcel(){
-		logBefore(logger, "导出bgRole到excel");
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
-		ModelAndView mv = new ModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		try{
-			Map<String,Object> dataMap = new HashMap<String,Object>();
-			List<String> titles = new ArrayList<String>();
-			titles.add("后台角色表 主键id");   //1
-			titles.add("角色名称");	//0+2
-			titles.add("角色权限");	//1+2
-			titles.add("上级id");	//2+2
-			titles.add("新增权限");	//3+2
-			titles.add("删除权限");	//4+2
-			titles.add("修改权限");	//5+2
-			titles.add("查看权限");	//6+2
-			titles.add("修改时间");	//7+2
-			dataMap.put("titles", titles);
-			List<BgRole> varOList = bgRoleService.listAllByPd(pd);
-			List<PageData> varList = new ArrayList<PageData>();
-			for(int i=0;i<varOList.size();i++){
-				PageData vpd = new PageData();
-				
-				vpd.put("var1",varOList.get(i).getRoleId());
-				vpd.put("var2", varOList.get(i).getRoleName());	//2
-				vpd.put("var3", varOList.get(i).getRoleRights());	//3
-				vpd.put("var4", varOList.get(i).getParentId());	//4
-				vpd.put("var5", varOList.get(i).getAddRights());	//5
-				vpd.put("var6", varOList.get(i).getDelRights());	//6
-				vpd.put("var7", varOList.get(i).getEditRights());	//7
-				vpd.put("var8", varOList.get(i).getSeleRights());	//8
-				vpd.put("var9", varOList.get(i).getModifyTime());	//9
-				varList.add(vpd);
-			}
-			dataMap.put("varList", varList);
-			ObjectExcelView erv = new ObjectExcelView();
-			mv = new ModelAndView(erv,dataMap);
-		} catch(Exception e){
-			logger.error(e.toString(), e);
+	@RequestMapping(value="/toExportExcel")
+	public ModelAndView toExportExcel() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+
+		Map<String,Object> dataMap = new HashMap<String,Object>();
+		List<String> titles = new ArrayList<String>();
+		titles.add("后台角色 主键id");		//0
+		titles.add("后台角色代号");	//1
+		titles.add("后台角色名称");	//2
+		titles.add("后台角色类型");	//3
+		titles.add("后台角色状态");	//4
+		titles.add("角色权限");	//5
+		titles.add("新增权限");	//6
+		titles.add("删除权限");	//7
+		titles.add("修改权限");	//8
+		titles.add("查询权限");	//9
+		titles.add("排序编号");	//10
+		titles.add("有效标志");	//11
+		titles.add("创建人员id");	//12
+		titles.add("创建时间");	//13
+		titles.add("修改人员id");	//14
+		titles.add("修改时间");	//15
+		dataMap.put("titles", titles);
+		List<BgRole> varOList = bgRoleService.listByPd(pd);
+		List<PageData> varList = new ArrayList<PageData>();
+		for(int i=0;i<varOList.size();i++){
+			PageData vpd = new PageData();	
+			vpd.put("var0",varOList.get(i).getRoleId());			//0
+			vpd.put("var1", varOList.get(i).getRoleCode());	//1
+			vpd.put("var2", varOList.get(i).getRoleName());	//2
+			vpd.put("var3", varOList.get(i).getRoleType());	//3
+			vpd.put("var4", varOList.get(i).getRoleStatus());	//4
+			vpd.put("var5", varOList.get(i).getRoleRights());	//5
+			vpd.put("var6", varOList.get(i).getAddRights());	//6
+			vpd.put("var7", varOList.get(i).getDelRights());	//7
+			vpd.put("var8", varOList.get(i).getEditRights());	//8
+			vpd.put("var9", varOList.get(i).getSeleRights());	//9
+			vpd.put("var10", varOList.get(i).getOrderNum());		//10
+			vpd.put("var11", varOList.get(i).getEffective());	//11
+			vpd.put("var12", varOList.get(i).getCreateUserId());	//12
+			vpd.put("var13", varOList.get(i).getCreateTime());	//13
+			vpd.put("var14", varOList.get(i).getModifyUserId());//14
+			vpd.put("var15", varOList.get(i).getModifyTime());	//15
+			varList.add(vpd);
 		}
+		dataMap.put("varList", varList);
+		ObjectExcelView erv = new ObjectExcelView();
+		mv = new ModelAndView(erv,dataMap);
+		resultInfo.setResultCode("success");
+
+		mv.addObject(resultInfo);
 		return mv;
 	}
 	
-	@InitBinder
-	public void initBinder(WebDataBinder binder){
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
+	/**打开上传EXCEL页面
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/toUploadExcel")
+	public ModelAndView toUploadExcel()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		
+		mv.addObject("controllerPath", "background_role");
+		mv.setViewName("background/bgUploadExcel");
+
+		mv.addObject(resultInfo);					
+		return mv;
 	}
 	
+	/**下载模版
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/downExcelModel")
+	public ModelAndView downExcelModel()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+
+		Map<String,Object> dataMap = new HashMap<String,Object>();
+		List<String> titles = new ArrayList<String>();
+		titles.add("后台角色代号");	//0
+		titles.add("后台角色名称");	//1
+		titles.add("后台角色类型");	//2
+		dataMap.put("titles", titles);
+		ObjectExcelView erv = new ObjectExcelView();
+		mv = new ModelAndView(erv,dataMap);
+		resultInfo.setResultCode("success");
+
+		mv.addObject(resultInfo);
+		return mv;
+	}
+		
 	
+	/**从EXCEL导入到数据库
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/uploadExcel")
+	public ModelAndView uploadExcel(
+			@RequestParam(value="excel",required=false) MultipartFile file
+			) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+
+		if (null != file && !file.isEmpty()) {
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+		String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+		String fileName =  MapleFileUtil.fileUp(file, filePath, "roleexcel");		//执行上传
+		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+		/*存入数据库操作======================================*/
+		
+		BgRole bgRole = new BgRole();
+				
+		/**
+		 * var0 :后台角色代号;	//0
+		 * var1 :后台角色名称;	//1
+		 * var2 :后台角色类型;	//2
+		 */
+		for(int i=0;i<listPd.size();i++){	
+			bgRole.setRoleId(this.get32UUID());
+			bgRole.setRoleCode(listPd.get(i).getString("var0"));
+			bgRole.setRoleName(listPd.get(i).getString("var1"));
+			bgRole.setRoleType(listPd.get(i).getString("var2"));
+			bgRoleService.add(bgRole);
+		}
+		/*存入数据库操作======================================*/
+		resultInfo.setResultCode("success");
+		mv.setViewName("background/bgResult");
 	
+		mv.addObject(resultInfo);
+		return mv;
+	}
 	
+		
 	/**
 	 * 显示菜单列表ztree(菜单授权菜单)
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value="/toChangeRoleRights")
-	public ModelAndView toChangeRoleRights(@RequestParam String roleId,@RequestParam String msg,Model model)throws Exception{
+	public ModelAndView toChangeRoleRights(@RequestParam String roleId,@RequestParam String rightsMsg,Model model)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		try{
-			BgRole bgRole = bgRoleService.findById(Integer.parseInt(roleId));			//根据角色ID获取角色对象
-			String roleRights ="";														//取出本角色菜单权限
-			if("roleRights".equals(msg)){
-				roleRights = bgRole.getRoleRights();
-			}else if("addRights".equals(msg)){
-				roleRights = bgRole.getAddRights();
-			}else if("delRights".equals(msg)){
-				roleRights = bgRole.getDelRights();
-			}else if("editRights".equals(msg)){
-				roleRights = bgRole.getEditRights();
-			}else if("seleRights".equals(msg)){
-				roleRights = bgRole.getSeleRights();
+			BgRole bgRole = bgRoleService.findById(roleId);								//根据角色ID获取角色对象
+			String rights = "0";
+			if("role".equals(rightsMsg)){
+				rights = bgRole.getRoleRights();
+			}else if("add".equals(rightsMsg)){
+				rights = bgRole.getAddRights();
+			}else if("del".equals(rightsMsg)){
+				rights = bgRole.getDelRights();
+			}else if("edit".equals(rightsMsg)){
+				rights = bgRole.getEditRights();
+			}else if("sele".equals(rightsMsg)){
+				rights = bgRole.getSeleRights();
 			}
-			List<BgMenu> bgMenuList = bgMenuService.listInRank("0");			//获取所有菜单
-			bgMenuList = this.bgMenuListTestRights(bgMenuList, roleRights);				//根据角色权限处理菜单权限状态(递归处理)
+			List<BgMenu> bgMenuList = bgMenuService.listInRank("0");					//获取所有菜单
+			bgMenuList = JudgeRightsUtil.bgMenuListTestRights(bgMenuList, rights);					//根据角色权限处理菜单权限状态(递归处理)
 			JSONArray arr = JSONArray.fromObject(bgMenuList);
 			String json = arr.toString();
-			json = json.replaceAll("menuId", "id").replaceAll("parentId", "pId")
+			json = json.replaceAll("menuTag", "id").replaceAll("parentId", "pId")
 					.replaceAll("menuName", "name").replaceAll("subBgMenuList", "nodes")
-					.replaceAll("hasRight", "checked").replaceAll("menuUrl", "url");
+					.replaceAll("hasMenu", "checked");
 			model.addAttribute("zTreeNodes", json);
 			mv.addObject("roleId",roleId);
-			mv.addObject("msg", msg);
+			mv.addObject("rightsMsg", rightsMsg);
 			mv.setViewName("background/role/bgRoleRights");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -359,30 +451,30 @@ public class BgRoleController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		String roleId = pd.getString("roleId");
-		String menuIds = pd.getString("menuIds");
-		String msg = pd.getString("msg");
+		String tags = pd.getString("tags");
+		String rightsMsg = pd.getString("rightsMsg");
 		
 		Map<String,String> map = new HashMap<String,String>();
 		String errInfo = "";
 		
 		try{
 			BgRole bgRole = new BgRole();
-			bgRole.setRoleId(Integer.parseInt(roleId));
+			bgRole.setRoleId(roleId);
 			bgRole.setModifyTime(new Date());
 			String rights = "0";
-			if(null != menuIds && !"".equals(menuIds.trim())){
-				rights = RightsHelper.sumRights(MapleStringUtil.str2StrArray(menuIds)).toString();//用菜单ID做权处理
+			if(null != tags && !"".equals(tags.trim())){
+				rights = JudgeRightsUtil.sumRights(MapleStringUtil.str2StrArray(tags)).toString();//用菜单ID做权处理
 			}
 			
-			if("roleRights".equals(msg)){
+			if("role".equals(rightsMsg)){
 				bgRole.setRoleRights(rights);
-			}else if("addRights".equals(msg)){
+			}else if("add".equals(rightsMsg)){
 				bgRole.setAddRights(rights);
-			}else if("delRights".equals(msg)){
+			}else if("del".equals(rightsMsg)){
 				bgRole.setDelRights(rights);
-			}else if("editRights".equals(msg)){
+			}else if("edit".equals(rightsMsg)){
 				bgRole.setEditRights(rights);
-			}else if("seleRights".equals(msg)){
+			}else if("sele".equals(rightsMsg)){
 				bgRole.setSeleRights(rights);
 			}
 			
@@ -396,20 +488,5 @@ public class BgRoleController extends BaseController {
 	}
 	
 	
-	/**根据角色权限获取本权限的菜单列表(递归处理)
-	 * @param menuList：传入的总菜单
-	 * @param roleRights：加密的权限字符串
-	 * @return
-	 */
-	public List<BgMenu> bgMenuListTestRights(List<BgMenu> bgMenuList,String roleRights){
-		for(int i=0;i<bgMenuList.size();i++){
-			bgMenuList.get(i).setHasMenu(RightsHelper.testRights(roleRights, bgMenuList.get(i).getMenuId()));
-			if(bgMenuList.get(i).isHasMenu() && "01".equals(bgMenuList.get(i).getMenuStatus())){				//判断是否有此菜单权限并且是否隐藏
-				this.bgMenuListTestRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);				//是：继续排查其子菜单
-			}
-		}
-		return bgMenuList;
-	}
-	
-	
+
 }

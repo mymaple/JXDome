@@ -12,6 +12,7 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgUser;
 import com.jx.background.service.BgUserService;
@@ -28,19 +29,12 @@ public class BgUserServiceImpl implements BgUserService{
 	
 	/**
 	 * 通过loginName获取(类)数据
-	 * @param String loginName
+	 * @param PageData pd
 	 * @return BgUser
 	 * @throws Exception
 	 */
-	public BgUser findByLoginName(String loginName) throws Exception {
-		return (BgUser) dao.findForObject("BgUserMapper.findByLoginName", loginName);
-	}
-	
-	/**
-	 * 更新用户IP
-	 */
-	public void changeLoginInfo(BgUser bgUser) throws Exception {
-		dao.edit("BgUserMapper.changeLoginInfo", bgUser);
+	public BgUser findByLoginName(PageData pd) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.otherHaveLoginName", pd);
 	}
 	
 	/**
@@ -51,20 +45,14 @@ public class BgUserServiceImpl implements BgUserService{
 	}
 	
 	/**
-	 * 通过userId获取用户角色
-	 */
-	public BgUser getUserRoleById(int userId) throws Exception {
-		return (BgUser) dao.findForObject("BgUserMapper.getUserRoleById", userId);
-	}
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	public List<BgUser> listAllByRoleId(int roleId) throws Exception {
-		return (List<BgUser>) dao.findForList("BgUserMapper.listAllByRoleId", null);
+	public List<BgUser> listByRoleId(String roleId) throws Exception {
+		BgUser bgUser = new BgUser();
+		bgUser.setRoleId(roleId);
+		return this.otherHave(bgUser);
 	}
 	
 	/****************************custom * end  ***********************************/
@@ -78,7 +66,7 @@ public class BgUserServiceImpl implements BgUserService{
 	 */
 	public void add(BgUser bgUser) throws Exception {
 		
-		bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserCode(), bgUser.getPassword(),2).toString());
+		bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserCode(), bgUser.getPassword(), 2).toString());
 		
 		Date nowTime = new Date();
 		bgUser.setUserId(UuidUtil.get32UUID());
@@ -106,6 +94,10 @@ public class BgUserServiceImpl implements BgUserService{
 		if(bgUser.getModifyTime().compareTo(bgUser.getLastModifyTime()) == 0){
 			bgUser.setModifyTime(MapleDateUtil.getNextSecond(bgUser.getModifyTime()));
 		}
+		
+		if(MapleStringUtil.notEmpty(bgUser.getPassword())){
+			bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserCode(), bgUser.getPassword(), 2).toString());
+		}
 	
 		dao.edit("BgUserMapper.edit", bgUser);
 	}
@@ -123,6 +115,11 @@ public class BgUserServiceImpl implements BgUserService{
 		if(bgUser.getModifyTime().compareTo(bgUser.getLastModifyTime()) == 0){
 			bgUser.setModifyTime(MapleDateUtil.getNextSecond(bgUser.getModifyTime()));
 		}
+		
+		if(MapleStringUtil.notEmpty(bgUser.getPassword())){
+			bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserCode(), bgUser.getPassword(), 2).toString());
+		}
+		
 		dao.edit("BgUserMapper.change", bgUser);
 	}
 

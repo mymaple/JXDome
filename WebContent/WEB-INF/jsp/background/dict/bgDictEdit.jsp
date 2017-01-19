@@ -33,27 +33,27 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">上级名称:</td>
-								<td align="center"><param:display type="bg_mapleDetailType" name="parentId" id="parentId" value="${comDict.parentId }" hidden="true"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td align="center"><param:display type="com_dictEffective" name="parentId" id="parentId" value="${comDict.parentId }" hidden="true"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典代号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">数据字典代号:</td>
 								<td><input type="text" name="dictCode" id="dictCode" value="${comDict.dictCode}" maxlength="100" placeholder="这里输入 数据字典代号" title="数据字典代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典名称:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">数据字典名称:</td>
 								<td><input type="text" name="dictName" id="dictName" value="${comDict.dictName}" maxlength="100" placeholder="这里输入 数据字典名称" title="数据字典名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典类型:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">数据字典类型:</td>
 								<td><param:select type="bg_dictType" name="dictType" id="dictType" value="${comDict.dictType}" placeholder="这里请选择 数据字典类型" title="数据字典类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">数据字典值:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">数据字典值:</td>
 								<td><input type="text" name="dictValue" id="dictValue" value="${comDict.dictValue}" maxlength="100" placeholder="这里输入 数据字典值" title="数据字典值" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">排序编号:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="text" name="orderNum" id="orderNum" value="${comDict.orderNum}" maxlength="20" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>

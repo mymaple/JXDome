@@ -3,180 +3,228 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgRoleMapper">
 
-	<sql id="roleAddColumns">roleName,roleRights,parentId,addRights,delRights,editRights,seleRights,modifyTime</sql>
-	<sql id="roleColumns">roleId,roleName,roleRights,parentId,addRights,delRights,editRights,seleRights,modifyTime</sql>
+	<sql id="roleColumns">roleId,roleCode,roleName,roleType,roleStatus,roleRights,addRights,delRights,editRights,seleRights,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="roleTable">bg_role_info</sql>
 	
-	<resultMap type="bgRole" id="roleResultMap">
+	<resultMap type="bgRole" id="bgRoleResultMap">
 		<id column="roleId" property="roleId"/>
+		<result column="roleCode" property="roleCode"/>
 		<result column="roleName" property="roleName"/>
+		<result column="roleType" property="roleType"/>
+		<result column="roleStatus" property="roleStatus"/>
 		<result column="roleRights" property="roleRights"/>
-		<result column="parentId" property="parentId"/>
 		<result column="addRights" property="addRights"/>
 		<result column="delRights" property="delRights"/>
 		<result column="editRights" property="editRights"/>
 		<result column="seleRights" property="seleRights"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
 	</resultMap>
 	
 	
 	<!-- ****************************custom * start*********************************** -->
 	
-	<!-- 修改 -->
-	<update id="change" parameterType="bgRole">
-		update  bgRole
-			set 
-				modifyTime = #{modifyTime}
-				<if test="roleName != null and roleName != ''">
-				,roleName = #{roleName}
-				</if>
-				<if test="roleRights != null and roleRights != ''">
-				,roleRights = #{roleRights}
-				</if>
-				<if test="addRights != null and addRights != ''">
-				,addRights = #{addRights}
-				</if>
-				<if test="delRights != null and delRights != ''">
-				,delRights = #{delRights}
-				</if>
-				<if test="editRights != null and editRights != ''">
-				,editRights = #{editRights}
-				</if>
-				<if test="seleRights != null and seleRights != ''">
-				,seleRights = #{seleRights}
-				</if>
-			where 
-				roleId = #{roleId}
-	</update>
-	
-	<!-- 根据parentId 获取所有直接子菜单 -->
-	<select id="listSubBgRoleByParentId" parameterType="int" resultMap="roleResultMap">
-		select  * from bgRole
-		where parentId = #{parentId} order by roleId 
-	</select>
-	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="roleId" parameterType="bgRole">
-		insert into bgRole ( 
-			<include refid="roleAddColumns"/>
+	<insert id="add" parameterType="bgRole">
+		insert into 
+	<include refid="roleTable"/>
+		( 
+	<include refid="roleColumns"/>
 		) values (
-			#{roleName},#{roleRights},#{parentId},#{addRights},#{delRights},#{editRights},#{seleRights},#{modifyTime}
-		)
-	</insert>
-	
-	<!-- 新增 -->
-	<insert id="addByPd" useGeneratedKeys="true" keyProperty="roleId" parameterType="pd">
-		insert into bgRole ( 
-			<include refid="roleAddColumns"/>
-		) values (
-			#{roleName},#{roleRights},#{parentId},#{addRights},#{delRights},#{editRights},#{seleRights},#{modifyTime}
+			#{roleId},#{roleCode},#{roleName},#{roleType},#{roleStatus},#{roleRights},#{addRights},#{delRights},#{editRights},#{seleRights},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
 	<!-- 修改 -->
 	<update id="edit" parameterType="bgRole">
-		update  bgRole
-			set 
-				roleName = #{roleName},
-				roleRights = #{roleRights},
-				parentId = #{parentId},
-				addRights = #{addRights},
-				delRights = #{delRights},
-				editRights = #{editRights},
-				seleRights = #{seleRights},
-				modifyTime = #{modifyTime}
-			where 
-				roleId = #{roleId}
-	</update>
-	
-	<!-- 修改 -->
-	<update id="editByPd" parameterType="pd">
-		update  bgRole
-			set 
-				roleName = #{roleName},
-				roleRights = #{roleRights},
-				parentId = #{parentId},
-				addRights = #{addRights},
-				delRights = #{delRights},
-				editRights = #{editRights},
-				seleRights = #{seleRights},
-				modifyTime = #{modifyTime}
-			where 
-				roleId = #{roleId}
-	</update>
-	
-	<!-- 删除 -->
-	<delete id="deleteById" parameterType="int">
-		delete from bgRole 
+		update
+	<include refid="roleTable"/>
+		set 
+			<if test="roleCode!=null and roleCode!=''">
+			roleCode = #{roleCode},
+			</if>
+			<if test="roleName!=null and roleName!=''">
+			roleName = #{roleName},
+			</if>
+			<if test="roleType!=null and roleType!=''">
+			roleType = #{roleType},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
 		where 
-			roleId = #{roleId}
-	</delete>
+			roleId = #{roleId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="bgRole">
+		update
+	<include refid="roleTable"/>
+		set 
+			<if test="roleCode!=null and roleCode!=''">
+			roleCode = #{roleCode},
+			</if>
+			<if test="roleName!=null and roleName!=''">
+			roleName = #{roleName},
+			</if>
+			<if test="roleType!=null and roleType!=''">
+			roleType = #{roleType},
+			</if>
+			<if test="roleStatus!=null and roleStatus!=''">
+			roleStatus = #{roleStatus},
+			</if>
+			<if test="roleRights!=null and roleRights!=''">
+			roleRights = #{roleRights},
+			</if>
+			<if test="addRights!=null and addRights!=''">
+			addRights = #{addRights},
+			</if>
+			<if test="delRights!=null and delRights!=''">
+			delRights = #{delRights},
+			</if>
+			<if test="editRights!=null and editRights!=''">
+			editRights = #{editRights},
+			</if>
+			<if test="seleRights!=null and seleRights!=''">
+			seleRights = #{seleRights},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			roleId = #{roleId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
 	
 	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from bgRole 
+		delete from 
+	<include refid="roleTable"/>
 		where 
-			roleId = #{roleId}
+			roleId = #{roleId} 
 	</delete>
 	
 	<!-- 批量删除 -->
 	<delete id="batchDeleteByIds" parameterType="String">
-		delete from comTable 
+		delete from 
+ <include refid="roleTable"/>
 		where 
-			tableId in (#{ids})
+			CONCAT(roleId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="bgRole">
+	<select id="findByPd" parameterType="pd" resultType="bgRole">
 		select 
-			<include refid="roleColumns"/>
+	<include refid="roleColumns"/>
 		from 
-			bgRole
+	<include refid="roleTable"/>
 		where 
-			roleId = #{roleId}
-	</select>
-	
-	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="int" resultType="pd">
-		select 
-			<include refid="roleColumns"/>
-		from 
-			bgRole
-		where 
-			roleId = #{roleId}
-	</select>
-	
-	<!-- 通过pd获取(PageData)数据  -->
-	<select id="findPdByPd" parameterType="pd" resultType="pd">
-		select 
-			<include refid="roleColumns"/>
-		from 
-			bgRole
-		where 
-			roleId = #{roleId}
+			roleId = #{roleId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAllByPd" parameterType="pd" resultMap="roleResultMap">
+	<select id="listByPd" parameterType="pd" resultMap="bgRoleResultMap">
 		select 
-			<include refid="roleColumns"/>
+	<include refid="roleColumns"/>
 		from 
-			bgRole
+	<include refid="roleTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="bgRole" resultMap="bgRoleResultMap">
+		select 
+	<include refid="roleColumns"/>
+		from 
+	<include refid="roleTable"/>
+		where 1=1
+			<if test="roleId!=null and roleId!=''">
+			 and roleId != #{roleId} 
+			</if>
+			<if test="roleCode!=null and roleCode!=''">
+			 and roleCode = #{roleCode}
+			</if>
+			<if test="roleName!=null and roleName!=''">
+			 and roleName = #{roleName}
+			</if>
+			<if test="roleType!=null and roleType!=''">
+			 and roleType = #{roleType}
+			</if>
+			<if test="roleStatus!=null and roleStatus!=''">
+			 and roleStatus = #{roleStatus}
+			</if>
+			<if test="roleRights!=null and roleRights!=''">
+			 and roleRights = #{roleRights}
+			</if>
+			<if test="addRights!=null and addRights!=''">
+			 and addRights = #{addRights}
+			</if>
+			<if test="delRights!=null and delRights!=''">
+			 and delRights = #{delRights}
+			</if>
+			<if test="editRights!=null and editRights!=''">
+			 and editRights = #{editRights}
+			</if>
+			<if test="seleRights!=null and seleRights!=''">
+			 and seleRights = #{seleRights}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listPage" parameterType="bgPage" resultType="pd">
-		select 
-			<include refid="roleColumns"/>
+			select 
+	<include refid="roleColumns"/>
 		from 
-			bgRole
-		where 1=1 
-		<if test="pd.roleId != null and pd.roleId != ''"><!-- 角色检索 -->
-			and parentId = #{pd.roleId }
+	<include refid="roleTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				roleCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				roleName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
 		</if>
+		order by (orderNum+0)
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->
