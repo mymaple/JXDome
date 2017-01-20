@@ -7,10 +7,10 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import com.jx.common.service.ComDictService;
 import com.jx.common.util.MapleStringUtil;
-import com.jx.common.util.ServletContextUtil;
+import com.jx.common.util.SpringContextUtil;
 
 public class ParameterDisplayTag extends TagSupport {
 
@@ -19,9 +19,6 @@ public class ParameterDisplayTag extends TagSupport {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
-	private ComDictService comDictService;
-	
 	private String id;
 	
 	private String name;
@@ -34,10 +31,7 @@ public class ParameterDisplayTag extends TagSupport {
 	
 	@Override
 	public int doEndTag() throws JspException {
-
-		if (comDictService == null) {
-			comDictService = (ComDictService) ServletContextUtil.getBean("comDictService");
-		}
+		ComDictService comDictService = (ComDictService) SpringContextUtil.getBean("comDictService");
 		JspWriter out = pageContext.getOut();
 		StringBuffer sb = new StringBuffer();
 		if(this.isHidden()){

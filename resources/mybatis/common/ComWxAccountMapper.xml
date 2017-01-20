@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComWxAccountMapper">
+
+	<sql id="wxAccountColumns">wxAccountId,wxAccountCode,wxAccountName,wxAccountType,wxAccountStatus,appId,appSecret,token,mchId,apiKey,accessToken,jsApiTicket,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="wxAccountTable">com_wx_account_info</sql>
+	
+	<resultMap type="comWxAccount" id="comWxAccountResultMap">
+		<id column="wxAccountId" property="wxAccountId"/>
+		<result column="wxAccountCode" property="wxAccountCode"/>
+		<result column="wxAccountName" property="wxAccountName"/>
+		<result column="wxAccountType" property="wxAccountType"/>
+		<result column="wxAccountStatus" property="wxAccountStatus"/>
+		<result column="appId" property="appId"/>
+		<result column="appSecret" property="appSecret"/>
+		<result column="token" property="token"/>
+		<result column="mchId" property="mchId"/>
+		<result column="apiKey" property="apiKey"/>
+		<result column="accessToken" property="accessToken"/>
+		<result column="jsApiTicket" property="jsApiTicket"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comWxAccount">
+		insert into 
+	<include refid="wxAccountTable"/>
+		( 
+	<include refid="wxAccountColumns"/>
+		) values (
+			#{wxAccountId},#{wxAccountCode},#{wxAccountName},#{wxAccountType},#{wxAccountStatus},#{appId},#{appSecret},#{token},#{mchId},#{apiKey},#{accessToken},#{jsApiTicket},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comWxAccount">
+		update
+	<include refid="wxAccountTable"/>
+		set 
+			<if test="wxAccountCode!=null and wxAccountCode!=''">
+			wxAccountCode = #{wxAccountCode},
+			</if>
+			<if test="wxAccountName!=null and wxAccountName!=''">
+			wxAccountName = #{wxAccountName},
+			</if>
+			<if test="wxAccountType!=null and wxAccountType!=''">
+			wxAccountType = #{wxAccountType},
+			</if>
+			<if test="appId!=null and appId!=''">
+			appId = #{appId},
+			</if>
+			<if test="appSecret!=null and appSecret!=''">
+			appSecret = #{appSecret},
+			</if>
+			<if test="token!=null and token!=''">
+			token = #{token},
+			</if>
+			<if test="mchId!=null and mchId!=''">
+			mchId = #{mchId},
+			</if>
+			<if test="apiKey!=null and apiKey!=''">
+			apiKey = #{apiKey},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			wxAccountId = #{wxAccountId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comWxAccount">
+		update
+	<include refid="wxAccountTable"/>
+		set 
+			<if test="wxAccountCode!=null and wxAccountCode!=''">
+			wxAccountCode = #{wxAccountCode},
+			</if>
+			<if test="wxAccountName!=null and wxAccountName!=''">
+			wxAccountName = #{wxAccountName},
+			</if>
+			<if test="wxAccountType!=null and wxAccountType!=''">
+			wxAccountType = #{wxAccountType},
+			</if>
+			<if test="wxAccountStatus!=null and wxAccountStatus!=''">
+			wxAccountStatus = #{wxAccountStatus},
+			</if>
+			<if test="appId!=null and appId!=''">
+			appId = #{appId},
+			</if>
+			<if test="appSecret!=null and appSecret!=''">
+			appSecret = #{appSecret},
+			</if>
+			<if test="token!=null and token!=''">
+			token = #{token},
+			</if>
+			<if test="mchId!=null and mchId!=''">
+			mchId = #{mchId},
+			</if>
+			<if test="apiKey!=null and apiKey!=''">
+			apiKey = #{apiKey},
+			</if>
+			<if test="accessToken!=null and accessToken!=''">
+			accessToken = #{accessToken},
+			</if>
+			<if test="jsApiTicket!=null and jsApiTicket!=''">
+			jsApiTicket = #{jsApiTicket},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			wxAccountId = #{wxAccountId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="wxAccountTable"/>
+		where 
+			wxAccountId = #{wxAccountId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="wxAccountTable"/>
+		where 
+			CONCAT(wxAccountId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comWxAccount">
+		select 
+	<include refid="wxAccountColumns"/>
+		from 
+	<include refid="wxAccountTable"/>
+		where 
+			wxAccountId = #{wxAccountId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comWxAccountResultMap">
+		select 
+	<include refid="wxAccountColumns"/>
+		from 
+	<include refid="wxAccountTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comWxAccount" resultMap="comWxAccountResultMap">
+		select 
+	<include refid="wxAccountColumns"/>
+		from 
+	<include refid="wxAccountTable"/>
+		where 1=1
+			<if test="wxAccountId!=null and wxAccountId!=''">
+			 and wxAccountId != #{wxAccountId} 
+			</if>
+			<if test="wxAccountCode!=null and wxAccountCode!=''">
+			 and wxAccountCode = #{wxAccountCode}
+			</if>
+			<if test="wxAccountName!=null and wxAccountName!=''">
+			 and wxAccountName = #{wxAccountName}
+			</if>
+			<if test="wxAccountType!=null and wxAccountType!=''">
+			 and wxAccountType = #{wxAccountType}
+			</if>
+			<if test="wxAccountStatus!=null and wxAccountStatus!=''">
+			 and wxAccountStatus = #{wxAccountStatus}
+			</if>
+			<if test="appId!=null and appId!=''">
+			 and appId = #{appId}
+			</if>
+			<if test="appSecret!=null and appSecret!=''">
+			 and appSecret = #{appSecret}
+			</if>
+			<if test="token!=null and token!=''">
+			 and token = #{token}
+			</if>
+			<if test="mchId!=null and mchId!=''">
+			 and mchId = #{mchId}
+			</if>
+			<if test="apiKey!=null and apiKey!=''">
+			 and apiKey = #{apiKey}
+			</if>
+			<if test="accessToken!=null and accessToken!=''">
+			 and accessToken = #{accessToken}
+			</if>
+			<if test="jsApiTicket!=null and jsApiTicket!=''">
+			 and jsApiTicket = #{jsApiTicket}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="wxAccountColumns"/>
+		from 
+	<include refid="wxAccountTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				wxAccountCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				wxAccountName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

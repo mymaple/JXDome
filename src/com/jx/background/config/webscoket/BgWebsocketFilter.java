@@ -14,29 +14,22 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.java_websocket.WebSocketImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jx.background.service.BgConfigService;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
-import com.jx.common.util.ServletContextUtil;
+import com.jx.common.util.SpringContextUtil;
 
 /**
  * 创建人：FH 创建时间：2014年2月17日
  * @version
  */
 public class BgWebsocketFilter extends BaseController implements Filter {
-	@Autowired
-	private BgConfigService bgConfigService ;
 	
 	/**
 	 * 初始化
 	 */
 	public void init(FilterConfig fc) throws ServletException {
-		
-		if(bgConfigService == null){
-			bgConfigService = (BgConfigService) ServletContextUtil.getBean("bgConfigService");  
-    	}
 		this.startWebsocketInstantChat();
 		this.startWebsocketOnlineManage();
 	}
@@ -50,6 +43,7 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 		WebSocketImpl.DEBUG = false;
 		BgInstantChatServer s;
 		try {
+			BgConfigService bgConfigService  = (BgConfigService) SpringContextUtil.getBean("bgConfigService");  
 			String port =  (bgConfigService.
 					findByConfigType(Const.CONFIG_BG_INSTANTCHAT_OBJ)).getParam2();
 			if(port != null && !"".equals(port)){
@@ -69,6 +63,7 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 		WebSocketImpl.DEBUG = false;
 		BgOnlineManageServer s;
 		try {
+			BgConfigService bgConfigService  = (BgConfigService) SpringContextUtil.getBean("bgConfigService");  
 			String port =  (bgConfigService.
 					findByConfigType(Const.CONFIG_BG_ONLINEMANAGE_OBJ)).getParam2();
 			if(port != null && !"".equals(port)){

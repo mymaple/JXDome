@@ -2,21 +2,66 @@ package com.jx.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MapleStringUtil {
 	
+	
+	
+	/**
+	 * 首字母大写
+	 * @param str
+	 * @return
+	 */
 	public static String firstToUpper(String str) {
-		
 		return str.replaceFirst(str.substring(0, 1),str.substring(0, 1).toUpperCase()) ;
 //        char[] cs=name.toCharArray();
 //        cs[0]-=32;
 //        return String.valueOf(cs);
 	}
 	
+	/**
+	 * 首字母小写
+	 * @param str
+	 * @return
+	 */
 	public static String firstToLower(String str) {
-		
 		return str.replaceFirst(str.substring(0, 1),str.substring(0, 1).toLowerCase()) ;
 	}
+	
+	/**
+	 * 下划线转驼峰
+	 * @param str
+	 * @return
+	 */
+    public static String lineToCamel(String str){  
+    	Pattern linePattern = Pattern.compile("_(\\w)");  
+        str = str.toLowerCase();  
+        Matcher matcher = linePattern.matcher(str);  
+        StringBuffer sb = new StringBuffer();  
+        while(matcher.find()){  
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());  
+        }  
+        matcher.appendTail(sb);  
+        return sb.toString();  
+    }  
+    
+    /**
+     * 驼峰转下划线
+     * @param str
+     * @return
+     */
+    public static String camelToLine(String str){  
+    	Pattern humpPattern = Pattern.compile("[A-Z]");
+        Matcher matcher = humpPattern.matcher(str);  
+        StringBuffer sb = new StringBuffer();  
+        while(matcher.find()){  
+            matcher.appendReplacement(sb, "_"+matcher.group(0).toLowerCase());  
+        }  
+        matcher.appendTail(sb);  
+        return sb.toString();  
+    }  
 	
 	/**
 	 * 检测字符串是否不为空(null,"","null")

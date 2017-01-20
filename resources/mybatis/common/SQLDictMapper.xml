@@ -49,6 +49,7 @@
 		
 		<select id="com_dictEffective" parameterType="String" resultMap="comDictResultMap">
 			select dictName as dictName, dictId as dictValue
+			from com_dict_tree
 			where effective = '01'
 			<if test="value!=null and value!=''">
 				and dictId = #{value} 

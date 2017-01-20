@@ -469,7 +469,7 @@ public class BgMapleDetailController extends BaseController {
 		bgMaple.setMapleEntityLower(bgMaple.getEntityPackage()+bgMaple.getMapleCodeUpper());
 		bgMaple.setMapleEntityUpper(MapleStringUtil.firstToUpper(bgMaple.getEntityPackage())+bgMaple.getMapleCodeUpper());
 		
-		String tableCode = bgMaple.getEntityPackage()+"_"+bgMaple.getMapleCode();
+		String tableCode = bgMaple.getEntityPackage()+"_"+MapleStringUtil.camelToLine(bgMaple.getMapleCode());
 		if("01".equals(bgMaple.getMapleType())){
 			tableCode += "_info";
 		}else if("02".equals(bgMaple.getMapleType())){

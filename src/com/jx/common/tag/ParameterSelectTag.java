@@ -9,10 +9,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.jx.common.entity.ComDict;
 import com.jx.common.service.ComDictService;
-import com.jx.common.util.ServletContextUtil;
+import com.jx.common.util.SpringContextUtil;
 
 public class ParameterSelectTag extends TagSupport {
 
@@ -20,9 +19,6 @@ public class ParameterSelectTag extends TagSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	@Autowired
-	private ComDictService comDictService;
 
 	private String id;
 	private String name;
@@ -39,9 +35,7 @@ public class ParameterSelectTag extends TagSupport {
 
 	public int doEndTag() throws JspException {
 
-		if (comDictService == null) {
-			comDictService = (ComDictService) ServletContextUtil.getBean("comDictService");
-		}
+		ComDictService comDictService = (ComDictService) SpringContextUtil.getBean("comDictService");
 		List<ComDict> comDictList = new ArrayList<ComDict>();
 		try {
 			comDictList = comDictService.listSelect(this.getType());

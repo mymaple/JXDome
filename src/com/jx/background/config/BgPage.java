@@ -2,13 +2,7 @@ package com.jx.background.config;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-
-import com.jx.background.entity.BgConfig;
 import com.jx.background.service.BgConfigService;
-import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 
 public class BgPage {

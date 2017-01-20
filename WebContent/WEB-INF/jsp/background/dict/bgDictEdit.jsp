@@ -46,7 +46,7 @@
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">数据字典类型:</td>
-								<td><param:select type="bg_dictType" name="dictType" id="dictType" value="${comDict.dictType}" placeholder="这里请选择 数据字典类型" title="数据字典类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td><param:select type="com_dictType" name="dictType" id="dictType" value="${comDict.dictType}" placeholder="这里请选择 数据字典类型" title="数据字典类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">数据字典值:</td>

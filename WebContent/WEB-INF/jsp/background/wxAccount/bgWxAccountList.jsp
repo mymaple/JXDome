@@ -20,35 +20,11 @@
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 
-<script type="text/javascript">
-	//刷新ztree
-	function parentReload(returnMsg,currentPage,showCount){
-		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>background/dict/main.do?pId="+'${pd.pId}'+"&currentPage="+currentPage+"&showCount="+showCount;
-		}
-	}
-</script>
 </head>
 <body class="no-skin">
-
-	<div class="page-header">
-	<h1>
-		<a href="<%=basePath%>background/dict/list.do">字典管理</a>
-		<c:choose>
-			<c:when test="${not empty parentList}">
-				<c:if test="${RIGHTS.sele}">
-				<c:forEach items="${parentList}" var="comDict" varStatus="vs">
-					<small>
-						<i class="ace-icon fa fa-angle-double-right"></i>
-						<a href="${comDict.subComDictPath }">${comDict.dictName }</a>
-					</small>
-				</c:forEach>
-				</c:if>
-			</c:when>
-		</c:choose>			
-	</h1>
-	</div><!-- /.page-header -->
-
+	
+	
+	
 	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
 		<!-- /section:basics/sidebar -->
@@ -59,8 +35,7 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="background/dict/list.do" method="post" name="dictForm" id="dictForm">
-						<input type="hidden" name="parentId" id="parentId" value="pd.parentId}"/>
+						<form action="background/wxAccount/list.do" method="post" name="wxAccountForm" id="wxAccountForm">
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -89,10 +64,14 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">数据字典代号</th>
-									<th class="center">数据字典名称</th>
-									<th class="center">数据字典类型</th>
-									<th class="center">数据字典值</th>
+									<th class="center">微信账户代号</th>
+									<th class="center">微信账户名称</th>
+									<th class="center">微信账户类型</th>
+									<th class="center">AppID(应用ID)</th>
+									<th class="center">AppSecret(应用密钥)</th>
+									<th class="center">Token(令牌)</th>
+									<th class="center">微信支付商户号</th>
+									<th class="center">API密钥</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -101,31 +80,35 @@
 							<tbody>
 							<!-- 开始循环 -->	
 							<c:choose>
-								<c:when test="${not empty comDictList}">
+								<c:when test="${not empty comWxAccountList}">
 									<c:if test="${RIGHTS.sele}">
-									<c:forEach items="${comDictList}" var="comDict" varStatus="vs">
+									<c:forEach items="${comWxAccountList}" var="comWxAccount" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${comDict.dictId}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${comWxAccount.wxAccountId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${comDict.dictCode}</td>
-											<td class='center'><a href="javascript:toSub('${comDict.dictId}')">${comDict.dictName}</a></td>
-											<td class='center'><param:display type="com_dictType" value="${comDict.dictType}"/></td>
-											<td class='center'>${comDict.dictValue}</td>
-											<td class='center'>${comDict.orderNum}</td>
+											<td class='center'>${comWxAccount.wxAccountCode}</td>
+											<td class='center'>${comWxAccount.wxAccountName}</td>
+											<td class='center'><param:display type="com_wxAccountType" value="${comWxAccount.wxAccountType}"/></td>
+											<td class='center'>${comWxAccount.appId}</td>
+											<td class='center'>${comWxAccount.appSecret}</td>
+											<td class='center'>${comWxAccount.token}</td>
+											<td class='center'>${comWxAccount.mchId}</td>
+											<td class='center'>${comWxAccount.apiKey}</td>
+											<td class='center'>${comWxAccount.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comDict.dictId}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comWxAccount.wxAccountId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${RIGHTS.del }">
-													<a class="btn btn-xs btn-danger" onclick="toDelete('${comDict.dictId}');">
+													<a class="btn btn-xs btn-danger" onclick="toDelete('${comWxAccount.wxAccountId}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -202,7 +185,7 @@
 		//检索
 		function toSearch(){
 			top.jzts();
-			$("#dictForm").submit();
+			$("#wxAccountForm").submit();
 		}
 		$(function() {
 			//日期框
@@ -249,27 +232,26 @@
 			});
 		});
 		
-		//去此ID下子菜单列表
-		function toSub(parentId){
-			top.jzts();
-			window.location.href="<%=basePath%>background/dict/list.do?pId="+parentId;
-		};
-		
 		//新增
 		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/dict/toAdd.do?pId="+'${pd.pId}';
+			 diag.URL = "<%=basePath%>background/wxAccount/toAdd.do";
 			 diag.Width = 450;
-			 diag.Height = 370;
+			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
-					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+					if('${bgPage.currentPage}' == '0'){
+						 top.jzts();
+						 setTimeout("self.location=self.location",100);
+					 }else{
+						 nextPage('${bgPage.currentPage}');
+					 }
 				}
 				diag.close();
 			 };
@@ -277,14 +259,14 @@
 		}
 		
 		//删除
-		function toDelete(dictId){
+		function toDelete(wxAccountId){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/dict/toDelete.do?dictId="+dictId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/wxAccount/toDelete.do?wxAccountId="+wxAccountId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+							nextPage('${bgPage.currentPage}');
 						}
 					});
 				}
@@ -292,20 +274,20 @@
 		}
 		
 		//修改
-		function toEdit(dictId){
+		function toEdit(wxAccountId){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = "<%=basePath%>background/dict/toEdit.do?dictId="+dictId+"&tm="+new Date().getTime();
+			 diag.URL = "<%=basePath%>background/wxAccount/toEdit.do?wxAccountId="+wxAccountId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 370;
+			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+					nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
 			 };
@@ -341,14 +323,14 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>background/dict/toBatchDelete.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>background/wxAccount/toBatchDelete.do?tm='+new Date().getTime(),
 						    	data: {ids:str},
 								dataType:'json',
 								//beforeSend: validateData,
 								cache: false,
 								success: function(data){
 									if(data.resultCode == "success"){
-										parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+										nextPage('${bgPage.currentPage}');
 									}
 								}
 							});
@@ -360,7 +342,7 @@
 		
 		//导出excel
 		function toExportExcel(){
-			window.location.href='<%=basePath%>background/dict/toExportExcel.do';
+			window.location.href='<%=basePath%>background/wxAccount/toExportExcel.do';
 		}
 		
 		//打开上传excel页面
@@ -369,12 +351,12 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/dict/toUploadExcel.do?pId='+'${pd.pId}';
+			 diag.URL = '<%=basePath%>background/wxAccount/toUploadExcel.do';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+					nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
 			 };

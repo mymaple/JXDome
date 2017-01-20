@@ -159,9 +159,9 @@ public class JudgeRightsUtil {
 	 */
 	public static List<BgMenu> getBgMenuListByRoleRights(List<BgMenu> bgMenuList,String roleRights){
 		for(int i=0;i<bgMenuList.size();i++){
-			bgMenuList.get(i).setHasMenu(testRights(roleRights, bgMenuList.get(i).getMenuId()));
+			bgMenuList.get(i).setHasMenu(testRights(roleRights, bgMenuList.get(i).getMenuTag()));
 			if(bgMenuList.get(i).isHasMenu() && "01".equals(bgMenuList.get(i).getMenuStatus())){				//判断是否有此菜单权限并且是否隐藏
-				bgMenuListTestRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);				//是：继续排查其子菜单
+				getBgMenuListByRoleRights(bgMenuList.get(i).getSubBgMenuList(), roleRights);				//是：继续排查其子菜单
 			}else{
 				bgMenuList.remove(i);
 				i--;
