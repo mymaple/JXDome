@@ -25,6 +25,19 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 	
 	/****************************custom * start***********************************/
 	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String wxAccountId
+	 * @return ComWxAccount
+	 * @throws Exception
+	 */
+	public ComWxAccount findStart() throws Exception {
+		PageData pd = new PageData();
+		pd.put("wxAccountStatus","01");
+		return this.listByPd(pd).get(0);
+	}
+	
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

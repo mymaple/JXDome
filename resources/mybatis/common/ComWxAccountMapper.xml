@@ -161,7 +161,7 @@
 		from 
 	<include refid="wxAccountTable"/>
 		where 
-			wxAccountId = #{wxAccountId} 
+			wxAccountId = #{wxAccountId}
 	</select>
 	
 	<!-- 获取(类)List数据  -->
@@ -171,6 +171,9 @@
 		from 
 	<include refid="wxAccountTable"/>
 		where 1=1
+			<if test="wxAccountStatus!=null and wxAccountStatus!=''">
+			 and wxAccountStatus = #{wxAccountStatus}
+			</if>		
 		order by (orderNum+0) 
 	</select>
 	

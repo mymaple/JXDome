@@ -13,7 +13,9 @@ import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
-import org.quartz.impl.StdSchedulerFactory;  
+import org.quartz.impl.StdSchedulerFactory;
+
+import com.jx.background.config.quartzJob.BgWxConfigQuartzJob;  
   
 /** 定时任务管理类 
  * @author maple
@@ -25,6 +27,11 @@ public class QuartzManager {
     private static String JOB_GROUP_NAME = "mapleJobGroupName";  					//任务组
     private static String TRIGGER_GROUP_NAME = "mapleTriggerGroupName";  			//触发器组
   
+    
+    public static void main(String[] args) throws Exception {
+    	addJob("BgWxConfigQuartzJob", BgWxConfigQuartzJob.class, "* 0/1 * * * ?");
+	}
+    
     /**添加一个定时任务，使用默认的任务组名，触发器名，触发器组名  
      * @param jobName 任务名
      * @param cls 任务
@@ -41,8 +48,8 @@ public class QuartzManager {
      * @param time 时间设置，参考quartz说明文档
      * @throws SchedulerException 
      */
-    public static void addJob(String jobName, Class<? extends Job> jobClass, String time, Map<String,Object> param) throws SchedulerException {  
-    	addJob(jobName, JOB_GROUP_NAME, jobName, TRIGGER_GROUP_NAME, jobClass, time, param);
+    public static void addJob(String jobName, Class<? extends Job> jobClass, String time, Map<String,Object> params) throws SchedulerException {  
+    	addJob(jobName, JOB_GROUP_NAME, jobName, TRIGGER_GROUP_NAME, jobClass, time, params);
     }  
   
     /**添加一个定时任务 
@@ -71,13 +78,13 @@ public class QuartzManager {
      */
     public static void addJob(String jobName, String jobGroupName,  
             String triggerName, String triggerGroupName, Class<? extends Job> jobClass,  
-            String time, Map<String,Object> param) throws SchedulerException {  
-        Scheduler sched = schedulerFactory.getScheduler();  
+            String time, Map<String,Object> params) throws SchedulerException {  
+        Scheduler sched = schedulerFactory.getScheduler();
         JobDetail jobDetail= JobBuilder
         		.newJob(jobClass)
         		.withIdentity(jobName,jobGroupName)
         		.build();														// 任务名，任务组，任务执行类
-        jobDetail.getJobDataMap().put("param", param);							//传参数
+        jobDetail.getJobDataMap().put("params", params);						// 传参数
         CronTrigger trigger = (CronTrigger) TriggerBuilder
 				.newTrigger()
 				.withIdentity(triggerName, triggerGroupName)
@@ -85,7 +92,7 @@ public class QuartzManager {
 				.build();														// 触发器  
         sched.scheduleJob(jobDetail, trigger);
         if (!sched.isShutdown()) {  
-            sched.start();  	  // 启动  
+            sched.start();  	  												// 启动  
         } 
     } 
   
@@ -112,12 +119,12 @@ public class QuartzManager {
         CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(trigger.getCronExpression());
         String oldTime = trigger.getCronExpression();  
         if (!oldTime.equalsIgnoreCase(time)) {  
-        	trigger = (CronTrigger)trigger.getTriggerBuilder()		//重新构建trigger
+        	trigger = (CronTrigger)trigger.getTriggerBuilder()							//重新构建trigger
         			.withIdentity(triggerKey)
         			.withSchedule(scheduleBuilder)
         			.withSchedule(CronScheduleBuilder.cronSchedule(time))
     				.build();
-        	sched.rescheduleJob(triggerKey, trigger);				//按新的trigger重新设置job执行
+        	sched.rescheduleJob(triggerKey, trigger);									//按新的trigger重新设置job执行
         }
     }  
     

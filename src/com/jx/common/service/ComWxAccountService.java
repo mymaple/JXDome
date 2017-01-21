@@ -11,6 +11,13 @@ public interface ComWxAccountService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 通过id获取(类)数据
+	 * @param String wxAccountId
+	 * @return ComWxAccount
+	 * @throws Exception
+	 */
+	public ComWxAccount findStart() throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	
