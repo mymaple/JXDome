@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgCrontabMapper">
+
+	<sql id="crontabColumns">crontabId,crontabCode,crontabName,crontabType,crontabStatus,startupTimes,jobName,jobGroupName,jobClass,triggerName,triggerGroupName,triggerTimes,endTime,timeExp,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="crontabTable">bg_crontab_info</sql>
+	
+	<resultMap type="bgCrontab" id="bgCrontabResultMap">
+		<id column="crontabId" property="crontabId"/>
+		<result column="crontabCode" property="crontabCode"/>
+		<result column="crontabName" property="crontabName"/>
+		<result column="crontabType" property="crontabType"/>
+		<result column="crontabStatus" property="crontabStatus"/>
+		<result column="startupTimes" property="startupTimes"/>
+		<result column="jobName" property="jobName"/>
+		<result column="jobGroupName" property="jobGroupName"/>
+		<result column="jobClass" property="jobClass"/>
+		<result column="triggerName" property="triggerName"/>
+		<result column="triggerGroupName" property="triggerGroupName"/>
+		<result column="triggerTimes" property="triggerTimes"/>
+		<result column="endTime" property="endTime"/>
+		<result column="timeExp" property="timeExp"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="bgCrontab">
+		insert into 
+	<include refid="crontabTable"/>
+		( 
+	<include refid="crontabColumns"/>
+		) values (
+			#{crontabId},#{crontabCode},#{crontabName},#{crontabType},#{crontabStatus},#{startupTimes},#{jobName},#{jobGroupName},#{jobClass},#{triggerName},#{triggerGroupName},#{triggerTimes},#{endTime},#{timeExp},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="bgCrontab">
+		update
+	<include refid="crontabTable"/>
+		set 
+			<if test="crontabCode!=null and crontabCode!=''">
+			crontabCode = #{crontabCode},
+			</if>
+			<if test="crontabName!=null and crontabName!=''">
+			crontabName = #{crontabName},
+			</if>
+			<if test="crontabType!=null and crontabType!=''">
+			crontabType = #{crontabType},
+			</if>
+			<if test="jobName!=null and jobName!=''">
+			jobName = #{jobName},
+			</if>
+			<if test="jobGroupName!=null and jobGroupName!=''">
+			jobGroupName = #{jobGroupName},
+			</if>
+			<if test="jobClass!=null and jobClass!=''">
+			jobClass = #{jobClass},
+			</if>
+			<if test="triggerName!=null and triggerName!=''">
+			triggerName = #{triggerName},
+			</if>
+			<if test="triggerGroupName!=null and triggerGroupName!=''">
+			triggerGroupName = #{triggerGroupName},
+			</if>
+			<if test="timeExp!=null and timeExp!=''">
+			timeExp = #{timeExp},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			crontabId = #{crontabId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="bgCrontab">
+		update
+	<include refid="crontabTable"/>
+		set 
+			<if test="crontabCode!=null and crontabCode!=''">
+			crontabCode = #{crontabCode},
+			</if>
+			<if test="crontabName!=null and crontabName!=''">
+			crontabName = #{crontabName},
+			</if>
+			<if test="crontabType!=null and crontabType!=''">
+			crontabType = #{crontabType},
+			</if>
+			<if test="crontabStatus!=null and crontabStatus!=''">
+			crontabStatus = #{crontabStatus},
+			</if>
+			<if test="startupTimes!=null and startupTimes!=''">
+			startupTimes = #{startupTimes},
+			</if>
+			<if test="jobName!=null and jobName!=''">
+			jobName = #{jobName},
+			</if>
+			<if test="jobGroupName!=null and jobGroupName!=''">
+			jobGroupName = #{jobGroupName},
+			</if>
+			<if test="jobClass!=null and jobClass!=''">
+			jobClass = #{jobClass},
+			</if>
+			<if test="triggerName!=null and triggerName!=''">
+			triggerName = #{triggerName},
+			</if>
+			<if test="triggerGroupName!=null and triggerGroupName!=''">
+			triggerGroupName = #{triggerGroupName},
+			</if>
+			<if test="triggerTimes!=null and triggerTimes!=''">
+			triggerTimes = #{triggerTimes},
+			</if>
+			<if test="endTime!=null and endTime!=''">
+			endTime = #{endTime},
+			</if>
+			<if test="timeExp!=null and timeExp!=''">
+			timeExp = #{timeExp},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			crontabId = #{crontabId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="crontabTable"/>
+		where 
+			crontabId = #{crontabId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="crontabTable"/>
+		where 
+			CONCAT(crontabId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="bgCrontab">
+		select 
+	<include refid="crontabColumns"/>
+		from 
+	<include refid="crontabTable"/>
+		where 
+			crontabId = #{crontabId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="bgCrontabResultMap">
+		select 
+	<include refid="crontabColumns"/>
+		from 
+	<include refid="crontabTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="bgCrontab" resultMap="bgCrontabResultMap">
+		select 
+	<include refid="crontabColumns"/>
+		from 
+	<include refid="crontabTable"/>
+		where 1=1
+			<if test="crontabId!=null and crontabId!=''">
+			 and crontabId != #{crontabId} 
+			</if>
+			<if test="crontabCode!=null and crontabCode!=''">
+			 and crontabCode = #{crontabCode}
+			</if>
+			<if test="crontabName!=null and crontabName!=''">
+			 and crontabName = #{crontabName}
+			</if>
+			<if test="crontabType!=null and crontabType!=''">
+			 and crontabType = #{crontabType}
+			</if>
+			<if test="crontabStatus!=null and crontabStatus!=''">
+			 and crontabStatus = #{crontabStatus}
+			</if>
+			<if test="startupTimes!=null and startupTimes!=''">
+			 and startupTimes = #{startupTimes}
+			</if>
+			<if test="jobName!=null and jobName!=''">
+			 and jobName = #{jobName}
+			</if>
+			<if test="jobGroupName!=null and jobGroupName!=''">
+			 and jobGroupName = #{jobGroupName}
+			</if>
+			<if test="jobClass!=null and jobClass!=''">
+			 and jobClass = #{jobClass}
+			</if>
+			<if test="triggerName!=null and triggerName!=''">
+			 and triggerName = #{triggerName}
+			</if>
+			<if test="triggerGroupName!=null and triggerGroupName!=''">
+			 and triggerGroupName = #{triggerGroupName}
+			</if>
+			<if test="triggerTimes!=null and triggerTimes!=''">
+			 and triggerTimes = #{triggerTimes}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+			 and endTime = #{endTime}
+			</if>
+			<if test="timeExp!=null and timeExp!=''">
+			 and timeExp = #{timeExp}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="crontabColumns"/>
+		from 
+	<include refid="crontabTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				crontabCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				crontabName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

@@ -11,6 +11,7 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComWxAccount;
 import com.jx.common.service.ComWxAccountService;
@@ -87,7 +88,8 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 	 */
 	public void change(ComWxAccount comWxAccount) throws Exception {
 		Date nowTime = new Date();
-		comWxAccount.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		if(MapleStringUtil.isEmpty(comWxAccount.getCreateUserId()))
+			comWxAccount.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comWxAccount.setModifyTime(nowTime);
 		comWxAccount.setLastModifyTime(this.findById(comWxAccount.getWxAccountId()).getModifyTime());
 		if(comWxAccount.getModifyTime().compareTo(comWxAccount.getLastModifyTime()) == 0){

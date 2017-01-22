@@ -15,7 +15,8 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
-import com.jx.background.config.quartzJob.BgWxConfigQuartzJob;  
+import com.jx.background.config.quartzJob.BgWxCallbackQuartzJob;
+
   
 /** 定时任务管理类 
  * @author maple
@@ -29,7 +30,7 @@ public class QuartzManager {
   
     
     public static void main(String[] args) throws Exception {
-    	addJob("BgWxConfigQuartzJob", BgWxConfigQuartzJob.class, "* 0/1 * * * ?");
+    	addJob("BgWxConfigQuartzJob", BgWxCallbackQuartzJob.class, "* 0/1 * * * ?");
 	}
     
     /**添加一个定时任务，使用默认的任务组名，触发器名，触发器组名  

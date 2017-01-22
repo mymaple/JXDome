@@ -9,7 +9,7 @@ import com.jx.common.service.ComWxAccountService;
 import com.jx.common.util.SpringContextUtil;
 import com.jx.common.util.WxConnUtil;
 
-public class BgWxConfigQuartzJob implements Job{
+public class BgWxCallbackQuartzJob implements Job{
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException{
@@ -22,6 +22,7 @@ public class BgWxConfigQuartzJob implements Job{
 			comWxAccountChange.setWxAccountId(comWxAccount.getWxAccountId());
 			comWxAccountChange.setAccessToken(accessToken);
 			comWxAccountChange.setJsApiTicket(jsApiTicket);
+			comWxAccountChange.setModifyUserId("wx");
 			comWxAccountService.change(comWxAccountChange);
 		} catch (Exception e) {
 			e.printStackTrace();

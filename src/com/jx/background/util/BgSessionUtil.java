@@ -7,7 +7,6 @@ import org.apache.shiro.session.Session;
 
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRights;
-import com.jx.background.entity.BgRole;
 import com.jx.background.entity.BgUser;
 
 public class BgSessionUtil {

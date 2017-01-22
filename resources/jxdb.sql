@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-01-21 17:20:27
+Date: 2017-01-22 17:51:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -43,6 +43,39 @@ INSERT INTO `bgconfig` VALUES ('5', 'configBgImageWaterMark', '图片水印配�
 INSERT INTO `bgconfig` VALUES ('6', 'configBgWeiXin', ' 微信接口配置', '/weixin/index ', null, 'token1', '', '1', '2015-06-03 22:09:13');
 INSERT INTO `bgconfig` VALUES ('7', 'configBgInstantChat', '即时聊天服务器配置', '127.0.0.2', '6021', '', '', '1', '2015-06-03 22:09:13');
 INSERT INTO `bgconfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务器配置', '127.0.0.3', '6022', '', '', '1', '2015-06-03 22:09:13');
+
+-- ----------------------------
+-- Table structure for bg_crontab_info
+-- ----------------------------
+DROP TABLE IF EXISTS `bg_crontab_info`;
+CREATE TABLE `bg_crontab_info` (
+  `crontabId` varchar(100) NOT NULL COMMENT '定时任务 主键id',
+  `crontabCode` varchar(100) DEFAULT NULL COMMENT '定时任务代号',
+  `crontabName` varchar(100) DEFAULT NULL COMMENT '定时任务名称',
+  `crontabType` varchar(100) DEFAULT NULL COMMENT '定时任务类型',
+  `crontabStatus` varchar(100) DEFAULT NULL COMMENT '定时任务状态',
+  `startupTimes` int(10) DEFAULT NULL COMMENT '启动次数',
+  `jobName` varchar(100) DEFAULT NULL COMMENT '任务名',
+  `jobGroupName` varchar(100) DEFAULT NULL COMMENT '任务组名',
+  `jobClass` varchar(100) DEFAULT NULL COMMENT '任务',
+  `triggerName` varchar(100) DEFAULT NULL COMMENT '触发器名',
+  `triggerGroupName` varchar(100) DEFAULT NULL COMMENT '触发器组名',
+  `triggerTimes` int(10) DEFAULT NULL COMMENT '运作次数',
+  `endTime` datetime DEFAULT NULL COMMENT '停止时间',
+  `timeExp` varchar(100) DEFAULT NULL COMMENT '时间表达式',
+  `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
+  `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
+  `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifyUserId` varchar(100) DEFAULT NULL COMMENT '修改人员id',
+  `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`crontabId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='定时任务';
+
+-- ----------------------------
+-- Records of bg_crontab_info
+-- ----------------------------
+INSERT INTO `bg_crontab_info` VALUES ('433ccd82e6554b2bb3344876fe339e0c', 'bgWxCallback', '微信回调', '03', '00', '0', 'bgWxCallback', 'bgWxCallback', 'bgWxCallback', 'bgWxCallback', 'bgWxCallback', '0', '2017-01-22 10:48:48', '0 5 0/1 * * ?', '1485052049567', '01', '1', '2017-01-22 10:48:48', '1', '2017-01-22 10:50:33');
 
 -- ----------------------------
 -- Table structure for bg_maple_detail
@@ -268,6 +301,7 @@ INSERT INTO `bg_menu_tree` VALUES ('63', '6', '#', '主附结构', '01', '01', '
 INSERT INTO `bg_menu_tree` VALUES ('64', '59', '#', '员工管理', '01', '01', '64', 'staff/list.do', 'menu-icon fa fa-users blue', '2', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('65', '6', '#', '多数据源', '01', '01', '65', 'datasource2/list.do', 'menu-icon fa fa-folder-open-o purple', '4', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('66', '6', '#', '下拉联动', '01', '01', '66', 'linkage/view.do', 'menu-icon fa fa-exchange green', '5', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
+INSERT INTO `bg_menu_tree` VALUES ('6f32cc2a85ce49f6896c26b0c22597b2', '9', 'background_crontab', '定时任务管理', '01', '01', '78', 'background/crontab/list.do', 'menu-icon fa fa-folder-o pink', '1485051094670', '01', '1', '2017-01-22 10:13:22', '1', '2017-01-22 10:13:22');
 INSERT INTO `bg_menu_tree` VALUES ('7', '6', '#', '图片管理', '02', '01', '7', '#', 'menu-icon fa fa-folder-o pink', '1', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('72', '1', 'qweqqweqweqwe', 'asdsad', '01', '01', '72', 'qweqwesadfasd', 'menu-icon fa fa-adjust black', '6', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
 INSERT INTO `bg_menu_tree` VALUES ('8', '9', '#', '性能监控', '01', '01', '8', 'druid/index.html', 'menu-icon fa fa-tachometer red', '8', '01', '1', '2016-06-06 02:27:47', '1', '2016-06-06 02:27:47');
@@ -300,7 +334,7 @@ CREATE TABLE `bg_role_info` (
 -- ----------------------------
 -- Records of bg_role_info
 -- ----------------------------
-INSERT INTO `bg_role_info` VALUES ('1', 'admin', '系统管理员', '00', '00', '151263300841467329634270', '151263300841467329634270', '151263300841467329634270', '151263300841467329634270', '151263300841467329634270', '1', '01', '1', '2017-01-19 13:24:30', '1', '2017-01-20 14:16:08');
+INSERT INTO `bg_role_info` VALUES ('1', 'admin', '系统管理员', '00', '00', '453494755745124623310814', '453494755745124623310814', '453494755745124623310814', '453494755745124623310814', '453494755745124623310814', '1', '01', '1', '2017-01-19 13:24:30', '1', '2017-01-22 10:14:24');
 
 -- ----------------------------
 -- Table structure for bg_user_info
@@ -360,12 +394,15 @@ CREATE TABLE `com_dict_tree` (
 -- ----------------------------
 INSERT INTO `com_dict_tree` VALUES ('012a42b40dc84d82a0bd957eefcf86e0', '0', 'bg_mapleEffective', '生效代码生成器', '02', '00', 'bg_mapleEffective', '0', '1484804281118', '01', '1', '2017-01-19 13:38:27', '1', '2017-01-19 13:51:11');
 INSERT INTO `com_dict_tree` VALUES ('049f63a9f923403e94e3056a0216afaf', '0', 'com_dictEffective', '生效数据字典', '02', '00', 'com_dictEffective', '0', '1484804310182', '01', '1', '2017-01-19 13:38:49', '1', '2017-01-19 13:51:18');
+INSERT INTO `com_dict_tree` VALUES ('06f38de637814d9285397f1baed966f9', '30a83d0bc4364ac39edb8d0f5786a338', 'bg_crontabType_02', '跑批任务', '01', '00', '02', '1', '1485051595520', '01', '1', '2017-01-22 10:20:16', '1', '2017-01-22 10:20:16');
 INSERT INTO `com_dict_tree` VALUES ('0c608e9327344f588eebd8edce01de8b', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_01', '标准型', '01', '00', '01', '1', '1484025817953', '01', '1', '2017-01-10 13:23:38', '1', '2017-01-10 13:23:38');
 INSERT INTO `com_dict_tree` VALUES ('132b054047c14abc87f6be78ad0f710a', '0', 'bg_userEffective', '后台生效用户', '02', '00', 'bg_userEffective', '0', '1484726025794', '01', '1', '2017-01-18 15:55:03', '1', '2017-01-18 15:55:09');
+INSERT INTO `com_dict_tree` VALUES ('173468d2a2d24dd48642f6cd452c11d2', '30a83d0bc4364ac39edb8d0f5786a338', 'bg_crontabType_03', '微信回调', '01', '00', '03', '1', '1485051617535', '01', '1', '2017-01-22 10:21:26', '1', '2017-01-22 10:21:26');
 INSERT INTO `com_dict_tree` VALUES ('1c0caa13e3514c87a3280f2f48653d83', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_02', 'Int', '01', '00', '02', '1', '1484018861734', '01', '1', '2017-01-10 11:27:42', '1', '2017-01-11 16:26:59');
 INSERT INTO `com_dict_tree` VALUES ('280f1698d19d49bbb676b09f95d24a51', '2c43919dfe434841a92bc2a39b2ad02e', 'bg_menuType_02', '业务菜单', '01', '00', '02', '1', '1484555389350', '01', '1', '2017-01-16 16:30:42', '1', '2017-01-16 16:30:42');
 INSERT INTO `com_dict_tree` VALUES ('28510c12e9834ea29bbb5621f99e804e', '0', 'bg_mapleDetailType', '字段属性类型', '01', '00', 'bg_mapleDetailType', '0', '1484018714788', '01', '1', '2017-01-10 11:25:15', '1', '2017-01-11 16:23:30');
 INSERT INTO `com_dict_tree` VALUES ('2c43919dfe434841a92bc2a39b2ad02e', '0', 'bg_menuType', '后台菜单类型', '01', '00', 'bg_menuType', '0', '1484555292472', '01', '1', '2017-01-16 16:28:52', '1', '2017-01-16 16:28:52');
+INSERT INTO `com_dict_tree` VALUES ('30a83d0bc4364ac39edb8d0f5786a338', '0', 'bg_crontabType', '定时任务类型', '01', '00', 'bg_crontabType', '0', '1485051437664', '01', '1', '2017-01-22 10:18:50', '1', '2017-01-22 10:18:50');
 INSERT INTO `com_dict_tree` VALUES ('30c39f10c07e4b3b905734277e527eee', '0', 'com_sf', '是否判断', '01', '00', 'com_sf', '0', '1484536370790', '01', '1', '2017-01-16 11:13:37', '1', '2017-01-16 11:18:18');
 INSERT INTO `com_dict_tree` VALUES ('319bbf4a475b4aa4b852c30d91d9c48c', '0', 'com_wxAccountType', '微信账号类型', '01', '00', 'com_wxAccountType', '0', '1484895809412', '01', '1', '2017-01-20 15:04:51', '1', '2017-01-20 15:04:51');
 INSERT INTO `com_dict_tree` VALUES ('351a934eb7654c2db753fc51b39d3e16', '0', 'bg_userType', '后台用户类型', '01', '00', 'bg_userType', '0', '1484804429010', '01', '1', '2017-01-19 13:41:51', '1', '2017-01-19 13:41:51');
@@ -383,6 +420,7 @@ INSERT INTO `com_dict_tree` VALUES ('7faad10eb0424cf29a51fb5add0f1b50', '28510c1
 INSERT INTO `com_dict_tree` VALUES ('8ea0f054459f4e619c8a75bfd90f67bb', 'a60fe6c08d7c4708bca2a20cb2feb681', 'bg_roleType_00', '系统管理员角色', '01', '00', '00', '1', '1484804778802', '01', '1', '2017-01-19 13:46:56', '1', '2017-01-19 13:46:56');
 INSERT INTO `com_dict_tree` VALUES ('8f1b49981a4d449383bfb703c0176bd7', '351a934eb7654c2db753fc51b39d3e16', 'bg_userType_01', '录入用户', '01', '00', '01', '1', '1484804518887', '01', '1', '2017-01-19 13:42:43', '1', '2017-01-19 13:42:43');
 INSERT INTO `com_dict_tree` VALUES ('916b2c8543b94d488d80a5a08f05b681', '0', 'bg_roleEffective', '后台生效角色', '02', '00', 'bg_roleEffective', '0', '1484804220171', '01', '1', '2017-01-19 13:37:22', '1', '2017-01-19 13:37:37');
+INSERT INTO `com_dict_tree` VALUES ('97eb8171437447fc8714a8c1a2075b9a', '30a83d0bc4364ac39edb8d0f5786a338', 'bg_crontabType_01', '数据表备份', '01', '00', '01', '1', '1485051549949', '01', '1', '2017-01-22 10:19:54', '1', '2017-01-22 10:19:54');
 INSERT INTO `com_dict_tree` VALUES ('a60fe6c08d7c4708bca2a20cb2feb681', '0', 'bg_roleType', '后台角色类型', '01', '00', 'bg_roleType', '0', '1484804620997', '01', '1', '2017-01-19 13:45:08', '1', '2017-01-19 13:45:08');
 INSERT INTO `com_dict_tree` VALUES ('b120815786714648a7247046fe7186d9', '0', 'com_dictType', '字典类型', '01', '00', 'bg_dictType', '0', '1484017251117', '01', '1', '2017-01-10 11:00:51', '1', '2017-01-10 11:00:51');
 INSERT INTO `com_dict_tree` VALUES ('b20d74e13ced4513b1ac20c4ead6d736', '319bbf4a475b4aa4b852c30d91d9c48c', 'com_wxAccountType_01', '服务号', '01', '00', '01', '1', '1484896386061', '01', '1', '2017-01-20 15:14:06', '1', '2017-01-20 15:14:06');
