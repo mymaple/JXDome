@@ -58,6 +58,9 @@ public class BgMapleServiceImpl implements BgMapleService{
 			bgMapleDetail.setMapleId(bgMaple.getMapleId());
 			bgMapleDetail.setMapleDetailCode(bgMaple.getMapleCode() + MapleStringUtil.firstToUpper(bgMapleDetail.getMapleDetailCode()));
 			bgMapleDetail.setMapleDetailName(bgMaple.getMapleName() + bgMapleDetail.getMapleDetailName());
+			if("05".equals(bgMapleDetail.getMapleDetailType())){
+				bgMapleDetail.setTypeCode(bgMaple.getEntityPackage()+"_"+bgMapleDetail.getMapleDetailCode());
+			}
 			
 			bgMapleDetail.setOrderNum(String.valueOf(new Date().getTime()));
 			bgMapleDetail.setCreateUserId(bgMaple.getCreateUserId());

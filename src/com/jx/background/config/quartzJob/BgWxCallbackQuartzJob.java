@@ -15,7 +15,7 @@ public class BgWxCallbackQuartzJob implements Job{
 	public void execute(JobExecutionContext context) throws JobExecutionException{
 		ComWxAccountService comWxAccountService = (ComWxAccountService)SpringContextUtil.getBean("comWxAccountService");
 		try {
-			ComWxAccount comWxAccount = comWxAccountService.findStart();
+			ComWxAccount comWxAccount = comWxAccountService.findStartUp();
 			String accessToken = WxConnUtil.getAccessToken(comWxAccount.getAppId(), comWxAccount.getAppSecret());
 			String jsApiTicket = WxConnUtil.getJsApiTicket(accessToken);
 			ComWxAccount comWxAccountChange = new ComWxAccount();

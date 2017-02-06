@@ -18,7 +18,7 @@ public class BgApplicationListener implements ApplicationListener<ApplicationCon
 		if(event.getApplicationContext().getDisplayName().equals("Root WebApplicationContext")){
 			if (event instanceof ContextRefreshedEvent) {
 				try {
-					QuartzManager.addJob("BgWxConfigQuartzJob", BgWxCallbackQuartzJob.class, "0 5 0/1 * * ?");
+					QuartzManager.addJob("BgWxConfigQuartzJob", BgWxCallbackQuartzJob.class, "0 44 0/1 * * ?");
 				} catch (SchedulerException e) {
 					e.printStackTrace();
 				}

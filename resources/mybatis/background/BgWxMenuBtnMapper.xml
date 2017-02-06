@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgWxMenuBtnMapper">
+
+	<sql id="wxMenuBtnColumns">wxMenuBtnId,parentId,wxMenuBtnCode,wxMenuBtnName,wxMenuBtnType,wxMenuBtnStatus,menuBtnKey,menuBtnUrl,media_id,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="wxMenuBtnTable">bg_wx_menu_btn_tree</sql>
+	
+	<resultMap type="bgWxMenuBtn" id="bgWxMenuBtnResultMap">
+		<id column="wxMenuBtnId" property="wxMenuBtnId"/>
+		<result column="wxMenuBtnCode" property="wxMenuBtnCode"/>
+		<result column="wxMenuBtnName" property="wxMenuBtnName"/>
+		<result column="wxMenuBtnType" property="wxMenuBtnType"/>
+		<result column="wxMenuBtnStatus" property="wxMenuBtnStatus"/>
+		<result column="menuBtnKey" property="menuBtnKey"/>
+		<result column="menuBtnUrl" property="menuBtnUrl"/>
+		<result column="media_id" property="media_id"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+		<result column="parentId" property="parentId"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="bgWxMenuBtn">
+		insert into 
+	<include refid="wxMenuBtnTable"/>
+		( 
+	<include refid="wxMenuBtnColumns"/>
+		) values (
+			#{wxMenuBtnId},#{parentId},#{wxMenuBtnCode},#{wxMenuBtnName},#{wxMenuBtnType},#{wxMenuBtnStatus},#{menuBtnKey},#{menuBtnUrl},#{media_id},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="bgWxMenuBtn">
+		update
+	<include refid="wxMenuBtnTable"/>
+		set 
+			<if test="wxMenuBtnCode!=null and wxMenuBtnCode!=''">
+			wxMenuBtnCode = #{wxMenuBtnCode},
+			</if>
+			<if test="wxMenuBtnName!=null and wxMenuBtnName!=''">
+			wxMenuBtnName = #{wxMenuBtnName},
+			</if>
+			<if test="wxMenuBtnType!=null and wxMenuBtnType!=''">
+			wxMenuBtnType = #{wxMenuBtnType},
+			</if>
+			<if test="menuBtnKey!=null and menuBtnKey!=''">
+			menuBtnKey = #{menuBtnKey},
+			</if>
+			<if test="menuBtnUrl!=null and menuBtnUrl!=''">
+			menuBtnUrl = #{menuBtnUrl},
+			</if>
+			<if test="media_id!=null and media_id!=''">
+			media_id = #{media_id},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			wxMenuBtnId = #{wxMenuBtnId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="bgWxMenuBtn">
+		update
+	<include refid="wxMenuBtnTable"/>
+		set 
+			<if test="parentId!=null and parentId!=''">
+			 parentId = #{parentId},
+			 </if>
+			<if test="wxMenuBtnCode!=null and wxMenuBtnCode!=''">
+			wxMenuBtnCode = #{wxMenuBtnCode},
+			</if>
+			<if test="wxMenuBtnName!=null and wxMenuBtnName!=''">
+			wxMenuBtnName = #{wxMenuBtnName},
+			</if>
+			<if test="wxMenuBtnType!=null and wxMenuBtnType!=''">
+			wxMenuBtnType = #{wxMenuBtnType},
+			</if>
+			<if test="wxMenuBtnStatus!=null and wxMenuBtnStatus!=''">
+			wxMenuBtnStatus = #{wxMenuBtnStatus},
+			</if>
+			<if test="menuBtnKey!=null and menuBtnKey!=''">
+			menuBtnKey = #{menuBtnKey},
+			</if>
+			<if test="menuBtnUrl!=null and menuBtnUrl!=''">
+			menuBtnUrl = #{menuBtnUrl},
+			</if>
+			<if test="media_id!=null and media_id!=''">
+			media_id = #{media_id},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			wxMenuBtnId = #{wxMenuBtnId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="wxMenuBtnTable"/>
+		where 
+			wxMenuBtnId = #{wxMenuBtnId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="wxMenuBtnTable"/>
+		where 
+			CONCAT(wxMenuBtnId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="bgWxMenuBtn">
+		select 
+	<include refid="wxMenuBtnColumns"/>
+		from 
+	<include refid="wxMenuBtnTable"/>
+		where 
+			wxMenuBtnId = #{wxMenuBtnId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="bgWxMenuBtnResultMap">
+		select 
+	<include refid="wxMenuBtnColumns"/>
+		from 
+	<include refid="wxMenuBtnTable"/>
+		where 1=1
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId}
+			 </if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="bgWxMenuBtn" resultMap="bgWxMenuBtnResultMap">
+		select 
+	<include refid="wxMenuBtnColumns"/>
+		from 
+	<include refid="wxMenuBtnTable"/>
+		where 1=1
+			<if test="wxMenuBtnId!=null and wxMenuBtnId!=''">
+			 and wxMenuBtnId != #{wxMenuBtnId} 
+			</if>
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId} 
+			</if>
+			<if test="wxMenuBtnCode!=null and wxMenuBtnCode!=''">
+			 and wxMenuBtnCode = #{wxMenuBtnCode}
+			</if>
+			<if test="wxMenuBtnName!=null and wxMenuBtnName!=''">
+			 and wxMenuBtnName = #{wxMenuBtnName}
+			</if>
+			<if test="wxMenuBtnType!=null and wxMenuBtnType!=''">
+			 and wxMenuBtnType = #{wxMenuBtnType}
+			</if>
+			<if test="wxMenuBtnStatus!=null and wxMenuBtnStatus!=''">
+			 and wxMenuBtnStatus = #{wxMenuBtnStatus}
+			</if>
+			<if test="menuBtnKey!=null and menuBtnKey!=''">
+			 and menuBtnKey = #{menuBtnKey}
+			</if>
+			<if test="menuBtnUrl!=null and menuBtnUrl!=''">
+			 and menuBtnUrl = #{menuBtnUrl}
+			</if>
+			<if test="media_id!=null and media_id!=''">
+			 and media_id = #{media_id}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="wxMenuBtnColumns"/>
+		from 
+	<include refid="wxMenuBtnTable"/>
+		where 1=1
+			<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
+			and parentId= #{pd.pId}
+			</if>
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				wxMenuBtnCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				wxMenuBtnName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

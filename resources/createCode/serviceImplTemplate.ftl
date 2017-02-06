@@ -36,7 +36,7 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	public void getParentList(List<${bgMaple.mapleEntityUpper}> parentList, String pId) throws Exception {
 		if("0".equals(pId)) return;
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = this.findById(pId);
-		${bgMaple.mapleEntityLower}.set${bgMaple.mapleEntityUpper}Path("background/${bgMaple.mapleCode}/list.do?pId="+pId);
+		${bgMaple.mapleEntityLower}.setSub${bgMaple.mapleEntityUpper}Path("background/${bgMaple.mapleCode}/list.do?pId="+pId);
 		parentList.add(0, ${bgMaple.mapleEntityLower});
 		this.getParentList(parentList, ${bgMaple.mapleEntityLower}.getParentId());
 	}
@@ -47,7 +47,6 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public List<${bgMaple.mapleEntityUpper}> listByParentId(String parentId) throws Exception {
 		PageData pd = new PageData();
 		pd.put("parentId",parentId);

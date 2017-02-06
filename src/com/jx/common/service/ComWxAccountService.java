@@ -17,7 +17,7 @@ public interface ComWxAccountService {
 	 * @return ComWxAccount
 	 * @throws Exception
 	 */
-	public ComWxAccount findStart() throws Exception ;
+	public ComWxAccount findStartUp() throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

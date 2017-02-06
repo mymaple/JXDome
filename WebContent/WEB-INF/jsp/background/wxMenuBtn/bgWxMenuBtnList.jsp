@@ -20,30 +20,27 @@
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 
-<#if bgMaple.mapleType == "02">
 <script type="text/javascript">
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
 		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/main.do?pId="+'${r"${pd.pId}"}'+"&currentPage="+currentPage+"&showCount="+showCount;
+			parent.location.href="<%=basePath%>background/wxMenuBtn/main.do?pId="+'${pd.pId}'+"&currentPage="+currentPage+"&showCount="+showCount;
 		}
 	}
 </script>
-</#if>
 </head>
 <body class="no-skin">
 	
-	<#if bgMaple.mapleType = "02">
 	<div class="page-header">
 	<h1>
-		<a href="<%=basePath%>background/${bgMaple.mapleCode}/list.do">管理</a>
+		<a href="<%=basePath%>background/wxMenuBtn/list.do">微信菜单按钮管理</a>
 		<c:choose>
-			<c:when test="${r"${not empty parentList}"}">
-				<c:if test="${r"${RIGHTS.sele}"}">
-				<c:forEach items="${r"${parentList}"}" var="${bgMaple.mapleEntityLower}" varStatus="vs">
+			<c:when test="${not empty parentList}">
+				<c:if test="${RIGHTS.sele}">
+				<c:forEach items="${parentList}" var="bgWxMenuBtn" varStatus="vs">
 					<small>
 						<i class="ace-icon fa fa-angle-double-right"></i>
-						<a href="${r"${"}${bgMaple.mapleEntityLower}${r".sub"}${bgMaple.mapleEntityUpper}Path${r"}"}">${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Name${r"}"}</a>
+						<a href="${bgWxMenuBtn.subBgWxMenuBtnPath}">${bgWxMenuBtn.wxMenuBtnName}</a>
 					</small>
 				</c:forEach>
 				</c:if>
@@ -52,14 +49,6 @@
 	</h1>
 	</div><!-- /.page-header -->
 	
-	<#elseif bgMaple.mapleType = "04">
-	<div class="page-header">
-	<h1>
-		<a href="<%=basePath%>background/${bgMaple.mapleCode}/list.do">管理</a>
-	</h1>
-	</div><!-- /.page-header -->
-	
-	</#if>
 	
 	
 	<!-- /section:basics/navbar.layout -->
@@ -72,27 +61,23 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do" method="post" name="${bgMaple.mapleCode}Form" id="${bgMaple.mapleCode}Form">
-						<#if bgMaple.mapleType == "02">
-						<input type="hidden" name="parentId" id="parentId" value="${r"pd."}parentId${r"}"}"/>
-						<#elseif bgMaple.mapleType == "04">
-						<input type="hidden" name="${bgMaple.mapleCode ?replace('Detail','')}Id" id="${bgMaple.mapleCode ?replace('Detail','')}Id" value="${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}"/>
-						</#if>
+						<form action="background/wxMenuBtn/list.do" method="post" name="wxMenuBtnForm" id="wxMenuBtnForm">
+						<input type="hidden" name="parentId" id="parentId" value="pd.parentId}"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${r"${pd.keywords }"}" placeholder="这里输入关键词"/>
+											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
 								</td>
-								<c:if test="${r"${RIGHTS.sele}"}">
+								<c:if test="${RIGHTS.sele}">
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toSearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
-								<%-- <c:if test="${r"${RIGHTS.toExcel}"}"> --%>
+								<%-- <c:if test="${RIGHTS.toExcel}"> --%>
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExportExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td>
-								<%-- <c:if test="${r"${RIGHTS.fromExcel}"}"> --%>
+								<%-- <c:if test="${RIGHTS.fromExcel}"> --%>
 								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toUploadExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td>
 								</c:if>
 							</tr>
@@ -106,11 +91,12 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-								<#list bgMapleDetailList as bgMapleDetail>
-								<#if bgMapleDetail.isEdit = "01">
-									<th class="center">${bgMapleDetail.mapleDetailName}</th>
-								</#if>
-								</#list>
+									<th class="center">微信菜单按钮代号</th>
+									<th class="center">微信菜单按钮名称</th>
+									<th class="center">微信菜单按钮类型</th>
+									<th class="center">菜单KEY值</th>
+									<th class="center">网页链接</th>
+									<th class="center">永久素材id</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -119,44 +105,33 @@
 							<tbody>
 							<!-- 开始循环 -->	
 							<c:choose>
-								<c:when test="${r"${not empty "}${bgMaple.mapleEntityLower}List${r"}"}">
-									<c:if test="${r"${RIGHTS.sele}"}">
-									<c:forEach items="${r"${"}${bgMaple.mapleEntityLower}List${r"}"}" var="${bgMaple.mapleEntityLower}" varStatus="vs">
+								<c:when test="${not empty bgWxMenuBtnList}">
+									<c:if test="${RIGHTS.sele}">
+									<c:forEach items="${bgWxMenuBtnList}" var="bgWxMenuBtn" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">-${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</#if></#list>" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${bgWxMenuBtn.wxMenuBtnId}" class="ace" /><span class="lbl"></span></label>
 											</td>
-											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
-										<#list bgMapleDetailList as bgMapleDetail>
-										<#if bgMapleDetail.isEdit == "01" >
-										<#if bgMapleDetail.mapleDetailType == "05">
-											<td class='center'><param:display type="${bgMapleDetail.typeCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/></td>
-										<#elseif bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" >
-											<#if bgMaple.mapleType == "02">
-											<td class='center'><a href="javascript:toSub('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')">${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</a></td>
-											<#elseif bgMaple.mapleType == "03">
-											<td class='center'><a href="javascript:toDetail('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}')">${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</a></td>
-											<#else>
-											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
-											</#if>
-										<#else>
-											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
-										</#if>
-										</#if>
-										</#list>
-											<td class='center'>${r"${"}${bgMaple.mapleEntityLower}.orderNum${r"}"}</td>
+											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center'>${bgWxMenuBtn.wxMenuBtnCode}</td>
+											<td class='center'><a href="javascript:toSub('${bgWxMenuBtn.wxMenuBtnId}')">${bgWxMenuBtn.wxMenuBtnName}</a></td>
+											<td class='center'><param:display type="bg_wxMenuBtnType" value="${bgWxMenuBtn.wxMenuBtnType}"/></td>
+											<td class='center'>${bgWxMenuBtn.menuBtnKey}</td>
+											<td class='center'>${bgWxMenuBtn.menuBtnUrl}</td>
+											<td class='center'>${bgWxMenuBtn.media_id}</td>
+											<td class='center'>${bgWxMenuBtn.orderNum}</td>
 											<td class="center">
-												<c:if test="${r"${!RIGHTS.edit && !RIGHTS.del }"}">
+												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
-													<c:if test="${r"${RIGHTS.edit}" }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}'<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, '${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}'</#if></#list>);">
+													<c:if test="${RIGHTS.edit}">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${bgWxMenuBtn.wxMenuBtnId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
-													<c:if test="${r"${RIGHTS.del }"}">
-													<a class="btn btn-xs btn-danger" onclick="toDelete('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}'<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, '${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}'</#if></#list>);">
+													<c:if test="${RIGHTS.del }">
+													<a class="btn btn-xs btn-danger" onclick="toDelete('${bgWxMenuBtn.wxMenuBtnId}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -166,7 +141,7 @@
 									
 									</c:forEach>
 									</c:if>
-									<c:if test="${r"${!RIGHTS.sele}"}">
+									<c:if test="${!RIGHTS.sele}">
 										<tr>
 											<td colspan="100" class="center">您无权查看</td>
 										</tr>
@@ -184,14 +159,14 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<c:if test="${r"${RIGHTS.add }"}">
+									<c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
-									<c:if test="${r"${RIGHTS.del }"}">
+									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
 								</td>
-								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${r"${bgPage.pageStr}"}</div></td>
+								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
 							</tr>
 						</table>
 						</div>
@@ -233,7 +208,7 @@
 		//检索
 		function toSearch(){
 			top.jzts();
-			$("#${bgMaple.mapleCode}Form").submit();
+			$("#wxMenuBtnForm").submit();
 		}
 		$(function() {
 			//日期框
@@ -280,34 +255,19 @@
 			});
 		});
 		
-		<#if bgMaple.mapleType == "02">
 		//去此ID下子菜单列表
 		function toSub(parentId){
 			top.jzts();
-			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?pId="+parentId;
+			window.location.href="<%=basePath%>background/wxMenuBtn/list.do?pId="+parentId;
 		};
 		
-		<#elseif bgMaple.mapleType == "03">
-		//去此ID下详情页面
-		function toDetail(${bgMaple.mapleCode}Id){
-			top.jzts();
-			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}Detail/list.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id;
-		}
-		
-		</#if>
 		//新增
 		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 <#if bgMaple.mapleType == "02">
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?pId="+'${r"${pd.pId}"}';
-			 <#elseif bgMaple.mapleType == "04">
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do?${bgMaple.mapleCode ?replace('Detail','')}Id=${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}";
-			 <#else>
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do";
-			 </#if>
+			 diag.URL = "<%=basePath%>background/wxMenuBtn/toAdd.do?pId="+'${pd.pId}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -315,16 +275,7 @@
 		     	 diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
-					<#if bgMaple.mapleType == "02">
-					parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
-					<#else>
-					if('${r"${bgPage.currentPage}"}' == '0'){
-						 top.jzts();
-						 setTimeout("self.location=self.location",100);
-					 }else{
-						 nextPage('${r"${bgPage.currentPage}"}');
-					 }
-					</#if>
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };
@@ -332,18 +283,14 @@
 		}
 		
 		//删除
-		function toDelete(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>){
+		function toDelete(wxMenuBtnId){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toDelete.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/wxMenuBtn/toDelete.do?wxMenuBtnId="+wxMenuBtnId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							<#if bgMaple.mapleType == "02">
-							parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
-							<#else>
-							nextPage('${r"${bgPage.currentPage}"}');
-							</#if>
+							parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 						}
 					});
 				}
@@ -351,12 +298,12 @@
 		}
 		
 		//修改
-		function toEdit(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, ${bgMapleDetail.mapleDetailCode}</#if></#list>){
+		function toEdit(wxMenuBtnId){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toEdit.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
+			 diag.URL = "<%=basePath%>background/wxMenuBtn/toEdit.do?wxMenuBtnId="+wxMenuBtnId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -364,11 +311,7 @@
 		     	 diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 <#if bgMaple.mapleType == "02">
-					parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
-					<#else>
-					nextPage('${r"${bgPage.currentPage}"}');
-					</#if>
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };
@@ -404,18 +347,14 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toBatchDelete.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>background/wxMenuBtn/toBatchDelete.do?tm='+new Date().getTime(),
 						    	data: {ids:str},
 								dataType:'json',
 								//beforeSend: validateData,
 								cache: false,
 								success: function(data){
 									if(data.resultCode == "success"){
-										<#if bgMaple.mapleType == "02">
-										parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
-										<#else>
-										nextPage('${r"${bgPage.currentPage}"}');
-										</#if>
+										parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 									}
 								}
 							});
@@ -427,7 +366,7 @@
 		
 		//导出excel
 		function toExportExcel(){
-			window.location.href='<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toExportExcel.do';
+			window.location.href='<%=basePath%>background/wxMenuBtn/toExportExcel.do';
 		}
 		
 		//打开上传excel页面
@@ -436,22 +375,12 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 <#if bgMaple.mapleType == "02">
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?pId='+'${r"${pd.pId}"}';
-			 <#elseif bgMaple.mapleType == "04">
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do?pId=${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}';
-			 <#else>
-			 diag.URL = '<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toUploadExcel.do';
-			 </#if>
+			 diag.URL = '<%=basePath%>background/wxMenuBtn/toUploadExcel.do?pId='+'${pd.pId}';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 <#if bgMaple.mapleType == "02">
-					parentReload('change','${r"${bgPage.currentPage}"}','${r"${bgPage.showCount}"}');
-					<#else>
-					nextPage('${r"${bgPage.currentPage}"}');
-					</#if>
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };

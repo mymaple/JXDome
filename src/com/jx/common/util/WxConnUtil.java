@@ -21,7 +21,8 @@ public class WxConnUtil {
 		String urlStr = String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+appSecret); 
 		String resulrStr = HttpManager.get(urlStr, null);
 		JSONObject json = JSONObject.fromObject(resulrStr); 
-	    accessToken = json.getString("access_token");
+		if(json != null)
+			accessToken = json.getString("access_token");
 		return accessToken;
 	 }
 	   
@@ -32,18 +33,43 @@ public class WxConnUtil {
 	 * @throws Exception
 	 */
 	public static String getJsApiTicket(String accessToken) throws Exception{
+		int errcode = 0;
 		String jsApiTicket = "";
 		// 拼装请求地址  
 		String urlStr = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+accessToken+"&type=jsapi";
 		String resulrStr = HttpManager.get(urlStr, null);
 		JSONObject json = JSONObject.fromObject(resulrStr); 
-	    //获取返回码
-	    int errcode = (Integer) json.get("errcode");
-	    if(0==errcode){
-	    	jsApiTicket = (String) json.get("ticket");
-	    }
+		if(json != null){
+			//获取返回码
+			errcode = (Integer) json.get("errcode");
+			if(0==errcode){
+				jsApiTicket = (String) json.get("ticket");
+			}
+		}
 	    System.out.println("-----------accessToken:"+accessToken+"-----------------------jsApiTicket:"+jsApiTicket);
 		return jsApiTicket;
+	}
+	
+	/**
+	 * 获得 
+	 * @param accessToken 公众号的全局唯一票据
+	 * @return
+	 * @throws Exception
+	 */
+	public static int toCreateMenuBtn(String accessToken, String menuBtnStr) throws Exception{
+		int errcode = 0;
+		// 拼装请求地址  
+		String urlStr = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token="+accessToken;
+		String resulrStr = HttpManager.post(urlStr, menuBtnStr);
+		JSONObject json = JSONObject.fromObject(resulrStr); 
+		if(json != null){
+			//获取返回码
+			errcode = (Integer) json.get("errcode");
+			if(0!=errcode){
+				
+			}
+		}
+		return errcode;
 	}
 	
 	

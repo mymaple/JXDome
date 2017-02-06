@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.config.BgPage;
-import com.jx.background.entity.BgMenu;
 import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.BaseEntity.ValidationAdd;
@@ -27,33 +26,33 @@ import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
-import com.jx.common.entity.ComDict;
+import com.jx.background.entity.BgWxMenuBtn;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
-import com.jx.common.service.ComDictService;
+import com.jx.background.service.BgWxMenuBtnService;
 
 import net.sf.json.JSONArray;
 
 /** 
- * 类名称：BgDictController
+ * 类名称：BgWxMenuBtnController
  * 创建人：maple
- * 创建时间：2017-01-10
+ * 创建时间：2017-02-06
  */
 @Controller
-@RequestMapping(value="/background/dict")
-public class BgDictController extends BaseController {
+@RequestMapping(value="/background/wxMenuBtn")
+public class BgWxMenuBtnController extends BaseController {
 	
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "background_dict";
+	public static final String RIGHTS_BG_MENUCODE_STR = "background_wxMenuBtn";
 	
-	@Resource(name="comDictService")
-	private ComDictService comDictService;
+	@Resource(name="bgWxMenuBtnService")
+	private BgWxMenuBtnService bgWxMenuBtnService;
 	
 	
 	/**
@@ -71,13 +70,13 @@ public class BgDictController extends BaseController {
 		if(MapleStringUtil.isEmpty(pd.getString("pId"))){
 			pd.put("pId", "0");
 		}
-		JSONArray arr = JSONArray.fromObject(comDictService.listInRank("0"));
+		JSONArray arr = JSONArray.fromObject(bgWxMenuBtnService.listInRank("0"));
 		String json = arr.toString();
-		json = json.replaceAll("dictId", "id").replaceAll("parentId", "pId")
-				.replaceAll("dictName", "name").replaceAll("subComDictList", "nodes")
-				.replaceAll("hasDict", "checked").replaceAll("subComDictPath", "url");
+		json = json.replaceAll("wxMenuBtnId", "id").replaceAll("parentId", "pId")
+				.replaceAll("wxMenuBtnName", "name").replaceAll("subBgWxMenuBtnList", "nodes")
+				.replaceAll("hasWxMenuBtn", "checked").replaceAll("subBgWxMenuBtnPath", "url");
 		model.addAttribute("zTreeNodes", json);
-		mv.addObject("controllerPath", "background/dict");
+		mv.addObject("controllerPath", "background/wxMenuBtn");
 		mv.addObject("pd", pd);
 		resultInfo.setResultCode("success");
 		mv.setViewName("background/bgMainTree");
@@ -105,17 +104,17 @@ public class BgDictController extends BaseController {
 		}
 			
 		bgPage.setPd(pd);
-		List<PageData> comDictList = comDictService.listPage(bgPage);			//列出comDict列表
+		List<PageData>	bgWxMenuBtnList = bgWxMenuBtnService.listPage(bgPage);	//列出bgWxMenuBtn列表
 		
-		List<ComDict> parentList = new ArrayList<ComDict>();
-		comDictService.getParentList(parentList, pd.getString("pId"));			//导航栏链接
+		List<BgWxMenuBtn> parentList = new ArrayList<BgWxMenuBtn>();
+		bgWxMenuBtnService.getParentList(parentList, pd.getString("pId"));			//导航栏链接
 		
-		mv.addObject("comDictList", comDictList);
+		mv.addObject("bgWxMenuBtnList", bgWxMenuBtnList);
 		mv.addObject("parentList", parentList);
 		mv.addObject("pd", pd);
 		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
 		resultInfo.setResultCode("success");
-		mv.setViewName("background/dict/bgDictList");
+		mv.setViewName("background/wxMenuBtn/bgWxMenuBtnList");
 
 		mv.addObject(resultInfo);
 		return mv;
@@ -132,23 +131,25 @@ public class BgDictController extends BaseController {
 		mv.setViewName("background/bgResult");
 		
 		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id	
-		ComDict parentComDict = comDictService.findById(parentId);
-		if(!"0".equals(parentId) && parentComDict==null){
+		BgWxMenuBtn parentBgWxMenuBtn = bgWxMenuBtnService.findById(parentId);
+		if(!"0".equals(parentId) && parentBgWxMenuBtn==null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		ComDict comDict = new ComDict();
-		comDict.setParentId(parentId);
-		comDict.setDictCode(parentComDict==null?"":parentComDict.getDictCode());
-		comDict.setDictName("");
-		comDict.setDictType("01");
-		comDict.setDictValue("");
-		comDict.setOrderNum(String.valueOf(new Date().getTime()));
+		BgWxMenuBtn bgWxMenuBtn = new BgWxMenuBtn();
+		bgWxMenuBtn.setParentId(parentId);
+		bgWxMenuBtn.setWxMenuBtnCode("");
+		bgWxMenuBtn.setWxMenuBtnName("");
+		bgWxMenuBtn.setWxMenuBtnType("01");
+		bgWxMenuBtn.setMenuBtnKey("");
+		bgWxMenuBtn.setMenuBtnUrl("");
+		bgWxMenuBtn.setMedia_id("");
+		bgWxMenuBtn.setOrderNum(String.valueOf(new Date().getTime()));
 		
-		mv.addObject(comDict);
+		mv.addObject(bgWxMenuBtn);
 		mv.addObject("methodPath", "add");
 		resultInfo.setResultCode("success");
-		mv.setViewName("background/dict/bgDictEdit");
+		mv.setViewName("background/wxMenuBtn/bgWxMenuBtnEdit");
 			
 		mv.addObject(resultInfo);					
 		return mv;
@@ -158,33 +159,32 @@ public class BgDictController extends BaseController {
 	 * 新增
 	 */
 	@RequestMapping(value="/add")
-	public ModelAndView add(@Validated(ValidationAdd.class) ComDict comDict, BindingResult result) throws Exception{
+	public ModelAndView add(@Validated(ValidationAdd.class) BgWxMenuBtn bgWxMenuBtn, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
 		if(result.hasErrors()) {
-			resultInfo.setResultEntity("comDict");
+			resultInfo.setResultEntity("bgWxMenuBtn");
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
 		
-		List<ComDict> comDictList = comDictService.otherHaveCode("", comDict.getDictCode());
-		if(MapleUtil.notEmptyList(comDictList)){
+		String parentId = bgWxMenuBtn.getParentId();
+		BgWxMenuBtn parentBgWxMenuBtn = bgWxMenuBtnService.findById(parentId);
+		if(!"0".equals(parentId) && parentBgWxMenuBtn==null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
 		
-		String parentId = comDict.getParentId();
-		ComDict parentComDict = comDictService.findById(parentId);
-		if(!"0".equals(parentId) && parentComDict==null){
+		List<BgWxMenuBtn> bgWxMenuBtnList = bgWxMenuBtnService.otherHaveCode("", bgWxMenuBtn.getWxMenuBtnCode());
+		if(MapleUtil.notEmptyList(bgWxMenuBtnList)){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		comDict.setLevel("0".equals(parentId)?"0":String.valueOf(Integer.parseInt(parentComDict.getLevel())+1));
 			
-		comDictService.add(comDict);
+		bgWxMenuBtnService.add(bgWxMenuBtn);
 		resultInfo.setResultCode("success");
 
 		mv.addObject(resultInfo);
@@ -195,21 +195,21 @@ public class BgDictController extends BaseController {
 	 * 去修改页面
 	 */
 	@RequestMapping(value="/toEdit")
-	public ModelAndView toEdit(@RequestParam String dictId) throws Exception{
+	public ModelAndView toEdit(@RequestParam String wxMenuBtnId) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-		ComDict comDict = comDictService.findById(dictId);	//根据ID读取
-		if(comDict == null){
+		BgWxMenuBtn bgWxMenuBtn = bgWxMenuBtnService.findById(wxMenuBtnId);	//根据ID读取
+		if(bgWxMenuBtn == null){
 			mv.addObject(resultInfo);
 			return mv;
 		}
 		mv.addObject("methodPath", "edit");
-		mv.addObject(comDict);
+		mv.addObject(bgWxMenuBtn);
 		resultInfo.setResultCode("success");
-		mv.setViewName("background/dict/bgDictEdit");
+		mv.setViewName("background/wxMenuBtn/bgWxMenuBtnEdit");
 		
 		mv.addObject(resultInfo);						
 		return mv;
@@ -219,26 +219,25 @@ public class BgDictController extends BaseController {
 	 * 修改
 	 */
 	@RequestMapping(value="/edit")
-	public ModelAndView edit(@Validated(ValidationEdit.class) ComDict comDict, BindingResult result) throws Exception{
-		logBefore(logger, "修改comDict");
+	public ModelAndView edit(@Validated(ValidationEdit.class) BgWxMenuBtn bgWxMenuBtn, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 			
 		if(result.hasErrors()) {
-			resultInfo.setResultEntity("comDict");
+			resultInfo.setResultEntity("bgWxMenuBtn");
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
 		
-		List<ComDict> comDictList = comDictService.otherHaveCode(comDict.getDictId(), comDict.getDictCode());	
-		if(MapleUtil.notEmptyList(comDictList)){
+		List<BgWxMenuBtn> bgWxMenuBtnList = bgWxMenuBtnService.otherHaveCode(bgWxMenuBtn.getWxMenuBtnId(), bgWxMenuBtn.getWxMenuBtnCode());	
+		if(MapleUtil.notEmptyList(bgWxMenuBtnList)){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
 		
-		comDictService.edit(comDict);
+		bgWxMenuBtnService.edit(bgWxMenuBtn);
 		resultInfo.setResultCode("success");
 		
 		mv.addObject(resultInfo);
@@ -250,12 +249,12 @@ public class BgDictController extends BaseController {
 	 */
 	@RequestMapping(value="/otherNotCode")
 	@ResponseBody
-	public Object otherNotCode(@RequestParam String dictId, @RequestParam String dictCode) throws Exception{
+	public Object otherNotCode(@RequestParam String wxMenuBtnId, @RequestParam String wxMenuBtnCode) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<ComDict> comDictList = comDictService.otherHaveCode(dictId, dictCode);	
-		if(MapleUtil.emptyList(comDictList)){
+		List<BgWxMenuBtn> bgWxMenuBtnList = bgWxMenuBtnService.otherHaveCode(wxMenuBtnId, wxMenuBtnCode);	
+		if(MapleUtil.emptyList(bgWxMenuBtnList)){
 			resultInfo.setResultCode("success");
 		}
 
@@ -267,11 +266,11 @@ public class BgDictController extends BaseController {
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(@RequestParam String dictId) throws Exception{
+	public Object toDelete(@RequestParam String wxMenuBtnId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		
-		comDictService.deleteInRank(dictId);	//根据ID删除
+		bgWxMenuBtnService.deleteInRank(wxMenuBtnId);	//根据ID删除
 		resultInfo.setResultCode("success");
 
 		return AppUtil.returnResult(pd, resultInfo);
@@ -290,7 +289,7 @@ public class BgDictController extends BaseController {
 		if(MapleStringUtil.isEmpty(ids)){
 			return AppUtil.returnResult(pd, resultInfo);
 		}
-		comDictService.batchDeleteInRank(ids.split(","));	//根据ID删除
+		bgWxMenuBtnService.batchDeleteInRank(ids.split(","));	//根据ID删除
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
@@ -308,39 +307,41 @@ public class BgDictController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("数据字典 主键id");		//0
+		titles.add("微信菜单按钮 主键id");		//0
 		titles.add("上级 id");					//1
-		titles.add("数据字典代号");	//2
-		titles.add("数据字典名称");	//3
-		titles.add("数据字典类型");	//4
-		titles.add("数据字典状态");	//5
-		titles.add("数据字典值");	//6
-		titles.add("级别");	//7
-		titles.add("排序编号");	//8
-		titles.add("有效标志");	//9
-		titles.add("创建人员id");	//10
-		titles.add("创建时间");	//11
-		titles.add("修改人员id");	//12
-		titles.add("修改时间");	//13
+		titles.add("微信菜单按钮代号");	//2
+		titles.add("微信菜单按钮名称");	//3
+		titles.add("微信菜单按钮类型");	//4
+		titles.add("微信菜单按钮状态");	//5
+		titles.add("菜单KEY值");	//6
+		titles.add("网页链接");	//7
+		titles.add("永久素材id");	//8
+		titles.add("排序编号");	//9
+		titles.add("有效标志");	//10
+		titles.add("创建人员id");	//11
+		titles.add("创建时间");	//12
+		titles.add("修改人员id");	//13
+		titles.add("修改时间");	//14
 		dataMap.put("titles", titles);
-		List<ComDict> varOList = comDictService.listByPd(pd);
+		List<BgWxMenuBtn> varOList = bgWxMenuBtnService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
-			vpd.put("var0",varOList.get(i).getDictId());			//0
+			vpd.put("var0",varOList.get(i).getWxMenuBtnId());			//0
 			vpd.put("var1",varOList.get(i).getParentId());						//1
-			vpd.put("var2", varOList.get(i).getDictCode());	//2
-			vpd.put("var3", varOList.get(i).getDictName());	//3
-			vpd.put("var4", varOList.get(i).getDictType());	//4
-			vpd.put("var5", varOList.get(i).getDictStatus());	//5
-			vpd.put("var6", varOList.get(i).getDictValue());	//6
-			vpd.put("var7", varOList.get(i).getLevel());	//7
-			vpd.put("var8", varOList.get(i).getOrderNum());		//8
-			vpd.put("var9", varOList.get(i).getEffective());	//9
-			vpd.put("var10", varOList.get(i).getCreateUserId());	//10
-			vpd.put("var11", varOList.get(i).getCreateTime());	//11
-			vpd.put("var12", varOList.get(i).getModifyUserId());//12
-			vpd.put("var13", varOList.get(i).getModifyTime());	//13
+			vpd.put("var2", varOList.get(i).getWxMenuBtnCode());	//2
+			vpd.put("var3", varOList.get(i).getWxMenuBtnName());	//3
+			vpd.put("var4", varOList.get(i).getWxMenuBtnType());	//4
+			vpd.put("var5", varOList.get(i).getWxMenuBtnStatus());	//5
+			vpd.put("var6", varOList.get(i).getMenuBtnKey());	//6
+			vpd.put("var7", varOList.get(i).getMenuBtnUrl());	//7
+			vpd.put("var8", varOList.get(i).getMedia_id());	//8
+			vpd.put("var9", varOList.get(i).getOrderNum());		//9
+			vpd.put("var10", varOList.get(i).getEffective());	//10
+			vpd.put("var11", varOList.get(i).getCreateUserId());	//11
+			vpd.put("var12", varOList.get(i).getCreateTime());	//12
+			vpd.put("var13", varOList.get(i).getModifyUserId());//13
+			vpd.put("var14", varOList.get(i).getModifyTime());	//14
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -365,15 +366,15 @@ public class BgDictController extends BaseController {
 		
 		String pId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
 			
-		ComDict parentComDict = comDictService.findById(pId);
-		if(!"0".equals(pId) && parentComDict==null){
+		BgWxMenuBtn parentBgWxMenuBtn = bgWxMenuBtnService.findById(pId);
+		if(!"0".equals(pId) && parentBgWxMenuBtn==null){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
 			
 		mv.addObject("pId",pId);
 
-		mv.addObject("controllerPath", "background/dict");
+		mv.addObject("controllerPath", "background_wxMenuBtn");
 		mv.setViewName("background/bgUploadExcel");
 
 		mv.addObject(resultInfo);					
@@ -386,17 +387,18 @@ public class BgDictController extends BaseController {
 	 */
 	@RequestMapping(value="/downExcelModel")
 	public ModelAndView downExcelModel()throws Exception{
-		logBefore(logger, "导出bgUser到excel");
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("数据字典代号");	//0
-		titles.add("数据字典名称");	//1
-		titles.add("数据字典类型");	//2
-		titles.add("数据字典值");	//3
+		titles.add("微信菜单按钮代号");	//0
+		titles.add("微信菜单按钮名称");	//1
+		titles.add("微信菜单按钮类型");	//2
+		titles.add("菜单KEY值");	//3
+		titles.add("网页链接");	//4
+		titles.add("永久素材id");	//5
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -426,27 +428,31 @@ public class BgDictController extends BaseController {
 			return mv;
 		}
 		String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
-		String fileName =  MapleFileUtil.fileUp(file, filePath, "dictexcel");		//执行上传
+		String fileName =  MapleFileUtil.fileUp(file, filePath, "wxMenuBtnexcel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
 		
-		ComDict comDict = new ComDict();
+		BgWxMenuBtn bgWxMenuBtn = new BgWxMenuBtn();
 		String pId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
-		comDict.setParentId(pId);
+		bgWxMenuBtn.setParentId(pId);
 				
 		/**
-		 * var0 :数据字典代号;	//0
-		 * var1 :数据字典名称;	//1
-		 * var2 :数据字典类型;	//2
-		 * var3 :数据字典值;	//3
+		 * var0 :微信菜单按钮代号;	//0
+		 * var1 :微信菜单按钮名称;	//1
+		 * var2 :微信菜单按钮类型;	//2
+		 * var3 :菜单KEY值;	//3
+		 * var4 :网页链接;	//4
+		 * var5 :永久素材id;	//5
 		 */
 		for(int i=0;i<listPd.size();i++){	
-			comDict.setDictId(this.get32UUID());
-			comDict.setDictCode(listPd.get(i).getString("var0"));
-			comDict.setDictName(listPd.get(i).getString("var1"));
-			comDict.setDictType(listPd.get(i).getString("var2"));
-			comDict.setDictValue(listPd.get(i).getString("var3"));
-			comDictService.add(comDict);
+			bgWxMenuBtn.setWxMenuBtnId(this.get32UUID());
+			bgWxMenuBtn.setWxMenuBtnCode(listPd.get(i).getString("var0"));
+			bgWxMenuBtn.setWxMenuBtnName(listPd.get(i).getString("var1"));
+			bgWxMenuBtn.setWxMenuBtnType(listPd.get(i).getString("var2"));
+			bgWxMenuBtn.setMenuBtnKey(listPd.get(i).getString("var3"));
+			bgWxMenuBtn.setMenuBtnUrl(listPd.get(i).getString("var4"));
+			bgWxMenuBtn.setMedia_id(listPd.get(i).getString("var5"));
+			bgWxMenuBtnService.add(bgWxMenuBtn);
 		}
 		/*存入数据库操作======================================*/
 		resultInfo.setResultCode("success");

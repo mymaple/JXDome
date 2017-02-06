@@ -95,7 +95,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 				.replaceAll("${bgMaple.mapleCode}Name", "name").replaceAll("sub${bgMaple.mapleEntityUpper}List", "nodes")
 				.replaceAll("has${bgMaple.mapleCodeUpper}", "checked").replaceAll("sub${bgMaple.mapleEntityUpper}Path", "url");
 		model.addAttribute("zTreeNodes", json);
-		mv.addObject("controllerPath", );
+		mv.addObject("controllerPath", "${bgMaple.controllerPackage}/${bgMaple.mapleCode}");
 		mv.addObject("pd", pd);
 		resultInfo.setResultCode("success");
 		mv.setViewName("${bgMaple.controllerPackage}/bgMainTree");

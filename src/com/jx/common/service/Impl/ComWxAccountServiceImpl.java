@@ -32,7 +32,7 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 	 * @return ComWxAccount
 	 * @throws Exception
 	 */
-	public ComWxAccount findStart() throws Exception {
+	public ComWxAccount findStartUp() throws Exception {
 		PageData pd = new PageData();
 		pd.put("wxAccountStatus","01");
 		return this.listByPd(pd).get(0);
@@ -88,7 +88,7 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 	 */
 	public void change(ComWxAccount comWxAccount) throws Exception {
 		Date nowTime = new Date();
-		if(MapleStringUtil.isEmpty(comWxAccount.getCreateUserId()))
+		if(MapleStringUtil.isEmpty(comWxAccount.getModifyUserId()))
 			comWxAccount.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comWxAccount.setModifyTime(nowTime);
 		comWxAccount.setLastModifyTime(this.findById(comWxAccount.getWxAccountId()).getModifyTime());

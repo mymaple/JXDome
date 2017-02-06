@@ -127,7 +127,7 @@ public class QuartzManager {
     				.build();
         	sched.rescheduleJob(triggerKey, trigger);									//按新的trigger重新设置job执行
         }
-    }  
+    } 
     
     /**移除一个任务(使用默认的任务组名，触发器名，触发器组名) 
      * @param jobName	任务名称

@@ -124,6 +124,8 @@ public class BgMenuServiceImpl implements BgMenuService{
 		bgMenu.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMenu.setModifyTime(nowTime);
 		
+		bgMenu.setMenuIcon("menu-icon fa fa-leaf black");//默认菜单图标
+		
 		dao.add("BgMenuMapper.add", bgMenu);
 	}
 	
