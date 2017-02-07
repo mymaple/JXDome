@@ -45,7 +45,7 @@ public class Tools {
 	 * @return
 	 */
 	public static Date str2Date(String date) {
-		if (notEmpty(date)) {
+		if (MapleStringUtil.notEmpty(date)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			try {
 				return sdf.parse(date);
@@ -175,7 +175,7 @@ public class Tools {
 	 */
 	public static boolean checkKey(String paraname, String FKEY) {
 		paraname = (null == paraname) ? "" : paraname;
-		return MD5.md5(paraname + MapleDateUtil.getDays() + ",fh,").equals(FKEY);
+		return MD5.md5(paraname + MapleDateUtil.formatDate(new Date()) + ",fh,").equals(FKEY);
 	}
 
 	/**

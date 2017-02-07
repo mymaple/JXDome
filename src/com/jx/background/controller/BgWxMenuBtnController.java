@@ -26,6 +26,7 @@ import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
+import com.jx.common.service.ComWxAccountService;
 import com.jx.background.entity.BgWxMenuBtn;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
@@ -33,9 +34,11 @@ import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
+import com.jx.common.util.WxConnUtil;
 import com.jx.background.service.BgWxMenuBtnService;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /** 
  * 类名称：BgWxMenuBtnController
@@ -53,6 +56,9 @@ public class BgWxMenuBtnController extends BaseController {
 	
 	@Resource(name="bgWxMenuBtnService")
 	private BgWxMenuBtnService bgWxMenuBtnService;
+	
+	@Resource(name="comWxAccountService")
+	private ComWxAccountService comWxAccountService;
 	
 	
 	/**
@@ -462,6 +468,44 @@ public class BgWxMenuBtnController extends BaseController {
 		return mv;
 	}
 	
+	/**
+	 * 创建公众号菜单按钮
+	 */
+	@RequestMapping(value="/toCreateMenuBtn")
+	@ResponseBody
+	public Object toCreateMenuBtn(@RequestParam String wxMenuBtnId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		
+		JSONArray arr = JSONArray.fromObject(bgWxMenuBtnService.listInRank(wxMenuBtnId));
+		JSONObject json = new JSONObject();
+		json.put("button", arr);
+		String menuBtnStr =json.toString();
+		System.out.println("111********************************"+menuBtnStr);
+		menuBtnStr = menuBtnStr.replaceAll("wxMenuBtnType", "type").replaceAll("wxMenuBtnName", "name").replaceAll("menuBtnKey", "key")
+				.replaceAll("menuBtnUrl", "url").replaceAll("subBgWxMenuBtnList", "sub_button").replaceAll("00", "");
+		System.out.println("222********************************"+menuBtnStr);
+		int errcode = WxConnUtil.toCreateMenuBtn(comWxAccountService.findById(wxMenuBtnId).getAccessToken(), menuBtnStr);
+		if(0==errcode)
+			resultInfo.setResultCode("success");
+
+		return AppUtil.returnResult(pd, resultInfo);
+	}
 	
+	/**
+	 * 停止公众号菜单按钮
+	 */
+	@RequestMapping(value="/toStopMenuBtn")
+	@ResponseBody
+	public Object toStopMenuBtn(@RequestParam String wxMenuBtnId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		
+		int errcode = WxConnUtil.toStopMenuBtn(comWxAccountService.findById(wxMenuBtnId).getAccessToken());
+		if(0==errcode)
+			resultInfo.setResultCode("success");
+
+		return AppUtil.returnResult(pd, resultInfo);
+	}
 
 }

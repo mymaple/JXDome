@@ -111,7 +111,7 @@ public class HttpManager {
          	conn.setRequestProperty("content-type","text/json");
          	conn.setRequestProperty("content-length",String.valueOf(params.getBytes().length));
          	conn.setDoInput(true); //允许输入流，即允许下载 
-        	conn.setDoOutput(false); //允许输出流，即允许上传 
+        	conn.setDoOutput(true); //允许输出流，即允许上传 
          	OutputStream out = conn.getOutputStream();
             out.write(params.getBytes(DEFAULT_CHARSET));
             out.flush();

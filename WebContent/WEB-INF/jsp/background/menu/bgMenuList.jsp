@@ -60,7 +60,7 @@
 							
 						<!-- 检索  -->
 						<form action="background/menu/list.do" method="post" name="menuForm" id="menuForm">
-						<input type="hidden" name="parentId" id="parentId" value="pd.parentId}"/>
+						<input type="hidden" name="pId" id="pId" value="${pd.pId}"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -255,9 +255,9 @@
 		});
 		
 		//去此ID下子菜单列表
-		function toSub(parentId){
+		function toSub(pId){
 			top.jzts();
-			window.location.href="<%=basePath%>background/menu/list.do?pId="+parentId;
+			window.location.href="<%=basePath%>background/menu/list.do?pId="+pId;
 		};
 		
 		//新增

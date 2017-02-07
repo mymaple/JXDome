@@ -62,7 +62,7 @@
 							
 						<!-- 检索  -->
 						<form action="background/wxMenuBtn/list.do" method="post" name="wxMenuBtnForm" id="wxMenuBtnForm">
-						<input type="hidden" name="parentId" id="parentId" value="pd.parentId}"/>
+						<input type="hidden" name="pId" id="pId" value="${pd.pId}"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -121,10 +121,20 @@
 											<td class='center'>${bgWxMenuBtn.media_id}</td>
 											<td class='center'>${bgWxMenuBtn.orderNum}</td>
 											<td class="center">
+											<div class="hidden-sm hidden-xs btn-group">
+												<c:if test="${bgWxMenuBtn.parentId == '0' }">
+													<a class="btn btn-xs btn-success" title="启用" onclick="toCreateMenuBtn('${bgWxMenuBtn.wxMenuBtnId}');">
+														<i class="ace-icon glyphicon glyphicon-play bigger-120" title="启用"></i>
+													</a>
+													<a class="btn btn-xs btn-danger" onclick="toStopMenuBtn('${bgWxMenuBtn.wxMenuBtnId}');">
+														<i class="ace-icon glyphicon glyphicon-off bigger-120" title="停止"></i>
+													</a>
+												</c:if>
+												<c:if test="${bgWxMenuBtn.parentId != '0' }">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
-												<div class="hidden-sm hidden-xs btn-group">
+												
 													<c:if test="${RIGHTS.edit}">
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${bgWxMenuBtn.wxMenuBtnId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
@@ -135,7 +145,8 @@
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
-												</div>
+												</c:if>
+											</div>
 											</td>
 										</tr>
 									
@@ -386,6 +397,35 @@
 			 };
 			 diag.show();
 		}
+		
+		//启用微信菜单按钮
+		function toCreateMenuBtn(wxMenuBtnId){
+			top.jzts();
+			var url = "<%=basePath%>background/wxMenuBtn/toCreateMenuBtn.do?wxMenuBtnId="+wxMenuBtnId+"&tm="+new Date().getTime();
+			$.get(url,function(data){
+				if(data.resultCode == "success"){
+					bootbox.alert("启动成功");
+				}else{
+					bootbox.alert("启动失败");
+				}
+			});
+			top.hangge();
+		}
+		
+		//停止微信菜单按钮
+		function toStopMenuBtn(wxMenuBtnId){
+			top.jzts();
+			var url = "<%=basePath%>background/wxMenuBtn/toStopMenuBtn.do?wxMenuBtnId="+wxMenuBtnId+"&tm="+new Date().getTime();
+			$.get(url,function(data){
+				if(data.resultCode == "success"){
+					bootbox.alert("停止成功");
+				}else{
+					bootbox.alert("停止失败");
+				}
+			});
+			top.hangge();
+		}
+		
 	</script>
 
 </body>

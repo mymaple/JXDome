@@ -74,7 +74,7 @@
 						<!-- 检索  -->
 						<form action="${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do" method="post" name="${bgMaple.mapleCode}Form" id="${bgMaple.mapleCode}Form">
 						<#if bgMaple.mapleType == "02">
-						<input type="hidden" name="parentId" id="parentId" value="${r"pd."}parentId${r"}"}"/>
+						<input type="hidden" name="pId" id="pId" value="${r"${pd.pId}"}"/>
 						<#elseif bgMaple.mapleType == "04">
 						<input type="hidden" name="${bgMaple.mapleCode ?replace('Detail','')}Id" id="${bgMaple.mapleCode ?replace('Detail','')}Id" value="${r"${pd."}${bgMaple.mapleCode ?replace('Detail','')}Id ${r"}"}"/>
 						</#if>
@@ -282,9 +282,9 @@
 		
 		<#if bgMaple.mapleType == "02">
 		//去此ID下子菜单列表
-		function toSub(parentId){
+		function toSub(pId){
 			top.jzts();
-			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?pId="+parentId;
+			window.location.href="<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/list.do?pId="+pId;
 		};
 		
 		<#elseif bgMaple.mapleType == "03">
