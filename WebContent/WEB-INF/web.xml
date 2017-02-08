@@ -100,6 +100,18 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	<!-- 来接收微信服务器传来信息 Serlvet 配置-->
+	<servlet>
+        <servlet-name>WeixinSerlvet</servlet-name>
+        <servlet-class>
+            com.jx.background.wx.WeixinSerlvet
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WeixinSerlvet</servlet-name>
+        <url-pattern>/WeixinSerlvet</url-pattern>
+    </servlet-mapping>
+    
 	<!-- tomcat等 启动之前执行 -->
 	<filter>
 		<filter-name>bgWebsocketFilter</filter-name>

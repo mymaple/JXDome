@@ -12,12 +12,12 @@ public interface ComWxAccountService {
 	/****************************custom * start***********************************/
 
 	/**
-	 * 通过id获取(类)数据
+	 * 获取当前系统的微信服务号账号信息
 	 * @param String wxAccountId
 	 * @return ComWxAccount
 	 * @throws Exception
 	 */
-	public ComWxAccount findStartUp() throws Exception ;
+	public ComWxAccount findCurrent() throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

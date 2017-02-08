@@ -27,12 +27,12 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 	/****************************custom * start***********************************/
 	
 	/**
-	 * 通过id获取(类)数据
+	 * 获取当前系统的微信服务号账号信息
 	 * @param String wxAccountId
 	 * @return ComWxAccount
 	 * @throws Exception
 	 */
-	public ComWxAccount findStartUp() throws Exception {
+	public ComWxAccount findCurrent() throws Exception {
 		PageData pd = new PageData();
 		pd.put("wxAccountStatus","01");
 		return this.listByPd(pd).get(0);
