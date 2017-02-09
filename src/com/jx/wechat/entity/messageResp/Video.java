@@ -9,10 +9,10 @@ import com.jx.common.util.MapleStringUtil;
 public class Video {
 
     /** 图片消息媒体id，可以调用多媒体文件下载接口拉取数据  */
-    private String mediaId;
+    private String MediaId;
     
     /** 视频消息缩略图的媒体id，可以调用多媒体文件下载接口拉取数据 */
-    private String thumbMediaId;
+    private String ThumbMediaId;
     
     
     /**
@@ -21,7 +21,7 @@ public class Video {
 	 * @return String mediaId
 	 */
 	public String getMediaId() {
-		return this.mediaId;
+		return this.MediaId;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class Video {
 	 * @param String mediaId
 	 */
 	public void setMediaId(String mediaId) {
-		this.mediaId = MapleStringUtil.trim(mediaId);
+		this.MediaId = MapleStringUtil.trim(mediaId);
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class Video {
 	 * @return String thumbMediaId
 	 */
 	public String getThumbMediaId() {
-		return this.thumbMediaId;
+		return this.ThumbMediaId;
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class Video {
 	 * @param String thumbMediaId
 	 */
 	public void setThumbMediaId(String thumbMediaId) {
-		this.thumbMediaId = MapleStringUtil.trim(thumbMediaId);
+		this.ThumbMediaId = MapleStringUtil.trim(thumbMediaId);
 	}
 
 }

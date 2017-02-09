@@ -10,10 +10,10 @@ import com.jx.wechat.entity.BaseEvent;
 public class QRCodeEvent extends BaseEvent {
 	
     /** 事件KEY值，qrscene_为前缀，后面为二维码的参数值	*/
-    private String eventKey;
+    private String EventKey;
     
     /** 二维码的ticket，可用来换取二维码图片 */
-    private String ticket;
+    private String Ticket;
     
     
 	/**
@@ -22,7 +22,7 @@ public class QRCodeEvent extends BaseEvent {
 	 * @return String eventKey
 	 */
 	public String getEventKey() {
-		return this.eventKey;
+		return this.EventKey;
 	}
 	/**
 	 * 设置	事件KEY值，qrscene_为前缀，后面为二维码的参数值
@@ -30,7 +30,7 @@ public class QRCodeEvent extends BaseEvent {
 	 * @param String eventKey
 	 */
 	public void setEventKey(String eventKey) {
-		this.eventKey = MapleStringUtil.trim(eventKey);
+		this.EventKey = MapleStringUtil.trim(eventKey);
 	}
 	/**
 	 * 获得	二维码的ticket，可用来换取二维码图片
@@ -38,7 +38,7 @@ public class QRCodeEvent extends BaseEvent {
 	 * @return String ticket
 	 */
 	public String getTicket() {
-		return this.ticket;
+		return this.Ticket;
 	}
 	/**
 	 * 设置	二维码的ticket，可用来换取二维码图片
@@ -46,7 +46,7 @@ public class QRCodeEvent extends BaseEvent {
 	 * @param String ticket
 	 */
 	public void setTicket(String ticket) {
-		this.ticket = MapleStringUtil.trim(ticket);
+		this.Ticket = MapleStringUtil.trim(ticket);
 	}
     
     

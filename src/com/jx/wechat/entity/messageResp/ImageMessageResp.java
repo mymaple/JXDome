@@ -1,6 +1,9 @@
 package com.jx.wechat.entity.messageResp;
 
+import com.jx.wechat.entity.BaseEvent;
+import com.jx.wechat.entity.BaseMessageReq;
 import com.jx.wechat.entity.BaseMessageResp;
+import com.jx.wechat.util.MessageUtil;
 
 /**
  * 类名: ImageMessageResp </br>
@@ -8,8 +11,22 @@ import com.jx.wechat.entity.BaseMessageResp;
  */
 public class ImageMessageResp extends BaseMessageResp {
 	
+	public ImageMessageResp(BaseMessageReq messageReq) {
+		super(messageReq);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_IMAGE);
+	}
+	
+	public ImageMessageResp(BaseEvent event) {
+		super(event);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_IMAGE);
+	}
+	
+	public ImageMessageResp() {
+		super();
+	}
+
 	/** 图片 */
-	private Image image;
+	private Image Image;
 
 	/**
 	 * 获得	图片
@@ -17,7 +34,7 @@ public class ImageMessageResp extends BaseMessageResp {
 	 * @return Image image
 	 */
 	public Image getImage() {
-		return this.image;
+		return this.Image;
 	}
 
 	/**
@@ -26,7 +43,7 @@ public class ImageMessageResp extends BaseMessageResp {
 	 * @param Image image
 	 */
 	public void setImage(Image image) {
-		this.image = image;
+		this.Image = image;
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.jx.wechat.entity;
 
+import java.util.Date;
+
 import com.jx.common.util.MapleStringUtil;
 
 /**
@@ -8,26 +10,49 @@ import com.jx.common.util.MapleStringUtil;
  */
 public class BaseMessageResp {
 	
-    /** 接收方帐号（收到的OpenID） */
-	private String toUserName;
+	public BaseMessageResp(BaseMessageReq messageReq) {
+		super();
+		this.ToUserName = messageReq.getFromUserName();
+		this.FromUserName = messageReq.getToUserName();
+		this.CreateTime = String.valueOf(new Date().getTime());
+		this.FuncFlag = "0";
+	}
+	
+	public BaseMessageResp(BaseEvent event) {
+		super();
+		this.ToUserName = event.getFromUserName();
+		this.FromUserName = event.getToUserName();
+		this.CreateTime = String.valueOf(new Date().getTime());
+		this.FuncFlag = "0";
+	}
+	
+    public BaseMessageResp() {
+		super();
+	}
+
+	/** 接收方帐号（收到的OpenID） */
+	private String ToUserName;
 		
 	/** 开发者微信号 */
-	private String fromUserName;
+	private String FromUserName;
 		
 	/** 消息创建时间 （整型） */
-	private long createTime;
+	private String CreateTime;
 		
 	/** 消息类型（text/image/location/link） */
-	private String msgType;
+	private String MsgType;
 		
-	
+	/** 位0x0001被标志时，星标刚收到的消息	*/
+    private String FuncFlag;
+    
+    
 	/**
 	 * 设置 接收方帐号（收到的OpenID）
 	 * 
 	 * @param String toUserName
 	 */
 	public void setToUserName(String toUserName) {
-		this.toUserName = MapleStringUtil.trim(toUserName);
+		this.ToUserName = MapleStringUtil.trim(toUserName);
 	}
 	
 	/**
@@ -36,7 +61,7 @@ public class BaseMessageResp {
 	 * @return String toUserName
 	 */
 	public String getToUserName() {
-		return this.toUserName;
+		return this.ToUserName;
 	}
 	
 	/**
@@ -45,7 +70,7 @@ public class BaseMessageResp {
 	 * @param String fromUserName
 	 */
 	public void setFromUserName(String fromUserName) {
-		this.fromUserName = MapleStringUtil.trim(fromUserName);
+		this.FromUserName = MapleStringUtil.trim(fromUserName);
 	}
 	
 	/**
@@ -54,34 +79,34 @@ public class BaseMessageResp {
 	 * @return String fromUserName
 	 */
 	public String getFromUserName() {
-		return this.fromUserName;
+		return this.FromUserName;
 	}
 	
 	/**
 	 * 设置 消息创建时间 （整型）
 	 * 
-	 * @param long createTime
+	 * @param String createTime
 	 */
-	public void setCreateTime(long createTime) {
-		this.createTime = createTime;
+	public void setCreateTime(String createTime) {
+		this.CreateTime = createTime;
 	}
 	
 	/**
 	 * 获取 消息创建时间 （整型）
 	 * 
-	 * @return long createTime
+	 * @return String createTime
 	 */
-	public long getCreateTime() {
-		return this.createTime;
+	public String getCreateTime() {
+		return this.CreateTime;
 	}
 	
 	/**
 	 * 设置 消息类型（text/image/location/link）
 	 * 
-	 * @param long msgType
+	 * @param String msgType
 	 */
 	public void setMsgType(String msgType) {
-		this.msgType = MapleStringUtil.trim(msgType);
+		this.MsgType = MapleStringUtil.trim(msgType);
 	}
 	
 	/**
@@ -90,7 +115,25 @@ public class BaseMessageResp {
 	 * @return String msgType
 	 */
 	public String getMsgType() {
-		return this.msgType;
+		return this.MsgType;
+	}
+
+	/**
+	 * 获得	位0x0001被标志时，星标刚收到的消息
+	 *	
+	 * @return String funcFlag
+	 */
+	public String getFuncFlag() {
+		return this.FuncFlag;
+	}
+
+	/**
+	 * 设置	位0x0001被标志时，星标刚收到的消息
+	 *
+	 * @param String funcFlag
+	 */
+	public void setFuncFlag(String funcFlag) {
+		this.FuncFlag = funcFlag;
 	}
 	
 }

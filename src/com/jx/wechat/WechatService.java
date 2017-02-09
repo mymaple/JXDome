@@ -1,19 +1,12 @@
 package com.jx.wechat;
 
-import java.awt.Font;
-import java.io.File;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import com.jx.wechat.entity.BaseMessageResp;
+import org.apache.commons.lang.StringUtils;
+
 import com.jx.wechat.entity.messageResp.TextMessageResp;
 import com.jx.wechat.util.MessageUtil;
 import com.jx.wechat.util.WechatRespUtil;
@@ -27,9 +20,7 @@ public class WechatService {
      */
     public static String processRequest(HttpServletRequest request) {
         // xml格式的消息数据
-        String respXml = null;
-        // 默认返回的文本消息内容
-        String respContent = "未知的消息类型！";
+        String respXml = "";
         try {
             // 调用parseXml方法解析请求消息
             Map<String, String> requestMap = MessageUtil.parseXml(request);
@@ -51,23 +42,23 @@ public class WechatService {
             }
             // 语音消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {
-                respContent = "您发送的是语音消息！";
+            	respXml = WechatRespUtil.reqVoice(requestMap);
             }
             // 视频消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VIDEO)) {
-                respContent = "您发送的是视频消息！";
+            	respXml = WechatRespUtil.reqVideo(requestMap);
             }
-            // 视频消息
+            // 短视频消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_SHORTVIDEO)) {
-                respContent = "您发送的是小视频消息！";
+            	respXml = WechatRespUtil.reqShortVideo(requestMap);
             }
             // 地理位置消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) {
-                respContent = "您发送的是地理位置消息！";
+            	respXml = WechatRespUtil.reqLocation(requestMap);
             }
             // 链接消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) {
-                respContent = "您发送的是链接消息！";
+            	respXml = WechatRespUtil.reqLink(requestMap);
             }
             // 事件推送
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
@@ -75,28 +66,45 @@ public class WechatService {
                 String eventType = requestMap.get("Event");
                 // 关注
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-                    respContent = "谢谢您的关注！";
+                	respXml = WechatRespUtil.reqSubscribe(requestMap);
                 }
                 // 取消关注
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
-                    // TODO 取消订阅后用户不会再收到公众账号发送的消息，因此不需要回复
+                	respXml = WechatRespUtil.reqUnsubscribe(requestMap);
                 }
-                // 扫描带参数二维码
+                // 用户已关注扫描带参数二维码
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_SCAN)) {
-                    // TODO 处理扫描带参数二维码事件
+                	respXml = WechatRespUtil.reqScan(requestMap);
                 }
                 // 上报地理位置
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_LOCATION)) {
-                    // TODO 处理上报地理位置事件
+                	respXml = WechatRespUtil.reqLocationEvent(requestMap);
                 }
-                // 自定义菜单
+                // 自定义菜单跳转链接
+                else if (eventType.equals(MessageUtil.EVENT_TYPE_VIEW)) {
+                	respXml = WechatRespUtil.reqViewEvent(requestMap);
+                }
+                // 自定义菜单点击
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
-                    // TODO 处理菜单点击事件
+                	respXml = WechatRespUtil.reqClickEvent(requestMap);
                 }
             }
+            
+            if(StringUtils.isEmpty(respXml)){
+            	// 回复消息
+        		TextMessageResp messageResp = new TextMessageResp();
+        		messageResp.setToUserName(fromUserName);
+        		messageResp.setFromUserName(toUserName);
+        		messageResp.setCreateTime(String.valueOf(new Date().getTime()));
+        		messageResp.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+        		messageResp.setContent("未知的消息类型！");
+        		MessageUtil.messageToXml(messageResp);
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         return respXml;
     }
 }

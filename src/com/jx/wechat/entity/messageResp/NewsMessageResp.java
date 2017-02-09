@@ -2,7 +2,10 @@ package com.jx.wechat.entity.messageResp;
 
 import java.util.List;
 
+import com.jx.wechat.entity.BaseEvent;
+import com.jx.wechat.entity.BaseMessageReq;
 import com.jx.wechat.entity.BaseMessageResp;
+import com.jx.wechat.util.MessageUtil;
 
 /**
  * 类名: NewsMessageResp </br>
@@ -10,11 +13,27 @@ import com.jx.wechat.entity.BaseMessageResp;
  */
 public class NewsMessageResp extends BaseMessageResp {
 
+	public NewsMessageResp(BaseMessageReq messageReq) {
+		super(messageReq);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+	}
+	
+	public NewsMessageResp(BaseEvent event) {
+		super(event);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+	}
+	
+	public NewsMessageResp() {
+		super();
+	}
+
+
+
 	/** 图文消息个数，限制为10条以内	*/
-    private int articleCount;
+    private int ArticleCount;
     
     /** 多条图文消息信息，默认第一个item为大图	*/
-    private List<News> articles;
+    private List<News> Articles;
 
 	/**
 	 * 获得	图文消息个数，限制为10条以内
@@ -22,7 +41,7 @@ public class NewsMessageResp extends BaseMessageResp {
 	 * @return int articleCount
 	 */
 	public int getArticleCount() {
-		return this.articleCount;
+		return this.ArticleCount;
 	}
 
 	/**
@@ -31,7 +50,7 @@ public class NewsMessageResp extends BaseMessageResp {
 	 * @param int articleCount
 	 */
 	public void setArticleCount(int articleCount) {
-		this.articleCount = articleCount;
+		this.ArticleCount = articleCount;
 	}
 
 	/**
@@ -40,7 +59,7 @@ public class NewsMessageResp extends BaseMessageResp {
 	 * @return List<News> articles
 	 */
 	public List<News> getArticles() {
-		return this.articles;
+		return this.Articles;
 	}
 
 	/**
@@ -49,7 +68,7 @@ public class NewsMessageResp extends BaseMessageResp {
 	 * @param List<News> articles
 	 */
 	public void setArticles(List<News> articles) {
-		this.articles = articles;
+		this.Articles = articles;
 	}
     
 }

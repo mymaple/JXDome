@@ -9,7 +9,7 @@ import com.jx.common.util.MapleStringUtil;
 public class Image {
 
     /** 图片消息媒体id，可以调用多媒体文件下载接口拉取数据  */
-    private String mediaId;
+    private String MediaId;
     
     
     
@@ -19,7 +19,7 @@ public class Image {
 	 * @return String mediaId
 	 */
 	public String getMediaId() {
-		return this.mediaId;
+		return this.MediaId;
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class Image {
 	 * @param String mediaId
 	 */
 	public void setMediaId(String mediaId) {
-		this.mediaId = MapleStringUtil.trim(mediaId);
+		this.MediaId = MapleStringUtil.trim(mediaId);
 	}
 
 }

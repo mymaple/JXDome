@@ -10,10 +10,10 @@ import com.jx.wechat.entity.BaseMessageReq;
 public class VoiceMessageReq extends BaseMessageReq {
 
     /** 图片消息媒体id，可以调用多媒体文件下载接口拉取数据  */
-    private String mediaId;
+    private String MediaId;
     
     /** 语音格式，如amr，speex等 */
-    private String format;
+    private String Format;
     
     
     /**
@@ -22,7 +22,7 @@ public class VoiceMessageReq extends BaseMessageReq {
 	 * @return String mediaId
 	 */
 	public String getMediaId() {
-		return this.mediaId;
+		return this.MediaId;
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class VoiceMessageReq extends BaseMessageReq {
 	 * @param String mediaId
 	 */
 	public void setMediaId(String mediaId) {
-		this.mediaId = MapleStringUtil.trim(mediaId);
+		this.MediaId = MapleStringUtil.trim(mediaId);
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class VoiceMessageReq extends BaseMessageReq {
 	 * @return String format
 	 */
 	public String getFormat() {
-		return this.format;
+		return this.Format;
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class VoiceMessageReq extends BaseMessageReq {
 	 * @param String format
 	 */
 	public void setFormat(String format) {
-		this.format = MapleStringUtil.trim(format);
+		this.Format = MapleStringUtil.trim(format);
 	}
 
 }

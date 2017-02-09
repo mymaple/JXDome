@@ -10,10 +10,10 @@ import com.jx.wechat.entity.BaseMessageReq;
 public class ImageMessageReq extends BaseMessageReq {
 
     /** 图片链接 */
-    private String picUrl;
+    private String PicUrl;
     
     /** 图片消息媒体id，可以调用多媒体文件下载接口拉取数据  */
-    private String mediaId;
+    private String MediaId;
     
     
     
@@ -23,7 +23,7 @@ public class ImageMessageReq extends BaseMessageReq {
 	 * @return String picUrl
 	 */
 	public String getPicUrl() {
-		return this.picUrl;
+		return this.PicUrl;
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class ImageMessageReq extends BaseMessageReq {
 	 * @param String picUrl
 	 */
 	public void setPicUrl(String picUrl) {
-		this.picUrl = MapleStringUtil.trim(picUrl);
+		this.PicUrl = MapleStringUtil.trim(picUrl);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class ImageMessageReq extends BaseMessageReq {
 	 * @return String mediaId
 	 */
 	public String getMediaId() {
-		return this.mediaId;
+		return this.MediaId;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class ImageMessageReq extends BaseMessageReq {
 	 * @param String mediaId
 	 */
 	public void setMediaId(String mediaId) {
-		this.mediaId = MapleStringUtil.trim(mediaId);
+		this.MediaId = MapleStringUtil.trim(mediaId);
 	}
 
 }

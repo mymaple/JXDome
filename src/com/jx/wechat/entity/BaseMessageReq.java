@@ -5,19 +5,19 @@ import com.jx.common.util.MapleStringUtil;
 public class BaseMessageReq {
 	
 	/** 开发者微信号 */
-	private String toUserName;
+	private String ToUserName;
 		
 	/** 发送方帐号（一个OpenID） */
-	private String fromUserName;
+	private String FromUserName;
 		
 	/** 消息创建时间 （整型） */
-	private long createTime;
+	private String CreateTime;
 		
 	/** 消息类型（text/image/location/link） */
-	private String msgType;
+	private String MsgType;
 		
 	/** 消息id，64位整型 */
-	private long msgId;
+	private String MsgId;
 		
 	
 	/**
@@ -26,7 +26,7 @@ public class BaseMessageReq {
 	 * @param String toUserName
 	 */
 	public void setToUserName(String toUserName) {
-		this.toUserName = MapleStringUtil.trim(toUserName);
+		this.ToUserName = MapleStringUtil.trim(toUserName);
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class BaseMessageReq {
 	 * @return String toUserName
 	 */
 	public String getToUserName() {
-		return this.toUserName;
+		return this.ToUserName;
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class BaseMessageReq {
 	 * @param String fromUserName
 	 */
 	public void setFromUserName(String fromUserName) {
-		this.fromUserName = MapleStringUtil.trim(fromUserName);
+		this.FromUserName = MapleStringUtil.trim(fromUserName);
 	}
 	
 	/**
@@ -53,25 +53,25 @@ public class BaseMessageReq {
 	 * @return String fromUserName
 	 */
 	public String getFromUserName() {
-		return this.fromUserName;
+		return this.FromUserName;
 	}
 	
 	/**
 	 * 设置 消息创建时间 （整型）
 	 * 
-	 * @param long createTime
+	 * @param String createTime
 	 */
-	public void setCreateTime(long createTime) {
-		this.createTime = createTime;
+	public void setCreateTime(String createTime) {
+		this.CreateTime = createTime;
 	}
 	
 	/**
 	 * 获取 消息创建时间 （整型）
 	 * 
-	 * @return long createTime
+	 * @return String createTime
 	 */
-	public long getCreateTime() {
-		return this.createTime;
+	public String getCreateTime() {
+		return this.CreateTime;
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class BaseMessageReq {
 	 * @param String msgType
 	 */
 	public void setMsgType(String msgType) {
-		this.msgType = MapleStringUtil.trim(msgType);
+		this.MsgType = MapleStringUtil.trim(msgType);
 	}
 	
 	/**
@@ -89,25 +89,25 @@ public class BaseMessageReq {
 	 * @return String msgType
 	 */
 	public String getMsgType() {
-		return this.msgType;
+		return this.MsgType;
 	}
 	
 	/**
 	 * 设置 消息id，64位整型
 	 * 
-	 * @param long msgId
+	 * @param String msgId
 	 */
-	public void setMsgId(long msgId) {
-		this.msgId = msgId;
+	public void setMsgId(String msgId) {
+		this.MsgId = msgId;
 	}
 	
 	/**
 	 * 获取 消息id，64位整型
 	 * 
-	 * @return long msgId
+	 * @return String msgId
 	 */
-	public long getMsgId() {
-		return this.msgId;
+	public String getMsgId() {
+		return this.MsgId;
 	}
 
 }

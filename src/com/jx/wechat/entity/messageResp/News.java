@@ -5,16 +5,16 @@ import com.jx.common.util.MapleStringUtil;
 public class News {
 	
 	/** 图文消息名称	*/
-    private String title;
+    private String Title;
     
     /** 图文消息描述	*/
-    private String description;
+    private String Description;
     
     /** 图片链接，支持JPG、PNG格式，较好的效果为大图640*320，小图80*80	*/
-    private String picUrl;
+    private String PicUrl;
     
  	/**	点击图文消息跳转链接	*/
-    private String url;
+    private String Url;
 
 	/**
 	 * 获得	图文消息名称
@@ -22,7 +22,7 @@ public class News {
 	 * @return String title
 	 */
 	public String getTitle() {
-		return this.title;
+		return this.Title;
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class News {
 	 * @param String title
 	 */
 	public void setTitle(String title) {
-		this.title = MapleStringUtil.trim(title);
+		this.Title = MapleStringUtil.trim(title);
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class News {
 	 * @return String description
 	 */
 	public String getDescription() {
-		return this.description;
+		return this.Description;
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class News {
 	 * @param String description
 	 */
 	public void setDescription(String description) {
-		this.description = MapleStringUtil.trim(description);
+		this.Description = MapleStringUtil.trim(description);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class News {
 	 * @return String picUrl
 	 */
 	public String getPicUrl() {
-		return this.picUrl;
+		return this.PicUrl;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class News {
 	 * @param String picUrl
 	 */
 	public void setPicUrl(String picUrl) {
-		this.picUrl = MapleStringUtil.trim(picUrl);
+		this.PicUrl = MapleStringUtil.trim(picUrl);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class News {
 	 * @return String url
 	 */
 	public String getUrl() {
-		return this.url;
+		return this.Url;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class News {
 	 * @param String url
 	 */
 	public void setUrl(String url) {
-		this.url = MapleStringUtil.trim(url);
+		this.Url = MapleStringUtil.trim(url);
 	}
 
     

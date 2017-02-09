@@ -1,6 +1,9 @@
 package com.jx.wechat.entity.messageResp;
 
+import com.jx.wechat.entity.BaseEvent;
+import com.jx.wechat.entity.BaseMessageReq;
 import com.jx.wechat.entity.BaseMessageResp;
+import com.jx.wechat.util.MessageUtil;
 
 /**
  * 类名: VoiceMessageResp </br>
@@ -8,8 +11,24 @@ import com.jx.wechat.entity.BaseMessageResp;
  */
 public class VoiceMessageResp extends BaseMessageResp {
 	
+	public VoiceMessageResp(BaseMessageReq messageReq) {
+		super(messageReq);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_VOICE);
+	}
+	
+	public VoiceMessageResp(BaseEvent event) {
+		super(event);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_VOICE);
+	}
+	
+	public VoiceMessageResp() {
+		super();
+	}
+
+
+
 	/** 语音 */
-	private Voice voice;
+	private Voice Voice;
 
 	/**
 	 * 获得	语音
@@ -17,7 +36,7 @@ public class VoiceMessageResp extends BaseMessageResp {
 	 * @return Voice voice
 	 */
 	public Voice getVoice() {
-		return this.voice;
+		return this.Voice;
 	}
 
 	/**
@@ -26,7 +45,7 @@ public class VoiceMessageResp extends BaseMessageResp {
 	 * @param Voice voice
 	 */
 	public void setVoice(Voice voice) {
-		this.voice = voice;
+		this.Voice = voice;
 	}
 
 }

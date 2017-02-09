@@ -116,4 +116,6 @@ public class WxConnUtil {
 		return errcode;
 	}
 	
+	
+	
 }

@@ -10,16 +10,16 @@ import com.jx.wechat.entity.BaseMessageReq;
 public class LocationMessageReq extends BaseMessageReq {
 
 	/** 地理位置维度 */
-    private String location_X;
+    private String Location_X;
     
     /** 地理位置经度 */
-    private String location_Y;
+    private String Location_Y;
     
     /** 地图缩放大小 */
-    private String scale;
+    private String Scale;
     
     /** 地理位置信息 */
-    private String label;
+    private String Label;
 
 	/**
 	 * 获得	地理位置维度
@@ -27,7 +27,7 @@ public class LocationMessageReq extends BaseMessageReq {
 	 * @return String location_X
 	 */
 	public String getLocation_X() {
-		return this.location_X;
+		return this.Location_X;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class LocationMessageReq extends BaseMessageReq {
 	 * @param String location_X
 	 */
 	public void setLocation_X(String location_X) {
-		this.location_X = MapleStringUtil.trim(location_X);
+		this.Location_X = MapleStringUtil.trim(location_X);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class LocationMessageReq extends BaseMessageReq {
 	 * @return String location_Y
 	 */
 	public String getLocation_Y() {
-		return this.location_Y;
+		return this.Location_Y;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class LocationMessageReq extends BaseMessageReq {
 	 * @param String location_Y
 	 */
 	public void setLocation_Y(String location_Y) {
-		this.location_Y = MapleStringUtil.trim(location_Y);
+		this.Location_Y = MapleStringUtil.trim(location_Y);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class LocationMessageReq extends BaseMessageReq {
 	 * @return String scale
 	 */
 	public String getScale() {
-		return this.scale;
+		return this.Scale;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class LocationMessageReq extends BaseMessageReq {
 	 * @param String scale
 	 */
 	public void setScale(String scale) {
-		this.scale = MapleStringUtil.trim(scale);
+		this.Scale = MapleStringUtil.trim(scale);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class LocationMessageReq extends BaseMessageReq {
 	 * @return String label
 	 */
 	public String getLabel() {
-		return this.label;
+		return this.Label;
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class LocationMessageReq extends BaseMessageReq {
 	 * @param String label
 	 */
 	public void setLabel(String label) {
-		this.label = MapleStringUtil.trim(label);
+		this.Label = MapleStringUtil.trim(label);
 	}
     
     

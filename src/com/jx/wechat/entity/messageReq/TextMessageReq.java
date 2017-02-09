@@ -9,7 +9,7 @@ import com.jx.wechat.entity.BaseMessageReq;
 public class TextMessageReq extends BaseMessageReq {
 
     /** 消息内容 */
-    private String content;
+    private String Content;
     
     /**
 	 * 获取	消息内容
@@ -17,7 +17,7 @@ public class TextMessageReq extends BaseMessageReq {
 	 * @return String content
 	 */
     public String getContent() {
-        return this.content;
+        return this.Content;
     }
 
     /**
@@ -26,7 +26,7 @@ public class TextMessageReq extends BaseMessageReq {
 	 * @param String content
 	 */
     public void setContent(String content) {
-    	this.content = content;
+    	this.Content = content;
     }
     
 }

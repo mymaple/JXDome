@@ -5,19 +5,19 @@ import com.jx.common.util.MapleStringUtil;
 public class Music {
 	
 	/** 音乐标题	*/
-    private String title;
+    private String Title;
     
     /** 音乐描述	*/
-    private String description;
+    private String Description;
     
     /** 音乐链接	*/
-    private String musicUrl;
+    private String MusicUrl;
     
     /** 高质量音乐链接，WIFI环境优先使用该链接播放音乐		*/
-    private String hQMusicUrl;
+    private String HQMusicUrl;
     
     /** 缩略图的媒体id，通过上传多媒体文件得到的id	*/
-    private String thumbMediaId;
+    private String ThumbMediaId;
 
 	/**
 	 * 获得	音乐标题
@@ -25,7 +25,7 @@ public class Music {
 	 * @return String title
 	 */
 	public String getTitle() {
-		return this.title;
+		return this.Title;
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class Music {
 	 * @param String title
 	 */
 	public void setTitle(String title) {
-		this.title = MapleStringUtil.trim(title);
+		this.Title = MapleStringUtil.trim(title);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class Music {
 	 * @return String description
 	 */
 	public String getDescription() {
-		return this.description;
+		return this.Description;
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class Music {
 	 * @param String description
 	 */
 	public void setDescription(String description) {
-		this.description = MapleStringUtil.trim(description);
+		this.Description = MapleStringUtil.trim(description);
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class Music {
 	 * @return String musicUrl
 	 */
 	public String getMusicUrl() {
-		return this.musicUrl;
+		return this.MusicUrl;
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class Music {
 	 * @param String musicUrl
 	 */
 	public void setMusicUrl(String musicUrl) {
-		this.musicUrl = MapleStringUtil.trim(musicUrl);
+		this.MusicUrl = MapleStringUtil.trim(musicUrl);
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class Music {
 	 *	
 	 * @return String hQMusicUrl
 	 */
-	public String gethQMusicUrl() {
-		return this.hQMusicUrl;
+	public String getHQMusicUrl() {
+		return this.HQMusicUrl;
 	}
 
 	/**
@@ -87,8 +87,8 @@ public class Music {
 	 *
 	 * @param String hQMusicUrl
 	 */
-	public void sethQMusicUrl(String hQMusicUrl) {
-		this.hQMusicUrl = MapleStringUtil.trim(hQMusicUrl);
+	public void setHQMusicUrl(String hQMusicUrl) {
+		this.HQMusicUrl = MapleStringUtil.trim(hQMusicUrl);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class Music {
 	 * @return String thumbMediaId
 	 */
 	public String getThumbMediaId() {
-		return this.thumbMediaId;
+		return this.ThumbMediaId;
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class Music {
 	 * @param String thumbMediaId
 	 */
 	public void setThumbMediaId(String thumbMediaId) {
-		this.thumbMediaId = MapleStringUtil.trim(thumbMediaId);
+		this.ThumbMediaId = MapleStringUtil.trim(thumbMediaId);
 	}
     
 }

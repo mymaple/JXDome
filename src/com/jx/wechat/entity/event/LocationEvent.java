@@ -10,13 +10,13 @@ import com.jx.wechat.entity.BaseEvent;
 public class LocationEvent extends BaseEvent {
 	
 	/** 地理位置纬度	*/
-    private String latitude;
+    private String Latitude;
     
     /** 地理位置经度	*/
-    private String longitude;
+    private String Longitude;
     
     /** 地理位置精度	*/
-    private String precision;
+    private String Precision;
     
     
 	/**
@@ -25,7 +25,7 @@ public class LocationEvent extends BaseEvent {
 	 * @return String latitude
 	 */
 	public String getLatitude() {
-		return this.latitude;
+		return this.Latitude;
 	}
 	/**
 	 * 设置	地理位置纬度
@@ -33,7 +33,7 @@ public class LocationEvent extends BaseEvent {
 	 * @param String latitude
 	 */
 	public void setLatitude(String latitude) {
-		latitude = MapleStringUtil.trim(latitude);
+		this.Latitude = MapleStringUtil.trim(latitude);
 	}
 	/**
 	 * 获得	地理位置经度
@@ -41,7 +41,7 @@ public class LocationEvent extends BaseEvent {
 	 * @return String longitude
 	 */
 	public String getLongitude() {
-		return this.longitude;
+		return this.Longitude;
 	}
 	/**
 	 * 设置	地理位置经度
@@ -49,7 +49,7 @@ public class LocationEvent extends BaseEvent {
 	 * @param String longitude
 	 */
 	public void setLongitude(String longitude) {
-		longitude = MapleStringUtil.trim(longitude);
+		this.Longitude = MapleStringUtil.trim(longitude);
 	}
 	/**
 	 * 获得	地理位置精度
@@ -57,7 +57,7 @@ public class LocationEvent extends BaseEvent {
 	 * @return String precision
 	 */
 	public String getPrecision() {
-		return this.precision;
+		return this.Precision;
 	}
 	/**
 	 * 设置	地理位置精度
@@ -65,7 +65,7 @@ public class LocationEvent extends BaseEvent {
 	 * @param String precision
 	 */
 	public void setPrecision(String precision) {
-		precision = MapleStringUtil.trim(precision);
+		this.Precision = MapleStringUtil.trim(precision);
 	}
     
 }

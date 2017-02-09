@@ -10,7 +10,7 @@ import com.jx.wechat.entity.BaseEvent;
 public class MenuEvent extends BaseEvent {
 	
 	/** 事件KEY值，与自定义菜单接口中KEY值对应	*/
-    private String eventKey;
+    private String EventKey;
 
 	/**
 	 * 获得	
@@ -18,7 +18,7 @@ public class MenuEvent extends BaseEvent {
 	 * @return String eventKey
 	 */
 	public String getEventKey() {
-		return this.eventKey;
+		return this.EventKey;
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class MenuEvent extends BaseEvent {
 	 * @param String eventKey
 	 */
 	public void setEventKey(String eventKey) {
-		this.eventKey = MapleStringUtil.trim(eventKey);
+		this.EventKey = MapleStringUtil.trim(eventKey);
 	}
     
 }

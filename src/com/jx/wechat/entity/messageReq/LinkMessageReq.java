@@ -10,11 +10,11 @@ import com.jx.wechat.entity.BaseMessageReq;
 public class LinkMessageReq extends BaseMessageReq {
 
 	/** 消息标题	*/
-    private String title;
+    private String Title;
     /** 消息描述	*/
-    private String description;
+    private String Description;
     /** 消息链接	*/
-    private String url;
+    private String Url;
     
     
 	/**
@@ -23,7 +23,7 @@ public class LinkMessageReq extends BaseMessageReq {
 	 * @return String title
 	 */
 	public String getTitle() {
-		return this.title;
+		return this.Title;
 	}
 	/**
 	 * 设置	消息标题
@@ -31,7 +31,7 @@ public class LinkMessageReq extends BaseMessageReq {
 	 * @param String title
 	 */
 	public void setTitle(String title) {
-		this.title = MapleStringUtil.trim(title);
+		this.Title = MapleStringUtil.trim(title);
 	}
 	/**
 	 * 获得	消息描述
@@ -39,7 +39,7 @@ public class LinkMessageReq extends BaseMessageReq {
 	 * @return String description
 	 */
 	public String getDescription() {
-		return this.description;
+		return this.Description;
 	}
 	/**
 	 * 设置	消息描述
@@ -47,7 +47,7 @@ public class LinkMessageReq extends BaseMessageReq {
 	 * @param String description
 	 */
 	public void setDescription(String description) {
-		this.description = MapleStringUtil.trim(description);
+		this.Description = MapleStringUtil.trim(description);
 	}
 	/**
 	 * 获得	消息链接
@@ -55,7 +55,7 @@ public class LinkMessageReq extends BaseMessageReq {
 	 * @return String url
 	 */
 	public String getUrl() {
-		return this.url;
+		return this.Url;
 	}
 	/**
 	 * 设置	消息链接
@@ -63,7 +63,7 @@ public class LinkMessageReq extends BaseMessageReq {
 	 * @param String url
 	 */
 	public void setUrl(String url) {
-		this.url = MapleStringUtil.trim(url);
+		this.Url = MapleStringUtil.trim(url);
 	}
     
 }

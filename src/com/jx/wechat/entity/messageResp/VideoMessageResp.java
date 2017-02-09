@@ -1,6 +1,9 @@
 package com.jx.wechat.entity.messageResp;
 
+import com.jx.wechat.entity.BaseEvent;
+import com.jx.wechat.entity.BaseMessageReq;
 import com.jx.wechat.entity.BaseMessageResp;
+import com.jx.wechat.util.MessageUtil;
 
 /**
  * 类名: VideoMessageResp </br>
@@ -8,6 +11,22 @@ import com.jx.wechat.entity.BaseMessageResp;
  */
 public class VideoMessageResp extends BaseMessageResp {
 	
+	public VideoMessageResp(BaseMessageReq messageReq) {
+		super(messageReq);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_VIDEO);
+	}
+	
+	public VideoMessageResp(BaseEvent event) {
+		super(event);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_VIDEO);
+	}
+
+	public VideoMessageResp() {
+		super();
+	}
+
+
+
 	/** 视频 */
 	private Video video;
 

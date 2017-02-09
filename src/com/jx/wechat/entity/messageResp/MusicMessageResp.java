@@ -1,6 +1,9 @@
 package com.jx.wechat.entity.messageResp;
 
+import com.jx.wechat.entity.BaseEvent;
+import com.jx.wechat.entity.BaseMessageReq;
 import com.jx.wechat.entity.BaseMessageResp;
+import com.jx.wechat.util.MessageUtil;
 
 /**
  * 类名: MusicMessageResp </br>
@@ -8,6 +11,22 @@ import com.jx.wechat.entity.BaseMessageResp;
  */
 public class MusicMessageResp extends BaseMessageResp {
 	
+	public MusicMessageResp(BaseMessageReq messageReq) {
+		super(messageReq);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_MUSIC);
+	}
+	
+	public MusicMessageResp(BaseEvent event) {
+		super(event);
+		setMsgType(MessageUtil.RESP_MESSAGE_TYPE_MUSIC);
+	}
+
+	public MusicMessageResp() {
+		super();
+	}
+
+
+
 	/** 音乐 */
 	private Music music;
 
