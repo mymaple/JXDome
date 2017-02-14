@@ -17,7 +17,7 @@ public class BaseEvent {
 	private String MsgType;
 		
 	/** 事件类型 */
-    private String Event;	
+    private String Event;
 	
 	/**
 	 * 设置 开发者微信号

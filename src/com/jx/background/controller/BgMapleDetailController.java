@@ -151,7 +151,7 @@ public class BgMapleDetailController extends BaseController {
 			return mv;
 		}
 		
-		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.otherHaveCode("", bgMapleDetail.getMapleDetailCode());
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.otherHaveCode(mapleId ,"", bgMapleDetail.getMapleDetailCode());
 		if(MapleUtil.notEmptyList(bgMapleDetailList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -204,7 +204,7 @@ public class BgMapleDetailController extends BaseController {
 			return mv; 
 		}
 		
-		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.otherHaveCode(bgMapleDetail.getMapleDetailId(), bgMapleDetail.getMapleDetailCode());	
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.otherHaveCode(bgMapleDetail.getMapleId(), bgMapleDetail.getMapleDetailId(), bgMapleDetail.getMapleDetailCode());	
 		if(MapleUtil.notEmptyList(bgMapleDetailList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -222,11 +222,11 @@ public class BgMapleDetailController extends BaseController {
 	 */
 	@RequestMapping(value="/otherNotCode")
 	@ResponseBody
-	public Object otherNotCode(@RequestParam String mapleDetailId, @RequestParam String mapleDetailCode) throws Exception{
+	public Object otherNotCode(@RequestParam String mapleId, @RequestParam String mapleDetailId, @RequestParam String mapleDetailCode) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.otherHaveCode(mapleDetailId, mapleDetailCode);	
+		List<BgMapleDetail> bgMapleDetailList = bgMapleDetailService.otherHaveCode(mapleId, mapleDetailId, mapleDetailCode);	
 		if(MapleUtil.emptyList(bgMapleDetailList)){
 			resultInfo.setResultCode("success");
 		}
@@ -410,7 +410,7 @@ public class BgMapleDetailController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+		String filePath = PathUtil.getProjectPath() + Const.FILEPATHFILE;								//文件上传路径
 		String fileName =  MapleFileUtil.fileUp(file, filePath, "mapleDetailexcel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
@@ -499,7 +499,7 @@ public class BgMapleDetailController extends BaseController {
 		root.put("bgMapleDetailKeyList", bgMapleDetailKeyList);
 		root.put("nowDate", new Date()); // 当前日期
 
-		MapleFileUtil.delFolder(PathUtil.getClasspath() + "admin/ftl"); // 生成代码前,先清空之前生成的代码
+		MapleFileUtil.delFolder(PathUtil.getProjectPath() + "admin/ftl"); // 生成代码前,先清空之前生成的代码
 		/* ============================================================================================= */
 
 		String filePath = "admin/ftl/code/"; // 存放路径
@@ -545,10 +545,10 @@ public class BgMapleDetailController extends BaseController {
 		// this.print("oracle_SQL_Template.ftl", root); 控制台打印
 
 		/* 生成的全部代码压缩成zip文件 */
-		MapleFileUtil.zip(PathUtil.getClasspath() + "admin/ftl/code", PathUtil.getClasspath() + "admin/ftl/code.zip");
+		MapleFileUtil.zip(PathUtil.getProjectPath() + "admin/ftl/code", PathUtil.getProjectPath() + "admin/ftl/code.zip");
 
 		/* 下载代码 */
-		MapleFileUtil.fileDownload(response, PathUtil.getClasspath() + "admin/ftl/code.zip", bgMaple.getMapleCode()+"Code.zip");
+		MapleFileUtil.fileDownload(response, PathUtil.getProjectPath() + "admin/ftl/code.zip", bgMaple.getMapleCode()+"Code.zip");
 	}
 	
 }

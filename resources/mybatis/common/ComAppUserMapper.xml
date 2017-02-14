@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComAppUserMapper">
+
+	<sql id="appUserColumns">appUserId,appUserCode,appUserName,appUserType,appUserStatus,appUserNum,phone,email,password,openId,sex,headImgUrl,brithday,parentId,wxQRcodeUrl,wxQRcodeExpiry,mediaId,mediaExpiry,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="appUserTable">com_app_user_info</sql>
+	
+	<resultMap type="comAppUser" id="comAppUserResultMap">
+		<id column="appUserId" property="appUserId"/>
+		<result column="appUserCode" property="appUserCode"/>
+		<result column="appUserName" property="appUserName"/>
+		<result column="appUserType" property="appUserType"/>
+		<result column="appUserStatus" property="appUserStatus"/>
+		<result column="appUserNum" property="appUserNum"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="password" property="password"/>
+		<result column="openId" property="openId"/>
+		<result column="sex" property="sex"/>
+		<result column="headImgUrl" property="headImgUrl"/>
+		<result column="brithday" property="brithday"/>
+		<result column="parentId" property="parentId"/>
+		<result column="wxQRcodeUrl" property="wxQRcodeUrl"/>
+		<result column="wxQRcodeExpiry" property="wxQRcodeExpiry"/>
+		<result column="mediaId" property="mediaId"/>
+		<result column="mediaExpiry" property="mediaExpiry"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comAppUser">
+		insert into 
+	<include refid="appUserTable"/>
+		( 
+	<include refid="appUserColumns"/>
+		) values (
+			#{appUserId},#{appUserCode},#{appUserName},#{appUserType},#{appUserStatus},#{appUserNum},#{phone},#{email},#{password},#{openId},#{sex},#{headImgUrl},#{brithday},#{parentId},#{wxQRcodeUrl},#{wxQRcodeExpiry},#{mediaId},#{mediaExpiry},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comAppUser">
+		update
+	<include refid="appUserTable"/>
+		set 
+			<if test="appUserCode!=null and appUserCode!=''">
+			appUserCode = #{appUserCode},
+			</if>
+			<if test="appUserName!=null and appUserName!=''">
+			appUserName = #{appUserName},
+			</if>
+			<if test="appUserType!=null and appUserType!=''">
+			appUserType = #{appUserType},
+			</if>
+			<if test="appUserNum!=null and appUserNum!=''">
+			appUserNum = #{appUserNum},
+			</if>
+			<if test="phone!=null and phone!=''">
+			phone = #{phone},
+			</if>
+			<if test="email!=null and email!=''">
+			email = #{email},
+			</if>
+			<if test="password!=null and password!=''">
+			password = #{password},
+			</if>
+			<if test="openId!=null and openId!=''">
+			openId = #{openId},
+			</if>
+			<if test="sex!=null and sex!=''">
+			sex = #{sex},
+			</if>
+			<if test="headImgUrl!=null and headImgUrl!=''">
+			headImgUrl = #{headImgUrl},
+			</if>
+			<if test="brithday!=null">
+			brithday = #{brithday},
+			</if>
+			<if test="parentId!=null and parentId!=''">
+			parentId = #{parentId},
+			</if>
+			<if test="wxQRcodeUrl!=null and wxQRcodeUrl!=''">
+			wxQRcodeUrl = #{wxQRcodeUrl},
+			</if>
+			<if test="wxQRcodeExpiry!=null">
+			wxQRcodeExpiry = #{wxQRcodeExpiry},
+			</if>
+			<if test="mediaId!=null and mediaId!=''">
+			mediaId = #{mediaId},
+			</if>
+			<if test="mediaExpiry!=null">
+			mediaExpiry = #{mediaExpiry},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserId = #{appUserId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comAppUser">
+		update
+	<include refid="appUserTable"/>
+		set 
+			<if test="appUserCode!=null and appUserCode!=''">
+			appUserCode = #{appUserCode},
+			</if>
+			<if test="appUserName!=null and appUserName!=''">
+			appUserName = #{appUserName},
+			</if>
+			<if test="appUserType!=null and appUserType!=''">
+			appUserType = #{appUserType},
+			</if>
+			<if test="appUserStatus!=null and appUserStatus!=''">
+			appUserStatus = #{appUserStatus},
+			</if>
+			<if test="appUserNum!=null and appUserNum!=''">
+			appUserNum = #{appUserNum},
+			</if>
+			<if test="phone!=null and phone!=''">
+			phone = #{phone},
+			</if>
+			<if test="email!=null and email!=''">
+			email = #{email},
+			</if>
+			<if test="password!=null and password!=''">
+			password = #{password},
+			</if>
+			<if test="openId!=null and openId!=''">
+			openId = #{openId},
+			</if>
+			<if test="sex!=null and sex!=''">
+			sex = #{sex},
+			</if>
+			<if test="headImgUrl!=null and headImgUrl!=''">
+			headImgUrl = #{headImgUrl},
+			</if>
+			<if test="brithday!=null">
+			brithday = #{brithday},
+			</if>
+			<if test="parentId!=null and parentId!=''">
+			parentId = #{parentId},
+			</if>
+			<if test="wxQRcodeUrl!=null and wxQRcodeUrl!=''">
+			wxQRcodeUrl = #{wxQRcodeUrl},
+			</if>
+			<if test="wxQRcodeExpiry!=null">
+			wxQRcodeExpiry = #{wxQRcodeExpiry},
+			</if>
+			<if test="mediaId!=null and mediaId!=''">
+			mediaId = #{mediaId},
+			</if>
+			<if test="mediaExpiry!=null">
+			mediaExpiry = #{mediaExpiry},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserId = #{appUserId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="appUserTable"/>
+		where 
+			appUserId = #{appUserId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="appUserTable"/>
+		where 
+			CONCAT(appUserId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comAppUser">
+		select 
+	<include refid="appUserColumns"/>
+		from 
+	<include refid="appUserTable"/>
+		where 
+			appUserId = #{appUserId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comAppUserResultMap">
+		select 
+	<include refid="appUserColumns"/>
+		from 
+	<include refid="appUserTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comAppUser" resultMap="comAppUserResultMap">
+		select 
+	<include refid="appUserColumns"/>
+		from 
+	<include refid="appUserTable"/>
+		where 1=1
+			<if test="appUserId!=null and appUserId!=''">
+			 and appUserId != #{appUserId} 
+			</if>
+			<if test="appUserCode!=null and appUserCode!=''">
+			 and appUserCode = #{appUserCode}
+			</if>
+			<if test="appUserName!=null and appUserName!=''">
+			 and appUserName = #{appUserName}
+			</if>
+			<if test="appUserType!=null and appUserType!=''">
+			 and appUserType = #{appUserType}
+			</if>
+			<if test="appUserStatus!=null and appUserStatus!=''">
+			 and appUserStatus = #{appUserStatus}
+			</if>
+			<if test="appUserNum!=null and appUserNum!=''">
+			 and appUserNum = #{appUserNum}
+			</if>
+			<if test="phone!=null and phone!=''">
+			 and phone = #{phone}
+			</if>
+			<if test="email!=null and email!=''">
+			 and email = #{email}
+			</if>
+			<if test="password!=null and password!=''">
+			 and password = #{password}
+			</if>
+			<if test="openId!=null and openId!=''">
+			 and openId = #{openId}
+			</if>
+			<if test="sex!=null and sex!=''">
+			 and sex = #{sex}
+			</if>
+			<if test="headImgUrl!=null and headImgUrl!=''">
+			 and headImgUrl = #{headImgUrl}
+			</if>
+			<if test="brithday!=null">
+			 and brithday = #{brithday}
+			</if>
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId}
+			</if>
+			<if test="wxQRcodeUrl!=null and wxQRcodeUrl!=''">
+			 and wxQRcodeUrl = #{wxQRcodeUrl}
+			</if>
+			<if test="wxQRcodeExpiry!=null">
+			 and wxQRcodeExpiry = #{wxQRcodeExpiry}
+			</if>
+			<if test="mediaId!=null and mediaId!=''">
+			 and mediaId = #{mediaId}
+			</if>
+			<if test="mediaExpiry!=null">
+			 and mediaExpiry = #{mediaExpiry}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="appUserColumns"/>
+		from 
+	<include refid="appUserTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				appUserCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				appUserName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

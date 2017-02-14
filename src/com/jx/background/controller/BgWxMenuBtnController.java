@@ -26,7 +26,6 @@ import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
-import com.jx.common.service.ComWxAccountService;
 import com.jx.background.entity.BgWxMenuBtn;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
@@ -56,9 +55,6 @@ public class BgWxMenuBtnController extends BaseController {
 	
 	@Resource(name="bgWxMenuBtnService")
 	private BgWxMenuBtnService bgWxMenuBtnService;
-	
-	@Resource(name="comWxAccountService")
-	private ComWxAccountService comWxAccountService;
 	
 	
 	/**
@@ -433,7 +429,7 @@ public class BgWxMenuBtnController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+		String filePath = PathUtil.getProjectPath() + Const.FILEPATHFILE;								//文件上传路径
 		String fileName =  MapleFileUtil.fileUp(file, filePath, "wxMenuBtnexcel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
@@ -485,7 +481,7 @@ public class BgWxMenuBtnController extends BaseController {
 		menuBtnStr = menuBtnStr.replaceAll("wxMenuBtnType", "type").replaceAll("wxMenuBtnName", "name").replaceAll("menuBtnKey", "key")
 				.replaceAll("menuBtnUrl", "url").replaceAll("subBgWxMenuBtnList", "sub_button").replaceAll("00", "");
 		System.out.println("222********************************"+menuBtnStr);
-		int errcode = WxConnUtil.toCreateMenuBtn(comWxAccountService.findById(wxMenuBtnId).getAccessToken(), menuBtnStr);
+		int errcode = WxConnUtil.toCreateMenuBtn(menuBtnStr);
 		if(0==errcode)
 			resultInfo.setResultCode("success");
 
@@ -501,8 +497,8 @@ public class BgWxMenuBtnController extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		
-		int errcode = WxConnUtil.toStopMenuBtn(comWxAccountService.findById(wxMenuBtnId).getAccessToken());
-		if(0==errcode)
+		String errcode = WxConnUtil.toStopMenuBtn();
+		if("0".equals(errcode))
 			resultInfo.setResultCode("success");
 
 		return AppUtil.returnResult(pd, resultInfo);

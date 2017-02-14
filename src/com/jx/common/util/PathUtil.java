@@ -13,6 +13,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class PathUtil {
 
+	public static void main(String[] args) {
+//		System.out.println("getPicturePath---"+getPicturePath("visit", "topic"));
+		System.out.println("getProjectPath---"+getProjectPath());
+		System.out.println("getClassPath---"+getClassPath());
+		System.out.println("PathAddress---"+PathAddress());
+		
+	}
+	
 	/**
 	 * 图片访问路径
 	 * @param pathType 图片类型 visit-访问；save-保存
@@ -49,27 +57,25 @@ public class PathUtil {
 	}
 
 	/*
-	 * 获取classpath1
+	 * 获取获取项目根路径
 	 */
-	public static String getClasspath() {
-		String path = (String.valueOf(Thread.currentThread().getContextClassLoader().getResource("")) + "../../").replaceAll("file:/", "").replaceAll("%20", " ").trim();
-		if (path.indexOf(":") != 1) {
-			path = File.separator + path;
-		}
+	public static String getProjectPath() {
+		String path = getClassPath()+"../../";
 		return path;
 	}
 
 	/*
-	 * 获取classpath2
+	 * 获取获取class文件根路径
 	 */
-	public static String getClassResources() {
-		String path = (String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))).replaceAll("file:/", "").replaceAll("%20", " ").trim();
+	public static String getClassPath() {
+		String path = (String.valueOf(Thread.currentThread().getContextClassLoader().getResource("")))
+				.replaceAll("file:/", "").replaceAll("%20", " ").trim();
 		if (path.indexOf(":") != 1) {
 			path = File.separator + path;
 		}
 		return path;
 	}
-
+	
 	public static String PathAddress() {
 		String strResult = "";
 
@@ -87,5 +93,15 @@ public class PathUtil {
 
 		return strResult;
 	}
+	
+	/*
+	 * 获取获取web文件根路径
+	 */
+	public static String getRealPath() {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		String path = request.getSession().getServletContext().getRealPath("/");
+		return path;
+	}
+	
 
 }

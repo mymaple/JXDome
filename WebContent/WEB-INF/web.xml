@@ -104,12 +104,12 @@
 	<servlet>
         <servlet-name>WeixinSerlvet</servlet-name>
         <servlet-class>
-            com.jx.background.wx.WeixinSerlvet
+            com.jx.wechat.WechatSerlvet
         </servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>WeixinSerlvet</servlet-name>
-        <url-pattern>/WeixinSerlvet</url-pattern>
+        <url-pattern>/weixinSerlvet</url-pattern>
     </servlet-mapping>
     
 	<!-- tomcat等 启动之前执行 -->

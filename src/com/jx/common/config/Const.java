@@ -72,6 +72,18 @@ public class Const {
 	
 	
 	
+	/**
+	 * 路径 头像
+	 */
+	public static final String PATH_MYHEADIMG = "static/file/image/myheadimg";
+	
+	/**
+	 * 路径 个人微信二维码
+	 */
+	public static final String PATH_MYWXQRCODE = "static/file/image/mywxqrcode";
+	
+	
+	
 //	public static final String SYSNAME = "admin/config/SYSNAME.txt"; // 系统名称路径
 	
 	public static final String PAGE = "admin/config/PAGE.txt"; // 分页条数配置路径

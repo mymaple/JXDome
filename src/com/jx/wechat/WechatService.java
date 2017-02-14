@@ -19,6 +19,7 @@ public class WechatService {
      * @return xml
      */
     public static String processRequest(HttpServletRequest request) {
+    	
         // xml格式的消息数据
         String respXml = "";
         try {

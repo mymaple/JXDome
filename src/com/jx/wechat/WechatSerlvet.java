@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jx.wechat.entity.BaseMessageReq;
 import com.jx.wechat.util.SignUtil;
 
 /**
@@ -28,8 +27,6 @@ public class WechatSerlvet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-    	BaseMessageReq qq = new BaseMessageReq();
-    	
         // 微信加密签名
         String signature = request.getParameter("signature");
         // 时间戳

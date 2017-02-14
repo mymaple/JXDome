@@ -167,8 +167,9 @@ public class BgMapleDetailServiceImpl implements BgMapleDetailService{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> otherHaveCode(String mapleDetailId, String mapleDetailCode) throws Exception {
+	public List<BgMapleDetail> otherHaveCode(String mapleId, String mapleDetailId, String mapleDetailCode) throws Exception {
 		BgMapleDetail bgMapleDetail = new BgMapleDetail();
+		bgMapleDetail.setMapleId(mapleId);
 		bgMapleDetail.setMapleDetailId(mapleDetailId);
 		bgMapleDetail.setMapleDetailCode(mapleDetailCode);
 		return this.otherHave(bgMapleDetail);

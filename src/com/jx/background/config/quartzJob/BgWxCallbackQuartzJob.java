@@ -17,7 +17,7 @@ public class BgWxCallbackQuartzJob implements Job{
 		try {
 			ComWxAccount comWxAccount = comWxAccountService.findCurrent();
 			String accessToken = WxConnUtil.getAccessToken(comWxAccount.getAppId(), comWxAccount.getAppSecret());
-			String jsApiTicket = WxConnUtil.getJsApiTicket(accessToken);
+			String jsApiTicket = WxConnUtil.getJsApiTicket();
 			ComWxAccount comWxAccountChange = new ComWxAccount();
 			comWxAccountChange.setWxAccountId(comWxAccount.getWxAccountId());
 			comWxAccountChange.setAccessToken(accessToken);

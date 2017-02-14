@@ -1,23 +1,16 @@
-package com.jx.background.service;
+package com.jx.common.service;
 
 import java.util.List;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.PageData;
-import com.jx.background.entity.BgMapleDetail;
+import com.jx.common.entity.ComAppUser;
 
-public interface BgMapleDetailService {
+public interface ComAppUserService {
 
 	
 	/****************************custom * start***********************************/
 
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<BgMapleDetail> listByMapleId(String mapleId) throws Exception ;
-	
 	
 	/****************************custom * end  ***********************************/
 	
@@ -25,31 +18,31 @@ public interface BgMapleDetailService {
 	
 	/**
 	 * 新增 
-	 * @param BgMapleDetail bgMapleDetail
+	 * @param ComAppUser comAppUser
 	 * @throws Exception
 	 */
-	public void add(BgMapleDetail bgMapleDetail) throws Exception ;
+	public void add(ComAppUser comAppUser) throws Exception ;
 	
 	/**
 	 * 修改 
-	 * @param BgMapleDetail bgMapleDetail
+	 * @param ComAppUser comAppUser
 	 * @throws Exception
 	 */
-	public void edit(BgMapleDetail bgMapleDetail) throws Exception ;
+	public void edit(ComAppUser comAppUser) throws Exception ;
 	
 	/**
 	 * 更改
-	 * @param BgMapleDetail bgMapleDetail
+	 * @param ComAppUser comAppUser
 	 * @throws Exception
 	 */
-	public void change(BgMapleDetail bgMapleDetail) throws Exception ;
+	public void change(ComAppUser comAppUser) throws Exception ;
 
 	/**
 	 * 删除 
-	 * @param String mapleDetailId
+	 * @param String appUserId
 	 * @throws Exception
 	 */
-	public void deleteById(String mapleDetailId) throws Exception ;
+	public void deleteById(String appUserId) throws Exception ;
 	
 	/**
 	 * 删除 
@@ -67,40 +60,40 @@ public interface BgMapleDetailService {
 
 	/**
 	 * 通过id获取(类)数据
-	 * @param String mapleDetailId
-	 * @return BgMapleDetail
+	 * @param String appUserId
+	 * @return ComAppUser
 	 * @throws Exception
 	 */
-	public BgMapleDetail findById(String mapleDetailId) throws Exception ;
+	public ComAppUser findById(String appUserId) throws Exception ;
 	
 	/**
-	 * 通过pd获取(BgMapleDetail)数据 
+	 * 通过pd获取(ComAppUser)数据 
 	 * @param PageData pd
-	 * @return BgMapleDetail
+	 * @return ComAppUser
 	 * @throws Exception
 	 */
-	public BgMapleDetail findByPd(PageData pd) throws Exception ;
+	public ComAppUser findByPd(PageData pd) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> listByPd(PageData pd) throws Exception ;
+	public List<ComAppUser> listByPd(PageData pd) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> otherHave(BgMapleDetail bgMapleDetail) throws Exception ;
+	public List<ComAppUser> otherHave(ComAppUser comAppUser) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> otherHaveCode(String mapleId, String mapleDetailId, String mapleDetailCode) throws Exception ;
+	public List<ComAppUser> otherHaveCode(String appUserId, String appUserCode) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

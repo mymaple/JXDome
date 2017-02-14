@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -25,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -47,7 +45,7 @@ public class HttpManager {
      * @return 返回类型:
      * @throws Exception
      */
-    public static String get(String urlStr, Map<String, String> params) throws Exception {
+    public static String get(String urlStr, String params) throws Exception {
         HttpURLConnection conn = null;
         StringBuffer result = new StringBuffer();
         InputStream in = null;
@@ -144,14 +142,59 @@ public class HttpManager {
     }
     
     /**
+     * 下载文件
+     * 
+     * @param urlStr	请求路径
+     * @param params	请求参数
+     * @param fileSrc	文件存放路径
+     * @throws Exception
+     */
+   public static void download(String urlStr, String params, String fileSrc) throws Exception{
+       HttpURLConnection conn = null;
+       InputStream in = null;
+       try{
+		   	if (isHttps(urlStr)) {
+		   		conn = initHttps(initParams(urlStr, params), GET);
+		   	} else {
+		   		conn = initHttp(initParams(urlStr, params), GET);
+		   	}
+		   	// 设置通用的请求属性
+		   	conn.setRequestProperty("accept", "*/*");
+		   	conn.setRequestProperty("connection", "Keep-Alive");
+		   	conn.setRequestProperty("user-agent",
+		   			"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36");
+		   	conn.setRequestProperty("content-type","text/json");
+		   	conn.setDoInput(true); //允许输入流，即允许下载 
+		   	conn.setDoOutput(false); //允许输出流，即允许上传 
+
+           if(conn.getResponseCode() != 200){
+
+           }
+           in = conn.getInputStream();
+           MapleFileUtil.createFile(in, fileSrc);
+       }catch(Exception ex){
+           ex.printStackTrace();
+       }finally {
+           if(null != in){
+           	in.close();
+           	in = null;
+           }
+           if(null != conn){
+               conn.disconnect();
+           }
+       }
+   }
+    
+    
+    /**
      * 上传文件到微信服务器
-     * @param urlString 上传的目标url
-     * @param filePath 文件路路径
+     * @param urlStr 上传的目标url
+     * @param fileSrc 文件路路径
      * @Param formDataName 表单id
      * @return
      * @throws Exception
      */
-    public static String upload(String urlStr,String filePath,String formDataName) throws Exception{
+    public static String upload(String urlStr,String fileSrc) throws Exception{
     	HttpURLConnection conn = null;
         StringBuffer result = new StringBuffer();
         InputStream in = null;
@@ -164,23 +207,31 @@ public class HttpManager {
         	} else {
         		conn = initHttp(urlStr, POST);
         	}
-            File file = new File(filePath);
+            File file = new File(fileSrc);
             if(!file.exists() || !file.isFile()){
-                String errorMsg = "文件["+filePath+"]不存在。无法上传。";
+                String errorMsg = "文件["+fileSrc+"]不存在。无法上传。";
                 throw new Exception(errorMsg);
             }
             conn.setDoInput(true); //允许输入流，即允许下载 
         	conn.setDoOutput(true); //允许输出流，即允许上传 
             conn.setUseCaches(false);
+            
             // 设置请求头信息
             conn.setRequestProperty("Connection", "Keep-Alive");
             conn.setRequestProperty("Charset", "UTF-8");
-
             conn.setRequestProperty("Content-type", "multipart/form-data;boundary=" + BOUNDARYSTR);
+            
+            // 请求正文信息  
             StringBuilder sb = new StringBuilder();
+            
+            //这块是上传video是必须的参数，你们可以在这里根据文件类型做if/else 判断  
+//            sb.append(BOUNDARY);  
+//            sb.append("Content-Disposition: form-data;name=\"description\" \r\n\r\n");  
+//            sb.append(j.toString()+"\r\n"); 
+            
             sb.append(BOUNDARY);
-            sb.append("Content-Disposition: form-data;name=\""+formDataName+"\";filename=\""
-                    + file.getName() + "\"\r\n");
+            sb.append("Content-Disposition: form-data;name=\"media\";filename=\""  
+                    + file.getName() + "\";filelength=\"" + file.length() + "\" \r\n");  
             sb.append("Content-Type:application/octet-stream\r\n\r\n");
             byte[] head = sb.toString().getBytes("utf-8");
             // 获得输出流
@@ -196,7 +247,7 @@ public class HttpManager {
                 out.write(bufferOut, 0, bytes);
             }
             bis.close();
-            byte[] foot = ("\r\n--" + BOUNDARYSTR + "--\r\n").getBytes("utf-8");// 定义最后数据分隔线
+            byte[] foot = ("\r\n--" + BOUNDARYSTR + "--\r\n").getBytes(DEFAULT_CHARSET);// 定义最后数据分隔线
             out.write(foot);
             out.flush();
             
@@ -496,7 +547,7 @@ public class HttpManager {
      * @return 返回类型:
      * @throws Exception
      */
-    public static String initParams(String url, Map<String, String> params)
+    public static String initParams(String url, String params)
             throws Exception {
         if (null == params || params.isEmpty()) {
             return url;
@@ -505,7 +556,7 @@ public class HttpManager {
         if (url.indexOf("?") == -1) {
             sb.append("?");
         }
-        sb.append(map2Url(params));
+        sb.append(params);
         return sb.toString();
     }
 

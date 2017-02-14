@@ -41,7 +41,9 @@
 	           	/background/main/login	 			= anon
 	           	/app**/** 					= anon
 	           	/weixin/** 					= anon
+	           	/weixinSerlvet				= anon
 	           	/**							= authc
+	           	
 				</value>
 			</property>
 		</bean>

@@ -58,7 +58,8 @@ public class MapleFileUtil {
 			if (file.getOriginalFilename().lastIndexOf(".") >= 0) {
 				extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 			}
-			copyFile(file.getInputStream(), filePath, fileName + extName).replaceAll("-", "");
+			String fileSrc = filePath+ fileName + extName;
+			createFile(file.getInputStream(), fileSrc);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -71,8 +72,8 @@ public class MapleFileUtil {
 	 * @param fileName
 	 * @throws IOException
 	 */
-	private static String copyFile(InputStream in, String dir, String realName) throws IOException {
-		File file = new File(dir, realName);
+	public static void createFile(InputStream in, String fileSrc) throws IOException {
+		File file = new File(fileSrc);
 		if (!file.exists()) {
 			if (!file.getParentFile().exists()) {
 				file.getParentFile().mkdirs();
@@ -80,8 +81,30 @@ public class MapleFileUtil {
 			file.createNewFile();
 		}
 		FileUtils.copyInputStreamToFile(in, file);
-		return realName;
 	}
+	
+	/**
+	 * 写文件到当前目录的upload目录中
+	 * @param in
+	 * @param fileName
+	 * @throws IOException
+	 */
+	public static void copyFile(String fromFileSrc, String toFileSrc) throws IOException {
+		File fromFile = new File(fromFileSrc);
+		if (!fromFile.exists()) {
+			throw new IOException("无原文件");
+		}
+		
+		File toFile = new File(toFileSrc);
+		if (!toFile.exists()) {
+			if (!toFile.getParentFile().exists()) {
+				toFile.getParentFile().mkdirs();
+			}
+			toFile.createNewFile();
+		}
+		FileUtils.copyFile(fromFile, toFile);
+	}
+	
 	
 	/**
 	 * @param response

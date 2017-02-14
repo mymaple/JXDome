@@ -245,20 +245,6 @@ public class MapleDateUtil {
         return result;
     }
 
-	/**
-	 * 得到n天之后的日期
-	 * @param days
-	 * @return
-	 */
-	public static Date getAfterDayDate(int days) {
-
-		Calendar canlendar = Calendar.getInstance(); // java.util包
-		canlendar.add(Calendar.DATE, days); // 日期减 如果不够减会将月变动
-		Date date = canlendar.getTime();
-		return date;
-	}
-
-	
 
 	/**
 	 * 闰年判断

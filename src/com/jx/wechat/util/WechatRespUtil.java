@@ -1,11 +1,28 @@
 package com.jx.wechat.util;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.jx.common.config.Const;
+import com.jx.common.entity.ComAppUser;
+import com.jx.common.service.ComAppUserService;
+import com.jx.common.util.DrawImageUtil;
+import com.jx.common.util.HttpManager;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleUtil;
+import com.jx.common.util.PathUtil;
+import com.jx.common.util.SpringContextUtil;
+import com.jx.common.util.WxConnUtil;
+import com.jx.wechat.entity.UserInfo;
 import com.jx.wechat.entity.event.LocationEvent;
 import com.jx.wechat.entity.event.MenuEvent;
 import com.jx.wechat.entity.event.QRCodeEvent;
@@ -16,8 +33,11 @@ import com.jx.wechat.entity.messageReq.LocationMessageReq;
 import com.jx.wechat.entity.messageReq.TextMessageReq;
 import com.jx.wechat.entity.messageReq.VideoMessageReq;
 import com.jx.wechat.entity.messageReq.VoiceMessageReq;
+import com.jx.wechat.entity.messageResp.Image;
 import com.jx.wechat.entity.messageResp.ImageMessageResp;
 import com.jx.wechat.entity.messageResp.TextMessageResp;
+
+import net.sf.json.JSONObject;
 
 public class WechatRespUtil {
 	
@@ -191,11 +211,70 @@ public class WechatRespUtil {
 		
 		SubscribeEvent event = new SubscribeEvent();
 		event = (SubscribeEvent) MapleUtil.convertMapUpper(event.getClass(), requestMap);
+		String openId = event.getFromUserName();
+		String jsonCode = event.getEventKey().replaceFirst("qrscene_", "");
+		
+		ComAppUserService comAppUserService = 
+				(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
+		ComAppUser comAppUser = new ComAppUser();
+		comAppUser.setOpenId(openId);
+		List<ComAppUser> comAppUserList = comAppUserService.otherHave(comAppUser);
+		if(!comAppUserList.isEmpty() && comAppUserList.size()>0){
+			comAppUser = comAppUserList.get(0);
+			comAppUser.setAppUserStatus("01");
+			comAppUser.setModifyUserId(openId);
+			comAppUserService.edit(comAppUser);
+		}else{
+			Date nowtime = new Date();
+			
+			//获取个人用户信息
+			String json = WxConnUtil.getUserInfo(openId);
+			UserInfo userInfo = new UserInfo();
+			userInfo = (UserInfo)MapleUtil.convertJson(userInfo.getClass(), JSONObject.fromObject(json));
+			String fileSrc = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/"+ openId+"_headimg.jpg";
+			if(StringUtils.isNotEmpty(userInfo.getHeadimgurl())){
+				//下载头像图片
+				HttpManager.download(userInfo.getHeadimgurl(), null, fileSrc);
+			}else{
+				String headimgDefault = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/default_headimg.jpg";
+				MapleFileUtil.copyFile(headimgDefault , fileSrc);
+			}
+			
+			//生成个人
+			String appUserNum = "";
+			
+			comAppUser.setOpenId(openId);
+			comAppUser.setAppUserCode(StringUtils.isEmpty(userInfo.getNickname())?appUserNum:userInfo.getNickname());
+			comAppUser.setSex("1".equals(userInfo.getSex())?"01":"02");
+			comAppUser.setBrithday(nowtime);
+			comAppUser.setWxQRcodeExpiry(nowtime);
+			comAppUser.setMediaExpiry(nowtime);
+			comAppUser.setParentId(jsonCode);
+			comAppUser.setHeadImgUrl(Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg");
+			comAppUser.setOrderNum(""+nowtime.getTime());
+			comAppUser.setAppUserNum(appUserNum);
+			
+			//微信关注
+			comAppUser.setAppUserStatus("01");
+			//自主微信关注用户
+			comAppUser.setAppUserType("01");
+			comAppUser.setCreateUserId(openId);
+			comAppUser.setModifyUserId(openId);
+			
+			
+			comAppUserService.add(comAppUser);
+		}
+		
 		
 		
 		// 回复消息
 		TextMessageResp messageResp = new TextMessageResp(event);
-		messageResp.setContent(RESP_MESSAGE_TEXT_CONTENT_DEFAULT);
+		StringBuffer content = new StringBuffer("Hi,");
+		content.append(comAppUser.getAppUserCode());
+		content.append("：欢迎来到酷礼!");
+		content.append("Honey，恭候多时，欢迎来到“酷礼Cooler”，一个有点不一样的送礼商城。");
+		content.append("<a href='http://v.xiumi.us/board/v5/2IGJS/30156533'>酷礼Cooler功能介绍</a>");
+		messageResp.setContent(content.toString());
 		
 		return MessageUtil.messageToXml(messageResp);
 	}
@@ -210,12 +289,23 @@ public class WechatRespUtil {
 		
 		SubscribeEvent event = new SubscribeEvent();
 		event = (SubscribeEvent) MapleUtil.convertMapUpper(event.getClass(), requestMap);
+		String openId = event.getFromUserName();
 		
+		ComAppUserService comAppUserService = 
+				(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
+		ComAppUser comAppUser = new ComAppUser();
+		comAppUser.setOpenId(event.getFromUserName());
+		List<ComAppUser> comAppUserList = comAppUserService.otherHave(comAppUser);
+		if(!comAppUserList.isEmpty() && comAppUserList.size()>0){
+			comAppUser = comAppUserList.get(0);
+			//微信取关
+			comAppUser.setAppUserStatus("00");
+			comAppUser.setModifyUserId(openId);
+			comAppUserService.edit(comAppUser);
+		}
 		// 回复消息
-		TextMessageResp messageResp = new TextMessageResp(event);
-		messageResp.setContent(RESP_MESSAGE_TEXT_CONTENT_DEFAULT);
 		
-		return MessageUtil.messageToXml(messageResp);
+		return "";
 	}
 	
 	/**
@@ -283,6 +373,11 @@ public class WechatRespUtil {
 		MenuEvent event = new MenuEvent();
 		event = (MenuEvent) MapleUtil.convertMapUpper(event.getClass(), requestMap);
 		
+		 String eventKey = event.getEventKey();
+		 if("ewm".equals(eventKey)){
+			 return getMyQRcode(event);
+		 }
+		
 		// 回复消息
 		TextMessageResp messageResp = new TextMessageResp(event);
 		messageResp.setContent(RESP_MESSAGE_TEXT_CONTENT_DEFAULT);
@@ -298,17 +393,50 @@ public class WechatRespUtil {
 	 */
 	public static String getMyQRcode(MenuEvent event) throws Exception {
 		
-		//生成邀请码
-		String inviteCode = "";
+		String openId = event.getFromUserName();
 		
-		
+		ComAppUserService comAppUserService = 
+				(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
+		ComAppUser comAppUser = new ComAppUser();
+		comAppUser.setOpenId(openId);
+		List<ComAppUser> comAppUserList = comAppUserService.otherHave(comAppUser);
+		if(!comAppUserList.isEmpty() && comAppUserList.size()>0){
+			comAppUser = comAppUserList.get(0);
+			
+			Date nowTime = new Date();
+			if(nowTime.after(comAppUser.getMediaExpiry())){
+				if(nowTime.after(comAppUser.getWxQRcodeExpiry())){
+					String ticket = WxConnUtil.getQRCodeTicket(openId, 259200);
+					String filePath = PathUtil.getProjectPath() + Const.PATH_MYWXQRCODE;
+					String qrcodeSrc = filePath+"/"+openId+"_qrcode.jpg";
+					String headimgSr = PathUtil.getProjectPath()+Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg";
+					WxConnUtil.toSaveQRCode(ticket, qrcodeSrc);
+					String pressText = "";
+					DrawImageUtil.pressImage(qrcodeSrc, filePath+"/cooler.jpg", qrcodeSrc, 233, 1520, 211, 211);
+					DrawImageUtil.pressImage(headimgSr, qrcodeSrc, qrcodeSrc, 561, 1946, 160, 160);
+					DrawImageUtil.pressText(pressText, qrcodeSrc, Color.black, "黑体", Font.BOLD, 23, 350, 1000);
+					
+					comAppUser.setWxQRcodeUrl(Const.PATH_MYWXQRCODE+"/"+openId+"_qrcode.jpg");
+					//在有效期内更换
+					comAppUser.setWxQRcodeExpiry(MapleDateUtil.getNextDays(nowTime, 29));
+				}
+				String mediaId= WxConnUtil.getMediaId(PathUtil.getProjectPath()+comAppUser.getWxQRcodeUrl(), "image");
+				if(StringUtils.isNotEmpty(mediaId)){
+					comAppUser.setMediaId(mediaId);
+					comAppUser.setMediaExpiry(MapleDateUtil.getNextDays(nowTime, 2));
+					comAppUserService.edit(comAppUser);
+				}else{
+					
+				}
+			}
+		}else{
+			
+		}
 		
 		// 回复消息
 		ImageMessageResp messageResp = new ImageMessageResp(event);
-		
+		messageResp.setImage(new Image(comAppUser.getMediaId()));
 		return MessageUtil.messageToXml(messageResp);
 	}
-	
-	
 	
 }

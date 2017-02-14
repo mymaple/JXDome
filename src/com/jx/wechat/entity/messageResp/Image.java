@@ -8,7 +8,19 @@ import com.jx.common.util.MapleStringUtil;
  */
 public class Image {
 
-    /** 图片消息媒体id，可以调用多媒体文件下载接口拉取数据  */
+	
+    public Image(String mediaId) {
+		super();
+		MediaId = mediaId;
+	}
+    
+	public Image() {
+		super();
+	}
+
+
+
+	/** 图片消息媒体id，可以调用多媒体文件下载接口拉取数据  */
     private String MediaId;
     
     
