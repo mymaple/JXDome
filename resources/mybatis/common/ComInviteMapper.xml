@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComInviteMapper">
+
+	<sql id="inviteColumns">inviteId,inviteCode,inviteName,inviteType,inviteStatus,inviteUserId,invitedUserId,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="inviteTable">com_invite_info</sql>
+	
+	<resultMap type="comInvite" id="comInviteResultMap">
+		<id column="inviteId" property="inviteId"/>
+		<result column="inviteCode" property="inviteCode"/>
+		<result column="inviteName" property="inviteName"/>
+		<result column="inviteType" property="inviteType"/>
+		<result column="inviteStatus" property="inviteStatus"/>
+		<result column="inviteUserId" property="inviteUserId"/>
+		<result column="invitedUserId" property="invitedUserId"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comInvite">
+		insert into 
+	<include refid="inviteTable"/>
+		( 
+	<include refid="inviteColumns"/>
+		) values (
+			#{inviteId},#{inviteCode},#{inviteName},#{inviteType},#{inviteStatus},#{inviteUserId},#{invitedUserId},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comInvite">
+		update
+	<include refid="inviteTable"/>
+		set 
+			<if test="inviteCode!=null and inviteCode!=''">
+			inviteCode = #{inviteCode},
+			</if>
+			<if test="inviteName!=null and inviteName!=''">
+			inviteName = #{inviteName},
+			</if>
+			<if test="inviteType!=null and inviteType!=''">
+			inviteType = #{inviteType},
+			</if>
+			<if test="inviteUserId!=null and inviteUserId!=''">
+			inviteUserId = #{inviteUserId},
+			</if>
+			<if test="invitedUserId!=null and invitedUserId!=''">
+			invitedUserId = #{invitedUserId},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			inviteId = #{inviteId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comInvite">
+		update
+	<include refid="inviteTable"/>
+		set 
+			<if test="inviteCode!=null and inviteCode!=''">
+			inviteCode = #{inviteCode},
+			</if>
+			<if test="inviteName!=null and inviteName!=''">
+			inviteName = #{inviteName},
+			</if>
+			<if test="inviteType!=null and inviteType!=''">
+			inviteType = #{inviteType},
+			</if>
+			<if test="inviteStatus!=null and inviteStatus!=''">
+			inviteStatus = #{inviteStatus},
+			</if>
+			<if test="inviteUserId!=null and inviteUserId!=''">
+			inviteUserId = #{inviteUserId},
+			</if>
+			<if test="invitedUserId!=null and invitedUserId!=''">
+			invitedUserId = #{invitedUserId},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			inviteId = #{inviteId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="inviteTable"/>
+		where 
+			inviteId = #{inviteId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="inviteTable"/>
+		where 
+			CONCAT(inviteId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comInvite">
+		select 
+	<include refid="inviteColumns"/>
+		from 
+	<include refid="inviteTable"/>
+		where 
+			inviteId = #{inviteId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comInviteResultMap">
+		select 
+	<include refid="inviteColumns"/>
+		from 
+	<include refid="inviteTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comInvite" resultMap="comInviteResultMap">
+		select 
+	<include refid="inviteColumns"/>
+		from 
+	<include refid="inviteTable"/>
+		where 1=1
+			<if test="inviteId!=null and inviteId!=''">
+			 and inviteId != #{inviteId} 
+			</if>
+			<if test="inviteCode!=null and inviteCode!=''">
+			 and inviteCode = #{inviteCode}
+			</if>
+			<if test="inviteName!=null and inviteName!=''">
+			 and inviteName = #{inviteName}
+			</if>
+			<if test="inviteType!=null and inviteType!=''">
+			 and inviteType = #{inviteType}
+			</if>
+			<if test="inviteStatus!=null and inviteStatus!=''">
+			 and inviteStatus = #{inviteStatus}
+			</if>
+			<if test="inviteUserId!=null and inviteUserId!=''">
+			 and inviteUserId = #{inviteUserId}
+			</if>
+			<if test="invitedUserId!=null and invitedUserId!=''">
+			 and invitedUserId = #{invitedUserId}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="inviteColumns"/>
+		from 
+	<include refid="inviteTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				inviteCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				inviteName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

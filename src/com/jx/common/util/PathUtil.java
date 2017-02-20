@@ -1,9 +1,12 @@
 package com.jx.common.util;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -17,7 +20,6 @@ public class PathUtil {
 //		System.out.println("getPicturePath---"+getPicturePath("visit", "topic"));
 		System.out.println("getProjectPath---"+getProjectPath());
 		System.out.println("getClassPath---"+getClassPath());
-		System.out.println("PathAddress---"+PathAddress());
 		
 	}
 	
@@ -56,7 +58,7 @@ public class PathUtil {
 		return result;
 	}
 
-	/*
+	/**
 	 * 获取获取项目根路径
 	 */
 	public static String getProjectPath() {
@@ -64,7 +66,7 @@ public class PathUtil {
 		return path;
 	}
 
-	/*
+	/**
 	 * 获取获取class文件根路径
 	 */
 	public static String getClassPath() {
@@ -76,32 +78,54 @@ public class PathUtil {
 		return path;
 	}
 	
-	public static String PathAddress() {
+	/**
+	 * 
+	 */
+	public static String basePath(HttpServletRequest request) {
 		String strResult = "";
-
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
 		StringBuffer strBuf = new StringBuffer();
-
 		strBuf.append(request.getScheme() + "://");
 		strBuf.append(request.getServerName() + ":");
-		strBuf.append(request.getServerPort() + "");
-
-		strBuf.append(request.getContextPath() + "/");
-
-		strResult = strBuf.toString();// +"ss/";//加入项目的名称
-
+		strBuf.append(request.getServerPort());
+		strBuf.append(request.getContextPath());
+		strResult = strBuf.toString();
 		return strResult;
 	}
 	
-	/*
-	 * 获取获取web文件根路径
+	/**
+	 * 
 	 */
-	public static String getRealPath() {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		String path = request.getSession().getServletContext().getRealPath("/");
-		return path;
+	@SuppressWarnings("rawtypes")
+	public static String allUrl(HttpServletRequest request) {
+		StringBuffer requestURL = request.getRequestURL();
+		Map properties = request.getParameterMap();
+		Iterator entries = properties.entrySet().iterator();
+		StringBuffer paramsBuf = new StringBuffer();
+		while (entries.hasNext()) {
+			Map.Entry entry;
+			String name = "";
+			String value = "";
+			entry = (Map.Entry) entries.next();
+			name = (String) entry.getKey();
+			Object valueObj = entry.getValue();
+			if (null == valueObj) {
+				value = "";
+			} else if (valueObj instanceof String[]) {
+				String[] values = (String[]) valueObj;
+				for (int i = 0; i < values.length; i++) {
+					value += values[i] + ",";
+				}
+				value = value.substring(0, value.length() - 1);
+			} else {
+				value = valueObj.toString();
+			}
+			paramsBuf.append("&"+name+"="+value);
+		}
+		String params = paramsBuf.toString();
+		if(StringUtils.isNotEmpty(params)){
+			requestURL.append(params.replaceFirst("&", "?"));
+		}
+		return requestURL.toString();
 	}
-	
 
 }

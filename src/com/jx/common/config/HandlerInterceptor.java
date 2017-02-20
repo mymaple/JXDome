@@ -1,24 +1,27 @@
-package com.jx.background.config;
+package com.jx.common.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.jx.background.entity.BgUser;
 import com.jx.background.util.BgSessionUtil;
 import com.jx.background.util.JudgeRightsUtil;
-import com.jx.common.config.Const;
+import com.jx.common.util.WxConnUtil;
+import com.jx.weixin.util.WxSessionUtil;
 
 /**
  * 类名称：LoginHandlerInterceptor.java 类描述：
  * @author FH 作者单位： 联系方式： 创建时间：2015年1月1日
  * @version 1.6
  */
-public class BgHandlerInterceptor extends HandlerInterceptorAdapter {
+public class HandlerInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		
 		String path = request.getServletPath();
 		String[] pathArr = path.split("/");
 		if(pathArr.length > 3){
@@ -44,16 +47,26 @@ public class BgHandlerInterceptor extends HandlerInterceptorAdapter {
 						}
 						boolean b = JudgeRightsUtil.hasRights(pathArr[1]+"_"+pathArr[2].split("Detail")[0], type);
 						if (!b) {
-							response.sendRedirect(request.getContextPath() + Const.PATH_BG_LOGIN_STR);
+							response.sendRedirect(request.getContextPath() + Const.PATH_BG_TOLOGIN_STR);
 						}
 						return b;
 					} else {
 						// 登陆过滤
-						response.sendRedirect(request.getContextPath() + Const.PATH_BG_LOGIN_STR);
+						response.sendRedirect(request.getContextPath() + Const.PATH_BG_TOLOGIN_STR);
 						return false;
 					}
 				}
 			}
+//			else if("weixin".equals(pathArr[1])){
+//				if("main".equals(pathArr[2])){
+//					String code = request.getParameter("code");
+//					System.out.println("code------------"+code);
+//					if(StringUtils.isEmpty(code)){
+//						WxConnUtil.toRedirect(request, response);
+//						return false;
+//					}
+//				}
+//			}
 		}
 		return true;
 		

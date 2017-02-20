@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+	">
+	
+		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+			<property name="realm" ref="shiroRealm" />
+			<!-- <property name="sessionMode" value="native"/> -->
+			<property name="cacheManager" ref="shiroCacheManager"/>
+			<property name="sessionManager" ref="shiroSessionManager"/>
+			<property name="rememberMeManager.cookie.name" value="${rememberMeCookieName}"/>
+			<property name="rememberMeManager.cookie.domain" value="${domain}"/>
+			<property name="rememberMeManager.cookie.path" value="${path}"/>
+			<property name="rememberMeManager.cookie.maxAge" value="${rememberMeTime}"/> <!-- 7天有效期 -->
+			<!-- <property name="subjectDAO" ref="subjectDAO"/> -->
+		</bean>
+	
+	
+		<!-- 項目自定义的Realm -->
+	    <bean id="shiroRealm" class="com.jx.common.config.shiro.ShiroRealm" ></bean>
+	    
+	    <bean id="shiroCacheManager" class="com.jx.common.config.shiro.ShiroCacheManager"/>
+	    
+	    <bean id="shiroSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+			<property name="sessionDAO" ref="sessionDAO"/>
+			<!-- <property name="sessionValidationScheduler" ref="shiroSessionValidationScheduler"/> -->
+			<property name="sessionValidationInterval" value="${sessionValidationInterval}"/>  <!-- 相隔多久检查一次session的有效性 -->
+			<property name="globalSessionTimeout" value="${globalSessionTimeout}"/>  <!-- session 有效时间为半小时 （毫秒单位）-->
+			<property name="sessionIdCookie.domain" value="${domain}"/>
+			<property name="sessionIdCookie.name" value="${sessionIdCookieName}"/>
+			<property name="sessionIdCookie.path" value="${path}"/>
+			<!-- <property name="sessionListeners">
+				<list>
+					<bean class="com.concom.security.interfaces.listener.SessionListener"/>
+				</list>
+			</property> -->
+		</bean>
+		
+		<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+		<!-- <property name="sessionIdGenerator" ref="sessionIdGenerator"/> -->
+		</bean>
+	    
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+			<property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+			<property name="arguments" ref="securityManager" />
+		</bean>
+		
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+			<property name="staticMethod" value="com.jx.common.config.shiro.ShiroSecurityHelper.initStaticField" />
+			<property name="arguments">
+				<list>
+					<ref bean="shiroCacheManager"/>
+				</list>
+			</property>
+		</bean>
+		
+		<!-- Post processor that automatically invokes init() and destroy() methods 
+		 保证实现shiro内部的生命周期函数bean的执行  -->
+		<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+		
+		<!-- Shiro Filter -->
+		<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+			<property name="securityManager" ref="securityManager" />
+			
+			<property name="loginUrl" value="/weixin/main/toLogin" />
+			<!-- 登录成功后要跳转的连接(本例中此属性用不到,因为登录成功后的处理逻辑在LoginController里硬编码为main.jsp了) -->  
+			<!-- <property name="successUrl" value="/background/main/index" /> -->
+			
+			<property name="unauthorizedUrl" value="/weixin/main/wxIndex" />
+			
+			<property name="filterChainDefinitions">
+				<value>
+				/MP_verify_uypCnRoqKLTZwBSp.txt			= anon
+				/weui/**								= anon
+				/uploadFiles/** 						= anon
+	           	/weixin/main/** 						= anon
+	           	
+	           	/**										= authc
+				</value>
+			</property>
+		</bean>
+	
+
+</beans>

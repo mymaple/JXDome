@@ -13,16 +13,15 @@ import org.apache.commons.lang.StringUtils;
 
 import com.jx.common.config.Const;
 import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComInvite;
 import com.jx.common.service.ComAppUserService;
+import com.jx.common.service.ComInviteService;
 import com.jx.common.util.DrawImageUtil;
-import com.jx.common.util.HttpManager;
 import com.jx.common.util.MapleDateUtil;
-import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.PathUtil;
 import com.jx.common.util.SpringContextUtil;
 import com.jx.common.util.WxConnUtil;
-import com.jx.wechat.entity.UserInfo;
 import com.jx.wechat.entity.event.LocationEvent;
 import com.jx.wechat.entity.event.MenuEvent;
 import com.jx.wechat.entity.event.QRCodeEvent;
@@ -36,8 +35,6 @@ import com.jx.wechat.entity.messageReq.VoiceMessageReq;
 import com.jx.wechat.entity.messageResp.Image;
 import com.jx.wechat.entity.messageResp.ImageMessageResp;
 import com.jx.wechat.entity.messageResp.TextMessageResp;
-
-import net.sf.json.JSONObject;
 
 public class WechatRespUtil {
 	
@@ -213,8 +210,8 @@ public class WechatRespUtil {
 		event = (SubscribeEvent) MapleUtil.convertMapUpper(event.getClass(), requestMap);
 		String openId = event.getFromUserName();
 		String jsonCode = event.getEventKey().replaceFirst("qrscene_", "");
-		
-		ComAppUserService comAppUserService = 
+		String content = "";
+/*		ComAppUserService comAppUserService = 
 				(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
 		ComAppUser comAppUser = new ComAppUser();
 		comAppUser.setOpenId(openId);
@@ -263,18 +260,49 @@ public class WechatRespUtil {
 			
 			
 			comAppUserService.add(comAppUser);
-		}
+		}*/
 		
+		if(StringUtils.isNotEmpty(jsonCode)){
+			ComAppUserService comAppUserService = 
+					(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
+			ComAppUser comAppUser = comAppUserService.findById(jsonCode);
+			if(comAppUser != null){
+				ComInviteService comInviteService = 
+						(ComInviteService)SpringContextUtil.getBean("comInviteService");
+				ComInvite comInvite = new ComInvite();
+				comInvite.setInvitedUserId(openId);
+				comInvite.setEffective("01");
+				List<ComInvite> comInviteList =	comInviteService.otherHave(comInvite);
+				if(comInviteList == null || comInviteList.size() == 0){
+					comInvite = new ComInvite();
+//					comInvite.setInviteCode(inviteCode);
+//					comInvite.setInviteName(inviteName);
+					comInvite.setInviteStatus("01");
+					comInvite.setEffective("01");
+					comInvite.setInviteType("wx");
+					comInvite.setInviteUserId(jsonCode);
+					comInvite.setInvitedUserId(openId);
+					comInvite.setOrderNum(""+new Date().getTime());
+					comInvite.setCreateUserId(openId);
+					comInvite.setModifyUserId(openId);
+					
+					comInviteService.add(comInvite);
+				}else{
+					comInvite = comInviteList.get(0);
+					comAppUser = comAppUserService.findById(comInvite.getInviteUserId());
+				}
+				content = "hey,您已被您的小伙伴“"+comAppUser.getAppUserCode()+"”邀请,点击注册，大礼包等你来拿哦！";
+			}else{
+				content = "hey,无法识别二维码哦";
+			}
+		}else{
+			content = "hey,欢迎来到酷礼！";
+		}
 		
 		
 		// 回复消息
 		TextMessageResp messageResp = new TextMessageResp(event);
-		StringBuffer content = new StringBuffer("Hi,");
-		content.append(comAppUser.getAppUserCode());
-		content.append("：欢迎来到酷礼!");
-		content.append("Honey，恭候多时，欢迎来到“酷礼Cooler”，一个有点不一样的送礼商城。");
-		content.append("<a href='http://v.xiumi.us/board/v5/2IGJS/30156533'>酷礼Cooler功能介绍</a>");
-		messageResp.setContent(content.toString());
+		messageResp.setContent(content);
 		
 		return MessageUtil.messageToXml(messageResp);
 	}
@@ -321,7 +349,7 @@ public class WechatRespUtil {
 		
 		// 回复消息
 		TextMessageResp messageResp = new TextMessageResp(event);
-		messageResp.setContent("您已经关注了本平台，请勿重复扫码！");
+		messageResp.setContent("您已经关注了本平台，请勿扫码！");
 		
 		return MessageUtil.messageToXml(messageResp);
 	}

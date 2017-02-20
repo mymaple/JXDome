@@ -1,10 +1,9 @@
 package com.jx.common.config;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -12,6 +11,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
@@ -25,8 +25,15 @@ public class BaseController {
 
 	protected Logger logger = Logger.getLogger(this.getClass());
 
-	private static final long serialVersionUID = 6357869213649815390L;
-
+	protected HttpServletRequest request;
+	protected HttpServletResponse response;
+	
+	 @ModelAttribute
+	 public void setReqAndRes(HttpServletRequest request, HttpServletResponse response){
+		 this.request = request;
+		 this.response = response;
+	 }
+	
 	/**
 	 * 得到PageData<String,Sting>
 	 */
@@ -75,7 +82,6 @@ public class BaseController {
 	 * 	shiro管理的session
 	 */
 	public Session getSession() {
-		
 		return SecurityUtils.getSubject().getSession();
 	}
 

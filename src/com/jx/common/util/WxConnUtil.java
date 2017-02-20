@@ -1,6 +1,18 @@
 package com.jx.common.util;
 
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+
 import com.jx.common.config.Const;
+import com.jx.common.entity.ComWxAccount;
 import com.jx.common.service.ComWxAccountService;
 
 import net.sf.json.JSONObject;
@@ -245,4 +257,41 @@ public class WxConnUtil {
 	}
 	
 	
+	public static void toRedirect(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String redictUrl = PathUtil.allUrl(request);
+		redictUrl = URLEncoder.encode(redictUrl,"utf-8");
+		ComWxAccountService comWxAccountService = 
+				(ComWxAccountService)SpringContextUtil.getBean("comWxAccountService");
+		ComWxAccount comWxAccount = comWxAccountService.findCurrent();
+		String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+comWxAccount.getAppId()+"&redirect_uri="+redictUrl+"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+		System.out.println("url------------"+url);
+		response.sendRedirect(url);
+	}
+	
+	/**
+	 * 获得 
+	 * @param accessToken 公众号的全局唯一票据
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getMyOpenId(String code) throws Exception{
+		String openId = "";
+		
+		ComWxAccountService comWxAccountService = 
+				(ComWxAccountService)SpringContextUtil.getBean("comWxAccountService");
+		ComWxAccount comWxAccount = comWxAccountService.findCurrent();
+		// 拼装请求地址  
+		String urlStr = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+comWxAccount.getAppId()+"&secret="+comWxAccount.getAppSecret()+"&code="+code+"&grant_type=authorization_code";
+		String resultStr = HttpManager.get(urlStr, null);
+		JSONObject json = JSONObject.fromObject(resultStr); 
+		if(json != null){
+			//获取返回码
+			if(json.containsKey("errcode")){
+				//log
+			}else{
+				openId = (String) json.get("openid");
+			}
+		}
+		return openId;
+	}
 }

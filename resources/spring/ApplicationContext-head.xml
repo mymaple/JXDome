@@ -31,6 +31,7 @@
 			<list>  
                  <value>/WEB-INF/classes/dbconfig.properties</value>
                  <value>/WEB-INF/classes/redis.properties</value>  
+                 <value>/WEB-INF/classes/shiro.properties</value>  
             </list>  
         </property>  
 	</bean> 

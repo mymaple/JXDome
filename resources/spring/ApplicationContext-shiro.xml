@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop" 
@@ -19,7 +18,7 @@
 		</bean>
 		
 		<!-- 項目自定义的Realm -->
-	    <bean id="ShiroRealm" class="com.jx.common.config.ShiroRealm" ></bean>
+	    <bean id="ShiroRealm" class="com.jx.common.config.shiro.ShiroRealm" ></bean>
 		
 		<!-- Shiro Filter -->
 		<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -36,6 +35,7 @@
 				/static/login/** 			= anon
 				/static/js/myjs/** 			= authc
 				/static/js/** 				= anon
+				/MP_verify_uypCnRoqKLTZwBSp.txt			= anon
 				/uploadFiles/uploadImgs/** 	= anon
 	           	/background/main/getVerificationCode.do 					= anon
 	           	/background/main/login	 			= anon
@@ -47,5 +47,5 @@
 				</value>
 			</property>
 		</bean>
-   
+
 </beans>

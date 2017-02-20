@@ -1,4 +1,4 @@
-package com.jx.common.config;
+package com.jx.common.config.shiro;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -13,6 +13,8 @@ import org.apache.shiro.subject.PrincipalCollection;
  */
 public class ShiroRealm extends AuthorizingRealm {
 
+	public final static String REALM_NAME = "ShiroRealm";
+	
 	/*
 	 * 登录信息和用户验证信息验证(non-Javadoc)
 	 * @see org.apache.shiro.realm.AuthenticatingRealm#doGetAuthenticationInfo(org.apache.shiro.authc.AuthenticationToken)
@@ -22,7 +24,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
 		String username = (String) token.getPrincipal(); // 得到用户名
 		String password = new String((char[]) token.getCredentials()); // 得到密码
-
+		System.out.println("token.getCredentials--------------------"+password);
 		if (null != username && null != password) {
 			return new SimpleAuthenticationInfo(username, password, getName());
 		} else {

@@ -3,14 +3,12 @@ package com.jx.background.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
@@ -19,6 +17,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -167,9 +166,10 @@ public class BgMainController extends BaseController {
 							
 							// shiro加入身份验证
 							Subject subject = SecurityUtils.getSubject();
-							UsernamePasswordToken token = new UsernamePasswordToken(userCode, password);
+							UsernamePasswordToken token = new UsernamePasswordToken(userCode, passwd);
 							try {
 								subject.login(token);
+								System.out.println("aaaaaaa--------------------"+passwd);
 							} catch (AuthenticationException e) {
 								errInfo = "身份验证失败！";
 							}

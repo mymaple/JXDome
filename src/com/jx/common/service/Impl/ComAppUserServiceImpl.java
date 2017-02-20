@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
@@ -13,7 +14,9 @@ import com.jx.common.config.PageData;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComInvite;
 import com.jx.common.service.ComAppUserService;
+import com.jx.common.service.ComInviteService;
 import com.jx.background.util.BgSessionUtil;
 
 @Service("comAppUserService")
@@ -21,6 +24,9 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	
+	@Resource(name = "comInviteService")
+	private ComInviteService comInviteService;
 	
 	
 	/****************************custom * start***********************************/
@@ -56,6 +62,16 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		comAppUser.setLastModifyTime(this.findById(comAppUser.getAppUserId()).getModifyTime());
 		if(comAppUser.getModifyTime().compareTo(comAppUser.getLastModifyTime()) == 0){
 			comAppUser.setModifyTime(MapleDateUtil.getNextSecond(comAppUser.getModifyTime()));
+		}
+		
+		if(StringUtils.isEmpty(comAppUser.getParentId())){
+			ComInvite comInvite = comInviteService.findByOpenId(comAppUser.getOpenId());
+			if(comInvite != null){
+				comAppUser.setParentId(comInvite.getInviteCode());
+				
+				comInvite.setInviteStatus("00");
+				comInviteService.edit(comInvite);
+			}
 		}
 	
 		dao.edit("ComAppUserMapper.edit", comAppUser);

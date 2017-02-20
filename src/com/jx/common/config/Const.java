@@ -21,12 +21,22 @@ public class Const {
 	/**
 	 * 后台 登录地址
 	 */
-	public static final String PATH_BG_LOGIN_STR = "/background/main/toLogin.do";
+	public static final String PATH_BG_TOLOGIN_STR = "/background/main/toLogin.do";
 	
 	/**
 	 * 后台 登录地址
 	 */
-	public static final String PATH_BG_LOGOUT_STR = "/background/main/toLogout.do";
+	public static final String PATH_BG_TOLOGOUT_STR = "/background/main/toLogout.do";
+	
+	/**
+	 * 微信 登录地址
+	 */
+	public static final String PATH_WX_TOLOGIN_STR = "/weixin/main/toLogin.do";
+	
+	/**
+	 * 微信 登录地址
+	 */
+	public static final String PATH_WX_ROLOGOUT_STR = "/weixin/main/toLogout.do";
 	
 	
 	/**
@@ -75,12 +85,12 @@ public class Const {
 	/**
 	 * 路径 头像
 	 */
-	public static final String PATH_MYHEADIMG = "static/file/image/myheadimg";
+	public static final String PATH_MYHEADIMG = "uploadFiles/image/myheadimg";
 	
 	/**
 	 * 路径 个人微信二维码
 	 */
-	public static final String PATH_MYWXQRCODE = "static/file/image/mywxqrcode";
+	public static final String PATH_MYWXQRCODE = "uploadFiles/image/mywxqrcode";
 	
 	
 	
