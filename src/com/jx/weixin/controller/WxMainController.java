@@ -10,9 +10,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.service.BgConfigService;
@@ -24,6 +26,7 @@ import com.jx.common.config.shiro.ShiroHelper;
 import com.jx.common.config.shiro.ShiroSecurityHelper;
 import com.jx.common.entity.ComAppUser;
 import com.jx.common.service.ComAppUserService;
+import com.jx.common.util.AppUtil;
 import com.jx.common.util.HttpManager;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleUtil;
@@ -53,11 +56,81 @@ public class WxMainController extends BaseController {
 	@RequestMapping(value = "/toLogin")
 	public ModelAndView toLogin() throws Exception {
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		String flag = pd.getString("flag");
+		mv.addObject("flag", pd.getString("flag"));
+		
+		mv.setViewName("weixin/main/wxLogin");
+		Subject subject = SecurityUtils.getSubject();
+		if(subject.isRemembered()){  
+			String phone = (String)subject.getPrincipal();
+			String captcha = "123456";
+			if (!subject.isAuthenticated()) {  
+	        	//如果用户已登录，先踢出  
+	        	ShiroSecurityHelper.kickOutUser(phone);  
+	        	UsernamePasswordToken token = new UsernamePasswordToken(phone, captcha, true);  
+	        	subject.login(token); // 登录  
+	        }
+			SavedRequest savedRequest= WebUtils.getSavedRequest(request);
+			if(!Const.FLAG_DIRECTLOGIN.equals(flag)&&savedRequest!=null){
+				String rollbackUrl = savedRequest.getRequestUrl();
+				rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
+				mv.setViewName("redirect:/"+rollbackUrl);
+			}else{
+				mv.setViewName("redirect:toIndex");
+			}
+		}
+		
+		
+		return mv;
+	}
+	
+	/**
+	 * 登录
+	 * @return
+	 */
+	@RequestMapping(value = "/login1")
+	public ModelAndView login1() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		//参数校验
+		String phone = pd.getString("phone");
+		String captcha = pd.getString("captcha");
+		String flag = pd.getString("flag");
+		
+		Subject subject = SecurityUtils.getSubject();
+        if (!subject.isAuthenticated()) {  
+        	//如果用户已登录，先踢出  
+        	ShiroSecurityHelper.kickOutUser(phone);  
+        	UsernamePasswordToken token = new UsernamePasswordToken(phone, captcha, true);  
+        	subject.login(token); // 登录  
+        }
+        SavedRequest savedRequest= WebUtils.getSavedRequest(request);
+        if(!Const.FLAG_DIRECTLOGIN.equals(flag)&&savedRequest!=null){
+			String rollbackUrl = savedRequest.getRequestUrl();
+			rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
+			mv.setViewName("redirect:/"+rollbackUrl);
+		}else{
+			mv.setViewName("redirect:toIndex");
+		}
+	              
+		return mv;
+	}
+	
+	
+	/**
+	 * 登录
+	 * @return
+	 */
+	@RequestMapping(value = "/toLogin1")
+	public ModelAndView toLogin1() throws Exception {
+		ModelAndView mv = this.getModelAndView();
 		
 		Subject subject = SecurityUtils.getSubject();
 		if(!subject.isAuthenticated()){
-			String url = WebUtils.getSavedRequest(request).getRequestUrl();
 			String userName = (String)subject.getPrincipal();
+			String url = WebUtils.getSavedRequest(request).getRequestUrl();
+			logger.info(url);
 			if(subject.isRemembered()&&!Const.PATH_WX_TOLOGIN_STR.equals(url)
 					&&StringUtils.isNotEmpty(userName)){
 				//自动登录
@@ -80,9 +153,24 @@ public class WxMainController extends BaseController {
 				mv.setViewName("weixin/main/wxLogin");
 			}
 		}else{
-			mv.setViewName("redirect:weixin/main/toMine");
+			mv.setViewName("redirect:toMine");
 		}
+		String userName = (String)subject.getPrincipal();
+		if(StringUtils.isEmpty(userName)){
 			
+		}
+		if(subject.isAuthenticated()){
+			mv.setViewName("redirect:toMine");
+		}else{
+			if(subject.isRemembered()){
+				
+			}else{
+				mv.setViewName("weixin/main/wxLogin");
+			}
+		}
+		
+		
+		
 		return mv;
 	}
 	
@@ -91,14 +179,15 @@ public class WxMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getCaptcha")
-	public ModelAndView getCaptcha() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		try{
-			mv.setViewName("weixin/main/wxLogin");
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		return mv;
+	@ResponseBody
+	public Object getCaptcha() throws Exception {
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		
+		WxSessionUtil.setSessionWxCaptcha("123456");
+		
+		resultInfo.setResultCode("success");
+		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
 	/**
@@ -116,7 +205,7 @@ public class WxMainController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		mv.setViewName("weixin/main/toLogin");
+		mv.setViewName("weixin/main/wxLogin");
 		
 		//参数校验
 		String phone = pd.getString("phone");
@@ -137,7 +226,7 @@ public class WxMainController extends BaseController {
 		WxSessionUtil.removeSessionWxCaptcha();
 		
 		//账号校验
-		ComAppUser comAppUser = comAppUserService.findById(phone);
+		ComAppUser comAppUser = comAppUserService.findByPhone(phone);
 		if(comAppUser == null){
 			comAppUser = new ComAppUser();
 			
@@ -159,6 +248,8 @@ public class WxMainController extends BaseController {
 			String appUserNum = "";
 			
 			comAppUser.setOpenId(openId);
+			comAppUser.setPhone(phone);
+			
 			comAppUser.setAppUserCode(StringUtils.isEmpty(userInfo.getNickname())?appUserNum:userInfo.getNickname());
 			comAppUser.setSex("1".equals(userInfo.getSex())?"01":"02");
 			comAppUser.setBrithday(nowtime);
@@ -188,15 +279,32 @@ public class WxMainController extends BaseController {
 		// shiro加入身份验证
 		try {
 			Subject subject = SecurityUtils.getSubject();
-			UsernamePasswordToken token = new UsernamePasswordToken(comAppUser.getAppUserId()+",,,,"+openId, comAppUser.getPassword(), true);
+			UsernamePasswordToken token = new UsernamePasswordToken(comAppUser.getAppUserId()+",,,,"+openId, comAppUser.getPhone(), true);
 			subject.login(token);
 		} catch (AuthenticationException e) {
+			e.printStackTrace();
 			resultInfo.setResultContent("身份验证失败！");
 			mv.addObject(resultInfo);
 			return mv;
 		}
 		
-		mv.setViewName("redirect:weixin/main/toMine");
+		mv.setViewName("redirect:toMine");
+		return mv;
+	}
+	
+	/**
+	 * 登录
+	 * @return
+	 */
+	@RequestMapping(value = "/logout")
+	public ModelAndView logout() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		Subject subject = SecurityUtils.getSubject();
+	    subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存  
+	    
+	    mv.addObject("flag", Const.FLAG_DIRECTLOGIN);
+	    mv.setViewName("redirect:toLogin");
+	    
 		return mv;
 	}
 	
@@ -229,12 +337,6 @@ public class WxMainController extends BaseController {
 	public ModelAndView toIndex() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		try{
-			String openId = WxSessionUtil.getSessionWxMyOpenId();
-			System.out.println("2222222222222222-----------------"+openId);
-			if(StringUtils.isEmpty(openId)){
-				mv.setViewName("weixin/main/wxLogin");
-				return mv;
-			}
 			mv.setViewName("weixin/main/wxIndex");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -263,18 +365,9 @@ public class WxMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/toShopCar")
-	public ModelAndView toShop() throws Exception {
+	public ModelAndView toShopCar() throws Exception {
 		ModelAndView mv = this.getModelAndView();
-		try{
-			ComAppUser comAppUser = WxSessionUtil.getSessionWxComAppUser();
-			if(comAppUser == null){
-				mv.setViewName("weixin/main/toLogin");
-				return mv;
-			}
-			mv.setViewName("weixin/main/wxShopCar");
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
+		mv.setViewName("weixin/main/wxShopCar");
 		return mv;
 	}
 	
@@ -292,6 +385,9 @@ public class WxMainController extends BaseController {
 		}
 		return mv;
 	}
+	
+	
+	
 	
 
 }

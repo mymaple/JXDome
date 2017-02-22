@@ -25,6 +25,18 @@ public class ComInviteServiceImpl implements ComInviteService{
 	
 	/****************************custom * start***********************************/
 	
+	/**
+	 * 通过invitedUserId获取(类)数据
+	 * @param String invitedUserId
+	 * @return ComInvite
+	 * @throws Exception
+	 */
+	public ComInvite findByInvitedUserId(String invitedUserId) throws Exception {
+		PageData pd = new PageData();
+		pd.put("invitedUserId",invitedUserId);
+		return this.findByPd(pd);
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

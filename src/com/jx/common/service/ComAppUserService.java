@@ -11,6 +11,13 @@ public interface ComAppUserService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 通过phone获取(类)数据
+	 * @param String phone
+	 * @return ComAppUser
+	 * @throws Exception
+	 */
+	public ComAppUser findByPhone(String phone) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

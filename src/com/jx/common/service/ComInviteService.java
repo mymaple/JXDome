@@ -11,6 +11,13 @@ public interface ComInviteService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 通过invitedUserId获取(类)数据
+	 * @param String invitedUserId
+	 * @return ComInvite
+	 * @throws Exception
+	 */
+	public ComInvite findByInvitedUserId(String invitedUserId) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

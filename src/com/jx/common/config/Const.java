@@ -93,6 +93,15 @@ public class Const {
 	public static final String PATH_MYWXQRCODE = "uploadFiles/image/mywxqrcode";
 	
 	
+	/**
+	 * 标记 登录直接跳转
+	 */
+	public static final String FLAG_DIRECTLOGIN = "direct";
+	
+	
+	
+	
+	
 	
 //	public static final String SYSNAME = "admin/config/SYSNAME.txt"; // 系统名称路径
 	

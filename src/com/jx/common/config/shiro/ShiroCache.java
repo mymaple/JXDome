@@ -110,10 +110,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
 	}
 
 	public CacheRepository getCache() {
-		cache = null != cache ? cache : SpringContextUtil.getBean(CacheRepository.class);
-		if(null == cache){
-			cache = new LocalCacheOperations();
-		}
+		cache = null != cache ? cache : (CacheRepository)SpringContextUtil.getBean("cacheRepository");
 		return cache;
 	}
 

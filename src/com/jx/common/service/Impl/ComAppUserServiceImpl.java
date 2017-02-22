@@ -31,6 +31,19 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	
 	/****************************custom * start***********************************/
 	
+	/**
+	 * 通过phone获取(类)数据
+	 * @param String phone
+	 * @return ComAppUser
+	 * @throws Exception
+	 */
+	public ComAppUser findByPhone(String phone) throws Exception {
+		PageData pd = new PageData();
+		pd.put("phone",phone);
+		return this.findByPd(pd);
+	}
+	
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -65,7 +78,7 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		}
 		
 		if(StringUtils.isEmpty(comAppUser.getParentId())){
-			ComInvite comInvite = comInviteService.findByOpenId(comAppUser.getOpenId());
+			ComInvite comInvite = comInviteService.findByInvitedUserId(comAppUser.getOpenId());
 			if(comInvite != null){
 				comAppUser.setParentId(comInvite.getInviteCode());
 				

@@ -357,7 +357,7 @@ public class BgInviteController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+		String filePath = PathUtil.getProjectPath() + Const.FILEPATHFILE;								//文件上传路径
 		String fileName =  MapleFileUtil.fileUp(file, filePath, "inviteexcel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/

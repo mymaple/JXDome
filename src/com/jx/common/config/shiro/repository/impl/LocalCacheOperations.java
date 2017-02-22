@@ -2,12 +2,15 @@ package com.jx.common.config.shiro.repository.impl;
 
 import java.util.Set;
 
+import org.springframework.stereotype.Service;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
 import com.jx.common.config.shiro.repository.CacheRepository;
 
 @SuppressWarnings("unchecked")
+@Service("cacheRepository")
 public class LocalCacheOperations implements CacheRepository {
 	
 	private Cache<String, Object> cache = CacheBuilder.newBuilder().maximumSize(10000000).build();

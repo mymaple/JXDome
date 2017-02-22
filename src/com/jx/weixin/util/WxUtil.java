@@ -11,12 +11,15 @@ public class WxUtil {
 	
 	
 	public static String getWxMyOpenId(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String openId = "";
-		String code = request.getParameter("code");
-		if(StringUtils.isEmpty(code)){
-			WxConnUtil.toRedirect(request, response);
-		}else{
-			openId = WxConnUtil.getMyOpenId(code);
+		String openId = WxSessionUtil.getSessionWxMyOpenId();
+		if(StringUtils.isEmpty(openId)){
+			String code = request.getParameter("code");
+			if(StringUtils.isEmpty(code)){
+				WxConnUtil.toRedirect(request, response);
+			}else{
+				openId = WxConnUtil.getMyOpenId(code);
+				WxSessionUtil.setSessionWxMyOpenId(openId);
+			}
 		}
 		return openId;
 	}

@@ -2,6 +2,8 @@ package com.jx.common.config.shiro;
 
 import java.io.Serializable;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.Cache;
@@ -16,9 +18,10 @@ import com.jx.common.util.SpringContextUtil;
 
 public class ShiroSecurityHelper {
 	
-	private static ShiroCacheManager cacheManager;
-
 	private static UserSessionRelationCacheService userSessionRelationCacheService;
+	
+	private static ShiroCacheManager cacheManager;
+	
 
 
 	/**
@@ -126,10 +129,11 @@ public class ShiroSecurityHelper {
 	 */
 	public static void initStaticField(ShiroCacheManager _cacheManager){
 		cacheManager = _cacheManager;
-		userSessionRelationCacheService = SpringContextUtil.getBean(UserSessionRelationCacheService.class);
-		if(null == userSessionRelationCacheService){
-			userSessionRelationCacheService = new UserSessionRelationLocalCacheServiceImpl();
-		}
+		userSessionRelationCacheService = (UserSessionRelationCacheService)
+				SpringContextUtil.getBean("userSessionRelationCacheService");
+//		if(null == userSessionRelationCacheService){
+//			userSessionRelationCacheService = new UserSessionRelationLocalCacheServiceImpl();
+//		}
 	}
 
 	/**

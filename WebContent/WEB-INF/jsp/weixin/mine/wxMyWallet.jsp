@@ -12,18 +12,33 @@
 	<base href="<%=basePath%>">
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-	<title>toIndex</title>
+	<title>toLogin</title>
 	<link rel="stylesheet" href="weui/dist/style/weui.min.css"/>
 </head>
 <body>
 
      <div class="weui-btn-area">
-       	<a class="weui-btn weui-btn_primary" href="<%=basePath%>weixin/mine/toMyWallet.do" id="showTooltips">我的钱包</a>
+       	<a class="weui-btn weui-btn_primary" href="javascript:logout();" id="showTooltips">登出</a>
    	</div>
 	
 </body>
 
 <script type="text/javascript" src="weui/dist/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+function logout(){
+	window.location.href = "<%=basePath%>weixin/main/logout.do?&tm="+new Date().getTime();
+}
 
+function getCaptcha(){
+	var url = "<%=basePath%>weixin/main/getCaptcha.do?&tm="+new Date().getTime();
+	$.get(url,function(data){
+		if(data.resultCode == "success"){
+			alert("sds");
+		}
+	});
+}
+
+
+</script>
 
 </html>

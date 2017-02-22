@@ -23,6 +23,7 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
 		String path = request.getServletPath();
+		System.out.println("path-------------------"+path);
 		String[] pathArr = path.split("/");
 		if(pathArr.length > 3){
 			//分隔"?"需特殊处理
