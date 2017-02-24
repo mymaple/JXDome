@@ -37,7 +37,7 @@ import com.jx.common.service.ComAppUserService;
 /** 
  * 类名称：BgAppUserController
  * 创建人：maple
- * 创建时间：2017-02-13
+ * 创建时间：2017-02-24
  */
 @Controller
 @RequestMapping(value="/background/appUser")
@@ -100,10 +100,10 @@ public class BgAppUserController extends BaseController {
 		comAppUser.setPassword("");
 		comAppUser.setOpenId("");
 		comAppUser.setSex("");
-		comAppUser.setHeadImgUrl("");
+		comAppUser.setHeadImgSrc("");
 		comAppUser.setBrithday(new Date());
 		comAppUser.setParentId("");
-		comAppUser.setWxQRcodeUrl("");
+		comAppUser.setWxQRcodeSrc("");
 		comAppUser.setWxQRcodeExpiry(new Date());
 		comAppUser.setMediaId("");
 		comAppUser.setMediaExpiry(new Date());
@@ -274,10 +274,10 @@ public class BgAppUserController extends BaseController {
 		titles.add("密码");	//8
 		titles.add("用户的标识");	//9
 		titles.add("性别");	//10
-		titles.add("用户头像路径");	//11
+		titles.add("用户头像");	//11
 		titles.add("生日");	//12
 		titles.add("上级id");	//13
-		titles.add("微信二维码地址");	//14
+		titles.add("微信二维码");	//14
 		titles.add("微信二维码有效期");	//15
 		titles.add("媒体文件id");	//16
 		titles.add("媒体文件有效时间");	//17
@@ -303,10 +303,10 @@ public class BgAppUserController extends BaseController {
 			vpd.put("var8", varOList.get(i).getPassword());	//8
 			vpd.put("var9", varOList.get(i).getOpenId());	//9
 			vpd.put("var10", varOList.get(i).getSex());	//10
-			vpd.put("var11", varOList.get(i).getHeadImgUrl());	//11
+			vpd.put("var11", varOList.get(i).getHeadImgSrc());	//11
 			vpd.put("var12", varOList.get(i).getBrithday());	//12
 			vpd.put("var13", varOList.get(i).getParentId());	//13
-			vpd.put("var14", varOList.get(i).getWxQRcodeUrl());	//14
+			vpd.put("var14", varOList.get(i).getWxQRcodeSrc());	//14
 			vpd.put("var15", varOList.get(i).getWxQRcodeExpiry());	//15
 			vpd.put("var16", varOList.get(i).getMediaId());	//16
 			vpd.put("var17", varOList.get(i).getMediaExpiry());	//17
@@ -366,10 +366,10 @@ public class BgAppUserController extends BaseController {
 		titles.add("密码");	//6
 		titles.add("用户的标识");	//7
 		titles.add("性别");	//8
-		titles.add("用户头像路径");	//9
+		titles.add("用户头像");	//9
 		titles.add("生日");	//10
 		titles.add("上级id");	//11
-		titles.add("微信二维码地址");	//12
+		titles.add("微信二维码");	//12
 		titles.add("微信二维码有效期");	//13
 		titles.add("媒体文件id");	//14
 		titles.add("媒体文件有效时间");	//15
@@ -418,10 +418,10 @@ public class BgAppUserController extends BaseController {
 		 * var6 :密码;	//6
 		 * var7 :用户的标识;	//7
 		 * var8 :性别;	//8
-		 * var9 :用户头像路径;	//9
+		 * var9 :用户头像;	//9
 		 * var10 :生日;	//10
 		 * var11 :上级id;	//11
-		 * var12 :微信二维码地址;	//12
+		 * var12 :微信二维码;	//12
 		 * var13 :微信二维码有效期;	//13
 		 * var14 :媒体文件id;	//14
 		 * var15 :媒体文件有效时间;	//15
@@ -437,10 +437,10 @@ public class BgAppUserController extends BaseController {
 			comAppUser.setPassword(listPd.get(i).getString("var6"));
 			comAppUser.setOpenId(listPd.get(i).getString("var7"));
 			comAppUser.setSex(listPd.get(i).getString("var8"));
-			comAppUser.setHeadImgUrl(listPd.get(i).getString("var9"));
+			comAppUser.setHeadImgSrc(listPd.get(i).getString("var9"));
 			comAppUser.setBrithdayStr(listPd.get(i).getString("var10"));
 			comAppUser.setParentId(listPd.get(i).getString("var11"));
-			comAppUser.setWxQRcodeUrl(listPd.get(i).getString("var12"));
+			comAppUser.setWxQRcodeSrc(listPd.get(i).getString("var12"));
 			comAppUser.setWxQRcodeExpiryStr(listPd.get(i).getString("var13"));
 			comAppUser.setMediaId(listPd.get(i).getString("var14"));
 			comAppUser.setMediaExpiryStr(listPd.get(i).getString("var15"));

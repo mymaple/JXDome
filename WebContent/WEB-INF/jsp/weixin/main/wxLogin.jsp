@@ -14,10 +14,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>toLogin</title>
 	<link rel="stylesheet" href="weui/dist/style/weui.min.css"/>
+	<link rel="stylesheet" href="weui/dist/style/layer.css"/>
+	<script type="text/javascript" src="weui/dist/js/layer.js"></script>
 </head>
 <body>
 
-	<form action="weixin/main/login1.do" name="loginForm" id="loginForm" method="post">
+	<form action="weixin/main/login.do" name="loginForm" id="loginForm" method="post">
 	
 	<input type="hidden" name="flag" id="flag" value="${flag }">
 	
@@ -54,21 +56,35 @@
 
 <script type="text/javascript" src="weui/dist/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	if(window.history.replaceState){
+		window.history.replaceState(null,'',document.referrer);
+	}
+});
+
 function login(){
 	$("#loginForm").submit();
 }
 
 function getCaptcha(){
-	var url = "<%=basePath%>weixin/main/getCaptcha.do?&tm="+new Date().getTime();
+	var phone = $("#phone").val();
+	var url = "<%=basePath%>weixin/main/getCaptcha.do?phone="+phone+"&tm="+new Date().getTime();
 	$.get(url,function(data){
-		if(data.resultCode == "success"){
-			alert("sds");
+		if(data.resultCode != "success"){
+			layer.open({
+		    	content: data.resultContent
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
 		}
 	});
 }
 
+
+
+
 //匿名函数
-$(function(){
+<%-- $(function(){
    getHistory();
     var flag=false;
 	setTimeout(function(){
@@ -89,7 +105,7 @@ function getHistory(){
 } ;
 window.history.pushState(state,'title',document.referrer);
 }
-})
+}) --%>
 
 </script>
 

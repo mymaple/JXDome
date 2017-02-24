@@ -7,15 +7,25 @@ import com.jx.common.config.PageData;
 public class RandomUtil {
 
 	public static void main(String[] args) {
-		PageData pd = new PageData();
-		pd.put("username", "zhangsan");
-
+		Random r = new Random();
+		System.out.println(getRandom(5));
 	}
 	
 	public static char randomChar() {
 		Random r = new Random();
 		String s = "ABCDEFGHJKLMNPRSTUVWXYZ0123456789";
 		return s.charAt(r.nextInt(s.length()));
+	}
+	
+	/**
+	 * 固定位数随机数
+	 * @param n
+	 * @return
+	 */
+	public static String getRandom(int n){
+		Random r = new Random();
+		int rand= (int) ((1+r.nextDouble())*Math.pow(10, n));
+		return String.valueOf(rand).substring(1, n + 1);
 	}
 	
 	

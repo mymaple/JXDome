@@ -19,6 +19,15 @@ public interface ComAppUserService {
 	 */
 	public ComAppUser findByPhone(String phone) throws Exception ;
 	
+	/**
+	 * 微信注册
+	 * @param String openId
+	 * @param String phone
+	 * @return ComAppUser
+	 * @throws Exception
+	 */
+	public ComAppUser wxRegister(String openId, String phone) throws Exception ;
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

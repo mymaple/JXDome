@@ -1,6 +1,5 @@
 package com.jx.weixin.controller;
 
-import java.security.Principal;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -9,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
@@ -17,26 +17,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.service.BgConfigService;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
-import com.jx.common.config.shiro.ShiroHelper;
 import com.jx.common.config.shiro.ShiroSecurityHelper;
 import com.jx.common.entity.ComAppUser;
 import com.jx.common.service.ComAppUserService;
 import com.jx.common.util.AppUtil;
-import com.jx.common.util.HttpManager;
-import com.jx.common.util.MapleFileUtil;
-import com.jx.common.util.MapleUtil;
-import com.jx.common.util.PathUtil;
-import com.jx.common.util.WxConnUtil;
-import com.jx.wechat.entity.UserInfo;
+import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.RandomUtil;
+import com.jx.common.util.SmsUtil;
 import com.jx.weixin.util.WxSessionUtil;
 import com.jx.weixin.util.WxUtil;
 
-import net.sf.json.JSONObject;
 
 /**
  * 总入口
@@ -49,12 +43,20 @@ public class WxMainController extends BaseController {
 	@Resource(name = "comAppUserService")
 	private ComAppUserService comAppUserService;
 	
+	
+	
 	/**
-	 * 登录
+	 * 去登录页面
 	 * @return
 	 */
 	@RequestMapping(value = "/toLogin")
 	public ModelAndView toLogin() throws Exception {
+		//获取myOpenId
+		String myOpenId = WxUtil.getWxMyOpenId(request, response);
+		if(StringUtils.isEmpty(myOpenId)){
+			return null;
+		}
+		
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		String flag = pd.getString("flag");
@@ -62,114 +64,45 @@ public class WxMainController extends BaseController {
 		
 		mv.setViewName("weixin/main/wxLogin");
 		Subject subject = SecurityUtils.getSubject();
-		if(subject.isRemembered()){  
-			String phone = (String)subject.getPrincipal();
-			String captcha = "123456";
-			if (!subject.isAuthenticated()) {  
-	        	//如果用户已登录，先踢出  
-	        	ShiroSecurityHelper.kickOutUser(phone);  
-	        	UsernamePasswordToken token = new UsernamePasswordToken(phone, captcha, true);  
-	        	subject.login(token); // 登录  
-	        }
-			SavedRequest savedRequest= WebUtils.getSavedRequest(request);
-			if(!Const.FLAG_DIRECTLOGIN.equals(flag)&&savedRequest!=null){
-				String rollbackUrl = savedRequest.getRequestUrl();
-				rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
-				mv.setViewName("redirect:/"+rollbackUrl);
-			}else{
-				mv.setViewName("redirect:toIndex");
-			}
-		}
 		
-		
-		return mv;
-	}
-	
-	/**
-	 * 登录
-	 * @return
-	 */
-	@RequestMapping(value = "/login1")
-	public ModelAndView login1() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
-		//参数校验
-		String phone = pd.getString("phone");
-		String captcha = pd.getString("captcha");
-		String flag = pd.getString("flag");
-		
-		Subject subject = SecurityUtils.getSubject();
-        if (!subject.isAuthenticated()) {  
-        	//如果用户已登录，先踢出  
-        	ShiroSecurityHelper.kickOutUser(phone);  
-        	UsernamePasswordToken token = new UsernamePasswordToken(phone, captcha, true);  
-        	subject.login(token); // 登录  
-        }
-        SavedRequest savedRequest= WebUtils.getSavedRequest(request);
-        if(!Const.FLAG_DIRECTLOGIN.equals(flag)&&savedRequest!=null){
-			String rollbackUrl = savedRequest.getRequestUrl();
-			rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
-			mv.setViewName("redirect:/"+rollbackUrl);
-		}else{
-			mv.setViewName("redirect:toIndex");
-		}
-	              
-		return mv;
-	}
-	
-	
-	/**
-	 * 登录
-	 * @return
-	 */
-	@RequestMapping(value = "/toLogin1")
-	public ModelAndView toLogin1() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		
-		Subject subject = SecurityUtils.getSubject();
-		if(!subject.isAuthenticated()){
-			String userName = (String)subject.getPrincipal();
-			String url = WebUtils.getSavedRequest(request).getRequestUrl();
-			logger.info(url);
-			if(subject.isRemembered()&&!Const.PATH_WX_TOLOGIN_STR.equals(url)
-					&&StringUtils.isNotEmpty(userName)){
-				//自动登录
-				String[] arr = userName.split(",,,,");
-				String userId= arr[0];
-				String openId= arr[1];
-				//账号校验
-				ComAppUser comAppUser = comAppUserService.findById(userId);
-				if(comAppUser != null && comAppUser.getOpenId().equals(openId)){
-					//如果用户已登录，先踢出  
-					ShiroSecurityHelper.kickOutUser(userName);
-					UsernamePasswordToken token = new UsernamePasswordToken(userName, comAppUser.getPassword(), true);  
-					subject.login(token); // 登录 
-					
-					mv.setViewName("redirect:"+url);
-				}else{
-					mv.setViewName("weixin/main/wxLogin");
+		try {
+			if(!subject.isAuthenticated()){
+				if(subject.isRemembered()){
+					String userName = (String)subject.getPrincipal();
+					//自动登录
+					String[] arr = userName.split(Const.REG_COM_SPLIT);
+					if(arr.length == 2){
+						String userId= arr[0];
+						String openId= arr[1];
+						if(myOpenId.equals(openId)){
+							ComAppUser comAppUser = comAppUserService.findById(userId);
+							if(comAppUser != null && comAppUser.getOpenId().equals(openId)){
+								//如果用户已登录，先踢出  
+								ShiroSecurityHelper.kickOutUser(userName);  
+								UsernamePasswordToken token = new UsernamePasswordToken(userName, 
+										new SimpleHash("SHA-512", userId, openId, 2).toString(), true);  
+								subject.login(token); // 登录  
+								
+								WxSessionUtil.setSessionWxComAppUser(comAppUser);
+							}
+					}
+					}
 				}
-			}else{
-				mv.setViewName("weixin/main/wxLogin");
 			}
-		}else{
-			mv.setViewName("redirect:toMine");
-		}
-		String userName = (String)subject.getPrincipal();
-		if(StringUtils.isEmpty(userName)){
 			
-		}
-		if(subject.isAuthenticated()){
-			mv.setViewName("redirect:toMine");
-		}else{
-			if(subject.isRemembered()){
-				
-			}else{
-				mv.setViewName("weixin/main/wxLogin");
+			if(subject.isAuthenticated()){
+				SavedRequest savedRequest= WebUtils.getSavedRequest(request);
+				if(!Const.FLAG_DIRECTLOGIN.equals(flag)&&savedRequest!=null){
+					String rollbackUrl = savedRequest.getRequestUrl();
+					rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
+					mv.setViewName("redirect:/"+rollbackUrl);
+				}else{
+					mv.setViewName("redirect:toIndex");
+				}
 			}
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
 		}
-		
-		
 		
 		return mv;
 	}
@@ -181,12 +114,24 @@ public class WxMainController extends BaseController {
 	@RequestMapping(value = "/getCaptcha")
 	@ResponseBody
 	public Object getCaptcha() throws Exception {
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
+		PageData pd = this.getPageData();
+		String phone = pd.getString("phone");
+		try{
+			String captcha = RandomUtil.getRandom(6);
+			String backCode = SmsUtil.xxk_login(phone, captcha);
+			if("25010 ".equals(backCode)){
+				long expire = MapleDateUtil.getNextSeconds(new Date(), 10*60).getTime();
+				WxSessionUtil.setSessionWxCaptcha(phone+Const.REG_COM_SPLIT+captcha+Const.REG_COM_SPLIT+expire);
+				resultInfo.setResultCode("success");
+			}else{
+				resultInfo.setResultContent("获取验证码失败！");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			resultInfo.setResultContent("获取验证码失败！");
+		}
 		
-		WxSessionUtil.setSessionWxCaptcha("123456");
-		
-		resultInfo.setResultCode("success");
 		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
@@ -210,6 +155,8 @@ public class WxMainController extends BaseController {
 		//参数校验
 		String phone = pd.getString("phone");
 		String captcha = pd.getString("captcha");
+		String flag = pd.getString("flag");
+		
 		if(StringUtils.isEmpty(phone)||StringUtils.isEmpty(captcha)){
 			resultInfo.setResultContent("未填写手机号码或验证码!");
 			mv.addObject(resultInfo);
@@ -218,8 +165,10 @@ public class WxMainController extends BaseController {
 		
 		//验证码校验
 		String sessionWxCaptcha = WxSessionUtil.getSessionWxCaptcha();
-		if(!captcha.equals(sessionWxCaptcha)){
-			resultInfo.setResultContent("验证码不正确!");
+		String[] arr =  sessionWxCaptcha.split(Const.REG_COM_SPLIT);
+		if(arr.length !=3 || !(arr[0]).equals(phone) || !(arr[1]).equals(phone) 
+				|| Long.getLong(arr[2])<new Date().getTime()){
+			resultInfo.setResultContent("验证码不正确,请重新获取!");
 			mv.addObject(resultInfo);
 			return mv;
 		}
@@ -228,47 +177,7 @@ public class WxMainController extends BaseController {
 		//账号校验
 		ComAppUser comAppUser = comAppUserService.findByPhone(phone);
 		if(comAppUser == null){
-			comAppUser = new ComAppUser();
-			
-			Date nowtime = new Date();
-			//获取个人用户信息
-			String json = WxConnUtil.getUserInfo(openId);
-			UserInfo userInfo = new UserInfo();
-			userInfo = (UserInfo)MapleUtil.convertJson(userInfo.getClass(), JSONObject.fromObject(json));
-			String fileSrc = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/"+ openId+"_headimg.jpg";
-			//下载头像图片
-			if(StringUtils.isNotEmpty(userInfo.getHeadimgurl())){
-				HttpManager.download(userInfo.getHeadimgurl(), null, fileSrc);
-			}else{
-				String headimgDefault = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/default_headimg.jpg";
-				MapleFileUtil.copyFile(headimgDefault , fileSrc);
-			}
-			
-			//生成个人编号
-			String appUserNum = "";
-			
-			comAppUser.setOpenId(openId);
-			comAppUser.setPhone(phone);
-			
-			comAppUser.setAppUserCode(StringUtils.isEmpty(userInfo.getNickname())?appUserNum:userInfo.getNickname());
-			comAppUser.setSex("1".equals(userInfo.getSex())?"01":"02");
-			comAppUser.setBrithday(nowtime);
-			comAppUser.setWxQRcodeExpiry(nowtime);
-			comAppUser.setMediaExpiry(nowtime);
-//			comAppUser.setParentId(jsonCode);
-			comAppUser.setHeadImgUrl(Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg");
-			comAppUser.setOrderNum(""+nowtime.getTime());
-			comAppUser.setAppUserNum(appUserNum);
-			
-			//微信关注
-			comAppUser.setAppUserStatus("01");
-			//自主微信关注用户
-			comAppUser.setAppUserType("01");
-			comAppUser.setCreateUserId(openId);
-			comAppUser.setModifyUserId(openId);
-			
-			comAppUserService.add(comAppUser);
-			
+			comAppUser = comAppUserService.wxRegister(openId, phone);
 		}else{
 			comAppUser.setOpenId(openId);
 			comAppUser.setModifyUserId(openId);
@@ -279,16 +188,29 @@ public class WxMainController extends BaseController {
 		// shiro加入身份验证
 		try {
 			Subject subject = SecurityUtils.getSubject();
-			UsernamePasswordToken token = new UsernamePasswordToken(comAppUser.getAppUserId()+",,,,"+openId, comAppUser.getPhone(), true);
+			String userName = comAppUser.getAppUserId()+Const.REG_COM_SPLIT+openId;
+			//如果用户已登录，先踢出  
+			ShiroSecurityHelper.kickOutUser(userName); 
+			UsernamePasswordToken token = new UsernamePasswordToken(userName, 
+					new SimpleHash("SHA-512", comAppUser.getAppUserId(), openId, 2).toString(), true);
 			subject.login(token);
+			WxSessionUtil.setSessionWxComAppUser(comAppUser);
+			
+
+			SavedRequest savedRequest= WebUtils.getSavedRequest(request);
+			if(!Const.FLAG_DIRECTLOGIN.equals(flag)&&savedRequest!=null){
+				String rollbackUrl = savedRequest.getRequestUrl();
+				
+				rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
+				mv.setViewName("redirect:/"+rollbackUrl);
+			}else{
+				mv.setViewName("redirect:toIndex");
+			}
+			resultInfo.setResultCode("success");
 		} catch (AuthenticationException e) {
-			e.printStackTrace();
 			resultInfo.setResultContent("身份验证失败！");
-			mv.addObject(resultInfo);
-			return mv;
 		}
-		
-		mv.setViewName("redirect:toMine");
+		mv.addObject(resultInfo);
 		return mv;
 	}
 	

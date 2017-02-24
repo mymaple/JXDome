@@ -121,6 +121,11 @@ public class Const {
 	public static final String INTERCEPTOR_PATH = "^/background/(?!((verificationCode)|(main))).*";
 	
 	/**
+	 * 分隔符标记
+	 */
+	public static final String REG_COM_SPLIT = "_maple,";
+	
+	/**
 	 * 正则 非负整数
 	 */
 	public static final String REG_COM_FFZS_STR = "^[1-9]\\d*$|^0$";

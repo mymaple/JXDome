@@ -29,15 +29,6 @@ function logout(){
 	window.location.href = "<%=basePath%>weixin/main/logout.do?&tm="+new Date().getTime();
 }
 
-function getCaptcha(){
-	var url = "<%=basePath%>weixin/main/getCaptcha.do?&tm="+new Date().getTime();
-	$.get(url,function(data){
-		if(data.resultCode == "success"){
-			alert("sds");
-		}
-	});
-}
-
 
 </script>
 

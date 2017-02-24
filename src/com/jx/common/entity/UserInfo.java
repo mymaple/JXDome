@@ -1,4 +1,4 @@
-package com.jx.wechat.entity;
+package com.jx.common.entity;
 
 import com.jx.common.util.MapleStringUtil;
 

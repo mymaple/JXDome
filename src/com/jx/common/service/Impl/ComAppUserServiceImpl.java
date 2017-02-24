@@ -9,15 +9,24 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
+import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.util.HttpManager;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleFileUtil;
+import com.jx.common.util.MapleUtil;
+import com.jx.common.util.PathUtil;
 import com.jx.common.util.UuidUtil;
+import com.jx.common.util.WxConnUtil;
+
+import net.sf.json.JSONObject;
+
 import com.jx.common.entity.ComAppUser;
 import com.jx.common.entity.ComInvite;
+import com.jx.common.entity.UserInfo;
 import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComInviteService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comAppUserService")
 public class ComAppUserServiceImpl implements ComAppUserService{
@@ -42,6 +51,69 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		pd.put("phone",phone);
 		return this.findByPd(pd);
 	}
+	
+	/**
+	 * 微信注册
+	 * @param String openId
+	 * @param String phone
+	 * @return ComAppUser
+	 * @throws Exception
+	 */
+	public ComAppUser wxRegister(String openId, String phone) throws Exception {
+		ComAppUser comAppUser = new ComAppUser();
+		Date nowtime = new Date();
+		//获取个人用户信息
+		String json = WxConnUtil.getUserInfo(openId);
+		UserInfo userInfo = new UserInfo();
+		userInfo = (UserInfo)MapleUtil.convertJson(userInfo.getClass(), JSONObject.fromObject(json));
+		String fileSrc = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/"+ openId+"_headimg.jpg";
+		//下载头像图片
+		if(StringUtils.isNotEmpty(userInfo.getHeadimgurl())){
+			HttpManager.download(userInfo.getHeadimgurl(), null, fileSrc);
+		}else{
+			String headimgDefault = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/default_headimg.jpg";
+			MapleFileUtil.copyFile(headimgDefault , fileSrc);
+		}
+		
+		//
+		ComInvite comInvite = comInviteService.findByInvitedUserId(comAppUser.getOpenId());
+		if(comInvite != null){
+			comAppUser.setParentId(comInvite.getInviteCode());
+			
+			comInvite.setInviteStatus("00");
+			comInviteService.edit(comInvite);
+		}
+		String parentId = comInvite == null ? "" : comInvite.getInviteUserId();
+		
+		
+		//生成个人编号
+		String appUserNum = "";
+		
+		comAppUser.setOpenId(openId);
+		comAppUser.setPhone(phone);
+		
+		comAppUser.setAppUserCode(StringUtils.isEmpty(userInfo.getNickname())?appUserNum:userInfo.getNickname());
+		comAppUser.setSex("1".equals(userInfo.getSex())?"01":"02");
+		comAppUser.setBrithday(nowtime);
+		comAppUser.setWxQRcodeExpiry(nowtime);
+		comAppUser.setMediaExpiry(nowtime);
+		comAppUser.setParentId(parentId);
+		comAppUser.setHeadImgUrl(Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg");
+		comAppUser.setOrderNum(""+nowtime.getTime());
+		comAppUser.setAppUserNum(appUserNum);
+		
+		//微信关注
+		comAppUser.setAppUserStatus("01");
+		//自主微信关注用户
+		comAppUser.setAppUserType("01");
+		comAppUser.setCreateUserId(openId);
+		comAppUser.setModifyUserId(openId);
+		
+		this.add(comAppUser);
+		
+		return comAppUser;
+	}
+	
 	
 	
 	/****************************custom * end  ***********************************/

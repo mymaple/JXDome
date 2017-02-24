@@ -24,6 +24,7 @@ import com.jx.common.config.ResultInfo;
 import com.jx.common.config.shiro.ShiroHelper;
 import com.jx.common.config.shiro.ShiroSecurityHelper;
 import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.UserInfo;
 import com.jx.common.service.ComAppUserService;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.HttpManager;
@@ -31,7 +32,6 @@ import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.PathUtil;
 import com.jx.common.util.WxConnUtil;
-import com.jx.wechat.entity.UserInfo;
 import com.jx.weixin.util.WxSessionUtil;
 import com.jx.weixin.util.WxUtil;
 
