@@ -70,9 +70,9 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	@NotBlank(message="性别 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String sex;
 		
-	/** 用户头像路径 */
-	@NotBlank(message="用户头像路径 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String headImgUrl;
+	/** 用户头像 */
+	@NotBlank(message="用户头像 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String headImgSrc;
 		
 	/** 生日 */
 	private Date brithday;
@@ -81,9 +81,9 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	@NotBlank(message="上级id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String parentId;
 		
-	/** 微信二维码地址 */
-	@NotBlank(message="微信二维码地址 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String wxQRcodeUrl;
+	/** 微信二维码 */
+	@NotBlank(message="微信二维码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String wxQRcodeSrc;
 		
 	/** 微信二维码有效期 */
 	private Date wxQRcodeExpiry;
@@ -296,21 +296,21 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 用户头像路径
+	 * 设置 用户头像
 	 * 
-	 * @param String headImgUrl
+	 * @param String headImgSrc
 	 */
-	public void setHeadImgUrl(String headImgUrl) {
-		this.headImgUrl = MapleStringUtil.trim(headImgUrl);
+	public void setHeadImgSrc(String headImgSrc) {
+		this.headImgSrc = MapleStringUtil.trim(headImgSrc);
 	}
 	
 	/**
-	 * 获取 用户头像路径
+	 * 获取 用户头像
 	 * 
-	 * @return String headImgUrl
+	 * @return String headImgSrc
 	 */
-	public String getHeadImgUrl() {
-		return this.headImgUrl;
+	public String getHeadImgSrc() {
+		return this.headImgSrc;
 	}
 	
 	/**
@@ -365,21 +365,21 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 微信二维码地址
+	 * 设置 微信二维码
 	 * 
-	 * @param String wxQRcodeUrl
+	 * @param String wxQRcodeSrc
 	 */
-	public void setWxQRcodeUrl(String wxQRcodeUrl) {
-		this.wxQRcodeUrl = MapleStringUtil.trim(wxQRcodeUrl);
+	public void setWxQRcodeSrc(String wxQRcodeSrc) {
+		this.wxQRcodeSrc = MapleStringUtil.trim(wxQRcodeSrc);
 	}
 	
 	/**
-	 * 获取 微信二维码地址
+	 * 获取 微信二维码
 	 * 
-	 * @return String wxQRcodeUrl
+	 * @return String wxQRcodeSrc
 	 */
-	public String getWxQRcodeUrl() {
-		return this.wxQRcodeUrl;
+	public String getWxQRcodeSrc() {
+		return this.wxQRcodeSrc;
 	}
 	
 	/**

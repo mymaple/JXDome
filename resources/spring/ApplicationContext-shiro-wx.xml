@@ -87,6 +87,7 @@
 				/weui/**								= anon
 				/uploadFiles/** 						= anon
 	           	/weixin/main/** 						= anon
+	           	/common/** 								= anon
 	           	/**										= authc
 				</value>
 			</property>

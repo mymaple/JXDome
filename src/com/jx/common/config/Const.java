@@ -92,6 +92,11 @@ public class Const {
 	 */
 	public static final String PATH_MYWXQRCODE = "uploadFiles/image/mywxqrcode";
 	
+	/**
+	 * 路径 个人微信二维码
+	 */
+	public static final String PATH_FILEUPCACHE = "uploadFiles/cache";
+	
 	
 	/**
 	 * 标记 登录直接跳转

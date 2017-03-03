@@ -42,6 +42,7 @@
 	           	/app**/** 					= anon
 	           	/weixin/** 					= anon
 	           	/weixinSerlvet				= anon
+	           	/common/** 								= anon
 	           	/**							= authc
 	           	
 				</value>

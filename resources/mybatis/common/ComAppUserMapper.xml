@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComAppUserMapper">
 
-	<sql id="appUserColumns">appUserId,appUserCode,appUserName,appUserType,appUserStatus,appUserNum,phone,email,password,openId,sex,headImgUrl,brithday,parentId,wxQRcodeUrl,wxQRcodeExpiry,mediaId,mediaExpiry,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="appUserColumns">appUserId,appUserCode,appUserName,appUserType,appUserStatus,appUserNum,phone,email,password,openId,sex,headImgSrc,brithday,parentId,wxQRcodeSrc,wxQRcodeExpiry,mediaId,mediaExpiry,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="appUserTable">com_app_user_info</sql>
 	
 	<resultMap type="comAppUser" id="comAppUserResultMap">
@@ -18,10 +18,10 @@
 		<result column="password" property="password"/>
 		<result column="openId" property="openId"/>
 		<result column="sex" property="sex"/>
-		<result column="headImgUrl" property="headImgUrl"/>
+		<result column="headImgSrc" property="headImgSrc"/>
 		<result column="brithday" property="brithday"/>
 		<result column="parentId" property="parentId"/>
-		<result column="wxQRcodeUrl" property="wxQRcodeUrl"/>
+		<result column="wxQRcodeSrc" property="wxQRcodeSrc"/>
 		<result column="wxQRcodeExpiry" property="wxQRcodeExpiry"/>
 		<result column="mediaId" property="mediaId"/>
 		<result column="mediaExpiry" property="mediaExpiry"/>
@@ -47,7 +47,7 @@
 		( 
 	<include refid="appUserColumns"/>
 		) values (
-			#{appUserId},#{appUserCode},#{appUserName},#{appUserType},#{appUserStatus},#{appUserNum},#{phone},#{email},#{password},#{openId},#{sex},#{headImgUrl},#{brithday},#{parentId},#{wxQRcodeUrl},#{wxQRcodeExpiry},#{mediaId},#{mediaExpiry},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{appUserId},#{appUserCode},#{appUserName},#{appUserType},#{appUserStatus},#{appUserNum},#{phone},#{email},#{password},#{openId},#{sex},#{headImgSrc},#{brithday},#{parentId},#{wxQRcodeSrc},#{wxQRcodeExpiry},#{mediaId},#{mediaExpiry},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -83,8 +83,8 @@
 			<if test="sex!=null and sex!=''">
 			sex = #{sex},
 			</if>
-			<if test="headImgUrl!=null and headImgUrl!=''">
-			headImgUrl = #{headImgUrl},
+			<if test="headImgSrc!=null and headImgSrc!=''">
+			headImgSrc = #{headImgSrc},
 			</if>
 			<if test="brithday!=null">
 			brithday = #{brithday},
@@ -92,8 +92,8 @@
 			<if test="parentId!=null and parentId!=''">
 			parentId = #{parentId},
 			</if>
-			<if test="wxQRcodeUrl!=null and wxQRcodeUrl!=''">
-			wxQRcodeUrl = #{wxQRcodeUrl},
+			<if test="wxQRcodeSrc!=null and wxQRcodeSrc!=''">
+			wxQRcodeSrc = #{wxQRcodeSrc},
 			</if>
 			<if test="wxQRcodeExpiry!=null">
 			wxQRcodeExpiry = #{wxQRcodeExpiry},
@@ -149,8 +149,8 @@
 			<if test="sex!=null and sex!=''">
 			sex = #{sex},
 			</if>
-			<if test="headImgUrl!=null and headImgUrl!=''">
-			headImgUrl = #{headImgUrl},
+			<if test="headImgSrc!=null and headImgSrc!=''">
+			headImgSrc = #{headImgSrc},
 			</if>
 			<if test="brithday!=null">
 			brithday = #{brithday},
@@ -158,8 +158,8 @@
 			<if test="parentId!=null and parentId!=''">
 			parentId = #{parentId},
 			</if>
-			<if test="wxQRcodeUrl!=null and wxQRcodeUrl!=''">
-			wxQRcodeUrl = #{wxQRcodeUrl},
+			<if test="wxQRcodeSrc!=null and wxQRcodeSrc!=''">
+			wxQRcodeSrc = #{wxQRcodeSrc},
 			</if>
 			<if test="wxQRcodeExpiry!=null">
 			wxQRcodeExpiry = #{wxQRcodeExpiry},
@@ -262,8 +262,8 @@
 			<if test="sex!=null and sex!=''">
 			 and sex = #{sex}
 			</if>
-			<if test="headImgUrl!=null and headImgUrl!=''">
-			 and headImgUrl = #{headImgUrl}
+			<if test="headImgSrc!=null and headImgSrc!=''">
+			 and headImgSrc = #{headImgSrc}
 			</if>
 			<if test="brithday!=null">
 			 and brithday = #{brithday}
@@ -271,8 +271,8 @@
 			<if test="parentId!=null and parentId!=''">
 			 and parentId = #{parentId}
 			</if>
-			<if test="wxQRcodeUrl!=null and wxQRcodeUrl!=''">
-			 and wxQRcodeUrl = #{wxQRcodeUrl}
+			<if test="wxQRcodeSrc!=null and wxQRcodeSrc!=''">
+			 and wxQRcodeSrc = #{wxQRcodeSrc}
 			</if>
 			<if test="wxQRcodeExpiry!=null">
 			 and wxQRcodeExpiry = #{wxQRcodeExpiry}

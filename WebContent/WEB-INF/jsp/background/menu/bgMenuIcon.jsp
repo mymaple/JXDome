@@ -31,7 +31,7 @@
 						<div id="zhongxin">
 						
 						<form action="background/menu/changeMenuIcon.do" name="menuForm" id="menuForm" method="post">
-						<input type="hidden" name="menuId" id="menuId" value="${pd.menuId}"/>
+						<input type="hidden" name="menuId" id="menuId" value="${bgMenu.menuId}"/>
 						<input type="hidden" name="menuIcon" id="menuIcon" value=""/>
 						<input type="hidden" name="menuIconColor" id="menuIconColor" value="black"/>
 						<br/>

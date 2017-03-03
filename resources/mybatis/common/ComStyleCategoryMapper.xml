@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComStyleCategoryMapper">
+
+	<sql id="styleCategoryColumns">styleCategoryId,productId,styleCategoryCode,styleCategoryName,styleCategoryStatus,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="styleCategoryTable">com_style_category_main</sql>
+	
+	<resultMap type="comStyleCategory" id="comStyleCategoryResultMap">
+		<id column="styleCategoryId" property="styleCategoryId"/>
+		<result column="productId" property="productId"/>
+		<result column="styleCategoryCode" property="styleCategoryCode"/>
+		<result column="styleCategoryName" property="styleCategoryName"/>
+		<result column="styleCategoryStatus" property="styleCategoryStatus"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comStyleCategory">
+		insert into 
+	<include refid="styleCategoryTable"/>
+		( 
+	<include refid="styleCategoryColumns"/>
+		) values (
+			#{styleCategoryId},#{productId},#{styleCategoryCode},#{styleCategoryName},#{styleCategoryStatus},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comStyleCategory">
+		update
+	<include refid="styleCategoryTable"/>
+		set 
+			<if test="productId!=null and productId!=''">
+			productId = #{productId},
+			</if>
+			<if test="styleCategoryCode!=null and styleCategoryCode!=''">
+			styleCategoryCode = #{styleCategoryCode},
+			</if>
+			<if test="styleCategoryName!=null and styleCategoryName!=''">
+			styleCategoryName = #{styleCategoryName},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			styleCategoryId = #{styleCategoryId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comStyleCategory">
+		update
+	<include refid="styleCategoryTable"/>
+		set 
+			<if test="productId!=null and productId!=''">
+			productId = #{productId},
+			</if>
+			<if test="styleCategoryCode!=null and styleCategoryCode!=''">
+			styleCategoryCode = #{styleCategoryCode},
+			</if>
+			<if test="styleCategoryName!=null and styleCategoryName!=''">
+			styleCategoryName = #{styleCategoryName},
+			</if>
+			<if test="styleCategoryStatus!=null and styleCategoryStatus!=''">
+			styleCategoryStatus = #{styleCategoryStatus},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			styleCategoryId = #{styleCategoryId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="styleCategoryTable"/>
+		where 
+			styleCategoryId = #{styleCategoryId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="styleCategoryTable"/>
+		where 
+			CONCAT(styleCategoryId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comStyleCategory">
+		select 
+	<include refid="styleCategoryColumns"/>
+		from 
+	<include refid="styleCategoryTable"/>
+		where 
+			styleCategoryId = #{styleCategoryId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comStyleCategoryResultMap">
+		select 
+	<include refid="styleCategoryColumns"/>
+		from 
+	<include refid="styleCategoryTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comStyleCategory" resultMap="comStyleCategoryResultMap">
+		select 
+	<include refid="styleCategoryColumns"/>
+		from 
+	<include refid="styleCategoryTable"/>
+		where 1=1
+			<if test="styleCategoryId!=null and styleCategoryId!=''">
+			 and styleCategoryId != #{styleCategoryId} 
+			</if>
+			<if test="productId!=null and productId!=''">
+			 and productId = #{productId}
+			</if>
+			<if test="styleCategoryCode!=null and styleCategoryCode!=''">
+			 and styleCategoryCode = #{styleCategoryCode}
+			</if>
+			<if test="styleCategoryName!=null and styleCategoryName!=''">
+			 and styleCategoryName = #{styleCategoryName}
+			</if>
+			<if test="styleCategoryStatus!=null and styleCategoryStatus!=''">
+			 and styleCategoryStatus = #{styleCategoryStatus}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="styleCategoryColumns"/>
+		from 
+	<include refid="styleCategoryTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				styleCategoryCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				styleCategoryName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

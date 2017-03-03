@@ -444,11 +444,11 @@ public class WechatRespUtil {
 					DrawImageUtil.pressImage(headimgSr, qrcodeSrc, qrcodeSrc, 561, 1946, 160, 160);
 					DrawImageUtil.pressText(pressText, qrcodeSrc, Color.black, "黑体", Font.BOLD, 23, 350, 1000);
 					
-					comAppUser.setWxQRcodeUrl(Const.PATH_MYWXQRCODE+"/"+openId+"_qrcode.jpg");
+					comAppUser.setWxQRcodeSrc(Const.PATH_MYWXQRCODE+"/"+openId+"_qrcode.jpg");
 					//在有效期内更换
 					comAppUser.setWxQRcodeExpiry(MapleDateUtil.getNextDays(nowTime, 29));
 				}
-				String mediaId= WxConnUtil.getMediaId(PathUtil.getProjectPath()+comAppUser.getWxQRcodeUrl(), "image");
+				String mediaId= WxConnUtil.getMediaId(PathUtil.getProjectPath()+comAppUser.getWxQRcodeSrc(), "image");
 				if(StringUtils.isNotEmpty(mediaId)){
 					comAppUser.setMediaId(mediaId);
 					comAppUser.setMediaExpiry(MapleDateUtil.getNextDays(nowTime, 2));

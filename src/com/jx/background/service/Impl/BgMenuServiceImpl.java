@@ -117,7 +117,7 @@ public class BgMenuServiceImpl implements BgMenuService{
 		
 		Date nowTime = new Date();
 		bgMenu.setMenuId(UuidUtil.get32UUID());
-		bgMenu.setMenuStatus("00");
+		bgMenu.setMenuStatus("01");
 		bgMenu.setEffective("01");
 		bgMenu.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		bgMenu.setCreateTime(nowTime);

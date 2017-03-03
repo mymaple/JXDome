@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComSupplierMapper">
+
+	<sql id="supplierColumns">supplierId,supplierCode,supplierName,supplierType,supplierStatus,linkman,linkPhone,remarks,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="supplierTable">com_supplier_info</sql>
+	
+	<resultMap type="comSupplier" id="comSupplierResultMap">
+		<id column="supplierId" property="supplierId"/>
+		<result column="supplierCode" property="supplierCode"/>
+		<result column="supplierName" property="supplierName"/>
+		<result column="supplierType" property="supplierType"/>
+		<result column="supplierStatus" property="supplierStatus"/>
+		<result column="linkman" property="linkman"/>
+		<result column="linkPhone" property="linkPhone"/>
+		<result column="remarks" property="remarks"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comSupplier">
+		insert into 
+	<include refid="supplierTable"/>
+		( 
+	<include refid="supplierColumns"/>
+		) values (
+			#{supplierId},#{supplierCode},#{supplierName},#{supplierType},#{supplierStatus},#{linkman},#{linkPhone},#{remarks},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comSupplier">
+		update
+	<include refid="supplierTable"/>
+		set 
+			<if test="supplierCode!=null and supplierCode!=''">
+			supplierCode = #{supplierCode},
+			</if>
+			<if test="supplierName!=null and supplierName!=''">
+			supplierName = #{supplierName},
+			</if>
+			<if test="supplierType!=null and supplierType!=''">
+			supplierType = #{supplierType},
+			</if>
+			<if test="linkman!=null and linkman!=''">
+			linkman = #{linkman},
+			</if>
+			<if test="linkPhone!=null and linkPhone!=''">
+			linkPhone = #{linkPhone},
+			</if>
+			<if test="remarks!=null and remarks!=''">
+			remarks = #{remarks},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			supplierId = #{supplierId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comSupplier">
+		update
+	<include refid="supplierTable"/>
+		set 
+			<if test="supplierCode!=null and supplierCode!=''">
+			supplierCode = #{supplierCode},
+			</if>
+			<if test="supplierName!=null and supplierName!=''">
+			supplierName = #{supplierName},
+			</if>
+			<if test="supplierType!=null and supplierType!=''">
+			supplierType = #{supplierType},
+			</if>
+			<if test="supplierStatus!=null and supplierStatus!=''">
+			supplierStatus = #{supplierStatus},
+			</if>
+			<if test="linkman!=null and linkman!=''">
+			linkman = #{linkman},
+			</if>
+			<if test="linkPhone!=null and linkPhone!=''">
+			linkPhone = #{linkPhone},
+			</if>
+			<if test="remarks!=null and remarks!=''">
+			remarks = #{remarks},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			supplierId = #{supplierId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="supplierTable"/>
+		where 
+			supplierId = #{supplierId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="supplierTable"/>
+		where 
+			CONCAT(supplierId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comSupplier">
+		select 
+	<include refid="supplierColumns"/>
+		from 
+	<include refid="supplierTable"/>
+		where 
+			supplierId = #{supplierId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comSupplierResultMap">
+		select 
+	<include refid="supplierColumns"/>
+		from 
+	<include refid="supplierTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comSupplier" resultMap="comSupplierResultMap">
+		select 
+	<include refid="supplierColumns"/>
+		from 
+	<include refid="supplierTable"/>
+		where 1=1
+			<if test="supplierId!=null and supplierId!=''">
+			 and supplierId != #{supplierId} 
+			</if>
+			<if test="supplierCode!=null and supplierCode!=''">
+			 and supplierCode = #{supplierCode}
+			</if>
+			<if test="supplierName!=null and supplierName!=''">
+			 and supplierName = #{supplierName}
+			</if>
+			<if test="supplierType!=null and supplierType!=''">
+			 and supplierType = #{supplierType}
+			</if>
+			<if test="supplierStatus!=null and supplierStatus!=''">
+			 and supplierStatus = #{supplierStatus}
+			</if>
+			<if test="linkman!=null and linkman!=''">
+			 and linkman = #{linkman}
+			</if>
+			<if test="linkPhone!=null and linkPhone!=''">
+			 and linkPhone = #{linkPhone}
+			</if>
+			<if test="remarks!=null and remarks!=''">
+			 and remarks = #{remarks}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="supplierColumns"/>
+		from 
+	<include refid="supplierTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				supplierCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				supplierName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

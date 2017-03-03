@@ -15,9 +15,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,36 +89,17 @@ public class BgMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/logout")
-	public ModelAndView logout() {
-
-		Session session = this.getSession();
-
-		session.removeAttribute(BgSessionUtil.SESSION_BG_CHANGEMENU_STR);
-		session.removeAttribute(BgSessionUtil.SESSION_BG_USER_ROLE_OBJ);
-		session.removeAttribute(BgSessionUtil.SESSION_BG_RIGHTS_OBJ);
-		session.removeAttribute(BgSessionUtil.SESSION_BG_ALLMENU_INRANK_LIST);
-		session.removeAttribute(BgSessionUtil.SESSION_BG_MENU_INCURRTEN_LIST);
+	public ModelAndView logout() throws Exception {
 
 		// shiro销毁登录
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
-
 		
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		try {
-			pd = this.getPageData();
-			String msg = pd.getString("msg");
-			pd.put("msg", msg);
+		PageData pd = this.getPageData();
 			
-			BgConfig bgConfigSystem = new BgConfig();
-			bgConfigSystem = bgConfigService.findByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
-			pd.put("systemName", bgConfigSystem==null?"":bgConfigSystem.getParam1()); // 读取系统名称
-			mv.addObject("pd", pd);
-			mv.setViewName("background/main/bgLogin");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		mv.addObject("pd", pd);
+		mv.setViewName("redirect:toLogin");
 		
 		return mv;
 	}

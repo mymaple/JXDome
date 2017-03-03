@@ -73,10 +73,10 @@
 									<th class="center">密码</th>
 									<th class="center">用户的标识</th>
 									<th class="center">性别</th>
-									<th class="center">用户头像路径</th>
+									<th class="center">用户头像</th>
 									<th class="center">生日</th>
 									<th class="center">上级id</th>
-									<th class="center">微信二维码地址</th>
+									<th class="center">微信二维码</th>
 									<th class="center">微信二维码有效期</th>
 									<th class="center">媒体文件id</th>
 									<th class="center">媒体文件有效时间</th>
@@ -105,10 +105,10 @@
 											<td class='center'>${comAppUser.password}</td>
 											<td class='center'>${comAppUser.openId}</td>
 											<td class='center'>${comAppUser.sex}</td>
-											<td class='center'>${comAppUser.headImgUrl}</td>
+											<td class='center'>${comAppUser.headImgSrc}</td>
 											<td class='center'>${comAppUser.brithday}</td>
 											<td class='center'>${comAppUser.parentId}</td>
-											<td class='center'>${comAppUser.wxQRcodeUrl}</td>
+											<td class='center'>${comAppUser.wxQRcodeSrc}</td>
 											<td class='center'>${comAppUser.wxQRcodeExpiry}</td>
 											<td class='center'>${comAppUser.mediaId}</td>
 											<td class='center'>${comAppUser.mediaExpiry}</td>

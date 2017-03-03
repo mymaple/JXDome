@@ -142,7 +142,7 @@ public class BgMenuController extends BaseController {
 		bgMenu.setParentId(parentId);
 		bgMenu.setMenuCode("");
 		bgMenu.setMenuName("");
-		bgMenu.setMenuType("01");
+		bgMenu.setMenuType("02");
 		bgMenu.setMenuTag("");
 		bgMenu.setMenuUrl("");
 		bgMenu.setMenuIcon("");

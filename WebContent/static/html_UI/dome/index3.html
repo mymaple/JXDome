@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>dome</title>
+		<link rel="stylesheet" type="text/css" href="css/style3.css" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+	</head>
+
+	<body>
+		<div class="upload_img">
+			<ul class="img_box clearfix">
+				<li>
+					<div class="img_cell img_edit">
+						<!--<div class="img_error"></div>-->
+						<input type="hidden" name="" id="" value="" />
+						<img id="aaa"/>
+						<div class="img_tools">
+							<div class="img_tools_item left"><input type="file" class="upload_img_type upload_img_event_edit" accept="image/*"/><i class="iconfont icon-edit"></i></div>
+							<div class="img_tools_item right"><a onclick="toDeleteUploadImg(this);"><i class="iconfont icon-delete"></i></a></div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="img_cell img_add">
+						<em class="img_add_b abs"></em>
+						<em class="img_add_a abs"></em>
+						<input type="file" class="upload_img_type" accept="image/*" onchange="toAddUploadImg(this);"/>
+						<input type="hidden" name="" id="" value="" />
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+		
+	</body>
+	
+</html>
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.lazyload.min.js"></script>
+<script type="text/javascript" src="js/js3.js"></script>

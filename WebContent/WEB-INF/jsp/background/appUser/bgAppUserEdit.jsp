@@ -69,8 +69,8 @@
 								<td><input type="text" name="sex" id="sex" value="${comAppUser.sex}" maxlength="100" placeholder="这里输入 性别" title="性别" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">用户头像路径:</td>
-								<td><input type="text" name="headImgUrl" id="headImgUrl" value="${comAppUser.headImgUrl}" maxlength="100" placeholder="这里输入 用户头像路径" title="用户头像路径" style="width:98%;" /></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">用户头像:</td>
+								<td><input type="text" name="headImgSrc" id="headImgSrc" value="${comAppUser.headImgSrc}" maxlength="100" placeholder="这里输入 用户头像" title="用户头像" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">生日:</td>
@@ -81,8 +81,8 @@
 								<td><input type="text" name="parentId" id="parentId" value="${comAppUser.parentId}" maxlength="100" placeholder="这里输入 上级id" title="上级id" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">微信二维码地址:</td>
-								<td><input type="text" name="wxQRcodeUrl" id="wxQRcodeUrl" value="${comAppUser.wxQRcodeUrl}" maxlength="100" placeholder="这里输入 微信二维码地址" title="微信二维码地址" style="width:98%;" /></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">微信二维码:</td>
+								<td><input type="text" name="wxQRcodeSrc" id="wxQRcodeSrc" value="${comAppUser.wxQRcodeSrc}" maxlength="100" placeholder="这里输入 微信二维码" title="微信二维码" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">微信二维码有效期:</td>
@@ -250,14 +250,14 @@
 				$("#sex").focus();
 			return false;
 			}
-			if($("#headImgUrl").val()==""){
-				$("#headImgUrl").tips({
+			if($("#headImgSrc").val()==""){
+				$("#headImgSrc").tips({
 					side:3,
-		            msg:'请输入用户头像路径',
+		            msg:'请输入用户头像',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#headImgUrl").focus();
+				$("#headImgSrc").focus();
 			return false;
 			}
 			if($("#brithday").val()==""){
@@ -279,14 +279,14 @@
 				$("#parentId").focus();
 			return false;
 			}
-			if($("#wxQRcodeUrl").val()==""){
-				$("#wxQRcodeUrl").tips({
+			if($("#wxQRcodeSrc").val()==""){
+				$("#wxQRcodeSrc").tips({
 					side:3,
-		            msg:'请输入微信二维码地址',
+		            msg:'请输入微信二维码',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#wxQRcodeUrl").focus();
+				$("#wxQRcodeSrc").focus();
 			return false;
 			}
 			if($("#wxQRcodeExpiry").val()==""){

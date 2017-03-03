@@ -12,6 +12,11 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComInvite;
+import com.jx.common.entity.UserInfo;
+import com.jx.common.service.ComAppUserService;
+import com.jx.common.service.ComInviteService;
 import com.jx.common.util.HttpManager;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
@@ -21,12 +26,6 @@ import com.jx.common.util.UuidUtil;
 import com.jx.common.util.WxConnUtil;
 
 import net.sf.json.JSONObject;
-
-import com.jx.common.entity.ComAppUser;
-import com.jx.common.entity.ComInvite;
-import com.jx.common.entity.UserInfo;
-import com.jx.common.service.ComAppUserService;
-import com.jx.common.service.ComInviteService;
 
 @Service("comAppUserService")
 public class ComAppUserServiceImpl implements ComAppUserService{
@@ -98,7 +97,7 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		comAppUser.setWxQRcodeExpiry(nowtime);
 		comAppUser.setMediaExpiry(nowtime);
 		comAppUser.setParentId(parentId);
-		comAppUser.setHeadImgUrl(Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg");
+		comAppUser.setHeadImgSrc(Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg");
 		comAppUser.setOrderNum(""+nowtime.getTime());
 		comAppUser.setAppUserNum(appUserNum);
 		
