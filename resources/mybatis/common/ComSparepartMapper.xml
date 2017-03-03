@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComSparepartMapper">
+
+	<sql id="sparepartColumns">sparepartId,sparepartCode,sparepartName,sparepartType,sparepartStatus,allIntegral,integral1,integral2,integral3,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="sparepartTable">com_sparepart_info</sql>
+	
+	<resultMap type="comSparepart" id="comSparepartResultMap">
+		<id column="sparepartId" property="sparepartId"/>
+		<result column="sparepartCode" property="sparepartCode"/>
+		<result column="sparepartName" property="sparepartName"/>
+		<result column="sparepartType" property="sparepartType"/>
+		<result column="sparepartStatus" property="sparepartStatus"/>
+		<result column="allIntegral" property="allIntegral"/>
+		<result column="integral1" property="integral1"/>
+		<result column="integral2" property="integral2"/>
+		<result column="integral3" property="integral3"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comSparepart">
+		insert into 
+	<include refid="sparepartTable"/>
+		( 
+	<include refid="sparepartColumns"/>
+		) values (
+			#{sparepartId},#{sparepartCode},#{sparepartName},#{sparepartType},#{sparepartStatus},#{allIntegral},#{integral1},#{integral2},#{integral3},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comSparepart">
+		update
+	<include refid="sparepartTable"/>
+		set 
+			<if test="sparepartCode!=null and sparepartCode!=''">
+			sparepartCode = #{sparepartCode},
+			</if>
+			<if test="sparepartName!=null and sparepartName!=''">
+			sparepartName = #{sparepartName},
+			</if>
+			<if test="sparepartType!=null and sparepartType!=''">
+			sparepartType = #{sparepartType},
+			</if>
+			<if test="allIntegral!=null and allIntegral!=''">
+			allIntegral = #{allIntegral},
+			</if>
+			<if test="integral1!=null and integral1!=''">
+			integral1 = #{integral1},
+			</if>
+			<if test="integral2!=null and integral2!=''">
+			integral2 = #{integral2},
+			</if>
+			<if test="integral3!=null and integral3!=''">
+			integral3 = #{integral3},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			sparepartId = #{sparepartId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comSparepart">
+		update
+	<include refid="sparepartTable"/>
+		set 
+			<if test="sparepartCode!=null and sparepartCode!=''">
+			sparepartCode = #{sparepartCode},
+			</if>
+			<if test="sparepartName!=null and sparepartName!=''">
+			sparepartName = #{sparepartName},
+			</if>
+			<if test="sparepartType!=null and sparepartType!=''">
+			sparepartType = #{sparepartType},
+			</if>
+			<if test="sparepartStatus!=null and sparepartStatus!=''">
+			sparepartStatus = #{sparepartStatus},
+			</if>
+			<if test="allIntegral!=null and allIntegral!=''">
+			allIntegral = #{allIntegral},
+			</if>
+			<if test="integral1!=null and integral1!=''">
+			integral1 = #{integral1},
+			</if>
+			<if test="integral2!=null and integral2!=''">
+			integral2 = #{integral2},
+			</if>
+			<if test="integral3!=null and integral3!=''">
+			integral3 = #{integral3},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			sparepartId = #{sparepartId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="sparepartTable"/>
+		where 
+			sparepartId = #{sparepartId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="sparepartTable"/>
+		where 
+			CONCAT(sparepartId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comSparepart">
+		select 
+	<include refid="sparepartColumns"/>
+		from 
+	<include refid="sparepartTable"/>
+		where 
+			sparepartId = #{sparepartId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comSparepartResultMap">
+		select 
+	<include refid="sparepartColumns"/>
+		from 
+	<include refid="sparepartTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comSparepart" resultMap="comSparepartResultMap">
+		select 
+	<include refid="sparepartColumns"/>
+		from 
+	<include refid="sparepartTable"/>
+		where 1=1
+			<if test="sparepartId!=null and sparepartId!=''">
+			 and sparepartId != #{sparepartId} 
+			</if>
+			<if test="sparepartCode!=null and sparepartCode!=''">
+			 and sparepartCode = #{sparepartCode}
+			</if>
+			<if test="sparepartName!=null and sparepartName!=''">
+			 and sparepartName = #{sparepartName}
+			</if>
+			<if test="sparepartType!=null and sparepartType!=''">
+			 and sparepartType = #{sparepartType}
+			</if>
+			<if test="sparepartStatus!=null and sparepartStatus!=''">
+			 and sparepartStatus = #{sparepartStatus}
+			</if>
+			<if test="allIntegral!=null and allIntegral!=''">
+			 and allIntegral = #{allIntegral}
+			</if>
+			<if test="integral1!=null and integral1!=''">
+			 and integral1 = #{integral1}
+			</if>
+			<if test="integral2!=null and integral2!=''">
+			 and integral2 = #{integral2}
+			</if>
+			<if test="integral3!=null and integral3!=''">
+			 and integral3 = #{integral3}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="sparepartColumns"/>
+		from 
+	<include refid="sparepartTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				sparepartCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				sparepartName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>
