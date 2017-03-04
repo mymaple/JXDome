@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComIntegralNoteMapper">
+
+	<sql id="integralNoteColumns">integralNoteId,integralNoteCode,integralNoteName,integralNoteType,integralDealStatus,integralDealCount,integralCountBefore,integralCountAfter,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="integralNoteTable">com_integral_note_info</sql>
+	
+	<resultMap type="comIntegralNote" id="comIntegralNoteResultMap">
+		<id column="integralNoteId" property="integralNoteId"/>
+		<result column="integralNoteCode" property="integralNoteCode"/>
+		<result column="integralNoteName" property="integralNoteName"/>
+		<result column="integralNoteType" property="integralNoteType"/>
+		<result column="integralDealStatus" property="integralDealStatus"/>
+		<result column="integralDealCount" property="integralDealCount"/>
+		<result column="integralCountBefore" property="integralCountBefore"/>
+		<result column="integralCountAfter" property="integralCountAfter"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comIntegralNote">
+		insert into 
+	<include refid="integralNoteTable"/>
+		( 
+	<include refid="integralNoteColumns"/>
+		) values (
+			#{integralNoteId},#{integralNoteCode},#{integralNoteName},#{integralNoteType},#{integralDealStatus},#{integralDealCount},#{integralCountBefore},#{integralCountAfter},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comIntegralNote">
+		update
+	<include refid="integralNoteTable"/>
+		set 
+			<if test="integralNoteCode!=null and integralNoteCode!=''">
+			integralNoteCode = #{integralNoteCode},
+			</if>
+			<if test="integralNoteName!=null and integralNoteName!=''">
+			integralNoteName = #{integralNoteName},
+			</if>
+			<if test="integralNoteType!=null and integralNoteType!=''">
+			integralNoteType = #{integralNoteType},
+			</if>
+			<if test="integralDealCount!=null and integralDealCount!=''">
+			integralDealCount = #{integralDealCount},
+			</if>
+			<if test="integralCountBefore!=null and integralCountBefore!=''">
+			integralCountBefore = #{integralCountBefore},
+			</if>
+			<if test="integralCountAfter!=null and integralCountAfter!=''">
+			integralCountAfter = #{integralCountAfter},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			integralNoteId = #{integralNoteId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comIntegralNote">
+		update
+	<include refid="integralNoteTable"/>
+		set 
+			<if test="integralNoteCode!=null and integralNoteCode!=''">
+			integralNoteCode = #{integralNoteCode},
+			</if>
+			<if test="integralNoteName!=null and integralNoteName!=''">
+			integralNoteName = #{integralNoteName},
+			</if>
+			<if test="integralNoteType!=null and integralNoteType!=''">
+			integralNoteType = #{integralNoteType},
+			</if>
+			<if test="integralDealStatus!=null and integralDealStatus!=''">
+			integralDealStatus = #{integralDealStatus},
+			</if>
+			<if test="integralDealCount!=null and integralDealCount!=''">
+			integralDealCount = #{integralDealCount},
+			</if>
+			<if test="integralCountBefore!=null and integralCountBefore!=''">
+			integralCountBefore = #{integralCountBefore},
+			</if>
+			<if test="integralCountAfter!=null and integralCountAfter!=''">
+			integralCountAfter = #{integralCountAfter},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			integralNoteId = #{integralNoteId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="integralNoteTable"/>
+		where 
+			integralNoteId = #{integralNoteId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="integralNoteTable"/>
+		where 
+			CONCAT(integralNoteId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comIntegralNote">
+		select 
+	<include refid="integralNoteColumns"/>
+		from 
+	<include refid="integralNoteTable"/>
+		where 
+			integralNoteId = #{integralNoteId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comIntegralNoteResultMap">
+		select 
+	<include refid="integralNoteColumns"/>
+		from 
+	<include refid="integralNoteTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comIntegralNote" resultMap="comIntegralNoteResultMap">
+		select 
+	<include refid="integralNoteColumns"/>
+		from 
+	<include refid="integralNoteTable"/>
+		where 1=1
+			<if test="integralNoteId!=null and integralNoteId!=''">
+			 and integralNoteId != #{integralNoteId} 
+			</if>
+			<if test="integralNoteCode!=null and integralNoteCode!=''">
+			 and integralNoteCode = #{integralNoteCode}
+			</if>
+			<if test="integralNoteName!=null and integralNoteName!=''">
+			 and integralNoteName = #{integralNoteName}
+			</if>
+			<if test="integralNoteType!=null and integralNoteType!=''">
+			 and integralNoteType = #{integralNoteType}
+			</if>
+			<if test="integralDealStatus!=null and integralDealStatus!=''">
+			 and integralDealStatus = #{integralDealStatus}
+			</if>
+			<if test="integralDealCount!=null and integralDealCount!=''">
+			 and integralDealCount = #{integralDealCount}
+			</if>
+			<if test="integralCountBefore!=null and integralCountBefore!=''">
+			 and integralCountBefore = #{integralCountBefore}
+			</if>
+			<if test="integralCountAfter!=null and integralCountAfter!=''">
+			 and integralCountAfter = #{integralCountAfter}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="integralNoteColumns"/>
+		from 
+	<include refid="integralNoteTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				integralNoteCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				integralNoteName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

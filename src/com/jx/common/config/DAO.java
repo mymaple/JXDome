@@ -20,6 +20,7 @@ public interface DAO {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public Object batchAdd(String str, List objs) throws Exception ;
 	
 	/**
@@ -38,6 +39,7 @@ public interface DAO {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public Object batchDelete(String str, List objs) throws Exception ;
 	
 	/**
@@ -56,6 +58,7 @@ public interface DAO {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public void batchEdit(String str, List objs) throws Exception ;
 
 

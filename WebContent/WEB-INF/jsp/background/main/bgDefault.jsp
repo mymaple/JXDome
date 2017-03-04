@@ -31,9 +31,7 @@
 						<div class="col-xs-12">
 						
 						
-						==========================
-						asddasdasd
-						===========================
+						<a href="static/shgm/index.html">去积分商城看看</a>
 <!-- 
 							<div class="alert alert-block alert-success">
 								<button type="button" class="close" data-dismiss="alert">

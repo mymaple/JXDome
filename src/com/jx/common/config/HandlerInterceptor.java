@@ -3,14 +3,11 @@ package com.jx.common.config;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.jx.background.entity.BgUser;
 import com.jx.background.util.BgSessionUtil;
 import com.jx.background.util.JudgeRightsUtil;
-import com.jx.common.util.WxConnUtil;
-import com.jx.weixin.util.WxSessionUtil;
 
 /**
  * 类名称：LoginHandlerInterceptor.java 类描述：

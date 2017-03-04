@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComSparepartDealMapper">
+
+	<sql id="sparepartDealColumns">sparepartDealId,sparepartDealCode,sparepartDealStatus,integralCustomerId,sparepartId,count,dealAmt,orderTime,checkId,remarks,checkTime,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="sparepartDealTable">com_sparepart_deal_info</sql>
+	
+	<resultMap type="comSparepartDeal" id="comSparepartDealResultMap">
+		<id column="sparepartDealId" property="sparepartDealId"/>
+		<result column="sparepartDealCode" property="sparepartDealCode"/>
+		<result column="sparepartDealStatus" property="sparepartDealStatus"/>
+		<result column="integralCustomerId" property="integralCustomerId"/>
+		<result column="sparepartId" property="sparepartId"/>
+		<result column="count" property="count"/>
+		<result column="dealAmt" property="dealAmt"/>
+		<result column="orderTime" property="orderTime"/>
+		<result column="checkId" property="checkId"/>
+		<result column="remarks" property="remarks"/>
+		<result column="checkTime" property="checkTime"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comSparepartDeal">
+		insert into 
+	<include refid="sparepartDealTable"/>
+		( 
+	<include refid="sparepartDealColumns"/>
+		) values (
+			#{sparepartDealId},#{sparepartDealCode},#{sparepartDealStatus},#{integralCustomerId},#{sparepartId},#{count},#{dealAmt},#{orderTime},#{checkId},#{remarks},#{checkTime},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comSparepartDeal">
+		update
+	<include refid="sparepartDealTable"/>
+		set 
+			<if test="sparepartDealCode!=null and sparepartDealCode!=''">
+			sparepartDealCode = #{sparepartDealCode},
+			</if>
+			<if test="integralCustomerId!=null and integralCustomerId!=''">
+			integralCustomerId = #{integralCustomerId},
+			</if>
+			<if test="sparepartId!=null and sparepartId!=''">
+			sparepartId = #{sparepartId},
+			</if>
+			<if test="count!=null and count!=''">
+			count = #{count},
+			</if>
+			<if test="dealAmt!=null and dealAmt!=''">
+			dealAmt = #{dealAmt},
+			</if>
+			<if test="orderTime!=null">
+			orderTime = #{orderTime},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			sparepartDealId = #{sparepartDealId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comSparepartDeal">
+		update
+	<include refid="sparepartDealTable"/>
+		set 
+			<if test="sparepartDealCode!=null and sparepartDealCode!=''">
+			sparepartDealCode = #{sparepartDealCode},
+			</if>
+			<if test="sparepartDealStatus!=null and sparepartDealStatus!=''">
+			sparepartDealStatus = #{sparepartDealStatus},
+			</if>
+			<if test="integralCustomerId!=null and integralCustomerId!=''">
+			integralCustomerId = #{integralCustomerId},
+			</if>
+			<if test="sparepartId!=null and sparepartId!=''">
+			sparepartId = #{sparepartId},
+			</if>
+			<if test="count!=null and count!=''">
+			count = #{count},
+			</if>
+			<if test="dealAmt!=null and dealAmt!=''">
+			dealAmt = #{dealAmt},
+			</if>
+			<if test="orderTime!=null">
+			orderTime = #{orderTime},
+			</if>
+			<if test="checkId!=null and checkId!=''">
+			checkId = #{checkId},
+			</if>
+			<if test="remarks!=null and remarks!=''">
+			remarks = #{remarks},
+			</if>
+			<if test="checkTime!=null">
+			checkTime = #{checkTime},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			sparepartDealId = #{sparepartDealId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="sparepartDealTable"/>
+		where 
+			sparepartDealId = #{sparepartDealId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="sparepartDealTable"/>
+		where 
+			CONCAT(sparepartDealId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comSparepartDeal">
+		select 
+	<include refid="sparepartDealColumns"/>
+		from 
+	<include refid="sparepartDealTable"/>
+		where 
+			sparepartDealId = #{sparepartDealId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comSparepartDealResultMap">
+		select 
+	<include refid="sparepartDealColumns"/>
+		from 
+	<include refid="sparepartDealTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comSparepartDeal" resultMap="comSparepartDealResultMap">
+		select 
+	<include refid="sparepartDealColumns"/>
+		from 
+	<include refid="sparepartDealTable"/>
+		where 1=1
+			<if test="sparepartDealId!=null and sparepartDealId!=''">
+			 and sparepartDealId != #{sparepartDealId} 
+			</if>
+			<if test="sparepartDealCode!=null and sparepartDealCode!=''">
+			 and sparepartDealCode = #{sparepartDealCode}
+			</if>
+			<if test="sparepartDealStatus!=null and sparepartDealStatus!=''">
+			 and sparepartDealStatus = #{sparepartDealStatus}
+			</if>
+			<if test="integralCustomerId!=null and integralCustomerId!=''">
+			 and integralCustomerId = #{integralCustomerId}
+			</if>
+			<if test="sparepartId!=null and sparepartId!=''">
+			 and sparepartId = #{sparepartId}
+			</if>
+			<if test="count!=null and count!=''">
+			 and count = #{count}
+			</if>
+			<if test="dealAmt!=null and dealAmt!=''">
+			 and dealAmt = #{dealAmt}
+			</if>
+			<if test="orderTime!=null">
+			 and orderTime = #{orderTime}
+			</if>
+			<if test="checkId!=null and checkId!=''">
+			 and checkId = #{checkId}
+			</if>
+			<if test="remarks!=null and remarks!=''">
+			 and remarks = #{remarks}
+			</if>
+			<if test="checkTime!=null">
+			 and checkTime = #{checkTime}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null ">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="sparepartDealColumns"/>
+		from 
+	<include refid="sparepartDealTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				sparepartDealCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				sparepartDealName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

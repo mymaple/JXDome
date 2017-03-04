@@ -1,0 +1,921 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link href="css/mall.css" rel="stylesheet" type="text/css" />
+
+<link href="css/css-search-tabs.css" rel="stylesheet" type="text/css" />
+
+<script src="js/jquery/jquery.js"></script>
+
+<script src="js/mall.js"></script>
+
+<style>.sr1_a span {width:69px!important;}</style>
+
+<script>
+
+$(document).ready(
+
+	function() { 
+
+		$("#img1").attr('src','img/exchangecenter/seachico.png');
+
+	    $(".seadiv").show(100);
+
+		$("#searchProduct").click(
+
+  			function () {
+
+    			if($(".seadiv").is(":hidden")){
+
+	    			$("#img1").attr('src','img/exchangecenter/seachico2.png');
+
+	    			$(".seadiv").show(100);
+
+				}else{
+
+	    			$("#img1").attr('src','img/exchangecenter/seachico.png');
+
+	    			$(".seadiv").hide();
+
+				}
+
+  			}
+
+		);
+
+	}
+
+);
+
+</script>
+
+
+
+<!--………定义要请求的acton……-->	
+
+ <title>欢迎访问建行积分商城</title> 
+
+</head>
+
+
+
+<body>
+
+	<div class="header">
+
+		<script>
+
+var frontPath = '';
+
+
+
+String.prototype.trim=function(){return this.replace(/(^\s*)|(\s*$)/g,"");}
+
+
+
+$(function(){
+
+	//查询购物车数量
+
+	jQuery.ajax({
+
+		type: "POST",
+
+		url: frontPath+"/exchangecenter/shoppingcart/getCartSize.jhtml",
+
+		success: function(res){
+
+				if(null != res.shopCartSize){
+
+					$("#cartnum").text(res.shopCartSize);
+
+				}else{
+
+					$("#cartnum").text("0");
+
+				}
+
+			   }
+
+		});
+
+});
+
+
+
+</script>
+
+
+
+<script src="js/utils.js"></script> 
+
+<script src="js/header.js"></script> 
+
+<script src="js/searchProduct.js"></script>
+
+<div class="top_center">
+
+	<div class="top1 talign">
+
+		<div class="divauto">
+
+			<span class="spanleft1 fl">
+
+				<span class="fl">欢迎来到格陌积分商城！<span id="userName"></span>
+
+				</span>
+
+			</span>
+
+			<span class="spanright1 fr">
+
+				<span class="fr">
+
+					<span id="myCustomerCenter"></span>&nbsp;
+
+					<a href="/exchangecenter/shoppingcart/mycartslist.jhtml" target="_top" id="cartId">
+
+												<img src="img/header/top_05.jpg" /> 购物车
+
+						<span id="cartnum"  style ="color: red;"></span>
+
+						
+
+					</a>
+
+					<span id="cartLate">&nbsp;|&nbsp;</span>
+
+					<a href="/exchangecenter/account/viewscore.jhtml" target="_top">积分查询</a>&nbsp;|&nbsp;
+
+					<a href="/exchangecenter/help/index.jhtml" target="_top">帮助中心</a>&nbsp;|&nbsp;
+
+					<a href="http://www.ccb.com" target="_blank">建行首页</a>&nbsp;|&nbsp;
+
+					<a href="http://creditcard.ccb.com" target="_blank">信用卡首页</a>
+
+				</span>
+
+			</span> 
+
+			<div class="clear"></div>
+
+		</div>
+
+	</div>
+
+	<div class="top2 talign divauto">
+
+		<h1 class="fl"><a href="/index.html" target="_top"></a></h1>
+
+		<div class="search fr">
+
+			<div class="searchinput">
+
+				<!--隐藏兑换渠道 :网上渠道-->
+
+				<input type="hidden" value="net" name="exchangeChannel" id="exchangeChannel"/>
+
+									<div class="sr1"><a href="#" class="sr1_a" >&nbsp;<span id="jffw">0～10000000</span>&nbsp;<img src="img/header/top_14.jpg" /></a>
+
+										<ul class="sr1_ul">
+
+			    		<li>
+
+				    		<input style="text" name="minPrice" id="minPrice" class="sr1_input01"  maxlength=8 size=8/>
+
+				    		<span>-</span>
+
+				    		<input style="text" name="maxPrice" id="maxPrice" class="sr1_input01 sr1_input02"  maxlength=8 size=8 />
+
+				    	</li>
+
+			    		<li class="sr1_li"><a href="#">5万以下</a></li>
+
+			    		<li class="sr1_li"><a href="#">5万～10万</a></li>
+
+			    		<li class="sr1_li"><a href="#">10万～20万</a></li>
+
+			    		<li class="sr1_li"><a href="#">20万～50万</a></li>
+
+			    		<li class="sr1_li"><a href="#">50万～100万</a></li>
+
+			    		<li class="sr1_li"><a href="#">100万～200万</a></li>
+
+			    		<li class="sr1_li"><a href="#">200万以上</a></li>
+
+						</ul>
+
+					</div>
+
+									<div class="sr2" id="overKeyword">
+
+						<input name="keywordGBK" id="keywordGBK" type="text" class="searchtext" value="运动休闲" maxlength=30/>
+
+					</div>
+
+								<div class="sr3"><input name="searchbtn"  type="button" class="searchbtn" value="搜索"  onclick="search_products();" /></div>
+
+			</div>
+
+		</div> 
+
+		<div class="clear"></div> 
+
+	</div>
+
+</div>    </div>
+
+    <div class="page-mid">
+
+    	<!-- 商品总数/筛选 -->
+
+    	<div class="searchtop">
+
+			<div class="searclass">
+
+        		<div class="sea_sx  fr "><a id="searchProduct" href="javascript:;" class="search">筛选<img id="img1" src="images/seachico.png" /></a></div>
+
+        		<div class="sx3 fl" id="totalCount">
+
+        			<p><span class="sealeft2">运动休闲&nbsp;</span>&nbsp;共找到<strong class="seatext_09">&nbsp;32&nbsp;</strong>件相关商品</p>
+
+        		</div>
+
+			</div>
+
+      	</div>
+
+		<div class="clear"></div>
+
+		<!-- 商品分类筛选 -->	
+
+		      	<div class="seadiv">
+
+			<div class="sealeft" >商品分类</div>
+
+            <div class="searight">
+
+				<ul id="category">
+
+              		              			<li><a href="javascript:searchByCategory('运动休闲');">运动休闲<span>(32)</span></a> </li>
+
+              		             	</ul>
+
+     		</div>
+
+        </div>
+
+                <!-- 功能栏： 积分筛选、排序、分页-->
+
+       	<div class="sch_jf_div01">
+
+     		<div id="tabs" class="sch_tabs">
+
+     			<form  id="searchDataForm" name="searchDataForm" method="post">
+
+     				<!--隐藏手工输入的的积分范围，翻页的时候用到-->
+
+     				<input type="hidden" value="0～10000000" name="scoreRegion" id="scoreRegion"/>
+
+     				<!--隐藏关键字-->
+
+					<input type="hidden" value="运动休闲" name="keyword" id="keyword"/>
+
+					<!--隐藏商品分类-->
+
+					<input type="hidden" value="" name="categoryId" id="categoryId"/>
+
+					<input type="hidden" value="" name="categoryPram" id="categoryPram"/>
+
+					<!-- 隐藏品牌ID -->
+
+					<input type="hidden" value="" name="brandId" id="brandId"/>
+
+					<!--隐藏排序类别-->
+
+					<input type="hidden" value="" name="strSortField" id="strSortField"/>
+
+					<!--隐藏排序方式-->
+
+					<input type="hidden" value="" name="strOrderType" id="strOrderType"/>
+
+				</form>
+
+   				<ul class="sch_tabsul fl">
+
+     				<li class="sch_tabsli" id="shelfDate"><a href="javascript:void(0);" class="tabsa desc" title="点击上架时间按最新排序">上架时间</a></li>
+
+     				<li class="sch_tabsli" id="saleCount"><a href="javascript:void(0);" class="tabsa desc" title="点击销量从高到低排序">销量</a></li>
+
+     				<li class="sch_tabsli" id="salePrice"><a href="javascript:void(0);" class="tabsa asc" title="点击积分从低到高排序">积分</a></li>
+
+   				</ul>
+
+     		</div>
+
+     		<div class="sch_div_pro" >
+
+       			<div class="sch_input_fw"><span>积分范围：</span>
+
+            <input class="sch_input01" type="text" name="searchMin" id="searchMin" value="0" maxlength=8 size=10/>
+
+            <span>-</span>
+
+            <input class="sch_input01" type="text" name="searchMax" id="searchMax" value="10000000" maxlength=8 size=10/>
+
+            <input class="sch_input02" type="button" name="input2" value="确定" onclick="searchByPriceRegion();" />
+
+         	</div>
+
+       			<div class="sch_pages">
+
+         			<div class="sch_pg01" id="middlePage">
+
+         				<span class="log-color-red01">
+
+         				         					1
+
+         				         				</span>/1
+
+         			</div>
+
+         			<div class="sch_pg02" id="pageButton">
+
+         				           				<input class="sch_input02 sch_input04" type="button" name="input2" value="上一页"/>
+
+           				           				           				<input class="sch_input02 sch_input04 " type="button" name="input2" value="下一页"/>
+
+           				         			</div>
+
+       			</div>
+
+     		</div>
+
+   		</div>
+
+
+
+    	<!-- 搜索结果：商品展示 -->
+
+    	<div class="prolist clear" id="tabs-10">
+
+     		<ul class="mt10"  id="searchRe">
+
+        		        		        	 		              		<li>
+
+              		                   		<div class="product_bk"><a href="JavaScript:;"  target="_blank"><img src="http://jfimg.ccb.com/operation/JF1487035544512.jpg"  width="236"   height="236"/></a></div>
+
+                   		<div class="jf_lb">
+
+                   			<a href="JavaScript:;" class="jf_ats" title="agnès b. 女士单肩包"  target="_blank">
+
+                   				agnès b. 女士单肩包	
+
+                   			</a>
+
+                       		<p class="font-yh fl"><span class="jf_color2 ml10">1151000</span> 积分</p>
+
+                       		<span class="sales">已兑换0件</span>
+
+                       		<!-- <span class="sales">Tue Feb 14 18:02:19 CST 2017</span> -->
+
+                		</div>
+
+              		</li>
+
+          		        	 		              		<li>
+
+              		                   		<div class="product_bk"><a href="JavaScript:;"  target="_blank"><img src="images/e3156a01-dd29-4b42-b988-6f77173c8337.jpg"  width="236"   height="236"/></a></div>
+
+                   		<div class="jf_lb">
+
+                   			<a href="JavaScript:;" class="jf_ats" title="皇马长袖队服  (尺码：XL)"  target="_blank">
+
+                   				皇马长袖队服  (尺码：XL)	
+
+                   			</a>
+
+                       		<p class="font-yh fl"><span class="jf_color2 ml10">255000</span> 积分</p>
+
+                       		<span class="sales">已兑换3件</span>
+
+                       		<!-- <span class="sales">Tue Jan 17 19:06:16 CST 2017</span> -->
+
+                		</div>
+
+              		</li>
+
+          		        	 		              		<li>
+
+              		                   		<div class="product_bk"><a href="JavaScript:;"  target="_blank"><img src="images/5fe2eba1-cd7f-468d-8361-024583ae4df7.jpg"  width="236"   height="236"/></a></div>
+
+                   		<div class="jf_lb">
+
+                   			<a href="JavaScript:;" class="jf_ats" title="利物浦长袖队服   (尺码：XL) "  target="_blank">
+
+                   				利物浦长袖队服   (尺码：XL) 	
+
+                   			</a>
+
+                       		<p class="font-yh fl"><span class="jf_color2 ml10">255000</span> 积分</p>
+
+                       		<span class="sales">已兑换3件</span>
+
+                       		<!-- <span class="sales">Tue Jan 17 19:06:02 CST 2017</span> -->
+
+                		</div>
+
+              		</li>
+
+          		        	 		            		<li class="prolist-li">
+
+              		                   		<div class="product_bk"><a href="JavaScript:;"  target="_blank"><img src="http://jfimg.ccb.com/operation/JF1487232740396.jpg"  width="236"   height="236"/></a></div>
+
+                   		<div class="jf_lb">
+
+                   			<a href="JavaScript:;" class="jf_ats" title="ELLE女包新品轻便尼龙百搭双肩包"  target="_blank">
+
+                   				ELLE女包新品轻便尼龙百搭双肩包	
+
+                   			</a>
+
+                       		<p class="font-yh fl"><span class="jf_color2 ml10">532000</span> 积分</p>
+
+                       		<span class="sales">已兑换10件</span>
+
+                       		<!-- <span class="sales">Fri Feb 17 00:16:26 CST 2017</span> -->
+
+                		</div>
+
+              		</li>
+
+          		        	 		              		<li>
+
+              		                   		<div class="product_bk"><a href="JavaScript:;"  target="_blank"><img src="http://jfimg1.ccb.com/operation/JF1488336619567.jpg"  width="236"   height="236"/></a></div>
+
+                   		<div class="jf_lb">
+
+                   			<a href="JavaScript:;" class="jf_ats" title="攀能钓鱼凳野餐包"  target="_blank">
+
+                   				攀能钓鱼凳野餐包	
+
+                   			</a>
+
+                       		<p class="font-yh fl"><span class="jf_color2 ml10">90000</span> 积分</p>
+
+                       		<span class="sales">已兑换56件</span>
+
+                       		<!-- <span class="sales">Wed Mar 01 19:16:15 CST 2017</span> -->
+
+                		</div>
+
+              		</li>
+
+          		        	 		              		<li>
+
+              		                   		<div class="product_bk"><a href="JavaScript:;"  target="_blank"><img src="images/e6b7a397-3a4a-42d8-bd1f-7110b433fd9d.jpg"  width="236"   height="236"/></a></div>
+
+                   		<div class="jf_lb">
+
+                   			<a href="/exchangecenter/product/materialproductdetail.jhtml?productId=1340029" class="jf_ats" title="捷安特自行车（颜色随机）"  target="_blank">
+
+                   				捷安特自行车（颜色随机）	
+
+                   			</a>
+
+                       		<p class="font-yh fl"><span class="jf_color2 ml10">397000</span> 积分</p>
+
+                       		<span class="sales">已兑换235件</span>
+
+                       		<!-- <span class="sales">Thu Mar 03 18:54:28 CST 2016</span> -->
+
+                		</div>
+
+              		</li>
+
+
+          		        	</ul>
+
+       	</div>
+
+	 	<!--引入分页-->
+
+     	<script type="text/javascript">
+
+    function checkSubmit(){
+
+    	var strPageNum = $("#toNumPage").val().trim();
+
+	  	var pageCount = parseInt(1);
+
+		pageCount = parseInt($("#pageCount").val());
+
+	  	//alert("pageNum:" + strPageNum + " pageCount:" + pageCount);
+
+	  	if (isNaN(strPageNum)){
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+			return false;
+
+	  	}
+
+	  	else if(strPageNum == ""){
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+			return false;
+
+		}
+
+	  	else if(parseInt(strPageNum) > pageCount || parseInt(strPageNum) < 1){
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+			return false;
+
+	  	}
+
+    }
+
+    
+
+    function getFormUrl(){
+
+        var url = "/exchangecenter/search/product.jhtml";
+
+	    var param = $("#searchDataForm").serialize();
+
+	    
+
+	   	if(url.indexOf('?')>0){
+
+	   		url = url+"&"+ param;
+
+	   	}else{
+
+	   		url = url+"?"+ param;
+
+	   	}
+
+
+
+	    form1.action = url;
+
+    }
+
+    
+
+	function toBefore(){
+
+	    var oriUrl = getFormUrl();
+
+		var pageIndex = parseInt($("#pageIndex").val());
+
+		if(pageIndex <= 1){
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+		}else{
+
+			$("#pageIndex").val(parseInt($("#pageIndex").val())-1);
+
+			document.form1.submit();
+
+  			//$("form:last").submit();
+
+		}
+
+	}
+
+	
+
+	function toNext(){
+
+	    getFormUrl();
+
+		var pageIndex = parseInt($("#pageIndex").val());
+
+		var pageCount = parseInt(1);
+
+		pageCount = parseInt($("#pageCount").val());
+
+		if(pageIndex >= pageCount){
+
+			form1.action = "/exchangecenter/search/product.jhtml";		
+
+		}else{
+
+			$("#pageIndex").val(parseInt($("#pageIndex").val())+1);
+
+			document.form1.submit();
+
+  			//$("form:last").submit();
+
+		}
+
+	}
+
+
+
+	function toFirst(){
+
+	    getFormUrl();
+
+		var pageIndex = parseInt($("#pageIndex").val());
+
+		var pageCount = parseInt(1);
+
+		pageCount = parseInt($("#pageCount").val());
+
+		if(pageCount <= 0){
+
+			$("#pageIndex").val("0");
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+		}
+
+  		else if(pageIndex > 1){
+
+  			$("#pageIndex").val("1");
+
+			document.form1.submit();
+
+  			//$("form:last").submit();
+
+  		}
+
+	}
+
+	
+
+	function toLast(){
+
+	    getFormUrl();
+
+		var pageIndex = parseInt($("#pageIndex").val());
+
+		var pageCount = parseInt(1);
+
+		pageCount = parseInt($("#pageCount").val());
+
+		if(pageIndex < pageCount){
+
+			$("#pageIndex").val(1);
+
+			//$("form:last").submit();
+
+			document.form1.submit();
+
+		}else{
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+		}
+
+	}
+
+	
+
+	function toPage(){
+
+	    getFormUrl();
+
+  		//var sPage = form1.INPAGE.value;
+
+  		var strPageNum = $("#toNumPage").val();
+
+	  	var pageCount = parseInt(1);
+
+		pageCount = parseInt($("#pageCount").val());
+
+	  	//alert("pageNum:" + strPageNum + " pageCount:" + pageCount);
+
+	  	if (isNaN(strPageNum)){
+
+			alert("输入页码有误");
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+			return false;
+
+	  	}else if(strPageNum == ""){
+
+	   		alert("请输入页码!");
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+			return false;
+
+		}else if(parseInt(strPageNum) > pageCount || parseInt(strPageNum) < 1){
+
+	    	alert("输入页码超出范围！");
+
+			form1.action = "/exchangecenter/search/product.jhtml";
+
+			return false;
+
+	  	}else{
+
+	  		$("#pageIndex").val(parseInt(strPageNum));
+
+			document.form1.submit();
+
+	  	}
+
+	}
+
+	
+
+	function noNumbers(e)
+
+	{
+
+		var keynum;
+
+		var keychar;
+
+		var numcheck;
+
+	
+
+		if(window.event) // IE
+
+		{
+
+		  keynum = e.keyCode;
+
+		}
+
+		else if(e.which) // Netscape/Firefox/Opera
+
+		{
+
+		  keynum = e.which;
+
+		}
+
+		keychar = String.fromCharCode(keynum);
+
+		numcheck = /\d/;
+
+		return !numcheck.test(keychar);
+
+	}
+
+	
+
+	function goToPage(e){
+
+		var keynum;
+
+		if(window.event) // IE
+
+		{
+
+		  keynum = e.keyCode;
+
+		}
+
+		else if(e.which) // Netscape/Firefox/Opera
+
+		{
+
+		  keynum = e.which;
+
+		}
+
+	  	if(keynum == 13){
+
+	  		return toPage();
+
+		}
+
+	}
+
+</script>
+
+
+
+<form id="form1" name="form1" method="post" action="/exchangecenter/search/product.jhtml"
+
+	onsubmit="return checkSubmit();">
+
+	<input type="hidden" name="pageIndex" id="pageIndex"
+
+		value="1">
+
+	<!--隐藏总记录数-->
+
+	<input type="hidden" value="1" name="pageCount"
+
+		id="pageCount" />
+
+	<ul class="page fr mt30 mb20 sr1_ul2 clear" id="pageContent">
+
+		<li class="page_tip"></li>
+
+		<li><a 				style="background:#fff;color:#ccc" >首页</a></li>
+
+		<li><a  style="background:#fff;color:#ccc" >上一页</a></li>
+
+		<li><a  style="background:#fff;color:#ccc"
+
+				>下一页</a></li>
+
+		<li><a  style="background:#fff;color:#ccc"
+
+				>末页</a></li>
+
+		<li class="page_tip">当前页数&nbsp; 			1  &nbsp;|&nbsp;共1页&nbsp;</li>
+
+		<li class="page_tip">转到&nbsp;&nbsp;</li>
+
+		<li><span class="page_tip2"><input name="toNumPage"
+
+				id="toNumPage" type="text" size="6" maxlength="6"
+
+				onkeypress="javascript:return goToPage(event);" /></span></li>
+
+		<li id="page_go"><a href="javascript:void(0);"
+
+			onclick="javascript:toPage();">Go</a></li>
+
+	</ul>
+
+</form>
+
+
+
+
+
+   	</div>
+
+    <div class="clear"></div>          
+
+   	<div class="footer">
+
+   		<style>
+
+.divbotright{width:400px;}
+
+.bot{height:100px;}
+
+.footer {height:100px;}
+
+</style>
+
+
+
+<div class="bot bot_center">
+
+	<div class="divauto">
+
+        <div class="divbot clear">
+
+        	<div class="divbotleft fl">
+
+            	<img src="img/footer/ht_08.jpg" />
+
+            	<p>&copy;版权所有  上海格陌电子商务有限公司  京ICP备  130*****号  京公网安备  1101020000555</p><p>总行地址：上海市嘉定工业区叶城路912号       邮编：201800</p>
+            </div>
+
+            <div class="divbotright fr">
+
+            	<div class="fr"><img src="img/footer/ht_09.jpg" /></div>
+
+            	<p class="fr">
+
+	            	<a href="JavaScript:;">网站声明</a>&nbsp;&nbsp;
+
+	            	<a href="JavaScript:;">联系我们</a>&nbsp;&nbsp;
+
+	            	<a href="JavaScript:;">网站地图</a>&nbsp;&nbsp;
+
+            	</p>            
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+    </div>
+
+    <a href="#" class="to-top" title="回到顶部"></a>
+
+</body>
+
+</html>
+
