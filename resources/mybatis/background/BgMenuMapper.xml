@@ -27,6 +27,13 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<!-- 获取最大tag -->
+	<select id="getMaxTag"  resultType="int">
+		select max(menuTag)
+		from 
+	<include refid="menuTable"/>
+	</select>
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	

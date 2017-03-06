@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +35,12 @@ import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
 import com.jx.common.service.ComAppUserService;
 
+import net.sf.json.JSONArray;
+
 /** 
  * 类名称：BgAppUserController
  * 创建人：maple
- * 创建时间：2017-02-24
+ * 创建时间：2017-03-06
  */
 @Controller
 @RequestMapping(value="/background/appUser")
@@ -53,6 +56,36 @@ public class BgAppUserController extends BaseController {
 	
 	
 	/**
+	 * 显示列表ztree
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/main")
+	public ModelAndView main(Model model)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+
+		if(MapleStringUtil.isEmpty(pd.getString("pId"))){
+			pd.put("pId", "0");
+		}
+		JSONArray arr = JSONArray.fromObject(comAppUserService.listInRank("0"));
+		String json = arr.toString();
+		json = json.replaceAll("appUserId", "id").replaceAll("parentId", "pId")
+				.replaceAll("appUserName", "name").replaceAll("subComAppUserList", "nodes")
+				.replaceAll("hasAppUser", "checked").replaceAll("subComAppUserPath", "url");
+		model.addAttribute("zTreeNodes", json);
+		mv.addObject("controllerPath", "background/appUser");
+		mv.addObject("pd", pd);
+		resultInfo.setResultCode("success");
+		mv.setViewName("background/bgMainTree");
+	
+		mv.addObject(resultInfo);
+		return mv;
+	}
+	
+	/**
 	 * 列表
 	 */
 	@RequestMapping(value="/list")
@@ -62,6 +95,9 @@ public class BgAppUserController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
+		if(MapleStringUtil.isEmpty(pd.getString("pId"))){
+			pd.put("pId", "0");
+		}
 		String keywords = pd.getString("keywords");								//关键词检索条件
 		if(MapleStringUtil.notEmpty(keywords)){
 			pd.put("keywords", keywords.trim());
@@ -70,7 +106,11 @@ public class BgAppUserController extends BaseController {
 		bgPage.setPd(pd);
 		List<PageData>	comAppUserList = comAppUserService.listPage(bgPage);	//列出comAppUser列表
 		
+		List<ComAppUser> parentList = new ArrayList<ComAppUser>();
+		comAppUserService.getParentList(parentList, pd.getString("pId"));			//导航栏链接
+		
 		mv.addObject("comAppUserList", comAppUserList);
+		mv.addObject("parentList", parentList);
 		mv.addObject("pd", pd);
 		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
 		resultInfo.setResultCode("success");
@@ -86,27 +126,28 @@ public class BgAppUserController extends BaseController {
 	@RequestMapping(value="/toAdd")
 	public ModelAndView toAdd() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		//PageData pd = this.getPageData();
+		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
+		String parentId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id	
+		ComAppUser parentComAppUser = comAppUserService.findById(parentId);
+		if(!"0".equals(parentId) && parentComAppUser==null){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
 		ComAppUser comAppUser = new ComAppUser();
+		comAppUser.setParentId(parentId);
+		comAppUser.setRoleId("");
 		comAppUser.setAppUserCode("");
 		comAppUser.setAppUserName("");
 		comAppUser.setAppUserType("01");
 		comAppUser.setAppUserNum("");
 		comAppUser.setPhone("");
-		comAppUser.setEmail("");
 		comAppUser.setPassword("");
-		comAppUser.setOpenId("");
 		comAppUser.setSex("");
-		comAppUser.setHeadImgSrc("");
 		comAppUser.setBrithday(new Date());
-		comAppUser.setParentId("");
-		comAppUser.setWxQRcodeSrc("");
-		comAppUser.setWxQRcodeExpiry(new Date());
-		comAppUser.setMediaId("");
-		comAppUser.setMediaExpiry(new Date());
+		comAppUser.setRemarks("");
 		comAppUser.setOrderNum(String.valueOf(new Date().getTime()));
 		
 		mv.addObject(comAppUser);
@@ -134,12 +175,20 @@ public class BgAppUserController extends BaseController {
 			return mv; 
 		}
 		
+		String parentId = comAppUser.getParentId();
+		ComAppUser parentComAppUser = comAppUserService.findById(parentId);
+		if(!"0".equals(parentId) && parentComAppUser==null){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+		
 		List<ComAppUser> comAppUserList = comAppUserService.otherHaveCode("", comAppUser.getAppUserCode());
 		if(MapleUtil.notEmptyList(comAppUserList)){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-			
+		
+		comAppUser.setLevel("0".equals(parentId)?"1":String.valueOf(Integer.parseInt(parentComAppUser.getLevel())+1));
 		comAppUserService.add(comAppUser);
 		resultInfo.setResultCode("success");
 
@@ -226,7 +275,7 @@ public class BgAppUserController extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		
-		comAppUserService.deleteById(appUserId);	//根据ID删除
+		comAppUserService.deleteInRank(appUserId);	//根据ID删除
 		resultInfo.setResultCode("success");
 
 		return AppUtil.returnResult(pd, resultInfo);
@@ -245,7 +294,7 @@ public class BgAppUserController extends BaseController {
 		if(MapleStringUtil.isEmpty(ids)){
 			return AppUtil.returnResult(pd, resultInfo);
 		}
-		comAppUserService.batchDeleteByIds(ids.split(","));	//根据ID删除
+		comAppUserService.batchDeleteInRank(ids.split(","));	//根据ID删除
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
@@ -264,58 +313,52 @@ public class BgAppUserController extends BaseController {
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("平台用户 主键id");		//0
-		titles.add("平台用户代号");	//1
-		titles.add("平台用户名称");	//2
-		titles.add("平台用户类型");	//3
-		titles.add("平台用户状态");	//4
-		titles.add("平台用户编号");	//5
-		titles.add("电话号码");	//6
-		titles.add("电子邮箱");	//7
-		titles.add("密码");	//8
-		titles.add("用户的标识");	//9
+		titles.add("上级 id");					//1
+		titles.add("角色");	//2
+		titles.add("平台用户代号");	//3
+		titles.add("平台用户名称");	//4
+		titles.add("平台用户类型");	//5
+		titles.add("平台用户状态");	//6
+		titles.add("平台用户编号");	//7
+		titles.add("电话号码");	//8
+		titles.add("密码");	//9
 		titles.add("性别");	//10
 		titles.add("用户头像");	//11
 		titles.add("生日");	//12
-		titles.add("上级id");	//13
-		titles.add("微信二维码");	//14
-		titles.add("微信二维码有效期");	//15
-		titles.add("媒体文件id");	//16
-		titles.add("媒体文件有效时间");	//17
-		titles.add("排序编号");	//18
-		titles.add("有效标志");	//19
-		titles.add("创建人员id");	//20
-		titles.add("创建时间");	//21
-		titles.add("修改人员id");	//22
-		titles.add("修改时间");	//23
+		titles.add("备注信息");	//13
+		titles.add("级别");	//14
+		titles.add("排序编号");	//15
+		titles.add("有效标志");	//16
+		titles.add("创建人员id");	//17
+		titles.add("创建时间");	//18
+		titles.add("修改人员id");	//19
+		titles.add("修改时间");	//20
 		dataMap.put("titles", titles);
 		List<ComAppUser> varOList = comAppUserService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
 			vpd.put("var0",varOList.get(i).getAppUserId());			//0
-			vpd.put("var1", varOList.get(i).getAppUserCode());	//1
-			vpd.put("var2", varOList.get(i).getAppUserName());	//2
-			vpd.put("var3", varOList.get(i).getAppUserType());	//3
-			vpd.put("var4", varOList.get(i).getAppUserStatus());	//4
-			vpd.put("var5", varOList.get(i).getAppUserNum());	//5
-			vpd.put("var6", varOList.get(i).getPhone());	//6
-			vpd.put("var7", varOList.get(i).getEmail());	//7
-			vpd.put("var8", varOList.get(i).getPassword());	//8
-			vpd.put("var9", varOList.get(i).getOpenId());	//9
+			vpd.put("var1",varOList.get(i).getParentId());						//1
+			vpd.put("var2", varOList.get(i).getRoleId());	//2
+			vpd.put("var3", varOList.get(i).getAppUserCode());	//3
+			vpd.put("var4", varOList.get(i).getAppUserName());	//4
+			vpd.put("var5", varOList.get(i).getAppUserType());	//5
+			vpd.put("var6", varOList.get(i).getAppUserStatus());	//6
+			vpd.put("var7", varOList.get(i).getAppUserNum());	//7
+			vpd.put("var8", varOList.get(i).getPhone());	//8
+			vpd.put("var9", varOList.get(i).getPassword());	//9
 			vpd.put("var10", varOList.get(i).getSex());	//10
 			vpd.put("var11", varOList.get(i).getHeadImgSrc());	//11
 			vpd.put("var12", varOList.get(i).getBrithday());	//12
-			vpd.put("var13", varOList.get(i).getParentId());	//13
-			vpd.put("var14", varOList.get(i).getWxQRcodeSrc());	//14
-			vpd.put("var15", varOList.get(i).getWxQRcodeExpiry());	//15
-			vpd.put("var16", varOList.get(i).getMediaId());	//16
-			vpd.put("var17", varOList.get(i).getMediaExpiry());	//17
-			vpd.put("var18", varOList.get(i).getOrderNum());		//18
-			vpd.put("var19", varOList.get(i).getEffective());	//19
-			vpd.put("var20", varOList.get(i).getCreateUserId());	//20
-			vpd.put("var21", varOList.get(i).getCreateTime());	//21
-			vpd.put("var22", varOList.get(i).getModifyUserId());//22
-			vpd.put("var23", varOList.get(i).getModifyTime());	//23
+			vpd.put("var13", varOList.get(i).getRemarks());	//13
+			vpd.put("var14", varOList.get(i).getLevel());	//14
+			vpd.put("var15", varOList.get(i).getOrderNum());		//15
+			vpd.put("var16", varOList.get(i).getEffective());	//16
+			vpd.put("var17", varOList.get(i).getCreateUserId());	//17
+			vpd.put("var18", varOList.get(i).getCreateTime());	//18
+			vpd.put("var19", varOList.get(i).getModifyUserId());//19
+			vpd.put("var20", varOList.get(i).getModifyTime());	//20
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -334,10 +377,20 @@ public class BgAppUserController extends BaseController {
 	@RequestMapping(value="/toUploadExcel")
 	public ModelAndView toUploadExcel()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		//PageData pd = this.getPageData();
+		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
+		String pId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
+			
+		ComAppUser parentComAppUser = comAppUserService.findById(pId);
+		if(!"0".equals(pId) && parentComAppUser==null){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+			
+		mv.addObject("pId",pId);
+
 		mv.addObject("controllerPath", "background_appUser");
 		mv.setViewName("background/bgUploadExcel");
 
@@ -357,22 +410,16 @@ public class BgAppUserController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("平台用户代号");	//0
-		titles.add("平台用户名称");	//1
-		titles.add("平台用户类型");	//2
-		titles.add("平台用户编号");	//3
-		titles.add("电话号码");	//4
-		titles.add("电子邮箱");	//5
+		titles.add("角色");	//0
+		titles.add("平台用户代号");	//1
+		titles.add("平台用户名称");	//2
+		titles.add("平台用户类型");	//3
+		titles.add("平台用户编号");	//4
+		titles.add("电话号码");	//5
 		titles.add("密码");	//6
-		titles.add("用户的标识");	//7
-		titles.add("性别");	//8
-		titles.add("用户头像");	//9
-		titles.add("生日");	//10
-		titles.add("上级id");	//11
-		titles.add("微信二维码");	//12
-		titles.add("微信二维码有效期");	//13
-		titles.add("媒体文件id");	//14
-		titles.add("媒体文件有效时间");	//15
+		titles.add("性别");	//7
+		titles.add("生日");	//8
+		titles.add("备注信息");	//9
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -394,7 +441,7 @@ public class BgAppUserController extends BaseController {
 			@RequestParam(value="excel",required=false) MultipartFile file
 			) throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		//PageData pd = this.getPageData();
+		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		if (null != file && !file.isEmpty()) {
@@ -407,43 +454,33 @@ public class BgAppUserController extends BaseController {
 		/*存入数据库操作======================================*/
 		
 		ComAppUser comAppUser = new ComAppUser();
+		String pId = MapleStringUtil.isEmpty(pd.getString("pId"))?"0":pd.getString("pId");//上级id
+		comAppUser.setParentId(pId);
 				
 		/**
-		 * var0 :平台用户代号;	//0
-		 * var1 :平台用户名称;	//1
-		 * var2 :平台用户类型;	//2
-		 * var3 :平台用户编号;	//3
-		 * var4 :电话号码;	//4
-		 * var5 :电子邮箱;	//5
+		 * var0 :角色;	//0
+		 * var1 :平台用户代号;	//1
+		 * var2 :平台用户名称;	//2
+		 * var3 :平台用户类型;	//3
+		 * var4 :平台用户编号;	//4
+		 * var5 :电话号码;	//5
 		 * var6 :密码;	//6
-		 * var7 :用户的标识;	//7
-		 * var8 :性别;	//8
-		 * var9 :用户头像;	//9
-		 * var10 :生日;	//10
-		 * var11 :上级id;	//11
-		 * var12 :微信二维码;	//12
-		 * var13 :微信二维码有效期;	//13
-		 * var14 :媒体文件id;	//14
-		 * var15 :媒体文件有效时间;	//15
+		 * var7 :性别;	//7
+		 * var8 :生日;	//8
+		 * var9 :备注信息;	//9
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comAppUser.setAppUserId(this.get32UUID());
-			comAppUser.setAppUserCode(listPd.get(i).getString("var0"));
-			comAppUser.setAppUserName(listPd.get(i).getString("var1"));
-			comAppUser.setAppUserType(listPd.get(i).getString("var2"));
-			comAppUser.setAppUserNum(listPd.get(i).getString("var3"));
-			comAppUser.setPhone(listPd.get(i).getString("var4"));
-			comAppUser.setEmail(listPd.get(i).getString("var5"));
+			comAppUser.setRoleId(listPd.get(i).getString("var0"));
+			comAppUser.setAppUserCode(listPd.get(i).getString("var1"));
+			comAppUser.setAppUserName(listPd.get(i).getString("var2"));
+			comAppUser.setAppUserType(listPd.get(i).getString("var3"));
+			comAppUser.setAppUserNum(listPd.get(i).getString("var4"));
+			comAppUser.setPhone(listPd.get(i).getString("var5"));
 			comAppUser.setPassword(listPd.get(i).getString("var6"));
-			comAppUser.setOpenId(listPd.get(i).getString("var7"));
-			comAppUser.setSex(listPd.get(i).getString("var8"));
-			comAppUser.setHeadImgSrc(listPd.get(i).getString("var9"));
-			comAppUser.setBrithdayStr(listPd.get(i).getString("var10"));
-			comAppUser.setParentId(listPd.get(i).getString("var11"));
-			comAppUser.setWxQRcodeSrc(listPd.get(i).getString("var12"));
-			comAppUser.setWxQRcodeExpiryStr(listPd.get(i).getString("var13"));
-			comAppUser.setMediaId(listPd.get(i).getString("var14"));
-			comAppUser.setMediaExpiryStr(listPd.get(i).getString("var15"));
+			comAppUser.setSex(listPd.get(i).getString("var7"));
+			comAppUser.setBrithdayStr(listPd.get(i).getString("var8"));
+			comAppUser.setRemarks(listPd.get(i).getString("var9"));
 			comAppUserService.add(comAppUser);
 		}
 		/*存入数据库操作======================================*/

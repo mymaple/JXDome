@@ -10,7 +10,7 @@ public interface ComAppUserService {
 
 	
 	/****************************custom * start***********************************/
-
+	
 	/**
 	 * 通过phone获取(类)数据
 	 * @param String phone
@@ -27,6 +27,47 @@ public interface ComAppUserService {
 	 * @throws Exception
 	 */
 	public ComAppUser wxRegister(String openId, String phone) throws Exception ;
+	
+	/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<ComAppUser> parentList, String pId) throws Exception ;
+	
+	/**
+	 * 根据parentId 获取所有直接子
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComAppUser> listByParentId(String parentId) throws Exception ;
+	
+	/**
+	 * 获取所有子列表(递归处理)
+	 * @param String appUserId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComAppUser> listInRank(String appUserId) throws Exception ;
+	
+	/**
+	 * 删除所有子列表(递归处理)
+	 * @param String appUserId
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteInRank(String appUserId) throws Exception ;
+	
+	/**
+	 * 批量删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public void batchDeleteInRank(String[] ids) throws Exception ;
+	
 	
 	/****************************custom * end  ***********************************/
 	

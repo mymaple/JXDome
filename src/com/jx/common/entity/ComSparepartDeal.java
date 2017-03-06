@@ -38,9 +38,9 @@ public class ComSparepartDeal extends BaseEntity implements Serializable {
 	/** 零部件交易审核状态 */
 	private String sparepartDealStatus;
 		
-	/** 积分客户 */
-	@NotBlank(message="积分客户 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String integralCustomerId;
+	/** 零部件销售客户 */
+	@NotBlank(message="零部件销售客户 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String appUserId;
 		
 	/** 零部件 */
 	@NotBlank(message="零部件 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
@@ -123,21 +123,21 @@ public class ComSparepartDeal extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 积分客户
+	 * 设置 零部件销售客户
 	 * 
-	 * @param String integralCustomerId
+	 * @param String appUserId
 	 */
-	public void setIntegralCustomerId(String integralCustomerId) {
-		this.integralCustomerId = MapleStringUtil.trim(integralCustomerId);
+	public void setAppUserId(String appUserId) {
+		this.appUserId = MapleStringUtil.trim(appUserId);
 	}
 	
 	/**
-	 * 获取 积分客户
+	 * 获取 零部件销售客户
 	 * 
-	 * @return String integralCustomerId
+	 * @return String appUserId
 	 */
-	public String getIntegralCustomerId() {
-		return this.integralCustomerId;
+	public String getAppUserId() {
+		return this.appUserId;
 	}
 	
 	/**

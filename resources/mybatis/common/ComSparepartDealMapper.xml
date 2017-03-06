@@ -3,14 +3,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComSparepartDealMapper">
 
-	<sql id="sparepartDealColumns">sparepartDealId,sparepartDealCode,sparepartDealStatus,integralCustomerId,sparepartId,count,dealAmt,orderTime,checkId,remarks,checkTime,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="sparepartDealColumns">sparepartDealId,sparepartDealCode,sparepartDealStatus,appUserId,sparepartId,count,dealAmt,orderTime,checkId,remarks,checkTime,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="sparepartDealTable">com_sparepart_deal_info</sql>
 	
 	<resultMap type="comSparepartDeal" id="comSparepartDealResultMap">
 		<id column="sparepartDealId" property="sparepartDealId"/>
 		<result column="sparepartDealCode" property="sparepartDealCode"/>
 		<result column="sparepartDealStatus" property="sparepartDealStatus"/>
-		<result column="integralCustomerId" property="integralCustomerId"/>
+		<result column="appUserId" property="appUserId"/>
 		<result column="sparepartId" property="sparepartId"/>
 		<result column="count" property="count"/>
 		<result column="dealAmt" property="dealAmt"/>
@@ -40,7 +40,7 @@
 		( 
 	<include refid="sparepartDealColumns"/>
 		) values (
-			#{sparepartDealId},#{sparepartDealCode},#{sparepartDealStatus},#{integralCustomerId},#{sparepartId},#{count},#{dealAmt},#{orderTime},#{checkId},#{remarks},#{checkTime},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{sparepartDealId},#{sparepartDealCode},#{sparepartDealStatus},#{appUserId},#{sparepartId},#{count},#{dealAmt},#{orderTime},#{checkId},#{remarks},#{checkTime},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -52,8 +52,8 @@
 			<if test="sparepartDealCode!=null and sparepartDealCode!=''">
 			sparepartDealCode = #{sparepartDealCode},
 			</if>
-			<if test="integralCustomerId!=null and integralCustomerId!=''">
-			integralCustomerId = #{integralCustomerId},
+			<if test="appUserId!=null and appUserId!=''">
+			appUserId = #{appUserId},
 			</if>
 			<if test="sparepartId!=null and sparepartId!=''">
 			sparepartId = #{sparepartId},
@@ -88,8 +88,8 @@
 			<if test="sparepartDealStatus!=null and sparepartDealStatus!=''">
 			sparepartDealStatus = #{sparepartDealStatus},
 			</if>
-			<if test="integralCustomerId!=null and integralCustomerId!=''">
-			integralCustomerId = #{integralCustomerId},
+			<if test="appUserId!=null and appUserId!=''">
+			appUserId = #{appUserId},
 			</if>
 			<if test="sparepartId!=null and sparepartId!=''">
 			sparepartId = #{sparepartId},
@@ -180,8 +180,8 @@
 			<if test="sparepartDealStatus!=null and sparepartDealStatus!=''">
 			 and sparepartDealStatus = #{sparepartDealStatus}
 			</if>
-			<if test="integralCustomerId!=null and integralCustomerId!=''">
-			 and integralCustomerId = #{integralCustomerId}
+			<if test="appUserId!=null and appUserId!=''">
+			 and appUserId = #{appUserId}
 			</if>
 			<if test="sparepartId!=null and sparepartId!=''">
 			 and sparepartId = #{sparepartId}

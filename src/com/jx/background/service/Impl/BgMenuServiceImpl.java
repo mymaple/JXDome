@@ -104,6 +104,16 @@ public class BgMenuServiceImpl implements BgMenuService{
 			this.deleteInRank(id);
 		}
 	}
+	
+	/**
+	 * 批量删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public int getMaxTag() throws Exception {
+		return (int)dao.findForObject("BgMenuMapper.getMaxTag", null);
+	}
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -115,6 +125,7 @@ public class BgMenuServiceImpl implements BgMenuService{
 	 */
 	public void add(BgMenu bgMenu) throws Exception {
 		
+		bgMenu.setMenuTag(""+(this.getMaxTag()+1));
 		Date nowTime = new Date();
 		bgMenu.setMenuId(UuidUtil.get32UUID());
 		bgMenu.setMenuStatus("01");

@@ -12,11 +12,7 @@ import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
-import com.jx.common.entity.ComIntegralCustomer;
-import com.jx.common.entity.ComIntegralNote;
-import com.jx.common.entity.ComSparepart;
 import com.jx.common.entity.ComSparepartDeal;
-import com.jx.common.service.ComIntegralCustomerService;
 import com.jx.common.service.ComIntegralNoteService;
 import com.jx.common.service.ComSparepartDealService;
 import com.jx.common.service.ComSparepartService;
@@ -27,8 +23,6 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	@Resource(name = "comIntegralCustomerService")
-	private ComIntegralCustomerService comIntegralCustomerService;
 	@Resource(name = "comSparepartService")
 	private ComSparepartService comSparepartService;
 	@Resource(name = "comIntegralNoteService")
@@ -80,6 +74,7 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 		comSparepartDeal.setSparepartDealStatus("00");
 		comSparepartDeal.setCheckId("");
 		comSparepartDeal.setRemarks("");
+		comSparepartDeal.setCheckTime(nowTime);
 		comSparepartDeal.setEffective("01");
 		comSparepartDeal.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comSparepartDeal.setCreateTime(nowTime);

@@ -30,7 +30,7 @@ public interface DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object delete(String str, Object obj) throws Exception ;
+	public int delete(String str, Object obj) throws Exception ;
 	
 	/**
 	 * 批量删除对象
@@ -40,7 +40,7 @@ public interface DAO {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public Object batchDelete(String str, List objs) throws Exception ;
+	public int batchDelete(String str, List objs) throws Exception ;
 	
 	/**
 	 * 修改对象
@@ -49,7 +49,7 @@ public interface DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object edit(String str, Object obj) throws Exception ;
+	public int edit(String str, Object obj) throws Exception ;
 	
 	/**
 	 * 批量修改
@@ -59,7 +59,7 @@ public interface DAO {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public void batchEdit(String str, List objs) throws Exception ;
+	public int batchEdit(String str, List objs) throws Exception ;
 
 
 	/**

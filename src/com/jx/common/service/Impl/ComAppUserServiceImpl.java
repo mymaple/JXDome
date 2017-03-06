@@ -6,17 +6,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
-import com.jx.common.entity.ComAppUser;
-import com.jx.common.entity.ComInvite;
-import com.jx.common.entity.UserInfo;
-import com.jx.common.service.ComAppUserService;
-import com.jx.common.service.ComInviteService;
 import com.jx.common.util.HttpManager;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
@@ -27,12 +23,18 @@ import com.jx.common.util.WxConnUtil;
 
 import net.sf.json.JSONObject;
 
+import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComInvite;
+import com.jx.common.entity.UserInfo;
+import com.jx.common.service.ComAppUserService;
+import com.jx.common.service.ComInviteService;
+import com.jx.background.util.BgSessionUtil;
+
 @Service("comAppUserService")
 public class ComAppUserServiceImpl implements ComAppUserService{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	
 	@Resource(name = "comInviteService")
 	private ComInviteService comInviteService;
 	
@@ -113,8 +115,73 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		return comAppUser;
 	}
 	
+		/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<ComAppUser> parentList, String pId) throws Exception {
+		if("0".equals(pId)) return;
+		ComAppUser comAppUser = this.findById(pId);
+		comAppUser.setSubComAppUserPath("background/appUser/list.do?pId="+pId);
+		parentList.add(0, comAppUser);
+		this.getParentList(parentList, comAppUser.getParentId());
+	}
 	
+	/**
+	 * 根据parentId 获取所有直接子
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComAppUser> listByParentId(String parentId) throws Exception {
+		PageData pd = new PageData();
+		pd.put("parentId",parentId);
+		return this.listByPd(pd);
+	}
 	
+	/**
+	 * 获取所有子列表(递归处理)
+	 * @param String appUserId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComAppUser> listInRank(String appUserId) throws Exception {
+		List<ComAppUser> comAppUserList = this.listByParentId(appUserId);
+		for(ComAppUser comAppUser : comAppUserList){
+			comAppUser.setSubComAppUserPath("background/appUser/list.do?pId="+comAppUser.getAppUserId());
+			comAppUser.setSubComAppUserList(this.listInRank(comAppUser.getAppUserId()));
+			comAppUser.setTarget("treeFrame");
+		}
+		return comAppUserList;
+	}
+	
+	/**
+	 * 删除所有子列表(递归处理)
+	 * @param String appUserId
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteInRank(String appUserId) throws Exception {
+		this.deleteById(appUserId);
+		List<ComAppUser> comAppUserList = this.listByParentId(appUserId);
+		for(ComAppUser comAppUser : comAppUserList){
+			this.deleteInRank(comAppUser.getAppUserId());
+		}
+	}
+	
+	/**
+	 * 批量删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public void batchDeleteInRank(String[] ids) throws Exception {
+		for(String id : ids){
+			this.deleteInRank(id);
+		}
+	}
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -126,10 +193,16 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	 */
 	public void add(ComAppUser comAppUser) throws Exception {
 		
+		comAppUser.setPassword(new SimpleHash("SHA-512", comAppUser.getAppUserId(), comAppUser.getPassword(), 2).toString());
+		
 		Date nowTime = new Date();
 		comAppUser.setAppUserId(UuidUtil.get32UUID());
+		comAppUser.setAppUserStatus("00");
+		comAppUser.setHeadImgSrc("");
 		comAppUser.setEffective("01");
+		comAppUser.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comAppUser.setCreateTime(nowTime);
+		comAppUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comAppUser.setModifyTime(nowTime);
 		
 		dao.add("ComAppUserMapper.add", comAppUser);
@@ -141,21 +214,15 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	 * @throws Exception
 	 */
 	public void edit(ComAppUser comAppUser) throws Exception {
+		if(StringUtils.isNotEmpty(comAppUser.getPassword())){
+			comAppUser.setPassword(new SimpleHash("SHA-512", comAppUser.getAppUserId(), comAppUser.getPassword(), 2).toString());
+		}
 		Date nowTime = new Date();
+		comAppUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comAppUser.setModifyTime(nowTime);
 		comAppUser.setLastModifyTime(this.findById(comAppUser.getAppUserId()).getModifyTime());
 		if(comAppUser.getModifyTime().compareTo(comAppUser.getLastModifyTime()) == 0){
 			comAppUser.setModifyTime(MapleDateUtil.getNextSecond(comAppUser.getModifyTime()));
-		}
-		
-		if(StringUtils.isEmpty(comAppUser.getParentId())){
-			ComInvite comInvite = comInviteService.findByInvitedUserId(comAppUser.getOpenId());
-			if(comInvite != null){
-				comAppUser.setParentId(comInvite.getInviteCode());
-				
-				comInvite.setInviteStatus("00");
-				comInviteService.edit(comInvite);
-			}
 		}
 	
 		dao.edit("ComAppUserMapper.edit", comAppUser);
@@ -167,7 +234,12 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	 * @throws Exception
 	 */
 	public void change(ComAppUser comAppUser) throws Exception {
+		if(StringUtils.isNotEmpty(comAppUser.getPassword())){
+			comAppUser.setPassword(new SimpleHash("SHA-512", comAppUser.getAppUserId(), comAppUser.getPassword(), 2).toString());
+		}
+		
 		Date nowTime = new Date();
+		comAppUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comAppUser.setModifyTime(nowTime);
 		comAppUser.setLastModifyTime(this.findById(comAppUser.getAppUserId()).getModifyTime());
 		if(comAppUser.getModifyTime().compareTo(comAppUser.getLastModifyTime()) == 0){

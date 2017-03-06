@@ -3,34 +3,31 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComAppUserMapper">
 
-	<sql id="appUserColumns">appUserId,appUserCode,appUserName,appUserType,appUserStatus,appUserNum,phone,email,password,openId,sex,headImgSrc,brithday,parentId,wxQRcodeSrc,wxQRcodeExpiry,mediaId,mediaExpiry,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="appUserTable">com_app_user_info</sql>
+	<sql id="appUserColumns">appUserId,parentId,roleId,appUserCode,appUserName,appUserType,appUserStatus,appUserNum,phone,password,sex,headImgSrc,brithday,remarks,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="appUserTable">com_app_user_tree</sql>
 	
 	<resultMap type="comAppUser" id="comAppUserResultMap">
 		<id column="appUserId" property="appUserId"/>
+		<result column="roleId" property="roleId"/>
 		<result column="appUserCode" property="appUserCode"/>
 		<result column="appUserName" property="appUserName"/>
 		<result column="appUserType" property="appUserType"/>
 		<result column="appUserStatus" property="appUserStatus"/>
 		<result column="appUserNum" property="appUserNum"/>
 		<result column="phone" property="phone"/>
-		<result column="email" property="email"/>
 		<result column="password" property="password"/>
-		<result column="openId" property="openId"/>
 		<result column="sex" property="sex"/>
 		<result column="headImgSrc" property="headImgSrc"/>
 		<result column="brithday" property="brithday"/>
-		<result column="parentId" property="parentId"/>
-		<result column="wxQRcodeSrc" property="wxQRcodeSrc"/>
-		<result column="wxQRcodeExpiry" property="wxQRcodeExpiry"/>
-		<result column="mediaId" property="mediaId"/>
-		<result column="mediaExpiry" property="mediaExpiry"/>
+		<result column="remarks" property="remarks"/>
+		<result column="level" property="level"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
 		<result column="createTime" property="createTime"/>
 		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
+		<result column="parentId" property="parentId"/>
 	</resultMap>
 	
 	
@@ -47,7 +44,7 @@
 		( 
 	<include refid="appUserColumns"/>
 		) values (
-			#{appUserId},#{appUserCode},#{appUserName},#{appUserType},#{appUserStatus},#{appUserNum},#{phone},#{email},#{password},#{openId},#{sex},#{headImgSrc},#{brithday},#{parentId},#{wxQRcodeSrc},#{wxQRcodeExpiry},#{mediaId},#{mediaExpiry},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{appUserId},#{parentId},#{roleId},#{appUserCode},#{appUserName},#{appUserType},#{appUserStatus},#{appUserNum},#{phone},#{password},#{sex},#{headImgSrc},#{brithday},#{remarks},#{level},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -56,6 +53,9 @@
 		update
 	<include refid="appUserTable"/>
 		set 
+			<if test="roleId!=null and roleId!=''">
+			roleId = #{roleId},
+			</if>
 			<if test="appUserCode!=null and appUserCode!=''">
 			appUserCode = #{appUserCode},
 			</if>
@@ -71,38 +71,17 @@
 			<if test="phone!=null and phone!=''">
 			phone = #{phone},
 			</if>
-			<if test="email!=null and email!=''">
-			email = #{email},
-			</if>
 			<if test="password!=null and password!=''">
 			password = #{password},
-			</if>
-			<if test="openId!=null and openId!=''">
-			openId = #{openId},
 			</if>
 			<if test="sex!=null and sex!=''">
 			sex = #{sex},
 			</if>
-			<if test="headImgSrc!=null and headImgSrc!=''">
-			headImgSrc = #{headImgSrc},
-			</if>
 			<if test="brithday!=null">
 			brithday = #{brithday},
 			</if>
-			<if test="parentId!=null and parentId!=''">
-			parentId = #{parentId},
-			</if>
-			<if test="wxQRcodeSrc!=null and wxQRcodeSrc!=''">
-			wxQRcodeSrc = #{wxQRcodeSrc},
-			</if>
-			<if test="wxQRcodeExpiry!=null">
-			wxQRcodeExpiry = #{wxQRcodeExpiry},
-			</if>
-			<if test="mediaId!=null and mediaId!=''">
-			mediaId = #{mediaId},
-			</if>
-			<if test="mediaExpiry!=null">
-			mediaExpiry = #{mediaExpiry},
+			<if test="remarks!=null and remarks!=''">
+			remarks = #{remarks},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -119,6 +98,12 @@
 		update
 	<include refid="appUserTable"/>
 		set 
+			<if test="parentId!=null and parentId!=''">
+			 parentId = #{parentId},
+			 </if>
+			<if test="roleId!=null and roleId!=''">
+			roleId = #{roleId},
+			</if>
 			<if test="appUserCode!=null and appUserCode!=''">
 			appUserCode = #{appUserCode},
 			</if>
@@ -137,14 +122,8 @@
 			<if test="phone!=null and phone!=''">
 			phone = #{phone},
 			</if>
-			<if test="email!=null and email!=''">
-			email = #{email},
-			</if>
 			<if test="password!=null and password!=''">
 			password = #{password},
-			</if>
-			<if test="openId!=null and openId!=''">
-			openId = #{openId},
 			</if>
 			<if test="sex!=null and sex!=''">
 			sex = #{sex},
@@ -155,20 +134,11 @@
 			<if test="brithday!=null">
 			brithday = #{brithday},
 			</if>
-			<if test="parentId!=null and parentId!=''">
-			parentId = #{parentId},
+			<if test="remarks!=null and remarks!=''">
+			remarks = #{remarks},
 			</if>
-			<if test="wxQRcodeSrc!=null and wxQRcodeSrc!=''">
-			wxQRcodeSrc = #{wxQRcodeSrc},
-			</if>
-			<if test="wxQRcodeExpiry!=null">
-			wxQRcodeExpiry = #{wxQRcodeExpiry},
-			</if>
-			<if test="mediaId!=null and mediaId!=''">
-			mediaId = #{mediaId},
-			</if>
-			<if test="mediaExpiry!=null">
-			mediaExpiry = #{mediaExpiry},
+			<if test="level!=null and level!=''">
+			level = #{level},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -219,6 +189,9 @@
 		from 
 	<include refid="appUserTable"/>
 		where 1=1
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId}
+			 </if>
 		order by (orderNum+0) 
 	</select>
 	
@@ -231,6 +204,12 @@
 		where 1=1
 			<if test="appUserId!=null and appUserId!=''">
 			 and appUserId != #{appUserId} 
+			</if>
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId} 
+			</if>
+			<if test="roleId!=null and roleId!=''">
+			 and roleId = #{roleId}
 			</if>
 			<if test="appUserCode!=null and appUserCode!=''">
 			 and appUserCode = #{appUserCode}
@@ -250,14 +229,8 @@
 			<if test="phone!=null and phone!=''">
 			 and phone = #{phone}
 			</if>
-			<if test="email!=null and email!=''">
-			 and email = #{email}
-			</if>
 			<if test="password!=null and password!=''">
 			 and password = #{password}
-			</if>
-			<if test="openId!=null and openId!=''">
-			 and openId = #{openId}
 			</if>
 			<if test="sex!=null and sex!=''">
 			 and sex = #{sex}
@@ -265,23 +238,14 @@
 			<if test="headImgSrc!=null and headImgSrc!=''">
 			 and headImgSrc = #{headImgSrc}
 			</if>
-			<if test="brithday!=null">
+			<if test="brithday!=null and brithday!=''">
 			 and brithday = #{brithday}
 			</if>
-			<if test="parentId!=null and parentId!=''">
-			 and parentId = #{parentId}
+			<if test="remarks!=null and remarks!=''">
+			 and remarks = #{remarks}
 			</if>
-			<if test="wxQRcodeSrc!=null and wxQRcodeSrc!=''">
-			 and wxQRcodeSrc = #{wxQRcodeSrc}
-			</if>
-			<if test="wxQRcodeExpiry!=null">
-			 and wxQRcodeExpiry = #{wxQRcodeExpiry}
-			</if>
-			<if test="mediaId!=null and mediaId!=''">
-			 and mediaId = #{mediaId}
-			</if>
-			<if test="mediaExpiry!=null">
-			 and mediaExpiry = #{mediaExpiry}
+			<if test="level!=null and level!=''">
+			 and level = #{level}
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			 and orderNum = #{orderNum}
@@ -292,13 +256,13 @@
 			<if test="createUserId!=null and createUserId!=''">
 			 and createUserId = #{createUserId}
 			</if>
-			<if test="createTime!=null">
+			<if test="createTime!=null and createTime!=''">
 			 and createTime = #{createTime}
 			</if>
 			<if test="modifyUserId!=null and modifyUserId!=''">
 			 and modifyUserId = #{modifyUserId}
 			</if>
-			<if test="modifyTime!=null">
+			<if test="modifyTime!=null and modifyTime!=''">
 			 and modifyTime = #{modifyTime}
 			</if>
 		order by (orderNum+0) 
@@ -311,6 +275,9 @@
 		from 
 	<include refid="appUserTable"/>
 		where 1=1
+			<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
+			and parentId= #{pd.pId}
+			</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

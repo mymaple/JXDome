@@ -45,6 +45,10 @@
 								<td><param:select type="com_integralNoteType" name="integralNoteType" id="integralNoteType" value="${comIntegralNote.integralNoteType}" placeholder="这里请选择 积分记录类型" title="积分记录类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户:</td>
+								<td><param:select type="" name="appUserId" id="appUserId" value="${comIntegralNote.appUserId}" placeholder="这里请选择 平台用户" title="平台用户" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">积分交易数量:</td>
 								<td><input type="number" name="integralDealCount" id="integralDealCount" value="${comIntegralNote.integralDealCount}" maxlength="100" placeholder="这里输入 积分交易数量" title="积分交易数量" style="width:98%;"/></td>
 							</tr>
@@ -145,6 +149,15 @@
 				$("#integralNoteType").next().tips({
 					side:3,
 		            msg:'请选择 积分记录类型',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+			return false;
+			}
+			if($("#appUserId").val()==""){
+				$("#appUserId").next().tips({
+					side:3,
+		            msg:'请选择 平台用户',
 		            bg:'#AE81FF',
 		            time:2
 		        });

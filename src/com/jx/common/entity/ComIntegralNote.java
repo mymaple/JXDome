@@ -44,6 +44,10 @@ public class ComIntegralNote extends BaseEntity implements Serializable {
 	/** 积分交易状态 */
 	private String integralDealStatus;
 		
+	/** 平台用户 */
+	@NotBlank(message="平台用户 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String appUserId;
+		
 	/** 积分交易数量 */
 	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="积分交易数量 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 	private String integralDealCount;
@@ -146,6 +150,24 @@ public class ComIntegralNote extends BaseEntity implements Serializable {
 	 */
 	public String getIntegralDealStatus() {
 		return this.integralDealStatus;
+	}
+	
+	/**
+	 * 设置 平台用户
+	 * 
+	 * @param String appUserId
+	 */
+	public void setAppUserId(String appUserId) {
+		this.appUserId = MapleStringUtil.trim(appUserId);
+	}
+	
+	/**
+	 * 获取 平台用户
+	 * 
+	 * @return String appUserId
+	 */
+	public String getAppUserId() {
+		return this.appUserId;
 	}
 	
 	/**

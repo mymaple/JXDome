@@ -33,6 +33,14 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td align="center"><param:display type="bg_mapleDetailType" name="parentId" id="parentId" value="${comAppUser.parentId }" hidden="true"/></td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">角色:</td>
+								<td><param:select type="com_appUserRole" name="roleId" id="roleId" value="${comAppUser.roleId}" placeholder="这里请选择 角色" title="角色" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户代号:</td>
 								<td><input type="text" name="appUserCode" id="appUserCode" value="${comAppUser.appUserCode}" maxlength="100" placeholder="这里输入 平台用户代号" title="平台用户代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
@@ -53,48 +61,20 @@
 								<td><input type="text" name="phone" id="phone" value="${comAppUser.phone}" maxlength="100" placeholder="这里输入 电话号码" title="电话号码" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">电子邮箱:</td>
-								<td><input type="text" name="email" id="email" value="${comAppUser.email}" maxlength="100" placeholder="这里输入 电子邮箱" title="电子邮箱" style="width:98%;" /></td>
-							</tr>
-							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">密码:</td>
-								<td><input type="text" name="password" id="password" value="${comAppUser.password}" maxlength="100" placeholder="这里输入 密码" title="密码" style="width:98%;" /></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">用户的标识:</td>
-								<td><input type="text" name="openId" id="openId" value="${comAppUser.openId}" maxlength="100" placeholder="这里输入 用户的标识" title="用户的标识" style="width:98%;" /></td>
+								<td><input type="text" name="password" id="password" value="${comAppUser.password}" maxlength="255" placeholder="这里输入 密码" title="密码" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">性别:</td>
-								<td><input type="text" name="sex" id="sex" value="${comAppUser.sex}" maxlength="100" placeholder="这里输入 性别" title="性别" style="width:98%;" /></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">用户头像:</td>
-								<td><input type="text" name="headImgSrc" id="headImgSrc" value="${comAppUser.headImgSrc}" maxlength="100" placeholder="这里输入 用户头像" title="用户头像" style="width:98%;" /></td>
+								<td><param:select type="com_sex" name="sex" id="sex" value="${comAppUser.sex}" placeholder="这里请选择 性别" title="性别" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">生日:</td>
-								<td><input class="span10 date-picker" name="brithday" id="brithday" value="${comAppUser.brithday}" type="text" data-date-format="yyyy-mm-dd 00:00:00" readonly="readonly" placeholder="这里请选择 生日" title="生日" style="width:98%;"/></td>
+								<td><input class="span10 date-picker" name="brithdayStr" id="brithdayStr" value="${comAppUser.brithdayStr}" type="text" data-date-format="yyyy-mm-dd 00:00:00" readonly="readonly" placeholder="这里请选择 生日" title="生日" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">上级id:</td>
-								<td><input type="text" name="parentId" id="parentId" value="${comAppUser.parentId}" maxlength="100" placeholder="这里输入 上级id" title="上级id" style="width:98%;" /></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">微信二维码:</td>
-								<td><input type="text" name="wxQRcodeSrc" id="wxQRcodeSrc" value="${comAppUser.wxQRcodeSrc}" maxlength="100" placeholder="这里输入 微信二维码" title="微信二维码" style="width:98%;" /></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">微信二维码有效期:</td>
-								<td><input class="span10 date-picker" name="wxQRcodeExpiry" id="wxQRcodeExpiry" value="${comAppUser.wxQRcodeExpiry}" type="text" data-date-format="yyyy-mm-dd 00:00:00" readonly="readonly" placeholder="这里请选择 微信二维码有效期" title="微信二维码有效期" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">媒体文件id:</td>
-								<td><input type="text" name="mediaId" id="mediaId" value="${comAppUser.mediaId}" maxlength="100" placeholder="这里输入 媒体文件id" title="媒体文件id" style="width:98%;" /></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">媒体文件有效时间:</td>
-								<td><input class="span10 date-picker" name="mediaExpiry" id="mediaExpiry" value="${comAppUser.mediaExpiry}" type="text" data-date-format="yyyy-mm-dd 00:00:00" readonly="readonly" placeholder="这里请选择 媒体文件有效时间" title="媒体文件有效时间" style="width:98%;"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">备注信息:</td>
+								<td><input type="text" name="remarks" id="remarks" value="${comAppUser.remarks}" maxlength="100" placeholder="这里输入 备注信息" title="备注信息" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
@@ -161,6 +141,15 @@
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
+			if($("#roleId").val()==""){
+				$("#roleId").next().tips({
+					side:3,
+		            msg:'请选择 角色',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+			return false;
+			}
 			if(!codeExp.test($("#appUserCode").val())){
 				$("#appUserCode").tips({
 					side:3,
@@ -210,16 +199,6 @@
 				$("#phone").focus();
 			return false;
 			}
-			if($("#email").val()==""){
-				$("#email").tips({
-					side:3,
-		            msg:'请输入电子邮箱',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#email").focus();
-			return false;
-			}
 			if($("#password").val()==""){
 				$("#password").tips({
 					side:3,
@@ -228,16 +207,6 @@
 		            time:2
 		        });
 				$("#password").focus();
-			return false;
-			}
-			if($("#openId").val()==""){
-				$("#openId").tips({
-					side:3,
-		            msg:'请输入用户的标识',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#openId").focus();
 			return false;
 			}
 			if($("#sex").val()==""){
@@ -250,16 +219,6 @@
 				$("#sex").focus();
 			return false;
 			}
-			if($("#headImgSrc").val()==""){
-				$("#headImgSrc").tips({
-					side:3,
-		            msg:'请输入用户头像',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#headImgSrc").focus();
-			return false;
-			}
 			if($("#brithday").val()==""){
 				$("#brithday").next().tips({
 					side:3,
@@ -269,52 +228,14 @@
 		        });
 			return false;
 			}
-			if($("#parentId").val()==""){
-				$("#parentId").tips({
+			if($("#remarks").val()==""){
+				$("#remarks").tips({
 					side:3,
-		            msg:'请输入上级id',
+		            msg:'请输入备注信息',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#parentId").focus();
-			return false;
-			}
-			if($("#wxQRcodeSrc").val()==""){
-				$("#wxQRcodeSrc").tips({
-					side:3,
-		            msg:'请输入微信二维码',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#wxQRcodeSrc").focus();
-			return false;
-			}
-			if($("#wxQRcodeExpiry").val()==""){
-				$("#wxQRcodeExpiry").next().tips({
-					side:3,
-		            msg:'请选择 微信二维码有效期',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-			return false;
-			}
-			if($("#mediaId").val()==""){
-				$("#mediaId").tips({
-					side:3,
-		            msg:'请输入媒体文件id',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#mediaId").focus();
-			return false;
-			}
-			if($("#mediaExpiry").val()==""){
-				$("#mediaExpiry").next().tips({
-					side:3,
-		            msg:'请选择 媒体文件有效时间',
-		            bg:'#AE81FF',
-		            time:2
-		        });
+				$("#remarks").focus();
 			return false;
 			}
 			if(!intExp.test($("#orderNum").val())){

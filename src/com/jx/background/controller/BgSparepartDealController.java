@@ -27,7 +27,6 @@ import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.ComSparepartDeal;
 import com.jx.common.util.AppUtil;
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
@@ -38,7 +37,7 @@ import com.jx.common.service.ComSparepartDealService;
 /** 
  * 类名称：BgSparepartDealController
  * 创建人：maple
- * 创建时间：2017-03-04
+ * 创建时间：2017-03-06
  */
 @Controller
 @RequestMapping(value="/background/sparepartDeal")
@@ -95,7 +94,7 @@ public class BgSparepartDealController extends BaseController {
 		
 		ComSparepartDeal comSparepartDeal = new ComSparepartDeal();
 		comSparepartDeal.setSparepartDealCode("");
-		comSparepartDeal.setIntegralCustomerId("");
+		comSparepartDeal.setAppUserId("");
 		comSparepartDeal.setSparepartId("");
 		comSparepartDeal.setCount("0");
 		comSparepartDeal.setDealAmt("0.00");
@@ -259,7 +258,7 @@ public class BgSparepartDealController extends BaseController {
 		titles.add("零部件交易 主键id");		//0
 		titles.add("零部件交易订单号");	//1
 		titles.add("零部件交易审核状态");	//2
-		titles.add("积分客户");	//3
+		titles.add("零部件销售客户");	//3
 		titles.add("零部件");	//4
 		titles.add("出售数量");	//5
 		titles.add("交易金额");	//6
@@ -281,7 +280,7 @@ public class BgSparepartDealController extends BaseController {
 			vpd.put("var0",varOList.get(i).getSparepartDealId());			//0
 			vpd.put("var1", varOList.get(i).getSparepartDealCode());	//1
 			vpd.put("var2", varOList.get(i).getSparepartDealStatus());	//2
-			vpd.put("var3", varOList.get(i).getIntegralCustomerId());	//3
+			vpd.put("var3", varOList.get(i).getAppUserId());	//3
 			vpd.put("var4", varOList.get(i).getSparepartId());	//4
 			vpd.put("var5", varOList.get(i).getCount());	//5
 			vpd.put("var6", varOList.get(i).getDealAmt());	//6
@@ -337,7 +336,7 @@ public class BgSparepartDealController extends BaseController {
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("零部件交易订单号");	//0
-		titles.add("积分客户");	//1
+		titles.add("零部件销售客户");	//1
 		titles.add("零部件");	//2
 		titles.add("出售数量");	//3
 		titles.add("交易金额");	//4
@@ -379,7 +378,7 @@ public class BgSparepartDealController extends BaseController {
 				
 		/**
 		 * var0 :零部件交易订单号;	//0
-		 * var1 :积分客户;	//1
+		 * var1 :零部件销售客户;	//1
 		 * var2 :零部件;	//2
 		 * var3 :出售数量;	//3
 		 * var4 :交易金额;	//4
@@ -388,7 +387,7 @@ public class BgSparepartDealController extends BaseController {
 		for(int i=0;i<listPd.size();i++){	
 			comSparepartDeal.setSparepartDealId(this.get32UUID());
 			comSparepartDeal.setSparepartDealCode(listPd.get(i).getString("var0"));
-			comSparepartDeal.setIntegralCustomerId(listPd.get(i).getString("var1"));
+			comSparepartDeal.setAppUserId(listPd.get(i).getString("var1"));
 			comSparepartDeal.setSparepartId(listPd.get(i).getString("var2"));
 			comSparepartDeal.setCount(listPd.get(i).getString("var3"));
 			comSparepartDeal.setDealAmt(listPd.get(i).getString("var4"));
@@ -433,7 +432,7 @@ public class BgSparepartDealController extends BaseController {
 			comSparepartDealChange.setCheckId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 			comSparepartDealChange.setCheckTime(new Date());
 			comSparepartDealChange.setRemarks("通过！");
-			comSparepartDealService.change(comSparepartDealChange);
+			comSparepartDealService.pass(comSparepartDeal, comSparepartDealChange);
 			resultInfo.setResultCode("success");
 		}
 		

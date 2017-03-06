@@ -3,14 +3,15 @@ package com.jx.common.config;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.jx.common.util.MapleStringUtil;
 
 /**
- *	基类
+ * 扩展属性基类
  */
-public class BaseEntity {
+public class BaseExt {
 	
 	public interface ValidationAdd {
 
@@ -19,7 +20,19 @@ public class BaseEntity {
 	public interface ValidationEdit {
 		
 	}
-
+	
+		
+	/** 扩展属性名 */
+	@NotBlank(message="扩展属性名 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String name;
+		
+	/** 扩展属性值 */
+	@NotBlank(message="扩展属性值 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String value;
+		
+	/** 扩展属性代号 */
+	@NotBlank(message="扩展属性代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String code;
 	
 	/** 排序编号 */
 	@NotEmpty(message="排序编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
@@ -168,5 +181,4 @@ public class BaseEntity {
 	public Date getLastModifyTime() {
 		return this.lastModifyTime;
 	}	
-		
 }

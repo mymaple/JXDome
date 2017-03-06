@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-03-04 17:33:17
+Date: 2017-03-06 17:26:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -145,7 +145,7 @@ INSERT INTO `bg_maple_detail` VALUES ('28697e1df826455b964fe2f0ebe2db0c', '3b3eb
 INSERT INTO `bg_maple_detail` VALUES ('28d66288b90a4cc0833f8e6cec268dbe', '7928b5c3a71443e69dac9a775fb732aa', 'userStatus', '后台用户状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1484726215275', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-18 15:56:55');
 INSERT INTO `bg_maple_detail` VALUES ('2a8ae5e5ca3d46a6a721fc885b85a1ab', '0d2f5dbae9154a4bb3788bbfc8b61176', 'productCategoryStatus', '商品分类状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1487902706438', '01', '1', '2017-02-24 10:18:26', '1', '2017-02-24 10:18:26');
 INSERT INTO `bg_maple_detail` VALUES ('2ad3266fdcdb4a6b8d384ddc5cea4a8b', 'ad181811909d4f50b3c2c802e901be84', 'dictCode', '数据字典代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1484529542050', '01', '1', '2017-01-16 09:19:02', '1', '2017-01-16 09:19:02');
-INSERT INTO `bg_maple_detail` VALUES ('2b09a57a9e5b4c25ad3910caf3ca7f50', '3b3eb93879584c78a5ae5ea461dbc022', 'integralCustomerId', '积分客户', '05', '00', '100', '0', '', '00', '01', '01', '', '1488531743723', '01', '1', '2017-03-03 17:02:44', '1', '2017-03-03 17:02:58');
+INSERT INTO `bg_maple_detail` VALUES ('2b09a57a9e5b4c25ad3910caf3ca7f50', '3b3eb93879584c78a5ae5ea461dbc022', 'appUserId', '零部件销售客户', '05', '00', '100', '0', '', '00', '01', '01', '', '1488531743723', '01', '1', '2017-03-03 17:02:44', '1', '2017-03-06 11:06:45');
 INSERT INTO `bg_maple_detail` VALUES ('2d1f6f9eb85f4a2987afcee0e32093af', '7928b5c3a71443e69dac9a775fb732aa', 'userCode', '后台用户代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1484726215270', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-18 15:56:55');
 INSERT INTO `bg_maple_detail` VALUES ('2d5da37fa3764af8a4fe4cc5f735366e', '36ff1b75838f43efac8625df493e0df1', 'accessToken', '公众号的全局唯一票据', '01', '00', '1000', '0', '', '00', '00', '01', '', '1484889777852', '01', '1', '2017-01-20 13:24:19', '1', '2017-01-20 13:24:19');
 INSERT INTO `bg_maple_detail` VALUES ('2ee96cb64503442097d963f7b3d15fc7', '742baf93ab0f4399a98c18d7adbe4622', 'menuBtnUrl', '网页链接', '01', '00', '1024', '0', '', '00', '01', '01', '', '1486350025045', '01', '1', '2017-02-06 11:03:26', '1', '2017-02-06 14:00:02');
@@ -158,12 +158,12 @@ INSERT INTO `bg_maple_detail` VALUES ('3c2ca551cfcc4847903932819df15dd7', '9a852
 INSERT INTO `bg_maple_detail` VALUES ('3fa8dba2b21c4f458acbb0bf82ce6f46', 'ebd0083161064722a7c37d25a0030434', 'menuStatus', '后台菜单状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1484546688787', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
 INSERT INTO `bg_maple_detail` VALUES ('40ac3c3da5cc4dcba0ac4ad464f2deb1', '754773752b53495f9d452fbc9b06c37a', 'supplierType', '供应商类型', '05', '00', '100', '0', 'com_supplierType', '00', '01', '01', '\"01\"', '1487842063087', '01', '1', '2017-02-23 17:27:43', '1', '2017-02-23 17:27:43');
 INSERT INTO `bg_maple_detail` VALUES ('40f190c57abe431697318c35808f44c6', 'ebd0083161064722a7c37d25a0030434', 'menuCode', '后台菜单代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1484546688739', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
-INSERT INTO `bg_maple_detail` VALUES ('41d9fdd347ab43649c471ba0a39b61c2', 'd770d5128d82483ab6763cfbed6e847d', 'integralCountBefore', '交易前积分数量', '04', '00', '100', '2', '', '00', '01', '01', '', '1488594678573', '01', '1', '2017-03-04 10:32:11', '1', '2017-03-04 10:32:45');
+INSERT INTO `bg_maple_detail` VALUES ('41d9fdd347ab43649c471ba0a39b61c2', 'd770d5128d82483ab6763cfbed6e847d', 'integralCountBefore', '交易前积分数量', '04', '00', '100', '2', '', '00', '01', '01', '', '1488594678573', '01', '1', '2017-03-04 10:32:11', '1', '2017-03-06 10:30:14');
 INSERT INTO `bg_maple_detail` VALUES ('43deda2ca573444eaae12e6136b19356', 'c9da8f2d57774bbbad13030135b6a1cb', 'mapleStatus', '代码生成状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '4', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
-INSERT INTO `bg_maple_detail` VALUES ('4427d48c707045728293a6e68256a061', 'd770d5128d82483ab6763cfbed6e847d', 'integralDealCount', '积分交易数量', '04', '00', '100', '2', '', '00', '01', '01', '', '1488594303772', '01', '1', '2017-03-04 10:25:28', '1', '2017-03-04 10:25:28');
+INSERT INTO `bg_maple_detail` VALUES ('4427d48c707045728293a6e68256a061', 'd770d5128d82483ab6763cfbed6e847d', 'integralDealCount', '积分交易数量', '04', '00', '100', '2', '', '00', '01', '01', '', '1488594303772', '01', '1', '2017-03-04 10:25:28', '1', '2017-03-06 10:30:07');
 INSERT INTO `bg_maple_detail` VALUES ('44930026a5c6434ebbd84d887c058dbc', 'a4dc9b54bb3e4d17ad983912730a6667', 'headImgSrc', '产品头像', '01', '00', '100', '0', '', '00', '01', '01', '', '1487904553196', '01', '1', '2017-02-24 10:52:42', '1', '2017-02-24 10:52:42');
 INSERT INTO `bg_maple_detail` VALUES ('449950385235437e9d0878bf698ce278', '2b8a44269b4542e48e13549c8e2e14a4', 'currentPrice', '现价', '04', '00', '100', '2', '', '00', '01', '01', '', '1487906121367', '01', '1', '2017-02-24 11:16:02', '1', '2017-02-24 11:16:02');
-INSERT INTO `bg_maple_detail` VALUES ('44cf249239d04a5ead9aad13c20c1ccd', '9a85215a94334cbc83bb5cf701ccf3bb', 'headImgSrc', '用户头像', '01', '00', '100', '0', '', '00', '01', '01', '', '1486706276767', '01', '1', '2017-02-10 13:59:10', '1', '2017-02-24 13:18:28');
+INSERT INTO `bg_maple_detail` VALUES ('44cf249239d04a5ead9aad13c20c1ccd', '9a85215a94334cbc83bb5cf701ccf3bb', 'headImgSrc', '用户头像', '01', '00', '255', '0', '', '00', '00', '01', '', '1486706276767', '01', '1', '2017-02-10 13:59:10', '1', '2017-03-06 13:58:18');
 INSERT INTO `bg_maple_detail` VALUES ('4530ca7ba6f9486581ca3f58e31d6980', '9a85215a94334cbc83bb5cf701ccf3bb', 'sex', '性别', '01', '00', '100', '0', '', '00', '01', '01', '', '1486706161606', '01', '1', '2017-02-10 13:57:07', '1', '2017-02-10 13:57:07');
 INSERT INTO `bg_maple_detail` VALUES ('4616314fd35947a69e9f0edce517b4ca', '0c1ea3878cd34c8b9f99283de36f25fb', 'typeCode', '类型代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1484191596294', '01', '1', '2017-01-12 11:26:36', '1', '2017-01-12 11:26:36');
 INSERT INTO `bg_maple_detail` VALUES ('47b028fe3bd648f0a5b1d801c3a0eddb', '3b3eb93879584c78a5ae5ea461dbc022', 'sparepartId', '零部件', '05', '00', '100', '0', '', '00', '01', '01', '', '1488531796290', '01', '1', '2017-03-03 17:03:46', '1', '2017-03-03 17:05:06');
@@ -172,24 +172,20 @@ INSERT INTO `bg_maple_detail` VALUES ('4a87a9e1c8404ad696c1b1629ab5bafc', 'a4dc9
 INSERT INTO `bg_maple_detail` VALUES ('4b44762d9bfa41d79151a9c79532f23c', '2b8a44269b4542e48e13549c8e2e14a4', 'stockNum', '库存数量', '02', '00', '100', '0', '', '00', '01', '01', '', '1487905200855', '01', '1', '2017-02-24 11:06:17', '1', '2017-02-24 11:06:17');
 INSERT INTO `bg_maple_detail` VALUES ('4c86cb30de514679be2f9af313a0e1e1', 'ebd0083161064722a7c37d25a0030434', 'menuName', '后台菜单名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1484546688782', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
 INSERT INTO `bg_maple_detail` VALUES ('4d48487873ab44f6b5cae2a9f5092c23', 'c9da8f2d57774bbbad13030135b6a1cb', 'mapleType', '代码生成类型', '05', '00', '100', '0', 'bg_mapleType', '00', '01', '01', '\"01\"', '3', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
-INSERT INTO `bg_maple_detail` VALUES ('4f6a862df33747bcbb3647f280f20df7', '9a85215a94334cbc83bb5cf701ccf3bb', 'openId', '用户的标识', '01', '00', '100', '0', '', '00', '01', '01', '', '1486706093866', '01', '1', '2017-02-10 13:55:59', '1', '2017-02-10 13:55:59');
 INSERT INTO `bg_maple_detail` VALUES ('4fcb3375c7f5476098db5160c20dcfd0', '0d2f5dbae9154a4bb3788bbfc8b61176', 'productCategoryType', '商品分类类型', '05', '00', '100', '0', 'com_productCategoryType', '00', '01', '01', '\"01\"', '1487902706437', '01', '1', '2017-02-24 10:18:26', '1', '2017-02-24 10:18:26');
 INSERT INTO `bg_maple_detail` VALUES ('52be3e073752470cb93d75b2be92b5e1', 'a4dc9b54bb3e4d17ad983912730a6667', 'summary', '摘要', '01', '00', '1000', '0', '', '00', '01', '01', '', '1487903197089', '01', '1', '2017-02-24 10:35:16', '1', '2017-02-24 10:42:00');
 INSERT INTO `bg_maple_detail` VALUES ('530502b6cc5b45dfa9d4c751d095de9c', '7928b5c3a71443e69dac9a775fb732aa', 'remarks', '备注信息', '01', '00', '255', '0', '', '00', '01', '01', '', '1484728674804', '01', '1', '2017-01-18 16:38:12', '1', '2017-01-18 16:38:12');
 INSERT INTO `bg_maple_detail` VALUES ('530694467ec34ee494604b51f05d76b9', '351d0afc825f474eb61c692722935fe8', 'styleCategoryDetailStatus', '规格分类详情状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1487913725176', '01', '1', '2017-02-24 13:22:05', '1', '2017-02-24 13:22:05');
 INSERT INTO `bg_maple_detail` VALUES ('531737534ab649f9bd4ced96cda1ffda', '0c1ea3878cd34c8b9f99283de36f25fb', 'mapleDetailType', '代码生成详情类型', '05', '00', '100', '0', 'bg_mapleDetailType', '00', '01', '01', '\"01\"', '3', '01', '1', '2017-01-12 11:16:28', '1', '2017-01-12 11:16:28');
 INSERT INTO `bg_maple_detail` VALUES ('54398981fb824b04bafb3f1d3cd48f6f', '27a853950d0e4876ba0eccf8d7e2dd8f', 'status', '状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '4', '01', '1', '2017-01-11 17:11:35', '1', '2017-01-17 16:47:23');
-INSERT INTO `bg_maple_detail` VALUES ('54d7b185a0f040dfb95a4d712205d3ed', 'd770d5128d82483ab6763cfbed6e847d', 'integralCountAfter', '交易后积分数量', '04', '00', '100', '2', '', '00', '01', '01', '', '1488594736670', '01', '1', '2017-03-04 10:32:41', '1', '2017-03-04 10:32:41');
+INSERT INTO `bg_maple_detail` VALUES ('54d7b185a0f040dfb95a4d712205d3ed', 'd770d5128d82483ab6763cfbed6e847d', 'integralCountAfter', '交易后积分数量', '04', '00', '100', '2', '', '00', '01', '01', '', '1488594736670', '01', '1', '2017-03-04 10:32:41', '1', '2017-03-06 10:30:20');
 INSERT INTO `bg_maple_detail` VALUES ('5712b8ad5b1c4589a7bb5a40aa391962', '0c1ea3878cd34c8b9f99283de36f25fb', 'defaultValue', '默认值', '01', '00', '100', '0', '', '00', '01', '01', '', '1484191753948', '01', '1', '2017-01-12 11:29:14', '1', '2017-01-12 11:29:14');
 INSERT INTO `bg_maple_detail` VALUES ('5777ff112dcc4b57a9314a9b7fcf813d', '36ff1b75838f43efac8625df493e0df1', 'wxAccountName', '微信账户名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1484882249398', '01', '1', '2017-01-20 11:17:29', '1', '2017-01-20 11:17:29');
-INSERT INTO `bg_maple_detail` VALUES ('585b01d4c1894f89a4d4db0f38c908a7', '9a85215a94334cbc83bb5cf701ccf3bb', 'mediaExpiry', '媒体文件有效时间', '03', '00', '100', '0', '', '00', '01', '01', '', '1486966925104', '01', '1', '2017-02-13 14:22:41', '1', '2017-02-13 14:22:41');
 INSERT INTO `bg_maple_detail` VALUES ('595ebbf50b574d8c8a40736b0f5a57c4', '3b3eb93879584c78a5ae5ea461dbc022', 'checkTime', '审核日期', '03', '00', '100', '0', '', '00', '00', '01', '', '1488532060685', '01', '1', '2017-03-03 17:06:51', '1', '2017-03-04 13:39:01');
 INSERT INTO `bg_maple_detail` VALUES ('5fc96d4d2c2e4f2ab8d145905663cc85', '3b3eb93879584c78a5ae5ea461dbc022', 'count', '出售数量', '02', '00', '100', '0', '', '00', '01', '01', '', '1488531866161', '01', '1', '2017-03-03 17:04:56', '1', '2017-03-03 17:04:56');
-INSERT INTO `bg_maple_detail` VALUES ('61da548d06b8420ab18e32fef00e2e6c', '9a85215a94334cbc83bb5cf701ccf3bb', 'email', '电子邮箱', '01', '00', '100', '0', '', '00', '01', '01', '', '1486706029018', '01', '1', '2017-02-10 13:54:12', '1', '2017-02-10 13:54:12');
 INSERT INTO `bg_maple_detail` VALUES ('62cc898b340b484b918c3126def18303', 'a4dc9b54bb3e4d17ad983912730a6667', 'imgSrc2', '滚播图', '01', '00', '1000', '0', '', '00', '01', '01', '', '1487905006817', '01', '1', '2017-02-24 10:57:15', '1', '2017-02-24 10:57:15');
 INSERT INTO `bg_maple_detail` VALUES ('62ef773c16164f0a955d5b845930d69c', '1ba234a840324c2faa9fc56e9ec9e144', 'wxQRcodeExpiry', '微信二维码有效期', '03', '00', '100', '0', '', '00', '01', '01', '', '1486779058463', '01', '1', '2017-02-11 10:12:54', '1', '2017-02-11 10:12:54');
 INSERT INTO `bg_maple_detail` VALUES ('66b03a304168463e81938cf9c9361d94', '0d2f5dbae9154a4bb3788bbfc8b61176', 'productCategoryCode', '商品分类代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487902706435', '01', '1', '2017-02-24 10:18:26', '1', '2017-02-24 10:18:26');
-INSERT INTO `bg_maple_detail` VALUES ('680d6bedc70f4ac3bdd995ec3ee9b0c3', '9a85215a94334cbc83bb5cf701ccf3bb', 'wxQRcodeExpiry', '微信二维码有效期', '03', '00', '100', '0', '', '00', '01', '01', '', '1486966868467', '01', '1', '2017-02-13 14:21:35', '1', '2017-02-13 14:21:35');
 INSERT INTO `bg_maple_detail` VALUES ('688f191c23ef4d1f98a3559e470cf6e4', '27a853950d0e4876ba0eccf8d7e2dd8f', 'code', '代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1', '01', '1', '2017-01-11 16:52:43', '1', '2017-01-11 16:52:43');
 INSERT INTO `bg_maple_detail` VALUES ('6ce2076ea1334fcdac96c1e044cea7b9', '3b04706d4ab8494faa53e05e822a6e82', 'triggerName', '触发器名', '01', '00', '100', '0', '', '00', '01', '01', '', '1484983701452', '01', '1', '2017-01-21 15:28:43', '1', '2017-01-21 15:28:43');
 INSERT INTO `bg_maple_detail` VALUES ('6d5509c750f84076b65b019c7a49828f', 'ebd0083161064722a7c37d25a0030434', 'menuUrl', '菜单链接', '01', '00', '255', '0', '', '00', '01', '01', '', '1484546828872', '01', '1', '2017-01-16 14:08:02', '1', '2017-01-16 14:08:02');
@@ -221,7 +217,6 @@ INSERT INTO `bg_maple_detail` VALUES ('8bd6080677884a63a4fb72d49ccea2f9', '75477
 INSERT INTO `bg_maple_detail` VALUES ('8fb2330b8dd94af28f4823d86abd8a45', '351d0afc825f474eb61c692722935fe8', 'styleCategoryDetailCode', '规格分类详情代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487913725167', '01', '1', '2017-02-24 13:22:05', '1', '2017-02-24 13:22:05');
 INSERT INTO `bg_maple_detail` VALUES ('8fdc96238cc54846be115986ea4be2a9', '2b8a44269b4542e48e13549c8e2e14a4', 'productStyleStatus', '产品规格状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1487902538810', '01', '1', '2017-02-24 10:15:39', '1', '2017-02-24 10:15:39');
 INSERT INTO `bg_maple_detail` VALUES ('90f2a237fa464fdba1f77b9b26ae0d7f', '307d768ee19e45b09b016970caf257ca', 'sparepartName', '零配件名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1488528018793', '01', '1', '2017-03-03 16:00:19', '1', '2017-03-03 16:00:19');
-INSERT INTO `bg_maple_detail` VALUES ('93b1291e50ad4090b7521ec26218d9f3', '9a85215a94334cbc83bb5cf701ccf3bb', 'wxQRcodeSrc', '微信二维码', '01', '00', '100', '0', '', '00', '01', '01', '', '1486966767313', '01', '1', '2017-02-13 14:21:05', '1', '2017-02-24 13:18:40');
 INSERT INTO `bg_maple_detail` VALUES ('942d109f9052435eafa23c760e763fe0', '754773752b53495f9d452fbc9b06c37a', 'linkPhone', '联系电话', '01', '00', '100', '0', '', '00', '01', '01', '', '1487901522777', '01', '1', '2017-02-24 09:59:04', '1', '2017-02-24 09:59:04');
 INSERT INTO `bg_maple_detail` VALUES ('969f5383c0a54b479439227e2e8adf24', '0c1ea3878cd34c8b9f99283de36f25fb', 'isKey', '是否主键', '05', '00', '100', '0', '', '00', '01', '01', '\"00\"', '1484191616190', '01', '1', '2017-01-12 11:28:16', '1', '2017-01-17 15:15:51');
 INSERT INTO `bg_maple_detail` VALUES ('995aa3b2af92499089cdc88d6ab384b3', 'd770d5128d82483ab6763cfbed6e847d', 'integralNoteName', '积分记录名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1488532875559', '01', '1', '2017-03-03 17:21:16', '1', '2017-03-03 17:21:16');
@@ -237,6 +232,7 @@ INSERT INTO `bg_maple_detail` VALUES ('a2b24eba68f742de864f18987eecf80e', 'c7238
 INSERT INTO `bg_maple_detail` VALUES ('a2e09db55f0c43beb3fe9f09f62d2cd0', '67163a4e05664fa39d5bea61b445163b', 'addRights', '新增权限', '01', '00', '100', '0', '', '00', '00', '01', '', '1484794135451', '01', '1', '2017-01-19 10:49:47', '1', '2017-01-19 10:49:47');
 INSERT INTO `bg_maple_detail` VALUES ('a35792a023f848ac897f4a7753ea6938', '0c1ea3878cd34c8b9f99283de36f25fb', 'isNull', '是否null', '01', '00', '100', '9', '', '00', '01', '01', '\"01\"', '1484191654251', '01', '1', '2017-01-12 11:27:34', '1', '2017-01-17 16:01:38');
 INSERT INTO `bg_maple_detail` VALUES ('a3a1939b310d41349f626e6406a20686', '2b8a44269b4542e48e13549c8e2e14a4', 'productStyleCode', '产品规格代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487902538805', '01', '1', '2017-02-24 10:15:39', '1', '2017-02-24 10:15:39');
+INSERT INTO `bg_maple_detail` VALUES ('a5b57af5f936434bad463f687f24cc1e', '9a85215a94334cbc83bb5cf701ccf3bb', 'remarks', '备注信息', '01', '00', '100', '0', '', '00', '01', '01', '', '1488779742618', '01', '1', '2017-03-06 13:56:06', '1', '2017-03-06 13:56:06');
 INSERT INTO `bg_maple_detail` VALUES ('a795aac6efd64eb4b81bafcfdba74f19', 'ebd0083161064722a7c37d25a0030434', 'menuType', '后台菜单类型', '05', '00', '100', '0', '', '00', '01', '01', '\"01\"', '1484546688785', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
 INSERT INTO `bg_maple_detail` VALUES ('a863984b226847508fa91b8bfc84384a', '351d0afc825f474eb61c692722935fe8', 'styleCategoryDetailType', '规格分类详情类型', '05', '00', '100', '0', 'bg_styleCategoryDetailType', '00', '01', '01', '\"01\"', '1487913725174', '01', '1', '2017-02-24 13:22:05', '1', '2017-02-24 13:22:05');
 INSERT INTO `bg_maple_detail` VALUES ('a9d320b6ba534243a2e87ca11cf50eb3', '7928b5c3a71443e69dac9a775fb732aa', 'userType', '后台用户类型', '05', '00', '100', '0', 'bg_userType', '00', '01', '01', '\"01\"', '1484726215274', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-19 14:46:05');
@@ -253,6 +249,7 @@ INSERT INTO `bg_maple_detail` VALUES ('b3262a3697484cd48874443d34b7e4f9', '307d7
 INSERT INTO `bg_maple_detail` VALUES ('b7a963fd39df4a2e851ba52cf063221b', '9a85215a94334cbc83bb5cf701ccf3bb', 'brithday', '生日', '03', '00', '100', '0', '', '00', '01', '01', '', '1486706378774', '01', '1', '2017-02-10 14:02:00', '1', '2017-02-10 14:02:00');
 INSERT INTO `bg_maple_detail` VALUES ('ba109fd64c614cb0a56d54d6fbf382cf', '2b0255e6416a49669ba92dd90732c2ab', 'productId', '产品编号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487912483487', '01', '1', '2017-02-24 13:48:16', '1', '2017-02-24 13:48:35');
 INSERT INTO `bg_maple_detail` VALUES ('ba9fb9a227834e38b0e25803e397088e', 'e43dbde47f8e4b2fab9d226b9ce3976b', 'styleCategoryDetailName', '规格分类详情名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1487913761137', '01', '1', '2017-02-24 13:22:41', '1', '2017-02-24 13:22:41');
+INSERT INTO `bg_maple_detail` VALUES ('bbc0b7ca758b4ebca734cbbd2c33254f', '9a85215a94334cbc83bb5cf701ccf3bb', 'level', '级别', '02', '00', '100', '0', '', '00', '00', '01', '', '1488780497687', '01', '1', '2017-03-06 14:08:52', '1', '2017-03-06 14:08:52');
 INSERT INTO `bg_maple_detail` VALUES ('bc13f8a43a164e658ea1a670e4270c91', 'd25535c48c444f9fb675294c8a2d8e1f', 'name', '扩展属性名', '01', '00', '100', '0', '', '00', '01', '01', '', '1488533735389', '01', '1', '2017-03-03 17:35:55', '1', '2017-03-03 17:35:55');
 INSERT INTO `bg_maple_detail` VALUES ('bd128aaf592c43f3af46ad88e87ade76', '46359ab1ffb041c196e16b95a654df12', 'categoryStatus', '分类状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1487917239222', '01', '1', '2017-02-24 14:20:39', '1', '2017-02-24 14:20:39');
 INSERT INTO `bg_maple_detail` VALUES ('bd4bc87a29a64199a20d9f0ee8de6800', '2b0255e6416a49669ba92dd90732c2ab', 'styleCategoryName', '规格分类名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1487912483493', '01', '1', '2017-02-24 13:01:23', '1', '2017-02-24 13:01:23');
@@ -260,13 +257,11 @@ INSERT INTO `bg_maple_detail` VALUES ('be775a41a6544563b93b6a3e17ca727a', '0c1ea
 INSERT INTO `bg_maple_detail` VALUES ('bf4e556e919a4a9c893e5633e439df1a', '754773752b53495f9d452fbc9b06c37a', 'linkman', '联系人', '01', '00', '100', '0', '', '00', '01', '01', '', '1487901495142', '01', '1', '2017-02-24 09:58:40', '1', '2017-02-24 09:58:40');
 INSERT INTO `bg_maple_detail` VALUES ('bf7f125dafb94bd9862d6fbabb490d3e', '9a85215a94334cbc83bb5cf701ccf3bb', 'appUserCode', '平台用户代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1486696707746', '01', '1', '2017-02-10 11:18:28', '1', '2017-02-10 11:18:28');
 INSERT INTO `bg_maple_detail` VALUES ('c0dea14e2ab54b5581ca065caf00415f', '3b04706d4ab8494faa53e05e822a6e82', 'startupTimes', '启动次数', '02', '00', '10', '0', '', '00', '00', '01', '', '1484983425888', '01', '1', '2017-01-21 16:52:48', '1', '2017-01-21 16:56:12');
-INSERT INTO `bg_maple_detail` VALUES ('c2084d18216d4cca90737fb63cbc426c', '9a85215a94334cbc83bb5cf701ccf3bb', 'mediaId', '媒体文件id', '01', '00', '100', '0', '', '00', '01', '01', '', '1486966897455', '01', '1', '2017-02-13 14:22:03', '1', '2017-02-13 14:22:03');
 INSERT INTO `bg_maple_detail` VALUES ('c275150ed27b4dc0b840c398a3af1797', 'c723817cc46c4ff885b9f1a80702c6a9', 'integralCustomerStatus', '积分客户状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1488508256628', '01', '1', '2017-03-03 10:30:57', '1', '2017-03-03 10:30:57');
 INSERT INTO `bg_maple_detail` VALUES ('c317d09b2d8e4748ae5c4c64f5e3622c', '9a85215a94334cbc83bb5cf701ccf3bb', 'appUserType', '平台用户类型', '05', '00', '100', '0', 'com_appUserType', '00', '01', '01', '\"01\"', '1486696707782', '01', '1', '2017-02-10 11:18:28', '1', '2017-02-10 11:18:28');
 INSERT INTO `bg_maple_detail` VALUES ('c419c1f3fa444e8e9f1c48ddb2948586', 'c723817cc46c4ff885b9f1a80702c6a9', 'roleId', '角色', '05', '00', '100', '0', '', '00', '01', '01', '', '1488508256540', '01', '1', '2017-03-03 10:40:03', '1', '2017-03-03 14:35:53');
 INSERT INTO `bg_maple_detail` VALUES ('c56f03bc5c864dcd854f57ea8e972436', '36ff1b75838f43efac8625df493e0df1', 'appSecret', 'AppSecret(应用密钥)', '01', '00', '100', '0', '', '00', '01', '01', '', '1484882415113', '01', '1', '2017-01-20 11:21:24', '1', '2017-01-20 11:21:24');
 INSERT INTO `bg_maple_detail` VALUES ('c67ea20d301d4f29ac881f9cf300a2ba', 'ad181811909d4f50b3c2c802e901be84', 'dictName', '数据字典名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1484529542051', '01', '1', '2017-01-16 09:19:02', '1', '2017-01-16 09:19:02');
-INSERT INTO `bg_maple_detail` VALUES ('c691521b88d74891afc81e54ad55d8b3', '9a85215a94334cbc83bb5cf701ccf3bb', 'parentId', '上级id', '01', '00', '100', '0', '', '00', '01', '01', '', '1486706730077', '01', '1', '2017-02-10 14:08:03', '1', '2017-02-10 14:08:03');
 INSERT INTO `bg_maple_detail` VALUES ('c75e78c566cf470caed51bc6b81fb37e', 'acb56ae4dd454b26beb150b7d08a14ed', 'inviteType', '邀请类型', '05', '00', '100', '0', 'com_inviteType', '00', '01', '01', '\"01\"', '1487571659417', '01', '1', '2017-02-20 14:20:59', '1', '2017-02-20 14:20:59');
 INSERT INTO `bg_maple_detail` VALUES ('c997cc1f6d8a4fbbaa5e4eb0490c501a', '0c1ea3878cd34c8b9f99283de36f25fb', 'decimalLength', '小数长度', '02', '00', '1', '0', '', '00', '01', '01', '0', '1484191459111', '01', '1', '2017-01-12 11:24:19', '1', '2017-01-16 00:00:07');
 INSERT INTO `bg_maple_detail` VALUES ('c9f06cd7cfb24664985def6ec4a81392', '3b3eb93879584c78a5ae5ea461dbc022', 'sparepartDealStatus', '零部件交易审核状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1488531290184', '01', '1', '2017-03-03 16:54:50', '1', '2017-03-03 17:00:33');
@@ -292,7 +287,7 @@ INSERT INTO `bg_maple_detail` VALUES ('deb09d9a2ee847a78adf60db3ee07b70', '2b8a4
 INSERT INTO `bg_maple_detail` VALUES ('dec6270eeefc467a891e4b8ae9ddba55', '1ba234a840324c2faa9fc56e9ec9e144', 'appInviteCodeCode', '用户邀请码代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1486778955069', '01', '1', '2017-02-11 10:09:15', '1', '2017-02-11 10:09:15');
 INSERT INTO `bg_maple_detail` VALUES ('ded2d6acc5044f3ea3e8dadbea72f2c4', '1ba234a840324c2faa9fc56e9ec9e144', 'appInviteCodeStatus', '用户邀请码状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1486778955103', '01', '1', '2017-02-11 10:09:15', '1', '2017-02-11 10:09:15');
 INSERT INTO `bg_maple_detail` VALUES ('e099d4d3642848d99496eb3c33e9fd4c', 'd25535c48c444f9fb675294c8a2d8e1f', 'code', '扩展属性代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1488533783136', '01', '1', '2017-03-03 17:37:07', '1', '2017-03-03 17:37:07');
-INSERT INTO `bg_maple_detail` VALUES ('e193264b441e4e7986e0600393698674', '9a85215a94334cbc83bb5cf701ccf3bb', 'password', '密码', '01', '00', '100', '0', '', '00', '01', '01', '', '1486706055223', '01', '1', '2017-02-10 13:54:37', '1', '2017-02-10 13:54:37');
+INSERT INTO `bg_maple_detail` VALUES ('e193264b441e4e7986e0600393698674', '9a85215a94334cbc83bb5cf701ccf3bb', 'password', '密码', '01', '00', '255', '0', '', '00', '01', '01', '', '1486706055223', '01', '1', '2017-02-10 13:54:37', '1', '2017-03-06 13:56:31');
 INSERT INTO `bg_maple_detail` VALUES ('e2aad00ef3e849abae3cf13157b076c6', '754773752b53495f9d452fbc9b06c37a', 'supplierName', '供应商名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1487842063086', '01', '1', '2017-02-23 17:27:43', '1', '2017-02-23 17:27:43');
 INSERT INTO `bg_maple_detail` VALUES ('e8e429fb06a048aa942aac0dcac2707a', '2b8a44269b4542e48e13549c8e2e14a4', 'discountRate', '折扣', '04', '00', '100', '2', '', '00', '01', '01', '', '1487905886721', '01', '1', '2017-02-24 11:11:50', '1', '2017-02-24 11:13:27');
 INSERT INTO `bg_maple_detail` VALUES ('e8f6ef912613464daa85940683606069', '67163a4e05664fa39d5bea61b445163b', 'editRights', '修改权限', '01', '00', '100', '0', '', '00', '00', '01', '', '1484794210103', '01', '1', '2017-01-19 10:50:23', '1', '2017-01-19 10:50:23');
@@ -310,11 +305,13 @@ INSERT INTO `bg_maple_detail` VALUES ('f233145128f84b12b9ed7c16c00c57db', '307d7
 INSERT INTO `bg_maple_detail` VALUES ('f388076884914adb9df661523c17ff88', '36ff1b75838f43efac8625df493e0df1', 'appId', 'AppID(应用ID)', '01', '00', '100', '0', '', '00', '01', '01', '', '1484882330433', '01', '1', '2017-01-20 11:20:13', '1', '2017-01-20 13:22:42');
 INSERT INTO `bg_maple_detail` VALUES ('f48e476770d747eab5981bc1aa20861f', '1ba234a840324c2faa9fc56e9ec9e144', 'appInviteCodeName', '用户邀请码名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1486778955084', '01', '1', '2017-02-11 10:09:15', '1', '2017-02-11 10:09:15');
 INSERT INTO `bg_maple_detail` VALUES ('f5288b368efa4b3eaf1ad35f56a2d348', 'ad181811909d4f50b3c2c802e901be84', 'dictType', '数据字典类型', '05', '00', '100', '0', 'bg_dictType', '00', '01', '01', '\"01\"', '1484529542052', '01', '1', '2017-01-16 09:19:02', '1', '2017-01-16 10:37:46');
+INSERT INTO `bg_maple_detail` VALUES ('f550e5c2a7f94cd5b5fefcafaf4203f8', 'd770d5128d82483ab6763cfbed6e847d', 'appUserId', '平台用户', '05', '00', '100', '0', '', '00', '01', '01', '', '1488594303771', '01', '1', '2017-03-06 11:08:13', '1', '2017-03-06 11:10:25');
 INSERT INTO `bg_maple_detail` VALUES ('f72da7a85380411a81f0062abe1136d6', '46359ab1ffb041c196e16b95a654df12', 'categoryCode', '分类代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487917239219', '01', '1', '2017-02-24 14:20:39', '1', '2017-02-24 14:20:39');
 INSERT INTO `bg_maple_detail` VALUES ('f86e735124884150ba8cdbc23e794551', 'c723817cc46c4ff885b9f1a80702c6a9', 'password', '密码', '01', '00', '100', '0', '', '00', '01', '01', '', '1488510524413', '01', '1', '2017-03-03 11:08:52', '1', '2017-03-03 11:08:52');
 INSERT INTO `bg_maple_detail` VALUES ('fa02e27509df4ce6ab9c06c9dec2e4d5', 'c723817cc46c4ff885b9f1a80702c6a9', 'integralCustomerName', '积分客户名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1488508256594', '01', '1', '2017-03-03 10:30:57', '1', '2017-03-03 10:30:57');
 INSERT INTO `bg_maple_detail` VALUES ('fb3b9957f4374fad88077a64e37f61ea', 'c723817cc46c4ff885b9f1a80702c6a9', 'userIconSrc', '客户头像', '01', '00', '100', '0', '', '00', '00', '01', '', '1488510581018', '01', '1', '2017-03-03 11:09:59', '1', '2017-03-03 14:05:28');
 INSERT INTO `bg_maple_detail` VALUES ('fcbd78fd88f94fa5bbb971e88da084c4', '7928b5c3a71443e69dac9a775fb732aa', 'email', '电子邮箱', '01', '00', '100', '0', '', '00', '01', '01', '', '1484728391889', '01', '1', '2017-01-18 16:34:12', '1', '2017-01-18 16:34:12');
+INSERT INTO `bg_maple_detail` VALUES ('ff5a2dd57bad4a5eb3f796737b296840', '9a85215a94334cbc83bb5cf701ccf3bb', 'roleId', '角色', '05', '00', '100', '0', '', '00', '01', '01', '', '1486696707745', '01', '1', '2017-03-06 13:55:26', '1', '2017-03-06 13:57:39');
 
 -- ----------------------------
 -- Table structure for bg_maple_main
@@ -354,7 +351,7 @@ INSERT INTO `bg_maple_main` VALUES ('67163a4e05664fa39d5bea61b445163b', 'role', 
 INSERT INTO `bg_maple_main` VALUES ('742baf93ab0f4399a98c18d7adbe4622', 'wxMenuBtn', '微信菜单按钮', '02', '00', 'bg', 'bg', '1486346320511', '01', '1', '2017-02-06 09:59:32', '1', '2017-02-06 09:59:32');
 INSERT INTO `bg_maple_main` VALUES ('754773752b53495f9d452fbc9b06c37a', 'supplier', '供应商', '01', '00', 'bg', 'com', '1487841762885', '01', '1', '2017-02-23 17:27:43', '1', '2017-02-23 17:27:43');
 INSERT INTO `bg_maple_main` VALUES ('7928b5c3a71443e69dac9a775fb732aa', 'user', '后台用户', '01', '00', 'bg', 'bg', '1484726157405', '01', '1', '2017-01-18 15:56:55', '1', '2017-01-18 15:56:55');
-INSERT INTO `bg_maple_main` VALUES ('9a85215a94334cbc83bb5cf701ccf3bb', 'appUser', '平台用户', '01', '00', 'bg', 'com', '1486696475857', '01', '1', '2017-02-10 11:18:28', '1', '2017-02-10 11:18:28');
+INSERT INTO `bg_maple_main` VALUES ('9a85215a94334cbc83bb5cf701ccf3bb', 'appUser', '平台用户', '02', '00', 'bg', 'com', '1486696475857', '01', '1', '2017-02-10 11:18:28', '1', '2017-03-06 11:19:24');
 INSERT INTO `bg_maple_main` VALUES ('a4dc9b54bb3e4d17ad983912730a6667', 'product', '产品', '01', '00', 'bg', 'com', '1487901959012', '01', '1', '2017-02-24 10:09:02', '1', '2017-02-24 10:09:02');
 INSERT INTO `bg_maple_main` VALUES ('acb56ae4dd454b26beb150b7d08a14ed', 'invite', '邀请', '01', '00', 'bg', 'com', '1487571577611', '01', '1', '2017-02-20 14:20:59', '1', '2017-02-20 14:20:59');
 INSERT INTO `bg_maple_main` VALUES ('ad181811909d4f50b3c2c802e901be84', 'dict', '数据字典', '02', '00', 'bg', 'com', '1484190988200', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-16 11:22:04');
@@ -400,7 +397,6 @@ INSERT INTO `bg_menu_tree` VALUES ('2af6eded47c742839cd38ac1815ec305', '0', 'ddg
 INSERT INTO `bg_menu_tree` VALUES ('2ecf674826d941438d9bc8175d309588', '0', 'cpgl', '产品管理', '02', '01', '6', '#', 'menu-icon fa fa-gift brown', '1487925444388', '01', '1', '2017-02-24 16:38:09', '1', '2017-02-24 16:48:26');
 INSERT INTO `bg_menu_tree` VALUES ('4237a71a32f442e6ab9b5ad33e2c45c6', '2ecf674826d941438d9bc8175d309588', 'background_sparepart', '零配件管理', '02', '01', '27', 'background/sparepart/list.do', 'menu-icon fa fa-leaf purple', '1488528558603', '01', '1', '2017-03-03 16:10:31', '1', '2017-03-03 16:10:47');
 INSERT INTO `bg_menu_tree` VALUES ('4631fcf6f8e24b5180bb5ae64cc118a4', '0', 'shgl', '售后管理', '02', '01', '9', '#', 'menu-icon fa fa-laptop blue', '1487925842602', '01', '1', '2017-02-24 16:45:06', '1', '2017-02-24 16:52:00');
-INSERT INTO `bg_menu_tree` VALUES ('6139c0a2e04f4f639db6671c37f11977', 'd41c4bf59b274d81bcb982c00cb2b2b3', 'background_integralCustomer', '积分客户', '02', '01', '26', 'background/integralCustomer/main.do', 'menu-icon fa fa-credit-card black', '1488520121787', '01', '1', '2017-03-03 13:50:17', '1', '2017-03-03 13:50:22');
 INSERT INTO `bg_menu_tree` VALUES ('656a072a483d44b8b02906c6cc692154', '2a66f51272904a7e9e4e419448b6400a', 'background_dict', '数据字典', '02', '01', '12', 'background/dict/main.do', 'menu-icon fa fa-book orange', '1487926669970', '01', '1', '2017-02-24 16:59:24', '1', '2017-02-24 16:59:51');
 INSERT INTO `bg_menu_tree` VALUES ('6952f6500bd7403ebe1dd61337209f29', '0', 'sjkgl', '数据库管理', '02', '01', '3', '#', 'menu-icon fa fa-hdd-o blue', '1487925347271', '01', '1', '2017-02-24 16:36:07', '1', '2017-02-24 16:45:40');
 INSERT INTO `bg_menu_tree` VALUES ('6b5fe0915dd64cdc98edb038ce55980a', '24ca601e8eb6460d82f26c3bd0277e45', 'background_role', '角色(基础权限)', '02', '01', '13', 'background/role/list.do', 'menu-icon fa fa-key orange', '1487926824242', '01', '1', '2017-02-24 17:00:48', '1', '2017-02-24 17:01:01');
@@ -412,7 +408,7 @@ INSERT INTO `bg_menu_tree` VALUES ('904be00723324555932961eeb6d1114e', '2ecf6748
 INSERT INTO `bg_menu_tree` VALUES ('967da4d8a0e34db393a28ba315e59ae0', '0', 'zdgl', '账单管理', '02', '01', '8', '#', 'menu-icon fa fa-credit-card pink', '1487925762928', '01', '1', '2017-02-24 16:43:49', '1', '2017-02-24 16:48:36');
 INSERT INTO `bg_menu_tree` VALUES ('96b19ecb695e45219374388a264faf8b', '0', 'wxgl', '微信管理', '02', '01', '5', '#', 'menu-icon fa fa-comments green', '1487925387762', '01', '1', '2017-02-24 16:48:05', '1', '2017-02-24 16:51:38');
 INSERT INTO `bg_menu_tree` VALUES ('982aa26baaa84b6e9d43a0d69654a827', '96b19ecb695e45219374388a264faf8b', 'background_wxAccount', '微信账号管理', '02', '01', '19', 'background/wxAccount/list.do', 'menu-icon fa fa-comments blue', '1487927712953', '01', '1', '2017-02-24 17:15:46', '1', '2017-02-24 17:15:58');
-INSERT INTO `bg_menu_tree` VALUES ('9e89d4909c7440c3b9fd5f933055f824', 'd41c4bf59b274d81bcb982c00cb2b2b3', 'background_appUser', '平台用户', '02', '01', '18', 'background/appUser/list.do', 'menu-icon fa fa-users blue', '1487927658996', '01', '1', '2017-02-24 17:14:38', '1', '2017-02-24 17:14:49');
+INSERT INTO `bg_menu_tree` VALUES ('9e89d4909c7440c3b9fd5f933055f824', 'd41c4bf59b274d81bcb982c00cb2b2b3', 'background_appUser', '平台用户', '02', '01', '18', 'background/appUser/main.do', 'menu-icon fa fa-users blue', '1487927658996', '01', '1', '2017-02-24 17:14:38', '1', '2017-03-06 15:37:59');
 INSERT INTO `bg_menu_tree` VALUES ('af781392f8f54627b165fa414c4562d6', '2ecf674826d941438d9bc8175d309588', 'background_styleCategory', '规格分类管理', '02', '01', '24', 'background/styleCategory/list.do', 'menu-icon fa fa-globe green', '1487928431960', '01', '1', '2017-02-25 09:35:29', '1', '2017-02-25 10:04:12');
 INSERT INTO `bg_menu_tree` VALUES ('c2f704b36ccf49abae4ec777a640dac6', 'daffae3ab1554bd89dab69d72c1b9826', 'background_sparepartDeal', '零配件订单审核', '02', '01', '30', 'background/sparepartDeal/list.do', 'menu-icon fa fa-gavel orange', '1488595937615', '01', '1', '2017-03-04 10:53:01', '1', '2017-03-04 10:57:26');
 INSERT INTO `bg_menu_tree` VALUES ('c676a8cdc73c4496bae43af104e2b524', '11ebc426cf7341628ecb33ddc676f887', 'background_maple', '正向生成', '02', '01', '15', 'background/maple/list.do', 'menu-icon fa fa-camera-retro green', '1487926917132', '01', '1', '2017-02-24 17:02:20', '1', '2017-02-24 17:03:17');
@@ -449,8 +445,8 @@ CREATE TABLE `bg_role_info` (
 -- ----------------------------
 -- Records of bg_role_info
 -- ----------------------------
-INSERT INTO `bg_role_info` VALUES ('1', 'admin', '系统管理员', '00', '00', '2147483646', '2147483646', '2147483646', '2147483646', '2147483646', '1', '01', '1', '2017-01-19 13:24:30', '1', '2017-03-04 10:59:53');
-INSERT INTO `bg_role_info` VALUES ('349e880b6e334f8caaac6c250a4cae01', 'integralAdmin', '积分客户管理员', '00', '00', '2080375632', '2080375632', '2080375632', '2080375632', '2080375632', '1488597298370', '01', '1', '2017-03-04 11:15:49', '1', '2017-03-04 11:18:33');
+INSERT INTO `bg_role_info` VALUES ('1', 'admin', '系统管理员', '00', '00', '2080374782', '2080374782', '2080374782', '2080374782', '2080374782', '1', '01', '1', '2017-01-19 13:24:30', '1', '2017-03-06 15:40:55');
+INSERT INTO `bg_role_info` VALUES ('349e880b6e334f8caaac6c250a4cae01', 'integralAdmin', '积分客户管理员', '00', '00', '2013528912', '2013528912', '2013528912', '2013528912', '2013528912', '1488597298370', '01', '1', '2017-03-04 11:15:49', '1', '2017-03-06 15:39:29');
 
 -- ----------------------------
 -- Table structure for bg_user_info
@@ -555,6 +551,43 @@ CREATE TABLE `com_app_user_info` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for com_app_user_tree
+-- ----------------------------
+DROP TABLE IF EXISTS `com_app_user_tree`;
+CREATE TABLE `com_app_user_tree` (
+  `appUserId` varchar(100) NOT NULL COMMENT '平台用户 主键id',
+  `parentId` varchar(100) NOT NULL COMMENT '上级 id',
+  `roleId` varchar(100) DEFAULT NULL COMMENT '角色',
+  `appUserCode` varchar(100) DEFAULT NULL COMMENT '平台用户代号',
+  `appUserName` varchar(100) DEFAULT NULL COMMENT '平台用户名称',
+  `appUserType` varchar(100) DEFAULT NULL COMMENT '平台用户类型',
+  `appUserStatus` varchar(100) DEFAULT NULL COMMENT '平台用户状态',
+  `appUserNum` varchar(100) DEFAULT NULL COMMENT '平台用户编号',
+  `phone` varchar(100) DEFAULT NULL COMMENT '电话号码',
+  `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `sex` varchar(100) DEFAULT NULL COMMENT '性别',
+  `headImgSrc` varchar(255) DEFAULT NULL COMMENT '用户头像',
+  `brithday` datetime DEFAULT NULL COMMENT '生日',
+  `remarks` varchar(100) DEFAULT NULL COMMENT '备注信息',
+  `level` int(100) DEFAULT NULL COMMENT '级别',
+  `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
+  `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
+  `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifyUserId` varchar(100) DEFAULT NULL COMMENT '修改人员id',
+  `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`appUserId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='平台用户';
+
+-- ----------------------------
+-- Records of com_app_user_tree
+-- ----------------------------
+INSERT INTO `com_app_user_tree` VALUES ('0b6d7d29e5e24e608e2ac6147dc3c659', 'aabd784bf51e48768eef52bc2a968907', '02', 'ic0202', '张明', '01', '00', 'ic0202', '13345678922', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '01', '', '2017-03-06 17:02:48', '大声道', '0', '1488790968754', '01', '1', '2017-03-06 17:03:07', '1', '2017-03-06 17:03:07');
+INSERT INTO `com_app_user_tree` VALUES ('5fa764857d7448be9f7d70f6fcfe07a7', '0b6d7d29e5e24e608e2ac6147dc3c659', '03', 'ic0304', '扣扣', '01', '00', 'ic0304', '15893442623', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '02', '', '2017-03-06 17:03:16', 'sad', '0', '1488790996317', '01', '1', '2017-03-06 17:04:10', '1', '2017-03-06 17:04:10');
+INSERT INTO `com_app_user_tree` VALUES ('7760c34226b9450796f6dc5c9d82800a', '0', '01', 'ic0102', '向南', '01', '00', 'ic0102', '13234372023', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '02', '', '2017-03-06 00:00:00', '撒打算', '0', '1488791083155', '01', '1', '2017-03-06 17:05:29', '1', '2017-03-06 17:05:29');
+INSERT INTO `com_app_user_tree` VALUES ('aabd784bf51e48768eef52bc2a968907', '0', '01', 'ic0101', '陈华', '01', '00', 'ic0101', '13698762344', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '01', '', '2017-03-06 16:50:43', '发收到', '0', '1488790243908', '01', '1', '2017-03-06 16:55:19', '1', '2017-03-06 16:55:19');
+
+-- ----------------------------
 -- Table structure for com_dict_tree
 -- ----------------------------
 DROP TABLE IF EXISTS `com_dict_tree`;
@@ -584,7 +617,7 @@ INSERT INTO `com_dict_tree` VALUES ('049f63a9f923403e94e3056a0216afaf', '0', 'co
 INSERT INTO `com_dict_tree` VALUES ('06f38de637814d9285397f1baed966f9', '30a83d0bc4364ac39edb8d0f5786a338', 'bg_crontabType_02', '跑批任务', '01', '00', '02', '1', '1485051595520', '01', '1', '2017-01-22 10:20:16', '1', '2017-01-22 10:20:16');
 INSERT INTO `com_dict_tree` VALUES ('0bfe186203cd4beea7355649ee9122f6', '78b4651dca85412095298b54c2d01128', 'com_productCategoryType_03', '自定义类型', '01', '00', '03', '1', '1487989230516', '01', '1', '2017-02-25 10:20:50', '1', '2017-02-25 10:20:50');
 INSERT INTO `com_dict_tree` VALUES ('0c608e9327344f588eebd8edce01de8b', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_01', '标准型', '01', '00', '01', '1', '1484025817953', '01', '1', '2017-01-10 13:23:38', '1', '2017-01-10 13:23:38');
-INSERT INTO `com_dict_tree` VALUES ('1267d5aa01d440b1a8a686e9494eeece', '0', 'com_integralCustomerType', '积分客户类型', '01', '00', 'com_integralCustomerType', '0', '1488524156915', '01', '1', '2017-03-03 14:56:46', '1', '2017-03-03 14:56:46');
+INSERT INTO `com_dict_tree` VALUES ('1267d5aa01d440b1a8a686e9494eeece', '0', 'com_appUserType', '平台用户类型', '01', '00', 'com_integralCustomerType', '0', '1488524156915', '01', '1', '2017-03-03 14:56:46', '1', '2017-03-06 15:51:54');
 INSERT INTO `com_dict_tree` VALUES ('132b054047c14abc87f6be78ad0f710a', '0', 'bg_userEffective', '后台生效用户', '02', '00', 'bg_userEffective', '0', '1484726025794', '01', '1', '2017-01-18 15:55:03', '1', '2017-01-18 15:55:09');
 INSERT INTO `com_dict_tree` VALUES ('14ff3ee812a44691b125d9f4c74142ec', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_scancode_waitmsg', '扫码推事件且弹出“消息接收中”提示框', '01', '00', 'scancode_waitmsg', '1', '1486366098596', '01', '1', '2017-02-06 15:28:33', '1', '2017-02-06 15:28:33');
 INSERT INTO `com_dict_tree` VALUES ('173468d2a2d24dd48642f6cd452c11d2', '30a83d0bc4364ac39edb8d0f5786a338', 'bg_crontabType_03', '微信回调', '01', '00', '03', '1', '1485051617535', '01', '1', '2017-01-22 10:21:26', '1', '2017-01-22 10:21:26');
@@ -593,6 +626,7 @@ INSERT INTO `com_dict_tree` VALUES ('1c0caa13e3514c87a3280f2f48653d83', '28510c1
 INSERT INTO `com_dict_tree` VALUES ('254029268bdf4c309c0e32fb30fa8425', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_pic_weixin', '弹出微信相册发图器', '01', '00', 'pic_weixin', '1', '1486366170539', '01', '1', '2017-02-06 15:29:40', '1', '2017-02-06 15:29:40');
 INSERT INTO `com_dict_tree` VALUES ('280f1698d19d49bbb676b09f95d24a51', '2c43919dfe434841a92bc2a39b2ad02e', 'bg_menuType_02', '业务菜单', '01', '00', '02', '1', '1484555389350', '01', '1', '2017-01-16 16:30:42', '1', '2017-01-16 16:30:42');
 INSERT INTO `com_dict_tree` VALUES ('28510c12e9834ea29bbb5621f99e804e', '0', 'bg_mapleDetailType', '字段属性类型', '01', '00', 'bg_mapleDetailType', '0', '1484018714788', '01', '1', '2017-01-10 11:25:15', '1', '2017-01-11 16:23:30');
+INSERT INTO `com_dict_tree` VALUES ('2b6adc1e3f5c48fd8f0778d0bbed13c3', '0', 'com_sex', '性别', '01', '00', 'com_sex', '0', '1488790660180', '01', '1', '2017-03-06 16:58:01', '1', '2017-03-06 16:58:01');
 INSERT INTO `com_dict_tree` VALUES ('2c43919dfe434841a92bc2a39b2ad02e', '0', 'bg_menuType', '后台菜单类型', '01', '00', 'bg_menuType', '0', '1484555292472', '01', '1', '2017-01-16 16:28:52', '1', '2017-01-16 16:28:52');
 INSERT INTO `com_dict_tree` VALUES ('30a83d0bc4364ac39edb8d0f5786a338', '0', 'bg_crontabType', '定时任务类型', '01', '00', 'bg_crontabType', '0', '1485051437664', '01', '1', '2017-01-22 10:18:50', '1', '2017-01-22 10:18:50');
 INSERT INTO `com_dict_tree` VALUES ('30c39f10c07e4b3b905734277e527eee', '0', 'com_sf', '是否判断', '01', '00', 'com_sf', '0', '1484536370790', '01', '1', '2017-01-16 11:13:37', '1', '2017-01-16 11:18:18');
@@ -605,13 +639,14 @@ INSERT INTO `com_dict_tree` VALUES ('42293fbe78a649568d01da16ff66040f', 'b120815
 INSERT INTO `com_dict_tree` VALUES ('4324f08d02c943ab96e9078b01f703d8', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_04', '主从型（从）', '01', '00', '04', '1', '1484025928454', '01', '1', '2017-01-10 13:25:28', '1', '2017-01-10 13:25:28');
 INSERT INTO `com_dict_tree` VALUES ('45c83e69651949d4b343dae672baed81', '0', 'com_supplierType', '供应商类型', '01', '00', 'com_supplierType', '0', '1487988818173', '01', '1', '2017-02-25 10:14:52', '1', '2017-02-25 10:14:52');
 INSERT INTO `com_dict_tree` VALUES ('46d6fd8c6ccf4d8aa5c7c6c57b063b38', '78b4651dca85412095298b54c2d01128', 'com_productCategoryType_01', '商品类别', '01', '00', '01', '1', '1487989059313', '01', '1', '2017-02-25 10:19:35', '1', '2017-02-25 10:19:35');
-INSERT INTO `com_dict_tree` VALUES ('4939f73cd85f4675a469bbbcf56f91dc', '1267d5aa01d440b1a8a686e9494eeece', 'com_integralCustomerType_01', '格默汽车脚垫客户', '01', '00', '01', '1', '1488524212184', '01', '1', '2017-03-03 14:57:52', '1', '2017-03-03 14:57:52');
-INSERT INTO `com_dict_tree` VALUES ('4ac70dbc8b314418b232a6c7b70aa916', '808f87b42557462f822c8d82954a8481', 'com_integralCustomerRole_03', '4S点客户', '01', '00', '03', '1', '1488524425691', '01', '1', '2017-03-03 15:00:48', '1', '2017-03-03 15:00:48');
+INSERT INTO `com_dict_tree` VALUES ('4939f73cd85f4675a469bbbcf56f91dc', '1267d5aa01d440b1a8a686e9494eeece', 'com_appUserType_01', '后台添加', '01', '00', '01', '1', '1488524212184', '01', '1', '2017-03-03 14:57:52', '1', '2017-03-06 15:55:04');
+INSERT INTO `com_dict_tree` VALUES ('4ac70dbc8b314418b232a6c7b70aa916', '808f87b42557462f822c8d82954a8481', 'com_appUserRole_03', '4S点客户', '01', '00', '03', '1', '1488524425691', '01', '1', '2017-03-03 15:00:48', '1', '2017-03-06 15:59:47');
 INSERT INTO `com_dict_tree` VALUES ('4cf11a0ce3954422962cc670638dabfa', '45c83e69651949d4b343dae672baed81', 'com_supplierType_01', '淘宝商家', '01', '00', '01', '1', '1487988914006', '01', '1', '2017-02-25 10:16:11', '1', '2017-02-25 10:16:11');
 INSERT INTO `com_dict_tree` VALUES ('4ed0b868ed2b4d69887bcef4932eb4ef', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_05', 'Dict', '01', '00', '05', '1', '1484019114333', '01', '1', '2017-01-10 11:31:54', '1', '2017-01-11 16:27:15');
 INSERT INTO `com_dict_tree` VALUES ('540b4214c9ea4927867b1a878365ec9c', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_wx', 'weixin', '01', '00', 'wx', '1', '1484018416335', '01', '1', '2017-01-10 11:20:16', '1', '2017-01-10 11:20:16');
 INSERT INTO `com_dict_tree` VALUES ('54467b4e2dc84c1ca9e21828803eb9b8', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_04', 'Double', '01', '00', '04', '1', '1484019019767', '01', '1', '2017-01-10 11:30:20', '1', '2017-01-11 16:27:10');
 INSERT INTO `com_dict_tree` VALUES ('545f7d1209cb407785abca0aa597512b', '78b4651dca85412095298b54c2d01128', 'com_productCategoryType_02', '商品模块', '01', '00', '02', '1', '1487989181508', '01', '1', '2017-02-25 10:20:25', '1', '2017-02-25 10:20:25');
+INSERT INTO `com_dict_tree` VALUES ('557fcb9b45c3430d93822cfb4863b05d', '2b6adc1e3f5c48fd8f0778d0bbed13c3', 'com_sex_01', '男', '01', '00', '01', '1', '1488790685296', '01', '1', '2017-03-06 16:58:19', '1', '2017-03-06 16:58:19');
 INSERT INTO `com_dict_tree` VALUES ('572053db6aa44c4ba95d1b73accaad0c', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_location_select', '弹出地理位置选择器', '01', '00', 'location_select', '1', '1486366184718', '01', '1', '2017-02-06 15:29:54', '1', '2017-02-06 15:29:54');
 INSERT INTO `com_dict_tree` VALUES ('609bbe934cd24f7588af2f717a8d49f3', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_03', 'Time', '01', '00', '03', '1', '1484019001039', '01', '1', '2017-01-10 11:30:01', '1', '2017-01-11 16:27:04');
 INSERT INTO `com_dict_tree` VALUES ('66e83e268bd24bb9b82187c00892d832', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_scancode_push', '扫码推事件', '01', '00', 'scancode_push', '1', '1486366082814', '01', '1', '2017-02-06 15:28:14', '1', '2017-02-06 15:28:14');
@@ -621,8 +656,8 @@ INSERT INTO `com_dict_tree` VALUES ('78b4651dca85412095298b54c2d01128', '0', 'co
 INSERT INTO `com_dict_tree` VALUES ('79750bdf92c840e6bcc2fe2cb25cfda5', 'a60fe6c08d7c4708bca2a20cb2feb681', 'bg_roleType_01', '一般角色', '01', '00', '01', '1', '1484804728835', '01', '1', '2017-01-19 13:46:17', '1', '2017-01-19 13:46:17');
 INSERT INTO `com_dict_tree` VALUES ('7a4aeb77544c47368075cb7199d42bcb', '0', 'com_sparepartDealStatus', '零配件订单审核状态', '01', '00', 'com_sparepartDealStatus', '0', '1488611074477', '01', '1', '2017-03-04 15:05:15', '1', '2017-03-04 15:05:15');
 INSERT INTO `com_dict_tree` VALUES ('7faad10eb0424cf29a51fb5add0f1b50', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_01', 'String', '01', '00', '01', '1', '1484018802176', '01', '1', '2017-01-10 11:26:42', '1', '2017-01-11 16:26:54');
-INSERT INTO `com_dict_tree` VALUES ('808f87b42557462f822c8d82954a8481', '0', 'com_integralCustomerRole', '积分客户角色', '01', '00', 'com_integralCustomerRole', '0', '1488524362820', '01', '1', '2017-03-03 14:59:41', '1', '2017-03-03 14:59:41');
-INSERT INTO `com_dict_tree` VALUES ('894b66f11f8e44a79ac7f111cd886530', '808f87b42557462f822c8d82954a8481', 'com_integralCustomerRole_02', '小区经理', '01', '00', '02', '1', '1488524406401', '01', '1', '2017-03-03 15:00:24', '1', '2017-03-03 15:00:24');
+INSERT INTO `com_dict_tree` VALUES ('808f87b42557462f822c8d82954a8481', '0', 'com_appUserRole', '平台用户角色', '01', '00', 'com_integralCustomerRole', '0', '1488524362820', '01', '1', '2017-03-03 14:59:41', '1', '2017-03-06 16:00:18');
+INSERT INTO `com_dict_tree` VALUES ('894b66f11f8e44a79ac7f111cd886530', '808f87b42557462f822c8d82954a8481', 'com_appUserRole_02', '小区经理', '01', '00', '02', '1', '1488524406401', '01', '1', '2017-03-03 15:00:24', '1', '2017-03-06 15:59:41');
 INSERT INTO `com_dict_tree` VALUES ('8ea0f054459f4e619c8a75bfd90f67bb', 'a60fe6c08d7c4708bca2a20cb2feb681', 'bg_roleType_00', '系统管理员角色', '01', '00', '00', '1', '1484804778802', '01', '1', '2017-01-19 13:46:56', '1', '2017-01-19 13:46:56');
 INSERT INTO `com_dict_tree` VALUES ('8f1b49981a4d449383bfb703c0176bd7', '351a934eb7654c2db753fc51b39d3e16', 'bg_userType_01', '录入用户', '01', '00', '01', '1', '1484804518887', '01', '1', '2017-01-19 13:42:43', '1', '2017-01-19 13:42:43');
 INSERT INTO `com_dict_tree` VALUES ('916b2c8543b94d488d80a5a08f05b681', '0', 'bg_roleEffective', '后台生效角色', '02', '00', 'bg_roleEffective', '0', '1484804220171', '01', '1', '2017-01-19 13:37:22', '1', '2017-01-19 13:37:37');
@@ -633,6 +668,7 @@ INSERT INTO `com_dict_tree` VALUES ('b120815786714648a7247046fe7186d9', '0', 'co
 INSERT INTO `com_dict_tree` VALUES ('b20d74e13ced4513b1ac20c4ead6d736', '319bbf4a475b4aa4b852c30d91d9c48c', 'com_wxAccountType_01', '服务号', '01', '00', '01', '1', '1484896386061', '01', '1', '2017-01-20 15:14:06', '1', '2017-01-20 15:14:06');
 INSERT INTO `com_dict_tree` VALUES ('b4bf5552e7454647b535c372a422c069', '0', 'com_integralCustomerEffective', '生效积分客户', '02', '00', 'com_integralCustomerEffective', '0', '1488607885253', '01', '1', '2017-03-04 14:12:55', '1', '2017-03-04 14:31:02');
 INSERT INTO `com_dict_tree` VALUES ('bc443acf9b7f48fca6b44934d79a7c99', '0', 'com_sparepartEffective', '生效零配件', '02', '00', 'com_sparepartEffective', '0', '1488608049859', '01', '1', '2017-03-04 14:28:20', '1', '2017-03-04 14:37:10');
+INSERT INTO `com_dict_tree` VALUES ('c3731311fb334e4697c2fb76ab1343be', '2b6adc1e3f5c48fd8f0778d0bbed13c3', 'com_sex_02', '女', '01', '00', '02', '1', '1488790700615', '01', '1', '2017-03-06 16:58:40', '1', '2017-03-06 16:58:40');
 INSERT INTO `com_dict_tree` VALUES ('c4e773c1a20f45788c12789267d6065b', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_pic_sysphoto', '弹出系统拍照发图', '01', '00', 'pic_sysphoto', '1', '1486366136184', '01', '1', '2017-02-06 15:29:07', '1', '2017-02-06 15:29:07');
 INSERT INTO `com_dict_tree` VALUES ('d29a2f6aab6d4d21babbfc338d90d155', '7a4aeb77544c47368075cb7199d42bcb', 'com_sparepartDealStatus_03', '审核失败', '01', '00', '03', '1', '1488611205295', '01', '1', '2017-03-04 15:06:59', '1', '2017-03-04 15:06:59');
 INSERT INTO `com_dict_tree` VALUES ('d40e20a567a34f04b9af55db0f28474e', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_view', '跳转URL', '01', '00', 'view', '1', '1486366048828', '01', '1', '2017-02-06 15:27:52', '1', '2017-02-06 15:27:52');
@@ -640,7 +676,8 @@ INSERT INTO `com_dict_tree` VALUES ('d77946d83bed4b1686396e78d002cee0', '0', 'co
 INSERT INTO `com_dict_tree` VALUES ('d8374ef4d31541a38ea946aa7c243c8a', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_00', '菜单分目', '01', '00', '00', '1', '1486365867380', '01', '1', '2017-02-06 16:50:35', '1', '2017-02-06 16:50:35');
 INSERT INTO `com_dict_tree` VALUES ('d8cf8becf1db4418a098a43500d5cf3f', '0', 'com_packageType', '模块包分类', '01', '00', 'com_packageType', '0', '1484017801545', '01', '1', '2017-01-10 11:10:02', '1', '2017-01-10 11:10:02');
 INSERT INTO `com_dict_tree` VALUES ('da15415d7faa43c9abb31701350d0958', '0', 'bg_wxMenuBtnType', '菜单按钮类型', '01', '00', 'bg_wxMenuBtnType', '0', '1486365490238', '01', '1', '2017-02-06 15:19:12', '1', '2017-02-06 15:19:12');
-INSERT INTO `com_dict_tree` VALUES ('dee79448e4e546b08bf6c56af9bb8efc', '808f87b42557462f822c8d82954a8481', 'com_integralCustomerRole_01', '大区经理', '01', '00', '01', '1', '1488524385790', '01', '1', '2017-03-03 15:00:05', '1', '2017-03-03 15:00:05');
+INSERT INTO `com_dict_tree` VALUES ('dee79448e4e546b08bf6c56af9bb8efc', '808f87b42557462f822c8d82954a8481', 'com_appUserRole_01', '大区经理', '01', '00', '01', '1', '1488524385790', '01', '1', '2017-03-03 15:00:05', '1', '2017-03-06 15:59:35');
+INSERT INTO `com_dict_tree` VALUES ('e2a07b8b995449dbb70d4e59cb189ea3', '808f87b42557462f822c8d82954a8481', 'com_appUserRole_00', '普通用户', '01', '00', '00', '1', '1488787227291', '01', '1', '2017-03-06 16:00:52', '1', '2017-03-06 16:00:52');
 INSERT INTO `com_dict_tree` VALUES ('e385f5a7938143f4b4fe8e88c9771cd5', '45c83e69651949d4b343dae672baed81', 'com_supplierType_02', '实体店家', '01', '00', '02', '1', '1487988972913', '01', '1', '2017-02-25 10:16:43', '1', '2017-02-25 10:16:43');
 INSERT INTO `com_dict_tree` VALUES ('e389a2810d0d45a1ba4596c679e7a544', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_pic_photo_or_album', '弹出拍照或者相册发图', '01', '00', 'pic_photo_or_album', '1', '1486366153961', '01', '1', '2017-02-06 15:29:24', '1', '2017-02-06 15:29:24');
 INSERT INTO `com_dict_tree` VALUES ('e53230ed682741f4ad63e470e0d86488', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_mb', 'mobile', '01', '00', 'mb', '1', '1484018478585', '01', '1', '2017-01-10 11:21:19', '1', '2017-01-10 11:21:33');
@@ -690,6 +727,7 @@ INSERT INTO `com_integral_customer_tree` VALUES ('01d63da8da0e475b932a5eb6d9ea5d
 INSERT INTO `com_integral_customer_tree` VALUES ('4041d1468eb24f829cb06aa306011074', '01d63da8da0e475b932a5eb6d9ea5da7', '02', 'ic010100', '张明', '01', '00', '13575542432', 'adebb9776c74a549238c80555a5402f0d3595a66050543dc22c896d2eab3249ee38d8c81b91c98aad43b42fc85186a1ed115bfd83cd1da1467dc659360c15d58', '', '请问', '2', '1488527040166', '01', '1', '2017-03-03 15:44:16', '1', '2017-03-03 15:44:16');
 INSERT INTO `com_integral_customer_tree` VALUES ('54ea0f42230846daa4deeb76d1c0df1f', '0', '01', 'a002', '王倩敏', '01', '00', '159876312364', 'f54894b6e28ccf56dfdad8797ef13192ec507babc4c494bfcb7342592835e0217fec5b58071eca7d0d1243aecc72acd01ddbd9ae137a957d50f98a161da8c983', '', '华南大区', '1', '1488617850686', '01', '59e413d02fe24211a6b5725abe3e868d', '2017-03-04 16:58:29', '59e413d02fe24211a6b5725abe3e868d', '2017-03-04 16:58:29');
 INSERT INTO `com_integral_customer_tree` VALUES ('691235f958354630b2c6cc30e855efd8', '4041d1468eb24f829cb06aa306011074', '03', 'ic010101', '张旭（南通Jeep 4S店）', '01', '00', '15876362530', '1de42255d0ef8eca91ca2d22bd30684c97768adc15f1f48fac19e60a4b587ef4553a37c270e7c2f6116ca6de6ce0089faf18675d8d1ada03e5388e69e85435d4', '', '发斯蒂芬斯蒂芬', '3', '1488527082770', '01', '1', '2017-03-03 15:45:59', '1', '2017-03-03 15:45:59');
+INSERT INTO `com_integral_customer_tree` VALUES ('9ff7727c457a4d448d9c3d5a69b5749f', '54ea0f42230846daa4deeb76d1c0df1f', '02', 'a11205359', '徐波', '01', '00', '18260625621', 'bea3f8400ebf3aa134f34764cd75a8d4425e7786fc20e57fbf61d4b86f308f8ef5ed43576a431ece206449bb48a8f32d27fd1d2b6237288c1f8cbaaad80181a5', '', '江苏', '2', '1488691293173', '01', '59e413d02fe24211a6b5725abe3e868d', '2017-03-05 13:22:19', '59e413d02fe24211a6b5725abe3e868d', '2017-03-05 13:22:19');
 
 -- ----------------------------
 -- Table structure for com_integral_note_info
@@ -701,6 +739,7 @@ CREATE TABLE `com_integral_note_info` (
   `integralNoteName` varchar(100) DEFAULT NULL COMMENT '积分记录名称',
   `integralNoteType` varchar(100) DEFAULT NULL COMMENT '积分记录类型',
   `integralDealStatus` varchar(100) DEFAULT NULL COMMENT '积分交易状态',
+  `appUserId` varchar(100) DEFAULT NULL COMMENT '平台用户',
   `integralDealCount` double(100,2) DEFAULT NULL COMMENT '积分交易数量',
   `integralCountBefore` double(100,2) DEFAULT NULL COMMENT '交易前积分数量',
   `integralCountAfter` double(100,2) DEFAULT NULL COMMENT '交易后积分数量',
@@ -838,7 +877,7 @@ CREATE TABLE `com_sparepart_deal_info` (
   `sparepartDealId` varchar(100) NOT NULL COMMENT '零部件交易 主键id',
   `sparepartDealCode` varchar(100) DEFAULT NULL COMMENT '零部件交易订单号',
   `sparepartDealStatus` varchar(100) DEFAULT NULL COMMENT '零部件交易审核状态',
-  `integralCustomerId` varchar(100) DEFAULT NULL COMMENT '积分客户',
+  `appUserId` varchar(100) DEFAULT NULL COMMENT '零部件销售客户',
   `sparepartId` varchar(100) DEFAULT NULL COMMENT '零部件',
   `count` int(100) DEFAULT NULL COMMENT '出售数量',
   `dealAmt` double(100,2) DEFAULT NULL COMMENT '交易金额',
@@ -858,8 +897,6 @@ CREATE TABLE `com_sparepart_deal_info` (
 -- ----------------------------
 -- Records of com_sparepart_deal_info
 -- ----------------------------
-INSERT INTO `com_sparepart_deal_info` VALUES ('8a201070cfa343d48601b266084d8b80', '5897546697', '02', '691235f958354630b2c6cc30e855efd8', 'f1f4303f16dd43b187dc61827284619b', '3', '5000.00', '2017-03-04 17:01:18', '59e413d02fe24211a6b5725abe3e868d', '通过！', '2017-03-04 17:02:01', '1488618078800', '01', '59e413d02fe24211a6b5725abe3e868d', '2017-03-04 17:01:51', '59e413d02fe24211a6b5725abe3e868d', '2017-03-04 17:02:01');
-INSERT INTO `com_sparepart_deal_info` VALUES ('f3b8a85b8d80494abc172223c175c897', '032485876263', '02', '691235f958354630b2c6cc30e855efd8', 'be8106448cba4c1a99280474ec128239', '5', '3512.00', '2017-03-04 00:00:00', '1', '通过！', '2017-03-04 16:25:33', '1488609460223', '01', '1', '2017-03-04 14:42:24', '1', '2017-03-04 16:25:33');
 
 -- ----------------------------
 -- Table structure for com_sparepart_info
@@ -992,4 +1029,4 @@ CREATE TABLE `com_wx_account_info` (
 -- ----------------------------
 -- Records of com_wx_account_info
 -- ----------------------------
-INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'hSKQvUiB0sXaSUk0c02rAdXjbRBkHzUhVV4d5inRczA3-YB_FlXTFBk8BGK0djEBOXYCFMC8UuEHCgkGWXzCVqwNDoa0Pu6NOoSNVidbf-z-q73NCzK88KfTakp8CzByQAWbABAWGC', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjdf1vW73hVZWZ7xbugZd_YRkqBTQRIeKK8Bz7wmKjS9Sw', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-04 17:22:01');
+INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'laqgrVsck7Uy4NiqT5rlee0JHe6yyxVkEnq0esd9z0JJwbcP0B-EdivjVfXvwX-1vyz-TW30ol50qafaOpU-UuBMfDGtC2YvxAEjeZsrbco79ki-NLkQ_oSPeNN99bWTJVTfAGAUGE', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjcTT8tbp-p1F95CHOF8LZD1hVoZ9Qtvdpp_171mxRbFWw', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-06 17:22:01');

@@ -67,6 +67,7 @@
 									<th class="center">积分记录代号</th>
 									<th class="center">积分记录名称</th>
 									<th class="center">积分记录类型</th>
+									<th class="center">平台用户</th>
 									<th class="center">积分交易数量</th>
 									<th class="center">交易前积分数量</th>
 									<th class="center">交易后积分数量</th>
@@ -89,6 +90,7 @@
 											<td class='center'>${comIntegralNote.integralNoteCode}</td>
 											<td class='center'>${comIntegralNote.integralNoteName}</td>
 											<td class='center'><param:display type="com_integralNoteType" value="${comIntegralNote.integralNoteType}"/></td>
+											<td class='center'><param:display type="" value="${comIntegralNote.appUserId}"/></td>
 											<td class='center'>${comIntegralNote.integralDealCount}</td>
 											<td class='center'>${comIntegralNote.integralCountBefore}</td>
 											<td class='center'>${comIntegralNote.integralCountAfter}</td>

@@ -2,6 +2,7 @@ package com.jx.common.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
@@ -22,6 +23,91 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	
 	
 	/**************************custom prop satrt********************************/
+	/** 指标 */
+	private String target;
+	
+	/** 子列表 */
+	private List<ComAppUser> subComAppUserList;
+	
+	/** 子列表 路径*/
+	private String subComAppUserPath;
+	
+	/** 是否有此平台用户 */
+	private boolean hasAppUser;
+
+	
+	/**
+	 * 获取 指标
+	 * 
+	 * @return String target
+	 */
+	public String getTarget() {
+		return target;
+	}
+	
+	/**
+	 * 设置 指标
+	 * 
+	 * @param String target
+	 */
+	public void setTarget(String target) {
+		this.target = MapleStringUtil.trim(target);
+	}
+	
+	/**
+	 * 获取 子列表
+	 * 
+	 * @return List<ComAppUser> subComAppUserList
+	 */
+	public List<ComAppUser> getSubComAppUserList() {
+		return this.subComAppUserList;
+	}
+	
+	/**
+	 * 设置 子列表
+	 * 
+	 * @param List<ComAppUser> subComAppUserList
+	 */
+	public void setSubComAppUserList(List<ComAppUser> subComAppUserList) {
+		this.subComAppUserList = subComAppUserList;
+	}
+	
+	/**
+	 * 获取 子列表 路径
+	 * 
+	 * @return String subComAppUserPath
+	 */
+	public String getSubComAppUserPath() {
+		return this.subComAppUserPath;
+	}
+	
+	/**
+	 * 设置 子列表 路径
+	 * 
+	 * @param String subComAppUserPath
+	 */
+	public void setSubComAppUserPath(String subComAppUserPath) {
+		this.subComAppUserPath = MapleStringUtil.trim(subComAppUserPath);
+	}
+	
+	/**
+	 * 获取 是否有此平台用户 
+	 * 
+	 * @return boolean hasAppUser
+	 */
+	public boolean isHasAppUser() {
+		return this.hasAppUser;
+	}
+	
+	/**
+	 * 设置 是否有此平台用户
+	 * 
+	 * @param boolean hasAppUser
+	 */
+	public void setHasAppUser(boolean hasAppUser) {
+		this.hasAppUser = hasAppUser;
+	}
+	
 	
 	/**************************custom prop end**********************************/
 	
@@ -31,6 +117,14 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	@NotBlank(message="平台用户 主键id 不能为空", groups={ValidationEdit.class})
 	private String appUserId;
 	
+	/** 上级 id */
+	@NotBlank(message="上级 id 不能为空", groups={ValidationAdd.class})
+	private String parentId;
+	
+	/** 角色 */
+	@NotBlank(message="角色 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String roleId;
+		
 	/** 平台用户代号 */
 	@Pattern(regexp = Const.REG_COM_CODE_STR, message="平台用户代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String appUserCode;
@@ -54,46 +148,26 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	@NotBlank(message="电话号码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String phone;
 		
-	/** 电子邮箱 */
-	@NotBlank(message="电子邮箱 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String email;
-		
 	/** 密码 */
 	@NotBlank(message="密码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String password;
-		
-	/** 用户的标识 */
-	@NotBlank(message="用户的标识 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String openId;
 		
 	/** 性别 */
 	@NotBlank(message="性别 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String sex;
 		
 	/** 用户头像 */
-	@NotBlank(message="用户头像 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String headImgSrc;
 		
 	/** 生日 */
 	private Date brithday;
 		
-	/** 上级id */
-	@NotBlank(message="上级id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String parentId;
+	/** 备注信息 */
+	@NotBlank(message="备注信息 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String remarks;
 		
-	/** 微信二维码 */
-	@NotBlank(message="微信二维码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String wxQRcodeSrc;
-		
-	/** 微信二维码有效期 */
-	private Date wxQRcodeExpiry;
-		
-	/** 媒体文件id */
-	@NotBlank(message="媒体文件id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String mediaId;
-		
-	/** 媒体文件有效时间 */
-	private Date mediaExpiry;
+	/** 级别 */
+	private String level;
 		
 	
 	
@@ -113,6 +187,42 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	 */
 	public String getAppUserId() {
 		return this.appUserId;
+	}
+	
+	/**
+	 * 设置 上级id
+	 * 
+	 * @param String parentId
+	 */
+	public void setParentId(String parentId) {
+		this.parentId = MapleStringUtil.trim(parentId);
+	}
+	
+	/**
+	 * 获取 上级id
+	 * 
+	 * @return String parentId
+	 */
+	public String getParentId() {
+		return this.parentId;
+	}
+	
+	/**
+	 * 设置 角色
+	 * 
+	 * @param String roleId
+	 */
+	public void setRoleId(String roleId) {
+		this.roleId = MapleStringUtil.trim(roleId);
+	}
+	
+	/**
+	 * 获取 角色
+	 * 
+	 * @return String roleId
+	 */
+	public String getRoleId() {
+		return this.roleId;
 	}
 	
 	/**
@@ -224,24 +334,6 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 电子邮箱
-	 * 
-	 * @param String email
-	 */
-	public void setEmail(String email) {
-		this.email = MapleStringUtil.trim(email);
-	}
-	
-	/**
-	 * 获取 电子邮箱
-	 * 
-	 * @return String email
-	 */
-	public String getEmail() {
-		return this.email;
-	}
-	
-	/**
 	 * 设置 密码
 	 * 
 	 * @param String password
@@ -257,24 +349,6 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	 */
 	public String getPassword() {
 		return this.password;
-	}
-	
-	/**
-	 * 设置 用户的标识
-	 * 
-	 * @param String openId
-	 */
-	public void setOpenId(String openId) {
-		this.openId = MapleStringUtil.trim(openId);
-	}
-	
-	/**
-	 * 获取 用户的标识
-	 * 
-	 * @return String openId
-	 */
-	public String getOpenId() {
-		return this.openId;
 	}
 	
 	/**
@@ -347,124 +421,40 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	}	
 	
 	/**
-	 * 设置 上级id
+	 * 设置 备注信息
 	 * 
-	 * @param String parentId
+	 * @param String remarks
 	 */
-	public void setParentId(String parentId) {
-		this.parentId = MapleStringUtil.trim(parentId);
+	public void setRemarks(String remarks) {
+		this.remarks = MapleStringUtil.trim(remarks);
 	}
 	
 	/**
-	 * 获取 上级id
+	 * 获取 备注信息
 	 * 
-	 * @return String parentId
+	 * @return String remarks
 	 */
-	public String getParentId() {
-		return this.parentId;
+	public String getRemarks() {
+		return this.remarks;
 	}
 	
 	/**
-	 * 设置 微信二维码
+	 * 设置 级别
 	 * 
-	 * @param String wxQRcodeSrc
+	 * @param String level
 	 */
-	public void setWxQRcodeSrc(String wxQRcodeSrc) {
-		this.wxQRcodeSrc = MapleStringUtil.trim(wxQRcodeSrc);
+	public void setLevel(String level) {
+		this.level = level;
 	}
 	
 	/**
-	 * 获取 微信二维码
+	 * 获取 级别
 	 * 
-	 * @return String wxQRcodeSrc
+	 * @return String level
 	 */
-	public String getWxQRcodeSrc() {
-		return this.wxQRcodeSrc;
+	public String getLevel() {
+		return this.level;
 	}
-	
-	/**
-	 * 设置 微信二维码有效期
-	 * 
-	 * @param Date wxQRcodeExpiry
-	 */
-	public void setWxQRcodeExpiry(Date wxQRcodeExpiry) {
-		this.wxQRcodeExpiry = wxQRcodeExpiry;
-	}
-	
-	/**
-	 * 获取 微信二维码有效期
-	 * 
-	 * @return Date wxQRcodeExpiry
-	 */
-	public Date getWxQRcodeExpiry() {
-		return this.wxQRcodeExpiry;
-	}	
-		
-	public void setWxQRcodeExpiryStr(String wxQRcodeExpiryStr) throws Exception{
-		wxQRcodeExpiryStr = MapleStringUtil.trim(wxQRcodeExpiryStr);
-		if(!wxQRcodeExpiryStr.equals("")){
-			try{
-				setWxQRcodeExpiry(MapleDateUtil.parseDateStr(wxQRcodeExpiryStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getWxQRcodeExpiryStr(){
-		return MapleDateUtil.formatDate(getWxQRcodeExpiry());
-	}	
-	
-	/**
-	 * 设置 媒体文件id
-	 * 
-	 * @param String mediaId
-	 */
-	public void setMediaId(String mediaId) {
-		this.mediaId = MapleStringUtil.trim(mediaId);
-	}
-	
-	/**
-	 * 获取 媒体文件id
-	 * 
-	 * @return String mediaId
-	 */
-	public String getMediaId() {
-		return this.mediaId;
-	}
-	
-	/**
-	 * 设置 媒体文件有效时间
-	 * 
-	 * @param Date mediaExpiry
-	 */
-	public void setMediaExpiry(Date mediaExpiry) {
-		this.mediaExpiry = mediaExpiry;
-	}
-	
-	/**
-	 * 获取 媒体文件有效时间
-	 * 
-	 * @return Date mediaExpiry
-	 */
-	public Date getMediaExpiry() {
-		return this.mediaExpiry;
-	}	
-		
-	public void setMediaExpiryStr(String mediaExpiryStr) throws Exception{
-		mediaExpiryStr = MapleStringUtil.trim(mediaExpiryStr);
-		if(!mediaExpiryStr.equals("")){
-			try{
-				setMediaExpiry(MapleDateUtil.parseDateStr(mediaExpiryStr));
-			}catch(java.text.ParseException e){
-				throw new Exception(e);
-			}
-		}
-	}
-
-	public String getMediaExpiryStr(){
-		return MapleDateUtil.formatDate(getMediaExpiry());
-	}	
 	
 	
 	/**************************table prop  end  *********************************/

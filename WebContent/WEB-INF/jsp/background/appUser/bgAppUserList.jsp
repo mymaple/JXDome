@@ -20,8 +20,34 @@
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 
+<script type="text/javascript">
+	//刷新ztree
+	function parentReload(returnMsg,currentPage,showCount){
+		if('change' == returnMsg){
+			parent.location.href="<%=basePath%>background/appUser/main.do?pId="+'${pd.pId}'+"&currentPage="+currentPage+"&showCount="+showCount;
+		}
+	}
+</script>
 </head>
 <body class="no-skin">
+	
+	<div class="page-header">
+	<h1>
+		<a href="<%=basePath%>background/appUser/list.do">平台用户管理</a>
+		<c:choose>
+			<c:when test="${not empty parentList}">
+				<c:if test="${RIGHTS.sele}">
+				<c:forEach items="${parentList}" var="comAppUser" varStatus="vs">
+					<small>
+						<i class="ace-icon fa fa-angle-double-right"></i>
+						<a href="${comAppUser.subComAppUserPath}">${comAppUser.appUserName}</a>
+					</small>
+				</c:forEach>
+				</c:if>
+			</c:when>
+		</c:choose>			
+	</h1>
+	</div><!-- /.page-header -->
 	
 	
 	
@@ -36,6 +62,7 @@
 							
 						<!-- 检索  -->
 						<form action="background/appUser/list.do" method="post" name="appUserForm" id="appUserForm">
+						<input type="hidden" name="pId" id="pId" value="${pd.pId}"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -64,22 +91,15 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
+									<th class="center">角色</th>
 									<th class="center">平台用户代号</th>
 									<th class="center">平台用户名称</th>
 									<th class="center">平台用户类型</th>
 									<th class="center">平台用户编号</th>
 									<th class="center">电话号码</th>
-									<th class="center">电子邮箱</th>
-									<th class="center">密码</th>
-									<th class="center">用户的标识</th>
 									<th class="center">性别</th>
-									<th class="center">用户头像</th>
 									<th class="center">生日</th>
-									<th class="center">上级id</th>
-									<th class="center">微信二维码</th>
-									<th class="center">微信二维码有效期</th>
-									<th class="center">媒体文件id</th>
-									<th class="center">媒体文件有效时间</th>
+									<th class="center">备注信息</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -96,22 +116,15 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comAppUser.appUserId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center'><param:display type="com_appUserRole" value="${comAppUser.roleId}"/></td>
 											<td class='center'>${comAppUser.appUserCode}</td>
-											<td class='center'>${comAppUser.appUserName}</td>
+											<td class='center'><a href="javascript:toSub('${comAppUser.appUserId}')">${comAppUser.appUserName}</a></td>
 											<td class='center'><param:display type="com_appUserType" value="${comAppUser.appUserType}"/></td>
 											<td class='center'>${comAppUser.appUserNum}</td>
 											<td class='center'>${comAppUser.phone}</td>
-											<td class='center'>${comAppUser.email}</td>
-											<td class='center'>${comAppUser.password}</td>
-											<td class='center'>${comAppUser.openId}</td>
-											<td class='center'>${comAppUser.sex}</td>
-											<td class='center'>${comAppUser.headImgSrc}</td>
+											<td class='center'><param:display type="com_sex" value="${comAppUser.sex}"/></td>
 											<td class='center'>${comAppUser.brithday}</td>
-											<td class='center'>${comAppUser.parentId}</td>
-											<td class='center'>${comAppUser.wxQRcodeSrc}</td>
-											<td class='center'>${comAppUser.wxQRcodeExpiry}</td>
-											<td class='center'>${comAppUser.mediaId}</td>
-											<td class='center'>${comAppUser.mediaExpiry}</td>
+											<td class='center'>${comAppUser.remarks}</td>
 											<td class='center'>${comAppUser.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
@@ -248,13 +261,19 @@
 			});
 		});
 		
+		//去此ID下子菜单列表
+		function toSub(pId){
+			top.jzts();
+			window.location.href="<%=basePath%>background/appUser/list.do?pId="+pId;
+		};
+		
 		//新增
 		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/appUser/toAdd.do";
+			 diag.URL = "<%=basePath%>background/appUser/toAdd.do?pId="+'${pd.pId}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -262,12 +281,7 @@
 		     	 diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
-					if('${bgPage.currentPage}' == '0'){
-						 top.jzts();
-						 setTimeout("self.location=self.location",100);
-					 }else{
-						 nextPage('${bgPage.currentPage}');
-					 }
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };
@@ -282,7 +296,7 @@
 					var url = "<%=basePath%>background/appUser/toDelete.do?appUserId="+appUserId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							nextPage('${bgPage.currentPage}');
+							parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 						}
 					});
 				}
@@ -303,7 +317,7 @@
 		     	 diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					nextPage('${bgPage.currentPage}');
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };
@@ -346,7 +360,7 @@
 								cache: false,
 								success: function(data){
 									if(data.resultCode == "success"){
-										nextPage('${bgPage.currentPage}');
+										parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 									}
 								}
 							});
@@ -367,12 +381,12 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/appUser/toUploadExcel.do';
+			 diag.URL = '<%=basePath%>background/appUser/toUploadExcel.do?pId='+'${pd.pId}';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					nextPage('${bgPage.currentPage}');
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };

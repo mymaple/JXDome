@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComIntegralNoteMapper">
 
-	<sql id="integralNoteColumns">integralNoteId,integralNoteCode,integralNoteName,integralNoteType,integralDealStatus,integralDealCount,integralCountBefore,integralCountAfter,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="integralNoteColumns">integralNoteId,integralNoteCode,integralNoteName,integralNoteType,integralDealStatus,appUserId,integralDealCount,integralCountBefore,integralCountAfter,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="integralNoteTable">com_integral_note_info</sql>
 	
 	<resultMap type="comIntegralNote" id="comIntegralNoteResultMap">
@@ -12,6 +12,7 @@
 		<result column="integralNoteName" property="integralNoteName"/>
 		<result column="integralNoteType" property="integralNoteType"/>
 		<result column="integralDealStatus" property="integralDealStatus"/>
+		<result column="appUserId" property="appUserId"/>
 		<result column="integralDealCount" property="integralDealCount"/>
 		<result column="integralCountBefore" property="integralCountBefore"/>
 		<result column="integralCountAfter" property="integralCountAfter"/>
@@ -37,7 +38,7 @@
 		( 
 	<include refid="integralNoteColumns"/>
 		) values (
-			#{integralNoteId},#{integralNoteCode},#{integralNoteName},#{integralNoteType},#{integralDealStatus},#{integralDealCount},#{integralCountBefore},#{integralCountAfter},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{integralNoteId},#{integralNoteCode},#{integralNoteName},#{integralNoteType},#{integralDealStatus},#{appUserId},#{integralDealCount},#{integralCountBefore},#{integralCountAfter},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -54,6 +55,9 @@
 			</if>
 			<if test="integralNoteType!=null and integralNoteType!=''">
 			integralNoteType = #{integralNoteType},
+			</if>
+			<if test="appUserId!=null and appUserId!=''">
+			appUserId = #{appUserId},
 			</if>
 			<if test="integralDealCount!=null and integralDealCount!=''">
 			integralDealCount = #{integralDealCount},
@@ -90,6 +94,9 @@
 			</if>
 			<if test="integralDealStatus!=null and integralDealStatus!=''">
 			integralDealStatus = #{integralDealStatus},
+			</if>
+			<if test="appUserId!=null and appUserId!=''">
+			appUserId = #{appUserId},
 			</if>
 			<if test="integralDealCount!=null and integralDealCount!=''">
 			integralDealCount = #{integralDealCount},
@@ -173,6 +180,9 @@
 			</if>
 			<if test="integralDealStatus!=null and integralDealStatus!=''">
 			 and integralDealStatus = #{integralDealStatus}
+			</if>
+			<if test="appUserId!=null and appUserId!=''">
+			 and appUserId = #{appUserId}
 			</if>
 			<if test="integralDealCount!=null and integralDealCount!=''">
 			 and integralDealCount = #{integralDealCount}

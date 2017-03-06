@@ -65,7 +65,7 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">零部件交易订单号</th>
-									<th class="center">积分客户</th>
+									<th class="center">零部件销售客户</th>
 									<th class="center">零部件</th>
 									<th class="center">出售数量</th>
 									<th class="center">交易金额</th>
@@ -93,7 +93,7 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${comSparepartDeal.sparepartDealCode}</td>
-											<td class='center'><param:display type="com_integralCustomerEffective" value="${comSparepartDeal.integralCustomerId}"/></td>
+											<td class='center'><param:display type="" value="${comSparepartDeal.appUserId}"/></td>
 											<td class='center'><param:display type="com_sparepartEffective" value="${comSparepartDeal.sparepartId}"/></td>
 											<td class='center'>${comSparepartDeal.count}</td>
 											<td class='center'>${comSparepartDeal.dealAmt}</td>

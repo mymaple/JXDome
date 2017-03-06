@@ -46,7 +46,7 @@ public class DaoSupport implements DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object delete(String str, Object obj) throws Exception {
+	public int delete(String str, Object obj) throws Exception {
 		return sqlSessionTemplate.delete(str, obj);
 	}
 	
@@ -58,7 +58,7 @@ public class DaoSupport implements DAO {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public Object batchDelete(String str, List objs) throws Exception {
+	public int batchDelete(String str, List objs) throws Exception {
 		return sqlSessionTemplate.delete(str, objs);
 	}
 
@@ -69,7 +69,7 @@ public class DaoSupport implements DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object edit(String str, Object obj) throws Exception {
+	public int edit(String str, Object obj) throws Exception {
 		return sqlSessionTemplate.update(str, obj);
 	}
 
@@ -81,14 +81,15 @@ public class DaoSupport implements DAO {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public void batchEdit(String str, List objs) throws Exception {
+	public int batchEdit(String str, List objs) throws Exception {
 		SqlSessionFactory sqlSessionFactory = sqlSessionTemplate.getSqlSessionFactory();
+		int num = 0;
 		// 批量执行器
 		SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
 		try {
 			if (objs != null) {
 				for (int i = 0, size = objs.size(); i < size; i++) {
-					sqlSession.update(str, objs.get(i));
+					num += sqlSession.update(str, objs.get(i));
 				}
 				sqlSession.flushStatements();
 				sqlSession.commit();
@@ -97,6 +98,7 @@ public class DaoSupport implements DAO {
 		} finally {
 			sqlSession.close();
 		}
+		return num;
 	}
 
 	/**

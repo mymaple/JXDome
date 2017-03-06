@@ -37,7 +37,7 @@ import com.jx.common.service.ComIntegralNoteService;
 /** 
  * 类名称：BgIntegralNoteController
  * 创建人：maple
- * 创建时间：2017-03-04
+ * 创建时间：2017-03-06
  */
 @Controller
 @RequestMapping(value="/background/integralNote")
@@ -94,6 +94,7 @@ public class BgIntegralNoteController extends BaseController {
 		comIntegralNote.setIntegralNoteCode("");
 		comIntegralNote.setIntegralNoteName("");
 		comIntegralNote.setIntegralNoteType("01");
+		comIntegralNote.setAppUserId("");
 		comIntegralNote.setIntegralDealCount("0.00");
 		comIntegralNote.setIntegralCountBefore("0.00");
 		comIntegralNote.setIntegralCountAfter("0.00");
@@ -258,15 +259,16 @@ public class BgIntegralNoteController extends BaseController {
 		titles.add("积分记录名称");	//2
 		titles.add("积分记录类型");	//3
 		titles.add("积分交易状态");	//4
-		titles.add("积分交易数量");	//5
-		titles.add("交易前积分数量");	//6
-		titles.add("交易后积分数量");	//7
-		titles.add("排序编号");	//8
-		titles.add("有效标志");	//9
-		titles.add("创建人员id");	//10
-		titles.add("创建时间");	//11
-		titles.add("修改人员id");	//12
-		titles.add("修改时间");	//13
+		titles.add("平台用户");	//5
+		titles.add("积分交易数量");	//6
+		titles.add("交易前积分数量");	//7
+		titles.add("交易后积分数量");	//8
+		titles.add("排序编号");	//9
+		titles.add("有效标志");	//10
+		titles.add("创建人员id");	//11
+		titles.add("创建时间");	//12
+		titles.add("修改人员id");	//13
+		titles.add("修改时间");	//14
 		dataMap.put("titles", titles);
 		List<ComIntegralNote> varOList = comIntegralNoteService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
@@ -277,15 +279,16 @@ public class BgIntegralNoteController extends BaseController {
 			vpd.put("var2", varOList.get(i).getIntegralNoteName());	//2
 			vpd.put("var3", varOList.get(i).getIntegralNoteType());	//3
 			vpd.put("var4", varOList.get(i).getIntegralDealStatus());	//4
-			vpd.put("var5", varOList.get(i).getIntegralDealCount());	//5
-			vpd.put("var6", varOList.get(i).getIntegralCountBefore());	//6
-			vpd.put("var7", varOList.get(i).getIntegralCountAfter());	//7
-			vpd.put("var8", varOList.get(i).getOrderNum());		//8
-			vpd.put("var9", varOList.get(i).getEffective());	//9
-			vpd.put("var10", varOList.get(i).getCreateUserId());	//10
-			vpd.put("var11", varOList.get(i).getCreateTime());	//11
-			vpd.put("var12", varOList.get(i).getModifyUserId());//12
-			vpd.put("var13", varOList.get(i).getModifyTime());	//13
+			vpd.put("var5", varOList.get(i).getAppUserId());	//5
+			vpd.put("var6", varOList.get(i).getIntegralDealCount());	//6
+			vpd.put("var7", varOList.get(i).getIntegralCountBefore());	//7
+			vpd.put("var8", varOList.get(i).getIntegralCountAfter());	//8
+			vpd.put("var9", varOList.get(i).getOrderNum());		//9
+			vpd.put("var10", varOList.get(i).getEffective());	//10
+			vpd.put("var11", varOList.get(i).getCreateUserId());	//11
+			vpd.put("var12", varOList.get(i).getCreateTime());	//12
+			vpd.put("var13", varOList.get(i).getModifyUserId());//13
+			vpd.put("var14", varOList.get(i).getModifyTime());	//14
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -330,9 +333,10 @@ public class BgIntegralNoteController extends BaseController {
 		titles.add("积分记录代号");	//0
 		titles.add("积分记录名称");	//1
 		titles.add("积分记录类型");	//2
-		titles.add("积分交易数量");	//3
-		titles.add("交易前积分数量");	//4
-		titles.add("交易后积分数量");	//5
+		titles.add("平台用户");	//3
+		titles.add("积分交易数量");	//4
+		titles.add("交易前积分数量");	//5
+		titles.add("交易后积分数量");	//6
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -372,18 +376,20 @@ public class BgIntegralNoteController extends BaseController {
 		 * var0 :积分记录代号;	//0
 		 * var1 :积分记录名称;	//1
 		 * var2 :积分记录类型;	//2
-		 * var3 :积分交易数量;	//3
-		 * var4 :交易前积分数量;	//4
-		 * var5 :交易后积分数量;	//5
+		 * var3 :平台用户;	//3
+		 * var4 :积分交易数量;	//4
+		 * var5 :交易前积分数量;	//5
+		 * var6 :交易后积分数量;	//6
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comIntegralNote.setIntegralNoteId(this.get32UUID());
 			comIntegralNote.setIntegralNoteCode(listPd.get(i).getString("var0"));
 			comIntegralNote.setIntegralNoteName(listPd.get(i).getString("var1"));
 			comIntegralNote.setIntegralNoteType(listPd.get(i).getString("var2"));
-			comIntegralNote.setIntegralDealCount(listPd.get(i).getString("var3"));
-			comIntegralNote.setIntegralCountBefore(listPd.get(i).getString("var4"));
-			comIntegralNote.setIntegralCountAfter(listPd.get(i).getString("var5"));
+			comIntegralNote.setAppUserId(listPd.get(i).getString("var3"));
+			comIntegralNote.setIntegralDealCount(listPd.get(i).getString("var4"));
+			comIntegralNote.setIntegralCountBefore(listPd.get(i).getString("var5"));
+			comIntegralNote.setIntegralCountAfter(listPd.get(i).getString("var6"));
 			comIntegralNoteService.add(comIntegralNote);
 		}
 		/*存入数据库操作======================================*/

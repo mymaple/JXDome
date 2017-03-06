@@ -37,8 +37,8 @@
 								<td><input type="text" name="sparepartDealCode" id="sparepartDealCode" value="${comSparepartDeal.sparepartDealCode}" maxlength="100" placeholder="这里输入 零部件交易订单号" title="零部件交易订单号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">积分客户:</td>
-								<td><param:select type="com_integralCustomerEffective3" name="integralCustomerId" id="integralCustomerId" value="${comSparepartDeal.integralCustomerId}" placeholder="这里请选择 积分客户" title="积分客户" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">零部件销售客户:</td>
+								<td><param:select type="" name="appUserId" id="appUserId" value="${comSparepartDeal.appUserId}" placeholder="这里请选择 零部件销售客户" title="零部件销售客户" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">零部件:</td>
@@ -131,10 +131,10 @@
 			return false;
 			}
 			
-			if($("#integralCustomerId").val()==""){
-				$("#integralCustomerId").next().tips({
+			if($("#appUserId").val()==""){
+				$("#appUserId").next().tips({
 					side:3,
-		            msg:'请选择 积分客户',
+		            msg:'请选择 零部件销售客户',
 		            bg:'#AE81FF',
 		            time:2
 		        });
