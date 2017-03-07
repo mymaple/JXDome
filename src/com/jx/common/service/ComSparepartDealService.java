@@ -16,7 +16,7 @@ public interface ComSparepartDealService {
 	 * @param ComSparepartDeal comSparepartDeal
 	 * @throws Exception
 	 */
-	public void pass(ComSparepartDeal comSparepartDeal, ComSparepartDeal comSparepartDealChange) throws Exception ;
+	public void toPass(ComSparepartDeal comSparepartDeal, ComSparepartDeal comSparepartDealChange) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

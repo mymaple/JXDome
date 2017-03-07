@@ -44,15 +44,15 @@
 		update
 	<include refid="appUserExtTable"/>
 		set
-			extValue = extValue + #{extValue},
+			extValue = extValue + (#{extValue}),
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
 			appUserId = #{appUserId} and 
 			extCode = #{extCode} and 
 			extValue >= 0 and 
-			(extValue + #{extValue}) >= 0 and 
-			(#{extValue}>0 or 0>#{extValue})	
+			(extValue + (#{extValue})) >= 0 and 
+			((#{extValue}>0) or 0>(#{extValue}))	
 	</update>
 
 	

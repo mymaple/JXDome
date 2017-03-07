@@ -48,7 +48,7 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 		comAppUserExt.setExtCode(ComAppUserExt.WXQRCODESRC);
 		comAppUserExt.setExtName("微信二维码");
 		this.add(comAppUserExt);
-
+		
 	}
 	
 	/****************************custom * end  ***********************************/
@@ -104,7 +104,7 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 		if(comAppUserExt.getModifyTime().compareTo(comAppUserExt.getLastModifyTime()) == 0){
 			comAppUserExt.setModifyTime(MapleDateUtil.getNextSecond(comAppUserExt.getModifyTime()));
 		}
-		dao.edit("ComAppUserExtMapper.changeValue", comAppUserExt);
+		dao.edit("ComAppUserExtMapper.addValue", comAppUserExt);
 	}
 	
 	/**

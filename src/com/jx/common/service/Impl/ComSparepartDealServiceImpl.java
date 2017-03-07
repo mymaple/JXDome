@@ -42,7 +42,7 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 	 * @param ComSparepartDeal comSparepartDeal
 	 * @throws Exception
 	 */
-	public void pass(ComSparepartDeal comSparepartDeal, ComSparepartDeal comSparepartDealChange) throws Exception {
+	public void toPass(ComSparepartDeal comSparepartDeal, ComSparepartDeal comSparepartDealChange) throws Exception {
 		this.change(comSparepartDealChange);
 		if(comSparepartDeal == null){
 			comSparepartDeal = this.findById(comSparepartDealChange.getSparepartDealId());
@@ -54,21 +54,23 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 		ComSparepart comSparepart = comSparepartService.findById(sparepartId);
 		ComAppUser comAppUser = comAppUserService.findById(appUserId);
 		
-		String noteName = comAppUser.getAppUserName()+"出售"+comSparepart.getSparepartName()+"*"+count+"获得积分";
+		String noteName = comAppUser.getAppUserName()+"出售“"+comSparepart.getSparepartName()+"*"+count+"”获得积分";
 		
 		ComIntegralNote comIntegralNote = new ComIntegralNote();
 		comIntegralNote.setIntegralNoteCode(comSparepartDeal.getSparepartDealId());
-		comIntegralNote.setIntegralNoteType("01");
-		comIntegralNote.setIntegralDealCount(""+Double.valueOf(comSparepart.getIntegral1())*count);
+		comIntegralNote.setIntegralNoteType("00");
 		comIntegralNote.setIntegralNoteName(noteName);
 		//4s店积分记录
 		comIntegralNote.setAppUserId(appUserId);
+		comIntegralNote.setIntegralDealCount(""+Double.valueOf(comSparepart.getIntegral3())*count);
 		comIntegralNoteService.add(comIntegralNote);
 		//小区经理积分记录
 		comIntegralNote.setAppUserId(comAppUser.getParentId());
+		comIntegralNote.setIntegralDealCount(""+Double.valueOf(comSparepart.getIntegral2())*count);
 		comIntegralNoteService.add(comIntegralNote);
 		//大区经理积分记录
 		comIntegralNote.setAppUserId(comAppUserService.findById(comAppUser.getParentId()).getParentId());
+		comIntegralNote.setIntegralDealCount(""+Double.valueOf(comSparepart.getIntegral1())*count);
 		comIntegralNoteService.add(comIntegralNote);
 	}
 	

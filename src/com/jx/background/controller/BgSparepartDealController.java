@@ -432,7 +432,7 @@ public class BgSparepartDealController extends BaseController {
 			comSparepartDealChange.setCheckId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 			comSparepartDealChange.setCheckTime(new Date());
 			comSparepartDealChange.setRemarks("通过！");
-			comSparepartDealService.pass(comSparepartDeal, comSparepartDealChange);
+			comSparepartDealService.toPass(comSparepartDeal, comSparepartDealChange);
 			resultInfo.setResultCode("success");
 		}
 		

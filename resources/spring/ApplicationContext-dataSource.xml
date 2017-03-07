@@ -70,7 +70,7 @@
 			           rollback-for="java.lang.Exception" />
 			<tx:method name="batch*" propagation="REQUIRED" read-only="false" 
 			           rollback-for="java.lang.Exception" />
-			<tx:method name="test*" propagation="REQUIRED" read-only="false" 
+			<tx:method name="to*" propagation="REQUIRED" read-only="false" 
 			           rollback-for="java.lang.Exception" />
 		</tx:attributes>
 	</tx:advice>

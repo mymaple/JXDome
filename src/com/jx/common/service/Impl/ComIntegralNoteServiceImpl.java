@@ -43,6 +43,7 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 		Date nowTime = new Date();
 		comIntegralNote.setIntegralNoteId(UuidUtil.get32UUID());
 		comIntegralNote.setIntegralDealStatus("00");
+		comIntegralNote.setOrderNum(""+nowTime.getTime());
 		comIntegralNote.setEffective("01");
 		comIntegralNote.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comIntegralNote.setCreateTime(nowTime);
@@ -52,7 +53,8 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 		dao.add("ComIntegralNoteMapper.add", comIntegralNote);
 		
 		String appUserId = comIntegralNote.getAppUserId();
-		String addValue = "01".equals(comIntegralNote.getIntegralNoteType())?"":"-" + comIntegralNote.getIntegralDealCount();
+		String addValue = "01".equals(comIntegralNote.getIntegralNoteType())?"":"-";
+		addValue += comIntegralNote.getIntegralDealCount();
 		comAppUserExtService.addValue(appUserId, ComAppUserExt.INTEGRALCOUNT, addValue);
 		
 	}
