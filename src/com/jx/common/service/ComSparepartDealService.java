@@ -11,6 +11,12 @@ public interface ComSparepartDealService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 通过审核 
+	 * @param ComSparepartDeal comSparepartDeal
+	 * @throws Exception
+	 */
+	public void pass(ComSparepartDeal comSparepartDeal, ComSparepartDeal comSparepartDealChange) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

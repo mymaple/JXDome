@@ -12,7 +12,9 @@ import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
+import com.jx.common.entity.ComAppUserExt;
 import com.jx.common.entity.ComIntegralNote;
+import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComIntegralNoteService;
 import com.jx.background.util.BgSessionUtil;
 
@@ -21,6 +23,8 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	@Resource(name = "comAppUserExtService")
+	private ComAppUserExtService comAppUserExtService;
 	
 	
 	/****************************custom * start***********************************/
@@ -46,6 +50,11 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 		comIntegralNote.setModifyTime(nowTime);
 		
 		dao.add("ComIntegralNoteMapper.add", comIntegralNote);
+		
+		String appUserId = comIntegralNote.getAppUserId();
+		String addValue = "01".equals(comIntegralNote.getIntegralNoteType())?"":"-" + comIntegralNote.getIntegralDealCount();
+		comAppUserExtService.addValue(appUserId, ComAppUserExt.INTEGRALCOUNT, addValue);
+		
 	}
 	
 	/**

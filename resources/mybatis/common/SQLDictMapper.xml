@@ -60,24 +60,24 @@
 			</if>
 		</select>
 		
-		<!-- 生效积分客户 -->
-		<select id="com_integralCustomerEffective" parameterType="String" resultMap="comDictResultMap">
-			select integralCustomerName as dictName, integralCustomerId as dictValue
-			from com_integral_customer_tree
+		<!-- 生效平台用户 -->
+		<select id="com_appUserEffective" parameterType="String" resultMap="comDictResultMap">
+			select appUserName as dictName, appUserId as dictValue
+			from com_app_user_tree
 			where effective = '01'
 			<if test="value!=null and value!=''">
-				and integralCustomerId = #{value} 
+				and appUserId = #{value} 
 			</if>
 		</select>
 		
-		<!-- 生效积分客户（4S店） -->
-		<select id="com_integralCustomerEffective3" parameterType="String" resultMap="comDictResultMap">
-			select integralCustomerName as dictName, integralCustomerId as dictValue
-			from com_integral_customer_tree
+		<!-- 生效平台用户（4S店） -->
+		<select id="com_appUserEffective4S" parameterType="String" resultMap="comDictResultMap">
+			select appUserName as dictName, appUserId as dictValue
+			from com_app_user_tree
 			where effective = '01'
 				and roleId = '03'
 			<if test="value!=null and value!=''">
-				and integralCustomerId = #{value} 
+				and appUserId = #{value} 
 			</if>
 		</select>
 		

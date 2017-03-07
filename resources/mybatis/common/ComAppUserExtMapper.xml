@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComAppUserExtMapper">
+
+	<sql id="appUserExtColumns">appUserExtId,appUserId,extCode,extName,extValue,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="appUserExtTable">com_app_user_ext</sql>
+	
+	<resultMap type="comAppUserExt" id="comAppUserExtResultMap">
+		<id column="appUserExtId" property="appUserExtId"/>
+		<result column="appUserId" property="appUserId"/>
+		<result column="extCode" property="extCode"/>
+		<result column="extName" property="extName"/>
+		<result column="extValue" property="extValue"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+		<result column="modifyTime" property="lastModifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comAppUserExt">
+		insert into 
+	<include refid="appUserExtTable"/>
+		( 
+	<include refid="appUserExtColumns"/>
+		) values (
+			#{appUserExtId},#{appUserId},#{extCode},#{extName},#{extValue},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 加减改值 -->
+	<update id="addValue" parameterType="comAppUserExt">
+		update
+	<include refid="appUserExtTable"/>
+		set
+			extValue = extValue + #{extValue},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserId = #{appUserId} and 
+			extCode = #{extCode} and 
+			extValue >= 0 and 
+			(extValue + #{extValue}) >= 0 and 
+			(#{extValue}>0 or 0>#{extValue})	
+	</update>
+
+	
+	<!-- 改变 -->
+	<update id="changeValue" parameterType="comAppUserExt">
+		update
+	<include refid="appUserExtTable"/>
+		set
+			extValue = #{extValue},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserId = #{appUserId} and 
+			extCode = #{extCode}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="pd">
+		delete from 
+	<include refid="appUserExtTable"/>
+		where 
+			appUserId = #{appUserId}
+			<if test="appUserExtId!=null">
+			 and extCode = #{extCode} 
+			</if>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="find" parameterType="pd" resultMap="comAppUserExtResultMap">
+		select 
+	<include refid="appUserExtColumns"/>
+		from 
+	<include refid="appUserExtTable"/>
+		where 
+			appUserId = #{appUserId} and 
+			extCode = #{extCode}
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

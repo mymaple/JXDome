@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-03-06 17:26:53
+Date: 2017-03-07 16:58:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -478,6 +478,7 @@ CREATE TABLE `bg_user_info` (
 -- ----------------------------
 INSERT INTO `bg_user_info` VALUES ('1', '1', 'admin', '802ad7f0bf5d54f941bd0a866d3fb6225af153a71d90e456b72a62e4a40008c9e8fc7a01b5d89121d90006f4628c95c4e5ba88ced2b958033791f663d97eed3a', 'maple', '01', '00', 'static/ace/avatars/user.jpg', '54325621@qq.com', '13256876192', '灰机', '1', '01', '1', '2017-01-19 10:17:03', '1', '2017-01-19 10:17:07');
 INSERT INTO `bg_user_info` VALUES ('59e413d02fe24211a6b5725abe3e868d', '349e880b6e334f8caaac6c250a4cae01', 'zhangsan', '00a2695e20ca136af6724261351ac10e978a887c7b3da9ea8e2e1c1969628476bd0d39955dfb7897b4f68b1282f8e8b685973169065ffab24cff68c0265d8e69', '张三', '01', '00', 'static/ace/avatars/user.jpg', '45233@qq.com', '15873322111', 'dasd', '1488597389108', '01', '1', '2017-03-04 11:18:09', '1', '2017-03-04 11:18:09');
+INSERT INTO `bg_user_info` VALUES ('7d251ac19dda4f34946abcec165e2d77', '349e880b6e334f8caaac6c250a4cae01', 'dasdsa', '0af15bb4e9e3b75f628774b8272559552c6656ce678ec97ca045b96dc8ce399b940235ffef51ec3161d472fe066836c7142ec4a7f64626e2f5696415e5088a76', 'xczzxc', '01', '00', 'static/ace/avatars/user.jpg', 'asdasd@qq.com', '13685777441', 'case', '1488857459632', '01', '1', '2017-03-07 11:31:26', '1', '2017-03-07 13:22:09');
 INSERT INTO `bg_user_info` VALUES ('aaee1e4622724f79bb2f9a1c667a7395', '1', 'xxxxx', '9a2cf82b5e81d253c971b09b2fab3da41082e1a4d6d42327111fccdcb6e9f8f20d17c6cd172cd30b73e82ce6e75395cebb89024feb48b832cd8ffa3e44becefa', '22222222222', '01', '00', 'static/ace/avatars/user.jpg', 'wad@df.cc', '13575542432', '', '1484814622729', '01', '1', '2017-01-19 16:30:58', '1', '2017-01-19 16:31:05');
 
 -- ----------------------------
@@ -515,40 +516,42 @@ INSERT INTO `bg_wx_menu_btn_tree` VALUES ('ccd4757c210b48baa852f08ddeac6ece', '1
 INSERT INTO `bg_wx_menu_btn_tree` VALUES ('e5d35cd9071d4c22af19c165b6a064db', '9828b1377557429c8cb449440291e042', 'giftOL_index', '首页', 'view', '00', '', 'http://1b62112g29.iok.la/JXDome/weixin/main/toIndex', '', '1486369318418', '01', '1', '2017-02-06 16:22:16', '1', '2017-02-15 17:18:05');
 
 -- ----------------------------
--- Table structure for com_app_user_info
+-- Table structure for com_app_user_ext
 -- ----------------------------
-DROP TABLE IF EXISTS `com_app_user_info`;
-CREATE TABLE `com_app_user_info` (
-  `appUserId` varchar(100) NOT NULL COMMENT '平台用户 主键id',
-  `appUserCode` varchar(100) DEFAULT NULL COMMENT '平台用户代号',
-  `appUserName` varchar(100) DEFAULT NULL COMMENT '平台用户名称',
-  `appUserType` varchar(100) DEFAULT NULL COMMENT '平台用户类型',
-  `appUserStatus` varchar(100) DEFAULT NULL COMMENT '平台用户状态',
-  `appUserNum` varchar(100) DEFAULT NULL COMMENT '平台用户编号',
-  `phone` varchar(100) DEFAULT NULL COMMENT '电话号码',
-  `email` varchar(100) DEFAULT NULL COMMENT '电子邮箱',
-  `password` varchar(100) DEFAULT NULL COMMENT '密码',
-  `openId` varchar(100) DEFAULT NULL COMMENT '用户的标识',
-  `sex` varchar(100) DEFAULT NULL COMMENT '性别',
-  `headImgSrc` varchar(100) DEFAULT NULL COMMENT '用户头像',
-  `brithday` datetime DEFAULT NULL COMMENT '生日',
-  `parentId` varchar(100) DEFAULT NULL COMMENT '上级id',
-  `wxQRcodeSrc` varchar(100) DEFAULT NULL COMMENT '微信二维码',
-  `wxQRcodeExpiry` datetime DEFAULT NULL COMMENT '微信二维码有效期',
-  `mediaId` varchar(100) DEFAULT NULL COMMENT '媒体文件id',
-  `mediaExpiry` datetime DEFAULT NULL COMMENT '媒体文件有效时间',
+DROP TABLE IF EXISTS `com_app_user_ext`;
+CREATE TABLE `com_app_user_ext` (
+  `appUserExtId` varchar(100) NOT NULL COMMENT '平台用户扩展 主键id',
+  `appUserId` varchar(100) DEFAULT NULL COMMENT '平台用户 主键id',
+  `extCode` varchar(100) DEFAULT NULL COMMENT '扩展属性代号',
+  `extName` varchar(100) DEFAULT NULL COMMENT '扩展属性名',
+  `extValue` varchar(100) DEFAULT NULL COMMENT '扩展属性值',
   `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
   `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
   `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
   `createTime` datetime DEFAULT NULL COMMENT '创建时间',
   `modifyUserId` varchar(100) DEFAULT NULL COMMENT '修改人员id',
   `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`appUserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='平台用户';
+  PRIMARY KEY (`appUserExtId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='平台用户扩展';
 
 -- ----------------------------
--- Records of com_app_user_info
+-- Records of com_app_user_ext
 -- ----------------------------
+INSERT INTO `com_app_user_ext` VALUES ('0ab9ff26d62b48428a9665c5b109f15a', '7b550a0b71ef4927a4cacf86ec82e7c3', 'integralCount', '积分数', '', '1488876957842', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
+INSERT INTO `com_app_user_ext` VALUES ('1ce3df0789304de5b5921c0610813a32', '523f04fe17124aeb85d80b67387efc8b', 'wxQRcodeSrc', '微信二维码', '', '1488876871600', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
+INSERT INTO `com_app_user_ext` VALUES ('454d0f0d15d44e59ab1d5a2148c90a7a', 'b46d1c1881724aa2b4e35314847f4f5a', 'integralCount', '积分数', '', '1488876926670', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
+INSERT INTO `com_app_user_ext` VALUES ('4927e53d867a4201a38bf1f4932770c4', '7b550a0b71ef4927a4cacf86ec82e7c3', 'wxQRcodeExpiry', '微信二维码有效期', '', '1488876957849', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
+INSERT INTO `com_app_user_ext` VALUES ('4b44724fe11f4aabb55ca92fcf1285f0', '7b550a0b71ef4927a4cacf86ec82e7c3', 'mediaId', '媒体文件id', '', '1488876957846', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
+INSERT INTO `com_app_user_ext` VALUES ('5557fbba5dca4945a413e1a3ae979c8b', 'b46d1c1881724aa2b4e35314847f4f5a', 'wxQRcodeExpiry', '微信二维码有效期', '', '1488876926676', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
+INSERT INTO `com_app_user_ext` VALUES ('7a6121354346438cbe1ce9356c3dc5d1', '523f04fe17124aeb85d80b67387efc8b', 'mediaExpiry', '媒体文件有效时间', '', '1488876871596', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
+INSERT INTO `com_app_user_ext` VALUES ('9aab9d19cd4548119e5dd41465edeed8', '523f04fe17124aeb85d80b67387efc8b', 'wxQRcodeExpiry', '微信二维码有效期', '', '1488876871599', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
+INSERT INTO `com_app_user_ext` VALUES ('9e9afef00ef748cbaeb07d138617406b', 'b46d1c1881724aa2b4e35314847f4f5a', 'mediaId', '媒体文件id', '', '1488876926674', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
+INSERT INTO `com_app_user_ext` VALUES ('a49f796ee9b2466cace434ee540bdc82', '7b550a0b71ef4927a4cacf86ec82e7c3', 'mediaExpiry', '媒体文件有效时间', '', '1488876957844', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
+INSERT INTO `com_app_user_ext` VALUES ('a9605734ac2d48558437a9d9708a49f8', '523f04fe17124aeb85d80b67387efc8b', 'integralCount', '积分数', '', '1488876871593', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
+INSERT INTO `com_app_user_ext` VALUES ('d2ab0097e9c94f3a847c166e44aefda7', 'b46d1c1881724aa2b4e35314847f4f5a', 'mediaExpiry', '媒体文件有效时间', '', '1488876926672', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
+INSERT INTO `com_app_user_ext` VALUES ('d499f8d9d38548adbd9fa59c8d0082e0', '7b550a0b71ef4927a4cacf86ec82e7c3', 'wxQRcodeSrc', '微信二维码', '', '1488876957851', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
+INSERT INTO `com_app_user_ext` VALUES ('e227068f065145569d3bf022fde89bbe', '523f04fe17124aeb85d80b67387efc8b', 'mediaId', '媒体文件id', '', '1488876871598', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
+INSERT INTO `com_app_user_ext` VALUES ('f379908f0ac44282896ea196d21e8b96', 'b46d1c1881724aa2b4e35314847f4f5a', 'wxQRcodeSrc', '微信二维码', '', '1488876926678', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
 
 -- ----------------------------
 -- Table structure for com_app_user_tree
@@ -582,10 +585,9 @@ CREATE TABLE `com_app_user_tree` (
 -- ----------------------------
 -- Records of com_app_user_tree
 -- ----------------------------
-INSERT INTO `com_app_user_tree` VALUES ('0b6d7d29e5e24e608e2ac6147dc3c659', 'aabd784bf51e48768eef52bc2a968907', '02', 'ic0202', '张明', '01', '00', 'ic0202', '13345678922', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '01', '', '2017-03-06 17:02:48', '大声道', '0', '1488790968754', '01', '1', '2017-03-06 17:03:07', '1', '2017-03-06 17:03:07');
-INSERT INTO `com_app_user_tree` VALUES ('5fa764857d7448be9f7d70f6fcfe07a7', '0b6d7d29e5e24e608e2ac6147dc3c659', '03', 'ic0304', '扣扣', '01', '00', 'ic0304', '15893442623', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '02', '', '2017-03-06 17:03:16', 'sad', '0', '1488790996317', '01', '1', '2017-03-06 17:04:10', '1', '2017-03-06 17:04:10');
-INSERT INTO `com_app_user_tree` VALUES ('7760c34226b9450796f6dc5c9d82800a', '0', '01', 'ic0102', '向南', '01', '00', 'ic0102', '13234372023', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '02', '', '2017-03-06 00:00:00', '撒打算', '0', '1488791083155', '01', '1', '2017-03-06 17:05:29', '1', '2017-03-06 17:05:29');
-INSERT INTO `com_app_user_tree` VALUES ('aabd784bf51e48768eef52bc2a968907', '0', '01', 'ic0101', '陈华', '01', '00', 'ic0101', '13698762344', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '01', '', '2017-03-06 16:50:43', '发收到', '0', '1488790243908', '01', '1', '2017-03-06 16:55:19', '1', '2017-03-06 16:55:19');
+INSERT INTO `com_app_user_tree` VALUES ('523f04fe17124aeb85d80b67387efc8b', '0', '01', 'ic0101', '张明', '01', '00', 'ic0101', '13575542432', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '01', '', '2017-03-07 16:54:15', 'sad', '1', '1488876855952', '01', '1', '2017-03-07 16:54:31', '1', '2017-03-07 16:54:31');
+INSERT INTO `com_app_user_tree` VALUES ('7b550a0b71ef4927a4cacf86ec82e7c3', 'b46d1c1881724aa2b4e35314847f4f5a', '03', 'ic0124', '陈华', '01', '00', 'ic0124', '13685777441', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '02', '', '2017-03-07 16:55:29', 'fd从五色风范', '3', '1488876929273', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
+INSERT INTO `com_app_user_tree` VALUES ('b46d1c1881724aa2b4e35314847f4f5a', '523f04fe17124aeb85d80b67387efc8b', '02', 'ic0102', '向南', '01', '00', 'ic0102', '15876362530', '73148c263ffc498634cc1ebebd67516997011169a37e2811ed51d52c82d4d572af32c231139f1d0fd7afe29e441d44aefa29c1855ec65207639272110d195674', '02', '', '2017-03-07 16:55:09', '发收到', '2', '1488876909716', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
 
 -- ----------------------------
 -- Table structure for com_dict_tree
@@ -666,13 +668,13 @@ INSERT INTO `com_dict_tree` VALUES ('9ede63687cce41c380773ba1917519c9', 'fc97312
 INSERT INTO `com_dict_tree` VALUES ('a60fe6c08d7c4708bca2a20cb2feb681', '0', 'bg_roleType', '后台角色类型', '01', '00', 'bg_roleType', '0', '1484804620997', '01', '1', '2017-01-19 13:45:08', '1', '2017-01-19 13:45:08');
 INSERT INTO `com_dict_tree` VALUES ('b120815786714648a7247046fe7186d9', '0', 'com_dictType', '字典类型', '01', '00', 'com_dictType', '0', '1484017251117', '01', '1', '2017-01-10 11:00:51', '1', '2017-02-25 10:10:45');
 INSERT INTO `com_dict_tree` VALUES ('b20d74e13ced4513b1ac20c4ead6d736', '319bbf4a475b4aa4b852c30d91d9c48c', 'com_wxAccountType_01', '服务号', '01', '00', '01', '1', '1484896386061', '01', '1', '2017-01-20 15:14:06', '1', '2017-01-20 15:14:06');
-INSERT INTO `com_dict_tree` VALUES ('b4bf5552e7454647b535c372a422c069', '0', 'com_integralCustomerEffective', '生效积分客户', '02', '00', 'com_integralCustomerEffective', '0', '1488607885253', '01', '1', '2017-03-04 14:12:55', '1', '2017-03-04 14:31:02');
+INSERT INTO `com_dict_tree` VALUES ('b4bf5552e7454647b535c372a422c069', '0', 'com_appUserEffective', '生效平台用户', '02', '00', 'com_appUserEffective', '0', '1488607885253', '01', '1', '2017-03-04 14:12:55', '1', '2017-03-07 09:49:13');
 INSERT INTO `com_dict_tree` VALUES ('bc443acf9b7f48fca6b44934d79a7c99', '0', 'com_sparepartEffective', '生效零配件', '02', '00', 'com_sparepartEffective', '0', '1488608049859', '01', '1', '2017-03-04 14:28:20', '1', '2017-03-04 14:37:10');
 INSERT INTO `com_dict_tree` VALUES ('c3731311fb334e4697c2fb76ab1343be', '2b6adc1e3f5c48fd8f0778d0bbed13c3', 'com_sex_02', '女', '01', '00', '02', '1', '1488790700615', '01', '1', '2017-03-06 16:58:40', '1', '2017-03-06 16:58:40');
 INSERT INTO `com_dict_tree` VALUES ('c4e773c1a20f45788c12789267d6065b', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_pic_sysphoto', '弹出系统拍照发图', '01', '00', 'pic_sysphoto', '1', '1486366136184', '01', '1', '2017-02-06 15:29:07', '1', '2017-02-06 15:29:07');
 INSERT INTO `com_dict_tree` VALUES ('d29a2f6aab6d4d21babbfc338d90d155', '7a4aeb77544c47368075cb7199d42bcb', 'com_sparepartDealStatus_03', '审核失败', '01', '00', '03', '1', '1488611205295', '01', '1', '2017-03-04 15:06:59', '1', '2017-03-04 15:06:59');
 INSERT INTO `com_dict_tree` VALUES ('d40e20a567a34f04b9af55db0f28474e', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_view', '跳转URL', '01', '00', 'view', '1', '1486366048828', '01', '1', '2017-02-06 15:27:52', '1', '2017-02-06 15:27:52');
-INSERT INTO `com_dict_tree` VALUES ('d77946d83bed4b1686396e78d002cee0', '0', 'com_integralCustomerEffective3', '生效积分客户（4S店）', '02', '00', 'com_integralCustomerEffective3', '0', '1488608002089', '01', '1', '2017-03-04 14:13:59', '1', '2017-03-04 14:37:05');
+INSERT INTO `com_dict_tree` VALUES ('d77946d83bed4b1686396e78d002cee0', '0', 'com_appUserEffective4S', '生效平台用户（4S店）', '02', '00', 'com_appUserEffective4S', '0', '1488608002089', '01', '1', '2017-03-04 14:13:59', '1', '2017-03-07 09:52:33');
 INSERT INTO `com_dict_tree` VALUES ('d8374ef4d31541a38ea946aa7c243c8a', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_00', '菜单分目', '01', '00', '00', '1', '1486365867380', '01', '1', '2017-02-06 16:50:35', '1', '2017-02-06 16:50:35');
 INSERT INTO `com_dict_tree` VALUES ('d8cf8becf1db4418a098a43500d5cf3f', '0', 'com_packageType', '模块包分类', '01', '00', 'com_packageType', '0', '1484017801545', '01', '1', '2017-01-10 11:10:02', '1', '2017-01-10 11:10:02');
 INSERT INTO `com_dict_tree` VALUES ('da15415d7faa43c9abb31701350d0958', '0', 'bg_wxMenuBtnType', '菜单按钮类型', '01', '00', 'bg_wxMenuBtnType', '0', '1486365490238', '01', '1', '2017-02-06 15:19:12', '1', '2017-02-06 15:19:12');
@@ -897,6 +899,7 @@ CREATE TABLE `com_sparepart_deal_info` (
 -- ----------------------------
 -- Records of com_sparepart_deal_info
 -- ----------------------------
+INSERT INTO `com_sparepart_deal_info` VALUES ('b5056432a9304f49aece285df8492165', '3645425585', '02', '7b550a0b71ef4927a4cacf86ec82e7c3', 'f1f4303f16dd43b187dc61827284619b', '6', '5000.00', '2017-03-07 16:56:02', '1', '通过！', '2017-03-07 16:56:22', '1488876962950', '01', '1', '2017-03-07 16:56:19', '1', '2017-03-07 16:56:22');
 
 -- ----------------------------
 -- Table structure for com_sparepart_info
@@ -1029,4 +1032,4 @@ CREATE TABLE `com_wx_account_info` (
 -- ----------------------------
 -- Records of com_wx_account_info
 -- ----------------------------
-INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'laqgrVsck7Uy4NiqT5rlee0JHe6yyxVkEnq0esd9z0JJwbcP0B-EdivjVfXvwX-1vyz-TW30ol50qafaOpU-UuBMfDGtC2YvxAEjeZsrbco79ki-NLkQ_oSPeNN99bWTJVTfAGAUGE', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjcTT8tbp-p1F95CHOF8LZD1hVoZ9Qtvdpp_171mxRbFWw', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-06 17:22:01');
+INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'F-ifpLya4zAMTYhzqcu0RRSodj6kJTGh9JhYJSjNuLaYWbPat2TArxEkrNbLh0iV05roIEyXmJNDyRUEtjPzuco3YXRjoFJXQ2jEoUmGx_sTBCbADALTU', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjd9mRz35QS5MC1NhKDSCAlpEtXeC1oBKv_o06EOnlbk1Q', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-07 13:22:01');

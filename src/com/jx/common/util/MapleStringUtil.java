@@ -7,7 +7,18 @@ import java.util.regex.Pattern;
 
 public class MapleStringUtil {
 	
+	public static void main(String[] agrs) {
+		System.out.println(toUpper("mediaExpiry"));
+	}
 	
+	/**
+	 * 首字母大写
+	 * @param str
+	 * @return
+	 */
+	public static String toUpper(String str) {
+		return str.toUpperCase() ;
+	}
 	
 	/**
 	 * 首字母大写

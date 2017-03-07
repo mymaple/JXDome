@@ -3,8 +3,6 @@ package com.jx.common.config;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.jx.common.util.MapleStringUtil;
 
@@ -13,29 +11,73 @@ import com.jx.common.util.MapleStringUtil;
  */
 public class BaseExt {
 	
-	public interface ValidationAdd {
-
-	}
 	
-	public interface ValidationEdit {
-		
-	}
+	/** 扩展属性代号 */
+	private String extCode;
 	
-		
 	/** 扩展属性名 */
-	@NotBlank(message="扩展属性名 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String name;
+	private String extName;
 		
 	/** 扩展属性值 */
-	@NotBlank(message="扩展属性值 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String value;
+	private String extValue;
 		
-	/** 扩展属性代号 */
-	@NotBlank(message="扩展属性代号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
-	private String code;
 	
+
+	/**
+	 * 获取 扩展属性代号
+	 * 
+	 * @return String extCode
+	 */
+	public String getExtCode() {
+		return this.extCode;
+	}
+
+	/**
+	 * 设置 扩展属性代号
+	 * 
+	 * @param String extCode
+	 */
+	public void setExtCode(String extCode) {
+		this.extCode = MapleStringUtil.trim(extCode);
+	}
+
+	/**
+	 * 获取 扩展属性名 
+	 * 
+	 * @return String extName
+	 */
+	public String getExtName() {
+		return this.extName;
+	}
+
+	/**
+	 * 设置 扩展属性名 
+	 * 
+	 * @param String extName
+	 */
+	public void setExtName(String extName) {
+		this.extName = MapleStringUtil.trim(extName);
+	}
+
+	/**
+	 * 获取 扩展属性值 
+	 * 
+	 * @return String extValue
+	 */
+	public String getExtValue() {
+		return this.extValue;
+	}
+
+	/**
+	 * 设置 扩展属性值 
+	 * 
+	 * @param String extValue
+	 */
+	public void setExtValue(String extValue) {
+		this.extValue = MapleStringUtil.trim(extValue);
+	}
+
 	/** 排序编号 */
-	@NotEmpty(message="排序编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String orderNum;
 	
 	/** 有效性 */

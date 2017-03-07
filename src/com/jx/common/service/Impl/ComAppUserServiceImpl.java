@@ -24,8 +24,10 @@ import com.jx.common.util.WxConnUtil;
 import net.sf.json.JSONObject;
 
 import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComAppUserExt;
 import com.jx.common.entity.ComInvite;
 import com.jx.common.entity.UserInfo;
+import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComInviteService;
 import com.jx.background.util.BgSessionUtil;
@@ -35,6 +37,8 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	@Resource(name = "comAppUserExtService")
+	private ComAppUserExtService comAppUserExtService;
 	@Resource(name = "comInviteService")
 	private ComInviteService comInviteService;
 	
@@ -206,6 +210,9 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		comAppUser.setModifyTime(nowTime);
 		
 		dao.add("ComAppUserMapper.add", comAppUser);
+		
+		comAppUserExtService.init(comAppUser.getAppUserId());
+		
 	}
 	
 	/**
@@ -257,6 +264,7 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		PageData pd = new PageData();
 		pd.put("appUserId",appUserId);
 		this.deleteByPd(pd);
+		comAppUserExtService.delete(appUserId);
 	}
 	
 	/**

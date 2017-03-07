@@ -12,7 +12,11 @@ import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
+import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComIntegralNote;
+import com.jx.common.entity.ComSparepart;
 import com.jx.common.entity.ComSparepartDeal;
+import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComIntegralNoteService;
 import com.jx.common.service.ComSparepartDealService;
 import com.jx.common.service.ComSparepartService;
@@ -27,6 +31,8 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 	private ComSparepartService comSparepartService;
 	@Resource(name = "comIntegralNoteService")
 	private ComIntegralNoteService comIntegralNoteService;
+	@Resource(name = "comAppUserService")
+	private ComAppUserService comAppUserService;
 	
 	
 	/****************************custom * start***********************************/
@@ -41,20 +47,28 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 		if(comSparepartDeal == null){
 			comSparepartDeal = this.findById(comSparepartDealChange.getSparepartDealId());
 		}
-		String integralCustomerId = comSparepartDeal.getIntegralCustomerId();
+		String appUserId = comSparepartDeal.getAppUserId();
 		String sparepartId = comSparepartDeal.getSparepartId();
 		int count = Integer.parseInt(comSparepartDeal.getCount());
 		
 		ComSparepart comSparepart = comSparepartService.findById(sparepartId);
-		ComIntegralCustomer comIntegralCustomer = comIntegralCustomerService.findById(integralCustomerId);
+		ComAppUser comAppUser = comAppUserService.findById(appUserId);
 		
-		String noteName = comIntegralCustomer.getIntegralCustomerName()+"出售"+comSparepart.getSparepartName()+"*"+count+"获得积分";
+		String noteName = comAppUser.getAppUserName()+"出售"+comSparepart.getSparepartName()+"*"+count+"获得积分";
 		
 		ComIntegralNote comIntegralNote = new ComIntegralNote();
 		comIntegralNote.setIntegralNoteCode(comSparepartDeal.getSparepartDealId());
 		comIntegralNote.setIntegralNoteType("01");
 		comIntegralNote.setIntegralDealCount(""+Double.valueOf(comSparepart.getIntegral1())*count);
 		comIntegralNote.setIntegralNoteName(noteName);
+		//4s店积分记录
+		comIntegralNote.setAppUserId(appUserId);
+		comIntegralNoteService.add(comIntegralNote);
+		//小区经理积分记录
+		comIntegralNote.setAppUserId(comAppUser.getParentId());
+		comIntegralNoteService.add(comIntegralNote);
+		//大区经理积分记录
+		comIntegralNote.setAppUserId(comAppUserService.findById(comAppUser.getParentId()).getParentId());
 		comIntegralNoteService.add(comIntegralNote);
 	}
 	

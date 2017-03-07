@@ -93,7 +93,7 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${comSparepartDeal.sparepartDealCode}</td>
-											<td class='center'><param:display type="" value="${comSparepartDeal.appUserId}"/></td>
+											<td class='center'><param:display type="com_appUserEffective" value="${comSparepartDeal.appUserId}"/></td>
 											<td class='center'><param:display type="com_sparepartEffective" value="${comSparepartDeal.sparepartId}"/></td>
 											<td class='center'>${comSparepartDeal.count}</td>
 											<td class='center'>${comSparepartDeal.dealAmt}</td>

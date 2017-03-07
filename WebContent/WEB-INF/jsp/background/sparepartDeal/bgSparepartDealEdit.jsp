@@ -38,7 +38,7 @@
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">零部件销售客户:</td>
-								<td><param:select type="" name="appUserId" id="appUserId" value="${comSparepartDeal.appUserId}" placeholder="这里请选择 零部件销售客户" title="零部件销售客户" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td><param:select type="com_appUserEffective4S" name="appUserId" id="appUserId" value="${comSparepartDeal.appUserId}" placeholder="这里请选择 零部件销售客户" title="零部件销售客户" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">零部件:</td>

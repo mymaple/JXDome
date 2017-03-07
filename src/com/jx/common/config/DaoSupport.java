@@ -10,6 +10,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.jx.common.config.exception.UncheckedException;
+
 @Repository("daoSupport")
 public class DaoSupport implements DAO {
 
@@ -46,8 +48,12 @@ public class DaoSupport implements DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int delete(String str, Object obj) throws Exception {
-		return sqlSessionTemplate.delete(str, obj);
+	public int delete(String str, Object obj) throws Exception, UncheckedException {
+		int deleteCount = sqlSessionTemplate.delete(str, obj);
+		if(deleteCount <= 0){
+			throw new UncheckedException("40002", null, "删除失败");
+		}
+		return deleteCount;
 	}
 	
 	/**
@@ -69,8 +75,12 @@ public class DaoSupport implements DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int edit(String str, Object obj) throws Exception {
-		return sqlSessionTemplate.update(str, obj);
+	public int edit(String str, Object obj) throws Exception, UncheckedException {
+		int updateCount = sqlSessionTemplate.update(str, obj);
+		if(updateCount <= 0){
+			throw new UncheckedException("40001", null, "更新失败");
+		}
+		return updateCount;
 	}
 
 	/**
