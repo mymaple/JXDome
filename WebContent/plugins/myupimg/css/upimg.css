@@ -1,0 +1,157 @@
+
+a {
+    text-decoration: none;
+}
+.upimg_box {
+	
+}
+
+.upimg_box>ul {
+	list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.upimg_box>ul>li {
+    float: left;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.upimg_cell {
+	position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 130px;
+    height: 130px;
+    text-align: center;
+    line-height: 27px;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.upimg_cell>.upimg_error {
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+	width: 100%;
+    height: 28px;
+   	background-color: rgba(0, 0, 0, 0.55);
+   	color: #CC3366;
+    font-size: 18px;
+    font-weight: normal;
+   	text-align: center;
+    vertical-align: middle;
+    display: none;
+}
+
+.upimg_upload {
+	position: absolute;
+	left: 0%;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	opacity:0;
+}
+
+
+.upimg_edit {
+    border: 1px dashed #FFFFFF;
+}
+
+.upimg_edit>img {
+	position: absolute;
+	top: 0px;
+    left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.upimg_edit>.upimg_tools {
+	position: absolute;
+    bottom: -30px;
+    left: 0px;
+    right: 0px;
+	width: 100%;
+    height: 28px;
+   	background-color: rgba(0, 0, 0, 0.55);
+   	text-align: center;
+    vertical-align: middle;
+	transition:all 0.2s;
+	-moz-transition:all 0.2s; /* Firefox 4 */
+	-webkit-transition:all 0.2s; /* Safari and Chrome */
+	-o-transition:all 0.2s; /* Opera */
+}
+
+.upimg_edit:hover>.upimg_tools {
+    bottom: 0px;
+}
+
+.upimg_tools>.upimg_tools_item {
+	display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.upimg_tools_item:active {
+	color: #FFA500;
+}
+
+.upimg_tools>.left {
+	position: absolute;
+	left : 30px;
+}
+
+.upimg_tools>.right {
+	position: absolute;
+	right: 30px;
+}
+
+.upimg_add {
+	transition:all 0.2s;
+	-moz-transition:all 0.2s; /* Firefox 4 */
+	-webkit-transition:all 0.2s; /* Safari and Chrome */
+	-o-transition:all 0.2s; /* Opera */
+    border: 1px dashed #BEBEBE;
+}
+
+.upimg_add:hover {
+    border: 1px dashed #BEBEBE;
+    background-color: #DCDCDC;
+}
+
+.upimg_add>.upimg_add_a {
+    margin-left: -15px;
+    margin-top: -2px;
+    height: 4px;
+    width: 30px;
+}
+
+.upimg_add>.upimg_add_b {
+    margin-left: -2px;
+    margin-top: -15px;
+    height: 30px;
+    width: 4px;
+}
+
+.upimg_add>.abs {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: inline-block;
+    background-color: #BEBEBE;
+}
+
+em {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    list-style: none;
+    font-style: normal;
+}

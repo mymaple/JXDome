@@ -19,10 +19,8 @@
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
 	
 	
-	<link rel="stylesheet" href="plugins/dropzone/dist/min/basic.min.css" />
-	<link rel="stylesheet" href="plugins/dropzone/dist/min/dropzone.min.css" />
-	<script type="text/javascript" src="plugins/dropzone/dist/min/dropzone.min.js"></script>
-	
+	<link rel="stylesheet" type="text/css" href="plugins/myupimg/css/upimg.css" />
+	<link rel="stylesheet" type="text/css" href="plugins/myupimg/font/iconfont.css" />
 	
 </head>
 <body class="no-skin">
@@ -55,11 +53,22 @@
 								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">分类头像:</td>
 							</tr>
 							<tr>
-								<td colspan="2"><div id="file" class="dropzone">
-									 <div class="fallback">
-									   <input name="file" type="file" multiple />
-									 </div>
-								</div></td>
+								<td colspan="2">
+									<div class="upimg_box">
+										<input type="hidden" class="upimg_count" value="5" />
+										<input type="hidden" class="upimg_name" value="" />
+										<ul>
+											<li>
+												<div class="upimg_cell upimg_add">
+													<div class="upimg_error"></div>
+													<em class="upimg_add_b abs"></em>
+													<em class="upimg_add_a abs"></em>
+													<input type="file" id="qw" class="upimg_upload" accept="image/*" onchange="upimg_toAddUploadImg(this);"/>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">长框图:</td>
@@ -110,39 +119,11 @@
 	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+	
+	<script type="text/javascript" src="plugins/myupimg/js/jquery.lazyload.min.js"></script>
+	<script type="text/javascript" src="plugins/myupimg/js/upimg.js"></script>
+	
 	<script type="text/javascript">
-	
-	Dropzone.autoDiscover = false;
-	var dropz = new Dropzone("#file", {
-	url: "<%=request.getContextPath() %>/",
-        addRemoveLinks: true,
-        autoProcessQueue:false,
-        parallelUploads:2,
-        maxFiles: 1,//最大可上传的文件个数
-        maxFilesize: 2,
-        acceptedFiles: ".bmp,.jpg,.jpeg,.gif,.png", 
-        init: function() {
-            this.on("removedfile", function(file) {
-            	alert(file.name);
-                console.log("File " + file.name + "removed");
-            });
-        },
-        success:function(file,data){
-        	alert(file.name);
-        	
-        },
-        dictMaxFilesExceeded:"文件数量过多",
-        dictDefaultMessage:"拖动文件到该区域或点击上传文件",
-        dictCancelUpload:"取消",
-        dictCancelUploadConfirmation:"取消上传操作",
-        dictRemoveFile:"删除",
-        dictFileTooBig:"可添加的最大文件大小为{{maxFilesize}}Mb，当前文件大小为{{filesize}}Mb ",
-    });
-   
-   dropz.on("removedfile",function(file){
-		
-   })
-	
 	
 		$(top.hangge());
 		

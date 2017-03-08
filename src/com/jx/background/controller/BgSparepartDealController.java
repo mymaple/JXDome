@@ -424,8 +424,7 @@ public class BgSparepartDealController extends BaseController {
 			comSparepartDealChange.setSparepartDealStatus("01");
 			comSparepartDealService.change(comSparepartDealChange);
 			resultInfo.setResultCode("success");
-		}
-		
+		}else
 		//成功
 		if("02".equals(change)&&"01".equals(sparepartDealStatus)){
 			comSparepartDealChange.setSparepartDealStatus("02");
@@ -434,18 +433,16 @@ public class BgSparepartDealController extends BaseController {
 			comSparepartDealChange.setRemarks("通过！");
 			comSparepartDealService.toPass(comSparepartDeal, comSparepartDealChange);
 			resultInfo.setResultCode("success");
-		}
-		
+		}else
 		//失败
 		if("03".equals(change)&&"01".equals(sparepartDealStatus)){
 			comSparepartDealChange.setSparepartDealStatus("03");
 			comSparepartDealChange.setCheckId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 			comSparepartDealChange.setCheckTime(new Date());
-			comSparepartDealChange.setRemarks("通过！");
+			comSparepartDealChange.setRemarks("失败！");
 			comSparepartDealService.change(comSparepartDealChange);
 			resultInfo.setResultCode("success");
-		}
-		
+		}else
 		//重新申请
 		if("04".equals(change)&&"03".equals(sparepartDealStatus)){
 			comSparepartDealChange.setSparepartDealStatus("01");

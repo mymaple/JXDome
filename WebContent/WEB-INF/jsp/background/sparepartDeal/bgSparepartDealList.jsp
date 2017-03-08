@@ -112,18 +112,18 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${comSparepartDeal.sparepartDealStatus == '00'}">
-													<button class="btn btn-xs btn-info" title="申请" onclick="toChangeStatus('01','${comSparepartDeal.sparepartDealId}');">申请
-													</button>
+													<a class="btn btn-xs btn-info" title="申请" onclick="toChangeStatus('01','${comSparepartDeal.sparepartDealId}');">申请
+													</a>
 													</c:if>
 													<c:if test="${comSparepartDeal.sparepartDealStatus == '01'}">
-													<button class="btn btn-xs btn-success" title="审核通过" onclick="toChangeStatus('02','${comSparepartDeal.sparepartDealId}');">通过审核
-													</button>
-													<button class="btn btn-xs btn-danger" title="审核失败" onclick="toChangeStatus('03','${comSparepartDeal.sparepartDealId}');">不通过审核
-													</button>
+													<a class="btn btn-xs btn-success" title="审核通过" onclick="toChangeStatus('02','${comSparepartDeal.sparepartDealId}');">通过审核
+													</a>
+													<a class="btn btn-xs btn-danger" title="审核失败" onclick="toChangeStatus('03','${comSparepartDeal.sparepartDealId}');">不通过审核
+													</a>
 													</c:if>
 													<c:if test="${comSparepartDeal.sparepartDealStatus == '03'}">
-													<button class="btn btn-xs btn-info" title="重新申请" onclick="toChangeStatus('04','${comSparepartDeal.sparepartDealId}');">重新申请
-													</button>
+													<a class="btn btn-xs btn-info" title="重新申请" onclick="toChangeStatus('04','${comSparepartDeal.sparepartDealId}');">重新申请
+													</a>
 													</c:if>
 													
 													<c:if test="${comSparepartDeal.sparepartDealStatus == '00' || comSparepartDeal.sparepartDealStatus == '03'}">
@@ -392,6 +392,7 @@
 		
 		/*change 01:申请，02成功，03失败，04再申请  */
 		function toChangeStatus(change,sparepartDealId){
+			console.log(change);
 			top.jzts();
 			$.ajax({
 				type: "POST",
@@ -401,6 +402,8 @@
 				//beforeSend: validateData,
 				cache: false,
 				success: function(data){
+					alert(data.resultCode);
+					console.log(data.resultCode);
 					if(data.resultCode == "success"){
 						nextPage('${bgPage.currentPage}');
 					}

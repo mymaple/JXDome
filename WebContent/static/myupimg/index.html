@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>dome</title>
+		<link rel="stylesheet" type="text/css" href="css/upimg.css" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+	</head>
+
+	<body>
+		<div class="upimg_box">
+			<input type="hidden" class="upimg_count" value="5" />
+			<input type="hidden" class="upimg_name" value="" />
+			<ul>
+				<li>
+					<div class="upimg_cell upimg_edit">
+						<input type="hidden" name="" id="" value="" />
+						<div class="upimg_error"></div>
+						<img id="aaa" src="img/loading.gif"/>
+						<div class="upimg_tools">
+							<div class="upimg_tools_item left">
+								<input type="file" class="upimg_upload" accept="image/*" onchange="upimg_toAddUploadImg(this);"/>
+								<i class="iconfont icon-edit"></i></div>
+							<div class="upimg_tools_item right"><a onclick="upimg_toDeleteUploadImg(this);"><i class="iconfont icon-delete"></i></a></div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="upimg_cell upimg_add">
+						<div class="upimg_error">asdsa</div>
+						<em class="upimg_add_b abs"></em>
+						<em class="upimg_add_a abs"></em>
+						<input type="file" id="qw" class="upimg_upload" accept="image/*" onchange="upimg_toAddUploadImg(this);"/>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+	
+</html>
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.lazyload.min.js"></script>
+<script type="text/javascript" src="js/upimg.js"></script>

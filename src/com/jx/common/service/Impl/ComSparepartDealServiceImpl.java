@@ -58,7 +58,7 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 		
 		ComIntegralNote comIntegralNote = new ComIntegralNote();
 		comIntegralNote.setIntegralNoteCode(comSparepartDeal.getSparepartDealId());
-		comIntegralNote.setIntegralNoteType("00");
+		comIntegralNote.setIntegralNoteType("01");
 		comIntegralNote.setIntegralNoteName(noteName);
 		//4s店积分记录
 		comIntegralNote.setAppUserId(appUserId);
