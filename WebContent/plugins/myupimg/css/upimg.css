@@ -46,6 +46,7 @@ a {
    	text-align: center;
     vertical-align: middle;
     display: none;
+    z-index:1;
 }
 
 .upimg_upload {

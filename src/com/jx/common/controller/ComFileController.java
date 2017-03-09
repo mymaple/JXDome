@@ -33,7 +33,7 @@ public class ComFileController extends BaseController {
             String imgName = UuidUtil.get32UUID();
             System.out.println(img.getOriginalFilename());
             imgName = MapleFileUtil.fileUp(img, imgPath, imgName);
-            if(!"下载.jpg".equals( img.getName())){
+            if(!"下载.jpg".equals( img.getOriginalFilename())){
             	resultInfo.setResultCode("success");
             }
             resultInfo.setResultContent(Const.PATH_FILEUPCACHE+"/"+imgName);

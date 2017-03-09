@@ -22,9 +22,9 @@
             processData: false,
             success: function (data) {  
                 if(data.resultCode == 'success'){
-                	console.log(data.resultContent)
+                	//console.log(data.resultContent)
                 	var flag = fun(elem, data.resultContent);
-                	if(!flag){
+                	if(flag){
                 		upimg_error0(elem);
                 	}else{
                 		upimg_error1(elem,img.name+'图片添加失败');
@@ -106,7 +106,8 @@
 		    }
 		    
 		    upimg_toUploadImg(elem, img, upimg_addFun);
-		    if(index+1>upimg_count){
+		    var currentCount = $(elem).closest('ul').children('li').length;
+		    if(currentCount-1>=upimg_count){
 		    	return;
 		    }
         });
