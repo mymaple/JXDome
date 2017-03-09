@@ -91,6 +91,81 @@
 			</if>
 		</select>
 		
+		<!-- 生效供应商 -->
+		<select id="com_supplierEffective" parameterType="String" resultMap="comDictResultMap">
+			select supplierName as dictName, supplierId as dictValue
+			from com_supplier_info
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and supplierId = #{value} 
+			</if>
+		</select>
+		
+		<!-- 生效商品类别 -->
+		<select id="com_productTypeEffective" parameterType="String" resultMap="comDictResultMap">
+			select productCategoryName as dictName, productCategoryId as dictValue
+			from com_product_category_info
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and productCategoryId = #{value} 
+			</if>
+				and productCategoryType = '01'
+		</select>
+		
+		<!-- 生效商品模型 -->
+		<select id="com_productModelEffective" parameterType="String" resultMap="comDictResultMap">
+			select productCategoryName as dictName, productCategoryId as dictValue
+			from com_product_category_info
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and productCategoryId = #{value} 
+			</if>
+				and productCategoryType = '02'
+		</select>
+		
+		<!-- 生效商品自定义类型 -->
+		<select id="com_productCustomTypeEffective" parameterType="String" resultMap="comDictResultMap">
+			select productCategoryName as dictName, productCategoryId as dictValue
+			from com_product_category_info
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and productCategoryId = #{value} 
+			</if>
+				and productCategoryType = '03'
+		</select>
+		
+		<!-- 生效商品 -->
+		<select id="com_productEffective" parameterType="String" resultMap="comDictResultMap">
+			select productName as dictName, productId as dictValue
+			from com_product_info
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and productId = #{value} 
+			</if>
+		</select>
+		
+		<!-- 生效商品规格分类 -->
+		<select id="com_styleCategoryEffective" parameterType="String" resultMap="comDictResultMap">
+			select styleCategoryName as dictName, styleCategoryId as dictValue
+			from com_style_category_info
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and styleCategoryId = #{value} 
+			</if>
+		</select>
+		
+		<!-- 生效商品规格 -->
+		<select id="com_productStyleEffective" parameterType="String" resultMap="comDictResultMap">
+			select productStyleName as dictName, productStyleId as dictValue
+			from com_product_style_info
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and productStyleId = #{value} 
+			</if>
+		</select>
+		
+		
+		
 	<!-- ****************************common * end  ********************************** -->
 	
 </mapper>

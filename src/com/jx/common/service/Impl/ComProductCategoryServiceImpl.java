@@ -8,9 +8,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
+import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProductCategory;
 import com.jx.common.service.ComProductCategoryService;
@@ -38,6 +40,13 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		
 		Date nowTime = new Date();
 		comProductCategory.setProductCategoryId(UuidUtil.get32UUID());
+		
+		comProductCategory.setHeadImgSrc(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
+		comProductCategory.setImgSrc1(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG1, comProductCategory.getImgSrc1()));
+		comProductCategory.setImgSrc2(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG2, comProductCategory.getImgSrc2()));
+		
+		
+		
 		comProductCategory.setProductCategoryStatus("00");
 		comProductCategory.setEffective("01");
 		comProductCategory.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
@@ -54,6 +63,11 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 * @throws Exception
 	 */
 	public void edit(ComProductCategory comProductCategory) throws Exception {
+		
+		comProductCategory.setHeadImgSrc(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
+		comProductCategory.setImgSrc1(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG1, comProductCategory.getImgSrc1()));
+		comProductCategory.setImgSrc2(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG2, comProductCategory.getImgSrc2()));
+		
 		Date nowTime = new Date();
 		comProductCategory.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
 		comProductCategory.setModifyTime(nowTime);

@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
+<%@ taglib prefix="file" uri="http://www.maple_file_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -17,6 +18,8 @@
 	<%@ include file="../main/bgIndexTop.jsp"%>
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
+	<link rel="stylesheet" type="text/css" href="plugins/myupimg/css/upimg.css" />
+	<link rel="stylesheet" type="text/css" href="plugins/myupimg/font/iconfont.css" />
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -33,8 +36,8 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">供应商Id:</td>
-								<td><param:select type="" name="supplierId" id="supplierId" value="${comProduct.supplierId}" placeholder="这里请选择 供应商Id" title="供应商Id" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">供应商:</td>
+								<td><param:select type="com_supplierEffective" name="supplierId" id="supplierId" value="${comProduct.supplierId}" placeholder="这里请选择 供应商" title="供应商" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">产品代号:</td>
@@ -46,11 +49,11 @@
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">产品类型:</td>
-								<td><param:select type="com_productType" name="productType" id="productType" value="${comProduct.productType}" placeholder="这里请选择 产品类型" title="产品类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td><param:select type="com_productTypeEffective" name="productType" id="productType" value="${comProduct.productType}" placeholder="这里请选择 产品类型" title="产品类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">产品模型:</td>
-								<td><param:select type="" name="productModel" id="productModel" value="${comProduct.productModel}" placeholder="这里请选择 产品模型" title="产品模型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td><param:select type="com_productModelEffective" name="productModel" id="productModel" value="${comProduct.productModel}" placeholder="这里请选择 产品模型" title="产品模型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">摘要:</td>
@@ -61,20 +64,36 @@
 								<td><input type="text" name="introduction" id="introduction" value="${comProduct.introduction}" maxlength="100" placeholder="这里输入 简介" title="简介" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">产品头像:</td>
-								<td><input type="text" name="headImgSrc" id="headImgSrc" value="${comProduct.headImgSrc}" maxlength="100" placeholder="这里输入 产品头像" title="产品头像" style="width:98%;" /></td>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">产品头像:</td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">长框图:</td>
-								<td><input type="text" name="imgSrc1" id="imgSrc1" value="${comProduct.imgSrc1}" maxlength="100" placeholder="这里输入 长框图" title="长框图" style="width:98%;" /></td>
+								<td colspan="2">
+									<file:upimg name="headImgSrc" count="1" value="${comProduct.headImgSrc}"/>
+								</td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">滚播图:</td>
-								<td><input type="text" name="imgSrc2" id="imgSrc2" value="${comProduct.imgSrc2}" maxlength="1000" placeholder="这里输入 滚播图" title="滚播图" style="width:98%;" /></td>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">长框图:</td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">详情图:</td>
-								<td><input type="text" name="imgSrc3" id="imgSrc3" value="${comProduct.imgSrc3}" maxlength="1000" placeholder="这里输入 详情图" title="详情图" style="width:98%;" /></td>
+								<td colspan="2">
+									<file:upimg name="imgSrc1" count="3" value="${comProduct.imgSrc1}"/>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">滚播图:</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<file:upimg name="imgSrc2" count="4" value="${comProduct.imgSrc2}"/>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">详情图:</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<file:upimg name="imgSrc3" count="4" value="${comProduct.imgSrc3}"/>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
@@ -113,6 +132,9 @@
 	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+	
+	<script type="text/javascript" src="plugins/myupimg/js/jquery.lazyload.min.js"></script>
+	<script type="text/javascript" src="plugins/myupimg/js/upimg.js"></script>
 	<script type="text/javascript">
 		$(top.hangge());
 		
@@ -144,7 +166,7 @@
 			if($("#supplierId").val()==""){
 				$("#supplierId").next().tips({
 					side:3,
-		            msg:'请选择 供应商Id',
+		            msg:'请选择 供应商',
 		            bg:'#AE81FF',
 		            time:2
 		        });

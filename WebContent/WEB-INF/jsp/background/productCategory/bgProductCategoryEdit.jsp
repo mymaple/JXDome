@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
+<%@ taglib prefix="file" uri="http://www.maple_file_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -54,29 +55,24 @@
 							</tr>
 							<tr>
 								<td colspan="2">
-									<div class="upimg_box">
-										<input type="hidden" class="upimg_count" value="5" />
-										<input type="hidden" class="upimg_name" value="" />
-										<ul>
-											<li>
-												<div class="upimg_cell upimg_add">
-													<div class="upimg_error"></div>
-													<em class="upimg_add_b abs"></em>
-													<em class="upimg_add_a abs"></em>
-													<input type="file" id="qw" class="upimg_upload" accept="image/*" onchange="upimg_toAddUploadImg(this);"/>
-												</div>
-											</li>
-										</ul>
-									</div>
+									<file:upimg name="headImgSrc" count="1" value="${comProductCategory.headImgSrc}"/>
 								</td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">长框图:</td>
-								<td><input type="text" name="imgSrc1" id="imgSrc1" value="${comProductCategory.imgSrc1}" maxlength="100" placeholder="这里输入 长框图" title="长框图" style="width:98%;" /></td>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">长框图:</td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">滚播图:</td>
-								<td><input type="text" name="imgSrc2" id="imgSrc2" value="${comProductCategory.imgSrc2}" maxlength="100" placeholder="这里输入 滚播图" title="滚播图" style="width:98%;" /></td>
+								<td colspan="2">
+									<file:upimg name="imgSrc1" count="3" value="${comProductCategory.imgSrc1}"/>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">滚播图:</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<file:upimg name="imgSrc2" count="4" value="${comProductCategory.imgSrc2}"/>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">摘要:</td>

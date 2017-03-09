@@ -64,17 +64,11 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">供应商Id</th>
+									<th class="center">供应商</th>
 									<th class="center">产品代号</th>
 									<th class="center">产品名称</th>
 									<th class="center">产品类型</th>
 									<th class="center">产品模型</th>
-									<th class="center">摘要</th>
-									<th class="center">简介</th>
-									<th class="center">产品头像</th>
-									<th class="center">长框图</th>
-									<th class="center">滚播图</th>
-									<th class="center">详情图</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -91,17 +85,11 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comProduct.productId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'><param:display type="" value="${comProduct.supplierId}"/></td>
+											<td class='center'><param:display type="com_supplierEffective" value="${comProduct.supplierId}"/></td>
 											<td class='center'>${comProduct.productCode}</td>
 											<td class='center'>${comProduct.productName}</td>
-											<td class='center'><param:display type="com_productType" value="${comProduct.productType}"/></td>
-											<td class='center'><param:display type="" value="${comProduct.productModel}"/></td>
-											<td class='center'>${comProduct.summary}</td>
-											<td class='center'>${comProduct.introduction}</td>
-											<td class='center'>${comProduct.headImgSrc}</td>
-											<td class='center'>${comProduct.imgSrc1}</td>
-											<td class='center'>${comProduct.imgSrc2}</td>
-											<td class='center'>${comProduct.imgSrc3}</td>
+											<td class='center'><param:display type="com_productTypeEffective" value="${comProduct.productType}"/></td>
+											<td class='center'><param:display type="com_productModelEffective" value="${comProduct.productModel}"/></td>
 											<td class='center'>${comProduct.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">

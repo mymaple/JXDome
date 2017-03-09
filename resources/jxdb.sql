@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-03-07 16:58:46
+Date: 2017-03-09 17:38:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -537,9 +537,9 @@ CREATE TABLE `com_app_user_ext` (
 -- ----------------------------
 -- Records of com_app_user_ext
 -- ----------------------------
-INSERT INTO `com_app_user_ext` VALUES ('0ab9ff26d62b48428a9665c5b109f15a', '7b550a0b71ef4927a4cacf86ec82e7c3', 'integralCount', '积分数', '', '1488876957842', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
+INSERT INTO `com_app_user_ext` VALUES ('0ab9ff26d62b48428a9665c5b109f15a', '7b550a0b71ef4927a4cacf86ec82e7c3', 'integralCount', '积分数', '53536080', '1488876957842', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-08 11:25:34');
 INSERT INTO `com_app_user_ext` VALUES ('1ce3df0789304de5b5921c0610813a32', '523f04fe17124aeb85d80b67387efc8b', 'wxQRcodeSrc', '微信二维码', '', '1488876871600', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
-INSERT INTO `com_app_user_ext` VALUES ('454d0f0d15d44e59ab1d5a2148c90a7a', 'b46d1c1881724aa2b4e35314847f4f5a', 'integralCount', '积分数', '', '1488876926670', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
+INSERT INTO `com_app_user_ext` VALUES ('454d0f0d15d44e59ab1d5a2148c90a7a', 'b46d1c1881724aa2b4e35314847f4f5a', 'integralCount', '积分数', '10038015', '1488876926670', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-08 11:25:34');
 INSERT INTO `com_app_user_ext` VALUES ('4927e53d867a4201a38bf1f4932770c4', '7b550a0b71ef4927a4cacf86ec82e7c3', 'wxQRcodeExpiry', '微信二维码有效期', '', '1488876957849', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
 INSERT INTO `com_app_user_ext` VALUES ('4b44724fe11f4aabb55ca92fcf1285f0', '7b550a0b71ef4927a4cacf86ec82e7c3', 'mediaId', '媒体文件id', '', '1488876957846', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
 INSERT INTO `com_app_user_ext` VALUES ('5557fbba5dca4945a413e1a3ae979c8b', 'b46d1c1881724aa2b4e35314847f4f5a', 'wxQRcodeExpiry', '微信二维码有效期', '', '1488876926676', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
@@ -547,7 +547,7 @@ INSERT INTO `com_app_user_ext` VALUES ('7a6121354346438cbe1ce9356c3dc5d1', '523f
 INSERT INTO `com_app_user_ext` VALUES ('9aab9d19cd4548119e5dd41465edeed8', '523f04fe17124aeb85d80b67387efc8b', 'wxQRcodeExpiry', '微信二维码有效期', '', '1488876871599', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
 INSERT INTO `com_app_user_ext` VALUES ('9e9afef00ef748cbaeb07d138617406b', 'b46d1c1881724aa2b4e35314847f4f5a', 'mediaId', '媒体文件id', '', '1488876926674', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
 INSERT INTO `com_app_user_ext` VALUES ('a49f796ee9b2466cace434ee540bdc82', '7b550a0b71ef4927a4cacf86ec82e7c3', 'mediaExpiry', '媒体文件有效时间', '', '1488876957844', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
-INSERT INTO `com_app_user_ext` VALUES ('a9605734ac2d48558437a9d9708a49f8', '523f04fe17124aeb85d80b67387efc8b', 'integralCount', '积分数', '', '1488876871593', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
+INSERT INTO `com_app_user_ext` VALUES ('a9605734ac2d48558437a9d9708a49f8', '523f04fe17124aeb85d80b67387efc8b', 'integralCount', '积分数', '3346005', '1488876871593', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-08 11:25:34');
 INSERT INTO `com_app_user_ext` VALUES ('d2ab0097e9c94f3a847c166e44aefda7', 'b46d1c1881724aa2b4e35314847f4f5a', 'mediaExpiry', '媒体文件有效时间', '', '1488876926672', '01', '1', '2017-03-07 16:55:27', '1', '2017-03-07 16:55:27');
 INSERT INTO `com_app_user_ext` VALUES ('d499f8d9d38548adbd9fa59c8d0082e0', '7b550a0b71ef4927a4cacf86ec82e7c3', 'wxQRcodeSrc', '微信二维码', '', '1488876957851', '01', '1', '2017-03-07 16:55:58', '1', '2017-03-07 16:55:58');
 INSERT INTO `com_app_user_ext` VALUES ('e227068f065145569d3bf022fde89bbe', '523f04fe17124aeb85d80b67387efc8b', 'mediaId', '媒体文件id', '', '1488876871598', '01', '1', '2017-03-07 16:54:32', '1', '2017-03-07 16:54:32');
@@ -622,6 +622,7 @@ INSERT INTO `com_dict_tree` VALUES ('0c608e9327344f588eebd8edce01de8b', 'f9831d6
 INSERT INTO `com_dict_tree` VALUES ('1267d5aa01d440b1a8a686e9494eeece', '0', 'com_appUserType', '平台用户类型', '01', '00', 'com_integralCustomerType', '0', '1488524156915', '01', '1', '2017-03-03 14:56:46', '1', '2017-03-06 15:51:54');
 INSERT INTO `com_dict_tree` VALUES ('132b054047c14abc87f6be78ad0f710a', '0', 'bg_userEffective', '后台生效用户', '02', '00', 'bg_userEffective', '0', '1484726025794', '01', '1', '2017-01-18 15:55:03', '1', '2017-01-18 15:55:09');
 INSERT INTO `com_dict_tree` VALUES ('14ff3ee812a44691b125d9f4c74142ec', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_scancode_waitmsg', '扫码推事件且弹出“消息接收中”提示框', '01', '00', 'scancode_waitmsg', '1', '1486366098596', '01', '1', '2017-02-06 15:28:33', '1', '2017-02-06 15:28:33');
+INSERT INTO `com_dict_tree` VALUES ('16e4fa8be1b4408eae79516c55733df5', '0', 'com_styleCategoryEffective', '生效商品规格分类', '02', '00', 'com_styleCategoryEffective', '0', '1489050940474', '01', '1', '2017-03-09 17:15:53', '1', '2017-03-09 17:16:28');
 INSERT INTO `com_dict_tree` VALUES ('173468d2a2d24dd48642f6cd452c11d2', '30a83d0bc4364ac39edb8d0f5786a338', 'bg_crontabType_03', '微信回调', '01', '00', '03', '1', '1485051617535', '01', '1', '2017-01-22 10:21:26', '1', '2017-01-22 10:21:26');
 INSERT INTO `com_dict_tree` VALUES ('19c85d8153d243c1ac36196a0dadfab3', '7a4aeb77544c47368075cb7199d42bcb', 'com_sparepartDealStatus_02', '审核成功', '01', '00', '02', '1', '1488611187930', '01', '1', '2017-03-04 15:06:44', '1', '2017-03-04 15:06:44');
 INSERT INTO `com_dict_tree` VALUES ('1c0caa13e3514c87a3280f2f48653d83', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_02', 'Int', '01', '00', '02', '1', '1484018861734', '01', '1', '2017-01-10 11:27:42', '1', '2017-01-11 16:26:59');
@@ -649,6 +650,7 @@ INSERT INTO `com_dict_tree` VALUES ('540b4214c9ea4927867b1a878365ec9c', 'd8cf8be
 INSERT INTO `com_dict_tree` VALUES ('54467b4e2dc84c1ca9e21828803eb9b8', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_04', 'Double', '01', '00', '04', '1', '1484019019767', '01', '1', '2017-01-10 11:30:20', '1', '2017-01-11 16:27:10');
 INSERT INTO `com_dict_tree` VALUES ('545f7d1209cb407785abca0aa597512b', '78b4651dca85412095298b54c2d01128', 'com_productCategoryType_02', '商品模块', '01', '00', '02', '1', '1487989181508', '01', '1', '2017-02-25 10:20:25', '1', '2017-02-25 10:20:25');
 INSERT INTO `com_dict_tree` VALUES ('557fcb9b45c3430d93822cfb4863b05d', '2b6adc1e3f5c48fd8f0778d0bbed13c3', 'com_sex_01', '男', '01', '00', '01', '1', '1488790685296', '01', '1', '2017-03-06 16:58:19', '1', '2017-03-06 16:58:19');
+INSERT INTO `com_dict_tree` VALUES ('55be1a6cf32041b9addd3aa8ac43d52c', '0', 'com_productEffective', '生效商品', '02', '00', 'com_productEffective', '0', '1489050565760', '01', '1', '2017-03-09 17:12:25', '1', '2017-03-09 17:14:46');
 INSERT INTO `com_dict_tree` VALUES ('572053db6aa44c4ba95d1b73accaad0c', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_location_select', '弹出地理位置选择器', '01', '00', 'location_select', '1', '1486366184718', '01', '1', '2017-02-06 15:29:54', '1', '2017-02-06 15:29:54');
 INSERT INTO `com_dict_tree` VALUES ('609bbe934cd24f7588af2f717a8d49f3', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_03', 'Time', '01', '00', '03', '1', '1484019001039', '01', '1', '2017-01-10 11:30:01', '1', '2017-01-11 16:27:04');
 INSERT INTO `com_dict_tree` VALUES ('66e83e268bd24bb9b82187c00892d832', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_scancode_push', '扫码推事件', '01', '00', 'scancode_push', '1', '1486366082814', '01', '1', '2017-02-06 15:28:14', '1', '2017-02-06 15:28:14');
@@ -660,8 +662,10 @@ INSERT INTO `com_dict_tree` VALUES ('7a4aeb77544c47368075cb7199d42bcb', '0', 'co
 INSERT INTO `com_dict_tree` VALUES ('7faad10eb0424cf29a51fb5add0f1b50', '28510c12e9834ea29bbb5621f99e804e', 'bg_mapleDetailType_01', 'String', '01', '00', '01', '1', '1484018802176', '01', '1', '2017-01-10 11:26:42', '1', '2017-01-11 16:26:54');
 INSERT INTO `com_dict_tree` VALUES ('808f87b42557462f822c8d82954a8481', '0', 'com_appUserRole', '平台用户角色', '01', '00', 'com_integralCustomerRole', '0', '1488524362820', '01', '1', '2017-03-03 14:59:41', '1', '2017-03-06 16:00:18');
 INSERT INTO `com_dict_tree` VALUES ('894b66f11f8e44a79ac7f111cd886530', '808f87b42557462f822c8d82954a8481', 'com_appUserRole_02', '小区经理', '01', '00', '02', '1', '1488524406401', '01', '1', '2017-03-03 15:00:24', '1', '2017-03-06 15:59:41');
+INSERT INTO `com_dict_tree` VALUES ('8a3b081ef7684f86b676b3bd97417c77', '0', 'com_productStyleEffective', '生效商品规格', '02', '00', 'com_productStyleEffective', '0', '1489050954620', '01', '1', '2017-03-09 17:16:08', '1', '2017-03-09 17:16:31');
 INSERT INTO `com_dict_tree` VALUES ('8ea0f054459f4e619c8a75bfd90f67bb', 'a60fe6c08d7c4708bca2a20cb2feb681', 'bg_roleType_00', '系统管理员角色', '01', '00', '00', '1', '1484804778802', '01', '1', '2017-01-19 13:46:56', '1', '2017-01-19 13:46:56');
 INSERT INTO `com_dict_tree` VALUES ('8f1b49981a4d449383bfb703c0176bd7', '351a934eb7654c2db753fc51b39d3e16', 'bg_userType_01', '录入用户', '01', '00', '01', '1', '1484804518887', '01', '1', '2017-01-19 13:42:43', '1', '2017-01-19 13:42:43');
+INSERT INTO `com_dict_tree` VALUES ('905cdbb48e804421848a656750619764', '0', 'com_productCustomTypeEffective', '生效商品自定义类型', '02', '00', 'com_productCustomTypeEffective', '0', '1489048359818', '01', '1', '2017-03-09 16:32:53', '1', '2017-03-09 17:12:09');
 INSERT INTO `com_dict_tree` VALUES ('916b2c8543b94d488d80a5a08f05b681', '0', 'bg_roleEffective', '后台生效角色', '02', '00', 'bg_roleEffective', '0', '1484804220171', '01', '1', '2017-01-19 13:37:22', '1', '2017-01-19 13:37:37');
 INSERT INTO `com_dict_tree` VALUES ('97eb8171437447fc8714a8c1a2075b9a', '30a83d0bc4364ac39edb8d0f5786a338', 'bg_crontabType_01', '数据表备份', '01', '00', '01', '1', '1485051549949', '01', '1', '2017-01-22 10:19:54', '1', '2017-01-22 10:19:54');
 INSERT INTO `com_dict_tree` VALUES ('9ede63687cce41c380773ba1917519c9', 'fc97312d70a84af186a000882941e5fc', 'com_sparepartType_01', '朴易汽车零部件', '01', '00', '01', '1', '1488529563651', '01', '1', '2017-03-03 16:26:45', '1', '2017-03-03 16:26:45');
@@ -672,6 +676,7 @@ INSERT INTO `com_dict_tree` VALUES ('b4bf5552e7454647b535c372a422c069', '0', 'co
 INSERT INTO `com_dict_tree` VALUES ('bc443acf9b7f48fca6b44934d79a7c99', '0', 'com_sparepartEffective', '生效零配件', '02', '00', 'com_sparepartEffective', '0', '1488608049859', '01', '1', '2017-03-04 14:28:20', '1', '2017-03-04 14:37:10');
 INSERT INTO `com_dict_tree` VALUES ('c3731311fb334e4697c2fb76ab1343be', '2b6adc1e3f5c48fd8f0778d0bbed13c3', 'com_sex_02', '女', '01', '00', '02', '1', '1488790700615', '01', '1', '2017-03-06 16:58:40', '1', '2017-03-06 16:58:40');
 INSERT INTO `com_dict_tree` VALUES ('c4e773c1a20f45788c12789267d6065b', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_pic_sysphoto', '弹出系统拍照发图', '01', '00', 'pic_sysphoto', '1', '1486366136184', '01', '1', '2017-02-06 15:29:07', '1', '2017-02-06 15:29:07');
+INSERT INTO `com_dict_tree` VALUES ('cef79c2b540147418eb37ab3a3c31272', '0', 'com_productTypeEffective', '生效商品类别', '02', '00', 'com_productTypeEffective', '0', '1489047547471', '01', '1', '2017-03-09 16:20:19', '1', '2017-03-09 16:49:52');
 INSERT INTO `com_dict_tree` VALUES ('d29a2f6aab6d4d21babbfc338d90d155', '7a4aeb77544c47368075cb7199d42bcb', 'com_sparepartDealStatus_03', '审核失败', '01', '00', '03', '1', '1488611205295', '01', '1', '2017-03-04 15:06:59', '1', '2017-03-04 15:06:59');
 INSERT INTO `com_dict_tree` VALUES ('d40e20a567a34f04b9af55db0f28474e', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_view', '跳转URL', '01', '00', 'view', '1', '1486366048828', '01', '1', '2017-02-06 15:27:52', '1', '2017-02-06 15:27:52');
 INSERT INTO `com_dict_tree` VALUES ('d77946d83bed4b1686396e78d002cee0', '0', 'com_appUserEffective4S', '生效平台用户（4S店）', '02', '00', 'com_appUserEffective4S', '0', '1488608002089', '01', '1', '2017-03-04 14:13:59', '1', '2017-03-07 09:52:33');
@@ -681,11 +686,13 @@ INSERT INTO `com_dict_tree` VALUES ('da15415d7faa43c9abb31701350d0958', '0', 'bg
 INSERT INTO `com_dict_tree` VALUES ('dee79448e4e546b08bf6c56af9bb8efc', '808f87b42557462f822c8d82954a8481', 'com_appUserRole_01', '大区经理', '01', '00', '01', '1', '1488524385790', '01', '1', '2017-03-03 15:00:05', '1', '2017-03-06 15:59:35');
 INSERT INTO `com_dict_tree` VALUES ('e2a07b8b995449dbb70d4e59cb189ea3', '808f87b42557462f822c8d82954a8481', 'com_appUserRole_00', '普通用户', '01', '00', '00', '1', '1488787227291', '01', '1', '2017-03-06 16:00:52', '1', '2017-03-06 16:00:52');
 INSERT INTO `com_dict_tree` VALUES ('e385f5a7938143f4b4fe8e88c9771cd5', '45c83e69651949d4b343dae672baed81', 'com_supplierType_02', '实体店家', '01', '00', '02', '1', '1487988972913', '01', '1', '2017-02-25 10:16:43', '1', '2017-02-25 10:16:43');
+INSERT INTO `com_dict_tree` VALUES ('e387c8a8f2364d9798fdb323179d034c', '0', 'com_supplierEffective', '生效供应商', '02', '00', 'com_supplierEffective', '0', '1489047419924', '01', '1', '2017-03-09 16:17:32', '1', '2017-03-09 16:53:24');
 INSERT INTO `com_dict_tree` VALUES ('e389a2810d0d45a1ba4596c679e7a544', 'da15415d7faa43c9abb31701350d0958', 'bg_wxMenuBtnType_pic_photo_or_album', '弹出拍照或者相册发图', '01', '00', 'pic_photo_or_album', '1', '1486366153961', '01', '1', '2017-02-06 15:29:24', '1', '2017-02-06 15:29:24');
 INSERT INTO `com_dict_tree` VALUES ('e53230ed682741f4ad63e470e0d86488', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_mb', 'mobile', '01', '00', 'mb', '1', '1484018478585', '01', '1', '2017-01-10 11:21:19', '1', '2017-01-10 11:21:33');
 INSERT INTO `com_dict_tree` VALUES ('e67e77715a7c41dd9acda383e6bbe8b3', '7a4aeb77544c47368075cb7199d42bcb', 'com_sparepartDealStatus_01', '待审核', '01', '00', '01', '1', '1488611166327', '01', '1', '2017-03-04 15:06:26', '1', '2017-03-04 15:06:26');
 INSERT INTO `com_dict_tree` VALUES ('e69288a45145429c8c3a865024d4b83c', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_02', '树形', '01', '00', '02', '1', '1484025846486', '01', '1', '2017-01-10 13:24:06', '1', '2017-01-10 13:24:06');
 INSERT INTO `com_dict_tree` VALUES ('ec677b163d7448f8a1b050829917f657', '30c39f10c07e4b3b905734277e527eee', 'com_sf_00', '否', '01', '00', '00', '1', '1484536554576', '01', '1', '2017-01-16 11:16:26', '1', '2017-01-16 11:18:34');
+INSERT INTO `com_dict_tree` VALUES ('ee9a01bda113406cb6f8eed7c25c125d', '0', 'com_productModelEffective', '生效商品模型', '02', '00', 'com_productModelEffective', '0', '1489047624518', '01', '1', '2017-03-09 16:21:40', '1', '2017-03-09 16:50:00');
 INSERT INTO `com_dict_tree` VALUES ('f0cde8fcc255428fae4cceb7f1a3abf1', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_bg', 'background', '01', '00', 'bg', '1', '1484018374289', '01', '1', '2017-01-10 11:19:34', '1', '2017-01-10 11:19:34');
 INSERT INTO `com_dict_tree` VALUES ('f29b6b4266b54c67a3d9f629abc95560', 'd8cf8becf1db4418a098a43500d5cf3f', 'com_packageType_com', 'common', '01', '00', 'com', '1', '1484017926047', '01', '1', '2017-01-10 11:12:06', '1', '2017-01-10 11:13:22');
 INSERT INTO `com_dict_tree` VALUES ('f2b727ee2e654654bd91363660fe2197', 'f9831d6e9c3b482381bb940ffc5edf20', 'bg_mapleType_03', '主从型（主）', '01', '00', '03', '1', '1484025903963', '01', '1', '2017-01-10 13:25:04', '1', '2017-01-10 13:25:04');
@@ -695,41 +702,6 @@ INSERT INTO `com_dict_tree` VALUES ('f9831d6e9c3b482381bb940ffc5edf20', '0', 'bg
 INSERT INTO `com_dict_tree` VALUES ('f9fa8593bcee403bb28d8f5432ee2932', '7a4aeb77544c47368075cb7199d42bcb', 'com_sparepartDealStatus_00', '待申请', '01', '00', '00', '1', '1488611118567', '01', '1', '2017-03-04 15:06:05', '1', '2017-03-04 15:06:05');
 INSERT INTO `com_dict_tree` VALUES ('fc97312d70a84af186a000882941e5fc', '0', 'com_sparepartType', '零部件类型', '01', '00', 'com_sparepartType', '0', '1488529539958', '01', '1', '2017-03-03 16:25:59', '1', '2017-03-03 16:25:59');
 INSERT INTO `com_dict_tree` VALUES ('fe507ec52dd74565b9b44138a30763bf', '30c39f10c07e4b3b905734277e527eee', 'com_sf_01', '是', '01', '00', '01', '1', '1484536535794', '01', '1', '2017-01-16 11:15:53', '1', '2017-01-16 11:18:28');
-
--- ----------------------------
--- Table structure for com_integral_customer_tree
--- ----------------------------
-DROP TABLE IF EXISTS `com_integral_customer_tree`;
-CREATE TABLE `com_integral_customer_tree` (
-  `integralCustomerId` varchar(100) NOT NULL COMMENT '积分客户 主键id',
-  `parentId` varchar(100) NOT NULL COMMENT '上级 id',
-  `roleId` varchar(100) DEFAULT NULL COMMENT '角色',
-  `integralCustomerCode` varchar(100) DEFAULT NULL COMMENT '积分客户代号',
-  `integralCustomerName` varchar(100) DEFAULT NULL COMMENT '积分客户名称',
-  `integralCustomerType` varchar(100) DEFAULT NULL COMMENT '积分客户类型',
-  `integralCustomerStatus` varchar(100) DEFAULT NULL COMMENT '积分客户状态',
-  `phone` varchar(100) DEFAULT NULL COMMENT '手机号码',
-  `password` varchar(255) DEFAULT NULL COMMENT '密码',
-  `userIconSrc` varchar(100) DEFAULT NULL COMMENT '客户头像',
-  `remarks` varchar(100) DEFAULT NULL COMMENT '备注信息',
-  `level` int(100) DEFAULT NULL COMMENT '级别',
-  `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
-  `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
-  `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
-  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
-  `modifyUserId` varchar(100) DEFAULT NULL COMMENT '修改人员id',
-  `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`integralCustomerId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分客户';
-
--- ----------------------------
--- Records of com_integral_customer_tree
--- ----------------------------
-INSERT INTO `com_integral_customer_tree` VALUES ('01d63da8da0e475b932a5eb6d9ea5da7', '0', '01', 'ic010000', '陈晓', '01', '00', '13345678922', '03cbc286fb6dec799cf71da7da47019de7d257a799f64a8483ec177410a9bd79bf962a059955f025b19217420731accdbae5ebacc6c9ce27093914d809b15dba', '', '1', '1', '1488526752271', '01', '1', '2017-03-03 15:40:57', '1', '2017-03-03 15:40:57');
-INSERT INTO `com_integral_customer_tree` VALUES ('4041d1468eb24f829cb06aa306011074', '01d63da8da0e475b932a5eb6d9ea5da7', '02', 'ic010100', '张明', '01', '00', '13575542432', 'adebb9776c74a549238c80555a5402f0d3595a66050543dc22c896d2eab3249ee38d8c81b91c98aad43b42fc85186a1ed115bfd83cd1da1467dc659360c15d58', '', '请问', '2', '1488527040166', '01', '1', '2017-03-03 15:44:16', '1', '2017-03-03 15:44:16');
-INSERT INTO `com_integral_customer_tree` VALUES ('54ea0f42230846daa4deeb76d1c0df1f', '0', '01', 'a002', '王倩敏', '01', '00', '159876312364', 'f54894b6e28ccf56dfdad8797ef13192ec507babc4c494bfcb7342592835e0217fec5b58071eca7d0d1243aecc72acd01ddbd9ae137a957d50f98a161da8c983', '', '华南大区', '1', '1488617850686', '01', '59e413d02fe24211a6b5725abe3e868d', '2017-03-04 16:58:29', '59e413d02fe24211a6b5725abe3e868d', '2017-03-04 16:58:29');
-INSERT INTO `com_integral_customer_tree` VALUES ('691235f958354630b2c6cc30e855efd8', '4041d1468eb24f829cb06aa306011074', '03', 'ic010101', '张旭（南通Jeep 4S店）', '01', '00', '15876362530', '1de42255d0ef8eca91ca2d22bd30684c97768adc15f1f48fac19e60a4b587ef4553a37c270e7c2f6116ca6de6ce0089faf18675d8d1ada03e5388e69e85435d4', '', '发斯蒂芬斯蒂芬', '3', '1488527082770', '01', '1', '2017-03-03 15:45:59', '1', '2017-03-03 15:45:59');
-INSERT INTO `com_integral_customer_tree` VALUES ('9ff7727c457a4d448d9c3d5a69b5749f', '54ea0f42230846daa4deeb76d1c0df1f', '02', 'a11205359', '徐波', '01', '00', '18260625621', 'bea3f8400ebf3aa134f34764cd75a8d4425e7786fc20e57fbf61d4b86f308f8ef5ed43576a431ece206449bb48a8f32d27fd1d2b6237288c1f8cbaaad80181a5', '', '江苏', '2', '1488691293173', '01', '59e413d02fe24211a6b5725abe3e868d', '2017-03-05 13:22:19', '59e413d02fe24211a6b5725abe3e868d', '2017-03-05 13:22:19');
 
 -- ----------------------------
 -- Table structure for com_integral_note_info
@@ -757,6 +729,42 @@ CREATE TABLE `com_integral_note_info` (
 -- ----------------------------
 -- Records of com_integral_note_info
 -- ----------------------------
+INSERT INTO `com_integral_note_info` VALUES ('04d3a51462da4d68a5fbd263b01e9a8d', 'ca72a60054b84c8cbc399da8512b3a3b', '陈华出售“全新Jeep自由侠主题摄影包*435345”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '6530175.00', null, null, '1488942530764', '01', '1', '2017-03-08 11:08:51', '1', '2017-03-08 11:08:51');
+INSERT INTO `com_integral_note_info` VALUES ('115e0aed5fbd4bd4b9e44d0acd11d092', '957f5c0bd83c45279f0fabc8506907e1', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '3075.00', null, null, '1488941727887', '01', '1', '2017-03-08 10:55:28', '1', '2017-03-08 10:55:28');
+INSERT INTO `com_integral_note_info` VALUES ('117b1f3933a4468db344eae79cb41653', 'f2cb57ce9cc4415da7e5715a66de8c4e', '陈华出售“全新Jeep自由侠主题摄影包*123”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '9840.00', null, null, '1488943533931', '01', '1', '2017-03-08 11:25:34', '1', '2017-03-08 11:25:34');
+INSERT INTO `com_integral_note_info` VALUES ('1607598a0a254b1a8fe94d106d49d168', 'e861a910b1b84f0b9b51996d1407028f', '陈华出售“Jeep专用后备箱固定网*32342”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '808550.00', null, null, '1488942072575', '01', '1', '2017-03-08 11:01:13', '1', '2017-03-08 11:01:13');
+INSERT INTO `com_integral_note_info` VALUES ('186dc35e9d224b3d87bac299fa0af746', 'decf653fc5604c188845376edf567530', '陈华出售“Jeep专用后备箱固定网*324”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '8100.00', null, null, '1488941996069', '01', '1', '2017-03-08 10:59:56', '1', '2017-03-08 10:59:56');
+INSERT INTO `com_integral_note_info` VALUES ('1a1ceb831f13466ab752f2ec76235b5a', '957f5c0bd83c45279f0fabc8506907e1', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '49200.00', null, null, '1488941727865', '01', '1', '2017-03-08 10:55:28', '1', '2017-03-08 10:55:28');
+INSERT INTO `com_integral_note_info` VALUES ('20e176db33914b68b50efca854510dc5', 'ca72a60054b84c8cbc399da8512b3a3b', '陈华出售“全新Jeep自由侠主题摄影包*435345”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '34827600.00', null, null, '1488942530642', '01', '1', '2017-03-08 11:08:51', '1', '2017-03-08 11:08:51');
+INSERT INTO `com_integral_note_info` VALUES ('22380d25d51549a6b537e7181779c1d5', 'e861a910b1b84f0b9b51996d1407028f', '陈华出售“Jeep专用后备箱固定网*32342”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '12936800.00', null, null, '1488942072552', '01', '1', '2017-03-08 11:01:13', '1', '2017-03-08 11:01:13');
+INSERT INTO `com_integral_note_info` VALUES ('29d935a7db4c44adb63ded9f0ade82fc', '4d2202943d204e5e96f7dca3ffacbceb', '陈华出售“全新Jeep自由侠主题摄影包*213”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '3195.00', null, null, '1488942651770', '01', '1', '2017-03-08 11:10:52', '1', '2017-03-08 11:10:52');
+INSERT INTO `com_integral_note_info` VALUES ('2bf7497393384fc1a31ff53db8623b10', '1a78e465144649d29dc08de86d473642', '陈华出售“全新Jeep自由侠主题摄影包*5000”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '25000.00', null, null, '1488941565480', '01', '1', '2017-03-08 10:52:45', '1', '2017-03-08 10:52:45');
+INSERT INTO `com_integral_note_info` VALUES ('2e147217ccd645f9aa99e0b4a6f1ddcd', 'f2cb57ce9cc4415da7e5715a66de8c4e', '陈华出售“全新Jeep自由侠主题摄影包*123”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '1845.00', null, null, '1488943534025', '01', '1', '2017-03-08 11:25:34', '1', '2017-03-08 11:25:34');
+INSERT INTO `com_integral_note_info` VALUES ('35c45c91dbd443eb8ed899b8438dd477', 'eddd9dab4750428698f12bbcec8c8428', '陈华出售“Jeep专用后备箱固定网*234”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '5850.00', null, null, '1488942277173', '01', '1', '2017-03-08 11:04:37', '1', '2017-03-08 11:04:37');
+INSERT INTO `com_integral_note_info` VALUES ('432bb2400ba84046b1ba0af8ad4d4b19', '245f097042d04815897996776ad95a7d', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '9225.00', null, null, '1488942927228', '01', '1', '2017-03-08 11:15:27', '1', '2017-03-08 11:15:27');
+INSERT INTO `com_integral_note_info` VALUES ('456548f354ea4ca59e67860ace34652a', '7cd45c0ea37d498ea36ec067f7dd7cf4', '陈华出售“Jeep专用后备箱固定网*12312”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '4924800.00', null, null, '1488942403054', '01', '1', '2017-03-08 11:06:43', '1', '2017-03-08 11:06:43');
+INSERT INTO `com_integral_note_info` VALUES ('496255a278d14072a3403d51234679a5', '1a78e465144649d29dc08de86d473642', '陈华出售“全新Jeep自由侠主题摄影包*5000”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '400000.00', null, null, '1488941565419', '01', '1', '2017-03-08 10:52:45', '1', '2017-03-08 10:52:45');
+INSERT INTO `com_integral_note_info` VALUES ('4fd64312f27e453784ad7f30d3588aab', 'e861a910b1b84f0b9b51996d1407028f', '陈华出售“Jeep专用后备箱固定网*32342”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '2425650.00', null, null, '1488942072567', '01', '1', '2017-03-08 11:01:13', '1', '2017-03-08 11:01:13');
+INSERT INTO `com_integral_note_info` VALUES ('540ca569cc2b43c4ac7ede0e3abd2ab7', 'a4d6b6c65ecd412593d33142a0e2af1c', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '3075.00', null, null, '1488941769790', '01', '1', '2017-03-08 10:56:10', '1', '2017-03-08 10:56:10');
+INSERT INTO `com_integral_note_info` VALUES ('5c7a039f9f4d4867a1afc8764dfd447f', 'ca72a60054b84c8cbc399da8512b3a3b', '陈华出售“全新Jeep自由侠主题摄影包*435345”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '2176725.00', null, null, '1488942530767', '01', '1', '2017-03-08 11:08:51', '1', '2017-03-08 11:08:51');
+INSERT INTO `com_integral_note_info` VALUES ('616b0705c61f45e9b37140f156a79c78', '957f5c0bd83c45279f0fabc8506907e1', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '9225.00', null, null, '1488941727883', '01', '1', '2017-03-08 10:55:28', '1', '2017-03-08 10:55:28');
+INSERT INTO `com_integral_note_info` VALUES ('70f6d67e01a3485e8b23fe751a0f1560', '7cd45c0ea37d498ea36ec067f7dd7cf4', '陈华出售“Jeep专用后备箱固定网*12312”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '307800.00', null, null, '1488942403069', '01', '1', '2017-03-08 11:06:43', '1', '2017-03-08 11:06:43');
+INSERT INTO `com_integral_note_info` VALUES ('74c5d906951646a0826042a7a2da7af1', 'decf653fc5604c188845376edf567530', '陈华出售“Jeep专用后备箱固定网*324”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '24300.00', null, null, '1488941996023', '01', '1', '2017-03-08 10:59:56', '1', '2017-03-08 10:59:56');
+INSERT INTO `com_integral_note_info` VALUES ('7d8eae204922487ba0425c34235bdffb', 'a4d6b6c65ecd412593d33142a0e2af1c', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '49200.00', null, null, '1488941769746', '01', '1', '2017-03-08 10:56:10', '1', '2017-03-08 10:56:10');
+INSERT INTO `com_integral_note_info` VALUES ('896327634ae04c199cc44e758704ecc7', '245f097042d04815897996776ad95a7d', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '49200.00', null, null, '1488942927221', '01', '1', '2017-03-08 11:15:27', '1', '2017-03-08 11:15:27');
+INSERT INTO `com_integral_note_info` VALUES ('8e9ffb6234f646b893df7c670b67b031', '245f097042d04815897996776ad95a7d', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '3075.00', null, null, '1488942927231', '01', '1', '2017-03-08 11:15:27', '1', '2017-03-08 11:15:27');
+INSERT INTO `com_integral_note_info` VALUES ('9dfd7a88f9d3415ea574f2f3d064a673', 'de0858c5f6ab41dabac62999059b1149', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '3075.00', null, null, '1488942359526', '01', '1', '2017-03-08 11:06:00', '1', '2017-03-08 11:06:00');
+INSERT INTO `com_integral_note_info` VALUES ('b4aabc04b72645e7b2eada5d5ded1b72', '4d2202943d204e5e96f7dca3ffacbceb', '陈华出售“全新Jeep自由侠主题摄影包*213”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '1065.00', null, null, '1488942651775', '01', '1', '2017-03-08 11:10:52', '1', '2017-03-08 11:10:52');
+INSERT INTO `com_integral_note_info` VALUES ('b9220a16b274446ab38d3dd54b96ac7d', '4d2202943d204e5e96f7dca3ffacbceb', '陈华出售“全新Jeep自由侠主题摄影包*213”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '17040.00', null, null, '1488942651758', '01', '1', '2017-03-08 11:10:52', '1', '2017-03-08 11:10:52');
+INSERT INTO `com_integral_note_info` VALUES ('bc4240456b5847f0a995bf0362dc4be0', 'de0858c5f6ab41dabac62999059b1149', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '9225.00', null, null, '1488942359522', '01', '1', '2017-03-08 11:06:00', '1', '2017-03-08 11:06:00');
+INSERT INTO `com_integral_note_info` VALUES ('c5f559ba77c24066b3ef7131ff8006ff', '7cd45c0ea37d498ea36ec067f7dd7cf4', '陈华出售“Jeep专用后备箱固定网*12312”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '923400.00', null, null, '1488942403064', '01', '1', '2017-03-08 11:06:43', '1', '2017-03-08 11:06:43');
+INSERT INTO `com_integral_note_info` VALUES ('d513efebddcd4bf9947014d94756a046', 'decf653fc5604c188845376edf567530', '陈华出售“Jeep专用后备箱固定网*324”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '129600.00', null, null, '1488941996007', '01', '1', '2017-03-08 10:59:56', '1', '2017-03-08 10:59:56');
+INSERT INTO `com_integral_note_info` VALUES ('d6d229469469400db23d1dcc28141452', 'eddd9dab4750428698f12bbcec8c8428', '陈华出售“Jeep专用后备箱固定网*234”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '17550.00', null, null, '1488942277169', '01', '1', '2017-03-08 11:04:37', '1', '2017-03-08 11:04:37');
+INSERT INTO `com_integral_note_info` VALUES ('db06aaa9d58d4af5944158f692692944', 'f2cb57ce9cc4415da7e5715a66de8c4e', '陈华出售“全新Jeep自由侠主题摄影包*123”获得积分', '01', '00', '523f04fe17124aeb85d80b67387efc8b', '615.00', null, null, '1488943534029', '01', '1', '2017-03-08 11:25:34', '1', '2017-03-08 11:25:34');
+INSERT INTO `com_integral_note_info` VALUES ('dda8663f685a467b85e9db238df7d697', 'eddd9dab4750428698f12bbcec8c8428', '陈华出售“Jeep专用后备箱固定网*234”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '93600.00', null, null, '1488942277053', '01', '1', '2017-03-08 11:04:37', '1', '2017-03-08 11:04:37');
+INSERT INTO `com_integral_note_info` VALUES ('ddd2b6bdac86476f99a4155eb22208bc', 'a4d6b6c65ecd412593d33142a0e2af1c', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '9225.00', null, null, '1488941769786', '01', '1', '2017-03-08 10:56:10', '1', '2017-03-08 10:56:10');
+INSERT INTO `com_integral_note_info` VALUES ('f01cbfbb3d9843f8bcce65185bbe81e6', '1a78e465144649d29dc08de86d473642', '陈华出售“全新Jeep自由侠主题摄影包*5000”获得积分', '01', '00', 'b46d1c1881724aa2b4e35314847f4f5a', '75000.00', null, null, '1488941565475', '01', '1', '2017-03-08 10:52:45', '1', '2017-03-08 10:52:45');
+INSERT INTO `com_integral_note_info` VALUES ('fd8c3b9f7e744ae09e981273691b047b', 'de0858c5f6ab41dabac62999059b1149', '陈华出售“Jeep专用后备箱固定网*123”获得积分', '01', '00', '7b550a0b71ef4927a4cacf86ec82e7c3', '49200.00', null, null, '1488942359444', '01', '1', '2017-03-08 11:05:59', '1', '2017-03-08 11:05:59');
 
 -- ----------------------------
 -- Table structure for com_invite_info
@@ -793,10 +801,10 @@ CREATE TABLE `com_product_category_info` (
   `productCategoryName` varchar(100) DEFAULT NULL COMMENT '商品分类名称',
   `productCategoryType` varchar(100) DEFAULT NULL COMMENT '商品分类类型',
   `productCategoryStatus` varchar(100) DEFAULT NULL COMMENT '商品分类状态',
-  `headImgSrc` varchar(100) DEFAULT NULL COMMENT '分类头像',
-  `imgSrc1` varchar(100) DEFAULT NULL COMMENT '长框图',
-  `imgSrc2` varchar(100) DEFAULT NULL COMMENT '滚播图',
-  `summary` varchar(100) DEFAULT NULL COMMENT '摘要',
+  `headImgSrc` varchar(1000) DEFAULT NULL COMMENT '分类头像',
+  `imgSrc1` varchar(1000) DEFAULT NULL COMMENT '长框图',
+  `imgSrc2` varchar(1000) DEFAULT NULL COMMENT '滚播图',
+  `summary` varchar(1000) DEFAULT NULL COMMENT '摘要',
   `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
   `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
   `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
@@ -809,6 +817,11 @@ CREATE TABLE `com_product_category_info` (
 -- ----------------------------
 -- Records of com_product_category_info
 -- ----------------------------
+INSERT INTO `com_product_category_info` VALUES ('1245ed0a5756448aab614c9c16f1b7cb', 'splb0000004', '私房菜的', '01', '00', 'uploadFiles/image/productCategory/headimg/ff2269d850114640afe9f8311249d429.jpg', 'uploadFiles/image/productCategory/img1/4016182aaea34bb7b66195902d55cf56.jpg_maple,uploadFiles/image/productCategory/img1/3bf8b0b27206497c9c6010dcc85a101e.jpg_maple,uploadFiles/image/productCategory/img1/209a391212054ead8b18f821d4ff8bbe.jpg', 'uploadFiles/image/productCategory/img2/c2cb7b09ed694ba29414e05fb4f77468.jpg_maple,uploadFiles/image/productCategory/img2/27c32f19ae424707aad31b9c2de92029.jpg_maple,uploadFiles/image/productCategory/img2/8be0a2cf409d462da73c1f42bde4a6e8.jpg_maple,uploadFiles/image/productCategory/img2/75c67e470acc43958192963df5a3349b.jpg', '打算', '1489046401841', '01', '1', '2017-03-09 16:00:29', '1', '2017-03-09 16:00:29');
+INSERT INTO `com_product_category_info` VALUES ('7ed22c6fa8a44d4eaa8f62df8d340b35', 'spmk0000001', '萨达', '02', '00', 'uploadFiles/image/productCategory/headimg/67c4cd91877744faa39888f35e0003c9.jpg', 'uploadFiles/image/productCategory/img1/b9d2130140b741c09452243f4c66afd9.jpg_maple,uploadFiles/image/productCategory/img1/6a5578028f8e4792bf698e66735448ef.jpg_maple,uploadFiles/image/productCategory/img1/e872953f296f48e5b3cc5c16a13f0ac3.jpg', 'uploadFiles/image/productCategory/img2/cae7b8fba7d547e596141993a0e02397.jpg_maple,uploadFiles/image/productCategory/img2/63efaf332a86441d934e576150e94ed1.jpg_maple,uploadFiles/image/productCategory/img2/8196111a13b048b8951abbd095e8d2a2.jpg_maple,uploadFiles/image/productCategory/img2/3ae6a0ed7ba3449bb10743f85cc361fa.jpg', '大声道', '1489046620584', '01', '1', '2017-03-09 16:05:34', '1', '2017-03-09 16:05:34');
+INSERT INTO `com_product_category_info` VALUES ('8ceef21e782d497b83674cac4ba58f12', 'splb0000001', '水果', '01', '00', 'uploadFiles/image/productCategory/headimg/d972469d0a03416db1452e37193beb0f.jpg', 'uploadFiles/image/productCategory/img1/66df2b155f514ce086419878db5a1595.jpg_maple,uploadFiles/image/productCategory/img1/dc30641ac6d34162a4fe271b018a508f.jpg_maple,uploadFiles/image/productCategory/img1/875d59da67624850962d971e3cc614d9.jpg', 'uploadFiles/image/productCategory/img2/fa42053260bf4f249b18970e95c6f91e.jpg_maple,uploadFiles/image/productCategory/img2/1dfcc488f3384b37b297cd9b58d8eac1.jpg_maple,uploadFiles/image/productCategory/img2/ea83be26d64e4bef87ee7f50531f7cf8.jpg_maple,uploadFiles/image/productCategory/img2/6c4c64a06412423593cda5270b5fbb01.jpg', '萨达', '1489044866150', '01', '1', '2017-03-09 15:34:44', '1', '2017-03-09 15:34:44');
+INSERT INTO `com_product_category_info` VALUES ('a2ade0adc3be4df7affcea78301dce8b', 'spmk0000005', '撒大大', '02', '00', 'uploadFiles/image/productCategory/headimg/76cc860a82484a3fa21ec53e46b0eff3.jpg', 'uploadFiles/image/productCategory/img1/5a918db776c64659a192e4ff2621aaff.jpg_maple,uploadFiles/image/productCategory/img1/9afdc89bae97440394dd956be8ad5183.jpg_maple,uploadFiles/image/productCategory/img1/8af238118f5b4490b1dd6df60c2f2860.jpg', 'uploadFiles/image/productCategory/img2/1b2358f266ad42ce8410c76b7c905ba2.jpg_maple,uploadFiles/image/productCategory/img2/85b94da936e64da28fcbcbb6bdbedfcc.jpg_maple,uploadFiles/image/productCategory/img2/d72432f5d69e49d9afaba211dbcaab5e.jpg_maple,uploadFiles/image/productCategory/img2/d8642258f1ce4c10b240967e3f564ba5.jpg', '打算', '1489046993634', '01', '1', '2017-03-09 16:10:44', '1', '2017-03-09 16:10:44');
+INSERT INTO `com_product_category_info` VALUES ('aebec986654e4799b7be2839992646e4', 'splb0000002', '阿萨德撒', '01', '00', 'uploadFiles/image/productCategory/headimg/967a185f83314880a7b20d9055e259bc.jpg', 'uploadFiles/image/productCategory/img1/01e47022a10842ea9b295b8c53bb88cb.jpg_maple,uploadFiles/image/productCategory/img1/c50ea25cd1df4674ae3c4fa2b4960d9f.jpg', 'uploadFiles/image/productCategory/img2/b667de92cd964500a80e2218bd606e96.jpg', '萨达', '1489046509440', '01', '1', '2017-03-09 16:02:10', '1', '2017-03-09 16:02:10');
 
 -- ----------------------------
 -- Table structure for com_product_info
@@ -823,9 +836,9 @@ CREATE TABLE `com_product_info` (
   `productStatus` varchar(100) DEFAULT NULL COMMENT '产品状态',
   `productModel` varchar(100) DEFAULT NULL COMMENT '产品模型',
   `summary` varchar(1000) DEFAULT NULL COMMENT '摘要',
-  `introduction` varchar(100) DEFAULT NULL COMMENT '简介',
-  `headImgSrc` varchar(100) DEFAULT NULL COMMENT '产品头像',
-  `imgSrc1` varchar(100) DEFAULT NULL COMMENT '长框图',
+  `introduction` varchar(1000) DEFAULT NULL COMMENT '简介',
+  `headImgSrc` varchar(1000) DEFAULT NULL COMMENT '产品头像',
+  `imgSrc1` varchar(1000) DEFAULT NULL COMMENT '长框图',
   `imgSrc2` varchar(1000) DEFAULT NULL COMMENT '滚播图',
   `imgSrc3` varchar(1000) DEFAULT NULL COMMENT '详情图',
   `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
@@ -840,6 +853,8 @@ CREATE TABLE `com_product_info` (
 -- ----------------------------
 -- Records of com_product_info
 -- ----------------------------
+INSERT INTO `com_product_info` VALUES ('878c5545d5b84441b0767c817f554de0', 'fb4291204f804be79b35e0cbb2ed952e', 'sp123456789', '打算的撒', '1245ed0a5756448aab614c9c16f1b7cb', '00', '7ed22c6fa8a44d4eaa8f62df8d340b35', '阿萨德撒', '阿萨德', 'uploadFiles/cache/bb65e3b7ced24d09a649465630d98391.jpg', 'uploadFiles/cache/b3610266cabc4961b303a1a8683d7c4a.jpg,uploadFiles/cache/9a0019cb9a674f20b9a391ef7f228f4a.jpg,uploadFiles/cache/91819c5eb38f4e909bde629895526487.jpg', 'uploadFiles/cache/c929b2d8cb7441269a267e96d625ab6c.jpg,uploadFiles/cache/6c6ea2a8520e47e4ab837caec1f88706.jpg,uploadFiles/cache/87b33facbb52444d86f895aa995e0362.jpg', 'uploadFiles/cache/dcd325a934de437b81d289cdaee73ca7.jpg,uploadFiles/cache/52ed5845121e4f7eb802add713069946.jpg,uploadFiles/cache/313460c6fb744c7cb9d9127440b4df18.jpg', '1489049618151', '01', '1', '2017-03-09 16:59:54', '1', '2017-03-09 16:59:54');
+INSERT INTO `com_product_info` VALUES ('f0974b9fdf3e49078c4a3f8b2fe91f53', 'fb4291204f804be79b35e0cbb2ed952e', 'sp12364', 'qweqwe', '8ceef21e782d497b83674cac4ba58f12', '00', 'a2ade0adc3be4df7affcea78301dce8b', '撒旦撒旦', '额外企鹅但是答案是', 'uploadFiles/cache/63a77d92e2c345d999b50fa26cd85934.jpg', 'uploadFiles/cache/e89f1c359dfc4fef819476106e4ab35d.jpg', 'uploadFiles/cache/b6f53b324dd941c49bd89e6e90aaa2c5.jpg,uploadFiles/cache/9e9062de35cb4a0782668a21f1a8af33.jpg,uploadFiles/cache/3a7065a33e694c83bfcf99fc8d021c88.jpg,uploadFiles/cache/ffdd05b46af3451fb5afde93cce5dcea.jpg', 'uploadFiles/cache/5d530141945646d19663c5716c1abd1b.jpg,uploadFiles/cache/5da6d96b5ab04e72a2f4516eb4516ab6.jpg,uploadFiles/cache/2f82ca474db3463391655eadbede3732.jpg,uploadFiles/cache/c90ada3bb93b4540b6e105e421cf5d95.jpg', '1489050000001', '01', '1', '2017-03-09 17:00:46', '1', '2017-03-09 17:00:46');
 
 -- ----------------------------
 -- Table structure for com_product_style_info
@@ -899,7 +914,8 @@ CREATE TABLE `com_sparepart_deal_info` (
 -- ----------------------------
 -- Records of com_sparepart_deal_info
 -- ----------------------------
-INSERT INTO `com_sparepart_deal_info` VALUES ('b5056432a9304f49aece285df8492165', '3645425585', '02', '7b550a0b71ef4927a4cacf86ec82e7c3', 'f1f4303f16dd43b187dc61827284619b', '6', '5000.00', '2017-03-07 16:56:02', '1', '通过！', '2017-03-07 16:56:22', '1488876962950', '01', '1', '2017-03-07 16:56:19', '1', '2017-03-07 16:56:22');
+INSERT INTO `com_sparepart_deal_info` VALUES ('245f097042d04815897996776ad95a7d', '21312123213', '02', '7b550a0b71ef4927a4cacf86ec82e7c3', 'f1f4303f16dd43b187dc61827284619b', '123', '123.00', '2017-03-08 11:12:26', '1', '通过！', '2017-03-08 11:15:27', '1488942746078', '01', '1', '2017-03-08 11:12:37', '1', '2017-03-08 11:15:27');
+INSERT INTO `com_sparepart_deal_info` VALUES ('f2cb57ce9cc4415da7e5715a66de8c4e', '21312', '02', '7b550a0b71ef4927a4cacf86ec82e7c3', 'be8106448cba4c1a99280474ec128239', '123', '21312.00', '2017-03-08 11:11:16', '1', '通过！', '2017-03-08 11:25:34', '1488942676181', '01', '1', '2017-03-08 11:11:22', '1', '2017-03-08 11:25:34');
 
 -- ----------------------------
 -- Table structure for com_sparepart_info
@@ -1032,4 +1048,4 @@ CREATE TABLE `com_wx_account_info` (
 -- ----------------------------
 -- Records of com_wx_account_info
 -- ----------------------------
-INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'F-ifpLya4zAMTYhzqcu0RRSodj6kJTGh9JhYJSjNuLaYWbPat2TArxEkrNbLh0iV05roIEyXmJNDyRUEtjPzuco3YXRjoFJXQ2jEoUmGx_sTBCbADALTU', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjd9mRz35QS5MC1NhKDSCAlpEtXeC1oBKv_o06EOnlbk1Q', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-07 13:22:01');
+INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'o-c_LGLu3bh2s8dQu2P4d5nNK8vWHbIVL-EBdviEZA_l43IRmQ22hfrNDxaNwQIdRkr3N_xS_MPtL-2h_k37CAKSKUh3SQ-xnFGZO-s0-mFS6HzutRiJiR_SFMHjphtUUJWaACACRE', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjfuPhfUZIyK7Dxh6cuGkfRtciEN1O0nHwOkOyA2Nc21Aw', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-09 17:22:01');

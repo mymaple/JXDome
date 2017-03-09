@@ -67,10 +67,6 @@
 									<th class="center">商品分类代号</th>
 									<th class="center">商品分类名称</th>
 									<th class="center">商品分类类型</th>
-									<th class="center">分类头像</th>
-									<th class="center">长框图</th>
-									<th class="center">滚播图</th>
-									<th class="center">摘要</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -90,10 +86,6 @@
 											<td class='center'>${comProductCategory.productCategoryCode}</td>
 											<td class='center'>${comProductCategory.productCategoryName}</td>
 											<td class='center'><param:display type="com_productCategoryType" value="${comProductCategory.productCategoryType}"/></td>
-											<td class='center'>${comProductCategory.headImgSrc}</td>
-											<td class='center'>${comProductCategory.imgSrc1}</td>
-											<td class='center'>${comProductCategory.imgSrc2}</td>
-											<td class='center'>${comProductCategory.summary}</td>
 											<td class='center'>${comProductCategory.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">

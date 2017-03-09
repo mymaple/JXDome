@@ -4,14 +4,23 @@
 	$(function(){
 		upimg_url =  locat[0]+'//'+locat[2]+'/'+locat[3]+'/common/file/upimg.do';
 		
-        $('img.lazy').lazyload({
-            threshold :20
-        });
+        upimg_lazyLoad();
     })  
     
+    
+    function upimg_lazyLoad(){
+    	$('img.lazy').lazyload({
+            threshold :20
+        });
+    }
+    
     function upimg_toUploadImg(elem, img, fun){
+    	var upimg_maxWidth = $(elem).closest('ul').prevAll('input.upimg_maxWidth')[0].value;
+    	var upimg_maxHight = $(elem).closest('ul').prevAll('input.upimg_maxHight')[0].value;
     	var formData = new FormData();
 		formData.append('img', img);
+		formData.append('maxWidth', upimg_maxWidth);
+		formData.append('maxHight', upimg_maxHight);
 		$.ajax({
 			url:  upimg_url,  
 		    type: 'POST',
@@ -62,17 +71,18 @@
 										'<div class="upimg_cell upimg_edit">'+
 											'<input type="hidden" name="'+upimg_name+'" value="'+src+'" />'+
 											'<div class="upimg_error"></div>'+
-											'<img src="'+src+'" data-original="img/loading.gif" class="lazy" />'+
+											'<img src="plugins/myupimg/img/loading.gif" data-original="'+src+'" class="lazy" />'+
 											'<div class="upimg_tools">'+
 												'<div class="upimg_tools_item left">'+
-													'<input type="file" class="upimg_upload" accept="image/*" onchange="upimg_toAddUploadImg(this);"/>'+
+													'<input type="file" class="upimg_upload" accept="image/*" onchange="upimg_toUpdateUploadImg(this);"/>'+
 													'<i class="iconfont icon-edit"></i></div>'+
-													'<div class="upimg_tools_item right"><a onclick="upimg_toDeleteUploadImg(this);"><i class="iconfont icon-delete"></i></a></div>'+
+													'<div class="upimg_tools_item right"><div onclick="upimg_toDeleteUploadImg(this);"><i class="iconfont icon-delete"></i></div></div>'+
 											'</div>'+
 										'</div>'+
 									'</li>'
 									);
 							    $(elem).closest('li').before($li);
+							    upimg_lazyLoad();
 							    return true;
 					    	}
 		    				return false;
@@ -83,6 +93,7 @@
 					    		var $li = $(elem).closest('li');
 					    		$li.find('input').val(src);
 					    		$li.find('img').attr('src',src);
+					    		upimg_lazyLoad();
 							    return true;
 					    	}
 		    				return false;
@@ -92,28 +103,31 @@
 		var upimg_count = $(elem).closest('ul').prevAll('input.upimg_count')[0].value;
 		//获取文件列表对象
         var fileList = $(elem)[0].files;
+        $(elem).after($(elem).clone().val(''));
+        var elem1 = $(elem).next()[0];
+		$(elem).remove();
+		
         $.each(fileList, function(index, img) {
         	var imgname = img.name,
 		    	imgsize = img.size,
 		    	imgtype = img.type;
 		    if(imgsize>2*1024*1024){
-		    	alert(imgname+'图片不能超过2M');
+		    	upimg_error1(elem1,img.name+'图片不能超过2M');
 		    	return false;
 		    }
 		    if(imgtype.indexOf('image/')>0){
-		    	alert(imgname+'不是图片格式');
+		    	upimg_error1(elem1,img.name+'不是图片格式');
 		    	return false;
 		    }
 		    
-		    upimg_toUploadImg(elem, img, upimg_addFun);
-		    var currentCount = $(elem).closest('ul').children('li').length;
-		    if(currentCount-1>=upimg_count){
-		    	return;
+		    upimg_toUploadImg(elem1, img, upimg_addFun);
+		    var currentCount = $(elem1).closest('ul').children('li').length;
+		    if(upimg_count!=0&&upimg_count!=''&&
+		    	upimg_count!=null&&currentCount-1>=upimg_count){
+		    	$(elem1).closest('li').hide();
+		    	return false;
 		    }
         });
-        if(upimg_count == 1){
-        	$(elem).closest('li').hide();
-        }
 	}
 	
 	function upimg_toUpdateUploadImg(elem) {
@@ -124,11 +138,11 @@
 	    	imgsize = img.size,
 	    	imgtype = img.type;
 	    if(imgsize>2*1024*1024){
-	    	alert(imgname+'图片不能超过2M');
+	    	upimg_error1(elem,img.name+'图片不能超过2M');
 	    	return false;
 	    }
 	    if(imgtype.indexOf('image/')>0){
-	    	alert(imgname+'不是图片格式');
+	    	upimg_error1(elem,img.name+'不是图片格式');
 	    	return false;
 	    }
 	    
@@ -137,7 +151,7 @@
 	}
 	
 	function upimg_toDeleteUploadImg(elem) {
-		$(elem).closest('li').next().show();
+		$(elem).closest('li').nextAll("li:last").show();
 		$(elem).closest('li').remove();
 	}
 	

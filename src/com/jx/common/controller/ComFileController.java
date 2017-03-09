@@ -26,16 +26,15 @@ public class ComFileController extends BaseController {
 	 */
 	@RequestMapping(value="/upimg")
 	@ResponseBody
-	public Object upimg(@RequestParam(required=false) MultipartFile img) throws Exception{
+	public Object upimg(@RequestParam(required=false) MultipartFile img
+			) throws Exception{
 		ResultInfo resultInfo = this.getResultInfo();
 		if(img!=null){ 
 			String imgPath = PathUtil.getProjectPath()+Const.PATH_FILEUPCACHE+"/";
             String imgName = UuidUtil.get32UUID();
             System.out.println(img.getOriginalFilename());
             imgName = MapleFileUtil.fileUp(img, imgPath, imgName);
-            if(!"下载.jpg".equals( img.getOriginalFilename())){
-            	resultInfo.setResultCode("success");
-            }
+            resultInfo.setResultCode("success");
             resultInfo.setResultContent(Const.PATH_FILEUPCACHE+"/"+imgName);
         }  
 		return AppUtil.returnResult(this.getPageData(), resultInfo);

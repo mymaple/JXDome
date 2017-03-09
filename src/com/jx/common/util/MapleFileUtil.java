@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jx.common.config.Const;
+
 public class MapleFileUtil {
 	
 	
@@ -210,6 +212,30 @@ public class MapleFileUtil {
 			in.close();
 		}
 	}
+	
+	/**
+	 * 图片缓存转移
+	 * @param filename
+	 * @return
+	 * @throws IOException
+	 */
+	public static String transferCache(String ffolder, String tfolder, String srcs) throws IOException {
+		String[] srcarr = srcs.split(",");
+		StringBuffer resrc = new StringBuffer();
+		for(int i=0;i<srcarr.length;i++){
+			String srcold = srcarr[i];
+			if(srcold.startsWith(ffolder)){
+				String srcnew = srcold.replace(ffolder, tfolder);
+				String projectPath = PathUtil.getProjectPath();
+				copyFile(projectPath+srcold, projectPath+srcnew);
+				delFile(srcold);
+				resrc.append(Const.REG_COM_SPLIT);
+				resrc.append(srcnew);
+			}
+		}
+		return resrc.toString().replaceFirst(Const.REG_COM_SPLIT, "");
+	}
+	
 	
 	// =====================文件压缩=========================
 	/*
@@ -398,5 +424,9 @@ public class MapleFileUtil {
 			}
 		}
 	}
+	
+	
+	
+	
 	
 }
