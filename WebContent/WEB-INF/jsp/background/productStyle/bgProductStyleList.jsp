@@ -23,7 +23,20 @@
 </head>
 <body class="no-skin">
 	
-	
+	<div class="page-header">
+	<h1>
+		<c:if test="${empty pd.productId }">
+			<a href="<%=basePath%>background/productStyle/list.do"> 
+			商品规格管理
+			</a>
+		</c:if>
+		<c:if test="${not empty pd.productId }">
+			<a href="<%=basePath%>background/productStyle/list.do?productId=${pd.productId}"> 
+			商品规格管理——<param:display type="com_productEffective" value="${pd.productId}" id="productId" hidden="true"/>
+			</a>
+		</c:if>
+	</h1>
+	</div><!-- /.page-header -->
 	
 	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
@@ -69,6 +82,7 @@
 									<th class="center">产品规格名称</th>
 									<th class="center">产品规格类型</th>
 									<th class="center">库存数量</th>
+									<th class="center">货币种类</th>
 									<th class="center">原价</th>
 									<th class="center">折扣</th>
 									<th class="center">折扣优惠</th>
@@ -89,11 +103,12 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comProductStyle.productStyleId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'><param:display type="" value="${comProductStyle.productId}"/></td>
+											<td class='center'><param:display type="com_productEffective" value="${comProductStyle.productId}"/></td>
 											<td class='center'>${comProductStyle.productStyleCode}</td>
 											<td class='center'>${comProductStyle.productStyleName}</td>
-											<td class='center'><param:display type="com_productStyleType" value="${comProductStyle.productStyleType}"/></td>
+											<td class='center'><param:display type="com_styleCategoryEffective" value="${comProductStyle.productStyleType}"/></td>
 											<td class='center'>${comProductStyle.stockNum}</td>
+											<td class='center'><param:display type="com_curType" value="${comProductStyle.curType}"/></td>
 											<td class='center'>${comProductStyle.originalPrice}</td>
 											<td class='center'>${comProductStyle.discountRate}</td>
 											<td class='center'>${comProductStyle.discountPrice}</td>
@@ -236,11 +251,17 @@
 		
 		//新增
 		function toAdd(){
-			 top.jzts();
+			top.jzts();
+			var url = "<%=basePath%>background/productStyle/toAdd.do";
+			var productId=$("#productId").val();
+			if(productId!=null && productId!=''){
+				url=url+"?productId="+productId;
+			}
+			
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/productStyle/toAdd.do";
+			 diag.URL = url;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口

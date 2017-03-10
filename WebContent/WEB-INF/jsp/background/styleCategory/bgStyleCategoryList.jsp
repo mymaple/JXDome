@@ -20,8 +20,43 @@
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 
+<script type="text/javascript">
+	//刷新ztree
+	function parentReload(returnMsg,currentPage,showCount){
+		if('change' == returnMsg){
+			parent.location.href="<%=basePath%>background/styleCategory/main.do?pId="+'${pd.pId}'+"&currentPage="+currentPage+"&showCount="+showCount;
+		}
+	}
+</script>
 </head>
 <body class="no-skin">
+	
+	<div class="page-header">
+	<h1>
+		<c:if test="${empty pd.productId }">
+			<a href="<%=basePath%>background/styleCategory/list.do"> 
+			类型分类管理
+			</a>
+		</c:if>
+		<c:if test="${not empty pd.productId }">
+			<a href="<%=basePath%>background/styleCategory/list.do?productId=${pd.productId}"> 
+			类型分类管理——<param:display type="com_productEffective" value="${pd.productId}" id="productId" hidden="true"/>
+			</a>
+		</c:if>
+		<c:choose>
+			<c:when test="${not empty parentList}">
+				<c:if test="${RIGHTS.sele}">
+				<c:forEach items="${parentList}" var="comStyleCategory" varStatus="vs">
+					<small>
+						<i class="ace-icon fa fa-angle-double-right"></i>
+						<a href="${comStyleCategory.subComStyleCategoryPath}">${comStyleCategory.styleCategoryName}</a>
+					</small>
+				</c:forEach>
+				</c:if>
+			</c:when>
+		</c:choose>			
+	</h1>
+	</div><!-- /.page-header -->
 	
 	
 	
@@ -36,6 +71,7 @@
 							
 						<!-- 检索  -->
 						<form action="background/styleCategory/list.do" method="post" name="styleCategoryForm" id="styleCategoryForm">
+						<input type="hidden" name="pId" id="pId" value="${pd.pId}"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -65,8 +101,8 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">产品编号</th>
-									<th class="center">规格分类代号</th>
 									<th class="center">规格分类名称</th>
+									<th class="center">是否最终分类</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -83,9 +119,9 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comStyleCategory.styleCategoryId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${comStyleCategory.productId}</td>
-											<td class='center'>${comStyleCategory.styleCategoryCode}</td>
-											<td class='center'><a href="javascript:toDetail('${comStyleCategory.styleCategoryId}')">${comStyleCategory.styleCategoryName}</a></td>
+											<td class='center'><param:display type="com_productEffective" value="${comStyleCategory.productId}"/></td>
+											<td class='center'><a href="javascript:toSub('${comStyleCategory.styleCategoryId}')">${comStyleCategory.styleCategoryName}</a></td>
+											<td class='center'><param:display type="com_sf" value="${comStyleCategory.isFinal}"/></td>
 											<td class='center'>${comStyleCategory.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
@@ -222,32 +258,37 @@
 			});
 		});
 		
-		//去此ID下详情页面
-		function toDetail(styleCategoryId){
+		//去此ID下子菜单列表
+		function toSub(pId){
 			top.jzts();
-			window.location.href="<%=basePath%>background/styleCategoryDetail/list.do?styleCategoryId="+styleCategoryId;
-		}
+			var url = "<%=basePath%>background/styleCategory/list.do?pId="+pId;
+			var productId=$("#productId").val();
+			if(productId!=null && productId!=''){
+				url=url+"&productId="+productId;
+			}
+			window.location.href=url;
+		};
 		
 		//新增
 		function toAdd(){
-			 top.jzts();
+			top.jzts();
+			var url = "<%=basePath%>background/styleCategory/toAdd.do?pId="+'${pd.pId}';
+			var productId=$("#productId").val();
+			if(productId!=null && productId!=''){
+				url=url+"&productId="+productId;
+			}
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/styleCategory/toAdd.do";
+			 diag.URL = url;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
-			 diag.ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮
+			 diag.ShowMaxButton = true;		//最大化按钮 
+		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
-					if('${bgPage.currentPage}' == '0'){
-						 top.jzts();
-						 setTimeout("self.location=self.location",100);
-					 }else{
-						 nextPage('${bgPage.currentPage}');
-					 }
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };
@@ -262,7 +303,7 @@
 					var url = "<%=basePath%>background/styleCategory/toDelete.do?styleCategoryId="+styleCategoryId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							nextPage('${bgPage.currentPage}');
+							parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 						}
 					});
 				}
@@ -283,7 +324,7 @@
 		     	 diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					nextPage('${bgPage.currentPage}');
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };
@@ -326,7 +367,7 @@
 								cache: false,
 								success: function(data){
 									if(data.resultCode == "success"){
-										nextPage('${bgPage.currentPage}');
+										parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 									}
 								}
 							});
@@ -347,12 +388,12 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/styleCategory/toUploadExcel.do';
+			 diag.URL = '<%=basePath%>background/styleCategory/toUploadExcel.do?pId='+'${pd.pId}';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					nextPage('${bgPage.currentPage}');
+					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
 				diag.close();
 			 };

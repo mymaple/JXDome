@@ -3,21 +3,22 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComStyleCategoryMapper">
 
-	<sql id="styleCategoryColumns">styleCategoryId,productId,styleCategoryCode,styleCategoryName,styleCategoryStatus,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="styleCategoryTable">com_style_category_main</sql>
+	<sql id="styleCategoryColumns">styleCategoryId,parentId,productId,styleCategoryName,styleCategoryStatus,isFinal,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="styleCategoryTable">com_style_category_tree</sql>
 	
 	<resultMap type="comStyleCategory" id="comStyleCategoryResultMap">
 		<id column="styleCategoryId" property="styleCategoryId"/>
 		<result column="productId" property="productId"/>
-		<result column="styleCategoryCode" property="styleCategoryCode"/>
 		<result column="styleCategoryName" property="styleCategoryName"/>
 		<result column="styleCategoryStatus" property="styleCategoryStatus"/>
+		<result column="isFinal" property="isFinal"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
 		<result column="createTime" property="createTime"/>
 		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
+		<result column="parentId" property="parentId"/>
 	</resultMap>
 	
 	
@@ -34,7 +35,7 @@
 		( 
 	<include refid="styleCategoryColumns"/>
 		) values (
-			#{styleCategoryId},#{productId},#{styleCategoryCode},#{styleCategoryName},#{styleCategoryStatus},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{styleCategoryId},#{parentId},#{productId},#{styleCategoryName},#{styleCategoryStatus},#{isFinal},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -46,11 +47,11 @@
 			<if test="productId!=null and productId!=''">
 			productId = #{productId},
 			</if>
-			<if test="styleCategoryCode!=null and styleCategoryCode!=''">
-			styleCategoryCode = #{styleCategoryCode},
-			</if>
 			<if test="styleCategoryName!=null and styleCategoryName!=''">
 			styleCategoryName = #{styleCategoryName},
+			</if>
+			<if test="isFinal!=null and isFinal!=''">
+			isFinal = #{isFinal},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -67,17 +68,20 @@
 		update
 	<include refid="styleCategoryTable"/>
 		set 
+			<if test="parentId!=null and parentId!=''">
+			 parentId = #{parentId},
+			 </if>
 			<if test="productId!=null and productId!=''">
 			productId = #{productId},
-			</if>
-			<if test="styleCategoryCode!=null and styleCategoryCode!=''">
-			styleCategoryCode = #{styleCategoryCode},
 			</if>
 			<if test="styleCategoryName!=null and styleCategoryName!=''">
 			styleCategoryName = #{styleCategoryName},
 			</if>
 			<if test="styleCategoryStatus!=null and styleCategoryStatus!=''">
 			styleCategoryStatus = #{styleCategoryStatus},
+			</if>
+			<if test="isFinal!=null and isFinal!=''">
+			isFinal = #{isFinal},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -128,6 +132,12 @@
 		from 
 	<include refid="styleCategoryTable"/>
 		where 1=1
+			<if test="parentId!=null">
+			 and parentId = #{parentId}
+			 </if>
+			<if test="productId!=null">
+			 and productId = #{productId}
+			 </if>
 		order by (orderNum+0) 
 	</select>
 	
@@ -141,17 +151,20 @@
 			<if test="styleCategoryId!=null and styleCategoryId!=''">
 			 and styleCategoryId != #{styleCategoryId} 
 			</if>
+			<if test="parentId!=null and parentId!=''">
+			 and parentId = #{parentId} 
+			</if>
 			<if test="productId!=null and productId!=''">
 			 and productId = #{productId}
-			</if>
-			<if test="styleCategoryCode!=null and styleCategoryCode!=''">
-			 and styleCategoryCode = #{styleCategoryCode}
 			</if>
 			<if test="styleCategoryName!=null and styleCategoryName!=''">
 			 and styleCategoryName = #{styleCategoryName}
 			</if>
 			<if test="styleCategoryStatus!=null and styleCategoryStatus!=''">
 			 and styleCategoryStatus = #{styleCategoryStatus}
+			</if>
+			<if test="isFinal!=null and isFinal!=''">
+			 and isFinal = #{isFinal}
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			 and orderNum = #{orderNum}
@@ -181,6 +194,12 @@
 		from 
 	<include refid="styleCategoryTable"/>
 		where 1=1
+			<if test="pd.pId != null"><!-- 角色检索 -->
+			and parentId= #{pd.pId}
+			</if>
+			<if test="pd.productId!=null">
+			 and productId = #{pd.productId}
+			</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

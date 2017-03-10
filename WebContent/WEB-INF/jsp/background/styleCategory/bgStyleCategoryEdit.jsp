@@ -33,16 +33,27 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">产品编号:</td>
-								<td><input type="text" name="productId" id="productId" value="${comStyleCategory.productId}" maxlength="100" placeholder="这里输入 产品编号" title="产品编号" style="width:98%;" /></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td align="center"><param:display type="com_styleCategoryEffective" name="parentId" id="parentId" value="${comStyleCategory.parentId }" hidden="true"/></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">规格分类代号:</td>
-								<td><input type="text" name="styleCategoryCode" id="styleCategoryCode" value="${comStyleCategory.styleCategoryCode}" maxlength="100" placeholder="这里输入 规格分类代号" title="规格分类代号" style="width:98%;" onblur="otherNotCode()"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">商品:</td>
+								<td>
+								<c:if test="${not empty comStyleCategory.productId }">
+									<param:display type="com_productEffective" value="${comStyleCategory.productId}" name="productId" id="productId" hidden="true"/>
+								</c:if>
+								<c:if test="${empty comStyleCategory.productId }">
+									<param:select type="com_productEffective" name="productId" id="productId" value="${comStyleCategory.productId}" placeholder="这里请选择 商品" title="商品" cssClass="chosen-select form-control" styleClass="width:98%;"/>
+								</c:if>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">规格分类名称:</td>
 								<td><input type="text" name="styleCategoryName" id="styleCategoryName" value="${comStyleCategory.styleCategoryName}" maxlength="100" placeholder="这里输入 规格分类名称" title="规格分类名称" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">是否最终分类:</td>
+								<td><param:select type="com_sf" name="isFinal" id="isFinal" value="${comStyleCategory.isFinal}" placeholder="这里请选择 是否最终分类" title="是否最终分类" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
@@ -119,16 +130,6 @@
 				$("#productId").focus();
 			return false;
 			}
-			if(!codeExp.test($("#styleCategoryCode").val())){
-				$("#styleCategoryCode").tips({
-					side:3,
-		            msg:'请输入规格分类代号 需以小写字母开头的字母数字',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#styleCategoryCode").focus();
-			return false;
-			}
 			if($("#styleCategoryName").val()==""){
 				$("#styleCategoryName").tips({
 					side:3,
@@ -137,6 +138,15 @@
 		            time:2
 		        });
 				$("#styleCategoryName").focus();
+			return false;
+			}
+			if($("#isFinal").val()==""){
+				$("#isFinal").next().tips({
+					side:3,
+		            msg:'请选择 是否最终分类',
+		            bg:'#AE81FF',
+		            time:2
+		        });
 			return false;
 			}
 			if(!intExp.test($("#orderNum").val())){

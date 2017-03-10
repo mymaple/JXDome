@@ -34,7 +34,14 @@
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品id:</td>
-								<td><param:select type="" name="productId" id="productId" value="${comProductStyle.productId}" placeholder="这里请选择 商品id" title="商品id" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td>
+									<c:if test="${not empty comProductStyle.productId }">
+									<param:display type="com_productEffective" value="${comProductStyle.productId}" name="productId" id="productId" hidden="true"/>
+									</c:if>
+									<c:if test="${empty comProductStyle.productId }">
+										<param:select type="com_productEffective" name="productId" id="productId" value="${comProductStyle.productId}" placeholder="这里请选择 商品" title="商品" cssClass="chosen-select form-control" styleClass="width:98%;"/>
+									</c:if>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">产品规格代号:</td>
@@ -46,11 +53,25 @@
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">产品规格类型:</td>
-								<td><param:select type="com_productStyleType" name="productStyleType" id="productStyleType" value="${comProductStyle.productStyleType}" placeholder="这里请选择 产品规格类型" title="产品规格类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td>
+									<c:choose>
+										<c:when test="${not empty comStyleCategoryList}">
+										<c:forEach items="${comStyleCategoryList}" var="comStyleCategory" varStatus="vs">
+									${comStyleCategory.styleCategoryName}:<param:select type="com_styleCategoryEffectiveP" name="productStyleType" id="productStyleType" value="${comStyleCategory.styleCategoryStatus}" 
+										target="${comStyleCategory.styleCategoryId}" placeholder="这里请选择 ${comStyleCategory.styleCategoryName}" title="${comStyleCategory.styleCategoryName}" cssClass="chosen-select form-control" styleClass="width:98%;"/>
+										</c:forEach>
+										</c:when>
+									</c:choose>
+								</td>
+							
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">库存数量:</td>
 								<td><input type="number" name="stockNum" id="stockNum" value="${comProductStyle.stockNum}" maxlength="100" placeholder="这里输入 库存数量" title="库存数量" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">货币种类:</td>
+								<td><param:select type="com_curType" name="curType" id="curType" value="${comProductStyle.curType}" placeholder="这里请选择 货币种类" title="货币种类" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">原价:</td>
@@ -189,6 +210,15 @@
 		            time:2
 		        });
 				$("#originalPrice").focus();
+			return false;
+			}
+			if($("#curType").val()==""){
+				$("#curType").next().tips({
+					side:3,
+		            msg:'请选择 货币种类',
+		            bg:'#AE81FF',
+		            time:2
+		        });
 			return false;
 			}
 			if(!intExp.test($("#discountRate").val())){

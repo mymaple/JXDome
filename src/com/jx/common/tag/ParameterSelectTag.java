@@ -31,14 +31,18 @@ public class ParameterSelectTag extends TagSupport {
 	private String value;
 	private String placeholder;
 	private String title;
+	private String target;
+	
+	
 	
 
 	public int doEndTag() throws JspException {
 
 		ComDictService comDictService = (ComDictService) SpringContextUtil.getBean("comDictService");
 		List<ComDict> comDictList = new ArrayList<ComDict>();
+		
 		try {
-			comDictList = comDictService.listSelect(this.getType());
+			comDictList = comDictService.listSelect(this.type, this.target);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -167,6 +171,14 @@ public class ParameterSelectTag extends TagSupport {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getTarget() {
+		return this.target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
 	}
 	
 }

@@ -25,6 +25,75 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	
 	/****************************custom * start***********************************/
 	
+	
+		/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<ComStyleCategory> parentList, String pId) throws Exception {
+		if("0".equals(pId)) return;
+		ComStyleCategory comStyleCategory = this.findById(pId);
+		comStyleCategory.setSubComStyleCategoryPath("background/styleCategory/list.do?pId="+pId);
+		parentList.add(0, comStyleCategory);
+		this.getParentList(parentList, comStyleCategory.getParentId());
+	}
+	
+	/**
+	 * 根据parentId 获取所有直接子
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComStyleCategory> listByParentId(String productId, String parentId) throws Exception {
+		PageData pd = new PageData();
+		pd.put("productId",productId);
+		pd.put("parentId",parentId);
+		return this.listByPd(pd);
+	}
+	
+	/**
+	 * 获取所有子列表(递归处理)
+	 * @param String styleCategoryId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComStyleCategory> listInRank(String productId, String styleCategoryId) throws Exception {
+		List<ComStyleCategory> comStyleCategoryList = this.listByParentId(productId, styleCategoryId);
+		for(ComStyleCategory comStyleCategory : comStyleCategoryList){
+			comStyleCategory.setSubComStyleCategoryPath("background/styleCategory/list.do?pId="+comStyleCategory.getStyleCategoryId()+"&productId="+productId);
+			comStyleCategory.setSubComStyleCategoryList(this.listInRank(productId, comStyleCategory.getStyleCategoryId()));
+			comStyleCategory.setTarget("treeFrame");
+		}
+		return comStyleCategoryList;
+	}
+	
+	/**
+	 * 删除所有子列表(递归处理)
+	 * @param String styleCategoryId
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteInRank(String styleCategoryId) throws Exception {
+		this.deleteById(styleCategoryId);
+		List<ComStyleCategory> comStyleCategoryList = this.listByParentId(null,styleCategoryId);
+		for(ComStyleCategory comStyleCategory : comStyleCategoryList){
+			this.deleteInRank(comStyleCategory.getStyleCategoryId());
+		}
+	}
+	
+	/**
+	 * 批量删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public void batchDeleteInRank(String[] ids) throws Exception {
+		for(String id : ids){
+			this.deleteInRank(id);
+		}
+	}
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -157,10 +226,10 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComStyleCategory> otherHaveCode(String styleCategoryId, String styleCategoryCode) throws Exception {
+	public List<ComStyleCategory> otherHaveName(String styleCategoryId, String styleCategoryName) throws Exception {
 		ComStyleCategory comStyleCategory = new ComStyleCategory();
 		comStyleCategory.setStyleCategoryId(styleCategoryId);
-		comStyleCategory.setStyleCategoryCode(styleCategoryCode);
+		comStyleCategory.setStyleCategoryName(styleCategoryName);
 		return this.otherHave(comStyleCategory);
 	}
 	

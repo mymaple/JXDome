@@ -11,7 +11,7 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 		<!-- 后台生效用户 -->
-		<select id="bg_userEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="bg_userEffective" parameterType="pd" resultMap="comDictResultMap">
 			select userName as dictName, userId as dictValue
 			from bg_user_info 
 			where effective = '01'
@@ -21,17 +21,17 @@
 		</select>
 		
 		<!-- 后台生效角色 -->
-		<select id="bg_roleEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="bg_roleEffective" parameterType="pd" resultMap="comDictResultMap">
 			select roleName as dictName, roleId as dictValue
 			from bg_role_info 
 			where effective = '01'
-			<if test="value!=null and value!=''">
+			<if test="value!=nuvalued value!=''">
 				and roleId= #{value} 
 			</if>
 		</select>
 		
 		<!-- 后台生效菜单 -->
-		<select id="bg_menuEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="bg_menuEffective" parameterType="pd" resultMap="comDictResultMap">
 			select menuName as dictName, menuId as dictValue
 			from bg_menu_tree
 			where effective = '01'
@@ -41,7 +41,7 @@
 		</select>
 		
 		<!-- 生效代码生成器 -->
-		<select id="bg_mapleEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="bg_mapleEffective" parameterType="pd" resultMap="comDictResultMap">
 			select mapleName as dictName, mapleId as dictValue
 			from bg_maple_main
 			where effective = '01'
@@ -51,7 +51,7 @@
 		</select>
 		
 		<!-- com_dictEffective -->
-		<select id="com_dictEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_dictEffective" parameterType="pd" resultMap="comDictResultMap">
 			select dictName as dictName, dictId as dictValue
 			from com_dict_tree
 			where effective = '01'
@@ -61,7 +61,7 @@
 		</select>
 		
 		<!-- 生效平台用户 -->
-		<select id="com_appUserEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_appUserEffective" parameterType="pd" resultMap="comDictResultMap">
 			select appUserName as dictName, appUserId as dictValue
 			from com_app_user_tree
 			where effective = '01'
@@ -71,7 +71,7 @@
 		</select>
 		
 		<!-- 生效平台用户（4S店） -->
-		<select id="com_appUserEffective4S" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_appUserEffective4S" parameterType="pd" resultMap="comDictResultMap">
 			select appUserName as dictName, appUserId as dictValue
 			from com_app_user_tree
 			where effective = '01'
@@ -82,7 +82,7 @@
 		</select>
 		
 		<!-- 生效零配件 -->
-		<select id="com_sparepartEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_sparepartEffective" parameterType="pd" resultMap="comDictResultMap">
 			select sparepartName as dictName, sparepartId as dictValue
 			from com_sparepart_info
 			where effective = '01'
@@ -92,7 +92,7 @@
 		</select>
 		
 		<!-- 生效供应商 -->
-		<select id="com_supplierEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_supplierEffective" parameterType="pd" resultMap="comDictResultMap">
 			select supplierName as dictName, supplierId as dictValue
 			from com_supplier_info
 			where effective = '01'
@@ -102,7 +102,7 @@
 		</select>
 		
 		<!-- 生效商品类别 -->
-		<select id="com_productTypeEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_productTypeEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productCategoryName as dictName, productCategoryId as dictValue
 			from com_product_category_info
 			where effective = '01'
@@ -113,7 +113,7 @@
 		</select>
 		
 		<!-- 生效商品模型 -->
-		<select id="com_productModelEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_productModelEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productCategoryName as dictName, productCategoryId as dictValue
 			from com_product_category_info
 			where effective = '01'
@@ -124,7 +124,7 @@
 		</select>
 		
 		<!-- 生效商品自定义类型 -->
-		<select id="com_productCustomTypeEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_productCustomTypeEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productCategoryName as dictName, productCategoryId as dictValue
 			from com_product_category_info
 			where effective = '01'
@@ -135,7 +135,7 @@
 		</select>
 		
 		<!-- 生效商品 -->
-		<select id="com_productEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_productEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productName as dictName, productId as dictValue
 			from com_product_info
 			where effective = '01'
@@ -145,17 +145,31 @@
 		</select>
 		
 		<!-- 生效商品规格分类 -->
-		<select id="com_styleCategoryEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_styleCategoryEffective" parameterType="pd" resultMap="comDictResultMap">
 			select styleCategoryName as dictName, styleCategoryId as dictValue
-			from com_style_category_info
+			from com_style_category_tree
 			where effective = '01'
 			<if test="value!=null and value!=''">
 				and styleCategoryId = #{value} 
 			</if>
 		</select>
 		
+		<!-- 生效商品规格明细分类 -->
+		<select id="com_styleCategoryEffectiveP" parameterType="pd" resultMap="comDictResultMap">
+			select styleCategoryName as dictName, styleCategoryId as dictValue
+			from com_style_category_tree
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and styleCategoryId = #{value} 
+			</if>
+			<if test="key0!=null">
+				and parentId = #{key0} 
+			</if>
+				
+		</select>
+		
 		<!-- 生效商品规格 -->
-		<select id="com_productStyleEffective" parameterType="String" resultMap="comDictResultMap">
+		<select id="com_productStyleEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productStyleName as dictName, productStyleId as dictValue
 			from com_product_style_info
 			where effective = '01'

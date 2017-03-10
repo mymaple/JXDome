@@ -96,6 +96,14 @@
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
+												
+													<a class="btn btn-xs btn-yellow" title="查看规格分类" onclick="toStyleCategory('${comProduct.productId}');">
+														查看规格分类
+													</a>
+													<a class="btn btn-xs btn-info" title="查看规格" onclick="toStyle('${comProduct.productId}');">
+														查看规格
+													</a>
+												
 													<c:if test="${RIGHTS.edit}">
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comProduct.productId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
@@ -356,6 +364,17 @@
 			 };
 			 diag.show();
 		}
+		
+		function toStyle(productId){
+			top.jzts();
+			window.location.href="<%=basePath%>background/productStyle/list.do?productId="+productId;
+		}
+		
+		function toStyleCategory(productId){
+			top.jzts();
+			window.location.href="<%=basePath%>background/styleCategory/main.do?productId="+productId;
+		}
+		
 	</script>
 
 </body>

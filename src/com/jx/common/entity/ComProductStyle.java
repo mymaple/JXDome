@@ -59,6 +59,10 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="原价 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 	private String originalPrice;
 		
+	/** 货币种类 */
+	@NotBlank(message="货币种类 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String curType;
+		
 	/** 折扣 */
 	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="折扣 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 	private String discountRate;
@@ -235,6 +239,23 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 		return this.originalPrice;
 	}
 	
+	/**
+	 * 设置 货币种类
+	 * 
+	 * @param String curType
+	 */
+	public void setCurType(String curType) {
+		this.curType = MapleStringUtil.trim(curType);
+	}
+	
+	/**
+	 * 获取 货币种类
+	 * 
+	 * @return String curType
+	 */
+	public String getCurType() {
+		return this.curType;
+	}
 	/**
 	 * 设置 折扣
 	 * 

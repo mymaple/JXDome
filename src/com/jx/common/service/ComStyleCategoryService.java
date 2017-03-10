@@ -12,6 +12,47 @@ public interface ComStyleCategoryService {
 	/****************************custom * start***********************************/
 
 	
+	/**
+	 * 根据parentId 获取所有直接fu
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public void getParentList(List<ComStyleCategory> parentList, String pId) throws Exception ;
+	
+	/**
+	 * 根据parentId 获取所有直接子
+	 * @param String parentId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComStyleCategory> listByParentId(String productId, String parentId) throws Exception ;
+	
+	/**
+	 * 获取所有子列表(递归处理)
+	 * @param String styleCategoryId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComStyleCategory> listInRank(String productId, String styleCategoryId) throws Exception ;
+	
+	/**
+	 * 删除所有子列表(递归处理)
+	 * @param String styleCategoryId
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteInRank(String styleCategoryId) throws Exception ;
+	
+	/**
+	 * 批量删除所有子列表(递归处理)
+	 * @param String dictId
+	 * @return
+	 * @throws Exception
+	 */
+	public void batchDeleteInRank(String[] ids) throws Exception ;
+	
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -93,7 +134,7 @@ public interface ComStyleCategoryService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComStyleCategory> otherHaveCode(String styleCategoryId, String styleCategoryCode) throws Exception ;
+	public List<ComStyleCategory> otherHaveName(String styleCategoryId, String styleCategoryCode) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

@@ -1,6 +1,7 @@
 package com.jx.common.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
@@ -20,6 +21,91 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	
 	
 	/**************************custom prop satrt********************************/
+	/** 指标 */
+	private String target;
+	
+	/** 子列表 */
+	private List<ComStyleCategory> subComStyleCategoryList;
+	
+	/** 子列表 路径*/
+	private String subComStyleCategoryPath;
+	
+	/** 是否有此规格分类 */
+	private boolean hasStyleCategory;
+
+	
+	/**
+	 * 获取 指标
+	 * 
+	 * @return String target
+	 */
+	public String getTarget() {
+		return target;
+	}
+	
+	/**
+	 * 设置 指标
+	 * 
+	 * @param String target
+	 */
+	public void setTarget(String target) {
+		this.target = MapleStringUtil.trim(target);
+	}
+	
+	/**
+	 * 获取 子列表
+	 * 
+	 * @return List<ComStyleCategory> subComStyleCategoryList
+	 */
+	public List<ComStyleCategory> getSubComStyleCategoryList() {
+		return this.subComStyleCategoryList;
+	}
+	
+	/**
+	 * 设置 子列表
+	 * 
+	 * @param List<ComStyleCategory> subComStyleCategoryList
+	 */
+	public void setSubComStyleCategoryList(List<ComStyleCategory> subComStyleCategoryList) {
+		this.subComStyleCategoryList = subComStyleCategoryList;
+	}
+	
+	/**
+	 * 获取 子列表 路径
+	 * 
+	 * @return String subComStyleCategoryPath
+	 */
+	public String getSubComStyleCategoryPath() {
+		return this.subComStyleCategoryPath;
+	}
+	
+	/**
+	 * 设置 子列表 路径
+	 * 
+	 * @param String subComStyleCategoryPath
+	 */
+	public void setSubComStyleCategoryPath(String subComStyleCategoryPath) {
+		this.subComStyleCategoryPath = MapleStringUtil.trim(subComStyleCategoryPath);
+	}
+	
+	/**
+	 * 获取 是否有此规格分类 
+	 * 
+	 * @return boolean hasStyleCategory
+	 */
+	public boolean isHasStyleCategory() {
+		return this.hasStyleCategory;
+	}
+	
+	/**
+	 * 设置 是否有此规格分类
+	 * 
+	 * @param boolean hasStyleCategory
+	 */
+	public void setHasStyleCategory(boolean hasStyleCategory) {
+		this.hasStyleCategory = hasStyleCategory;
+	}
+	
 	
 	/**************************custom prop end**********************************/
 	
@@ -29,13 +115,13 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	@NotBlank(message="规格分类 主键id 不能为空", groups={ValidationEdit.class})
 	private String styleCategoryId;
 	
+	/** 上级 id */
+	@NotBlank(message="上级 id 不能为空", groups={ValidationAdd.class})
+	private String parentId;
+	
 	/** 产品编号 */
 	@NotBlank(message="产品编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productId;
-		
-	/** 规格分类代号 */
-	@Pattern(regexp = Const.REG_COM_CODE_STR, message="规格分类代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
-	private String styleCategoryCode;
 		
 	/** 规格分类名称 */
 	@NotBlank(message="规格分类名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
@@ -43,6 +129,10 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 		
 	/** 规格分类状态 */
 	private String styleCategoryStatus;
+		
+	/** 是否最终分类 */
+	@NotBlank(message="是否最终分类 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String isFinal;
 		
 	
 	
@@ -65,6 +155,24 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	}
 	
 	/**
+	 * 设置 上级id
+	 * 
+	 * @param String parentId
+	 */
+	public void setParentId(String parentId) {
+		this.parentId = MapleStringUtil.trim(parentId);
+	}
+	
+	/**
+	 * 获取 上级id
+	 * 
+	 * @return String parentId
+	 */
+	public String getParentId() {
+		return this.parentId;
+	}
+	
+	/**
 	 * 设置 产品编号
 	 * 
 	 * @param String productId
@@ -80,24 +188,6 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	 */
 	public String getProductId() {
 		return this.productId;
-	}
-	
-	/**
-	 * 设置 规格分类代号
-	 * 
-	 * @param String styleCategoryCode
-	 */
-	public void setStyleCategoryCode(String styleCategoryCode) {
-		this.styleCategoryCode = MapleStringUtil.trim(styleCategoryCode);
-	}
-	
-	/**
-	 * 获取 规格分类代号
-	 * 
-	 * @return String styleCategoryCode
-	 */
-	public String getStyleCategoryCode() {
-		return this.styleCategoryCode;
 	}
 	
 	/**
@@ -134,6 +224,24 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	 */
 	public String getStyleCategoryStatus() {
 		return this.styleCategoryStatus;
+	}
+	
+	/**
+	 * 设置 是否最终分类
+	 * 
+	 * @param String isFinal
+	 */
+	public void setIsFinal(String isFinal) {
+		this.isFinal = MapleStringUtil.trim(isFinal);
+	}
+	
+	/**
+	 * 获取 是否最终分类
+	 * 
+	 * @return String isFinal
+	 */
+	public String getIsFinal() {
+		return this.isFinal;
 	}
 	
 	

@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComProductStyleMapper">
 
-	<sql id="productStyleColumns">productStyleId,productStyleInitId,productId,productStyleCode,productStyleName,productStyleType,productStyleStatus,stockNum,originalPrice,discountRate,discountPrice,currentPrice,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="productStyleColumns">productStyleId,productStyleInitId,productId,productStyleCode,productStyleName,productStyleType,productStyleStatus,stockNum,originalPrice,curType,discountRate,discountPrice,currentPrice,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="productStyleTable">com_product_style_info</sql>
 	
 	<resultMap type="comProductStyle" id="comProductStyleResultMap">
@@ -16,6 +16,7 @@
 		<result column="productStyleStatus" property="productStyleStatus"/>
 		<result column="stockNum" property="stockNum"/>
 		<result column="originalPrice" property="originalPrice"/>
+		<result column="curType" property="curType"/>
 		<result column="discountRate" property="discountRate"/>
 		<result column="discountPrice" property="discountPrice"/>
 		<result column="currentPrice" property="currentPrice"/>
@@ -41,7 +42,7 @@
 		( 
 	<include refid="productStyleColumns"/>
 		) values (
-			#{productStyleId},#{productStyleInitId},#{productId},#{productStyleCode},#{productStyleName},#{productStyleType},#{productStyleStatus},#{stockNum},#{originalPrice},#{discountRate},#{discountPrice},#{currentPrice},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{productStyleId},#{productStyleInitId},#{productId},#{productStyleCode},#{productStyleName},#{productStyleType},#{productStyleStatus},#{stockNum},#{originalPrice},#{curType},#{discountRate},#{discountPrice},#{currentPrice},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -67,6 +68,9 @@
 			</if>
 			<if test="originalPrice!=null and originalPrice!=''">
 			originalPrice = #{originalPrice},
+			</if>
+			<if test="curType!=null and curType!=''">
+			curType = #{curType},
 			</if>
 			<if test="discountRate!=null and discountRate!=''">
 			discountRate = #{discountRate},
@@ -115,6 +119,9 @@
 			</if>
 			<if test="originalPrice!=null and originalPrice!=''">
 			originalPrice = #{originalPrice},
+			</if>
+			<if test="curType!=null and curType!=''">
+			curType = #{curType},
 			</if>
 			<if test="discountRate!=null and discountRate!=''">
 			discountRate = #{discountRate},
@@ -174,6 +181,9 @@
 		from 
 	<include refid="productStyleTable"/>
 		where 1=1
+			<if test="productId!=null">
+			 and productId = #{productId}
+			</if>
 		order by (orderNum+0) 
 	</select>
 	
@@ -210,6 +220,9 @@
 			</if>
 			<if test="originalPrice!=null and originalPrice!=''">
 			 and originalPrice = #{originalPrice}
+			</if>
+			<if test="curType!=null and curType!=''">
+			 and curType = #{curType}
 			</if>
 			<if test="discountRate!=null and discountRate!=''">
 			 and discountRate = #{discountRate}
@@ -248,6 +261,9 @@
 		from 
 	<include refid="productStyleTable"/>
 		where 1=1
+		<if test="pd.productId!=null">
+			 and productId = #{pd.productId}
+		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

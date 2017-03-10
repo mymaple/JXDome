@@ -34,7 +34,7 @@ public interface ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComDict> listSelect(String type) throws Exception ;
+	public List<ComDict> listSelect(String type, String target) throws Exception ;
 	
 	/**
 	 * 根据parentId 获取所有直接子

@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
+import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.util.MapleDateUtil;
@@ -53,17 +55,23 @@ public class ComDictServiceImpl implements ComDictService{
 		pd.put("type",type);
 		pd.put("value",value);
 		List<ComDict> comDictList = this.otherHaveCode("",type);
+		String displayName = "";
 		if(MapleUtil.notEmptyList(comDictList)){
 			String dictType = comDictList.get(0).getDictType();
 			if("01".equals(dictType)){
-				return (String) dao.findForObject("ComDictMapper.getDisplayName", pd);
+				displayName = (String) dao.findForObject("ComDictMapper.getDisplayName", pd);
 			}else if("02".equals(dictType)){
 				if("0".equals(value)) return "顶级";
-				ComDict comDict = (ComDict)dao.findForObject("SQLDictMapper."+type, value);
-				return comDict == null ?  "" : comDict.getDictName();
+				String[] valuearr = value.split(Const.REG_COM_SPLIT);
+				for (int i = 0; i < valuearr.length; i++) {
+					pd.put("value", valuearr[i]);
+					ComDict comDict = (ComDict)dao.findForObject("SQLDictMapper."+type, pd);
+					displayName = displayName + (comDict == null ?  "" : comDict.getDictName()) + ",";
+				}
+				displayName = displayName.substring(0, displayName.length()-1);
 			}
 		}
-		return "";
+		return displayName;
 	}
 	
 	/**
@@ -73,14 +81,22 @@ public class ComDictServiceImpl implements ComDictService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComDict> listSelect(String type) throws Exception {
+	public List<ComDict> listSelect(String type, String target) throws Exception {
 		List<ComDict> comDictList = this.otherHaveCode("",type);
+		PageData pd = new PageData();
 		if(MapleUtil.notEmptyList(comDictList)){
 			String dictType = comDictList.get(0).getDictType();
 			if("01".equals(dictType)){
 				return (List<ComDict>) dao.findForList("ComDictMapper.listSelect", type);
 			}else if("02".equals(dictType)){
-				return (List<ComDict>) dao.findForList("SQLDictMapper."+type, null);
+				if(StringUtils.isNotEmpty(target)){
+					String[] targetarr = target.split(",");
+					for (int i = 0; i < targetarr.length; i++) {
+						pd.put("key"+i, targetarr[i]);
+					}
+				}
+				
+				return (List<ComDict>) dao.findForList("SQLDictMapper."+type, pd);
 			}
 		}
 		return new ArrayList<ComDict>();
