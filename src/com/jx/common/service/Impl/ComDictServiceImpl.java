@@ -13,6 +13,7 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.UuidUtil;
@@ -170,9 +171,9 @@ public class ComDictServiceImpl implements ComDictService{
 		comDict.setDictId(UuidUtil.get32UUID());
 		comDict.setDictStatus("00");
 		comDict.setEffective("01");
-		comDict.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comDict.setCreateUserId(ShiroSessionUtil.getUserId());
 		comDict.setCreateTime(nowTime);
-		comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comDict.setModifyUserId(ShiroSessionUtil.getUserId());
 		comDict.setModifyTime(nowTime);
 		
 		dao.add("ComDictMapper.add", comDict);
@@ -185,7 +186,7 @@ public class ComDictServiceImpl implements ComDictService{
 	 */
 	public void edit(ComDict comDict) throws Exception {
 		Date nowTime = new Date();
-		comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comDict.setModifyUserId(ShiroSessionUtil.getUserId());
 		comDict.setModifyTime(nowTime);
 		comDict.setLastModifyTime(this.findById(comDict.getDictId()).getModifyTime());
 		if(comDict.getModifyTime().compareTo(comDict.getLastModifyTime()) == 0){
@@ -202,7 +203,7 @@ public class ComDictServiceImpl implements ComDictService{
 	 */
 	public void change(ComDict comDict) throws Exception {
 		Date nowTime = new Date();
-		comDict.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comDict.setModifyUserId(ShiroSessionUtil.getUserId());
 		comDict.setModifyTime(nowTime);
 		comDict.setLastModifyTime(this.findById(comDict.getDictId()).getModifyTime());
 		if(comDict.getModifyTime().compareTo(comDict.getLastModifyTime()) == 0){

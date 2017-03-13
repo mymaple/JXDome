@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgWxMenuBtn;
@@ -108,9 +109,9 @@ public class BgWxMenuBtnServiceImpl implements BgWxMenuBtnService{
 		bgWxMenuBtn.setWxMenuBtnId(UuidUtil.get32UUID());
 		bgWxMenuBtn.setWxMenuBtnStatus("00");
 		bgWxMenuBtn.setEffective("01");
-		bgWxMenuBtn.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgWxMenuBtn.setCreateUserId(ShiroSessionUtil.getUserId());
 		bgWxMenuBtn.setCreateTime(nowTime);
-		bgWxMenuBtn.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgWxMenuBtn.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgWxMenuBtn.setModifyTime(nowTime);
 		
 		dao.add("BgWxMenuBtnMapper.add", bgWxMenuBtn);
@@ -123,7 +124,7 @@ public class BgWxMenuBtnServiceImpl implements BgWxMenuBtnService{
 	 */
 	public void edit(BgWxMenuBtn bgWxMenuBtn) throws Exception {
 		Date nowTime = new Date();
-		bgWxMenuBtn.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgWxMenuBtn.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgWxMenuBtn.setModifyTime(nowTime);
 		bgWxMenuBtn.setLastModifyTime(this.findById(bgWxMenuBtn.getWxMenuBtnId()).getModifyTime());
 		if(bgWxMenuBtn.getModifyTime().compareTo(bgWxMenuBtn.getLastModifyTime()) == 0){
@@ -140,7 +141,7 @@ public class BgWxMenuBtnServiceImpl implements BgWxMenuBtnService{
 	 */
 	public void change(BgWxMenuBtn bgWxMenuBtn) throws Exception {
 		Date nowTime = new Date();
-		bgWxMenuBtn.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgWxMenuBtn.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgWxMenuBtn.setModifyTime(nowTime);
 		bgWxMenuBtn.setLastModifyTime(this.findById(bgWxMenuBtn.getWxMenuBtnId()).getModifyTime());
 		if(bgWxMenuBtn.getModifyTime().compareTo(bgWxMenuBtn.getLastModifyTime()) == 0){

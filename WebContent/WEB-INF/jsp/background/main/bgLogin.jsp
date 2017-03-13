@@ -278,13 +278,13 @@
 		function changeCode1() {
 			var time = new Date();
 			$("#codeImg").attr("src",
-					"background/main/getVerificationCode.do?t=" + time.getTime());
+					"background/main/getCaptcha.do?t=" + time.getTime());
 		}
 		
 		function changeCode2() {
 			var time = new Date();
 			$("#zcodeImg").attr("src",
-					"background/main/getVerificationCode.do?t=" + time.getTime());
+					"background/main/getCaptcha.do?t=" + time.getTime());
 		}
 	
 		//服务器校验

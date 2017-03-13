@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.UuidUtil;
@@ -44,9 +45,9 @@ public class BgMapleServiceImpl implements BgMapleService{
 		bgMaple.setMapleId(UuidUtil.get32UUID());
 		bgMaple.setMapleStatus("00");
 		bgMaple.setEffective("01");
-		bgMaple.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMaple.setCreateUserId(ShiroSessionUtil.getUserId());
 		bgMaple.setCreateTime(nowTime);
-		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMaple.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMaple.setModifyTime(nowTime);
 		
 		dao.add("BgMapleMapper.add", bgMaple);
@@ -78,7 +79,7 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 */
 	public void edit(BgMaple bgMaple) throws Exception {
 		Date nowTime = new Date();
-		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMaple.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMaple.setModifyTime(nowTime);
 		bgMaple.setLastModifyTime(this.findById(bgMaple.getMapleId()).getModifyTime());
 		if(bgMaple.getModifyTime().compareTo(bgMaple.getLastModifyTime()) == 0){
@@ -95,7 +96,7 @@ public class BgMapleServiceImpl implements BgMapleService{
 	 */
 	public void change(BgMaple bgMaple) throws Exception {
 		Date nowTime = new Date();
-		bgMaple.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMaple.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMaple.setModifyTime(nowTime);
 		bgMaple.setLastModifyTime(this.findById(bgMaple.getMapleId()).getModifyTime());
 		if(bgMaple.getModifyTime().compareTo(bgMaple.getLastModifyTime()) == 0){

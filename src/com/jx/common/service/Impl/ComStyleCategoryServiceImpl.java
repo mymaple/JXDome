@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComStyleCategory;
@@ -109,9 +110,9 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 		comStyleCategory.setStyleCategoryId(UuidUtil.get32UUID());
 		comStyleCategory.setStyleCategoryStatus("00");
 		comStyleCategory.setEffective("01");
-		comStyleCategory.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comStyleCategory.setCreateUserId(ShiroSessionUtil.getUserId());
 		comStyleCategory.setCreateTime(nowTime);
-		comStyleCategory.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comStyleCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comStyleCategory.setModifyTime(nowTime);
 		
 		dao.add("ComStyleCategoryMapper.add", comStyleCategory);
@@ -124,7 +125,7 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	 */
 	public void edit(ComStyleCategory comStyleCategory) throws Exception {
 		Date nowTime = new Date();
-		comStyleCategory.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comStyleCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comStyleCategory.setModifyTime(nowTime);
 		comStyleCategory.setLastModifyTime(this.findById(comStyleCategory.getStyleCategoryId()).getModifyTime());
 		if(comStyleCategory.getModifyTime().compareTo(comStyleCategory.getLastModifyTime()) == 0){
@@ -141,7 +142,7 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	 */
 	public void change(ComStyleCategory comStyleCategory) throws Exception {
 		Date nowTime = new Date();
-		comStyleCategory.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comStyleCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comStyleCategory.setModifyTime(nowTime);
 		comStyleCategory.setLastModifyTime(this.findById(comStyleCategory.getStyleCategoryId()).getModifyTime());
 		if(comStyleCategory.getModifyTime().compareTo(comStyleCategory.getLastModifyTime()) == 0){

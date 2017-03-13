@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProductStyle;
@@ -41,9 +42,9 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 		comProductStyle.setProductStyleInitId("");
 		comProductStyle.setProductStyleStatus("00");
 		comProductStyle.setEffective("01");
-		comProductStyle.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProductStyle.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProductStyle.setCreateTime(nowTime);
-		comProductStyle.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProductStyle.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductStyle.setModifyTime(nowTime);
 		
 		dao.add("ComProductStyleMapper.add", comProductStyle);
@@ -56,7 +57,7 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 	 */
 	public void edit(ComProductStyle comProductStyle) throws Exception {
 		Date nowTime = new Date();
-		comProductStyle.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProductStyle.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductStyle.setModifyTime(nowTime);
 		comProductStyle.setLastModifyTime(this.findById(comProductStyle.getProductStyleId()).getModifyTime());
 		if(comProductStyle.getModifyTime().compareTo(comProductStyle.getLastModifyTime()) == 0){
@@ -73,7 +74,7 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 	 */
 	public void change(ComProductStyle comProductStyle) throws Exception {
 		Date nowTime = new Date();
-		comProductStyle.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProductStyle.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductStyle.setModifyTime(nowTime);
 		comProductStyle.setLastModifyTime(this.findById(comProductStyle.getProductStyleId()).getModifyTime());
 		if(comProductStyle.getModifyTime().compareTo(comProductStyle.getLastModifyTime()) == 0){

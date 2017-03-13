@@ -6,6 +6,7 @@ import java.util.List;
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRights;
 import com.jx.background.entity.BgRole;
+import com.jx.background.entity.BgUser;
 import com.jx.common.util.MapleStringUtil;
 
 /**
@@ -57,8 +58,7 @@ public class JudgeRightsUtil {
 				if(!bgMenu.isHasMenu()){
 					return false;
 				}else{
-					
-					BgRole bgRole =  BgSessionUtil.getSessionBgUserRole().getBgRole();
+					BgRole bgRole =  ((BgUser)BgSessionUtil.getUser()).getBgRole();
 					String menuTag = bgMenu.getMenuTag();
 					bgRights.setMenuCode(menuCode);
 					bgRights.setAdd(testRights(bgRole.getAddRights(),menuTag));
@@ -120,7 +120,7 @@ public class JudgeRightsUtil {
 				if(!bgMenu.isHasMenu()){
 					return null;
 				}else{
-					BgRole bgRole =  BgSessionUtil.getSessionBgUserRole().getBgRole();
+					BgRole bgRole =  ((BgUser)BgSessionUtil.getUser()).getBgRole();
 					String menuTag = String.valueOf(bgMenu.getMenuTag());
 					bgRights.setMenuCode(menuCode);
 					bgRights.setAdd(testRights(bgRole.getAddRights(),menuTag));

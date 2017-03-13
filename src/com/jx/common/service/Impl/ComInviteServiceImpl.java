@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComInvite;
@@ -64,7 +65,7 @@ public class ComInviteServiceImpl implements ComInviteService{
 	 */
 	public void edit(ComInvite comInvite) throws Exception {
 		Date nowTime = new Date();
-		comInvite.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comInvite.setModifyUserId(ShiroSessionUtil.getUserId());
 		comInvite.setModifyTime(nowTime);
 		comInvite.setLastModifyTime(this.findById(comInvite.getInviteId()).getModifyTime());
 		if(comInvite.getModifyTime().compareTo(comInvite.getLastModifyTime()) == 0){
@@ -81,7 +82,7 @@ public class ComInviteServiceImpl implements ComInviteService{
 	 */
 	public void change(ComInvite comInvite) throws Exception {
 		Date nowTime = new Date();
-		comInvite.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comInvite.setModifyUserId(ShiroSessionUtil.getUserId());
 		comInvite.setModifyTime(nowTime);
 		comInvite.setLastModifyTime(this.findById(comInvite.getInviteId()).getModifyTime());
 		if(comInvite.getModifyTime().compareTo(comInvite.getLastModifyTime()) == 0){

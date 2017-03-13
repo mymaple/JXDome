@@ -113,18 +113,19 @@ public class Const {
 	public static final String PATH_PC_IMG2 = "uploadFiles/image/productCategory/img2";
 	
 	/**
-	 * 路径 个人微信二维码
+	 * 路径 商品头像
 	 */
-	public static final String PATH_FILEUPCACHE = "uploadFiles/cache";
-	/**
-	 * 路径 个人微信二维码
-	 */
-	public static final String PATH_FILEUPCACHE = "uploadFiles/cache";
-	/**
-	 * 路径 个人微信二维码
-	 */
-	public static final String PATH_FILEUPCACHE = "uploadFiles/cache";
+	public static final String PATH_P_HEADIMG = "uploadFiles/image/product/headimg";
 	
+	/**
+	 * 路径 商品长框图
+	 */
+	public static final String PATH_P_IMG1 = "uploadFiles/image/product/img1";
+	
+	/**
+	 * 路径 商品滚播图
+	 */
+	public static final String PATH_P_IMG2 = "uploadFiles/image/product/img2";
 	
 	/**
 	 * 标记 登录直接跳转

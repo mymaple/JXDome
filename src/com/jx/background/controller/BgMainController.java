@@ -120,18 +120,18 @@ public class BgMainController extends BaseController {
 			String keyData[] = pd.getString("keyData").replaceAll("ndknsdkfjksdfj", "")
 										.replaceAll("kgnlkfsl", "").split(",jx,");
 			if (null != keyData && keyData.length == 3) {
-				String sessionBgVerificationCode = BgSessionUtil.getSessionBgVerificationCode(); // 获取session中的验证码
-				String bgVerificationCode = keyData[2];
+				String sessionCaptcha = BgSessionUtil.getCaptcha();
+				String captcha = keyData[2];
 				//开发跳过、、登录
-				bgVerificationCode = sessionBgVerificationCode;
-				if (null == bgVerificationCode || "".equals(bgVerificationCode)) {
+				captcha = sessionCaptcha;
+				if (null == captcha || "".equals(captcha)) {
 					errInfo = "nullcode"; // 验证码为空
 				} else {
 					String userCode = keyData[0];
 					String password = keyData[1];
 					pd.put("userCode", userCode);
-					if (MapleStringUtil.notEmpty(sessionBgVerificationCode) 
-							&& sessionBgVerificationCode.equalsIgnoreCase(bgVerificationCode)) {
+					if (MapleStringUtil.notEmpty(sessionCaptcha) 
+							&& sessionCaptcha.equalsIgnoreCase(captcha)) {
 						String passwd = new SimpleHash("SHA-512", userCode, password, 2).toString(); // 密码加密
 						pd.put("password", passwd);
 						BgUser bgUser = new BgUser();
@@ -140,14 +140,15 @@ public class BgMainController extends BaseController {
 						if (bgUser != null) {
 							//修改登录
 //							bgUser = this.changeLoginInfo(bgUser);
-							BgSessionUtil.setSessionBgUserRole(bgUser);
-							this.getSession().removeAttribute(BgSessionUtil.SESSION_BG_VERIFICATIONCODE_STR);
+							BgSessionUtil.removeCaptcha();
 							
 							// shiro加入身份验证
 							Subject subject = SecurityUtils.getSubject();
-							UsernamePasswordToken token = new UsernamePasswordToken(userCode, passwd);
+							UsernamePasswordToken token = new UsernamePasswordToken(bgUser.getUserId(), passwd);
 							try {
 								subject.login(token);
+								BgSessionUtil.setUserId(bgUser.getUserId());
+								BgSessionUtil.setUser(bgUser);
 								System.out.println("aaaaaaa--------------------"+passwd);
 							} catch (AuthenticationException e) {
 								errInfo = "身份验证失败！";
@@ -184,14 +185,14 @@ public class BgMainController extends BaseController {
 		pd = this.getPageData();
 		try {
 			//获取当前用户 和 角色
-			BgUser bgUser = BgSessionUtil.getSessionBgUserRole();
+			BgUser bgUser = (BgUser)BgSessionUtil.getUser();
 			if (bgUser != null) {
 				if (null == bgUser.getBgRole()) {
 					bgUser.setBgRole(bgRoleService.findById(bgUser.getRoleId()));
 					
 					bgUser.setAdmin("1".equals(bgUser.getBgRole().getRoleId())
 							&&bgUser.getUserCode().equals(bgConfigService.findSessionConfig(Const.CONFIG_BG_SYSTEM_OBJ).getParam3()));
-					BgSessionUtil.setSessionBgUserRole(bgUser);
+					BgSessionUtil.setUser(bgUser);
 				}
 				BgRole bgRole = bgUser.getBgRole();
 				String roleRights = bgRole != null ? bgRole.getRoleRights() : "";
@@ -308,13 +309,13 @@ public class BgMainController extends BaseController {
 	 * 获取验证码
 	 * @return
 	 */
-	@RequestMapping(value = "/getVerificationCode")
-	public void getVerificationCode(HttpServletResponse response) {
+	@RequestMapping(value = "/getCaptcha")
+	public void getCaptcha(HttpServletResponse response) {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		String verificationCode = DrawImageUtil.drawImg(output);
+		String captcha = DrawImageUtil.drawImg(output);
 
 		try {
-			BgSessionUtil.setSessionBgVerificationCode(verificationCode);
+			BgSessionUtil.setCaptcha(captcha);;
 			ServletOutputStream out = response.getOutputStream();
 			output.writeTo(out);
 		} catch (IOException e) {

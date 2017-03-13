@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.jx.background.entity.BgUser;
-import com.jx.background.util.BgSessionUtil;
 import com.jx.background.util.JudgeRightsUtil;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 
 /**
  * 类名称：LoginHandlerInterceptor.java 类描述：
@@ -29,7 +29,7 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
 			if("background".equals(pathArr[1])){
 				if(!"main".equals(pathArr[2])){
 					// shiro管理的session
-					BgUser bgUser = BgSessionUtil.getSessionBgUserRole();
+					BgUser bgUser = (BgUser)ShiroSessionUtil.getUser();
 					if (bgUser != null && bgUser.getBgRole() != null) {
 						String type = "";
 						if("main".equals(ss)||"list".equals(ss)){
@@ -70,7 +70,7 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
 		
 /*		if (path.matches(Const.INTERCEPTOR_PATH)) {
 			// shiro管理的session
-			BgUser bgUser = BgSessionUtil.getSessionBgUserRole();
+			BgUser bgUser = ShiroSessionUtil.getUserId();
 			if (bgUser != null && bgUser.getBgRole() != null) {
 				String[] pathArr = path.split("/");
 				

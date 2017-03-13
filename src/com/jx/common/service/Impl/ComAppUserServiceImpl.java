@@ -13,6 +13,7 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.HttpManager;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
@@ -204,9 +205,9 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		comAppUser.setAppUserStatus("00");
 		comAppUser.setHeadImgSrc("");
 		comAppUser.setEffective("01");
-		comAppUser.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comAppUser.setCreateUserId(ShiroSessionUtil.getUserId());
 		comAppUser.setCreateTime(nowTime);
-		comAppUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comAppUser.setModifyUserId(ShiroSessionUtil.getUserId());
 		comAppUser.setModifyTime(nowTime);
 		
 		dao.add("ComAppUserMapper.add", comAppUser);
@@ -225,7 +226,7 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 			comAppUser.setPassword(new SimpleHash("SHA-512", comAppUser.getAppUserId(), comAppUser.getPassword(), 2).toString());
 		}
 		Date nowTime = new Date();
-		comAppUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comAppUser.setModifyUserId(ShiroSessionUtil.getUserId());
 		comAppUser.setModifyTime(nowTime);
 		comAppUser.setLastModifyTime(this.findById(comAppUser.getAppUserId()).getModifyTime());
 		if(comAppUser.getModifyTime().compareTo(comAppUser.getLastModifyTime()) == 0){
@@ -246,7 +247,7 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		}
 		
 		Date nowTime = new Date();
-		comAppUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comAppUser.setModifyUserId(ShiroSessionUtil.getUserId());
 		comAppUser.setModifyTime(nowTime);
 		comAppUser.setLastModifyTime(this.findById(comAppUser.getAppUserId()).getModifyTime());
 		if(comAppUser.getModifyTime().compareTo(comAppUser.getLastModifyTime()) == 0){

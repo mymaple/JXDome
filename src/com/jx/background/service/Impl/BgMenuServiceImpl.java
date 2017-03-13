@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgMenu;
@@ -130,9 +131,9 @@ public class BgMenuServiceImpl implements BgMenuService{
 		bgMenu.setMenuId(UuidUtil.get32UUID());
 		bgMenu.setMenuStatus("01");
 		bgMenu.setEffective("01");
-		bgMenu.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMenu.setCreateUserId(ShiroSessionUtil.getUserId());
 		bgMenu.setCreateTime(nowTime);
-		bgMenu.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMenu.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMenu.setModifyTime(nowTime);
 		
 		bgMenu.setMenuIcon("menu-icon fa fa-leaf black");//默认菜单图标
@@ -147,7 +148,7 @@ public class BgMenuServiceImpl implements BgMenuService{
 	 */
 	public void edit(BgMenu bgMenu) throws Exception {
 		Date nowTime = new Date();
-		bgMenu.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMenu.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMenu.setModifyTime(nowTime);
 		bgMenu.setLastModifyTime(this.findById(bgMenu.getMenuId()).getModifyTime());
 		if(bgMenu.getModifyTime().compareTo(bgMenu.getLastModifyTime()) == 0){
@@ -164,7 +165,7 @@ public class BgMenuServiceImpl implements BgMenuService{
 	 */
 	public void change(BgMenu bgMenu) throws Exception {
 		Date nowTime = new Date();
-		bgMenu.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMenu.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMenu.setModifyTime(nowTime);
 		bgMenu.setLastModifyTime(this.findById(bgMenu.getMenuId()).getModifyTime());
 		if(bgMenu.getModifyTime().compareTo(bgMenu.getLastModifyTime()) == 0){

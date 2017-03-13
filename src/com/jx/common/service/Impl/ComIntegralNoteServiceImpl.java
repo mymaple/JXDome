@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComAppUserExt;
@@ -45,9 +46,9 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 		comIntegralNote.setIntegralDealStatus("00");
 		comIntegralNote.setOrderNum(""+nowTime.getTime());
 		comIntegralNote.setEffective("01");
-		comIntegralNote.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comIntegralNote.setCreateUserId(ShiroSessionUtil.getUserId());
 		comIntegralNote.setCreateTime(nowTime);
-		comIntegralNote.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comIntegralNote.setModifyUserId(ShiroSessionUtil.getUserId());
 		comIntegralNote.setModifyTime(nowTime);
 		
 		dao.add("ComIntegralNoteMapper.add", comIntegralNote);
@@ -66,7 +67,7 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 	 */
 	public void edit(ComIntegralNote comIntegralNote) throws Exception {
 		Date nowTime = new Date();
-		comIntegralNote.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comIntegralNote.setModifyUserId(ShiroSessionUtil.getUserId());
 		comIntegralNote.setModifyTime(nowTime);
 		comIntegralNote.setLastModifyTime(this.findById(comIntegralNote.getIntegralNoteId()).getModifyTime());
 		if(comIntegralNote.getModifyTime().compareTo(comIntegralNote.getLastModifyTime()) == 0){
@@ -83,7 +84,7 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 	 */
 	public void change(ComIntegralNote comIntegralNote) throws Exception {
 		Date nowTime = new Date();
-		comIntegralNote.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comIntegralNote.setModifyUserId(ShiroSessionUtil.getUserId());
 		comIntegralNote.setModifyTime(nowTime);
 		comIntegralNote.setLastModifyTime(this.findById(comIntegralNote.getIntegralNoteId()).getModifyTime());
 		if(comIntegralNote.getModifyTime().compareTo(comIntegralNote.getLastModifyTime()) == 0){

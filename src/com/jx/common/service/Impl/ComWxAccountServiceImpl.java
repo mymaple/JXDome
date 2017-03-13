@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComWxAccount;
 import com.jx.common.service.ComWxAccountService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comWxAccountService")
 public class ComWxAccountServiceImpl implements ComWxAccountService{
@@ -56,9 +56,9 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 		comWxAccount.setAccessToken("");
 		comWxAccount.setJsApiTicket("");
 		comWxAccount.setEffective("01");
-		comWxAccount.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comWxAccount.setCreateUserId(ShiroSessionUtil.getUserId());
 		comWxAccount.setCreateTime(nowTime);
-		comWxAccount.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comWxAccount.setModifyUserId(ShiroSessionUtil.getUserId());
 		comWxAccount.setModifyTime(nowTime);
 		
 		dao.add("ComWxAccountMapper.add", comWxAccount);
@@ -71,7 +71,7 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 	 */
 	public void edit(ComWxAccount comWxAccount) throws Exception {
 		Date nowTime = new Date();
-		comWxAccount.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comWxAccount.setModifyUserId(ShiroSessionUtil.getUserId());
 		comWxAccount.setModifyTime(nowTime);
 		comWxAccount.setLastModifyTime(this.findById(comWxAccount.getWxAccountId()).getModifyTime());
 		if(comWxAccount.getModifyTime().compareTo(comWxAccount.getLastModifyTime()) == 0){
@@ -89,7 +89,7 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 	public void change(ComWxAccount comWxAccount) throws Exception {
 		Date nowTime = new Date();
 		if(MapleStringUtil.isEmpty(comWxAccount.getModifyUserId()))
-			comWxAccount.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+			comWxAccount.setModifyUserId(ShiroSessionUtil.getUserId());
 		comWxAccount.setModifyTime(nowTime);
 		comWxAccount.setLastModifyTime(this.findById(comWxAccount.getWxAccountId()).getModifyTime());
 		if(comWxAccount.getModifyTime().compareTo(comWxAccount.getLastModifyTime()) == 0){

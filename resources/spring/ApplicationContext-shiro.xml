@@ -37,7 +37,7 @@
 				/static/js/** 				= anon
 				/MP_verify_uypCnRoqKLTZwBSp.txt			= anon
 				/uploadFiles/uploadImgs/** 	= anon
-	           	/background/main/getVerificationCode.do 					= anon
+	           	/background/main/getCaptcha.do 					= anon
 	           	/background/main/login	 			= anon
 	           	/app**/** 					= anon
 	           	/weixin/** 					= anon

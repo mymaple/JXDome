@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComSparepart;
@@ -40,9 +41,9 @@ public class ComSparepartServiceImpl implements ComSparepartService{
 		comSparepart.setSparepartId(UuidUtil.get32UUID());
 		comSparepart.setSparepartStatus("00");
 		comSparepart.setEffective("01");
-		comSparepart.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSparepart.setCreateUserId(ShiroSessionUtil.getUserId());
 		comSparepart.setCreateTime(nowTime);
-		comSparepart.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSparepart.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSparepart.setModifyTime(nowTime);
 		
 		dao.add("ComSparepartMapper.add", comSparepart);
@@ -55,7 +56,7 @@ public class ComSparepartServiceImpl implements ComSparepartService{
 	 */
 	public void edit(ComSparepart comSparepart) throws Exception {
 		Date nowTime = new Date();
-		comSparepart.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSparepart.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSparepart.setModifyTime(nowTime);
 		comSparepart.setLastModifyTime(this.findById(comSparepart.getSparepartId()).getModifyTime());
 		if(comSparepart.getModifyTime().compareTo(comSparepart.getLastModifyTime()) == 0){
@@ -72,7 +73,7 @@ public class ComSparepartServiceImpl implements ComSparepartService{
 	 */
 	public void change(ComSparepart comSparepart) throws Exception {
 		Date nowTime = new Date();
-		comSparepart.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSparepart.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSparepart.setModifyTime(nowTime);
 		comSparepart.setLastModifyTime(this.findById(comSparepart.getSparepartId()).getModifyTime());
 		if(comSparepart.getModifyTime().compareTo(comSparepart.getLastModifyTime()) == 0){

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProduct;
@@ -40,9 +41,9 @@ public class ComProductServiceImpl implements ComProductService{
 		comProduct.setProductId(UuidUtil.get32UUID());
 		comProduct.setProductStatus("00");
 		comProduct.setEffective("01");
-		comProduct.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProduct.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProduct.setCreateTime(nowTime);
-		comProduct.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProduct.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProduct.setModifyTime(nowTime);
 		
 		dao.add("ComProductMapper.add", comProduct);
@@ -55,7 +56,7 @@ public class ComProductServiceImpl implements ComProductService{
 	 */
 	public void edit(ComProduct comProduct) throws Exception {
 		Date nowTime = new Date();
-		comProduct.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProduct.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProduct.setModifyTime(nowTime);
 		comProduct.setLastModifyTime(this.findById(comProduct.getProductId()).getModifyTime());
 		if(comProduct.getModifyTime().compareTo(comProduct.getLastModifyTime()) == 0){
@@ -72,7 +73,7 @@ public class ComProductServiceImpl implements ComProductService{
 	 */
 	public void change(ComProduct comProduct) throws Exception {
 		Date nowTime = new Date();
-		comProduct.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProduct.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProduct.setModifyTime(nowTime);
 		comProduct.setLastModifyTime(this.findById(comProduct.getProductId()).getModifyTime());
 		if(comProduct.getModifyTime().compareTo(comProduct.getLastModifyTime()) == 0){

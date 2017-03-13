@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgCrontab;
 import com.jx.background.service.BgCrontabService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("bgCrontabService")
 public class BgCrontabServiceImpl implements BgCrontabService{
@@ -43,9 +43,9 @@ public class BgCrontabServiceImpl implements BgCrontabService{
 		bgCrontab.setTriggerTimes("0");
 		bgCrontab.setEndTime(nowTime);
 		bgCrontab.setEffective("01");
-		bgCrontab.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgCrontab.setCreateUserId(ShiroSessionUtil.getUserId());
 		bgCrontab.setCreateTime(nowTime);
-		bgCrontab.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgCrontab.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgCrontab.setModifyTime(nowTime);
 		
 		dao.add("BgCrontabMapper.add", bgCrontab);
@@ -58,7 +58,7 @@ public class BgCrontabServiceImpl implements BgCrontabService{
 	 */
 	public void edit(BgCrontab bgCrontab) throws Exception {
 		Date nowTime = new Date();
-		bgCrontab.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgCrontab.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgCrontab.setModifyTime(nowTime);
 		bgCrontab.setLastModifyTime(this.findById(bgCrontab.getCrontabId()).getModifyTime());
 		if(bgCrontab.getModifyTime().compareTo(bgCrontab.getLastModifyTime()) == 0){
@@ -75,7 +75,7 @@ public class BgCrontabServiceImpl implements BgCrontabService{
 	 */
 	public void change(BgCrontab bgCrontab) throws Exception {
 		Date nowTime = new Date();
-		bgCrontab.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgCrontab.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgCrontab.setModifyTime(nowTime);
 		bgCrontab.setLastModifyTime(this.findById(bgCrontab.getCrontabId()).getModifyTime());
 		if(bgCrontab.getModifyTime().compareTo(bgCrontab.getLastModifyTime()) == 0){

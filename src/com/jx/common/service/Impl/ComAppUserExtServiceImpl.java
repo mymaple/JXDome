@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.exception.UncheckedException;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComAppUserExt;
@@ -70,9 +71,9 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 		comAppUserExt.setAppUserExtId(UuidUtil.get32UUID());
 		comAppUserExt.setOrderNum(""+nowTime.getTime());
 		comAppUserExt.setEffective("01");
-		comAppUserExt.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comAppUserExt.setCreateUserId(ShiroSessionUtil.getUserId());
 		comAppUserExt.setCreateTime(nowTime);
-		comAppUserExt.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comAppUserExt.setModifyUserId(ShiroSessionUtil.getUserId());
 		comAppUserExt.setModifyTime(nowTime);
 		
 		dao.add("ComAppUserExtMapper.add", comAppUserExt);
@@ -96,7 +97,7 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 		comAppUserExt.setExtValue(addValue);
 		
 		Date nowTime = new Date();
-		comAppUserExt.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comAppUserExt.setModifyUserId(ShiroSessionUtil.getUserId());
 		comAppUserExt.setModifyTime(nowTime);
 		if(comAppUserExt.getLastModifyTime() == null){
 			comAppUserExt.setLastModifyTime(this.find(appUserId, extCode).getModifyTime());
@@ -125,7 +126,7 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 		comAppUserExt.setExtValue(changeValue);
 		
 		Date nowTime = new Date();
-		comAppUserExt.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comAppUserExt.setModifyUserId(ShiroSessionUtil.getUserId());
 		comAppUserExt.setModifyTime(nowTime);
 		if(comAppUserExt.getLastModifyTime() == null){
 			comAppUserExt.setLastModifyTime(this.find(appUserId, extCode).getModifyTime());

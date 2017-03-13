@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgMapleDetail;
 import com.jx.background.service.BgMapleDetailService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("bgMapleDetailService")
 public class BgMapleDetailServiceImpl implements BgMapleDetailService{
@@ -50,9 +50,9 @@ public class BgMapleDetailServiceImpl implements BgMapleDetailService{
 		bgMapleDetail.setMapleDetailId(UuidUtil.get32UUID());
 		bgMapleDetail.setMapleDetailStatus("00");
 		bgMapleDetail.setEffective("01");
-		bgMapleDetail.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMapleDetail.setCreateUserId(ShiroSessionUtil.getUserId());
 		bgMapleDetail.setCreateTime(nowTime);
-		bgMapleDetail.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMapleDetail.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMapleDetail.setModifyTime(nowTime);
 		
 		dao.add("BgMapleDetailMapper.add", bgMapleDetail);
@@ -65,7 +65,7 @@ public class BgMapleDetailServiceImpl implements BgMapleDetailService{
 	 */
 	public void edit(BgMapleDetail bgMapleDetail) throws Exception {
 		Date nowTime = new Date();
-		bgMapleDetail.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMapleDetail.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMapleDetail.setModifyTime(nowTime);
 		bgMapleDetail.setLastModifyTime(this.findById(bgMapleDetail.getMapleDetailId()).getModifyTime());
 		if(bgMapleDetail.getModifyTime().compareTo(bgMapleDetail.getLastModifyTime()) == 0){
@@ -82,7 +82,7 @@ public class BgMapleDetailServiceImpl implements BgMapleDetailService{
 	 */
 	public void change(BgMapleDetail bgMapleDetail) throws Exception {
 		Date nowTime = new Date();
-		bgMapleDetail.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgMapleDetail.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgMapleDetail.setModifyTime(nowTime);
 		bgMapleDetail.setLastModifyTime(this.findById(bgMapleDetail.getMapleDetailId()).getModifyTime());
 		if(bgMapleDetail.getModifyTime().compareTo(bgMapleDetail.getLastModifyTime()) == 0){

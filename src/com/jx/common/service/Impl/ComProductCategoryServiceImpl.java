@@ -11,6 +11,7 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.UuidUtil;
@@ -49,9 +50,9 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		
 		comProductCategory.setProductCategoryStatus("00");
 		comProductCategory.setEffective("01");
-		comProductCategory.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProductCategory.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setCreateTime(nowTime);
-		comProductCategory.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setModifyTime(nowTime);
 		
 		dao.add("ComProductCategoryMapper.add", comProductCategory);
@@ -69,7 +70,7 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		comProductCategory.setImgSrc2(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG2, comProductCategory.getImgSrc2()));
 		
 		Date nowTime = new Date();
-		comProductCategory.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setModifyTime(nowTime);
 		comProductCategory.setLastModifyTime(this.findById(comProductCategory.getProductCategoryId()).getModifyTime());
 		if(comProductCategory.getModifyTime().compareTo(comProductCategory.getLastModifyTime()) == 0){
@@ -86,7 +87,7 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 */
 	public void change(ComProductCategory comProductCategory) throws Exception {
 		Date nowTime = new Date();
-		comProductCategory.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setModifyTime(nowTime);
 		comProductCategory.setLastModifyTime(this.findById(comProductCategory.getProductCategoryId()).getModifyTime());
 		if(comProductCategory.getModifyTime().compareTo(comProductCategory.getLastModifyTime()) == 0){

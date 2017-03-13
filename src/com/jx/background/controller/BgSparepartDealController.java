@@ -25,6 +25,7 @@ import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.entity.ComSparepartDeal;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
@@ -428,7 +429,7 @@ public class BgSparepartDealController extends BaseController {
 		//成功
 		if("02".equals(change)&&"01".equals(sparepartDealStatus)){
 			comSparepartDealChange.setSparepartDealStatus("02");
-			comSparepartDealChange.setCheckId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+			comSparepartDealChange.setCheckId(ShiroSessionUtil.getUserId());
 			comSparepartDealChange.setCheckTime(new Date());
 			comSparepartDealChange.setRemarks("通过！");
 			comSparepartDealService.toPass(comSparepartDeal, comSparepartDealChange);
@@ -437,7 +438,7 @@ public class BgSparepartDealController extends BaseController {
 		//失败
 		if("03".equals(change)&&"01".equals(sparepartDealStatus)){
 			comSparepartDealChange.setSparepartDealStatus("03");
-			comSparepartDealChange.setCheckId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+			comSparepartDealChange.setCheckId(ShiroSessionUtil.getUserId());
 			comSparepartDealChange.setCheckTime(new Date());
 			comSparepartDealChange.setRemarks("失败！");
 			comSparepartDealService.change(comSparepartDealChange);

@@ -10,7 +10,7 @@
 			classpath:spring/ApplicationContext-head.xml,
 			classpath:spring/ApplicationContext-dataSource.xml,
 			<!-- classpath:spring/ApplicationContext-shiro.xml, -->
-			classpath:spring/ApplicationContext-shiro.xml,
+			classpath:spring/ApplicationContext-shiro-wx.xml,
 			classpath:spring/ApplicationContext-redis.xml
 		</param-value>
 	</context-param>

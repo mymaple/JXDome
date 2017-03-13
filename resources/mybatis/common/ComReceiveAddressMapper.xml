@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComReceiveAddressMapper">
+
+	<sql id="receiveAddressColumns">receiveAddressId,receicerName,phone,province,city,district,street,detail,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="receiveAddressTable">com_receive_address_info</sql>
+	
+	<resultMap type="comReceiveAddress" id="comReceiveAddressResultMap">
+		<id column="receiveAddressId" property="receiveAddressId"/>
+		<result column="receicerName" property="receicerName"/>
+		<result column="phone" property="phone"/>
+		<result column="province" property="province"/>
+		<result column="city" property="city"/>
+		<result column="district" property="district"/>
+		<result column="street" property="street"/>
+		<result column="detail" property="detail"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comReceiveAddress">
+		insert into 
+	<include refid="receiveAddressTable"/>
+		( 
+	<include refid="receiveAddressColumns"/>
+		) values (
+			#{receiveAddressId},#{receicerName},#{phone},#{province},#{city},#{district},#{street},#{detail},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comReceiveAddress">
+		update
+	<include refid="receiveAddressTable"/>
+		set 
+			<if test="receicerName!=null and receicerName!=''">
+			receicerName = #{receicerName},
+			</if>
+			<if test="phone!=null and phone!=''">
+			phone = #{phone},
+			</if>
+			<if test="province!=null and province!=''">
+			province = #{province},
+			</if>
+			<if test="city!=null and city!=''">
+			city = #{city},
+			</if>
+			<if test="district!=null and district!=''">
+			district = #{district},
+			</if>
+			<if test="street!=null and street!=''">
+			street = #{street},
+			</if>
+			<if test="detail!=null and detail!=''">
+			detail = #{detail},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comReceiveAddress">
+		update
+	<include refid="receiveAddressTable"/>
+		set 
+			<if test="receicerName!=null and receicerName!=''">
+			receicerName = #{receicerName},
+			</if>
+			<if test="phone!=null and phone!=''">
+			phone = #{phone},
+			</if>
+			<if test="province!=null and province!=''">
+			province = #{province},
+			</if>
+			<if test="city!=null and city!=''">
+			city = #{city},
+			</if>
+			<if test="district!=null and district!=''">
+			district = #{district},
+			</if>
+			<if test="street!=null and street!=''">
+			street = #{street},
+			</if>
+			<if test="detail!=null and detail!=''">
+			detail = #{detail},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null and effective!=''">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and modifyTime = #{lastModifyTime}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from 
+	<include refid="receiveAddressTable"/>
+		where 
+			receiveAddressId = #{receiveAddressId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="receiveAddressTable"/>
+		where 
+			CONCAT(receiveAddressId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByPd" parameterType="pd" resultType="comReceiveAddress">
+		select 
+	<include refid="receiveAddressColumns"/>
+		from 
+	<include refid="receiveAddressTable"/>
+		where 
+			receiveAddressId = #{receiveAddressId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByPd" parameterType="pd" resultMap="comReceiveAddressResultMap">
+		select 
+	<include refid="receiveAddressColumns"/>
+		from 
+	<include refid="receiveAddressTable"/>
+		where 1=1
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comReceiveAddress" resultMap="comReceiveAddressResultMap">
+		select 
+	<include refid="receiveAddressColumns"/>
+		from 
+	<include refid="receiveAddressTable"/>
+		where 1=1
+			<if test="receiveAddressId!=null and receiveAddressId!=''">
+			 and receiveAddressId != #{receiveAddressId} 
+			</if>
+			<if test="receicerName!=null and receicerName!=''">
+			 and receicerName = #{receicerName}
+			</if>
+			<if test="phone!=null and phone!=''">
+			 and phone = #{phone}
+			</if>
+			<if test="province!=null and province!=''">
+			 and province = #{province}
+			</if>
+			<if test="city!=null and city!=''">
+			 and city = #{city}
+			</if>
+			<if test="district!=null and district!=''">
+			 and district = #{district}
+			</if>
+			<if test="street!=null and street!=''">
+			 and street = #{street}
+			</if>
+			<if test="detail!=null and detail!=''">
+			 and detail = #{detail}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null and effective!=''">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null and modifyUserId!=''">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null and modifyTime!=''">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="receiveAddressColumns"/>
+		from 
+	<include refid="receiveAddressTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				receiveAddressCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				receiveAddressName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

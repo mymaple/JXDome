@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComSupplier;
 import com.jx.common.service.ComSupplierService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comSupplierService")
 public class ComSupplierServiceImpl implements ComSupplierService{
@@ -40,9 +40,9 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 		comSupplier.setSupplierId(UuidUtil.get32UUID());
 		comSupplier.setSupplierStatus("00");
 		comSupplier.setEffective("01");
-		comSupplier.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSupplier.setCreateUserId(ShiroSessionUtil.getUserId());
 		comSupplier.setCreateTime(nowTime);
-		comSupplier.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSupplier.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSupplier.setModifyTime(nowTime);
 		
 		dao.add("ComSupplierMapper.add", comSupplier);
@@ -55,7 +55,7 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 	 */
 	public void edit(ComSupplier comSupplier) throws Exception {
 		Date nowTime = new Date();
-		comSupplier.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSupplier.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSupplier.setModifyTime(nowTime);
 		comSupplier.setLastModifyTime(this.findById(comSupplier.getSupplierId()).getModifyTime());
 		if(comSupplier.getModifyTime().compareTo(comSupplier.getLastModifyTime()) == 0){
@@ -72,7 +72,7 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 	 */
 	public void change(ComSupplier comSupplier) throws Exception {
 		Date nowTime = new Date();
-		comSupplier.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSupplier.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSupplier.setModifyTime(nowTime);
 		comSupplier.setLastModifyTime(this.findById(comSupplier.getSupplierId()).getModifyTime());
 		if(comSupplier.getModifyTime().compareTo(comSupplier.getLastModifyTime()) == 0){

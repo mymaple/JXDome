@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComAppUser;
@@ -92,9 +93,9 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 		comSparepartDeal.setRemarks("");
 		comSparepartDeal.setCheckTime(nowTime);
 		comSparepartDeal.setEffective("01");
-		comSparepartDeal.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSparepartDeal.setCreateUserId(ShiroSessionUtil.getUserId());
 		comSparepartDeal.setCreateTime(nowTime);
-		comSparepartDeal.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSparepartDeal.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSparepartDeal.setModifyTime(nowTime);
 		
 		dao.add("ComSparepartDealMapper.add", comSparepartDeal);
@@ -107,7 +108,7 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 	 */
 	public void edit(ComSparepartDeal comSparepartDeal) throws Exception {
 		Date nowTime = new Date();
-		comSparepartDeal.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSparepartDeal.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSparepartDeal.setModifyTime(nowTime);
 		comSparepartDeal.setLastModifyTime(this.findById(comSparepartDeal.getSparepartDealId()).getModifyTime());
 		if(comSparepartDeal.getModifyTime().compareTo(comSparepartDeal.getLastModifyTime()) == 0){
@@ -124,7 +125,7 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 	 */
 	public void change(ComSparepartDeal comSparepartDeal) throws Exception {
 		Date nowTime = new Date();
-		comSparepartDeal.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		comSparepartDeal.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSparepartDeal.setModifyTime(nowTime);
 		comSparepartDeal.setLastModifyTime(this.findById(comSparepartDeal.getSparepartDealId()).getModifyTime());
 		if(comSparepartDeal.getModifyTime().compareTo(comSparepartDeal.getLastModifyTime()) == 0){

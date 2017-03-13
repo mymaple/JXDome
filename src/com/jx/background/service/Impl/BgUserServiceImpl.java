@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.UuidUtil;
@@ -73,9 +74,9 @@ public class BgUserServiceImpl implements BgUserService{
 		bgUser.setUserStatus("00");
 		bgUser.setUserIconSrc("static/ace/avatars/user.jpg");
 		bgUser.setEffective("01");
-		bgUser.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgUser.setCreateUserId(ShiroSessionUtil.getUserId());
 		bgUser.setCreateTime(nowTime);
-		bgUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgUser.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgUser.setModifyTime(nowTime);
 		
 		dao.add("BgUserMapper.add", bgUser);
@@ -88,7 +89,7 @@ public class BgUserServiceImpl implements BgUserService{
 	 */
 	public void edit(BgUser bgUser) throws Exception {
 		Date nowTime = new Date();
-		bgUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgUser.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgUser.setModifyTime(nowTime);
 		bgUser.setLastModifyTime(this.findById(bgUser.getUserId()).getModifyTime());
 		if(bgUser.getModifyTime().compareTo(bgUser.getLastModifyTime()) == 0){
@@ -109,7 +110,7 @@ public class BgUserServiceImpl implements BgUserService{
 	 */
 	public void change(BgUser bgUser) throws Exception {
 		Date nowTime = new Date();
-		bgUser.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		bgUser.setModifyUserId(ShiroSessionUtil.getUserId());
 		bgUser.setModifyTime(nowTime);
 		bgUser.setLastModifyTime(this.findById(bgUser.getUserId()).getModifyTime());
 		if(bgUser.getModifyTime().compareTo(bgUser.getLastModifyTime()) == 0){
