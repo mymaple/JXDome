@@ -131,7 +131,7 @@ public class BgWxMenuBtnServiceImpl implements BgWxMenuBtnService{
 			bgWxMenuBtn.setModifyTime(MapleDateUtil.getNextSecond(bgWxMenuBtn.getModifyTime()));
 		}
 	
-		dao.edit("BgWxMenuBtnMapper.edit", bgWxMenuBtn);
+		dao.update("BgWxMenuBtnMapper.edit", bgWxMenuBtn);
 	}
 	
 	/**
@@ -147,7 +147,7 @@ public class BgWxMenuBtnServiceImpl implements BgWxMenuBtnService{
 		if(bgWxMenuBtn.getModifyTime().compareTo(bgWxMenuBtn.getLastModifyTime()) == 0){
 			bgWxMenuBtn.setModifyTime(MapleDateUtil.getNextSecond(bgWxMenuBtn.getModifyTime()));
 		}
-		dao.edit("BgWxMenuBtnMapper.change", bgWxMenuBtn);
+		dao.update("BgWxMenuBtnMapper.change", bgWxMenuBtn);
 	}
 
 	/**

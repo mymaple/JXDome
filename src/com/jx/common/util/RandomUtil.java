@@ -7,14 +7,22 @@ import com.jx.common.config.PageData;
 public class RandomUtil {
 
 	public static void main(String[] args) {
-		Random r = new Random();
-		System.out.println(getRandom(5));
+		System.out.println(getRandomRange(1, 5));
 	}
 	
 	public static char randomChar() {
 		Random r = new Random();
 		String s = "ABCDEFGHJKLMNPRSTUVWXYZ0123456789";
 		return s.charAt(r.nextInt(s.length()));
+	}
+	
+	/**
+	 * 固定位数随机数
+	 * @param n,m
+	 * @return
+	 */
+	public static int getRandomRange(int n, int m){
+		return (int)(n+(m-n)*Math.random());
 	}
 	
 	/**

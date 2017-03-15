@@ -193,7 +193,7 @@ public class ComDictServiceImpl implements ComDictService{
 			comDict.setModifyTime(MapleDateUtil.getNextSecond(comDict.getModifyTime()));
 		}
 	
-		dao.edit("ComDictMapper.edit", comDict);
+		dao.update("ComDictMapper.edit", comDict);
 	}
 	
 	/**
@@ -209,7 +209,7 @@ public class ComDictServiceImpl implements ComDictService{
 		if(comDict.getModifyTime().compareTo(comDict.getLastModifyTime()) == 0){
 			comDict.setModifyTime(MapleDateUtil.getNextSecond(comDict.getModifyTime()));
 		}
-		dao.edit("ComDictMapper.change", comDict);
+		dao.update("ComDictMapper.change", comDict);
 	}
 
 	/**

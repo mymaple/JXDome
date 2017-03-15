@@ -17,21 +17,21 @@ import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.HttpManager;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
+import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.PathUtil;
+import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.util.WxConnUtil;
 
 import net.sf.json.JSONObject;
 
 import com.jx.common.entity.ComAppUser;
-import com.jx.common.entity.ComAppUserExt;
 import com.jx.common.entity.ComInvite;
 import com.jx.common.entity.UserInfo;
 import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComInviteService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comAppUserService")
 public class ComAppUserServiceImpl implements ComAppUserService{
@@ -59,20 +59,35 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	}
 	
 	/**
-	 * 微信注册
-	 * @param String openId
-	 * @param String phone
+	 * 通过appUserCode获取(类)数据
+	 * @param String appUserCode
 	 * @return ComAppUser
 	 * @throws Exception
 	 */
-	public ComAppUser wxRegister(String openId, String phone) throws Exception {
+	public ComAppUser findByCode(String appUserCode) throws Exception {
+		PageData pd = new PageData();
+		pd.put("appUserCode",appUserCode);
+		return this.findByPd(pd);
+	}
+	
+	/**
+	 * 微信注册
+	 * @param String phone, ComInvite comInvite
+	 * @return ComAppUser
+	 * @throws Exception
+	 */
+	public ComAppUser toWxRegister(String phone, ComInvite comInvite) throws Exception {
+		
+		String openId = comInvite.getInvitedUserId();
+		String appUserId = UuidUtil.get32UUID();
+		
 		ComAppUser comAppUser = new ComAppUser();
-		Date nowtime = new Date();
+		Date nowTime = new Date();
 		//获取个人用户信息
 		String json = WxConnUtil.getUserInfo(openId);
 		UserInfo userInfo = new UserInfo();
 		userInfo = (UserInfo)MapleUtil.convertJson(userInfo.getClass(), JSONObject.fromObject(json));
-		String fileSrc = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/"+ openId+"_headimg.jpg";
+		String fileSrc = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/"+ appUserId+"_headimg.jpg";
 		//下载头像图片
 		if(StringUtils.isNotEmpty(userInfo.getHeadimgurl())){
 			HttpManager.download(userInfo.getHeadimgurl(), null, fileSrc);
@@ -81,41 +96,54 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 			MapleFileUtil.copyFile(headimgDefault , fileSrc);
 		}
 		
-		//
-		ComInvite comInvite = comInviteService.findByInvitedUserId(comAppUser.getOpenId());
-		if(comInvite != null){
-			comAppUser.setParentId(comInvite.getInviteCode());
-			
-			comInvite.setInviteStatus("00");
-			comInviteService.edit(comInvite);
-		}
-		String parentId = comInvite == null ? "" : comInvite.getInviteUserId();
 		
-		
-		//生成个人编号
-		String appUserNum = "";
-		
-		comAppUser.setOpenId(openId);
 		comAppUser.setPhone(phone);
+		comAppUser.setAppUserNum("");
+		comAppUser.setAppUserCode("");
+		String appUserName = StringUtils.isEmpty(userInfo.getNickname())?
+				"小伙伴":MapleStringUtil.filterOffUtf8Mb4(userInfo.getNickname());
+		comAppUser.setAppUserName(appUserName);
 		
-		comAppUser.setAppUserCode(StringUtils.isEmpty(userInfo.getNickname())?appUserNum:userInfo.getNickname());
-		comAppUser.setSex("1".equals(userInfo.getSex())?"01":"02");
-		comAppUser.setBrithday(nowtime);
-		comAppUser.setWxQRcodeExpiry(nowtime);
-		comAppUser.setMediaExpiry(nowtime);
-		comAppUser.setParentId(parentId);
-		comAppUser.setHeadImgSrc(Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg");
-		comAppUser.setOrderNum(""+nowtime.getTime());
-		comAppUser.setAppUserNum(appUserNum);
+		comAppUser.setSex("2".equals(userInfo.getSex())?"02":"01");
+		comAppUser.setBrithday(nowTime);
+		comAppUser.setHeadImgSrc(Const.PATH_MYHEADIMG+"/"+appUserId+"_headimg.jpg");
+		comAppUser.setOrderNum(""+nowTime.getTime());
+	
+		comAppUser.setPassword("");
+		comAppUser.setRemarks("");
 		
-		//微信关注
+		//微信关注中
 		comAppUser.setAppUserStatus("01");
 		//自主微信关注用户
-		comAppUser.setAppUserType("01");
-		comAppUser.setCreateUserId(openId);
-		comAppUser.setModifyUserId(openId);
+		comAppUser.setAppUserType("02");
+		comAppUser.setEffective("01");
 		
-		this.add(comAppUser);
+		comAppUser.setAppUserId(appUserId);
+		
+		comAppUser.setCreateUserId(appUserId);
+		comAppUser.setCreateTime(nowTime);
+		comAppUser.setModifyUserId(appUserId);
+		comAppUser.setModifyTime(nowTime);
+		
+		String parentId = comInvite.getInviteUserId();
+		comAppUser.setParentId(parentId);
+		ComAppUser comAppUser1 = this.findById(parentId);
+		int level = Integer.parseInt(comAppUser1.getLevel())+1;
+		comAppUser.setLevel(""+level);
+		comAppUser.setRoleId("0"+level);
+		
+		dao.add("ComAppUserMapper.add", comAppUser);
+		
+		this.updateCode(appUserId);
+		comAppUserExtService.toInit(appUserId, "0", MapleDateUtil.formatDate(nowTime)
+				, "", MapleDateUtil.formatDate(nowTime), "", openId);
+		
+		//完成绑定
+		comInvite.setInviteStatus("01");
+		comInvite.setInvitedUserId(appUserId);
+		comInvite.setModifyUserId(appUserId);
+		comInvite.setModifyTime(nowTime);
+		comInviteService.toSuccess(comInvite);
 		
 		return comAppUser;
 	}
@@ -198,23 +226,54 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	 */
 	public void add(ComAppUser comAppUser) throws Exception {
 		
-		comAppUser.setPassword(new SimpleHash("SHA-512", comAppUser.getAppUserId(), comAppUser.getPassword(), 2).toString());
-		
+		String appUserId = UuidUtil.get32UUID();
 		Date nowTime = new Date();
-		comAppUser.setAppUserId(UuidUtil.get32UUID());
+		
+		comAppUser.setAppUserNum("");
+		comAppUser.setAppUserCode("");
+		comAppUser.setPassword(new SimpleHash("SHA-512", comAppUser.getAppUserId(), comAppUser.getPassword(), 2).toString());
+		comAppUser.setHeadImgSrc("static/ace/avatars/user.jpg");
+		
+		//后台添加
+		comAppUser.setAppUserType("01");
 		comAppUser.setAppUserStatus("00");
-		comAppUser.setHeadImgSrc("");
-		comAppUser.setEffective("01");
+		comAppUser.setEffective("01");	
+		
+		
+		comAppUser.setAppUserId(appUserId);
+		
 		comAppUser.setCreateUserId(ShiroSessionUtil.getUserId());
 		comAppUser.setCreateTime(nowTime);
 		comAppUser.setModifyUserId(ShiroSessionUtil.getUserId());
 		comAppUser.setModifyTime(nowTime);
 		
+		String parentId = comAppUser.getParentId();
+		comAppUser.setParentId(parentId);
+		ComAppUser comAppUser1 = this.findById(parentId);
+		int level = "0".equals(parentId)?1:(Integer.parseInt(comAppUser1.getLevel())+1);
+		comAppUser.setLevel(""+level);
+		comAppUser.setRoleId("0"+level);
+		
 		dao.add("ComAppUserMapper.add", comAppUser);
 		
-		comAppUserExtService.init(comAppUser.getAppUserId());
-		
+		this.updateCode(appUserId);
+		comAppUserExtService.toInit(appUserId, "0", MapleDateUtil.formatDate(nowTime)
+				, "", MapleDateUtil.formatDate(nowTime), "", "");
 	}
+	
+	/**
+	 * 生成code 
+	 * @param String appUserId
+	 * @throws Exception
+	 */
+	public void updateCode(String appUserId) throws Exception {
+		//生成固定id
+		PageData pd = new PageData();
+		pd.put("appUserId", appUserId);
+		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
+		dao.update("ComAppUserMapper.updateCode", pd);
+	}
+	
 	
 	/**
 	 * 修改 
@@ -233,7 +292,7 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 			comAppUser.setModifyTime(MapleDateUtil.getNextSecond(comAppUser.getModifyTime()));
 		}
 	
-		dao.edit("ComAppUserMapper.edit", comAppUser);
+		dao.update("ComAppUserMapper.edit", comAppUser);
 	}
 	
 	/**
@@ -253,7 +312,7 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		if(comAppUser.getModifyTime().compareTo(comAppUser.getLastModifyTime()) == 0){
 			comAppUser.setModifyTime(MapleDateUtil.getNextSecond(comAppUser.getModifyTime()));
 		}
-		dao.edit("ComAppUserMapper.change", comAppUser);
+		dao.update("ComAppUserMapper.change", comAppUser);
 	}
 
 	/**
@@ -284,6 +343,9 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("ComAppUserMapper.batchDeleteByIds", ids);
+		for (int i = 0; i < ids.length; i++) {
+			comAppUserExtService.delete(ids[i]);
+		}
 	}
 
 	/**
@@ -333,11 +395,25 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<ComAppUser> otherHaveCode(String appUserId, String appUserCode) throws Exception {
 		ComAppUser comAppUser = new ComAppUser();
 		comAppUser.setAppUserId(appUserId);
 		comAppUser.setAppUserCode(appUserCode);
-		return this.otherHave(comAppUser);
+		return (List<ComAppUser>) dao.findForList("ComAppUserMapper.otherHave", comAppUser);
+	}
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComAppUser> otherHavePhone(String appUserId, String phone) throws Exception {
+		ComAppUser comAppUser = new ComAppUser();
+		comAppUser.setAppUserId(appUserId);
+		comAppUser.setPhone(phone);
+		return (List<ComAppUser>) dao.findForList("ComAppUserMapper.otherHave", comAppUser);
 	}
 	
 	/**

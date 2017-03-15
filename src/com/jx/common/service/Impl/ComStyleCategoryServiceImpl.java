@@ -132,7 +132,7 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 			comStyleCategory.setModifyTime(MapleDateUtil.getNextSecond(comStyleCategory.getModifyTime()));
 		}
 	
-		dao.edit("ComStyleCategoryMapper.edit", comStyleCategory);
+		dao.update("ComStyleCategoryMapper.edit", comStyleCategory);
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 		if(comStyleCategory.getModifyTime().compareTo(comStyleCategory.getLastModifyTime()) == 0){
 			comStyleCategory.setModifyTime(MapleDateUtil.getNextSecond(comStyleCategory.getModifyTime()));
 		}
-		dao.edit("ComStyleCategoryMapper.change", comStyleCategory);
+		dao.update("ComStyleCategoryMapper.change", comStyleCategory);
 	}
 
 	/**

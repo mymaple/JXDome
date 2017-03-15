@@ -12,6 +12,29 @@ public interface ComInviteService {
 	/****************************custom * start***********************************/
 
 	/**
+	 * 微信邀请
+	 * @param String code, String pId, String openId
+	 * @throws Exception
+	 */
+	public void toWxInvite(String code, String pId, String openId) throws Exception ;
+	
+	/**
+	 * 获取邀请中的用户
+	 * @param String openId
+	 * @return ComInvite
+	 * @throws Exception
+	 */
+	public ComInvite findByState00(String openId) throws Exception ;
+	
+	/**
+	 * 成功
+	 * @param ComInvite comInvite
+	 * @throws Exception
+	 */
+	public void toSuccess(ComInvite comInvite) throws Exception ;
+	
+	
+	/**
 	 * 通过invitedUserId获取(类)数据
 	 * @param String invitedUserId
 	 * @return ComInvite

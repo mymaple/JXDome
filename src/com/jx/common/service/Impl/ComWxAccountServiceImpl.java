@@ -78,7 +78,7 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 			comWxAccount.setModifyTime(MapleDateUtil.getNextSecond(comWxAccount.getModifyTime()));
 		}
 	
-		dao.edit("ComWxAccountMapper.edit", comWxAccount);
+		dao.update("ComWxAccountMapper.edit", comWxAccount);
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class ComWxAccountServiceImpl implements ComWxAccountService{
 		if(comWxAccount.getModifyTime().compareTo(comWxAccount.getLastModifyTime()) == 0){
 			comWxAccount.setModifyTime(MapleDateUtil.getNextSecond(comWxAccount.getModifyTime()));
 		}
-		dao.edit("ComWxAccountMapper.change", comWxAccount);
+		dao.update("ComWxAccountMapper.change", comWxAccount);
 	}
 
 	/**

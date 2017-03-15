@@ -41,7 +41,7 @@ public class ComInvite extends BaseEntity implements Serializable {
 	@NotBlank(message="邀请类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String inviteType;
 		
-	/** 邀请状态 */
+	/** 邀请状态  state 00wx扫描 01完成注册绑定 02未绑定失效*/
 	private String inviteStatus;
 		
 	/** 邀请人id */
@@ -128,7 +128,7 @@ public class ComInvite extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置 邀请状态
-	 * 
+	 * state 00wx扫描 01完成注册绑定 02未绑定失效
 	 * @param String inviteStatus
 	 */
 	public void setInviteStatus(String inviteStatus) {
@@ -137,7 +137,7 @@ public class ComInvite extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取 邀请状态
-	 * 
+	 * state 00wx扫描 01完成注册绑定 02未绑定失效
 	 * @return String inviteStatus
 	 */
 	public String getInviteStatus() {

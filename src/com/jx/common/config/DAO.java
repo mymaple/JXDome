@@ -49,7 +49,7 @@ public interface DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int edit(String str, Object obj) throws Exception ;
+	public int update(String str, Object obj) throws Exception ;
 	
 	/**
 	 * 批量修改
@@ -59,7 +59,7 @@ public interface DAO {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public int batchEdit(String str, List objs) throws Exception ;
+	public int batchUpdate(String str, List objs) throws Exception ;
 
 
 	/**

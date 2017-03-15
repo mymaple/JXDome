@@ -3,11 +3,13 @@ package com.jx.common.config;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.jx.background.entity.BgUser;
 import com.jx.background.util.JudgeRightsUtil;
 import com.jx.common.config.shiro.ShiroSessionUtil;
+import com.jx.weixin.util.WxUtil;
 
 /**
  * 类名称：LoginHandlerInterceptor.java 类描述：
@@ -55,16 +57,13 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
 					}
 				}
 			}
-//			else if("weixin".equals(pathArr[1])){
-//				if("main".equals(pathArr[2])){
-//					String code = request.getParameter("code");
-//					System.out.println("code------------"+code);
-//					if(StringUtils.isEmpty(code)){
-//						WxConnUtil.toRedirect(request, response);
-//						return false;
-//					}
-//				}
-//			}
+			else if("weixin".equals(pathArr[1])){
+				//获取myOpenId
+				String myOpenId = WxUtil.getWxMyOpenId(request, response);
+				if(StringUtils.isEmpty(myOpenId)){
+					return false;
+				}
+			}
 		}
 		return true;
 		

@@ -37,28 +37,12 @@
 								<td align="center"><param:display type="bg_mapleDetailType" name="parentId" id="parentId" value="${comAppUser.parentId }" hidden="true"/></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">角色:</td>
-								<td><param:select type="com_appUserRole" name="roleId" id="roleId" value="${comAppUser.roleId}" placeholder="这里请选择 角色" title="角色" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户代号:</td>
-								<td><input type="text" name="appUserCode" id="appUserCode" value="${comAppUser.appUserCode}" maxlength="100" placeholder="这里输入 平台用户代号" title="平台用户代号" style="width:98%;" onblur="otherNotCode()"/></td>
-							</tr>
-							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户名称:</td>
 								<td><input type="text" name="appUserName" id="appUserName" value="${comAppUser.appUserName}" maxlength="100" placeholder="这里输入 平台用户名称" title="平台用户名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户类型:</td>
-								<td><param:select type="com_appUserType" name="appUserType" id="appUserType" value="${comAppUser.appUserType}" placeholder="这里请选择 平台用户类型" title="平台用户类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户编号:</td>
-								<td><input type="text" name="appUserNum" id="appUserNum" value="${comAppUser.appUserNum}" maxlength="100" placeholder="这里输入 平台用户编号" title="平台用户编号" style="width:98%;" /></td>
-							</tr>
-							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">电话号码:</td>
-								<td><input type="text" name="phone" id="phone" value="${comAppUser.phone}" maxlength="100" placeholder="这里输入 电话号码" title="电话号码" style="width:98%;" /></td>
+								<td><input type="text" name="phone" id="phone" value="${comAppUser.phone}" maxlength="100" placeholder="这里输入 电话号码" title="电话号码" style="width:98%;" onchange="otherNotPhone();"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">密码:</td>
@@ -117,16 +101,16 @@
 		$(top.hangge());
 		
 		//判断appUserCode是否存在
-		function otherNotCode(){
-			var appUserCode = $("#appUserCode").val();
-			if(appUserCode == "") return false;
+		function otherNotPhone(){
+			var phone = $("#phone").val();
+			if(phone == "") return false;
 			var appUserId = $("#appUserId").val();
-			var url = "<%=basePath%>background/appUser/otherNotCode.do?appUserId="+appUserId+"&appUserCode="+appUserCode+"&tm="+new Date().getTime();
+			var url = "<%=basePath%>background/appUser/otherNotPhone.do?appUserId="+appUserId+"&phone="+phone+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
-					$("#appUserCode").tips({
+					$("#phone").tips({
 						side:3,
-			            msg:'平台用户代号 已存在',
+			            msg:'手机号码 已存在',
 			            bg:'#AE81FF',
 			            time:2
 			        });
@@ -141,25 +125,6 @@
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
-			if($("#roleId").val()==""){
-				$("#roleId").next().tips({
-					side:3,
-		            msg:'请选择 角色',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-			return false;
-			}
-			if(!codeExp.test($("#appUserCode").val())){
-				$("#appUserCode").tips({
-					side:3,
-		            msg:'请输入平台用户代号 需以小写字母开头的字母数字',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#appUserCode").focus();
-			return false;
-			}
 			if($("#appUserName").val()==""){
 				$("#appUserName").tips({
 					side:3,
@@ -168,25 +133,6 @@
 		            time:2
 		        });
 				$("#appUserName").focus();
-			return false;
-			}
-			if($("#appUserType").val()==""){
-				$("#appUserType").next().tips({
-					side:3,
-		            msg:'请选择 平台用户类型',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-			return false;
-			}
-			if($("#appUserNum").val()==""){
-				$("#appUserNum").tips({
-					side:3,
-		            msg:'请输入平台用户编号',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#appUserNum").focus();
 			return false;
 			}
 			if($("#phone").val()==""){
@@ -226,16 +172,6 @@
 		            bg:'#AE81FF',
 		            time:2
 		        });
-			return false;
-			}
-			if($("#remarks").val()==""){
-				$("#remarks").tips({
-					side:3,
-		            msg:'请输入备注信息',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#remarks").focus();
 			return false;
 			}
 			if(!intExp.test($("#orderNum").val())){

@@ -68,7 +68,7 @@ public class BgRoleServiceImpl implements BgRoleService{
 			bgRole.setModifyTime(MapleDateUtil.getNextSecond(bgRole.getModifyTime()));
 		}
 	
-		dao.edit("BgRoleMapper.edit", bgRole);
+		dao.update("BgRoleMapper.edit", bgRole);
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class BgRoleServiceImpl implements BgRoleService{
 		if(bgRole.getModifyTime().compareTo(bgRole.getLastModifyTime()) == 0){
 			bgRole.setModifyTime(MapleDateUtil.getNextSecond(bgRole.getModifyTime()));
 		}
-		dao.edit("BgRoleMapper.change", bgRole);
+		dao.update("BgRoleMapper.change", bgRole);
 	}
 
 	/**

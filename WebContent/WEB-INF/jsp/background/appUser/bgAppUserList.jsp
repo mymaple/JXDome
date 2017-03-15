@@ -95,7 +95,6 @@
 									<th class="center">平台用户代号</th>
 									<th class="center">平台用户名称</th>
 									<th class="center">平台用户类型</th>
-									<th class="center">平台用户编号</th>
 									<th class="center">电话号码</th>
 									<th class="center">性别</th>
 									<th class="center">生日</th>
@@ -120,7 +119,6 @@
 											<td class='center'>${comAppUser.appUserCode}</td>
 											<td class='center'><a href="javascript:toSub('${comAppUser.appUserId}')">${comAppUser.appUserName}</a></td>
 											<td class='center'><param:display type="com_appUserType" value="${comAppUser.appUserType}"/></td>
-											<td class='center'>${comAppUser.appUserNum}</td>
 											<td class='center'>${comAppUser.phone}</td>
 											<td class='center'><param:display type="com_sex" value="${comAppUser.sex}"/></td>
 											<td class='center'>${comAppUser.brithday}</td>
@@ -275,7 +273,7 @@
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/appUser/toAdd.do?pId="+'${pd.pId}';
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮
@@ -311,7 +309,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/appUser/toEdit.do?appUserId="+appUserId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 

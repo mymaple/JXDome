@@ -75,7 +75,7 @@ public class DaoSupport implements DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int edit(String str, Object obj) throws Exception, UncheckedException {
+	public int update(String str, Object obj) throws Exception, UncheckedException {
 		int updateCount = sqlSessionTemplate.update(str, obj);
 		if(updateCount <= 0){
 			throw new UncheckedException("40001", null, "更新失败");
@@ -91,7 +91,7 @@ public class DaoSupport implements DAO {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public int batchEdit(String str, List objs) throws Exception {
+	public int batchUpdate(String str, List objs) throws Exception {
 		SqlSessionFactory sqlSessionFactory = sqlSessionTemplate.getSqlSessionFactory();
 		int num = 0;
 		// 批量执行器

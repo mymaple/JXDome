@@ -145,10 +145,10 @@ public class BgAppUserController extends BaseController {
 		comAppUser.setAppUserNum("");
 		comAppUser.setPhone("");
 		comAppUser.setPassword("");
-		comAppUser.setSex("");
+		comAppUser.setSex("01");
 		comAppUser.setBrithday(new Date());
 		comAppUser.setRemarks("");
-		comAppUser.setOrderNum(String.valueOf(new Date().getTime()));
+		comAppUser.setOrderNum(""+new Date().getTime());
 		
 		mv.addObject(comAppUser);
 		mv.addObject("methodPath", "add");
@@ -178,17 +178,16 @@ public class BgAppUserController extends BaseController {
 		String parentId = comAppUser.getParentId();
 		ComAppUser parentComAppUser = comAppUserService.findById(parentId);
 		if(!"0".equals(parentId) && parentComAppUser==null){
-			mv.addObject(resultInfo);					
+			mv.addObject(resultInfo);
 			return mv;
 		}
 		
-		List<ComAppUser> comAppUserList = comAppUserService.otherHaveCode("", comAppUser.getAppUserCode());
+		List<ComAppUser> comAppUserList = comAppUserService.otherHavePhone("", comAppUser.getPhone());
 		if(MapleUtil.notEmptyList(comAppUserList)){
-			mv.addObject(resultInfo);					
+			mv.addObject(resultInfo);
 			return mv;
 		}
 		
-		comAppUser.setLevel("0".equals(parentId)?"1":String.valueOf(Integer.parseInt(parentComAppUser.getLevel())+1));
 		comAppUserService.add(comAppUser);
 		resultInfo.setResultCode("success");
 
@@ -236,7 +235,7 @@ public class BgAppUserController extends BaseController {
 			return mv; 
 		}
 		
-		List<ComAppUser> comAppUserList = comAppUserService.otherHaveCode(comAppUser.getAppUserId(), comAppUser.getAppUserCode());	
+		List<ComAppUser> comAppUserList = comAppUserService.otherHavePhone(comAppUser.getAppUserId(), comAppUser.getPhone());	
 		if(MapleUtil.notEmptyList(comAppUserList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -252,13 +251,13 @@ public class BgAppUserController extends BaseController {
 	/**
 	 * 判断是否存在dictCode
 	 */
-	@RequestMapping(value="/otherNotCode")
+	@RequestMapping(value="/otherNotPhone")
 	@ResponseBody
-	public Object otherNotCode(@RequestParam String appUserId, @RequestParam String appUserCode) throws Exception{
+	public Object otherNotPhone(@RequestParam String appUserId, @RequestParam String phone) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<ComAppUser> comAppUserList = comAppUserService.otherHaveCode(appUserId, appUserCode);	
+		List<ComAppUser> comAppUserList = comAppUserService.otherHavePhone(appUserId, phone);	
 		if(MapleUtil.emptyList(comAppUserList)){
 			resultInfo.setResultCode("success");
 		}

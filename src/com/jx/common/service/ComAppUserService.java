@@ -5,6 +5,7 @@ import java.util.List;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.PageData;
 import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComInvite;
 
 public interface ComAppUserService {
 
@@ -20,13 +21,20 @@ public interface ComAppUserService {
 	public ComAppUser findByPhone(String phone) throws Exception ;
 	
 	/**
-	 * 微信注册
-	 * @param String openId
-	 * @param String phone
+	 * 通过appUserCode获取(类)数据
+	 * @param String appUserCode
 	 * @return ComAppUser
 	 * @throws Exception
 	 */
-	public ComAppUser wxRegister(String openId, String phone) throws Exception ;
+	public ComAppUser findByCode(String appUserCode) throws Exception ;
+	
+	/**
+	 * 微信注册
+	 * @param String phone, ComInvite comInvite
+	 * @return ComAppUser
+	 * @throws Exception
+	 */
+	public ComAppUser toWxRegister(String phone, ComInvite comInvite) throws Exception ;
 	
 	/**
 	 * 根据parentId 获取所有直接fu
@@ -151,6 +159,13 @@ public interface ComAppUserService {
 	 * @throws Exception
 	 */
 	public List<ComAppUser> otherHaveCode(String appUserId, String appUserCode) throws Exception ;
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComAppUser> otherHavePhone(String appUserId, String phone) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

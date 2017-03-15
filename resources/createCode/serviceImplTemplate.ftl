@@ -155,7 +155,7 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 			${bgMaple.mapleEntityLower}.setModifyTime(MapleDateUtil.getNextSecond(${bgMaple.mapleEntityLower}.getModifyTime()));
 		}
 	
-		dao.edit("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
+		dao.update("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		if(${bgMaple.mapleEntityLower}.getModifyTime().compareTo(${bgMaple.mapleEntityLower}.getLastModifyTime()) == 0){
 			${bgMaple.mapleEntityLower}.setModifyTime(MapleDateUtil.getNextSecond(${bgMaple.mapleEntityLower}.getModifyTime()));
 		}
-		dao.edit("${bgMaple.mapleEntityUpper}Mapper.change", ${bgMaple.mapleEntityLower});
+		dao.update("${bgMaple.mapleEntityUpper}Mapper.change", ${bgMaple.mapleEntityLower});
 	}
 
 	/**

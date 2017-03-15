@@ -77,7 +77,7 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 			comProductCategory.setModifyTime(MapleDateUtil.getNextSecond(comProductCategory.getModifyTime()));
 		}
 	
-		dao.edit("ComProductCategoryMapper.edit", comProductCategory);
+		dao.update("ComProductCategoryMapper.edit", comProductCategory);
 	}
 	
 	/**
@@ -93,7 +93,7 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		if(comProductCategory.getModifyTime().compareTo(comProductCategory.getLastModifyTime()) == 0){
 			comProductCategory.setModifyTime(MapleDateUtil.getNextSecond(comProductCategory.getModifyTime()));
 		}
-		dao.edit("ComProductCategoryMapper.change", comProductCategory);
+		dao.update("ComProductCategoryMapper.change", comProductCategory);
 	}
 
 	/**

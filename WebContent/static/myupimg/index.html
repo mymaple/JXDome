@@ -10,28 +10,33 @@
 
 	<body>
 		<div class="upimg_box">
-			<input type="hidden" class="upimg_count" value="5" />
-			<input type="hidden" class="upimg_name" value="" />
+			<input type="hidden" class="upimg_name" value="5" />
+			<input type="hidden" class="upimg_count" value="" />
+			<input type="hidden" class="upimg_maxWidth" value="" />
+			<input type="hidden" class="upimg_maxHight" value="" />
 			<ul>
 				<li>
 					<div class="upimg_cell upimg_edit">
 						<input type="hidden" name="" id="" value="" />
 						<div class="upimg_error"></div>
-						<img id="aaa" src="img/loading.gif"/>
+						<img id="aaa" />
 						<div class="upimg_tools">
 							<div class="upimg_tools_item left">
-								<input type="file" class="upimg_upload" accept="image/*" onchange="upimg_toAddUploadImg(this);"/>
-								<i class="iconfont icon-edit"></i></div>
-							<div class="upimg_tools_item right"><a onclick="upimg_toDeleteUploadImg(this);"><i class="iconfont icon-delete"></i></a></div>
+								<input type="file" class="upimg_upload" accept="image/*" onchange="upimg_toUpdateUploadImg(this);"/>
+								<i class="iconfont icon-edit"></i>
+							</div>
+							<div class="upimg_tools_item right">
+								<a onclick="upimg_toDeleteUploadImg(this);"><i class="iconfont icon-delete"></i></a>
+							</div>
 						</div>
 					</div>
 				</li>
 				<li>
 					<div class="upimg_cell upimg_add">
-						<div class="upimg_error">asdsa</div>
+						<div class="upimg_error"></div>
 						<em class="upimg_add_b abs"></em>
 						<em class="upimg_add_a abs"></em>
-						<input type="file" id="qw" class="upimg_upload" accept="image/*" onchange="upimg_toAddUploadImg(this);"/>
+						<input type="file" id="qw" class="upimg_upload" accept="image/*" onchange="upimg_toAddUploadImg(this);" alt=""/>
 					</div>
 				</li>
 			</ul>

@@ -74,7 +74,7 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 			comIntegralNote.setModifyTime(MapleDateUtil.getNextSecond(comIntegralNote.getModifyTime()));
 		}
 	
-		dao.edit("ComIntegralNoteMapper.edit", comIntegralNote);
+		dao.update("ComIntegralNoteMapper.edit", comIntegralNote);
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 		if(comIntegralNote.getModifyTime().compareTo(comIntegralNote.getLastModifyTime()) == 0){
 			comIntegralNote.setModifyTime(MapleDateUtil.getNextSecond(comIntegralNote.getModifyTime()));
 		}
-		dao.edit("ComIntegralNoteMapper.change", comIntegralNote);
+		dao.update("ComIntegralNoteMapper.change", comIntegralNote);
 	}
 
 	/**

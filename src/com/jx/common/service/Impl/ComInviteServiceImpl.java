@@ -15,7 +15,6 @@ import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComInvite;
 import com.jx.common.service.ComInviteService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comInviteService")
 public class ComInviteServiceImpl implements ComInviteService{
@@ -25,6 +24,71 @@ public class ComInviteServiceImpl implements ComInviteService{
 	
 	
 	/****************************custom * start***********************************/
+	
+	/**
+	 * 微信邀请
+	 * @param String code, String pId, String openId
+	 * @throws Exception
+	 */
+	public void toWxInvite(String code, String pId, String openId) throws Exception {
+		//清除之前生效邀请
+		this.toDefault(openId);
+		//
+		ComInvite comInvite = new ComInvite();
+		
+		comInvite.setInviteStatus("00");
+		//微信邀请
+		comInvite.setInviteType("01");
+		comInvite.setInviteCode(code);
+		comInvite.setInviteUserId(pId);
+		comInvite.setInvitedUserId(openId);
+		comInvite.setCreateUserId(openId);
+		comInvite.setModifyUserId(openId);
+		this.add(comInvite);
+	}
+	
+	/**
+	 * 获取邀请中的用户
+	 * @param String openId
+	 * @return ComInvite
+	 * @throws Exception
+	 */
+	public ComInvite findByState00(String openId) throws Exception {
+		return (ComInvite) dao.findForObject("ComInviteMapper.findByState00", openId);
+	}
+	
+	/**
+	 * 失效
+	 * @param String openId
+	 * @throws Exception
+	 */
+	public void toDefault(String openId) throws Exception {
+		dao.update("ComInviteMapper.toDefault", openId);
+	}
+	
+	/**
+	 * 成功
+	 * @param ComInvite comInvite
+	 * @throws Exception
+	 */
+	public void toSuccess(ComInvite comInvite) throws Exception {
+		dao.update("ComInviteMapper.toSuccess", comInvite);
+	}
+	
+	
+	
+	/**
+	 * 新增 
+	 * @param ComInvite comInvite
+	 * @throws Exception
+	 */
+	public void updateState(String invitedUserId, String inviteStatus) throws Exception {
+		ComInvite comInvite = new ComInvite();
+		comInvite.setInviteStatus(inviteStatus);
+		comInvite.setInvitedUserId(invitedUserId);
+		dao.update("ComInviteMapper.updateState", comInvite);
+	}
+	
 	
 	/**
 	 * 通过invitedUserId获取(类)数据
@@ -54,6 +118,7 @@ public class ComInviteServiceImpl implements ComInviteService{
 		comInvite.setEffective("01");
 		comInvite.setCreateTime(nowTime);
 		comInvite.setModifyTime(nowTime);
+		comInvite.setOrderNum(""+nowTime.getTime());
 		
 		dao.add("ComInviteMapper.add", comInvite);
 	}
@@ -72,7 +137,7 @@ public class ComInviteServiceImpl implements ComInviteService{
 			comInvite.setModifyTime(MapleDateUtil.getNextSecond(comInvite.getModifyTime()));
 		}
 	
-		dao.edit("ComInviteMapper.edit", comInvite);
+		dao.update("ComInviteMapper.edit", comInvite);
 	}
 	
 	/**
@@ -88,7 +153,7 @@ public class ComInviteServiceImpl implements ComInviteService{
 		if(comInvite.getModifyTime().compareTo(comInvite.getLastModifyTime()) == 0){
 			comInvite.setModifyTime(MapleDateUtil.getNextSecond(comInvite.getModifyTime()));
 		}
-		dao.edit("ComInviteMapper.change", comInvite);
+		dao.update("ComInviteMapper.change", comInvite);
 	}
 
 	/**

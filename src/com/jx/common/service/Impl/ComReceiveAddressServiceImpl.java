@@ -62,7 +62,7 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 			comReceiveAddress.setModifyTime(MapleDateUtil.getNextSecond(comReceiveAddress.getModifyTime()));
 		}
 	
-		dao.edit("ComReceiveAddressMapper.edit", comReceiveAddress);
+		dao.update("ComReceiveAddressMapper.edit", comReceiveAddress);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		if(comReceiveAddress.getModifyTime().compareTo(comReceiveAddress.getLastModifyTime()) == 0){
 			comReceiveAddress.setModifyTime(MapleDateUtil.getNextSecond(comReceiveAddress.getModifyTime()));
 		}
-		dao.edit("ComReceiveAddressMapper.change", comReceiveAddress);
+		dao.update("ComReceiveAddressMapper.change", comReceiveAddress);
 	}
 
 	/**

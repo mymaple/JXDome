@@ -25,7 +25,7 @@
 			select roleName as dictName, roleId as dictValue
 			from bg_role_info 
 			where effective = '01'
-			<if test="value!=nuvalued value!=''">
+			<if test="value!=null and value!=''">
 				and roleId= #{value} 
 			</if>
 		</select>

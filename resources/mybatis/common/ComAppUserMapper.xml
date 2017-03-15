@@ -33,6 +33,23 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<update id="updateCode" parameterType="pd">
+		update
+	<include refid="appUserTable"/>
+		SET appUserCode = (
+			SELECT
+				a.CODE
+			FROM
+				(
+					SELECT
+						(COALESCE(MAX(appUserCode),15740) + #{addValue}) CODE
+					FROM
+	<include refid="appUserTable"/>
+				)a
+		)
+		WHERE
+			appUserId = #{appUserId};
+	</update>
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
@@ -179,7 +196,16 @@
 		from 
 	<include refid="appUserTable"/>
 		where 
-			appUserId = #{appUserId} 
+			1=1
+			<if test="appUserId!=null and appUserId!=''">
+			 and appUserId = #{appUserId}
+			</if>
+			<if test="phone!=null and phone!=''">
+			 and phone = #{phone}
+			</if>
+			<if test="appUserCode!=null and appUserCode!=''">
+			 and appUserCode = #{appUserCode}
+			</if>
 	</select>
 	
 	<!-- 获取(类)List数据  -->
@@ -191,6 +217,9 @@
 		where 1=1
 			<if test="parentId!=null and parentId!=''">
 			 and parentId = #{parentId}
+			 </if>
+			<if test="phone!=null and phone!=''">
+			 and phone = #{phone}
 			 </if>
 		order by (orderNum+0) 
 	</select>

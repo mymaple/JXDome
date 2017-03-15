@@ -66,7 +66,7 @@ public class ComOrderServiceImpl implements ComOrderService{
 			comOrder.setModifyTime(MapleDateUtil.getNextSecond(comOrder.getModifyTime()));
 		}
 	
-		dao.edit("ComOrderMapper.edit", comOrder);
+		dao.update("ComOrderMapper.edit", comOrder);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class ComOrderServiceImpl implements ComOrderService{
 		if(comOrder.getModifyTime().compareTo(comOrder.getLastModifyTime()) == 0){
 			comOrder.setModifyTime(MapleDateUtil.getNextSecond(comOrder.getModifyTime()));
 		}
-		dao.edit("ComOrderMapper.change", comOrder);
+		dao.update("ComOrderMapper.change", comOrder);
 	}
 
 	/**

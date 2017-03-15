@@ -100,7 +100,7 @@ public class BgUserServiceImpl implements BgUserService{
 			bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserCode(), bgUser.getPassword(), 2).toString());
 		}
 	
-		dao.edit("BgUserMapper.edit", bgUser);
+		dao.update("BgUserMapper.edit", bgUser);
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class BgUserServiceImpl implements BgUserService{
 			bgUser.setPassword(new SimpleHash("SHA-512", bgUser.getUserCode(), bgUser.getPassword(), 2).toString());
 		}
 		
-		dao.edit("BgUserMapper.change", bgUser);
+		dao.update("BgUserMapper.change", bgUser);
 	}
 
 	/**

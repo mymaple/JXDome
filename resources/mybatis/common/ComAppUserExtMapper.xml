@@ -91,6 +91,17 @@
 			extCode = #{extCode}
 	</select>
 	
+	<!-- 通过id获取(类)数据 -->
+	<select id="list" parameterType="pd" resultMap="comAppUserExtResultMap">
+		select 
+	<include refid="appUserExtColumns"/>
+		from 
+	<include refid="appUserExtTable"/>
+		where 
+			extValue = #{extValue} and 
+			extCode = #{extCode}
+	</select>
+	
 	<!-- ****************************common * end  ********************************** -->
 	
 </mapper>

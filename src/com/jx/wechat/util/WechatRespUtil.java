@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import com.jx.common.config.Const;
 import com.jx.common.entity.ComAppUser;
 import com.jx.common.entity.ComInvite;
+import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComInviteService;
 import com.jx.common.util.DrawImageUtil;
@@ -209,96 +210,33 @@ public class WechatRespUtil {
 		SubscribeEvent event = new SubscribeEvent();
 		event = (SubscribeEvent) MapleUtil.convertMapUpper(event.getClass(), requestMap);
 		String openId = event.getFromUserName();
-		String jsonCode = event.getEventKey().replaceFirst("qrscene_", "");
+		String code = event.getEventKey().replaceFirst("qrscene_", "");
 		String content = "";
-/*		ComAppUserService comAppUserService = 
-				(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
-		ComAppUser comAppUser = new ComAppUser();
-		comAppUser.setOpenId(openId);
-		List<ComAppUser> comAppUserList = comAppUserService.otherHave(comAppUser);
-		if(!comAppUserList.isEmpty() && comAppUserList.size()>0){
-			comAppUser = comAppUserList.get(0);
-			comAppUser.setAppUserStatus("01");
-			comAppUser.setModifyUserId(openId);
-			comAppUserService.edit(comAppUser);
-		}else{
-			Date nowtime = new Date();
-			
-			//获取个人用户信息
-			String json = WxConnUtil.getUserInfo(openId);
-			UserInfo userInfo = new UserInfo();
-			userInfo = (UserInfo)MapleUtil.convertJson(userInfo.getClass(), JSONObject.fromObject(json));
-			String fileSrc = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/"+ openId+"_headimg.jpg";
-			if(StringUtils.isNotEmpty(userInfo.getHeadimgurl())){
-				//下载头像图片
-				HttpManager.download(userInfo.getHeadimgurl(), null, fileSrc);
-			}else{
-				String headimgDefault = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/default_headimg.jpg";
-				MapleFileUtil.copyFile(headimgDefault , fileSrc);
-			}
-			
-			//生成个人
-			String appUserNum = "";
-			
-			comAppUser.setOpenId(openId);
-			comAppUser.setAppUserCode(StringUtils.isEmpty(userInfo.getNickname())?appUserNum:userInfo.getNickname());
-			comAppUser.setSex("1".equals(userInfo.getSex())?"01":"02");
-			comAppUser.setBrithday(nowtime);
-			comAppUser.setWxQRcodeExpiry(nowtime);
-			comAppUser.setMediaExpiry(nowtime);
-			comAppUser.setParentId(jsonCode);
-			comAppUser.setHeadImgUrl(Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg");
-			comAppUser.setOrderNum(""+nowtime.getTime());
-			comAppUser.setAppUserNum(appUserNum);
-			
-			//微信关注
-			comAppUser.setAppUserStatus("01");
-			//自主微信关注用户
-			comAppUser.setAppUserType("01");
-			comAppUser.setCreateUserId(openId);
-			comAppUser.setModifyUserId(openId);
-			
-			
-			comAppUserService.add(comAppUser);
-		}*/
 		
-		if(StringUtils.isNotEmpty(jsonCode)){
-			ComAppUserService comAppUserService = 
-					(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
-			ComAppUser comAppUser = comAppUserService.findById(jsonCode);
-			if(comAppUser != null){
-				ComInviteService comInviteService = 
-						(ComInviteService)SpringContextUtil.getBean("comInviteService");
-				ComInvite comInvite = new ComInvite();
-				comInvite.setInvitedUserId(openId);
-				comInvite.setEffective("01");
-				List<ComInvite> comInviteList =	comInviteService.otherHave(comInvite);
-				if(comInviteList == null || comInviteList.size() == 0){
-					comInvite = new ComInvite();
-//					comInvite.setInviteCode(inviteCode);
-//					comInvite.setInviteName(inviteName);
-					comInvite.setInviteStatus("01");
-					comInvite.setEffective("01");
-					comInvite.setInviteType("wx");
-					comInvite.setInviteUserId(jsonCode);
-					comInvite.setInvitedUserId(openId);
-					comInvite.setOrderNum(""+new Date().getTime());
-					comInvite.setCreateUserId(openId);
-					comInvite.setModifyUserId(openId);
+		if(StringUtils.isNotEmpty(code)&&!"0".equals(code)){
+			ComAppUserExtService comAppUserExtService = 
+					(ComAppUserExtService)SpringContextUtil.getBean("comAppUserExtService");
+			String appUserId = comAppUserExtService.toGetAppUserId(openId);
+			if(StringUtils.isNotEmpty(appUserId)){
+				content = "您已被邀请,请勿重复扫码！";
+			}else{
+				ComAppUserService comAppUserService = 
+						(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
+				ComAppUser comAppUser = comAppUserService.findByCode(code);
+				
+				if(comAppUser != null){
+					ComInviteService comInviteService = 
+							(ComInviteService)SpringContextUtil.getBean("comInviteService");
+					comInviteService.toWxInvite(code, comAppUser.getAppUserId(), openId);
 					
-					comInviteService.add(comInvite);
+					content = "hey,您已受到“"+comAppUser.getAppUserName()+"”的邀请，赶紧登陆注册吧！";
 				}else{
-					comInvite = comInviteList.get(0);
-					comAppUser = comAppUserService.findById(comInvite.getInviteUserId());
+					content = "hey,无法识别二维码哦";
 				}
-				content = "hey,您已被您的小伙伴“"+comAppUser.getAppUserCode()+"”邀请,点击注册，大礼包等你来拿哦！";
-			}else{
-				content = "hey,无法识别二维码哦";
 			}
 		}else{
-			content = "hey,欢迎来到酷礼！";
+			content = "hey,欢迎来到格陌！";
 		}
-		
 		
 		// 回复消息
 		TextMessageResp messageResp = new TextMessageResp(event);
@@ -347,9 +285,36 @@ public class WechatRespUtil {
 		QRCodeEvent event = new QRCodeEvent();
 		event = (QRCodeEvent) MapleUtil.convertMapUpper(event.getClass(), requestMap);
 		
+		String openId = event.getFromUserName();
+		String code = event.getEventKey().replaceFirst("qrscene_", "");
+		String content = "";
+		
+		if(StringUtils.isNotEmpty(code)&&!"0".equals(code)){
+			ComAppUserExtService comAppUserExtService = 
+					(ComAppUserExtService)SpringContextUtil.getBean("comAppUserExtService");
+			String appUserId = comAppUserExtService.toGetAppUserId(openId);
+			if(StringUtils.isNotEmpty(appUserId)){
+				content = "您已被邀请,请勿重复扫码！";
+			}else{
+				ComAppUserService comAppUserService = 
+						(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
+				ComAppUser comAppUser = comAppUserService.findByCode(code);
+				
+				if(comAppUser != null){
+					ComInviteService comInviteService = 
+							(ComInviteService)SpringContextUtil.getBean("comInviteService");
+					comInviteService.toWxInvite(code, comAppUser.getAppUserId(), openId);
+					
+					content = "hey,您已受到“"+comAppUser.getAppUserName()+"”的邀请，赶紧登陆注册吧！";
+				}else{
+					content = "hey,无法识别二维码哦";
+				}
+			}
+		}
+		
 		// 回复消息
 		TextMessageResp messageResp = new TextMessageResp(event);
-		messageResp.setContent("您已经关注了本平台，请勿扫码！");
+		messageResp.setContent(content);
 		
 		return MessageUtil.messageToXml(messageResp);
 	}
@@ -402,7 +367,7 @@ public class WechatRespUtil {
 		event = (MenuEvent) MapleUtil.convertMapUpper(event.getClass(), requestMap);
 		
 		 String eventKey = event.getEventKey();
-		 if("ewm".equals(eventKey)){
+		 if("getMyQRcode".equals(eventKey)){
 			 return getMyQRcode(event);
 		 }
 		
@@ -423,48 +388,38 @@ public class WechatRespUtil {
 		
 		String openId = event.getFromUserName();
 		
+		ComAppUserExtService comAppUserExtService = 
+				(ComAppUserExtService)SpringContextUtil.getBean("comAppUserExtService");
 		ComAppUserService comAppUserService = 
 				(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
-		ComAppUser comAppUser = new ComAppUser();
-		comAppUser.setOpenId(openId);
-		List<ComAppUser> comAppUserList = comAppUserService.otherHave(comAppUser);
-		if(!comAppUserList.isEmpty() && comAppUserList.size()>0){
-			comAppUser = comAppUserList.get(0);
-			
-			Date nowTime = new Date();
-			if(nowTime.after(comAppUser.getMediaExpiry())){
-				if(nowTime.after(comAppUser.getWxQRcodeExpiry())){
-					String ticket = WxConnUtil.getQRCodeTicket(openId, 259200);
-					String filePath = PathUtil.getProjectPath() + Const.PATH_MYWXQRCODE;
-					String qrcodeSrc = filePath+"/"+openId+"_qrcode.jpg";
-					String headimgSr = PathUtil.getProjectPath()+Const.PATH_MYHEADIMG+"/"+openId+"_headimg.jpg";
-					WxConnUtil.toSaveQRCode(ticket, qrcodeSrc);
-					String pressText = "";
-					DrawImageUtil.pressImage(qrcodeSrc, filePath+"/cooler.jpg", qrcodeSrc, 233, 1520, 211, 211);
-					DrawImageUtil.pressImage(headimgSr, qrcodeSrc, qrcodeSrc, 561, 1946, 160, 160);
-					DrawImageUtil.pressText(pressText, qrcodeSrc, Color.black, "黑体", Font.BOLD, 23, 350, 1000);
-					
-					comAppUser.setWxQRcodeSrc(Const.PATH_MYWXQRCODE+"/"+openId+"_qrcode.jpg");
-					//在有效期内更换
-					comAppUser.setWxQRcodeExpiry(MapleDateUtil.getNextDays(nowTime, 29));
-				}
-				String mediaId= WxConnUtil.getMediaId(PathUtil.getProjectPath()+comAppUser.getWxQRcodeSrc(), "image");
-				if(StringUtils.isNotEmpty(mediaId)){
-					comAppUser.setMediaId(mediaId);
-					comAppUser.setMediaExpiry(MapleDateUtil.getNextDays(nowTime, 2));
-					comAppUserService.edit(comAppUser);
-				}else{
-					
+		String appUserId = comAppUserExtService.toGetAppUserId(openId);
+		
+		String mediaId = "";
+		
+		// 回复消息
+		TextMessageResp messageResp = new TextMessageResp(event);
+		if(StringUtils.isEmpty(appUserId)){
+			messageResp.setContent("未绑定平台账号，无法获取二维码！");
+		}else{//等级控制
+			String roleId = comAppUserService.findById(appUserId).getRoleId();
+			if(!"010203".contains(roleId)){
+				messageResp.setContent("级别不足，无法获取二维码!");
+			}else{
+				mediaId = comAppUserExtService.toGetMediaId(appUserId);
+				if(StringUtils.isEmpty(mediaId)){
+					messageResp.setContent("用户异常，请联系客服!");
 				}
 			}
-		}else{
-			
+		}
+		
+		if(StringUtils.isNotEmpty(messageResp.getContent())){
+			return MessageUtil.messageToXml(messageResp); 
 		}
 		
 		// 回复消息
-		ImageMessageResp messageResp = new ImageMessageResp(event);
-		messageResp.setImage(new Image(comAppUser.getMediaId()));
-		return MessageUtil.messageToXml(messageResp);
+		ImageMessageResp imessageResp = new ImageMessageResp(event);
+		imessageResp.setImage(new Image(mediaId));
+		return MessageUtil.messageToXml(imessageResp);
 	}
 	
 }

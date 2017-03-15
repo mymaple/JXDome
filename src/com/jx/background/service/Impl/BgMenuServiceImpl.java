@@ -155,7 +155,7 @@ public class BgMenuServiceImpl implements BgMenuService{
 			bgMenu.setModifyTime(MapleDateUtil.getNextSecond(bgMenu.getModifyTime()));
 		}
 	
-		dao.edit("BgMenuMapper.edit", bgMenu);
+		dao.update("BgMenuMapper.edit", bgMenu);
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class BgMenuServiceImpl implements BgMenuService{
 		if(bgMenu.getModifyTime().compareTo(bgMenu.getLastModifyTime()) == 0){
 			bgMenu.setModifyTime(MapleDateUtil.getNextSecond(bgMenu.getModifyTime()));
 		}
-		dao.edit("BgMenuMapper.change", bgMenu);
+		dao.update("BgMenuMapper.change", bgMenu);
 	}
 
 	/**

@@ -63,7 +63,7 @@ public class ComProductServiceImpl implements ComProductService{
 			comProduct.setModifyTime(MapleDateUtil.getNextSecond(comProduct.getModifyTime()));
 		}
 	
-		dao.edit("ComProductMapper.edit", comProduct);
+		dao.update("ComProductMapper.edit", comProduct);
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class ComProductServiceImpl implements ComProductService{
 		if(comProduct.getModifyTime().compareTo(comProduct.getLastModifyTime()) == 0){
 			comProduct.setModifyTime(MapleDateUtil.getNextSecond(comProduct.getModifyTime()));
 		}
-		dao.edit("ComProductMapper.change", comProduct);
+		dao.update("ComProductMapper.change", comProduct);
 	}
 
 	/**

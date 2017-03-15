@@ -1,7 +1,4 @@
 
-a {
-    text-decoration: none;
-}
 .upimg_box {
 	
 }
@@ -41,11 +38,14 @@ a {
     height: 28px;
    	background-color: rgba(0, 0, 0, 0.55);
    	color: #CC3366;
-    font-size: 18px;
+    font-size: 11px;
     font-weight: normal;
    	text-align: center;
     vertical-align: middle;
+    line-height: 13px;
+    word-wrap: break-word;
     display: none;
+    z-index:1;
 }
 
 .upimg_upload {

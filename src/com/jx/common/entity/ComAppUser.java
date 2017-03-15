@@ -122,11 +122,9 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	private String parentId;
 	
 	/** 角色 */
-	@NotBlank(message="角色 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String roleId;
 		
 	/** 平台用户代号 */
-	@Pattern(regexp = Const.REG_COM_CODE_STR, message="平台用户代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String appUserCode;
 		
 	/** 平台用户名称 */
@@ -134,14 +132,12 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	private String appUserName;
 		
 	/** 平台用户类型 */
-	@NotBlank(message="平台用户类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String appUserType;
 		
 	/** 平台用户状态 */
 	private String appUserStatus;
 		
 	/** 平台用户编号 */
-	@NotBlank(message="平台用户编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String appUserNum;
 		
 	/** 电话号码 */
@@ -163,7 +159,6 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	private Date brithday;
 		
 	/** 备注信息 */
-	@NotBlank(message="备注信息 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String remarks;
 		
 	/** 级别 */

@@ -24,9 +24,43 @@
 	
 	
 	<!-- ****************************custom * start*********************************** -->
+		
+	<!-- 查询正在申请 -->
+	<select id="findByState00" parameterType="String" resultType="comInvite">
+		select 
+	<include refid="inviteColumns"/>
+		from 
+	<include refid="inviteTable"/>
+		where 
+			invitedUserId = #{openId} AND inviteStatus='00'
+	</select>
+		
+	<!-- 申请作废-->
+	<update id="toDefault" parameterType="String">
+		update
+	<include refid="inviteTable"/>
+		set 
+			inviteStatus = '02',
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			invitedUserId = #{openId} AND inviteStatus='00'
+	</update>
+	
+	<!-- 申请成功 -->
+	<update id="toSuccess" parameterType="String">
+		update
+	<include refid="inviteTable"/>
+		set 
+			inviteStatus = '01',
+			invitedUserId = #{invitedUserId},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			inviteId = #{inviteId} AND inviteStatus='00'
+	</update>
 	
 	<!-- ****************************custom * end  *********************************** -->
-	
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
@@ -142,6 +176,12 @@
 		from 
 	<include refid="inviteTable"/>
 		where 1=1
+		<if test="invitedUserId!=null and invitedUserId!=''">
+			 and invitedUserId = #{invitedUserId}
+		</if>
+		<if test="inviteStatus!=null and inviteStatus!=''">
+			 and inviteStatus = #{inviteStatus}
+		</if>
 		order by (orderNum+0) 
 	</select>
 	

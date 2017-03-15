@@ -115,7 +115,7 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 			comSparepartDeal.setModifyTime(MapleDateUtil.getNextSecond(comSparepartDeal.getModifyTime()));
 		}
 	
-		dao.edit("ComSparepartDealMapper.edit", comSparepartDeal);
+		dao.update("ComSparepartDealMapper.edit", comSparepartDeal);
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 		if(comSparepartDeal.getModifyTime().compareTo(comSparepartDeal.getLastModifyTime()) == 0){
 			comSparepartDeal.setModifyTime(MapleDateUtil.getNextSecond(comSparepartDeal.getModifyTime()));
 		}
-		dao.edit("ComSparepartDealMapper.change", comSparepartDeal);
+		dao.update("ComSparepartDealMapper.change", comSparepartDeal);
 	}
 
 	/**

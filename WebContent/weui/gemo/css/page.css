@@ -517,8 +517,9 @@ Agent 代理管理--------------------------------------------------------------
 .login .list ul li .nr{width: 84%; height: 1.5rem; position: relative;}
 .login .list ul li .nr input{background: none; position: relative; border: none; margin: 0; padding: 0; line-height: 1.5rem; height: 1.5rem; text-indent: 1em; font-size: .4rem; color: #fff; width: 100%;}
 .login .list ul li .nr span{position: absolute; width: 100%; height: 100%; background-color: #000000;}
-.login .list ul li .nrtwo input{width: 70%;}
-.login .list ul li .nrtwo samp{width: 28%; line-height: 1.5rem; font-size: .7rem; border-radius: 5px; -webkit-border-radius: 5px; margin-right: 2%; text-align: center; height: 1.5rem; background-color: #f8ec88; color: #333333;}
+.login .list ul li .nrtwo input{width: 63%;}
+.login .list ul li .nrtwo samp{width: 35%; line-height: 1.5rem; font-size: .4rem; height: 1.5rem; text-align: center; }
+.login .list ul li .nrtwo samp .log-btn{border-radius: 5px; -webkit-border-radius: 5px; background-color: #f8ec88; color: #333333;  width:100%; }
 
 .radiofour .option{width: .6rem; height: .6rem; position: absolute; top: 0; left: 0; background-size: cover;  background: url(../img/que.png) no-repeat; background-size: cover;}
 .radiofour input[type="checkbox"] {display: inline-block ; margin-right: .3rem ; opacity: 0 ;}

@@ -62,7 +62,7 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 			comSupplier.setModifyTime(MapleDateUtil.getNextSecond(comSupplier.getModifyTime()));
 		}
 	
-		dao.edit("ComSupplierMapper.edit", comSupplier);
+		dao.update("ComSupplierMapper.edit", comSupplier);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 		if(comSupplier.getModifyTime().compareTo(comSupplier.getLastModifyTime()) == 0){
 			comSupplier.setModifyTime(MapleDateUtil.getNextSecond(comSupplier.getModifyTime()));
 		}
-		dao.edit("ComSupplierMapper.change", comSupplier);
+		dao.update("ComSupplierMapper.change", comSupplier);
 	}
 
 	/**

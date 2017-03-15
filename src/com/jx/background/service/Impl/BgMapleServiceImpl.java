@@ -86,7 +86,7 @@ public class BgMapleServiceImpl implements BgMapleService{
 			bgMaple.setModifyTime(MapleDateUtil.getNextSecond(bgMaple.getModifyTime()));
 		}
 	
-		dao.edit("BgMapleMapper.edit", bgMaple);
+		dao.update("BgMapleMapper.edit", bgMaple);
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class BgMapleServiceImpl implements BgMapleService{
 		if(bgMaple.getModifyTime().compareTo(bgMaple.getLastModifyTime()) == 0){
 			bgMaple.setModifyTime(MapleDateUtil.getNextSecond(bgMaple.getModifyTime()));
 		}
-		dao.edit("BgMapleMapper.change", bgMaple);
+		dao.update("BgMapleMapper.change", bgMaple);
 	}
 
 	/**

@@ -65,7 +65,7 @@ public class BgCrontabServiceImpl implements BgCrontabService{
 			bgCrontab.setModifyTime(MapleDateUtil.getNextSecond(bgCrontab.getModifyTime()));
 		}
 	
-		dao.edit("BgCrontabMapper.edit", bgCrontab);
+		dao.update("BgCrontabMapper.edit", bgCrontab);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class BgCrontabServiceImpl implements BgCrontabService{
 		if(bgCrontab.getModifyTime().compareTo(bgCrontab.getLastModifyTime()) == 0){
 			bgCrontab.setModifyTime(MapleDateUtil.getNextSecond(bgCrontab.getModifyTime()));
 		}
-		dao.edit("BgCrontabMapper.change", bgCrontab);
+		dao.update("BgCrontabMapper.change", bgCrontab);
 	}
 
 	/**

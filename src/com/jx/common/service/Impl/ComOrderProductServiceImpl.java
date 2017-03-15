@@ -62,7 +62,7 @@ public class ComOrderProductServiceImpl implements ComOrderProductService{
 			comOrderProduct.setModifyTime(MapleDateUtil.getNextSecond(comOrderProduct.getModifyTime()));
 		}
 	
-		dao.edit("ComOrderProductMapper.edit", comOrderProduct);
+		dao.update("ComOrderProductMapper.edit", comOrderProduct);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class ComOrderProductServiceImpl implements ComOrderProductService{
 		if(comOrderProduct.getModifyTime().compareTo(comOrderProduct.getLastModifyTime()) == 0){
 			comOrderProduct.setModifyTime(MapleDateUtil.getNextSecond(comOrderProduct.getModifyTime()));
 		}
-		dao.edit("ComOrderProductMapper.change", comOrderProduct);
+		dao.update("ComOrderProductMapper.change", comOrderProduct);
 	}
 
 	/**

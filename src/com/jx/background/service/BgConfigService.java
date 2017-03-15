@@ -82,7 +82,7 @@ public class BgConfigService {
 	 * @throws Exception
 	 */
 	public void edit(BgConfig bgConfig) throws Exception {
-		dao.edit("BgConfigMapper.edit", bgConfig);
+		dao.update("BgConfigMapper.edit", bgConfig);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class BgConfigService {
 	 * @throws Exception
 	 */
 	public void editByPd(PageData pd) throws Exception {
-		dao.edit("BgConfigMapper.editByPd", pd);
+		dao.update("BgConfigMapper.editByPd", pd);
 	}
 	
 	/**

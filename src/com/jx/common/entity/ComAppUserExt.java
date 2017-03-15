@@ -33,6 +33,12 @@ public class ComAppUserExt extends BaseExt {
 	public static final String MEDIAEXPIRY = "mediaExpiry";
 	
 	
+	/**
+	 * 微信公众号个人唯一标识
+	 */
+	public static final String OPENID = "openId";
+	
+	
 	/**************************custom prop end	********************************/
 	
 	/** 平台用户扩展 主键id */

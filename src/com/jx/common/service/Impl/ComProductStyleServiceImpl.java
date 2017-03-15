@@ -64,7 +64,7 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 			comProductStyle.setModifyTime(MapleDateUtil.getNextSecond(comProductStyle.getModifyTime()));
 		}
 	
-		dao.edit("ComProductStyleMapper.edit", comProductStyle);
+		dao.update("ComProductStyleMapper.edit", comProductStyle);
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 		if(comProductStyle.getModifyTime().compareTo(comProductStyle.getLastModifyTime()) == 0){
 			comProductStyle.setModifyTime(MapleDateUtil.getNextSecond(comProductStyle.getModifyTime()));
 		}
-		dao.edit("ComProductStyleMapper.change", comProductStyle);
+		dao.update("ComProductStyleMapper.change", comProductStyle);
 	}
 
 	/**

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import com.jx.${bgMaple.controllerPackage}.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
 import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper}Service;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("${bgMaple.mapleEntityLower}Service")
 public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEntityUpper}Service{
@@ -52,9 +52,9 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 			</#if>
 		</#list>
 		${bgMaple.mapleEntityLower}.setEffective("01");
-		${bgMaple.mapleEntityLower}.setCreateUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		${bgMaple.mapleEntityLower}.setCreateUserId(ShiroSessionUtil.getUserId());
 		${bgMaple.mapleEntityLower}.setCreateTime(nowTime);
-		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		${bgMaple.mapleEntityLower}.setModifyUserId(ShiroSessionUtil.getUserId());
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
 		
 		dao.add("${bgMaple.mapleEntityUpper}Mapper.add", ${bgMaple.mapleEntityLower});
@@ -67,14 +67,14 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 */
 	public void edit(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
 		Date nowTime = new Date();
-		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		${bgMaple.mapleEntityLower}.setModifyUserId(ShiroSessionUtil.getUserId());
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
 		${bgMaple.mapleEntityLower}.setLastModifyTime(this.findById(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()).getModifyTime());
 		if(${bgMaple.mapleEntityLower}.getModifyTime().compareTo(${bgMaple.mapleEntityLower}.getLastModifyTime()) == 0){
 			${bgMaple.mapleEntityLower}.setModifyTime(MapleDateUtil.getNextSecond(${bgMaple.mapleEntityLower}.getModifyTime()));
 		}
 	
-		dao.edit("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
+		dao.update("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
 	}
 	
 	/**
@@ -84,13 +84,13 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 */
 	public void change(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
 		Date nowTime = new Date();
-		${bgMaple.mapleEntityLower}.setModifyUserId(String.valueOf(BgSessionUtil.getSessionBgUserRole().getUserId()));
+		${bgMaple.mapleEntityLower}.setModifyUserId(ShiroSessionUtil.getUserId());
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
 		${bgMaple.mapleEntityLower}.setLastModifyTime(this.findById(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()).getModifyTime());
 		if(${bgMaple.mapleEntityLower}.getModifyTime().compareTo(${bgMaple.mapleEntityLower}.getLastModifyTime()) == 0){
 			${bgMaple.mapleEntityLower}.setModifyTime(MapleDateUtil.getNextSecond(${bgMaple.mapleEntityLower}.getModifyTime()));
 		}
-		dao.edit("${bgMaple.mapleEntityUpper}Mapper.change", ${bgMaple.mapleEntityLower});
+		dao.update("${bgMaple.mapleEntityUpper}Mapper.change", ${bgMaple.mapleEntityLower});
 	}
 
 	/**
