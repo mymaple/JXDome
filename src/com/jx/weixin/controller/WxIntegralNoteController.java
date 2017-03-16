@@ -40,13 +40,9 @@ import com.jx.common.service.ComIntegralNoteService;
  * 创建时间：2017-03-06
  */
 @Controller
-@RequestMapping(value="/background/integralNote")
+@RequestMapping(value="/weixin/integralNote")
 public class WxIntegralNoteController extends BaseController {
 	
-	/**
-	 * 后台 菜单代号(权限用)
-	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "background_integralNote";
 	
 	@Resource(name="comIntegralNoteService")
 	private ComIntegralNoteService comIntegralNoteService;

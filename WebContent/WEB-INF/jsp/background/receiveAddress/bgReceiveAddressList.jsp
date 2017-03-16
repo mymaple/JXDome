@@ -64,6 +64,7 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
+									<th class="center">平台用户</th>
 									<th class="center">收货人</th>
 									<th class="center">手机号码</th>
 									<th class="center">省</th>
@@ -71,6 +72,7 @@
 									<th class="center">区</th>
 									<th class="center">街道</th>
 									<th class="center">详细地址</th>
+									<th class="center">默认状态</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -87,6 +89,7 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comReceiveAddress.receiveAddressId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center'><param:display type="com_appUserEffective" value="${comReceiveAddress.appUserId}"/></td>
 											<td class='center'>${comReceiveAddress.receicerName}</td>
 											<td class='center'>${comReceiveAddress.phone}</td>
 											<td class='center'>${comReceiveAddress.province}</td>
@@ -94,6 +97,7 @@
 											<td class='center'>${comReceiveAddress.district}</td>
 											<td class='center'>${comReceiveAddress.street}</td>
 											<td class='center'>${comReceiveAddress.detail}</td>
+											<td class='center'><param:display type="com_defaultStatus" value="${comReceiveAddress.defaultStatus}"/></td>
 											<td class='center'>${comReceiveAddress.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">

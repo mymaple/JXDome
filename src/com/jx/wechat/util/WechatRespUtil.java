@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 
 import com.jx.common.config.Const;
 import com.jx.common.entity.ComAppUser;
@@ -257,19 +259,17 @@ public class WechatRespUtil {
 		event = (SubscribeEvent) MapleUtil.convertMapUpper(event.getClass(), requestMap);
 		String openId = event.getFromUserName();
 		
-		ComAppUserService comAppUserService = 
-				(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
-		ComAppUser comAppUser = new ComAppUser();
-		comAppUser.setOpenId(event.getFromUserName());
-		List<ComAppUser> comAppUserList = comAppUserService.otherHave(comAppUser);
-		if(!comAppUserList.isEmpty() && comAppUserList.size()>0){
-			comAppUser = comAppUserList.get(0);
-			//微信取关
-			comAppUser.setAppUserStatus("00");
-			comAppUser.setModifyUserId(openId);
-			comAppUserService.edit(comAppUser);
+		ComAppUserExtService comAppUserExtService = 
+				(ComAppUserExtService)SpringContextUtil.getBean("comAppUserExtService");
+		String appUserId = comAppUserExtService.toGetAppUserId(openId);
+		if(StringUtils.isNotEmpty(appUserId)){
+			ComAppUserService comAppUserService = 
+					(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
+			comAppUserService.toUnsubscribe(appUserId);
 		}
-		// 回复消息
+		//退出
+		Subject subject = SecurityUtils.getSubject();
+	    subject.logout();
 		
 		return "";
 	}

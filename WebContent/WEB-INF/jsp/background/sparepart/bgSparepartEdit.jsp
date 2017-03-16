@@ -61,6 +61,10 @@
 								<td><input type="number" name="integral3" id="integral3" value="${comSparepart.integral3}" maxlength="100" placeholder="这里输入 4S店可获积分" title="4S店可获积分" style="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">销售员可获积分:</td>
+								<td><input type="number" name="integral4" id="integral4" value="${comSparepart.integral4}" maxlength="100" placeholder="这里输入 销售员可获积分" title="销售员可获积分" style="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="text" name="orderNum" id="orderNum" value="${comSparepart.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
@@ -201,6 +205,16 @@
 		            time:2
 		        });
 				$("#integral3").focus();
+			return false;
+			}
+			if(!intExp.test($("#integral4").val())){
+				$("#integral4").tips({
+					side:3,
+		            msg:'请输入销售员可获积分 最多为两位小数',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#integral4").focus();
 			return false;
 			}
 			if(!intExp.test($("#orderNum").val())){

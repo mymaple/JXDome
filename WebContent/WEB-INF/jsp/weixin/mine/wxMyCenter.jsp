@@ -61,7 +61,7 @@
 	}
 	
 	function toLogout(){
-		window.location.href = "<%=basePath%>weixin/main/toLogout.do";
+		window.location.href = "<%=basePath%>weixin/main/logout.do";
 	}
 	
 </script>

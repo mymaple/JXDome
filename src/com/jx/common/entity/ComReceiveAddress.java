@@ -26,36 +26,44 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	/**************************table prop satrt*********************************/
 	
 	/** 收货地址 主键id */
-	@NotBlank(message="收货地址 主键id 不能为空", groups={ValidationEdit.class})
+	@NotBlank(message="收货地址 主键id 不能为空", groups={ValidationEdit.class,ValidationWxEdit.class})
 	private String receiveAddressId;
 	
+	/** 平台用户 */
+	@NotBlank(message="平台用户 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String appUserId;
+		
 	/** 收货人 */
-	@NotBlank(message="收货人 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="收货人 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
 	private String receicerName;
 		
 	/** 手机号码 */
-	@NotBlank(message="手机号码 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="手机号码 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
 	private String phone;
 		
 	/** 省 */
-	@NotBlank(message="省 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="省份 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
 	private String province;
 		
 	/** 城市 */
-	@NotBlank(message="城市 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="城市 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
 	private String city;
 		
 	/** 区 */
-	@NotBlank(message="区 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="城区 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
 	private String district;
 		
 	/** 街道 */
-	@NotBlank(message="街道 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="街道 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
 	private String street;
 		
 	/** 详细地址 */
-	@NotBlank(message="详细地址 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	@NotBlank(message="详细地址 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
 	private String detail;
+		
+	/** 默认状态 */
+	@NotBlank(message="默认状态 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
+	private String defaultStatus;
 		
 	
 	
@@ -75,6 +83,24 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 */
 	public String getReceiveAddressId() {
 		return this.receiveAddressId;
+	}
+	
+	/**
+	 * 设置 平台用户
+	 * 
+	 * @param String appUserId
+	 */
+	public void setAppUserId(String appUserId) {
+		this.appUserId = MapleStringUtil.trim(appUserId);
+	}
+	
+	/**
+	 * 获取 平台用户
+	 * 
+	 * @return String appUserId
+	 */
+	public String getAppUserId() {
+		return this.appUserId;
 	}
 	
 	/**
@@ -201,6 +227,24 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 */
 	public String getDetail() {
 		return this.detail;
+	}
+	
+	/**
+	 * 设置 默认状态
+	 * 
+	 * @param String defaultStatus
+	 */
+	public void setDefaultStatus(String defaultStatus) {
+		this.defaultStatus = MapleStringUtil.trim(defaultStatus);
+	}
+	
+	/**
+	 * 获取 默认状态
+	 * 
+	 * @return String defaultStatus
+	 */
+	public String getDefaultStatus() {
+		return this.defaultStatus;
 	}
 	
 	

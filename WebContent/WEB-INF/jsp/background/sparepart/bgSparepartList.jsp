@@ -71,6 +71,7 @@
 									<th class="center">大区经理可获积分</th>
 									<th class="center">小区经理可获积分</th>
 									<th class="center">4S店可获积分</th>
+									<th class="center">销售员可获积分</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -94,6 +95,7 @@
 											<td class='center'>${comSparepart.integral1}</td>
 											<td class='center'>${comSparepart.integral2}</td>
 											<td class='center'>${comSparepart.integral3}</td>
+											<td class='center'>${comSparepart.integral4}</td>
 											<td class='center'>${comSparepart.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">

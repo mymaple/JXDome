@@ -91,6 +91,7 @@ public class BgReceiveAddressController extends BaseController {
 		mv.setViewName("background/bgResult");
 		
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setAppUserId("");
 		comReceiveAddress.setReceicerName("");
 		comReceiveAddress.setPhone("");
 		comReceiveAddress.setProvince("");
@@ -98,6 +99,7 @@ public class BgReceiveAddressController extends BaseController {
 		comReceiveAddress.setDistrict("");
 		comReceiveAddress.setStreet("");
 		comReceiveAddress.setDetail("");
+		comReceiveAddress.setDefaultStatus("");
 		comReceiveAddress.setOrderNum(String.valueOf(new Date().getTime()));
 		
 		mv.addObject(comReceiveAddress);
@@ -243,38 +245,42 @@ public class BgReceiveAddressController extends BaseController {
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("收货地址 主键id");		//0
-		titles.add("收货人");	//1
-		titles.add("手机号码");	//2
-		titles.add("省");	//3
-		titles.add("城市");	//4
-		titles.add("区");	//5
-		titles.add("街道");	//6
-		titles.add("详细地址");	//7
-		titles.add("排序编号");	//8
-		titles.add("有效标志");	//9
-		titles.add("创建人员id");	//10
-		titles.add("创建时间");	//11
-		titles.add("修改人员id");	//12
-		titles.add("修改时间");	//13
+		titles.add("平台用户");	//1
+		titles.add("收货人");	//2
+		titles.add("手机号码");	//3
+		titles.add("省");	//4
+		titles.add("城市");	//5
+		titles.add("区");	//6
+		titles.add("街道");	//7
+		titles.add("详细地址");	//8
+		titles.add("默认状态");	//9
+		titles.add("排序编号");	//10
+		titles.add("有效标志");	//11
+		titles.add("创建人员id");	//12
+		titles.add("创建时间");	//13
+		titles.add("修改人员id");	//14
+		titles.add("修改时间");	//15
 		dataMap.put("titles", titles);
 		List<ComReceiveAddress> varOList = comReceiveAddressService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
 			vpd.put("var0",varOList.get(i).getReceiveAddressId());			//0
-			vpd.put("var1", varOList.get(i).getReceicerName());	//1
-			vpd.put("var2", varOList.get(i).getPhone());	//2
-			vpd.put("var3", varOList.get(i).getProvince());	//3
-			vpd.put("var4", varOList.get(i).getCity());	//4
-			vpd.put("var5", varOList.get(i).getDistrict());	//5
-			vpd.put("var6", varOList.get(i).getStreet());	//6
-			vpd.put("var7", varOList.get(i).getDetail());	//7
-			vpd.put("var8", varOList.get(i).getOrderNum());		//8
-			vpd.put("var9", varOList.get(i).getEffective());	//9
-			vpd.put("var10", varOList.get(i).getCreateUserId());	//10
-			vpd.put("var11", varOList.get(i).getCreateTime());	//11
-			vpd.put("var12", varOList.get(i).getModifyUserId());//12
-			vpd.put("var13", varOList.get(i).getModifyTime());	//13
+			vpd.put("var1", varOList.get(i).getAppUserId());	//1
+			vpd.put("var2", varOList.get(i).getReceicerName());	//2
+			vpd.put("var3", varOList.get(i).getPhone());	//3
+			vpd.put("var4", varOList.get(i).getProvince());	//4
+			vpd.put("var5", varOList.get(i).getCity());	//5
+			vpd.put("var6", varOList.get(i).getDistrict());	//6
+			vpd.put("var7", varOList.get(i).getStreet());	//7
+			vpd.put("var8", varOList.get(i).getDetail());	//8
+			vpd.put("var9", varOList.get(i).getDefaultStatus());	//9
+			vpd.put("var10", varOList.get(i).getOrderNum());		//10
+			vpd.put("var11", varOList.get(i).getEffective());	//11
+			vpd.put("var12", varOList.get(i).getCreateUserId());	//12
+			vpd.put("var13", varOList.get(i).getCreateTime());	//13
+			vpd.put("var14", varOList.get(i).getModifyUserId());//14
+			vpd.put("var15", varOList.get(i).getModifyTime());	//15
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -316,13 +322,15 @@ public class BgReceiveAddressController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("收货人");	//0
-		titles.add("手机号码");	//1
-		titles.add("省");	//2
-		titles.add("城市");	//3
-		titles.add("区");	//4
-		titles.add("街道");	//5
-		titles.add("详细地址");	//6
+		titles.add("平台用户");	//0
+		titles.add("收货人");	//1
+		titles.add("手机号码");	//2
+		titles.add("省");	//3
+		titles.add("城市");	//4
+		titles.add("区");	//5
+		titles.add("街道");	//6
+		titles.add("详细地址");	//7
+		titles.add("默认状态");	//8
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -359,23 +367,27 @@ public class BgReceiveAddressController extends BaseController {
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
 				
 		/**
-		 * var0 :收货人;	//0
-		 * var1 :手机号码;	//1
-		 * var2 :省;	//2
-		 * var3 :城市;	//3
-		 * var4 :区;	//4
-		 * var5 :街道;	//5
-		 * var6 :详细地址;	//6
+		 * var0 :平台用户;	//0
+		 * var1 :收货人;	//1
+		 * var2 :手机号码;	//2
+		 * var3 :省;	//3
+		 * var4 :城市;	//4
+		 * var5 :区;	//5
+		 * var6 :街道;	//6
+		 * var7 :详细地址;	//7
+		 * var8 :默认状态;	//8
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comReceiveAddress.setReceiveAddressId(this.get32UUID());
-			comReceiveAddress.setReceicerName(listPd.get(i).getString("var0"));
-			comReceiveAddress.setPhone(listPd.get(i).getString("var1"));
-			comReceiveAddress.setProvince(listPd.get(i).getString("var2"));
-			comReceiveAddress.setCity(listPd.get(i).getString("var3"));
-			comReceiveAddress.setDistrict(listPd.get(i).getString("var4"));
-			comReceiveAddress.setStreet(listPd.get(i).getString("var5"));
-			comReceiveAddress.setDetail(listPd.get(i).getString("var6"));
+			comReceiveAddress.setAppUserId(listPd.get(i).getString("var0"));
+			comReceiveAddress.setReceicerName(listPd.get(i).getString("var1"));
+			comReceiveAddress.setPhone(listPd.get(i).getString("var2"));
+			comReceiveAddress.setProvince(listPd.get(i).getString("var3"));
+			comReceiveAddress.setCity(listPd.get(i).getString("var4"));
+			comReceiveAddress.setDistrict(listPd.get(i).getString("var5"));
+			comReceiveAddress.setStreet(listPd.get(i).getString("var6"));
+			comReceiveAddress.setDetail(listPd.get(i).getString("var7"));
+			comReceiveAddress.setDefaultStatus(listPd.get(i).getString("var8"));
 			comReceiveAddressService.add(comReceiveAddress);
 		}
 		/*存入数据库操作======================================*/

@@ -10,7 +10,50 @@ public interface ComReceiveAddressService {
 
 	
 	/****************************custom * start***********************************/
-
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComReceiveAddress> listByUserId(String appUserId) throws Exception ;
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String appUserId, String receiveAddressId
+	 * @return ComReceiveAddress
+	 * @throws Exception
+	 */
+	public ComReceiveAddress findByUserIdAndId(String appUserId, String receiveAddressId) throws Exception ;
+	
+	/**
+	 * 成为默认
+	 * @param String appUserId, String receiveAddressId
+	 * @throws Exception
+	 */
+	public void toDefault(String appUserId, String receiveAddressId) throws Exception ;
+	
+	/**
+	 * 成为默认
+	 * @param String appUserId
+	 * @throws Exception
+	 */
+	public void toDisdefault(String appUserId) throws Exception ;
+	
+	/**
+	 * 微信修改 
+	 * @param ComReceiveAddress comReceiveAddress
+	 * @throws Exception
+	 */
+	public void editWx(ComReceiveAddress comReceiveAddress) throws Exception ;
+	
+	
+	/**
+	 * 删除 
+	 * @param String appUserId, String receiveAddressId
+	 * @throws Exception
+	 */
+	public void deleteByUserIdAndId(String appUserId, String receiveAddressId) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

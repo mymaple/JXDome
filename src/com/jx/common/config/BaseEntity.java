@@ -19,6 +19,14 @@ public class BaseEntity {
 	public interface ValidationEdit {
 		
 	}
+	
+	public interface ValidationWxAdd {
+		
+	}
+	
+	public interface ValidationWxEdit {
+		
+	}
 
 	
 	/** 排序编号 */

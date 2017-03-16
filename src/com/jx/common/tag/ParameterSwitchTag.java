@@ -38,7 +38,7 @@ public class ParameterSwitchTag extends TagSupport {
 		ComDictService comDictService = (ComDictService) SpringContextUtil.getBean("comDictService");
 		List<ComDict> comDictList = new ArrayList<ComDict>();
 		try {
-			comDictList = comDictService.listSelect(this.getType());
+			comDictList = comDictService.listSelect(this.getType(),"");
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

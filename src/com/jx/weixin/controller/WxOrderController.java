@@ -40,7 +40,7 @@ import com.jx.common.service.ComOrderService;
  * 创建时间：2017-03-11
  */
 @Controller
-@RequestMapping(value="/background/order")
+@RequestMapping(value="/weixin/order")
 public class WxOrderController extends BaseController {
 	
 	/**

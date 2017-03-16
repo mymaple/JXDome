@@ -60,6 +60,10 @@ public class ComSparepart extends BaseEntity implements Serializable {
 	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="4S店可获积分 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 	private String integral3;
 		
+	/** 销售员可获积分 */
+	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="销售员可获积分 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
+	private String integral4;
+		
 	
 	
 	/**
@@ -225,5 +229,22 @@ public class ComSparepart extends BaseEntity implements Serializable {
 	}
 	
 	
+	/**
+	 * 设置 销售员可获积分
+	 * 
+	 * @param String integral4
+	 */
+	public void setIntegral4(String integral4) {
+		this.integral4 = integral4;
+	}
+	
+	/**
+	 * 获取 销售员可获积分
+	 * 
+	 * @return String integral4
+	 */
+	public String getIntegral4() {
+		return this.integral4;
+	}
 	/**************************table prop  end  *********************************/
 }

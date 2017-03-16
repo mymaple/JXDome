@@ -4,7 +4,7 @@
 *{margin:0;padding:0;}
 html,body { width:100%; }
 body{overflow:-Scroll;overflow-x:hidden; background-color:#f5f5f5; }
-body{font-family: "微软雅黑";}/*移动端*/
+body{font-family: "微软雅黑"; font-family:"Arial Black", Gadget, sans-serif;}/*移动端*/
 
 html {
   font-family: sans-serif; /* 1 */
@@ -130,14 +130,15 @@ input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner{
 	border:none;padding:0;
 }
-input,textarea,select,option,button,form,fieldset{margin:0;padding:0;border-width:1px;outline:none;
+/*按钮问题（border-width:1px;）
+input,textarea,select,option,button,form,fieldset{margin:0;padding:0;border-width:0px;outline:none;
 -moz-box-sizing: content-box;
 -webkit-box-sizing: content-box;
 -o-box-sizing: content-box;
 -ms-box-sizing: content-box;
 box-sizing: content-box;
 }
-
+*/
 .opa2 {
   opacity: .2;
   -ms-filter: progid: DXImageTransform.Microsoft.Alpha(Opacity = 20);

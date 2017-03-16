@@ -41,7 +41,7 @@ import com.jx.common.service.ComSparepartDealService;
  * 创建时间：2017-03-06
  */
 @Controller
-@RequestMapping(value="/background/sparepartDeal")
+@RequestMapping(value="/weixin/sparepartDeal")
 public class WxSparepartDealController extends BaseController {
 	
 	/**

@@ -16,17 +16,19 @@
 	<title>格陌汽配</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <script src="js/rem.js"></script> 
-    <script src="js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
-	<link href="css/mui.picker.css" rel="stylesheet" />
+	<script src="weui/gemo/js/rem.js"></script> 
+    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
+    <link rel="stylesheet" href="weui/dist/style/layer.css"/>
+	<script type="text/javascript" src="weui/dist/js/layer.js"></script>
+	<link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.picker.min.css" />
+	<link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.picker.css" />
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage")
@@ -48,50 +50,70 @@
 </div>
 <!--loading页结束-->
 	<body>
-	    <div class="warpthree clearfloat">
-	      <div class="recharge clearfloat">
-    		  <div class="czhi clearfloat box-s">
-	    			<div class="fl">登录账号：</div>
-	    			<div class="fr f-col">139617767774</div>
+	     <div class=" warpthree clearfloat">
+        	<c:if test="${not empty comAppUserParent}">
+           	<div class="h-tit clearfloat box-s">
+	    		<p><param:display type="com_appUserRole" value="${comAppUserParent.roleId}"/><span></span></p>
+	    	</div>
+	    	<div class="account clearfloat">
+	    		<div class="t-bt clearfloat">
+	    			<ul>
+	    				<li class="box-s l1"></li>
+	    				<li class="l2">姓名</li>
+	    				<li class="l3">电话</li>
+	    			</ul>
 	    		</div>
-                
-                <div class="czhi clearfloat box-s">
-	    			<div class="fl">姓名：</div>
-	    			<div class="fr f-col">总裁</div>
+	    		<div class="t-list clearfloat box-s">
+	    			<div class="shang clearfloat">
+	    				<ul>
+		    				<li class="l4"><img src="${comAppUserParent.headImgSrc}"></li>
+                            <li class="l5">${comAppUserParent.appUserName}</li>
+		    				<li class="l6">${comAppUserParent.phone}</li>
+		    			</ul>
+	    			</div>
 	    		</div>
-                
-                 <div class="czhi clearfloat box-s">
-	    			<div class="fl">大区：</div>
-	    			<div class="fr f-col">江苏省无锡市锡山区</div>
-	    		</div>
-                
-                <div class="czhi clearfloat box-s">
-	    			<div class="fl">小区：</div>
-	    			<div class="fr f-col">江苏省无锡市锡山区</div>
-	    		</div>
-                
-                <div class="czhi clearfloat box-s">
-	    			<div class="fl">4S店：</div>
-	    			<div class="fr f-col">江苏省无锡市锡山区</div>
-	    		</div>
-                
-                <div class="czhi clearfloat box-s">
-	    			<div class="fl">电话：</div>
-	    			<div class="fr"><input type="text" id="" value="13961776665" placeholder="请输入金额"/></div>
-	    		</div>
-
-	    		<a href="" class="address-add fl">确认修改</a>
-	    		
-	    	</div>  	
-	    </div>
+	    	</div> 
+	   		</c:if>
+	    	
+	    	<c:choose>
+				<c:when test="${not empty comAppUserSubList}">
+					<div class="h-tit clearfloat box-s">
+			    		<p>下级<span></span></p>
+			    	</div>
+			    	<div class="account clearfloat">
+			    		<div class="t-bt clearfloat">
+			    			<ul>
+			    				<li class="box-s l1"></li>
+			    				<li class="l2">姓名</li>
+			    				<li class="l3">电话</li>
+			    			</ul>
+			    		</div>
+			    		<div class="t-list clearfloat box-s">
+			    			<div class="shang clearfloat">
+			    				<ul>
+					<c:forEach items="${comAppUserSubList}" var="comAppUser" varStatus="vs">
+									<li class="l4"><img src="${comAppUser.headImgSrc}"></li>
+		                            <li class="l5">${comAppUser.appUserName}</li>
+				    				<li class="l6">${comAppUser.phone}</li>
+					</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
+			</c:choose>
+			
+	    </div>	    
 	</body>
-	<script type="text/javascript" src="js/jquery-1.8.3.min.js" ></script>
-	<script src="js/mui.min.js"></script>
-	<script src="js/mui.picker.min.js"></script>
-	<script src="js/others.js"></script>
-	<script type="text/javascript" src="js/hmt.js" ></script>
-	<script src="slick/slick.js" type="text/javascript" ></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
+	<script src="weui/gemo/js/mui.min.js"></script>
+	<script src="weui/gemo/js/mui.picker.min.js"></script>
+	<script src="weui/gemo/js/others.js"></script>
+	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
+	<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
 	<!--插件-->
-	<link rel="stylesheet" href="css/swiper.min.css">
-	<script src="js/swiper.jquery.min.js"></script>
+	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
+	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
 </html>

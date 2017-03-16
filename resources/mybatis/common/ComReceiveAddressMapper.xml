@@ -3,11 +3,12 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComReceiveAddressMapper">
 
-	<sql id="receiveAddressColumns">receiveAddressId,receicerName,phone,province,city,district,street,detail,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="receiveAddressColumns">receiveAddressId,appUserId,receicerName,phone,province,city,district,street,detail,defaultStatus,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="receiveAddressTable">com_receive_address_info</sql>
 	
 	<resultMap type="comReceiveAddress" id="comReceiveAddressResultMap">
 		<id column="receiveAddressId" property="receiveAddressId"/>
+		<result column="appUserId" property="appUserId"/>
 		<result column="receicerName" property="receicerName"/>
 		<result column="phone" property="phone"/>
 		<result column="province" property="province"/>
@@ -15,6 +16,7 @@
 		<result column="district" property="district"/>
 		<result column="street" property="street"/>
 		<result column="detail" property="detail"/>
+		<result column="defaultStatus" property="defaultStatus"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
@@ -37,7 +39,7 @@
 		( 
 	<include refid="receiveAddressColumns"/>
 		) values (
-			#{receiveAddressId},#{receicerName},#{phone},#{province},#{city},#{district},#{street},#{detail},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{receiveAddressId},#{appUserId},#{receicerName},#{phone},#{province},#{city},#{district},#{street},#{detail},#{defaultStatus},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -46,6 +48,9 @@
 		update
 	<include refid="receiveAddressTable"/>
 		set 
+			<if test="appUserId!=null and appUserId!=''">
+			appUserId = #{appUserId},
+			</if>
 			<if test="receicerName!=null and receicerName!=''">
 			receicerName = #{receicerName},
 			</if>
@@ -66,6 +71,9 @@
 			</if>
 			<if test="detail!=null and detail!=''">
 			detail = #{detail},
+			</if>
+			<if test="defaultStatus!=null and defaultStatus!=''">
+			defaultStatus = #{defaultStatus},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -82,6 +90,9 @@
 		update
 	<include refid="receiveAddressTable"/>
 		set 
+			<if test="appUserId!=null and appUserId!=''">
+			appUserId = #{appUserId},
+			</if>
 			<if test="receicerName!=null and receicerName!=''">
 			receicerName = #{receicerName},
 			</if>
@@ -102,6 +113,9 @@
 			</if>
 			<if test="detail!=null and detail!=''">
 			detail = #{detail},
+			</if>
+			<if test="defaultStatus!=null and defaultStatus!=''">
+			defaultStatus = #{defaultStatus},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -165,6 +179,9 @@
 			<if test="receiveAddressId!=null and receiveAddressId!=''">
 			 and receiveAddressId != #{receiveAddressId} 
 			</if>
+			<if test="appUserId!=null and appUserId!=''">
+			 and appUserId = #{appUserId}
+			</if>
 			<if test="receicerName!=null and receicerName!=''">
 			 and receicerName = #{receicerName}
 			</if>
@@ -185,6 +202,9 @@
 			</if>
 			<if test="detail!=null and detail!=''">
 			 and detail = #{detail}
+			</if>
+			<if test="defaultStatus!=null and defaultStatus!=''">
+			 and defaultStatus = #{defaultStatus}
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			 and orderNum = #{orderNum}

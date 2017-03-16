@@ -33,6 +33,10 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户:</td>
+								<td><param:select type="com_appUserEffective" name="appUserId" id="appUserId" value="${comReceiveAddress.appUserId}" placeholder="这里请选择 平台用户" title="平台用户" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">收货人:</td>
 								<td><input type="text" name="receicerName" id="receicerName" value="${comReceiveAddress.receicerName}" maxlength="100" placeholder="这里输入 收货人" title="收货人" style="width:98%;" /></td>
 							</tr>
@@ -59,6 +63,10 @@
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">详细地址:</td>
 								<td><input type="text" name="detail" id="detail" value="${comReceiveAddress.detail}" maxlength="100" placeholder="这里输入 详细地址" title="详细地址" style="width:98%;" /></td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">默认状态:</td>
+								<td><param:select type="com_defaultStatus" name="defaultStatus" id="defaultStatus" value="${comReceiveAddress.defaultStatus}" placeholder="这里请选择 默认状态" title="默认状态" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
@@ -125,6 +133,15 @@
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
+			if($("#appUserId").val()==""){
+				$("#appUserId").next().tips({
+					side:3,
+		            msg:'请选择 平台用户',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+			return false;
+			}
 			if($("#receicerName").val()==""){
 				$("#receicerName").tips({
 					side:3,
@@ -193,6 +210,15 @@
 		            time:2
 		        });
 				$("#detail").focus();
+			return false;
+			}
+			if($("#defaultStatus").val()==""){
+				$("#defaultStatus").next().tips({
+					side:3,
+		            msg:'请选择 默认状态',
+		            bg:'#AE81FF',
+		            time:2
+		        });
 			return false;
 			}
 			if(!intExp.test($("#orderNum").val())){

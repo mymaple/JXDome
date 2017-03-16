@@ -15,7 +15,6 @@ import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComReceiveAddress;
 import com.jx.common.service.ComReceiveAddressService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comReceiveAddressService")
 public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
@@ -25,6 +24,82 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	
 	
 	/****************************custom * start***********************************/
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComReceiveAddress> listByUserId(String appUserId) throws Exception {
+		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.listByUserId", appUserId);
+	}
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String appUserId, String receiveAddressId
+	 * @return ComReceiveAddress
+	 * @throws Exception
+	 */
+	public ComReceiveAddress findByUserIdAndId(String appUserId, String receiveAddressId) throws Exception {
+		PageData pd = new PageData();
+		pd.put("appUserId", appUserId);
+		pd.put("receiveAddressId",receiveAddressId);
+		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByUserIdAndId", pd);
+	}
+	
+	/**
+	 * 成为默认
+	 * @param String appUserId, String receiveAddressId
+	 * @throws Exception
+	 */
+	public void toDefault(String appUserId, String receiveAddressId) throws Exception {
+		dao.update("ComReceiveAddressMapper.toDisdefault", appUserId);
+		PageData pd = new PageData();
+		pd.put("appUserId", appUserId);
+		pd.put("receiveAddressId",receiveAddressId);
+		dao.update("ComReceiveAddressMapper.toDefault", pd);
+	}
+	
+	/**
+	 * 成为默认
+	 * @param String appUserId
+	 * @throws Exception
+	 */
+	public void toDisdefault(String appUserId) throws Exception {
+		dao.update("ComReceiveAddressMapper.toDisdefault", appUserId);
+	}
+	
+	/**
+	 * 修改 
+	 * @param ComReceiveAddress comReceiveAddress
+	 * @throws Exception
+	 */
+	public void editWx(ComReceiveAddress comReceiveAddress) throws Exception {
+		Date nowTime = new Date();
+		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
+		comReceiveAddress.setModifyTime(nowTime);
+		
+		if("01".equals(comReceiveAddress.getDefaultStatus())){
+			this.toDisdefault(comReceiveAddress.getAppUserId());
+		}
+		dao.update("ComReceiveAddressMapper.editWx", comReceiveAddress);
+	}
+	
+	/**
+	 * 删除 
+	 * @param String appUserId, String receiveAddressId
+	 * @throws Exception
+	 */
+	public void deleteByUserIdAndId(String appUserId, String receiveAddressId) throws Exception {
+		PageData pd = new PageData();
+		pd.put("appUserId",appUserId);
+		pd.put("receiveAddressId",receiveAddressId);
+		dao.delete("ComReceiveAddressMapper.deleteByUserIdAndId", pd);
+	}
+	
+	
+	
 	
 	/****************************custom * end  ***********************************/
 	
@@ -44,7 +119,9 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setCreateTime(nowTime);
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
 		comReceiveAddress.setModifyTime(nowTime);
-		
+		if("01".equals(comReceiveAddress.getDefaultStatus())){
+			this.toDisdefault(comReceiveAddress.getAppUserId());
+		}
 		dao.add("ComReceiveAddressMapper.add", comReceiveAddress);
 	}
 	
@@ -57,11 +134,10 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		Date nowTime = new Date();
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
 		comReceiveAddress.setModifyTime(nowTime);
-		comReceiveAddress.setLastModifyTime(this.findById(comReceiveAddress.getReceiveAddressId()).getModifyTime());
-		if(comReceiveAddress.getModifyTime().compareTo(comReceiveAddress.getLastModifyTime()) == 0){
-			comReceiveAddress.setModifyTime(MapleDateUtil.getNextSecond(comReceiveAddress.getModifyTime()));
+
+		if("01".equals(comReceiveAddress.getDefaultStatus())){
+			this.toDisdefault(comReceiveAddress.getAppUserId());
 		}
-	
 		dao.update("ComReceiveAddressMapper.edit", comReceiveAddress);
 	}
 	

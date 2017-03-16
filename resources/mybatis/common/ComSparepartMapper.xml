@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComSparepartMapper">
 
-	<sql id="sparepartColumns">sparepartId,sparepartCode,sparepartName,sparepartType,sparepartStatus,allIntegral,integral1,integral2,integral3,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="sparepartColumns">sparepartId,sparepartCode,sparepartName,sparepartType,sparepartStatus,allIntegral,integral1,integral2,integral3,integral4,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="sparepartTable">com_sparepart_info</sql>
 	
 	<resultMap type="comSparepart" id="comSparepartResultMap">
@@ -16,6 +16,7 @@
 		<result column="integral1" property="integral1"/>
 		<result column="integral2" property="integral2"/>
 		<result column="integral3" property="integral3"/>
+		<result column="integral4" property="integral4"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
@@ -38,7 +39,7 @@
 		( 
 	<include refid="sparepartColumns"/>
 		) values (
-			#{sparepartId},#{sparepartCode},#{sparepartName},#{sparepartType},#{sparepartStatus},#{allIntegral},#{integral1},#{integral2},#{integral3},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{sparepartId},#{sparepartCode},#{sparepartName},#{sparepartType},#{sparepartStatus},#{allIntegral},#{integral1},#{integral2},#{integral3},#{integral4},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -67,6 +68,9 @@
 			</if>
 			<if test="integral3!=null and integral3!=''">
 			integral3 = #{integral3},
+			</if>
+			<if test="integral4!=null and integral4!=''">
+			integral4 = #{integral4},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -106,6 +110,9 @@
 			</if>
 			<if test="integral3!=null and integral3!=''">
 			integral3 = #{integral3},
+			</if>
+			<if test="integral4!=null and integral4!=''">
+			integral4 = #{integral4},
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
@@ -192,6 +199,9 @@
 			</if>
 			<if test="integral3!=null and integral3!=''">
 			 and integral3 = #{integral3}
+			</if>
+			<if test="integral4!=null and integral4!=''">
+			 and integral4 = #{integral4}
 			</if>
 			<if test="orderNum!=null and orderNum!=''">
 			 and orderNum = #{orderNum}

@@ -24,7 +24,7 @@
 		<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 			<property name="securityManager" ref="securityManager" ></property>
 			
-			<property name="loginUrl" value="/" />
+			<property name="loginUrl" value="/background/main/toLogin" />
 			
 			<property name="successUrl" value="/background/main/index" />
 			

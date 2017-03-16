@@ -81,8 +81,8 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 				    	,skin: 'msg'
 				    	,time: 2 //2秒后自动关闭
 				 	});
+					$(this).attr("disabled",false);
 				}
-				$(this).attr("disabled",false);
 			}
 		});
 	}
@@ -170,16 +170,14 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 							<span class="opa3"></span>
 							<input type="number" name="captcha" id="captcha" value="" placeholder="验证码" />
 							<samp class="db fr">
-							<input name="input" type="button" value="获取验证码" class="log-btn captchaText" onclick="getCaptcha(this);">
+							<input type="button" value="获取验证码" class="log-btn captchaText" onclick="getCaptcha(this);">
 							</samp>
 						</div>
 					</li>
 				</ul>
 			</div>
 			<div class="login-btn">
-				<a onclick="login(this);">
-					登录
-				</a>
+				<input type="button" value="登录" onclick="login(this);">
 			</div>
 		</div>
 	</form>

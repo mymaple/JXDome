@@ -98,6 +98,7 @@ public class BgSparepartController extends BaseController {
 		comSparepart.setIntegral1("0.00");
 		comSparepart.setIntegral2("0.00");
 		comSparepart.setIntegral3("0.00");
+		comSparepart.setIntegral4("0.00");
 		comSparepart.setOrderNum(String.valueOf(new Date().getTime()));
 		
 		mv.addObject(comSparepart);
@@ -263,12 +264,13 @@ public class BgSparepartController extends BaseController {
 		titles.add("大区经理可获积分");	//6
 		titles.add("小区经理可获积分");	//7
 		titles.add("4S店可获积分");	//8
-		titles.add("排序编号");	//9
-		titles.add("有效标志");	//10
-		titles.add("创建人员id");	//11
-		titles.add("创建时间");	//12
-		titles.add("修改人员id");	//13
-		titles.add("修改时间");	//14
+		titles.add("销售员可获积分");	//9
+		titles.add("排序编号");	//10
+		titles.add("有效标志");	//11
+		titles.add("创建人员id");	//12
+		titles.add("创建时间");	//13
+		titles.add("修改人员id");	//14
+		titles.add("修改时间");	//15
 		dataMap.put("titles", titles);
 		List<ComSparepart> varOList = comSparepartService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
@@ -283,12 +285,13 @@ public class BgSparepartController extends BaseController {
 			vpd.put("var6", varOList.get(i).getIntegral1());	//6
 			vpd.put("var7", varOList.get(i).getIntegral2());	//7
 			vpd.put("var8", varOList.get(i).getIntegral3());	//8
-			vpd.put("var9", varOList.get(i).getOrderNum());		//9
-			vpd.put("var10", varOList.get(i).getEffective());	//10
-			vpd.put("var11", varOList.get(i).getCreateUserId());	//11
-			vpd.put("var12", varOList.get(i).getCreateTime());	//12
-			vpd.put("var13", varOList.get(i).getModifyUserId());//13
-			vpd.put("var14", varOList.get(i).getModifyTime());	//14
+			vpd.put("var9", varOList.get(i).getIntegral4());	//9
+			vpd.put("var10", varOList.get(i).getOrderNum());		//10
+			vpd.put("var11", varOList.get(i).getEffective());	//11
+			vpd.put("var12", varOList.get(i).getCreateUserId());	//12
+			vpd.put("var13", varOList.get(i).getCreateTime());	//13
+			vpd.put("var14", varOList.get(i).getModifyUserId());//14
+			vpd.put("var15", varOList.get(i).getModifyTime());	//15
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -337,6 +340,7 @@ public class BgSparepartController extends BaseController {
 		titles.add("大区经理可获积分");	//4
 		titles.add("小区经理可获积分");	//5
 		titles.add("4S店可获积分");	//6
+		titles.add("销售员可获积分");	//7
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -380,6 +384,7 @@ public class BgSparepartController extends BaseController {
 		 * var4 :大区经理可获积分;	//4
 		 * var5 :小区经理可获积分;	//5
 		 * var6 :4S店可获积分;	//6
+		 * var7 :销售员可获积分;	//7
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comSparepart.setSparepartId(this.get32UUID());
@@ -390,6 +395,7 @@ public class BgSparepartController extends BaseController {
 			comSparepart.setIntegral1(listPd.get(i).getString("var4"));
 			comSparepart.setIntegral2(listPd.get(i).getString("var5"));
 			comSparepart.setIntegral3(listPd.get(i).getString("var6"));
+			comSparepart.setIntegral4(listPd.get(i).getString("var7"));
 			comSparepartService.add(comSparepart);
 		}
 		/*存入数据库操作======================================*/
