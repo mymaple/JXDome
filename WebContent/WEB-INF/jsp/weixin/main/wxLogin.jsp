@@ -23,8 +23,8 @@
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
-    <link rel="stylesheet" href="weui/dist/style/layer.css"/>
-	<script type="text/javascript" src="weui/dist/js/layer.js"></script>
+    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
 <script type="text/javascript">
 var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 

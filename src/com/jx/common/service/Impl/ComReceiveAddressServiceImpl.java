@@ -11,7 +11,6 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComReceiveAddress;
 import com.jx.common.service.ComReceiveAddressService;
@@ -30,9 +29,11 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	public List<ComReceiveAddress> listByUserId(String appUserId) throws Exception {
-		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.listByUserId", appUserId);
+	public List<ComReceiveAddress> listByUserIdE(String appUserId) throws Exception {
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setAppUserId(appUserId);
+		comReceiveAddress.setEffective("01");
+		return this.list(comReceiveAddress);
 	}
 	
 	/**
@@ -41,11 +42,12 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @return ComReceiveAddress
 	 * @throws Exception
 	 */
-	public ComReceiveAddress findByUserIdAndId(String appUserId, String receiveAddressId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("appUserId", appUserId);
-		pd.put("receiveAddressId",receiveAddressId);
-		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByUserIdAndId", pd);
+	public ComReceiveAddress findByUserIdAndIdE(String appUserId, String receiveAddressId) throws Exception {
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setReceiveAddressId(receiveAddressId);
+		comReceiveAddress.setAppUserId(appUserId);
+		comReceiveAddress.setEffective("01");
+		return this.find(comReceiveAddress);
 	}
 	
 	/**
@@ -53,49 +55,59 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @param String appUserId, String receiveAddressId
 	 * @throws Exception
 	 */
-	public void toDefault(String appUserId, String receiveAddressId) throws Exception {
-		dao.update("ComReceiveAddressMapper.toDisdefault", appUserId);
-		PageData pd = new PageData();
-		pd.put("appUserId", appUserId);
-		pd.put("receiveAddressId",receiveAddressId);
-		dao.update("ComReceiveAddressMapper.toDefault", pd);
+	public void toDefaultE(String appUserId, String receiveAddressId) throws Exception {
+		
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setAppUserId(appUserId);
+		comReceiveAddress.setModifyTime(new Date());
+		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
+		dao.update("ComReceiveAddressMapper.toDisdefaultE", appUserId);
+		
+		comReceiveAddress.setReceiveAddressId(receiveAddressId);
+		dao.update("ComReceiveAddressMapper.toDefaultE", comReceiveAddress);
 	}
 	
 	/**
-	 * 成为默认
+	 * 成为不默认
 	 * @param String appUserId
 	 * @throws Exception
 	 */
-	public void toDisdefault(String appUserId) throws Exception {
-		dao.update("ComReceiveAddressMapper.toDisdefault", appUserId);
+	public void toDisdefaultE(String appUserId) throws Exception {
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setAppUserId(appUserId);
+		comReceiveAddress.setModifyTime(new Date());
+		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
+		dao.update("ComReceiveAddressMapper.toDisdefaultE", appUserId);
 	}
 	
 	/**
-	 * 修改 
+	 * 失效 
+	 * @param String appUserId, String receiveAddressId
+	 * @throws Exception
+	 */
+	public void toDisableByUserIdAndIdE(String appUserId, String receiveAddressId) throws Exception {
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setReceiveAddressId(receiveAddressId);
+		comReceiveAddress.setAppUserId(appUserId);
+		comReceiveAddress.setModifyTime(new Date());
+		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
+		dao.update("ComReceiveAddressMapper.toDisableByUserIdAndIdE", comReceiveAddress);
+	}
+	
+	/**
+	 * 用户修改 
 	 * @param ComReceiveAddress comReceiveAddress
 	 * @throws Exception
 	 */
-	public void editWx(ComReceiveAddress comReceiveAddress) throws Exception {
+	public void editByUserE(ComReceiveAddress comReceiveAddress) throws Exception {
 		Date nowTime = new Date();
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
 		comReceiveAddress.setModifyTime(nowTime);
 		
 		if("01".equals(comReceiveAddress.getDefaultStatus())){
-			this.toDisdefault(comReceiveAddress.getAppUserId());
+			this.toDisdefaultE(comReceiveAddress.getAppUserId());
 		}
-		dao.update("ComReceiveAddressMapper.editWx", comReceiveAddress);
-	}
-	
-	/**
-	 * 删除 
-	 * @param String appUserId, String receiveAddressId
-	 * @throws Exception
-	 */
-	public void deleteByUserIdAndId(String appUserId, String receiveAddressId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("appUserId",appUserId);
-		pd.put("receiveAddressId",receiveAddressId);
-		dao.delete("ComReceiveAddressMapper.deleteByUserIdAndId", pd);
+		dao.update("ComReceiveAddressMapper.editByUserE", comReceiveAddress);
 	}
 	
 	
@@ -119,8 +131,9 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setCreateTime(nowTime);
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
 		comReceiveAddress.setModifyTime(nowTime);
+		
 		if("01".equals(comReceiveAddress.getDefaultStatus())){
-			this.toDisdefault(comReceiveAddress.getAppUserId());
+			this.toDisdefaultE(comReceiveAddress.getAppUserId());
 		}
 		dao.add("ComReceiveAddressMapper.add", comReceiveAddress);
 	}
@@ -136,7 +149,7 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setModifyTime(nowTime);
 
 		if("01".equals(comReceiveAddress.getDefaultStatus())){
-			this.toDisdefault(comReceiveAddress.getAppUserId());
+			this.toDisdefaultE(comReceiveAddress.getAppUserId());
 		}
 		dao.update("ComReceiveAddressMapper.edit", comReceiveAddress);
 	}
@@ -150,10 +163,11 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		Date nowTime = new Date();
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
 		comReceiveAddress.setModifyTime(nowTime);
-		comReceiveAddress.setLastModifyTime(this.findById(comReceiveAddress.getReceiveAddressId()).getModifyTime());
-		if(comReceiveAddress.getModifyTime().compareTo(comReceiveAddress.getLastModifyTime()) == 0){
-			comReceiveAddress.setModifyTime(MapleDateUtil.getNextSecond(comReceiveAddress.getModifyTime()));
+		
+		if("01".equals(comReceiveAddress.getDefaultStatus())){
+			this.toDisdefaultE(comReceiveAddress.getAppUserId());
 		}
+		
 		dao.update("ComReceiveAddressMapper.change", comReceiveAddress);
 	}
 
@@ -163,23 +177,23 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @throws Exception
 	 */
 	public void deleteById(String receiveAddressId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("receiveAddressId",receiveAddressId);
-		this.deleteByPd(pd);
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setReceiveAddressId(receiveAddressId);
+		this.delete(comReceiveAddress);
 	}
 	
 	/**
 	 * 删除 
-	 * @param PageData pd
+	 * @param ComReceiveAddress comReceiveAddress
 	 * @throws Exception
 	 */
-	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("ComReceiveAddressMapper.deleteByPd", pd);
+	public void delete(ComReceiveAddress comReceiveAddress) throws Exception {
+		dao.delete("ComReceiveAddressMapper.delete", comReceiveAddress);
 	}
 	
 	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
@@ -193,19 +207,19 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @throws Exception
 	 */
 	public ComReceiveAddress findById(String receiveAddressId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("receiveAddressId",receiveAddressId);
-		return this.findByPd(pd);
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setReceiveAddressId(receiveAddressId);
+		return this.find(comReceiveAddress);
 	}
 	
 	/**
 	 * 通过pd获取(ComReceiveAddress)数据 
-	 * @param PageData pd
+	 * @param ComReceiveAddress comReceiveAddress
 	 * @return ComReceiveAddress
 	 * @throws Exception
 	 */
-	public ComReceiveAddress findByPd(PageData pd) throws Exception {
-		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByPd", pd);
+	public ComReceiveAddress find(ComReceiveAddress comReceiveAddress) throws Exception {
+		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.find", comReceiveAddress);
 	}
 	
 	/**
@@ -214,8 +228,8 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComReceiveAddress> listByPd(PageData pd) throws Exception {
-		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.listByPd", pd);
+	public List<ComReceiveAddress> list(ComReceiveAddress comReceiveAddress) throws Exception {
+		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.list", comReceiveAddress);
 	}
 	
 	/**
@@ -226,17 +240,6 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	@SuppressWarnings("unchecked")
 	public List<ComReceiveAddress> otherHave(ComReceiveAddress comReceiveAddress) throws Exception {
 		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.otherHave", comReceiveAddress);
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComReceiveAddress> otherHaveCode(String receiveAddressId, String receiveAddressCode) throws Exception {
-		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
-		comReceiveAddress.setReceiveAddressId(receiveAddressId);
-		return this.otherHave(comReceiveAddress);
 	}
 	
 	/**

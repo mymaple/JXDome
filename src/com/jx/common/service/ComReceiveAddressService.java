@@ -8,7 +8,6 @@ import com.jx.common.entity.ComReceiveAddress;
 
 public interface ComReceiveAddressService {
 
-	
 	/****************************custom * start***********************************/
 	
 	/**
@@ -16,7 +15,7 @@ public interface ComReceiveAddressService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComReceiveAddress> listByUserId(String appUserId) throws Exception ;
+	public List<ComReceiveAddress> listByUserIdE(String appUserId) throws Exception ;
 	
 	/**
 	 * 通过id获取(类)数据
@@ -24,36 +23,36 @@ public interface ComReceiveAddressService {
 	 * @return ComReceiveAddress
 	 * @throws Exception
 	 */
-	public ComReceiveAddress findByUserIdAndId(String appUserId, String receiveAddressId) throws Exception ;
+	public ComReceiveAddress findByUserIdAndIdE(String appUserId, String receiveAddressId) throws Exception ;
 	
 	/**
 	 * 成为默认
 	 * @param String appUserId, String receiveAddressId
 	 * @throws Exception
 	 */
-	public void toDefault(String appUserId, String receiveAddressId) throws Exception ;
+	public void toDefaultE(String appUserId, String receiveAddressId) throws Exception ;
 	
 	/**
-	 * 成为默认
+	 * 成为不默认
 	 * @param String appUserId
 	 * @throws Exception
 	 */
-	public void toDisdefault(String appUserId) throws Exception ;
+	public void toDisdefaultE(String appUserId) throws Exception ;
 	
 	/**
-	 * 微信修改 
-	 * @param ComReceiveAddress comReceiveAddress
-	 * @throws Exception
-	 */
-	public void editWx(ComReceiveAddress comReceiveAddress) throws Exception ;
-	
-	
-	/**
-	 * 删除 
+	 * 失效 
 	 * @param String appUserId, String receiveAddressId
 	 * @throws Exception
 	 */
-	public void deleteByUserIdAndId(String appUserId, String receiveAddressId) throws Exception ;
+	public void toDisableByUserIdAndIdE(String appUserId, String receiveAddressId) throws Exception ;
+	
+	/**
+	 * 用户修改 
+	 * @param ComReceiveAddress comReceiveAddress
+	 * @throws Exception
+	 */
+	public void editByUserE(ComReceiveAddress comReceiveAddress) throws Exception ;
+	
 	
 	/****************************custom * end  ***********************************/
 	
@@ -89,14 +88,14 @@ public interface ComReceiveAddressService {
 	
 	/**
 	 * 删除 
-	 * @param PageData pd
+	 * @param ComReceiveAddress comReceiveAddress
 	 * @throws Exception
 	 */
-	public void deleteByPd(PageData pd) throws Exception ;
+	public void delete(ComReceiveAddress comReceiveAddress) throws Exception ;
 	
 	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception ;
@@ -111,18 +110,18 @@ public interface ComReceiveAddressService {
 	
 	/**
 	 * 通过pd获取(ComReceiveAddress)数据 
-	 * @param PageData pd
+	 * @param ComReceiveAddress comReceiveAddress
 	 * @return ComReceiveAddress
 	 * @throws Exception
 	 */
-	public ComReceiveAddress findByPd(PageData pd) throws Exception ;
+	public ComReceiveAddress find(ComReceiveAddress comReceiveAddress) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComReceiveAddress> listByPd(PageData pd) throws Exception ;
+	public List<ComReceiveAddress> list(ComReceiveAddress comReceiveAddress) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
@@ -130,13 +129,6 @@ public interface ComReceiveAddressService {
 	 * @throws Exception
 	 */
 	public List<ComReceiveAddress> otherHave(ComReceiveAddress comReceiveAddress) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComReceiveAddress> otherHaveCode(String receiveAddressId, String receiveAddressCode) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

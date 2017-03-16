@@ -43,7 +43,7 @@ public class WxReceiveAddressController extends BaseController {
 	public ModelAndView list() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		String userId = WxSessionUtil.getUserId();
-		List<ComReceiveAddress>	comReceiveAddressList = comReceiveAddressService.listByUserId(userId);	//列出comReceiveAddress列表
+		List<ComReceiveAddress>	comReceiveAddressList = comReceiveAddressService.listByUserIdE(userId);	//列出comReceiveAddress列表
 		
 		mv.addObject("comReceiveAddressList", comReceiveAddressList);
 		mv.setViewName("weixin/receiveAddress/wxReceiveAddressList");
@@ -107,7 +107,7 @@ public class WxReceiveAddressController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("weixin/wxResult");
 		String userId = WxSessionUtil.getUserId();
-		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByUserIdAndId(userId, receiveAddressId);	//根据ID读取
+		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByUserIdAndIdE(userId, receiveAddressId);	//根据ID读取
 		if(comReceiveAddress == null){
 			mv.addObject(resultInfo);
 			return mv;
@@ -138,7 +138,7 @@ public class WxReceiveAddressController extends BaseController {
 			return mv; 
 		}
 		comReceiveAddress.setAppUserId(userId);
-		comReceiveAddressService.editWx(comReceiveAddress);
+		comReceiveAddressService.editByUserE(comReceiveAddress);
 		resultInfo.setResultCode("success");
 		
 		mv.addObject(resultInfo);
@@ -156,26 +156,23 @@ public class WxReceiveAddressController extends BaseController {
 		
 		String userId = WxSessionUtil.getUserId();
 		
-		comReceiveAddressService.deleteByUserIdAndId(userId, receiveAddressId);	//根据ID删除
+		comReceiveAddressService.toDisableByUserIdAndIdE(userId, receiveAddressId);
 		resultInfo.setResultCode("success");
 
 		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
 	/**
-	 * 删除
+	 * 默认
 	 */
 	@RequestMapping(value="/toDefault")
 	@ResponseBody
 	public Object toDefault(@RequestParam String receiveAddressId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		
 		String userId = WxSessionUtil.getUserId();
-		
-		comReceiveAddressService.toDefault(userId, receiveAddressId);	//根据ID删除
+		comReceiveAddressService.toDefaultE(userId, receiveAddressId);	//根据ID删除
 		resultInfo.setResultCode("success");
-		
 		return AppUtil.returnResult(pd, resultInfo);
 	}
 	

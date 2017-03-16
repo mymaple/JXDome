@@ -24,18 +24,80 @@
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
 		$(".loading").fadeOut(300);
 	});
 	
+	$(function(){
+		$(".defaultStatus").change(function(){  
+	        var receiveAddressId = $("input[name='defaultStatus']:checked").val();
+	        if(receiveAddressId==""||receiveAddressId==null){
+	        	layer.open({
+			    	content: '参数缺失'
+			    	,skin: 'msg'
+			    	,time: 2 //2秒后自动关闭
+			 	});
+	        	window.location.reload(); 
+	        }
+	        var url =  "<%=basePath%>weixin/receiveAddress/toDefault.do";
+	        $.post(url, {"receiveAddressId": receiveAddressId},
+       		   function(data){
+		        	if(data.resultCode == "success"){
+					}else{
+						layer.open({
+					    	content: data.resultContent
+					    	,skin: 'msg'
+					    	,time: 2 //2秒后自动关闭
+					 	});
+					}
+		        	window.location.reload(); 
+       		});
+		});
+	});
+	
+	
 	function toAdd(){
 		window.location.href = "<%=basePath%>weixin/receiveAddress/toAdd.do";
 	}
 	
 	function toEdit(receiveAddressId){
+		if(receiveAddressId==""||receiveAddressId==null){
+        	layer.open({
+		    	content: '参数缺失'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+        	window.location.reload(); 
+        }
 		window.location.href = "<%=basePath%>weixin/receiveAddress/toEdit.do?receiveAddressId="+receiveAddressId;
+	}
+	
+	function toDelect(receiveAddressId){
+		if(receiveAddressId==""||receiveAddressId==null){
+        	layer.open({
+		    	content: '参数缺失'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+        	window.location.reload(); 
+        }
+        var url =  "<%=basePath%>weixin/receiveAddress/toDelect.do";
+        $.post(url, {"receiveAddressId": receiveAddressId},
+   		   function(data){
+	        	if(data.resultCode == "success"){
+				}else{
+					layer.open({
+				    	content: data.resultContent
+				    	,skin: 'msg'
+				    	,time: 2 //2秒后自动关闭
+				 	});
+				}
+	        	window.location.reload(); 
+   		});
 	}
 	
 </script>
@@ -56,15 +118,22 @@
 	<body>
 		
 	    <div id="main" class="mui-clearfix contaniner">
-	    	<div class="addlist clearfloat">
+	    
+	    <c:choose>
+			<c:when test="${not empty comReceiveAddressList}">
+				<c:forEach items="${comReceiveAddressList}" var="comReceiveAddress" varStatus="vs">
+			
+			<div class="addlist clearfloat">
 	    		<div class="top clearfloat box-s">
 	    			<ul>
 	    				<li>
-	    					<span class="fl">孙瑾晨</span>
-	    					<span class="fr">1303505****</span>
+	    					<span class="fl">${comReceiveAddress.receicerName }</span>
+	    					<span class="fr">${comReceiveAddress.phone }</span>
 	    				</li>
 	    				<li>
-	    					安徽省合肥市蜀山区高新技术产业开发区合肥市高新区长江西路拓基城市广场金座A幢2002
+	    					${comReceiveAddress.province }${comReceiveAddress.city }
+	    					${comReceiveAddress.district }${comReceiveAddress.street }
+	    					${comReceiveAddress.detail }
 	    				</li>
 	    			</ul>
 	    		</div>
@@ -72,61 +141,37 @@
 	    			<section class="shopcar clearfloat">
 						<div class="radio fl"> 
 						    <label>
-						        <input type="radio" name="sex" value="">
+						    	<c:if test="${comReceiveAddress.defaultStatus == '01' }">
+						        <input type="radio" name="defaultStatus" value="${comReceiveAddress.receiveAddressId}" checked="checked">
+						        </c:if>
+						    	<c:if test="${comReceiveAddress.defaultStatus != '01' }">
+						        <input type="radio" name="defaultStatus" value="${comReceiveAddress.receiveAddressId}" >
+						        </c:if>
+						        
 						        <div class="option"></div>
 						        <span class="mradd smradd fl">设为默认</span>
 						    </label>
 						</div>
 						
 						<div class="right fr clearfloat">
-							<a href="#" class="fr">
+							<a onclick="toDelect(${comReceiveAddress.receiveAddressId });" class="fr">
 								<i class="iconfont icon-lajixiang"></i>
 								删除
 							</a>
-							<a href="#" class="fr">
+							<a onclick="toEdit(${comReceiveAddress.receiveAddressId });" class="fr">
 								<i class="iconfont icon-shouji"></i>
 								编辑
 							</a>							
 						</div>
 					</section>
 	    		</div>
-	    	</div>
-	    	
-	    	<div class="addlist clearfloat">
-	    		<div class="top clearfloat box-s">
-	    			<ul>
-	    				<li>
-	    					<span class="fl">孙瑾晨</span>
-	    					<span class="fr">1303505****</span>
-	    				</li>
-	    				<li>
-	    					安徽省合肥市蜀山区高新技术产业开发区合肥市高新区长江西路拓基城市广场金座A幢2002
-	    				</li>
-	    			</ul>
-	    		</div>
-	    		<div class="bottom clearfloat box-s">
-	    			<section class="shopcar clearfloat">
-						<div class="radio fl"> 
-						    <label>
-						        <input type="radio" name="sex" value="">
-						        <div class="option"></div>
-						        <span class="mradd smradd fl">设为默认</span>
-						    </label>
-						</div>
-						
-						<div class="right fr clearfloat">
-							<a href="#" class="fr">
-								<i class="iconfont icon-lajixiang"></i>
-								删除
-							</a>
-							<a href="#" class="fr">
-								<i class="iconfont icon-shouji"></i>
-								编辑
-							</a>							
-						</div>
-					</section>
-	    		</div>
-	    	</div>
+	    	</div>	
+				
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+			</c:otherwise>
+		</c:choose>
 	    	
 	    </div>
 	    

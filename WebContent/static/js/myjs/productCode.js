@@ -1,6 +1,3 @@
-/**
- * @FH QQ:313596790
- */	
 var locat = (window.location+'').split('/'); 
 $(function(){if('createCode'== locat[3]){locat =  locat[0]+'//'+locat[2];}else{locat =  locat[0]+'//'+locat[2]+'/'+locat[3];};});
 
@@ -419,7 +416,3 @@ $(function(){if('createCode'== locat[3]){locat =  locat[0]+'//'+locat[2];}else{l
 		return true;
 	}
 	
-	
-	/**
-	 * @FH QQ: 3 1 3 596790
-	 */
