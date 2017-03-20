@@ -31,6 +31,8 @@
 	})
 	
 	$(function(){
+		ignoreBack();
+		
 		var province = "${comReceiveAddress.province}";
 		if(province==""||province==null) province="---- 所在省份 ----";
 		var city = "${comReceiveAddress.city}";
@@ -42,12 +44,35 @@
 			  city: city,
 			  district: district
 			});
+		
+		
 		if("01"==$("#defaultStatus").val()){
-			$("#defaultStatus").next().addClass('toggle--on');
-		}else{
 			$("#defaultStatus").next().addClass('toggle--off');
+		}else{
+			$("#defaultStatus").next().addClass('toggle--on');
 		}
+		
 	});
+	
+	
+	function toDefault(elem){
+		$(elem).toggleClass('toggle--on').toggleClass('toggle--off').addClass('toggle--moving');
+		setTimeout(function(){
+			$(toggle).removeClass('toggle--moving');
+		}, 200)
+		if($(elem).attr("class").indexOf('toggle--off')){
+			$("#defaultStatus").val("01");
+		}else{
+			$("#defaultStatus").val("00");
+		}
+	}
+	
+	
+	function ignoreBack(){
+		if(window.history.replaceState){
+			window.history.replaceState(null,'',document.referrer);
+		}
+	}
 	
 	//保存
 	function save(){
@@ -62,7 +87,7 @@
 			$("#receicerName").focus();
 		return false;
 		}
-		if(!phoneExg.test(phone)){
+		if(!phoneExg.test($("#phone").val())){
 			$("#phone").tips({
 				side:3,
 	            msg:'请输入手机号码',
@@ -75,7 +100,7 @@
 		if($("#province").val()==""){
 			$("#province").tips({
 				side:3,
-	            msg:'请输入省份',
+	            msg:'请选择省份',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -85,7 +110,7 @@
 		if($("#city").val()==""){
 			$("#city").tips({
 				side:3,
-	            msg:'请输入城市',
+	            msg:'请选择城市',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -151,7 +176,7 @@
 </div>
 <!--loading页结束-->
 	<body>
-	<form action="background/receiveAddress/${methodPath }.do" name="receiveAddressForm" id="receiveAddressForm" method="post">
+	<form action="weixin/receiveAddress/${methodPath }.do" name="receiveAddressForm" id="receiveAddressForm" method="post">
 		<input type="hidden" name="receiveAddressId" id="receiveAddressId" value="${comReceiveAddress.receiveAddressId}"/>
 		
 		<div id="main" class="mui-clearfix add-address">
@@ -193,12 +218,12 @@
 			</div>
         
 			<textarea name="detail" id="detail" rows="4" cols="" placeholder="请填写详细地址，不少于5个字" class="textare box-s" onchange="this.value=this.value.substring(0, 100)" 
-			onkeydown="this.value=this.value.substring(0, 100)" onkeyup="this.value=this.value.substring(0, 100)"></textarea>
+			onkeydown="this.value=this.value.substring(0, 100)" onkeyup="this.value=this.value.substring(0, 100)">${comReceiveAddress.detail}</textarea>
 	    	
 	    	<div class="address-btn clearfloat">
 	    		<span class="szwmr fl">设为默认</span>
 	    		<input type="hidden" name="defaultStatus" id="defaultStatus" value="${comReceiveAddress.defaultStatus}"/>
-	    		<a onclick="toDefault();" class="toggle fr"></a>
+	    		<a onclick="toDefault(this);" class="toggle fr"></a>
 	    	</div>
             
             <input onclick="save();" type="button" value="保存" class="ra3 address-add f5" >
@@ -217,14 +242,4 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<!--默认按钮-->
-	<script type="text/javascript">
-	$('.toggle').click(function(e){
-		var toggle = this;
-		e.preventDefault();
-		$(toggle).toggleClass('toggle--on').toggleClass('toggle--off').addClass('toggle--moving');
-		setTimeout(function(){
-			$(toggle).removeClass('toggle--moving');
-		}, 200)
-	});
-	</script>
 </html>

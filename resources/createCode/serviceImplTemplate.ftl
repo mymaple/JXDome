@@ -27,7 +27,7 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	
 	<#if bgMaple.mapleType = "02">
 	
-		/**
+	/**
 	 * 根据parentId 获取所有直接fu
 	 * @param String parentId
 	 * @return
@@ -47,10 +47,9 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<${bgMaple.mapleEntityUpper}> listByParentId(String parentId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("parentId",parentId);
-		return this.listByPd(pd);
+		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listByParentId", parentId);
 	}
 	
 	/**
@@ -100,10 +99,9 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) throws Exception {
-		PageData pd = new PageData();
-		pd.put("${bgMaple.mapleCode ?replace('Detail','')}Id",${bgMaple.mapleCode ?replace('Detail','')}Id);
-		return this.listByPd(pd);
+	@SuppressWarnings("unchecked")
+	public List<${bgMaple.mapleEntityUpper}> listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) throws Exception {
+		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id", ${bgMaple.mapleCode ?replace('Detail','')}Id);
 	}
 	</#if>
 	/****************************custom * end  ***********************************/
@@ -150,89 +148,82 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		Date nowTime = new Date();
 		${bgMaple.mapleEntityLower}.setModifyUserId(ShiroSessionUtil.getUserId());
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
-		${bgMaple.mapleEntityLower}.setLastModifyTime(this.findById(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()).getModifyTime());
-		if(${bgMaple.mapleEntityLower}.getModifyTime().compareTo(${bgMaple.mapleEntityLower}.getLastModifyTime()) == 0){
-			${bgMaple.mapleEntityLower}.setModifyTime(MapleDateUtil.getNextSecond(${bgMaple.mapleEntityLower}.getModifyTime()));
-		}
 	
 		dao.update("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
 	}
 	
 	/**
-	 * 更改
-	 * @param ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}
+	 * 更改状态 flag 00
+	 * @param String flag, String ${bgMaple.mapleCode}Id
 	 * @throws Exception
 	 */
-	public void change(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+	public void changeStatus(String flag, String ${bgMaple.mapleCode}Id) throws Exception {
+		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
+		if("00".equal(flag)){
+			${bgMaple.mapleEntityLower}.setOldValue("01");
+		}else if("01".equal(flag)){
+			${bgMaple.mapleEntityLower}.setOldValue("00");
+		}else{
+			${bgMaple.mapleEntityLower}.setOldValue("flag");
+		}
+		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Status(flag);
+		
+		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(${bgMaple.mapleCode}Id);
 		Date nowTime = new Date();
 		${bgMaple.mapleEntityLower}.setModifyUserId(ShiroSessionUtil.getUserId());
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
-		${bgMaple.mapleEntityLower}.setLastModifyTime(this.findById(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id()).getModifyTime());
-		if(${bgMaple.mapleEntityLower}.getModifyTime().compareTo(${bgMaple.mapleEntityLower}.getLastModifyTime()) == 0){
-			${bgMaple.mapleEntityLower}.setModifyTime(MapleDateUtil.getNextSecond(${bgMaple.mapleEntityLower}.getModifyTime()));
-		}
-		dao.update("${bgMaple.mapleEntityUpper}Mapper.change", ${bgMaple.mapleEntityLower});
+		dao.update("${bgMaple.mapleEntityUpper}Mapper.changeStatus", ${bgMaple.mapleEntityLower});
 	}
-
+	
 	/**
-	 * 删除 
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String ${bgMaple.mapleCode}Id
 	 * @throws Exception
 	 */
-	public void deleteById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
-		PageData pd = new PageData();
-		pd.put("${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
-	<#list bgMapleDetailList as bgMapleDetail>
-	<#if bgMapleDetail.isKey == "01">
-		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
-	</#if>
-	</#list>
-		this.deleteByPd(pd);
+	public void changeEffective(String flag, String ${bgMaple.mapleCode}Id) throws Exception {
+		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
+		if("00".equal(flag)){
+			${bgMaple.mapleEntityLower}.setOldValue("01");
+		}else if("01".equal(flag)){
+			${bgMaple.mapleEntityLower}.setOldValue("00");
+		}else{
+			${bgMaple.mapleEntityLower}.setOldValue("flag");
+		}
+		${bgMaple.mapleEntityLower}.setEffective(flag);
+		
+		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(${bgMaple.mapleCode}Id);
+		Date nowTime = new Date();
+		${bgMaple.mapleEntityLower}.setModifyUserId(ShiroSessionUtil.getUserId());
+		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
+		dao.update("${bgMaple.mapleEntityUpper}Mapper.changeEffective", ${bgMaple.mapleEntityLower});
 	}
 	
 	/**
 	 * 删除 
-	 * @param PageData pd
+	 * @param String ${bgMaple.mapleCode}Id
 	 * @throws Exception
 	 */
-	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("${bgMaple.mapleEntityUpper}Mapper.deleteByPd", pd);
+	public void deleteById(String ${bgMaple.mapleCode}Id) throws Exception {
+		dao.delete("${bgMaple.mapleEntityUpper}Mapper.deleteById", String ${bgMaple.mapleCode}Id);
 	}
 	
 	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("${bgMaple.mapleEntityUpper}Mapper.batchDeleteByIds", ids);
 	}
-
+	
 	/**
 	 * 通过id获取(类)数据
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * @param String ${bgMaple.mapleCode}Id
 	 * @return ${bgMaple.mapleEntityUpper}
 	 * @throws Exception
 	 */
-	public ${bgMaple.mapleEntityUpper} findById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception {
-		PageData pd = new PageData();
-		pd.put("${bgMaple.mapleCode}Id",${bgMaple.mapleCode}Id);
-	<#list bgMapleDetailList as bgMapleDetail>
-	<#if bgMapleDetail.isKey == "01">
-		pd.put("${bgMapleDetail.mapleDetailCode}",${bgMapleDetail.mapleDetailCode});
-	</#if>
-	</#list>
-		return this.findByPd(pd);
-	}
-	
-	/**
-	 * 通过pd获取(${bgMaple.mapleEntityUpper})数据 
-	 * @param PageData pd
-	 * @return ${bgMaple.mapleEntityUpper}
-	 * @throws Exception
-	 */
-	public ${bgMaple.mapleEntityUpper} findByPd(PageData pd) throws Exception {
-		return (${bgMaple.mapleEntityUpper}) dao.findForObject("${bgMaple.mapleEntityUpper}Mapper.findByPd", pd);
+	public ${bgMaple.mapleEntityUpper} findById(String ${bgMaple.mapleCode}Id) throws Exception {
+		return return (${bgMaple.mapleEntityUpper}) dao.findForObject("${bgMaple.mapleEntityUpper}Mapper.find", ${bgMaple.mapleEntityLower});
 	}
 	
 	/**
@@ -241,8 +232,8 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<${bgMaple.mapleEntityUpper}> listByPd(PageData pd) throws Exception {
-		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listByPd", pd);
+	public List<${bgMaple.mapleEntityUpper}> listAll() throws Exception {
+		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listAll", null);
 	}
 	
 	/**
@@ -251,20 +242,11 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<${bgMaple.mapleEntityUpper}> otherHave(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
-		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.otherHave", ${bgMaple.mapleEntityLower});
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
 	public List<${bgMaple.mapleEntityUpper}> otherHaveCode(String ${bgMaple.mapleCode}Id, String ${bgMaple.mapleCode}Code) throws Exception {
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(${bgMaple.mapleCode}Id);
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Code(${bgMaple.mapleCode}Code);
-		return this.otherHave(${bgMaple.mapleEntityLower});
+		(List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.otherHaveCode", ${bgMaple.mapleEntityLower});
 	}
 	
 	/**

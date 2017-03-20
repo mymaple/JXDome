@@ -39,6 +39,19 @@ public class ComSparepartDealServiceImpl implements ComSparepartDealService{
 	/****************************custom * start***********************************/
 	
 	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComSparepartDeal> listByUserE(String appUserId, String yearMonth) throws Exception {
+		PageData pd = new PageData();
+		pd.put("appUserId", appUserId);
+		pd.put("yearMonth", yearMonth+"%");
+		return (List<ComSparepartDeal>) dao.findForList("ComSparepartDealMapper.listByUserE", pd);
+	}
+	
+	/**
 	 * 通过审核 
 	 * @param ComSparepartDeal comSparepartDeal
 	 * @throws Exception

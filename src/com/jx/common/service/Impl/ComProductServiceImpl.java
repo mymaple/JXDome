@@ -8,14 +8,15 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
+import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProduct;
 import com.jx.common.service.ComProductService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comProductService")
 public class ComProductServiceImpl implements ComProductService{
@@ -37,6 +38,17 @@ public class ComProductServiceImpl implements ComProductService{
 	 */
 	public void add(ComProduct comProduct) throws Exception {
 		
+		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_HEADIMG, comProduct.getHeadImgSrc()));
+		
+		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG1, comProduct.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
+		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG2, comProduct.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
+		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG3, comProduct.getImgSrc3()).replaceAll(",", Const.REG_COM_SPLIT));
+			
+		
 		Date nowTime = new Date();
 		comProduct.setProductId(UuidUtil.get32UUID());
 		comProduct.setProductStatus("00");
@@ -55,6 +67,17 @@ public class ComProductServiceImpl implements ComProductService{
 	 * @throws Exception
 	 */
 	public void edit(ComProduct comProduct) throws Exception {
+		
+		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_HEADIMG, comProduct.getHeadImgSrc()));
+		
+		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG1, comProduct.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
+		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG2, comProduct.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
+		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG3, comProduct.getImgSrc3()).replaceAll(",", Const.REG_COM_SPLIT));
+		
 		Date nowTime = new Date();
 		comProduct.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProduct.setModifyTime(nowTime);
@@ -72,6 +95,17 @@ public class ComProductServiceImpl implements ComProductService{
 	 * @throws Exception
 	 */
 	public void change(ComProduct comProduct) throws Exception {
+		
+		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_HEADIMG, comProduct.getHeadImgSrc()));
+		
+		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG1, comProduct.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
+		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG2, comProduct.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
+		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+				ComProduct.PATH_IMG_P_IMG3, comProduct.getImgSrc3()).replaceAll(",", Const.REG_COM_SPLIT));
+		
 		Date nowTime = new Date();
 		comProduct.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProduct.setModifyTime(nowTime);

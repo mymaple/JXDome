@@ -79,12 +79,12 @@
 	</update>
 	
 	<!-- 改变 -->
-	<update id="disableByUserIdAndIdE" parameterType="comReceiveAddress">
+	<update id="toDisableByUserIdAndIdE" parameterType="comReceiveAddress">
 		update
 	<include refid="receiveAddressTable"/>
 		set 
 			defaultStatus = '00',
-			and effective = '00',
+			effective = '00',
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
@@ -173,7 +173,6 @@
 			modifyTime = #{modifyTime}
 		where 
 			receiveAddressId = #{receiveAddressId} 
-			and modifyTime = #{lastModifyTime}
 	</update>
 	
 	<!-- 删除 -->
@@ -241,6 +240,32 @@
             #{id}
         </foreach>
 	</delete>
+	
+	<!-- 生效-->
+	<update id="toEffective" parameterType="comReceiveAddress">
+		update
+	<include refid="receiveAddressTable"/>
+		set 
+			effective = '01',
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and effective = '00'
+	</update>
+	
+	<!-- 失效-->
+	<update id="toDisEffective" parameterType="comReceiveAddress">
+		update
+	<include refid="receiveAddressTable"/>
+		set 
+			effective = '00',
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and effective = '01'
+	</update>
 	
 	<!-- 通过id获取(类)数据 -->
 	<select id="find" parameterType="comReceiveAddress" resultType="comReceiveAddress">
@@ -354,7 +379,7 @@
 			<if test="modifyTime!=null">
 			 and modifyTime = #{modifyTime}
 			</if>
-		order by (orderNum+0) 
+		order by (orderNum+0) and (defaultStatus+0) DESC
 	</select>
 	
 	<!-- 获取(类)List数据  -->

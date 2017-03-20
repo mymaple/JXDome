@@ -150,7 +150,7 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 				String appUserCode = comAppUserService.findById(appUserId).getAppUserCode();
 				//以用户代号为二维码参数
 				String ticket = WxConnUtil.getQRCodeTicket(appUserCode, 259200);
-				String filePath = PathUtil.getProjectPath() + Const.PATH_MYWXQRCODE;
+				String filePath = PathUtil.getProjectPath() + ComAppUserExt.PATH_IMG_AU_WXQRCODE;
 				String qrcodeSrc = filePath+"/"+appUserId+"_qrcode.jpg";
 				WxConnUtil.toSaveQRCode(ticket, qrcodeSrc);
 //				String headimgSr = PathUtil.getProjectPath()+Const.PATH_MYHEADIMG+"/"+appUserId+"_headimg.jpg";
@@ -159,7 +159,7 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 //				DrawImageUtil.pressImage(headimgSr, qrcodeSrc, qrcodeSrc, 561, 1946, 160, 160);
 //				DrawImageUtil.pressText(pressText, qrcodeSrc, Color.black, "黑体", Font.BOLD, 23, 350, 1000);
 				
-				this.changeWxQRcodeSrc(appUserId, Const.PATH_MYWXQRCODE+"/"+appUserId+"_qrcode.jpg");
+				this.changeWxQRcodeSrc(appUserId, ComAppUserExt.PATH_IMG_AU_WXQRCODE+"/"+appUserId+"_qrcode.jpg");
 				//在有效期内更换
 				this.changeWxQRcodeExpiry(appUserId, MapleDateUtil.formatDate(MapleDateUtil.getNextDays(nowTime, 29)));
 			}

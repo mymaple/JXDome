@@ -5,9 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+
 public class MapleDateUtil {
 	
 	public final static SimpleDateFormat SDF_YEAR = new SimpleDateFormat("yyyy");
+	
+	public final static SimpleDateFormat SDF_MONTH = new SimpleDateFormat("yyyy-MM");
 
 	public final static SimpleDateFormat SDF_DAY = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -18,7 +22,7 @@ public class MapleDateUtil {
 	public final static SimpleDateFormat SDF_TIME1 = new SimpleDateFormat("yyyyMMddHHmmss");
 
 	public static enum SDF{  
-	    YEAR,DAY,DAY1,TIME,TIME1
+	    YEAR,MONTH,DAY,DAY1,TIME,TIME1
 	} 
 	
 	/**
@@ -28,6 +32,7 @@ public class MapleDateUtil {
 	 * @return
 	 */
 	public static String formatDate(Date date) {
+		if(date == null) return null;
 		return SDF_TIME.format(date);
 	}
 	
@@ -39,6 +44,7 @@ public class MapleDateUtil {
 	 * @throws ParseException 
 	 */
 	public static Date parseDateStr(String dateStr) throws ParseException {
+		if(StringUtils.isEmpty(dateStr)) return null;
 		return SDF_TIME.parse(dateStr);
 	}
 	
@@ -50,6 +56,7 @@ public class MapleDateUtil {
 	 * @return
 	 */
 	public static String formatDate(SimpleDateFormat sdf, Date date) {
+		if(date == null) return null;
 		return sdf.format(date);
 	}	
 	
@@ -60,9 +67,12 @@ public class MapleDateUtil {
 	 * @return
 	 */
 	public static String formatDate(SDF sdf, Date date) {
+		if(date == null) return null;
 		switch (sdf) {
 		case YEAR:
 			return SDF_YEAR.format(date);
+		case MONTH:
+			return SDF_MONTH.format(date);
 		case DAY:
 			return SDF_DAY.format(date);
 		case DAY1:
@@ -94,6 +104,8 @@ public class MapleDateUtil {
 		switch (sdf) {
 		case YEAR:
 			return SDF_YEAR.format(new Date());
+		case MONTH:
+			return SDF_MONTH.format(new Date());
 		case DAY:
 			return SDF_DAY.format(new Date());
 		case DAY1:
@@ -115,6 +127,7 @@ public class MapleDateUtil {
 	 * @throws ParseException 
 	 */
 	public static Date parseDateStr(SimpleDateFormat sdf, String dateStr) throws ParseException {
+		if(StringUtils.isEmpty(dateStr)) return null;
 		return sdf.parse(dateStr);
 	}
 	
@@ -126,9 +139,12 @@ public class MapleDateUtil {
 	 * @throws ParseException 
 	 */
 	public static Date parseDateStr(SDF sdf, String dateStr) throws ParseException {
+		if(StringUtils.isEmpty(dateStr)) return null;
 		switch (sdf) {
 		case YEAR:
 			return SDF_YEAR.parse(dateStr);
+		case MONTH:
+			return SDF_MONTH.parse(dateStr);
 		case DAY:
 			return SDF_DAY.parse(dateStr);
 		case DAY1:
@@ -215,7 +231,8 @@ public class MapleDateUtil {
     public static void main(String[] args) throws ParseException {
     	
 //		System.out.println(getYearSpace(parseDateStr(SDF.TIME, "2016-01-13 15:00:00"),new Date()));
-		System.out.println(parseDateStr(SDF_TIME, "2016-01-13 15:00:00"));
+//		System.out.println(parseDateStr(SDF_TIME, "2016-01-13 15:00:00"));
+		System.out.println(formatDate(null));
 //		System.out.println(getDaySpace(parseDateStr(SDF.DAY1, "20170113"),new Date()));
 	}
     

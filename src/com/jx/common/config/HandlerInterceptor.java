@@ -63,6 +63,13 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
 				if(StringUtils.isEmpty(myOpenId)){
 					return false;
 				}
+				if(!"main".equals(pathArr[2])){
+					String userId = ShiroSessionUtil.getUserId();
+					if(StringUtils.isEmpty(userId)){
+						response.sendRedirect(request.getContextPath() + Const.PATH_WX_TOLOGIN_STR);
+						return false;
+					}
+				}
 			}
 		}
 		return true;

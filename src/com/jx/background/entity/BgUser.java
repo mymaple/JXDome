@@ -18,7 +18,10 @@ public class BgUser extends BaseEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
+	/**
+	 * 路径 后台用户 头像
+	 */
+	public static final String PATH_IMG_U_HEADIMG = "uploadFiles/image/user/headimg";
 	
 	/**************************custom prop satrt********************************/
 	

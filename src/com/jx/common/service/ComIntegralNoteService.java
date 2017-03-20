@@ -11,6 +11,12 @@ public interface ComIntegralNoteService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComIntegralNote> listByUserE(String appUserId, String yearMonth) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

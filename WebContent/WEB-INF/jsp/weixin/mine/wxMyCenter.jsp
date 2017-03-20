@@ -14,18 +14,19 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-	<link rel="stylesheet" href="weui/dist/style/weui.min.css"/>
+	<meta name="keywords" content="">
+    <meta name="description" content="">
 	<script src="weui/gemo/js/rem.js"></script> 
     <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?123"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?213"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?435"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?345"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
-    <link rel="stylesheet" href="weui/dist/style/layer.css"/>
-	<script type="text/javascript" src="weui/dist/js/layer.js"></script>
+    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
@@ -53,7 +54,7 @@
 	}
 	
 	function toIntegralNote(){
-		window.location.href = "<%=basePath%>weixin/mine/toIntegralNote.do";
+		window.location.href = "<%=basePath%>weixin/note/toIntegralNoteList.do";
 	}
 	
 	function toSparepartDeal(){
@@ -92,6 +93,24 @@
 	    			<p class="hpthy"><param:display type="com_appUserRole" value="${comAppUser.roleId}"/></p>
 	    		</div>
 	    		<a onclick="toMyPartner();" class="btn db clearfloat fr ra3">查看成员</a>
+	    	</div>
+	    	<div class="cash clearfloat">
+	    		<div class="shang xia clearfloat">
+	    			<ul>
+	    				<li>
+	    					<a href="#">
+	    						<p>31000</p>
+	    						<span>积分</span>
+	    					</a>
+	    				</li>
+	    				<li>
+	    					<a href="#">
+	    						<p>56179</p>
+	    						<span>待用积分</span>
+	    					</a>
+	    				</li>
+	    			</ul>
+	    		</div>
 	    	</div>
 	    	<div class="cashlist clearfloat">
 	    		<ul>
@@ -135,16 +154,22 @@
 	    					<i class="iconfont icon-jiantou1 fr"></i>
 	    				</a>
 	    			</li>
+	    			<li class="box-s">
+	    				<a href="weui/pyqp/index.html">
+	    					<i class="iconfont icon-iconfontxingming fl"></i><p class="fl">代理管理</p>
+	    					<i class="iconfont icon-jiantou1 fr"></i>
+	    				</a>
+	    			</li>
 	    		</ul>
 	    	</div>
-	    	<a onclick="toLogout();" class="center-btn db ra3">退出登录</a>
+	  		<a onclick="toLogout();" class="center-btn db ra3">退出登录</a>
 	    </div>
 	    <div class="warp"></div>
 		<!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
 				<li>
-					<a href="index.html">
+					<a href="<%=basePath%>weixin/index/toIndex.do">
 						<i class="iconfont icon-shouye"></i>
 						<p>首页</p>
 					</a>
@@ -171,12 +196,12 @@
 		</footer>
 		<!--footer end-->
 	</body>
-	<script type="text/javascript" src="js/jquery-1.8.3.min.js" ></script>
-	<script src="js/mui.min.js"></script>
-	<script src="js/others.js"></script>
-	<script type="text/javascript" src="js/hmt.js" ></script>
-	<script src="slick/slick.js" type="text/javascript" ></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
+	<script src="weui/gemo/js/mui.min.js"></script>
+	<script src="weui/gemo/js/others.js"></script>
+	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
+	<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
 	<!--插件-->
-	<link rel="stylesheet" href="css/swiper.min.css">
-	<script src="js/swiper.jquery.min.js"></script>
+	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
+	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
 </html>

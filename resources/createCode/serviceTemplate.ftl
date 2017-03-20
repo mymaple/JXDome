@@ -11,10 +11,11 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	
 	/****************************custom * start***********************************/
 
+		
 	<#if bgMaple.mapleType = "02">
 	
 	/**
-	 * 根据parentId 获取所有直接fu
+	 * 根据parentId 获取所有直接
 	 * @param String parentId
 	 * @return
 	 * @throws Exception
@@ -52,17 +53,14 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	 * @throws Exception
 	 */
 	public void batchDeleteInRank(String[] ids) throws Exception ;
-	
 	<#elseif bgMaple.mapleType = "04">
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BgMapleDetail> listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) throws Exception ;
-	
+	public List<${bgMaple.mapleEntityUpper}> listBy${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) throws Exception ;
 	</#if>
-	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -82,62 +80,47 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	public void edit(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception ;
 	
 	/**
-	 * 更改
-	 * @param ${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}
+	 * 更改状态 flag 00
+	 * @param String flag, String ${bgMaple.mapleCode}Id
 	 * @throws Exception
 	 */
-	public void change(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception ;
-
+	public void changeStatus(String flag, String ${bgMaple.mapleCode}Id) throws Exception ;
+	
 	/**
-	 * 删除 
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String ${bgMaple.mapleCode}Id
 	 * @throws Exception
 	 */
-	public void deleteById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception ;
+	public void changeEffective(String flag, String ${bgMaple.mapleCode}Id) throws Exception ;
 	
 	/**
 	 * 删除 
-	 * @param PageData pd
+	 * @param String ${bgMaple.mapleCode}Id
 	 * @throws Exception
 	 */
-	public void deleteByPd(PageData pd) throws Exception ;
+	public void deleteById(String ${bgMaple.mapleCode}Id) throws Exception ;
 	
 	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception ;
-
+	
 	/**
 	 * 通过id获取(类)数据
-	 * @param String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>
+	 * @param String ${bgMaple.mapleCode}Id
 	 * @return ${bgMaple.mapleEntityUpper}
 	 * @throws Exception
 	 */
-	public ${bgMaple.mapleEntityUpper} findById(String ${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, String ${bgMapleDetail.mapleDetailCode}</#if></#list>) throws Exception ;
-	
-	/**
-	 * 通过pd获取(${bgMaple.mapleEntityUpper})数据 
-	 * @param PageData pd
-	 * @return ${bgMaple.mapleEntityUpper}
-	 * @throws Exception
-	 */
-	public ${bgMaple.mapleEntityUpper} findByPd(PageData pd) throws Exception ;
+	public ${bgMaple.mapleEntityUpper} findById(String ${bgMaple.mapleCode}Id) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${bgMaple.mapleEntityUpper}> listByPd(PageData pd) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<${bgMaple.mapleEntityUpper}> otherHave(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception ;
+	public List<${bgMaple.mapleEntityUpper}> listAll() throws Exception ;
 	
 	/**
 	 * 获取(类)List数据

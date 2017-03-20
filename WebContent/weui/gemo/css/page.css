@@ -681,3 +681,15 @@ Agent 代理管理--------------------------------------------------------------
  * */
 .logintwo .xzcontent{width: 94%; margin: 5% auto 0; line-height: .8rem; font-size: .5rem; color: #666; /*background-color: #fff;*/ color: #fff; padding: 4%; border: 1px dashed #00CC7D;}
 .logintwo .login-btn a{font-size: .5rem;}
+
+.check-c{ padding-left:2%; overflow:hidden; background:#fff; font-size:.32rem; }
+.check-c .c-tab tr{ border-bottom:1px solid #f5f5f5;}
+.check-c .c-tab td{ height:1.8rem; background:#fff;}
+.check-c .c-tab .col1,.col2,.col4,.col5{text-align:center; }
+.check-c .c-tab .col1{ color:#aaa; }
+.check-c .c-tab .col2 img{ border-radius:50%; width:100%;}
+.check-c .c-tab .col3{ padding-left:.6rem;}
+.check-c .c-tab .col3 .num{ color:#333; font-size:.4rem; line-height:.6rem;}
+.check-c .c-tab .col4{color:#f8614e;}
+.check-c .c-tab .col5{color:#000;}
+.mui-bar2 .m-txt{background:#f5f5f5; color:#333; margin-top:.3rem; border:none;}

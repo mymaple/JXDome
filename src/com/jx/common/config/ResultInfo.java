@@ -22,6 +22,9 @@ public class ResultInfo implements Serializable {
 	/** 实体类名 */
 	private String resultEntity;
 	
+	/** 返回路径*/
+	private String resultUrl;
+	
 	/**
 	 * 设置 结果代号
 	 * success:成功;failure:失败
@@ -75,4 +78,26 @@ public class ResultInfo implements Serializable {
 	public String getResultEntity() {
 		return this.resultEntity;
 	}
+	
+	/**
+	 * 获取 返回路径
+	 * 
+	 * @return String resultUrl
+	 */
+	public String getResultUrl() {
+		return this.resultUrl;
+	}
+
+	/**
+	 * 设置 返回路径
+	 * 
+	 * @param String resultUrl
+	 */
+	public void setResultUrl(String resultUrl) {
+		this.resultUrl = MapleStringUtil.trim(resultUrl);
+	}
+	
+	
+	
+	
 }

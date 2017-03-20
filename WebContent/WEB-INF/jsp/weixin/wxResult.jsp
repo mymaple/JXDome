@@ -12,41 +12,64 @@
 	<base href="<%=basePath%>">
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-	<title>toLogin</title>
+	<title>格陌汽配</title>
 	<link rel="stylesheet" href="weui/dist/style/weui.min.css"/>
+	
 </head>
 <body>
-	<div class="weui_msg">
-	    <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
-	    <div class="weui_text_area">
-	        <h2 class="weui_msg_title">操作成功</h2>
-	        <p class="weui_msg_desc">内容详情，可根据实际需要安排</p>
-	    </div>
-	    <div class="weui_opr_area">
-	        <p class="weui_btn_area">
-	            <a href="#" class="weui_btn weui_btn_primary">确定</a>
-	            <a href="#" class="weui_btn weui_btn_default">取消</a>
-	        </p>
-	    </div>
-	    <div class="weui_extra_area">
-	        <a href="">查看详情</a>
-	    </div>
-	</div>
-	
-	<div class="weui_msg">
-	    <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
-	    <div class="weui_text_area">
-	        <h2 class="weui_msg_title">操作失败</h2>
-	        <p class="weui_msg_desc">内容详情，可根据实际需要安排</p>
-	    </div>
-	    <div class="weui_opr_area">
-	        <p class="weui_btn_area">
-	            <a href="#" class="weui_btn weui_btn_primary">确定</a>
-	            <a href="#" class="weui_btn weui_btn_default">取消</a>
-	        </p>
-	    </div>
-	    <div class="weui_extra_area">
-	        <a href="">查看详情</a>
-	    </div>
-	</div>
+
+	<c:if test="${resultInfo.resultCode=='success' }">
+		<div class="weui-msg">
+		    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+		    <div class="weui-msg__text-area">
+		        <h2 class="weui-msg__title">操作成功</h2>
+		        <p class="weui-msg__desc">${resultInfo.resultContent }</p>
+		    </div>
+		    <div class="weui-msg__opr-area">
+		        <p class="weui-btn-area">
+		            <a href="<%=basePath %>${resultInfo.resultUrl }" class="weui-btn weui-btn_primary">确定</a>
+		            <!-- <a href="#" class="weui-btn weui-btn_default">取消</a> -->
+		        </p>
+		    </div>
+		    <div class="weui-msg__extra-area">
+	            <div class="weui-footer">
+	                <!-- <p class="weui-footer__links">
+	                    <a href="javascript:void(0);" class="weui-footer__link">底部链接文本</a>
+	                </p> -->
+	                <p class="weui-footer__text">Copyright © 2016-2017 maple</p>
+	            </div>
+	        </div>
+		</div>
+	</c:if>
+	<c:if test="${resultInfo.resultCode=='failure' }">
+		<div class="weui-msg">
+		    <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+		    <div class="weui-msg__text-area">
+		        <h2 class="weui-msg__title">操作失败</h2>
+		        <p class="weui-msg__desc">${resultInfo.resultContent }</p>
+		    </div>
+		    <div class="weui-msg__opr-area">
+		        <p class="weui-btn-area">
+		            <a href="<%=basePath %>${resultInfo.resultUrl }" class="weui-btn weui-btn_primary">确定</a>
+		            <!-- <a href="#" class="weui-btn weui-btn_default">取消</a> -->
+		        </p>
+		    </div>
+		    <div class="weui-msg__extra-area">
+	            <div class="weui-footer">
+	                <!-- <p class="weui-footer__links">
+	                    <a href="javascript:void(0);" class="weui-footer__link">底部链接文本</a>
+	                </p> -->
+	                <p class="weui-footer__text">Copyright © 2016-2017 maple</p>
+	            </div>
+	        </div>
+		</div>
+	</c:if>
 </body>
+<script type="text/javascript">
+	window.onload=function(){
+      if(window.history.replaceState){
+			window.history.replaceState(null,'',document.referrer);
+		}
+	}
+</script>
+</html>

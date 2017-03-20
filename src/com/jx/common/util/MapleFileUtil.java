@@ -219,7 +219,7 @@ public class MapleFileUtil {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String transferCache(String ffolder, String tfolder, String srcs) throws IOException {
+	public static String transfer(String ffolder, String tfolder, String srcs) throws IOException {
 		String[] srcarr = srcs.split(",");
 		StringBuffer resrc = new StringBuffer();
 		for(int i=0;i<srcarr.length;i++){
@@ -229,11 +229,11 @@ public class MapleFileUtil {
 				String projectPath = PathUtil.getProjectPath();
 				copyFile(projectPath+srcold, projectPath+srcnew);
 				delFile(srcold);
-				resrc.append(Const.REG_COM_SPLIT);
+				resrc.append(",");
 				resrc.append(srcnew);
 			}
 		}
-		return resrc.toString().replaceFirst(Const.REG_COM_SPLIT, "");
+		return resrc.toString().replaceFirst(",", "");
 	}
 	
 	

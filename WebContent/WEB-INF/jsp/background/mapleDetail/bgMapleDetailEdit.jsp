@@ -110,7 +110,7 @@
 			if(mapleDetailCode == "") return false;
 			var mapleId = $("#mapleId").val();
 			var mapleDetailId = $("#mapleDetailId").val();
-			var url = "<%=basePath%>background/mapleDetail/otherNotCode.do?mapleId="+mapleId+"&mapleDetailId="+mapleDetailId+"mapleDetailId="+mapleDetailId+"&mapleDetailCode="+mapleDetailCode+"&tm="+new Date().getTime();
+			var url = "<%=basePath%>background/mapleDetail/otherNotCode.do?mapleId="+mapleId+"&mapleDetailId="+mapleDetailId+"&mapleDetailCode="+mapleDetailCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
 					$("#mapleDetailCode").tips({

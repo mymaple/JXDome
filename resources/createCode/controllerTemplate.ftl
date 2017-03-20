@@ -362,13 +362,40 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 	}
 	
 	/**
+	 * 更改状态
+	 */
+	@RequestMapping(value="/changeStatus")
+	@ResponseBody
+	public Object changeStatus(@RequestParam String flag, @RequestParam String ${bgMaple.mapleCode}Id) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		${bgMaple.mapleEntityLower}Service.changeStatus(flag, ${bgMaple.mapleCode}Id);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 更改有效性
+	 */
+	@RequestMapping(value="/changeEffective")
+	@ResponseBody
+	public Object changeEffective(@RequestParam String flag, @RequestParam String ${bgMaple.mapleCode}Id) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		${bgMaple.mapleEntityLower}Service.changeEffective(flag, ${bgMaple.mapleCode}Id);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 导出到excel
 	 * @return
 	 */
 	@RequestMapping(value="/toExportExcel")
 	public ModelAndView toExportExcel() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
@@ -390,7 +417,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		titles.add("修改人员id");	//#{iii}<#assign iii=iii+1 />
 		titles.add("修改时间");	//#{iii}<#assign iii=iii+1 />
 		dataMap.put("titles", titles);
-		List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.listByPd(pd);
+		List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.list(null);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
@@ -507,7 +534,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+		String filePath = PathUtil.getProjectPath() + Const.FILEPATHFILE;								//文件上传路径
 		String fileName =  MapleFileUtil.fileUp(file, filePath, "${bgMaple.mapleCode}excel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/

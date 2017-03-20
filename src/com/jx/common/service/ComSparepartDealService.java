@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.PageData;
+import com.jx.common.entity.ComIntegralNote;
 import com.jx.common.entity.ComSparepartDeal;
 
 public interface ComSparepartDealService {
@@ -11,6 +12,13 @@ public interface ComSparepartDealService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComSparepartDeal> listByUserE(String appUserId, String yearMonth) throws Exception ;
+	
 	/**
 	 * 通过审核 
 	 * @param ComSparepartDeal comSparepartDeal

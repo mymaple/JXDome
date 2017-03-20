@@ -33,7 +33,7 @@
 	});
 	
 	$(function(){
-		$(".defaultStatus").change(function(){  
+		$("input[name='defaultStatus']").change(function(){  
 	        var receiveAddressId = $("input[name='defaultStatus']:checked").val();
 	        if(receiveAddressId==""||receiveAddressId==null){
 	        	layer.open({
@@ -76,7 +76,7 @@
 		window.location.href = "<%=basePath%>weixin/receiveAddress/toEdit.do?receiveAddressId="+receiveAddressId;
 	}
 	
-	function toDelect(receiveAddressId){
+	function toDelete(receiveAddressId){
 		if(receiveAddressId==""||receiveAddressId==null){
         	layer.open({
 		    	content: '参数缺失'
@@ -85,7 +85,7 @@
 		 	});
         	window.location.reload(); 
         }
-        var url =  "<%=basePath%>weixin/receiveAddress/toDelect.do";
+        var url =  "<%=basePath%>weixin/receiveAddress/toDelete.do";
         $.post(url, {"receiveAddressId": receiveAddressId},
    		   function(data){
 	        	if(data.resultCode == "success"){
@@ -116,7 +116,10 @@
 </div>
 <!--loading页结束-->
 	<body>
-		
+		<a onclick="toAdd();" class="address-add fl">
+     		添加新地址
+     	</a>
+     	
 	    <div id="main" class="mui-clearfix contaniner">
 	    
 	    <c:choose>
@@ -131,9 +134,8 @@
 	    					<span class="fr">${comReceiveAddress.phone }</span>
 	    				</li>
 	    				<li>
-	    					${comReceiveAddress.province }${comReceiveAddress.city }
-	    					${comReceiveAddress.district }${comReceiveAddress.street }
-	    					${comReceiveAddress.detail }
+	    					${comReceiveAddress.province }&nbsp;${comReceiveAddress.city }&nbsp;${comReceiveAddress.district }<br>
+	    					${comReceiveAddress.street }&nbsp;${comReceiveAddress.detail }
 	    				</li>
 	    			</ul>
 	    		</div>
@@ -154,11 +156,11 @@
 						</div>
 						
 						<div class="right fr clearfloat">
-							<a onclick="toDelect(${comReceiveAddress.receiveAddressId });" class="fr">
+							<a onclick="toDelete('${comReceiveAddress.receiveAddressId }');" class="fr">
 								<i class="iconfont icon-lajixiang"></i>
 								删除
 							</a>
-							<a onclick="toEdit(${comReceiveAddress.receiveAddressId });" class="fr">
+							<a onclick="toEdit('${comReceiveAddress.receiveAddressId }');" class="fr">
 								<i class="iconfont icon-shouji"></i>
 								编辑
 							</a>							
@@ -175,9 +177,40 @@
 	    	
 	    </div>
 	    
-     	<a onclick="toAdd();" class="address-add fl">
-     		添加新地址
-     	</a>
+     	
+     	
+     	 <div class="warp"></div>
+		<!--footer star-->
+		<footer class="page-footer fixed-footer" id="footer">
+			<ul>
+				<li>
+					<a href="index.html">
+						<i class="iconfont icon-shouye"></i>
+						<p>首页</p>
+					</a>
+				</li>
+				<li>
+					<a href="cation.html">
+						<i class="iconfont icon-icon04"></i>
+						<p>分类</p>
+					</a>
+				</li>
+				<li>
+					<a href="shopcar.html">
+						<i class="iconfont icon-gouwuche"></i>
+						<p>购物车</p>
+					</a>
+				</li>
+				<li>
+					<a href="<%=basePath%>weixin/mine/toMyCenter.do">
+						<i class="iconfont icon-yonghuming"></i>
+						<p>个人中心</p>
+					</a>
+				</li>
+			</ul>
+		</footer>
+		<!--footer end-->
+     	
 	</body>
 	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
 	<script src="weui/gemo/js/fastclick.js"></script>

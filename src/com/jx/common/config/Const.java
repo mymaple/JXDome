@@ -79,53 +79,13 @@ public class Const {
 	 */
 	public static final String CONFIG_BG_ONLINEMANAGE_OBJ = "configBgOnlineManage";
 	
-	
-	
-	
-	/**
-	 * 路径 头像
-	 */
-	public static final String PATH_MYHEADIMG = "uploadFiles/image/myheadimg";
-	
-	/**
-	 * 路径 个人微信二维码
-	 */
-	public static final String PATH_MYWXQRCODE = "uploadFiles/image/mywxqrcode";
-	
 	/**
 	 * 路径 文件上传缓存
 	 */
 	public static final String PATH_FILEUPCACHE = "uploadFiles/cache";
 	
-	/**
-	 * 路径 商品分类头像
-	 */
-	public static final String PATH_PC_HEADIMG = "uploadFiles/image/productCategory/headimg";
 	
-	/**
-	 * 路径 商品分类长框图
-	 */
-	public static final String PATH_PC_IMG1 = "uploadFiles/image/productCategory/img1";
 	
-	/**
-	 * 路径 商品分类 滚播图
-	 */
-	public static final String PATH_PC_IMG2 = "uploadFiles/image/productCategory/img2";
-	
-	/**
-	 * 路径 商品头像
-	 */
-	public static final String PATH_P_HEADIMG = "uploadFiles/image/product/headimg";
-	
-	/**
-	 * 路径 商品长框图
-	 */
-	public static final String PATH_P_IMG1 = "uploadFiles/image/product/img1";
-	
-	/**
-	 * 路径 商品滚播图
-	 */
-	public static final String PATH_P_IMG2 = "uploadFiles/image/product/img2";
 	
 	/**
 	 * 标记 登录直接跳转

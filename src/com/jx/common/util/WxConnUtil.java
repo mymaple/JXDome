@@ -21,12 +21,12 @@ public class WxConnUtil {
 	
     
 	public static void main(String[] args) throws Exception {
-    	String url = "http://wx.qlogo.cn/mmopen/ShDz8TqtUV6SNSwGscRgD0nhSMINEpHAkRNaQuDukgOQsFjXDl4YqBrNeDh8m54dXguTCR8rWNFqJfeASKKQW7AcL1ic4S8r5/0";
+/*    	String url = "http://wx.qlogo.cn/mmopen/ShDz8TqtUV6SNSwGscRgD0nhSMINEpHAkRNaQuDukgOQsFjXDl4YqBrNeDh8m54dXguTCR8rWNFqJfeASKKQW7AcL1ic4S8r5/0";
     	String fileSrc = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/111_headimg.jpg";
     	System.out.println(fileSrc);
 		
 		HttpManager.download(url, null, fileSrc);
-		
+*/		
 	}
 	
 	/**

@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="weui/dist/style/layer.css"/>
 	<script type="text/javascript" src="weui/dist/js/layer.js"></script>
 </head>
-<body>
+<body >
 
 	<form action="weixin/main/login.do" name="loginForm" id="loginForm" method="post">
 	

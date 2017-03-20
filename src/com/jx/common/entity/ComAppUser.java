@@ -20,7 +20,10 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
+	/**
+	 * 路径 平台用户 头像
+	 */
+	public static final String PATH_IMG_AU_HEADIMG = "uploadFiles/image/appUser/headimg";
 	
 	/**************************custom prop satrt********************************/
 	/** 指标 */

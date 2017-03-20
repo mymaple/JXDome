@@ -23,8 +23,6 @@
 </head>
 <body class="no-skin">
 	
-	
-	
 	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
 		<!-- /section:basics/sidebar -->
@@ -88,7 +86,13 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comReceiveAddress.receiveAddressId}" class="ace" /><span class="lbl"></span></label>
 											</td>
+											
+											<c:if test="${comReceiveAddress.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${comReceiveAddress.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											</c:if>
 											<td class='center'><param:display type="com_appUserEffective" value="${comReceiveAddress.appUserId}"/></td>
 											<td class='center'>${comReceiveAddress.receicerName}</td>
 											<td class='center'>${comReceiveAddress.phone}</td>
@@ -105,6 +109,13 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
+													<c:if test="${comReceiveAddress.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="toEffective('01','${comReceiveAddress.receiveAddressId}');">使生效</a>
+													</c:if>
+													<c:if test="${comReceiveAddress.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="toEffective('00','${comReceiveAddress.receiveAddressId}');">使失效</a>
+													</c:if>
+													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comReceiveAddress.receiveAddressId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -233,6 +244,24 @@
 				});
 			});
 		});
+		
+		function toEffective(flag,receiveAddressId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/receiveAddress/toEffective.do?flag="+flag+"&receiveAddressId="+receiveAddressId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
 		
 		//新增
 		function toAdd(){

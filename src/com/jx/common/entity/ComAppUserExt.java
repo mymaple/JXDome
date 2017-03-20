@@ -1,9 +1,22 @@
 package com.jx.common.entity;
 
+import java.io.Serializable;
+
 import com.jx.common.config.BaseExt;
 import com.jx.common.util.MapleStringUtil;
 
-public class ComAppUserExt extends BaseExt {
+public class ComAppUserExt extends BaseExt implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 路径 平台用户 个人微信二维码
+	 */
+	public static final String PATH_IMG_AU_WXQRCODE = "uploadFiles/image/appUser/wxqrcode";
+	
 	
 	/**************************custom prop satrt********************************/
 	

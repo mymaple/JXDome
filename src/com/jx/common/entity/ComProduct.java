@@ -17,6 +17,25 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 路径 商品 头像
+	 */
+	public static final String PATH_IMG_P_HEADIMG = "uploadFiles/image/product/headimg";
+	
+	/**
+	 * 路径 商品 长框图
+	 */
+	public static final String PATH_IMG_P_IMG1 = "uploadFiles/image/product/img1";
+	
+	/**
+	 * 路径 商品 滚播图
+	 */
+	public static final String PATH_IMG_P_IMG2 = "uploadFiles/image/product/img2";
+	
+	/**
+	 * 路径 商品 详情图
+	 */
+	public static final String PATH_IMG_P_IMG3 = "uploadFiles/image/product/img3";
 	
 	
 	/**************************custom prop satrt********************************/

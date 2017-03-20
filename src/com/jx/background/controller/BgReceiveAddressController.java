@@ -182,23 +182,6 @@ public class BgReceiveAddressController extends BaseController {
 	}
 	
 	/**
-	 * 判断是否存在dictCode
-	 */
-	@RequestMapping(value="/otherNotCode")
-	@ResponseBody
-	public Object otherNotCode(@RequestParam String receiveAddressId, @RequestParam String receiveAddressCode) throws Exception{
-		PageData pd = this.getPageData();
-		ResultInfo resultInfo = this.getResultInfo();
-
-		List<ComReceiveAddress> comReceiveAddressList = comReceiveAddressService.otherHaveCode(receiveAddressId, receiveAddressCode);	
-		if(MapleUtil.emptyList(comReceiveAddressList)){
-			resultInfo.setResultCode("success");
-		}
-
-		return AppUtil.returnResult(pd, resultInfo);
-	}
-	
-	/**
 	 * 删除
 	 */
 	@RequestMapping(value="/toDelete")
@@ -233,13 +216,33 @@ public class BgReceiveAddressController extends BaseController {
 	}
 	
 	/**
+	 * 有效性
+	 */
+	@RequestMapping(value="/toEffective")
+	@ResponseBody
+	public Object toEffective(@RequestParam String flag, @RequestParam String receiveAddressId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		if("00".equals(flag)){
+			comReceiveAddressService.toDisEffective(receiveAddressId);	//根据ID失效
+			resultInfo.setResultCode("success");
+		}else if("01".equals(flag)){
+			comReceiveAddressService.toEffective(receiveAddressId);	//根据ID生效
+			resultInfo.setResultCode("success");
+		}else{
+			resultInfo.setResultContent("参数异常！");
+		}
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 导出到excel
 	 * @return
 	 */
 	@RequestMapping(value="/toExportExcel")
 	public ModelAndView toExportExcel() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
@@ -261,7 +264,7 @@ public class BgReceiveAddressController extends BaseController {
 		titles.add("修改人员id");	//14
 		titles.add("修改时间");	//15
 		dataMap.put("titles", titles);
-		List<ComReceiveAddress> varOList = comReceiveAddressService.listByPd(pd);
+		List<ComReceiveAddress> varOList = comReceiveAddressService.list(null);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	

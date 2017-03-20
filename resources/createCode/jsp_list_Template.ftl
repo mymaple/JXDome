@@ -126,7 +126,12 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">-${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</#if></#list>" class="ace" /><span class="lbl"></span></label>
 											</td>
-											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
+											<c:if test="${r"${"}${bgMaple.mapleEntityLower}${r"."}.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${r"${"}${bgMaple.mapleEntityLower}${r"."}.effective != '00'}">
+											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											</c:if>
 										<#list bgMapleDetailList as bgMapleDetail>
 										<#if bgMapleDetail.isEdit == "01" >
 										<#if bgMapleDetail.mapleDetailType == "05">
@@ -151,6 +156,14 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${r"${RIGHTS.edit}" }">
+													
+													<c:if test="${comReceiveAddress.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}');">使生效</a>
+													</c:if>
+													<c:if test="${comReceiveAddress.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}');">使失效</a>
+													</c:if>
+													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}'<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">, '${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}'</#if></#list>);">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -295,6 +308,44 @@
 		}
 		
 		</#if>
+		
+		
+		function changeEffective(flag,${bgMaple.mapleCode}Id){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}Detail/changeEffective.do?flag="+flag+"&{bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,${bgMaple.mapleCode}Id){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}Detail/changeStatus.do?flag="+flag+"&{bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
 		//新增
 		function toAdd(){
 			 top.jzts();
@@ -309,7 +360,7 @@
 			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toAdd.do";
 			 </#if>
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮
@@ -358,7 +409,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/toEdit.do?${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">+"&${bgMapleDetail.mapleDetailCode}="+${bgMapleDetail.mapleDetailCode}</#if></#list>+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 

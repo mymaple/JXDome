@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComLbtMapper">
+
+	<sql id="lbtColumns">lbtId,lbtCode,lbtType,lbtStatus,lbtImgSrc,description,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="lbtTable">com_lbt_info</sql>
+	
+	<resultMap type="comLbt" id="comLbtResultMap">
+		<id column="lbtId" property="lbtId"/>
+		<result column="lbtCode" property="lbtCode"/>
+		<result column="lbtType" property="lbtType"/>
+		<result column="lbtStatus" property="lbtStatus"/>
+		<result column="lbtImgSrc" property="lbtImgSrc"/>
+		<result column="description" property="description"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comLbt">
+		insert into 
+	<include refid="lbtTable"/>
+		( 
+	<include refid="lbtColumns"/>
+		) values (
+			#{lbtId},#{lbtCode},#{lbtType},#{lbtStatus},#{lbtImgSrc},#{description},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comLbt">
+		update
+	<include refid="lbtTable"/>
+		set 
+			lbtCode = #{lbtCode},
+			lbtType = #{lbtType},
+			lbtImgSrc = #{lbtImgSrc},
+			description = #{description},
+			orderNum = #{orderNum},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			lbtId = #{lbtId} 
+	</update>
+	
+	<!-- 改变 -->
+	<update id="change" parameterType="comLbt">
+		update
+	<include refid="lbtTable"/>
+		set 
+			<if test="lbtCode!=null">
+			lbtCode = #{lbtCode},
+			</if>
+			<if test="lbtType!=null">
+			lbtType = #{lbtType},
+			</if>
+			<if test="lbtStatus!=null">
+			lbtStatus = #{lbtStatus},
+			</if>
+			<if test="lbtImgSrc!=null">
+			lbtImgSrc = #{lbtImgSrc},
+			</if>
+			<if test="description!=null">
+			description = #{description},
+			</if>
+			<if test="orderNum!=null">
+			orderNum = #{orderNum},
+			</if>
+			<if test="effective!=null">
+			effective = #{effective},
+			</if>
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			lbtId = #{lbtId} 
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="comLbt">
+		delete from 
+	<include refid="lbtTable"/>
+		where 1=1 
+			<if test="lbtId!=null">
+			 and lbtId = #{lbtId} 
+			</if>
+			<if test="lbtCode!=null">
+			 and lbtCode = #{lbtCode}
+			</if>
+			<if test="lbtType!=null">
+			 and lbtType = #{lbtType}
+			</if>
+			<if test="lbtStatus!=null">
+			 and lbtStatus = #{lbtStatus}
+			</if>
+			<if test="lbtImgSrc!=null">
+			 and lbtImgSrc = #{lbtImgSrc}
+			</if>
+			<if test="description!=null">
+			 and description = #{description}
+			</if>
+			<if test="orderNum!=null">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null">
+			 and modifyTime = #{modifyTime}
+			</if>
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="lbtTable"/>
+		where 
+			CONCAT(lbtId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="find" parameterType="comLbt" resultType="comLbt">
+		select 
+	<include refid="lbtColumns"/>
+		from 
+	<include refid="lbtTable"/>
+		where 1=1 
+			<if test="lbtId!=null">
+			 and lbtId = #{lbtId} 
+			</if>
+			<if test="lbtCode!=null">
+			 and lbtCode = #{lbtCode}
+			</if>
+			<if test="lbtType!=null">
+			 and lbtType = #{lbtType}
+			</if>
+			<if test="lbtStatus!=null">
+			 and lbtStatus = #{lbtStatus}
+			</if>
+			<if test="lbtImgSrc!=null">
+			 and lbtImgSrc = #{lbtImgSrc}
+			</if>
+			<if test="description!=null">
+			 and description = #{description}
+			</if>
+			<if test="orderNum!=null">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null">
+			 and modifyTime = #{modifyTime}
+			</if>
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="list" parameterType="comLbt" resultType="comLbt">
+		select 
+	<include refid="lbtColumns"/>
+		from 
+	<include refid="lbtTable"/>
+		where 1=1 
+			<if test="lbtId!=null">
+			 and lbtId = #{lbtId} 
+			</if>
+			<if test="lbtCode!=null">
+			 and lbtCode = #{lbtCode}
+			</if>
+			<if test="lbtType!=null">
+			 and lbtType = #{lbtType}
+			</if>
+			<if test="lbtStatus!=null">
+			 and lbtStatus = #{lbtStatus}
+			</if>
+			<if test="lbtImgSrc!=null">
+			 and lbtImgSrc = #{lbtImgSrc}
+			</if>
+			<if test="description!=null">
+			 and description = #{description}
+			</if>
+			<if test="orderNum!=null">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHave" parameterType="comLbt" resultMap="comLbtResultMap">
+		select 
+	<include refid="lbtColumns"/>
+		from 
+	<include refid="lbtTable"/>
+		where 1=1 
+			<if test="lbtId!=null">
+			 and lbtId != #{lbtId} 
+			</if>
+			<if test="lbtCode!=null">
+			 and lbtCode = #{lbtCode}
+			</if>
+			<if test="lbtType!=null">
+			 and lbtType = #{lbtType}
+			</if>
+			<if test="lbtStatus!=null">
+			 and lbtStatus = #{lbtStatus}
+			</if>
+			<if test="lbtImgSrc!=null">
+			 and lbtImgSrc = #{lbtImgSrc}
+			</if>
+			<if test="description!=null">
+			 and description = #{description}
+			</if>
+			<if test="orderNum!=null">
+			 and orderNum = #{orderNum}
+			</if>
+			<if test="effective!=null">
+			 and effective = #{effective}
+			</if>
+			<if test="createUserId!=null">
+			 and createUserId = #{createUserId}
+			</if>
+			<if test="createTime!=null">
+			 and createTime = #{createTime}
+			</if>
+			<if test="modifyUserId!=null">
+			 and modifyUserId = #{modifyUserId}
+			</if>
+			<if test="modifyTime!=null">
+			 and modifyTime = #{modifyTime}
+			</if>
+		order by (orderNum+0) 
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="lbtColumns"/>
+		from 
+	<include refid="lbtTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				lbtCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				lbtName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0)
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

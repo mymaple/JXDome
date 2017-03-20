@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
@@ -42,9 +43,10 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		Date nowTime = new Date();
 		comProductCategory.setProductCategoryId(UuidUtil.get32UUID());
 		
-		comProductCategory.setHeadImgSrc(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
-		comProductCategory.setImgSrc1(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG1, comProductCategory.getImgSrc1()));
-		comProductCategory.setImgSrc2(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG2, comProductCategory.getImgSrc2()));
+		comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
+		
+		comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_IMG1, comProductCategory.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
+		comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_IMG2, comProductCategory.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
 		
 		
 		
@@ -65,9 +67,10 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 */
 	public void edit(ComProductCategory comProductCategory) throws Exception {
 		
-		comProductCategory.setHeadImgSrc(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
-		comProductCategory.setImgSrc1(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG1, comProductCategory.getImgSrc1()));
-		comProductCategory.setImgSrc2(MapleFileUtil.transferCache(Const.PATH_FILEUPCACHE, Const.PATH_PC_IMG2, comProductCategory.getImgSrc2()));
+		comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
+		
+		comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_IMG1, comProductCategory.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
+		comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_IMG2, comProductCategory.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
 		
 		Date nowTime = new Date();
 		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
@@ -86,6 +89,20 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 * @throws Exception
 	 */
 	public void change(ComProductCategory comProductCategory) throws Exception {
+		
+		if(StringUtils.isNotEmpty(comProductCategory.getHeadImgSrc())){
+			comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+					ComProductCategory.PATH_IMG_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
+		}
+		if(StringUtils.isNotEmpty(comProductCategory.getImgSrc1())){
+			comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+					ComProductCategory.PATH_IMG_PC_IMG1, comProductCategory.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
+		}
+		if(StringUtils.isNotEmpty(comProductCategory.getImgSrc2())){
+			comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+					ComProductCategory.PATH_IMG_PC_IMG2, comProductCategory.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
+		}
+		
 		Date nowTime = new Date();
 		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setModifyTime(nowTime);

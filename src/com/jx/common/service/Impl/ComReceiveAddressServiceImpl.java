@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.exception.UncheckedException;
 import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.UuidUtil;
+import com.jx.common.entity.ComProductCategoryDetail;
 import com.jx.common.entity.ComReceiveAddress;
 import com.jx.common.service.ComReceiveAddressService;
 
@@ -61,7 +63,7 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setAppUserId(appUserId);
 		comReceiveAddress.setModifyTime(new Date());
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
-		dao.update("ComReceiveAddressMapper.toDisdefaultE", appUserId);
+		dao.update("ComReceiveAddressMapper.toDisdefaultE", comReceiveAddress);
 		
 		comReceiveAddress.setReceiveAddressId(receiveAddressId);
 		dao.update("ComReceiveAddressMapper.toDefaultE", comReceiveAddress);
@@ -77,7 +79,11 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setAppUserId(appUserId);
 		comReceiveAddress.setModifyTime(new Date());
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
-		dao.update("ComReceiveAddressMapper.toDisdefaultE", appUserId);
+		try{
+			dao.update("ComReceiveAddressMapper.toDisdefaultE", comReceiveAddress);
+		}catch(UncheckedException e){
+			
+		}
 	}
 	
 	/**
@@ -198,6 +204,34 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("ComReceiveAddressMapper.batchDeleteByIds", ids);
+	}
+	
+	/**
+	 * 生效 
+	 * @param String receiveAddressId
+	 * @throws Exception
+	 */
+	public void toEffective(String receiveAddressId) throws Exception {
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setReceiveAddressId(receiveAddressId);
+		Date nowTime = new Date();
+		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
+		comReceiveAddress.setModifyTime(nowTime);
+		dao.update("ComReceiveAddressMapper.toEffective", comReceiveAddress);
+	}
+	
+	/**
+	 * 失效
+	 * @param String receiveAddressId
+	 * @throws Exception
+	 */
+	public void toDisEffective(String receiveAddressId) throws Exception {
+		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
+		comReceiveAddress.setReceiveAddressId(receiveAddressId);
+		Date nowTime = new Date();
+		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
+		comReceiveAddress.setModifyTime(nowTime);
+		dao.update("ComReceiveAddressMapper.toDisEffective", comReceiveAddress);
 	}
 
 	/**

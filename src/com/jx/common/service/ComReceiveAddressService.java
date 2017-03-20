@@ -99,6 +99,20 @@ public interface ComReceiveAddressService {
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception ;
+	
+	/**
+	 * 生效 
+	 * @param String receiveAddressId
+	 * @throws Exception
+	 */
+	public void toEffective(String receiveAddressId) throws Exception ;
+	
+	/**
+	 * 失效
+	 * @param String receiveAddressId
+	 * @throws Exception
+	 */
+	public void toDisEffective(String receiveAddressId) throws Exception ;
 
 	/**
 	 * 通过id获取(类)数据

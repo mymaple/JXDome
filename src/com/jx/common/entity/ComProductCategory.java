@@ -17,7 +17,20 @@ public class ComProductCategory extends BaseEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 路径 商品分类 头像
+	 */
+	public static final String PATH_IMG_PC_HEADIMG = "uploadFiles/image/productCategory/headimg";
 	
+	/**
+	 * 路径 商品分类 长框图
+	 */
+	public static final String PATH_IMG_PC_IMG1 = "uploadFiles/image/productCategory/img1";
+	
+	/**
+	 * 路径 商品分类 滚播图
+	 */
+	public static final String PATH_IMG_PC_IMG2 = "uploadFiles/image/productCategory/img2";
 	
 	/**************************custom prop satrt********************************/
 	

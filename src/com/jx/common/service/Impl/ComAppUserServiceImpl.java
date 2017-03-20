@@ -10,7 +10,6 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
-import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
@@ -87,12 +86,12 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		String json = WxConnUtil.getUserInfo(openId);
 		UserInfo userInfo = new UserInfo();
 		userInfo = (UserInfo)MapleUtil.convertJson(userInfo.getClass(), JSONObject.fromObject(json));
-		String fileSrc = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/"+ appUserId+"_headimg.jpg";
+		String fileSrc = PathUtil.getProjectPath() + ComAppUser.PATH_IMG_AU_HEADIMG + "/"+ appUserId+"_headimg.jpg";
 		//下载头像图片
 		if(StringUtils.isNotEmpty(userInfo.getHeadimgurl())){
 			HttpManager.download(userInfo.getHeadimgurl(), null, fileSrc);
 		}else{
-			String headimgDefault = PathUtil.getProjectPath() + Const.PATH_MYHEADIMG + "/default_headimg.jpg";
+			String headimgDefault = PathUtil.getProjectPath() + ComAppUser.PATH_IMG_AU_HEADIMG + "/default_headimg.jpg";
 			MapleFileUtil.copyFile(headimgDefault , fileSrc);
 		}
 		
@@ -106,7 +105,7 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		
 		comAppUser.setSex("2".equals(userInfo.getSex())?"02":"01");
 		comAppUser.setBrithday(nowTime);
-		comAppUser.setHeadImgSrc(Const.PATH_MYHEADIMG+"/"+appUserId+"_headimg.jpg");
+		comAppUser.setHeadImgSrc(ComAppUser.PATH_IMG_AU_HEADIMG+"/"+appUserId+"_headimg.jpg");
 		comAppUser.setOrderNum(""+nowTime.getTime());
 	
 		comAppUser.setPassword("");
