@@ -70,7 +70,7 @@
 									<th class="center">区</th>
 									<th class="center">街道</th>
 									<th class="center">详细地址</th>
-									<th class="center">默认状态</th>
+									<th class="center">收货地址状态</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -86,7 +86,6 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comReceiveAddress.receiveAddressId}" class="ace" /><span class="lbl"></span></label>
 											</td>
-											
 											<c:if test="${comReceiveAddress.effective == '00'}">
 											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
 											</c:if>
@@ -101,7 +100,7 @@
 											<td class='center'>${comReceiveAddress.district}</td>
 											<td class='center'>${comReceiveAddress.street}</td>
 											<td class='center'>${comReceiveAddress.detail}</td>
-											<td class='center'><param:display type="com_defaultStatus" value="${comReceiveAddress.defaultStatus}"/></td>
+											<td class='center'><param:display type="com_receiveAddressStatus" value="${comReceiveAddress.receiveAddressStatus}"/></td>
 											<td class='center'>${comReceiveAddress.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
@@ -109,11 +108,12 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
+													
 													<c:if test="${comReceiveAddress.effective == '00'}">
-													<a class="btn btn-xs btn-info" onclick="toEffective('01','${comReceiveAddress.receiveAddressId}');">使生效</a>
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comReceiveAddress.receiveAddressId}');">使生效</a>
 													</c:if>
 													<c:if test="${comReceiveAddress.effective != '00'}">
-													<a class="btn btn-xs btn-grey" onclick="toEffective('00','${comReceiveAddress.receiveAddressId}');">使失效</a>
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comReceiveAddress.receiveAddressId}');">使失效</a>
 													</c:if>
 													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comReceiveAddress.receiveAddressId}');">
@@ -245,7 +245,8 @@
 			});
 		});
 		
-		function toEffective(flag,receiveAddressId){
+		
+		function changeEffective(flag,receiveAddressId){
 			var firm = "确定要生效吗?";
 			if("00"==flag){
 				firm = "确定要失效吗?"
@@ -253,7 +254,25 @@
 			bootbox.confirm(firm, function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/receiveAddress/toEffective.do?flag="+flag+"&receiveAddressId="+receiveAddressId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/receiveAddressDetail/changeEffective.do?flag="+flag+"&{bgMaple.mapleCode}Id="+receiveAddressId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,receiveAddressId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/receiveAddressDetail/changeStatus.do?flag="+flag+"&{bgMaple.mapleCode}Id="+receiveAddressId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${bgPage.currentPage}');
@@ -271,7 +290,7 @@
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/receiveAddress/toAdd.do";
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮
@@ -312,7 +331,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/receiveAddress/toEdit.do?receiveAddressId="+receiveAddressId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 

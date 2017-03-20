@@ -92,11 +92,11 @@
 	<include refid="receiveAddressTable"/>
 		set 
 			${bgMaple.mapleCode}Status = ${r"#{"}${bgMaple.mapleCodeUpper}Status${r"}"} ,
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
+			modifyUserId = ${r"#{"}modifyUserId${r"}"},
+			modifyTime = ${r"#{"}modifyTime${r"}"}
 		where 
-			receiveAddressId = #{receiveAddressId} 
-			and effective = #{oldValue}
+			receiveAddressId = ${r"#{"}receiveAddressId${r"}"} 
+			and effective = ${r"#{"}oldValue${r"}"}
 	</update>
 	
 	<!-- 更改有效性 -->
@@ -104,16 +104,16 @@
 		update
 	<include refid="receiveAddressTable"/>
 		set 
-			effective = #{effective},
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
+			effective = ${r"#{"}effective${r"}"} ,
+			modifyUserId = ${r"#{"}modifyUserId${r"}"},
+			modifyTime = ${r"#{"}modifyTime${r"}"}
 		where 
-			receiveAddressId = #{receiveAddressId} 
-			and effective = #{oldValue}
+			receiveAddressId = ${r"#{"}receiveAddressId${r"}"} 
+			and effective = ${r"#{"}oldValue${r"}"}
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteById" parameterType="${bgMaple.mapleEntityLower}">
+	<delete id="deleteById" parameterType="String">
 		delete from 
 	<include refid="${bgMaple.mapleCode}Table"/>
 		where ${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
@@ -131,7 +131,7 @@
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="${bgMaple.mapleEntityLower}" resultType="${bgMaple.mapleEntityLower}">
+	<select id="findById" parameterType="String" resultType="${bgMaple.mapleEntityLower}">
 		select 
 	<include refid="${bgMaple.mapleCode}Columns"/>
 		from 
@@ -140,7 +140,7 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAll" parameterType="${bgMaple.mapleEntityLower}" resultType="${bgMaple.mapleEntityLower}">
+	<select id="listAll" resultType="${bgMaple.mapleEntityLower}">
 		select 
 	<include refid="${bgMaple.mapleCode}Columns"/>
 		from 

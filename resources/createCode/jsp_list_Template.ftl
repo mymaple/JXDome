@@ -126,11 +126,11 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">-${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</#if></#list>" class="ace" /><span class="lbl"></span></label>
 											</td>
-											<c:if test="${r"${"}${bgMaple.mapleEntityLower}${r"."}.effective == '00'}">
-											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											<c:if test="${r"${"}${bgMaple.mapleEntityLower}.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${r"${vs.index+1}"}</td>
 											</c:if>
-											<c:if test="${r"${"}${bgMaple.mapleEntityLower}${r"."}.effective != '00'}">
-											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<c:if test="${r"${"}${bgMaple.mapleEntityLower}.effective != '00'}">
+											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
 											</c:if>
 										<#list bgMapleDetailList as bgMapleDetail>
 										<#if bgMapleDetail.isEdit == "01" >
@@ -157,10 +157,10 @@
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${r"${RIGHTS.edit}" }">
 													
-													<c:if test="${comReceiveAddress.effective == '00'}">
+													<c:if test="${r"${"}${bgMaple.mapleEntityLower}.effective == '00'}">
 													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}');">使生效</a>
 													</c:if>
-													<c:if test="${comReceiveAddress.effective != '00'}">
+													<c:if test="${r"${"}${bgMaple.mapleEntityLower}.effective != '00'}">
 													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMaple.mapleCode}Id${r"}"}');">使失效</a>
 													</c:if>
 													
@@ -309,7 +309,6 @@
 		
 		</#if>
 		
-		
 		function changeEffective(flag,${bgMaple.mapleCode}Id){
 			var firm = "确定要生效吗?";
 			if("00"==flag){
@@ -321,7 +320,7 @@
 					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}Detail/changeEffective.do?flag="+flag+"&{bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							nextPage('${bgPage.currentPage}');
+							nextPage('${r"${bgPage.currentPage}"}');
 						}
 					});
 				}
@@ -339,7 +338,7 @@
 					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}Detail/changeStatus.do?flag="+flag+"&{bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
-							nextPage('${bgPage.currentPage}');
+							nextPage('${r"${bgPage.currentPage}"}');
 						}
 					});
 				}

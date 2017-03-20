@@ -417,7 +417,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		titles.add("修改人员id");	//#{iii}<#assign iii=iii+1 />
 		titles.add("修改时间");	//#{iii}<#assign iii=iii+1 />
 		dataMap.put("titles", titles);
-		List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.list(null);
+		List<${bgMaple.mapleEntityUpper}> varOList = ${bgMaple.mapleEntityLower}Service.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	

@@ -99,7 +99,7 @@ public class BgReceiveAddressController extends BaseController {
 		comReceiveAddress.setDistrict("");
 		comReceiveAddress.setStreet("");
 		comReceiveAddress.setDetail("");
-		comReceiveAddress.setDefaultStatus("");
+		comReceiveAddress.setReceiveAddressStatus("");
 		comReceiveAddress.setOrderNum(String.valueOf(new Date().getTime()));
 		
 		mv.addObject(comReceiveAddress);
@@ -216,22 +216,29 @@ public class BgReceiveAddressController extends BaseController {
 	}
 	
 	/**
-	 * 有效性
+	 * 更改状态
 	 */
-	@RequestMapping(value="/toEffective")
+	@RequestMapping(value="/changeStatus")
 	@ResponseBody
-	public Object toEffective(@RequestParam String flag, @RequestParam String receiveAddressId) throws Exception{
+	public Object changeStatus(@RequestParam String flag, @RequestParam String receiveAddressId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		if("00".equals(flag)){
-			comReceiveAddressService.toDisEffective(receiveAddressId);	//根据ID失效
-			resultInfo.setResultCode("success");
-		}else if("01".equals(flag)){
-			comReceiveAddressService.toEffective(receiveAddressId);	//根据ID生效
-			resultInfo.setResultCode("success");
-		}else{
-			resultInfo.setResultContent("参数异常！");
-		}
+		comReceiveAddressService.changeStatus(flag, receiveAddressId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 更改有效性
+	 */
+	@RequestMapping(value="/changeEffective")
+	@ResponseBody
+	public Object changeEffective(@RequestParam String flag, @RequestParam String receiveAddressId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comReceiveAddressService.changeEffective(flag, receiveAddressId);	
+		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
 	}
@@ -256,7 +263,7 @@ public class BgReceiveAddressController extends BaseController {
 		titles.add("区");	//6
 		titles.add("街道");	//7
 		titles.add("详细地址");	//8
-		titles.add("默认状态");	//9
+		titles.add("收货地址状态");	//9
 		titles.add("排序编号");	//10
 		titles.add("有效标志");	//11
 		titles.add("创建人员id");	//12
@@ -264,7 +271,7 @@ public class BgReceiveAddressController extends BaseController {
 		titles.add("修改人员id");	//14
 		titles.add("修改时间");	//15
 		dataMap.put("titles", titles);
-		List<ComReceiveAddress> varOList = comReceiveAddressService.list(null);
+		List<ComReceiveAddress> varOList = comReceiveAddressService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
@@ -277,7 +284,7 @@ public class BgReceiveAddressController extends BaseController {
 			vpd.put("var6", varOList.get(i).getDistrict());	//6
 			vpd.put("var7", varOList.get(i).getStreet());	//7
 			vpd.put("var8", varOList.get(i).getDetail());	//8
-			vpd.put("var9", varOList.get(i).getDefaultStatus());	//9
+			vpd.put("var9", varOList.get(i).getReceiveAddressStatus());	//9
 			vpd.put("var10", varOList.get(i).getOrderNum());		//10
 			vpd.put("var11", varOList.get(i).getEffective());	//11
 			vpd.put("var12", varOList.get(i).getCreateUserId());	//12
@@ -333,7 +340,7 @@ public class BgReceiveAddressController extends BaseController {
 		titles.add("区");	//5
 		titles.add("街道");	//6
 		titles.add("详细地址");	//7
-		titles.add("默认状态");	//8
+		titles.add("收货地址状态");	//8
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -378,7 +385,7 @@ public class BgReceiveAddressController extends BaseController {
 		 * var5 :区;	//5
 		 * var6 :街道;	//6
 		 * var7 :详细地址;	//7
-		 * var8 :默认状态;	//8
+		 * var8 :收货地址状态;	//8
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comReceiveAddress.setReceiveAddressId(this.get32UUID());
@@ -390,7 +397,7 @@ public class BgReceiveAddressController extends BaseController {
 			comReceiveAddress.setDistrict(listPd.get(i).getString("var5"));
 			comReceiveAddress.setStreet(listPd.get(i).getString("var6"));
 			comReceiveAddress.setDetail(listPd.get(i).getString("var7"));
-			comReceiveAddress.setDefaultStatus(listPd.get(i).getString("var8"));
+			comReceiveAddress.setReceiveAddressStatus(listPd.get(i).getString("var8"));
 			comReceiveAddressService.add(comReceiveAddress);
 		}
 		/*存入数据库操作======================================*/

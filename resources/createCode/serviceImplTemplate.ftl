@@ -159,9 +159,9 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 */
 	public void changeStatus(String flag, String ${bgMaple.mapleCode}Id) throws Exception {
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-		if("00".equal(flag)){
+		if("00".equals(flag)){
 			${bgMaple.mapleEntityLower}.setOldValue("01");
-		}else if("01".equal(flag)){
+		}else if("01".equals(flag)){
 			${bgMaple.mapleEntityLower}.setOldValue("00");
 		}else{
 			${bgMaple.mapleEntityLower}.setOldValue("flag");
@@ -182,9 +182,9 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 */
 	public void changeEffective(String flag, String ${bgMaple.mapleCode}Id) throws Exception {
 		${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower} = new ${bgMaple.mapleEntityUpper}();
-		if("00".equal(flag)){
+		if("00".equals(flag)){
 			${bgMaple.mapleEntityLower}.setOldValue("01");
-		}else if("01".equal(flag)){
+		}else if("01".equals(flag)){
 			${bgMaple.mapleEntityLower}.setOldValue("00");
 		}else{
 			${bgMaple.mapleEntityLower}.setOldValue("flag");
@@ -204,7 +204,7 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	public void deleteById(String ${bgMaple.mapleCode}Id) throws Exception {
-		dao.delete("${bgMaple.mapleEntityUpper}Mapper.deleteById", String ${bgMaple.mapleCode}Id);
+		dao.delete("${bgMaple.mapleEntityUpper}Mapper.deleteById", ${bgMaple.mapleCode}Id);
 	}
 	
 	/**
@@ -223,7 +223,7 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	public ${bgMaple.mapleEntityUpper} findById(String ${bgMaple.mapleCode}Id) throws Exception {
-		return return (${bgMaple.mapleEntityUpper}) dao.findForObject("${bgMaple.mapleEntityUpper}Mapper.find", ${bgMaple.mapleEntityLower});
+		return (${bgMaple.mapleEntityUpper}) dao.findForObject("${bgMaple.mapleEntityUpper}Mapper.findById", ${bgMaple.mapleCode}Id);
 	}
 	
 	/**

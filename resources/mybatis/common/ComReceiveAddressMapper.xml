@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComReceiveAddressMapper">
 
-	<sql id="receiveAddressColumns">receiveAddressId,appUserId,receicerName,phone,province,city,district,street,detail,defaultStatus,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="receiveAddressColumns">receiveAddressId,appUserId,receicerName,phone,province,city,district,street,detail,receiveAddressStatus,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="receiveAddressTable">com_receive_address_info</sql>
 	
 	<resultMap type="comReceiveAddress" id="comReceiveAddressResultMap">
@@ -16,7 +16,7 @@
 		<result column="district" property="district"/>
 		<result column="street" property="street"/>
 		<result column="detail" property="detail"/>
-		<result column="defaultStatus" property="defaultStatus"/>
+		<result column="receiveAddressStatus" property="receiveAddressStatus"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
@@ -106,7 +106,7 @@
 		( 
 	<include refid="receiveAddressColumns"/>
 		) values (
-			#{receiveAddressId},#{appUserId},#{receicerName},#{phone},#{province},#{city},#{district},#{street},#{detail},#{defaultStatus},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{receiveAddressId},#{appUserId},#{receicerName},#{phone},#{province},#{city},#{district},#{street},#{detail},#{receiveAddressStatus},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -123,7 +123,7 @@
 			district = #{district},
 			street = #{street},
 			detail = #{detail},
-			defaultStatus = #{defaultStatus},
+			receiveAddressStatus = #{receiveAddressStatus},
 			orderNum = #{orderNum},
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
@@ -131,103 +131,37 @@
 			receiveAddressId = #{receiveAddressId} 
 	</update>
 	
-	<!-- 改变 -->
-	<update id="change" parameterType="comReceiveAddress">
+	<!-- 更改有效性 -->
+	<update id="changeStatus" parameterType="comReceiveAddress">
 		update
 	<include refid="receiveAddressTable"/>
 		set 
-			<if test="appUserId!=null">
-			appUserId = #{appUserId},
-			</if>
-			<if test="receicerName!=null">
-			receicerName = #{receicerName},
-			</if>
-			<if test="phone!=null">
-			phone = #{phone},
-			</if>
-			<if test="province!=null">
-			province = #{province},
-			</if>
-			<if test="city!=null">
-			city = #{city},
-			</if>
-			<if test="district!=null">
-			district = #{district},
-			</if>
-			<if test="street!=null">
-			street = #{street},
-			</if>
-			<if test="detail!=null">
-			detail = #{detail},
-			</if>
-			<if test="defaultStatus!=null">
-			defaultStatus = #{defaultStatus},
-			</if>
-			<if test="orderNum!=null">
-			orderNum = #{orderNum},
-			</if>
-			<if test="effective!=null">
-			effective = #{effective},
-			</if>
+			receiveAddressStatus = #{ReceiveAddressStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
 			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
+	</update>
+	
+	<!-- 更改有效性 -->
+	<update id="changeEffective" parameterType="comReceiveAddress">
+		update
+	<include refid="receiveAddressTable"/>
+		set 
+			effective = #{effective} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="delete" parameterType="comReceiveAddress">
+	<delete id="deleteById" parameterType="String">
 		delete from 
 	<include refid="receiveAddressTable"/>
-		where 1=1
-			<if test="receiveAddressId!=null">
-			 and receiveAddressId = #{receiveAddressId} 
-			</if>
-			<if test="appUserId!=null">
-			 and appUserId = #{appUserId}
-			</if>
-			<if test="receicerName!=null">
-			 and receicerName = #{receicerName}
-			</if>
-			<if test="phone!=null">
-			 and phone = #{phone}
-			</if>
-			<if test="province!=null">
-			 and province = #{province}
-			</if>
-			<if test="city!=null">
-			 and city = #{city}
-			</if>
-			<if test="district!=null">
-			 and district = #{district}
-			</if>
-			<if test="street!=null">
-			 and street = #{street}
-			</if>
-			<if test="detail!=null">
-			 and detail = #{detail}
-			</if>
-			<if test="defaultStatus!=null">
-			 and defaultStatus = #{defaultStatus}
-			</if>
-			<if test="orderNum!=null">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null">
-			 and modifyTime = #{modifyTime}
-			</if>
+		where receiveAddressId = #{receiveAddressId} 
 	</delete>
 	
 	<!-- 批量删除 -->
@@ -241,203 +175,33 @@
         </foreach>
 	</delete>
 	
-	<!-- 生效-->
-	<update id="toEffective" parameterType="comReceiveAddress">
-		update
-	<include refid="receiveAddressTable"/>
-		set 
-			effective = '01',
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			receiveAddressId = #{receiveAddressId} 
-			and effective = '00'
-	</update>
-	
-	<!-- 失效-->
-	<update id="toDisEffective" parameterType="comReceiveAddress">
-		update
-	<include refid="receiveAddressTable"/>
-		set 
-			effective = '00',
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			receiveAddressId = #{receiveAddressId} 
-			and effective = '01'
-	</update>
-	
 	<!-- 通过id获取(类)数据 -->
-	<select id="find" parameterType="comReceiveAddress" resultType="comReceiveAddress">
+	<select id="findById" parameterType="String" resultType="comReceiveAddress">
 		select 
 	<include refid="receiveAddressColumns"/>
 		from 
 	<include refid="receiveAddressTable"/>
-		where 1=1
-			<if test="receiveAddressId!=null">
-			 and receiveAddressId = #{receiveAddressId} 
-			</if>
-			<if test="appUserId!=null">
-			 and appUserId = #{appUserId}
-			</if>
-			<if test="receicerName!=null">
-			 and receicerName = #{receicerName}
-			</if>
-			<if test="phone!=null">
-			 and phone = #{phone}
-			</if>
-			<if test="province!=null">
-			 and province = #{province}
-			</if>
-			<if test="city!=null">
-			 and city = #{city}
-			</if>
-			<if test="district!=null">
-			 and district = #{district}
-			</if>
-			<if test="street!=null">
-			 and street = #{street}
-			</if>
-			<if test="detail!=null">
-			 and detail = #{detail}
-			</if>
-			<if test="defaultStatus!=null">
-			 and defaultStatus = #{defaultStatus}
-			</if>
-			<if test="orderNum!=null">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null">
-			 and modifyTime = #{modifyTime}
-			</if> 
+		where receiveAddressId = #{receiveAddressId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="list" parameterType="comReceiveAddress" resultType="comReceiveAddress">
+	<select id="listAll" resultType="comReceiveAddress">
 		select 
 	<include refid="receiveAddressColumns"/>
 		from 
 	<include refid="receiveAddressTable"/>
-		where 1=1
-			<if test="receiveAddressId!=null">
-			 and receiveAddressId = #{receiveAddressId} 
-			</if>
-			<if test="appUserId!=null">
-			 and appUserId = #{appUserId}
-			</if>
-			<if test="receicerName!=null">
-			 and receicerName = #{receicerName}
-			</if>
-			<if test="phone!=null">
-			 and phone = #{phone}
-			</if>
-			<if test="province!=null">
-			 and province = #{province}
-			</if>
-			<if test="city!=null">
-			 and city = #{city}
-			</if>
-			<if test="district!=null">
-			 and district = #{district}
-			</if>
-			<if test="street!=null">
-			 and street = #{street}
-			</if>
-			<if test="detail!=null">
-			 and detail = #{detail}
-			</if>
-			<if test="defaultStatus!=null">
-			 and defaultStatus = #{defaultStatus}
-			</if>
-			<if test="orderNum!=null">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null">
-			 and modifyTime = #{modifyTime}
-			</if>
-		order by (orderNum+0) and (defaultStatus+0) DESC
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="otherHave" parameterType="comReceiveAddress" resultMap="comReceiveAddressResultMap">
+	<select id="otherHaveCode" parameterType="comReceiveAddress" resultMap="comReceiveAddressResultMap">
 		select 
 	<include refid="receiveAddressColumns"/>
 		from 
 	<include refid="receiveAddressTable"/>
-		where 1=1
-			<if test="receiveAddressId!=null">
-			 and receiveAddressId != #{receiveAddressId} 
-			</if>
-			<if test="appUserId!=null">
-			 and appUserId = #{appUserId}
-			</if>
-			<if test="receicerName!=null">
-			 and receicerName = #{receicerName}
-			</if>
-			<if test="phone!=null">
-			 and phone = #{phone}
-			</if>
-			<if test="province!=null">
-			 and province = #{province}
-			</if>
-			<if test="city!=null">
-			 and city = #{city}
-			</if>
-			<if test="district!=null">
-			 and district = #{district}
-			</if>
-			<if test="street!=null">
-			 and street = #{street}
-			</if>
-			<if test="detail!=null">
-			 and detail = #{detail}
-			</if>
-			<if test="defaultStatus!=null">
-			 and defaultStatus = #{defaultStatus}
-			</if>
-			<if test="orderNum!=null">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null">
-			 and modifyTime = #{modifyTime}
-			</if>
-		order by (orderNum+0) 
+		where receiveAddressId != #{receiveAddressId} 
+			 and receiveAddressCode = #{receiveAddressCode}
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -455,7 +219,7 @@
 				receiveAddressName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		order by (orderNum+0)
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

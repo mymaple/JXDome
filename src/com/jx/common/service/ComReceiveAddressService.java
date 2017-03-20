@@ -73,25 +73,25 @@ public interface ComReceiveAddressService {
 	public void edit(ComReceiveAddress comReceiveAddress) throws Exception ;
 	
 	/**
-	 * 更改
-	 * @param ComReceiveAddress comReceiveAddress
+	 * 更改状态 flag 00
+	 * @param String flag, String receiveAddressId
 	 * @throws Exception
 	 */
-	public void change(ComReceiveAddress comReceiveAddress) throws Exception ;
-
+	public void changeStatus(String flag, String receiveAddressId) throws Exception ;
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String receiveAddressId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String receiveAddressId) throws Exception ;
+	
 	/**
 	 * 删除 
 	 * @param String receiveAddressId
 	 * @throws Exception
 	 */
 	public void deleteById(String receiveAddressId) throws Exception ;
-	
-	/**
-	 * 删除 
-	 * @param ComReceiveAddress comReceiveAddress
-	 * @throws Exception
-	 */
-	public void delete(ComReceiveAddress comReceiveAddress) throws Exception ;
 	
 	/**
 	 * 批量删除 
@@ -101,20 +101,6 @@ public interface ComReceiveAddressService {
 	public void batchDeleteByIds(String[] ids) throws Exception ;
 	
 	/**
-	 * 生效 
-	 * @param String receiveAddressId
-	 * @throws Exception
-	 */
-	public void toEffective(String receiveAddressId) throws Exception ;
-	
-	/**
-	 * 失效
-	 * @param String receiveAddressId
-	 * @throws Exception
-	 */
-	public void toDisEffective(String receiveAddressId) throws Exception ;
-
-	/**
 	 * 通过id获取(类)数据
 	 * @param String receiveAddressId
 	 * @return ComReceiveAddress
@@ -123,26 +109,11 @@ public interface ComReceiveAddressService {
 	public ComReceiveAddress findById(String receiveAddressId) throws Exception ;
 	
 	/**
-	 * 通过pd获取(ComReceiveAddress)数据 
-	 * @param ComReceiveAddress comReceiveAddress
-	 * @return ComReceiveAddress
-	 * @throws Exception
-	 */
-	public ComReceiveAddress find(ComReceiveAddress comReceiveAddress) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComReceiveAddress> list(ComReceiveAddress comReceiveAddress) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComReceiveAddress> otherHave(ComReceiveAddress comReceiveAddress) throws Exception ;
+	public List<ComReceiveAddress> listAll() throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

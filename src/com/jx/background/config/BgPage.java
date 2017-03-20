@@ -34,7 +34,7 @@ public class BgPage {
 			if(null != count && !"".equals(count)){
 				this.showCount = Integer.parseInt(count);
 			}*/
-			this.showCount = 3;
+			this.showCount = 10;
 		} catch (Exception e) {
 			this.showCount = 5;
 		}

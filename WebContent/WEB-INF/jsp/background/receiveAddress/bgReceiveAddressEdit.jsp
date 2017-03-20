@@ -65,8 +65,8 @@
 								<td><input type="text" name="detail" id="detail" value="${comReceiveAddress.detail}" maxlength="100" placeholder="这里输入 详细地址" title="详细地址" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">默认状态:</td>
-								<td><param:select type="com_defaultStatus" name="defaultStatus" id="defaultStatus" value="${comReceiveAddress.defaultStatus}" placeholder="这里请选择 默认状态" title="默认状态" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">收货地址状态:</td>
+								<td><param:select type="com_receiveAddressStatus" name="receiveAddressStatus" id="receiveAddressStatus" value="${comReceiveAddress.receiveAddressStatus}" placeholder="这里请选择 收货地址状态" title="收货地址状态" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
@@ -212,10 +212,10 @@
 				$("#detail").focus();
 			return false;
 			}
-			if($("#defaultStatus").val()==""){
-				$("#defaultStatus").next().tips({
+			if($("#receiveAddressStatus").val()==""){
+				$("#receiveAddressStatus").next().tips({
 					side:3,
-		            msg:'请选择 默认状态',
+		            msg:'请选择 收货地址状态',
 		            bg:'#AE81FF',
 		            time:2
 		        });

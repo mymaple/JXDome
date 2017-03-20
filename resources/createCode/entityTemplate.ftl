@@ -7,11 +7,11 @@ import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
 public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializable {
 	
@@ -52,7 +52,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	 * @param String target
 	 */
 	public void setTarget(String target) {
-		this.target = MapleStringUtil.trim(target);
+		this.target = StringUtils.trim(target);
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	 * @param String sub${bgMaple.mapleEntityUpper}Path
 	 */
 	public void setSub${bgMaple.mapleEntityUpper}Path(String sub${bgMaple.mapleEntityUpper}Path) {
-		this.sub${bgMaple.mapleEntityUpper}Path = MapleStringUtil.trim(sub${bgMaple.mapleEntityUpper}Path);
+		this.sub${bgMaple.mapleEntityUpper}Path = StringUtils.trim(sub${bgMaple.mapleEntityUpper}Path);
 	}
 	
 	/**
@@ -162,7 +162,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	 * @param String ${bgMaple.mapleCode}Id
 	 */
 	public void set${bgMaple.mapleCodeUpper}Id(String ${bgMaple.mapleCode}Id) {
-		this.${bgMaple.mapleCode}Id = MapleStringUtil.trim(${bgMaple.mapleCode}Id);
+		this.${bgMaple.mapleCode}Id = StringUtils.trim(${bgMaple.mapleCode}Id);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	 * @param String parentId
 	 */
 	public void setParentId(String parentId) {
-		this.parentId = MapleStringUtil.trim(parentId);
+		this.parentId = StringUtils.trim(parentId);
 	}
 	
 	/**
@@ -200,7 +200,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	 * @param String ${bgMaple.mapleCode ?replace('Detail','')}Id
 	 */
 	public void set${bgMaple.mapleCodeUpper ?replace('Detail','')}Id(String ${bgMaple.mapleCode ?replace('Detail','')}Id) {
-		this.${bgMaple.mapleCode ?replace('Detail','')}Id = MapleStringUtil.trim(${bgMaple.mapleCode ?replace('Detail','')}Id);
+		this.${bgMaple.mapleCode ?replace('Detail','')}Id = StringUtils.trim(${bgMaple.mapleCode ?replace('Detail','')}Id);
 	}
 	
 	/**
@@ -221,7 +221,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	 * @param String ${bgMapleDetail.mapleDetailCode}
 	 */
 	public void set${bgMapleDetail.mapleDetailCodeUpper}(String ${bgMapleDetail.mapleDetailCode}) {
-		this.${bgMapleDetail.mapleDetailCode} = MapleStringUtil.trim(${bgMapleDetail.mapleDetailCode});
+		this.${bgMapleDetail.mapleDetailCode} = StringUtils.trim(${bgMapleDetail.mapleDetailCode});
 	}
 	
 	/**
@@ -270,7 +270,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	}	
 		
 	public void set${bgMapleDetail.mapleDetailCodeUpper}Str(String ${bgMapleDetail.mapleDetailCode}Str) throws Exception{
-		${bgMapleDetail.mapleDetailCode}Str = MapleStringUtil.trim(${bgMapleDetail.mapleDetailCode}Str);
+		${bgMapleDetail.mapleDetailCode}Str = StringUtils.trim(${bgMapleDetail.mapleDetailCode}Str);
 		if(!${bgMapleDetail.mapleDetailCode}Str.equals("")){
 			try{
 				set${bgMapleDetail.mapleDetailCodeUpper}(MapleDateUtil.parseDateStr(${bgMapleDetail.mapleDetailCode}Str));
@@ -303,7 +303,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	}
 	
 	public void set${bgMapleDetail.mapleDetailCodeUpper}Str(String ${bgMapleDetail.mapleDetailCode}Str){
-		brateStr = com.cvicse.util.MapleStringUtil.trim(${bgMapleDetail.mapleDetailCode}Str);
+		brateStr = com.cvicse.util.StringUtils.trim(${bgMapleDetail.mapleDetailCode}Str);
 		if(!${bgMapleDetail.mapleDetailCode}Str.equals("")){
 			set${bgMapleDetail.mapleDetailCodeUpper}(DecimalUtil.strToDouble(${bgMapleDetail.mapleDetailCode}Str));
 		}

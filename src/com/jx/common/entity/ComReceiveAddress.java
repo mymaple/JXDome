@@ -2,13 +2,10 @@ package com.jx.common.entity;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Pattern;
-
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
-import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
 public class ComReceiveAddress extends BaseEntity implements Serializable {
 	
@@ -61,9 +58,9 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	@NotBlank(message="详细地址 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
 	private String detail;
 		
-	/** 默认状态 */
-	@NotBlank(message="默认状态 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
-	private String defaultStatus;
+	/** 收货地址状态 */
+	@NotBlank(message="收货地址状态 不能为空", groups={ValidationAdd.class, ValidationEdit.class,ValidationWxAdd.class, ValidationWxEdit.class})
+	private String receiveAddressStatus;
 		
 	
 	
@@ -73,7 +70,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String receiveAddressId
 	 */
 	public void setReceiveAddressId(String receiveAddressId) {
-		this.receiveAddressId = MapleStringUtil.trim(receiveAddressId);
+		this.receiveAddressId = StringUtils.trim(receiveAddressId);
 	}
 	
 	/**
@@ -91,7 +88,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String appUserId
 	 */
 	public void setAppUserId(String appUserId) {
-		this.appUserId = MapleStringUtil.trim(appUserId);
+		this.appUserId = StringUtils.trim(appUserId);
 	}
 	
 	/**
@@ -109,7 +106,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String receicerName
 	 */
 	public void setReceicerName(String receicerName) {
-		this.receicerName = MapleStringUtil.trim(receicerName);
+		this.receicerName = StringUtils.trim(receicerName);
 	}
 	
 	/**
@@ -127,7 +124,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String phone
 	 */
 	public void setPhone(String phone) {
-		this.phone = MapleStringUtil.trim(phone);
+		this.phone = StringUtils.trim(phone);
 	}
 	
 	/**
@@ -145,7 +142,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String province
 	 */
 	public void setProvince(String province) {
-		this.province = MapleStringUtil.trim(province);
+		this.province = StringUtils.trim(province);
 	}
 	
 	/**
@@ -163,7 +160,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String city
 	 */
 	public void setCity(String city) {
-		this.city = MapleStringUtil.trim(city);
+		this.city = StringUtils.trim(city);
 	}
 	
 	/**
@@ -181,7 +178,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String district
 	 */
 	public void setDistrict(String district) {
-		this.district = MapleStringUtil.trim(district);
+		this.district = StringUtils.trim(district);
 	}
 	
 	/**
@@ -199,7 +196,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String street
 	 */
 	public void setStreet(String street) {
-		this.street = MapleStringUtil.trim(street);
+		this.street = StringUtils.trim(street);
 	}
 	
 	/**
@@ -217,7 +214,7 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	 * @param String detail
 	 */
 	public void setDetail(String detail) {
-		this.detail = MapleStringUtil.trim(detail);
+		this.detail = StringUtils.trim(detail);
 	}
 	
 	/**
@@ -230,21 +227,21 @@ public class ComReceiveAddress extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 默认状态
+	 * 设置 收货地址状态
 	 * 
-	 * @param String defaultStatus
+	 * @param String receiveAddressStatus
 	 */
-	public void setDefaultStatus(String defaultStatus) {
-		this.defaultStatus = MapleStringUtil.trim(defaultStatus);
+	public void setReceiveAddressStatus(String receiveAddressStatus) {
+		this.receiveAddressStatus = StringUtils.trim(receiveAddressStatus);
 	}
 	
 	/**
-	 * 获取 默认状态
+	 * 获取 收货地址状态
 	 * 
-	 * @return String defaultStatus
+	 * @return String receiveAddressStatus
 	 */
-	public String getDefaultStatus() {
-		return this.defaultStatus;
+	public String getReceiveAddressStatus() {
+		return this.receiveAddressStatus;
 	}
 	
 	
