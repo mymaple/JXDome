@@ -25,12 +25,10 @@ import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
-import com.jx.common.entity.ComProductCategory;
 import com.jx.common.entity.ComProductCategoryDetail;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
-import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
 import com.jx.common.service.ComProductCategoryService;
@@ -136,12 +134,6 @@ public class BgProductCategoryDetailController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		
-		List<ComProductCategoryDetail> comProductCategoryDetailList = comProductCategoryDetailService.otherHaveCode("", comProductCategoryDetail.getProductCategoryDetailCode());
-		if(MapleUtil.notEmptyList(comProductCategoryDetailList)){
-			mv.addObject(resultInfo);					
-			return mv;
-		}
 			
 		comProductCategoryDetailService.add(comProductCategoryDetail);
 		resultInfo.setResultCode("success");
@@ -190,12 +182,6 @@ public class BgProductCategoryDetailController extends BaseController {
 			return mv; 
 		}
 		
-		List<ComProductCategoryDetail> comProductCategoryDetailList = comProductCategoryDetailService.otherHaveCode(comProductCategoryDetail.getProductCategoryDetailId(), comProductCategoryDetail.getProductCategoryDetailCode());	
-		if(MapleUtil.notEmptyList(comProductCategoryDetailList)){
-			mv.addObject(resultInfo);					
-			return mv;
-		}
-		
 		comProductCategoryDetailService.edit(comProductCategoryDetail);
 		resultInfo.setResultCode("success");
 		
@@ -203,22 +189,6 @@ public class BgProductCategoryDetailController extends BaseController {
 		return mv;
 	}
 	
-	/**
-	 * 判断是否存在dictCode
-	 */
-	@RequestMapping(value="/otherNotCode")
-	@ResponseBody
-	public Object otherNotCode(@RequestParam String productCategoryDetailId, @RequestParam String productCategoryDetailCode) throws Exception{
-		PageData pd = this.getPageData();
-		ResultInfo resultInfo = this.getResultInfo();
-
-		List<ComProductCategoryDetail> comProductCategoryDetailList = comProductCategoryDetailService.otherHaveCode(productCategoryDetailId, productCategoryDetailCode);	
-		if(MapleUtil.emptyList(comProductCategoryDetailList)){
-			resultInfo.setResultCode("success");
-		}
-
-		return AppUtil.returnResult(pd, resultInfo);
-	}
 	
 	/**
 	 * 删除
@@ -255,26 +225,18 @@ public class BgProductCategoryDetailController extends BaseController {
 	}
 	
 	/**
-	 * 删除
+	 * 更改有效性
 	 */
-	@RequestMapping(value="/toEffective")
+	@RequestMapping(value="/changeEffective")
 	@ResponseBody
-	public Object toEffective(@RequestParam String flag, @RequestParam String productCategoryDetailId) throws Exception{
+	public Object changeEffective(@RequestParam String flag, @RequestParam String productCategoryDetailId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		if("00".equals(flag)){
-			comProductCategoryDetailService.toEffective(productCategoryDetailId);	//根据ID删除
-			resultInfo.setResultCode("success");
-		}else if("01".equals(flag)){
-			comProductCategoryDetailService.toDisEffective(productCategoryDetailId);	//根据ID删除
-			resultInfo.setResultCode("success");
-		}else{
-			resultInfo.setResultContent("参数异常！");
-		}
+		comProductCategoryDetailService.changeEffective(flag, productCategoryDetailId);	
+		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
 	}
-	
 	
 	/**
 	 * 导出到excel
@@ -297,7 +259,7 @@ public class BgProductCategoryDetailController extends BaseController {
 		titles.add("修改人员id");	//7
 		titles.add("修改时间");	//8
 		dataMap.put("titles", titles);
-		List<ComProductCategoryDetail> varOList = comProductCategoryDetailService.list(null);
+		List<ComProductCategoryDetail> varOList = comProductCategoryDetailService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	

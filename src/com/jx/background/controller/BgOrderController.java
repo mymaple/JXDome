@@ -37,7 +37,7 @@ import com.jx.common.service.ComOrderService;
 /** 
  * 类名称：BgOrderController
  * 创建人：maple
- * 创建时间：2017-03-11
+ * 创建时间：2017-03-20
  */
 @Controller
 @RequestMapping(value="/background/order")
@@ -94,6 +94,7 @@ public class BgOrderController extends BaseController {
 		comOrder.setOrderCode("");
 		comOrder.setOrderName("");
 		comOrder.setOrderType("01");
+		comOrder.setOrderStatus("00");
 		comOrder.setOrderProductCount("0");
 		comOrder.setAllPrice("0.00");
 		comOrder.setFreight("0.00");
@@ -251,13 +252,40 @@ public class BgOrderController extends BaseController {
 	}
 	
 	/**
+	 * 更改状态
+	 */
+	@RequestMapping(value="/changeStatus")
+	@ResponseBody
+	public Object changeStatus(@RequestParam String flag, @RequestParam String orderId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comOrderService.changeStatus(flag, orderId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 更改有效性
+	 */
+	@RequestMapping(value="/changeEffective")
+	@ResponseBody
+	public Object changeEffective(@RequestParam String flag, @RequestParam String orderId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comOrderService.changeEffective(flag, orderId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 导出到excel
 	 * @return
 	 */
 	@RequestMapping(value="/toExportExcel")
 	public ModelAndView toExportExcel() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
@@ -274,7 +302,7 @@ public class BgOrderController extends BaseController {
 		titles.add("钱包支付");	//9
 		titles.add("实付款");	//10
 		titles.add("供应商");	//11
-		titles.add("编号");	//12
+		titles.add("供应商id");	//12
 		titles.add("收货地址");	//13
 		titles.add("付款时间");	//14
 		titles.add("发货时间");	//15
@@ -289,7 +317,7 @@ public class BgOrderController extends BaseController {
 		titles.add("修改人员id");	//24
 		titles.add("修改时间");	//25
 		dataMap.put("titles", titles);
-		List<ComOrder> varOList = comOrderService.listByPd(pd);
+		List<ComOrder> varOList = comOrderService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
@@ -363,18 +391,19 @@ public class BgOrderController extends BaseController {
 		titles.add("订单代号");	//0
 		titles.add("订单名称");	//1
 		titles.add("订单类型");	//2
-		titles.add("订单商品总数");	//3
-		titles.add("商品总价");	//4
-		titles.add("运费");	//5
-		titles.add("总优惠");	//6
-		titles.add("钱包支付");	//7
-		titles.add("实付款");	//8
-		titles.add("编号");	//9
-		titles.add("收货地址");	//10
-		titles.add("交易号");	//11
-		titles.add("付款方式");	//12
-		titles.add("物流公司");	//13
-		titles.add("运单编号");	//14
+		titles.add("订单状态");	//3
+		titles.add("订单商品总数");	//4
+		titles.add("商品总价");	//5
+		titles.add("运费");	//6
+		titles.add("总优惠");	//7
+		titles.add("钱包支付");	//8
+		titles.add("实付款");	//9
+		titles.add("供应商id");	//10
+		titles.add("收货地址");	//11
+		titles.add("交易号");	//12
+		titles.add("付款方式");	//13
+		titles.add("物流公司");	//14
+		titles.add("运单编号");	//15
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -414,36 +443,38 @@ public class BgOrderController extends BaseController {
 		 * var0 :订单代号;	//0
 		 * var1 :订单名称;	//1
 		 * var2 :订单类型;	//2
-		 * var3 :订单商品总数;	//3
-		 * var4 :商品总价;	//4
-		 * var5 :运费;	//5
-		 * var6 :总优惠;	//6
-		 * var7 :钱包支付;	//7
-		 * var8 :实付款;	//8
-		 * var9 :编号;	//9
-		 * var10 :收货地址;	//10
-		 * var11 :交易号;	//11
-		 * var12 :付款方式;	//12
-		 * var13 :物流公司;	//13
-		 * var14 :运单编号;	//14
+		 * var3 :订单状态;	//3
+		 * var4 :订单商品总数;	//4
+		 * var5 :商品总价;	//5
+		 * var6 :运费;	//6
+		 * var7 :总优惠;	//7
+		 * var8 :钱包支付;	//8
+		 * var9 :实付款;	//9
+		 * var10 :供应商id;	//10
+		 * var11 :收货地址;	//11
+		 * var12 :交易号;	//12
+		 * var13 :付款方式;	//13
+		 * var14 :物流公司;	//14
+		 * var15 :运单编号;	//15
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comOrder.setOrderId(this.get32UUID());
 			comOrder.setOrderCode(listPd.get(i).getString("var0"));
 			comOrder.setOrderName(listPd.get(i).getString("var1"));
 			comOrder.setOrderType(listPd.get(i).getString("var2"));
-			comOrder.setOrderProductCount(listPd.get(i).getString("var3"));
-			comOrder.setAllPrice(listPd.get(i).getString("var4"));
-			comOrder.setFreight(listPd.get(i).getString("var5"));
-			comOrder.setAllDisPrice(listPd.get(i).getString("var6"));
-			comOrder.setWalletPay(listPd.get(i).getString("var7"));
-			comOrder.setAllActPrice(listPd.get(i).getString("var8"));
-			comOrder.setSupplierId(listPd.get(i).getString("var9"));
-			comOrder.setReceiveAddressId(listPd.get(i).getString("var10"));
-			comOrder.setTradeNum(listPd.get(i).getString("var11"));
-			comOrder.setPayMethod(listPd.get(i).getString("var12"));
-			comOrder.setWlgs(listPd.get(i).getString("var13"));
-			comOrder.setWlNum(listPd.get(i).getString("var14"));
+			comOrder.setOrderStatus(listPd.get(i).getString("var3"));
+			comOrder.setOrderProductCount(listPd.get(i).getString("var4"));
+			comOrder.setAllPrice(listPd.get(i).getString("var5"));
+			comOrder.setFreight(listPd.get(i).getString("var6"));
+			comOrder.setAllDisPrice(listPd.get(i).getString("var7"));
+			comOrder.setWalletPay(listPd.get(i).getString("var8"));
+			comOrder.setAllActPrice(listPd.get(i).getString("var9"));
+			comOrder.setSupplierId(listPd.get(i).getString("var10"));
+			comOrder.setReceiveAddressId(listPd.get(i).getString("var11"));
+			comOrder.setTradeNum(listPd.get(i).getString("var12"));
+			comOrder.setPayMethod(listPd.get(i).getString("var13"));
+			comOrder.setWlgs(listPd.get(i).getString("var14"));
+			comOrder.setWlNum(listPd.get(i).getString("var15"));
 			comOrderService.add(comOrder);
 		}
 		/*存入数据库操作======================================*/

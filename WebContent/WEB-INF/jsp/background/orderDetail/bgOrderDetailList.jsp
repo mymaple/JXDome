@@ -23,6 +23,12 @@
 </head>
 <body class="no-skin">
 	
+	<div class="page-header">
+	<h1>
+		<a href="<%=basePath%>background/orderDetail/list.do">管理</a>
+	</h1>
+	</div><!-- /.page-header -->
+	
 	
 	
 	<!-- /section:basics/navbar.layout -->
@@ -35,7 +41,8 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="background/orderProduct/list.do" method="post" name="orderProductForm" id="orderProductForm">
+						<form action="background/orderDetail/list.do" method="post" name="orderDetailForm" id="orderDetailForm">
+						<input type="hidden" name="orderId" id="orderId" value="${pd.orderId }"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -64,7 +71,6 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">订单id</th>
 									<th class="center">商品Id</th>
 									<th class="center">商品名称</th>
 									<th class="center">摘要</th>
@@ -81,36 +87,48 @@
 							<tbody>
 							<!-- 开始循环 -->	
 							<c:choose>
-								<c:when test="${not empty comOrderProductList}">
+								<c:when test="${not empty comOrderDetailList}">
 									<c:if test="${RIGHTS.sele}">
-									<c:forEach items="${comOrderProductList}" var="comOrderProduct" varStatus="vs">
+									<c:forEach items="${comOrderDetailList}" var="comOrderDetail" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${comOrderProduct.orderProductId}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${comOrderDetail.orderDetailId}" class="ace" /><span class="lbl"></span></label>
 											</td>
+											<c:if test="${comOrderDetail.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${comOrderDetail.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${comOrderProduct.orderId}</td>
-											<td class='center'>${comOrderProduct.productId}</td>
-											<td class='center'>${comOrderProduct.productName}</td>
-											<td class='center'>${comOrderProduct.summary}</td>
-											<td class='center'>${comOrderProduct.productStyleName}</td>
-											<td class='center'>${comOrderProduct.headImgSrc}</td>
-											<td class='center'>${comOrderProduct.originalPrice}</td>
-											<td class='center'>${comOrderProduct.currentPrice}</td>
-											<td class='center'>${comOrderProduct.count}</td>
-											<td class='center'>${comOrderProduct.orderNum}</td>
+											</c:if>
+											<td class='center'>${comOrderDetail.productId}</td>
+											<td class='center'>${comOrderDetail.productName}</td>
+											<td class='center'>${comOrderDetail.summary}</td>
+											<td class='center'>${comOrderDetail.productStyleName}</td>
+											<td class='center'>${comOrderDetail.headImgSrc}</td>
+											<td class='center'>${comOrderDetail.originalPrice}</td>
+											<td class='center'>${comOrderDetail.currentPrice}</td>
+											<td class='center'>${comOrderDetail.count}</td>
+											<td class='center'>${comOrderDetail.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comOrderProduct.orderProductId}');">
+													
+													<c:if test="${comOrderDetail.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comOrderDetail.orderDetailId}');">使生效</a>
+													</c:if>
+													<c:if test="${comOrderDetail.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comOrderDetail.orderDetailId}');">使失效</a>
+													</c:if>
+													
+													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comOrderDetail.orderDetailId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${RIGHTS.del }">
-													<a class="btn btn-xs btn-danger" onclick="toDelete('${comOrderProduct.orderProductId}');">
+													<a class="btn btn-xs btn-danger" onclick="toDelete('${comOrderDetail.orderDetailId}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -187,7 +205,7 @@
 		//检索
 		function toSearch(){
 			top.jzts();
-			$("#orderProductForm").submit();
+			$("#orderDetailForm").submit();
 		}
 		$(function() {
 			//日期框
@@ -234,18 +252,55 @@
 			});
 		});
 		
+		
+		function changeEffective(flag,orderDetailId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/orderDetail/changeEffective.do?flag="+flag+"&orderDetailId="+orderDetailId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,orderDetailId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/orderDetail/changeStatus.do?flag="+flag+"&orderDetailId="+orderDetailId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
 		//新增
 		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/orderProduct/toAdd.do";
+			 diag.URL = "<%=basePath%>background/orderDetail/toAdd.do?orderId=${pd.orderId }";
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
 					if('${bgPage.currentPage}' == '0'){
@@ -261,11 +316,11 @@
 		}
 		
 		//删除
-		function toDelete(orderProductId){
+		function toDelete(orderDetailId){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/orderProduct/toDelete.do?orderProductId="+orderProductId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/orderDetail/toDelete.do?orderDetailId="+orderDetailId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${bgPage.currentPage}');
@@ -276,17 +331,17 @@
 		}
 		
 		//修改
-		function toEdit(orderProductId){
+		function toEdit(orderDetailId){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = "<%=basePath%>background/orderProduct/toEdit.do?orderProductId="+orderProductId+"&tm="+new Date().getTime();
+			 diag.URL = "<%=basePath%>background/orderDetail/toEdit.do?orderDetailId="+orderDetailId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮 
+		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					nextPage('${bgPage.currentPage}');
@@ -325,7 +380,7 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>background/orderProduct/toBatchDelete.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>background/orderDetail/toBatchDelete.do?tm='+new Date().getTime(),
 						    	data: {ids:str},
 								dataType:'json',
 								//beforeSend: validateData,
@@ -344,7 +399,7 @@
 		
 		//导出excel
 		function toExportExcel(){
-			window.location.href='<%=basePath%>background/orderProduct/toExportExcel.do';
+			window.location.href='<%=basePath%>background/orderDetail/toExportExcel.do';
 		}
 		
 		//打开上传excel页面
@@ -353,7 +408,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/orderProduct/toUploadExcel.do';
+			 diag.URL = '<%=basePath%>background/orderDetail/toUploadExcel.do?pId=${pd.orderId }';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

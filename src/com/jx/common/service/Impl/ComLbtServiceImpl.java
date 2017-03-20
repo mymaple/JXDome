@@ -16,7 +16,6 @@ import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComLbt;
-import com.jx.common.entity.ComProduct;
 import com.jx.common.service.ComLbtService;
 
 @Service("comLbtService")
@@ -70,37 +69,58 @@ public class ComLbtServiceImpl implements ComLbtService{
 	}
 	
 	/**
-	 * 更改
-	 * @param ComLbt comLbt
+	 * 更改状态 flag 00
+	 * @param String flag, String lbtId
 	 * @throws Exception
 	 */
-	public void change(ComLbt comLbt) throws Exception {
-		comLbt.setLbtImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComLbt.PATH_IMG_GBT, comLbt.getLbtImgSrc()));
+	public void changeStatus(String flag, String lbtId) throws Exception {
+		ComLbt comLbt = new ComLbt();
+		if("00".equals(flag)){
+			comLbt.setOldValue("01");
+		}else if("01".equals(flag)){
+			comLbt.setOldValue("00");
+		}else{
+			comLbt.setOldValue("flag");
+		}
+		comLbt.setLbtStatus(flag);
+		
+		comLbt.setLbtId(lbtId);
 		Date nowTime = new Date();
 		comLbt.setModifyUserId(ShiroSessionUtil.getUserId());
 		comLbt.setModifyTime(nowTime);
-		dao.update("ComLbtMapper.change", comLbt);
+		dao.update("ComLbtMapper.changeStatus", comLbt);
 	}
-
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String lbtId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String lbtId) throws Exception {
+		ComLbt comLbt = new ComLbt();
+		if("00".equals(flag)){
+			comLbt.setOldValue("01");
+		}else if("01".equals(flag)){
+			comLbt.setOldValue("00");
+		}else{
+			comLbt.setOldValue("flag");
+		}
+		comLbt.setEffective(flag);
+		
+		comLbt.setLbtId(lbtId);
+		Date nowTime = new Date();
+		comLbt.setModifyUserId(ShiroSessionUtil.getUserId());
+		comLbt.setModifyTime(nowTime);
+		dao.update("ComLbtMapper.changeEffective", comLbt);
+	}
+	
 	/**
 	 * 删除 
 	 * @param String lbtId
 	 * @throws Exception
 	 */
 	public void deleteById(String lbtId) throws Exception {
-		ComLbt comLbt = new ComLbt();
-		comLbt.setLbtId(lbtId);
-		this.delete(comLbt);
-	}
-	
-	/**
-	 * 删除 
-	 * @param ComLbt comLbt
-	 * @throws Exception
-	 */
-	public void delete(ComLbt comLbt) throws Exception {
-		dao.delete("ComLbtMapper.delete", comLbt);
+		dao.delete("ComLbtMapper.deleteById", lbtId);
 	}
 	
 	/**
@@ -111,7 +131,7 @@ public class ComLbtServiceImpl implements ComLbtService{
 	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("ComLbtMapper.batchDeleteByIds", ids);
 	}
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String lbtId
@@ -119,30 +139,7 @@ public class ComLbtServiceImpl implements ComLbtService{
 	 * @throws Exception
 	 */
 	public ComLbt findById(String lbtId) throws Exception {
-		ComLbt comLbt = new ComLbt();
-		comLbt.setLbtId(lbtId);
-		return this.find(comLbt);
-	}
-	
-	/**
-	 * 通过pd获取(ComLbt)数据 
-	 * @param ComLbt comLbt
-	 * @return ComLbt
-	 * @throws Exception
-	 */
-	public ComLbt find(ComLbt comLbt) throws Exception {
-		return (ComLbt) dao.findForObject("ComLbtMapper.find", comLbt);
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @param ComLbt comLbt
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<ComLbt> list(ComLbt comLbt) throws Exception {
-		return (List<ComLbt>) dao.findForList("ComLbtMapper.list", comLbt);
+		return (ComLbt) dao.findForObject("ComLbtMapper.findById", lbtId);
 	}
 	
 	/**
@@ -151,8 +148,8 @@ public class ComLbtServiceImpl implements ComLbtService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComLbt> otherHave(ComLbt comLbt) throws Exception {
-		return (List<ComLbt>) dao.findForList("ComLbtMapper.otherHave", comLbt);
+	public List<ComLbt> listAll() throws Exception {
+		return (List<ComLbt>) dao.findForList("ComLbtMapper.listAll", null);
 	}
 	
 	/**
@@ -160,11 +157,12 @@ public class ComLbtServiceImpl implements ComLbtService{
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<ComLbt> otherHaveCode(String lbtId, String lbtCode) throws Exception {
 		ComLbt comLbt = new ComLbt();
 		comLbt.setLbtId(lbtId);
 		comLbt.setLbtCode(lbtCode);
-		return this.otherHave(comLbt);
+		return (List<ComLbt>) dao.findForList("ComLbtMapper.otherHaveCode", comLbt);
 	}
 	
 	/**

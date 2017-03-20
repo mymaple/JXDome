@@ -5,20 +5,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
-import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
-import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProductCategory;
 import com.jx.common.service.ComProductCategoryService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comProductCategoryService")
 public class ComProductCategoryServiceImpl implements ComProductCategoryService{
@@ -42,14 +38,6 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		
 		Date nowTime = new Date();
 		comProductCategory.setProductCategoryId(UuidUtil.get32UUID());
-		
-		comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
-		
-		comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_IMG1, comProductCategory.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
-		comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_IMG2, comProductCategory.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
-		
-		
-		
 		comProductCategory.setProductCategoryStatus("00");
 		comProductCategory.setEffective("01");
 		comProductCategory.setCreateUserId(ShiroSessionUtil.getUserId());
@@ -66,82 +54,77 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 * @throws Exception
 	 */
 	public void edit(ComProductCategory comProductCategory) throws Exception {
-		
-		comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
-		
-		comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_IMG1, comProductCategory.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
-		comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, ComProductCategory.PATH_IMG_PC_IMG2, comProductCategory.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
-		
 		Date nowTime = new Date();
 		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setModifyTime(nowTime);
-		comProductCategory.setLastModifyTime(this.findById(comProductCategory.getProductCategoryId()).getModifyTime());
-		if(comProductCategory.getModifyTime().compareTo(comProductCategory.getLastModifyTime()) == 0){
-			comProductCategory.setModifyTime(MapleDateUtil.getNextSecond(comProductCategory.getModifyTime()));
-		}
 	
 		dao.update("ComProductCategoryMapper.edit", comProductCategory);
 	}
 	
 	/**
-	 * 更改
-	 * @param ComProductCategory comProductCategory
+	 * 更改状态 flag 00
+	 * @param String flag, String productCategoryId
 	 * @throws Exception
 	 */
-	public void change(ComProductCategory comProductCategory) throws Exception {
+	public void changeStatus(String flag, String productCategoryId) throws Exception {
+		ComProductCategory comProductCategory = new ComProductCategory();
+		if("00".equals(flag)){
+			comProductCategory.setOldValue("01");
+		}else if("01".equals(flag)){
+			comProductCategory.setOldValue("00");
+		}else{
+			comProductCategory.setOldValue("flag");
+		}
+		comProductCategory.setProductCategoryStatus(flag);
 		
-		if(StringUtils.isNotEmpty(comProductCategory.getHeadImgSrc())){
-			comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-					ComProductCategory.PATH_IMG_PC_HEADIMG, comProductCategory.getHeadImgSrc()));
-		}
-		if(StringUtils.isNotEmpty(comProductCategory.getImgSrc1())){
-			comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-					ComProductCategory.PATH_IMG_PC_IMG1, comProductCategory.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
-		}
-		if(StringUtils.isNotEmpty(comProductCategory.getImgSrc2())){
-			comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-					ComProductCategory.PATH_IMG_PC_IMG2, comProductCategory.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
-		}
-		
+		comProductCategory.setProductCategoryId(productCategoryId);
 		Date nowTime = new Date();
 		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setModifyTime(nowTime);
-		comProductCategory.setLastModifyTime(this.findById(comProductCategory.getProductCategoryId()).getModifyTime());
-		if(comProductCategory.getModifyTime().compareTo(comProductCategory.getLastModifyTime()) == 0){
-			comProductCategory.setModifyTime(MapleDateUtil.getNextSecond(comProductCategory.getModifyTime()));
-		}
-		dao.update("ComProductCategoryMapper.change", comProductCategory);
+		dao.update("ComProductCategoryMapper.changeStatus", comProductCategory);
 	}
-
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String productCategoryId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String productCategoryId) throws Exception {
+		ComProductCategory comProductCategory = new ComProductCategory();
+		if("00".equals(flag)){
+			comProductCategory.setOldValue("01");
+		}else if("01".equals(flag)){
+			comProductCategory.setOldValue("00");
+		}else{
+			comProductCategory.setOldValue("flag");
+		}
+		comProductCategory.setEffective(flag);
+		
+		comProductCategory.setProductCategoryId(productCategoryId);
+		Date nowTime = new Date();
+		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
+		comProductCategory.setModifyTime(nowTime);
+		dao.update("ComProductCategoryMapper.changeEffective", comProductCategory);
+	}
+	
 	/**
 	 * 删除 
 	 * @param String productCategoryId
 	 * @throws Exception
 	 */
 	public void deleteById(String productCategoryId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("productCategoryId",productCategoryId);
-		this.deleteByPd(pd);
-	}
-	
-	/**
-	 * 删除 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("ComProductCategoryMapper.deleteByPd", pd);
+		dao.delete("ComProductCategoryMapper.deleteById", productCategoryId);
 	}
 	
 	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("ComProductCategoryMapper.batchDeleteByIds", ids);
 	}
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String productCategoryId
@@ -149,19 +132,7 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 * @throws Exception
 	 */
 	public ComProductCategory findById(String productCategoryId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("productCategoryId",productCategoryId);
-		return this.findByPd(pd);
-	}
-	
-	/**
-	 * 通过pd获取(ComProductCategory)数据 
-	 * @param PageData pd
-	 * @return ComProductCategory
-	 * @throws Exception
-	 */
-	public ComProductCategory findByPd(PageData pd) throws Exception {
-		return (ComProductCategory) dao.findForObject("ComProductCategoryMapper.findByPd", pd);
+		return (ComProductCategory) dao.findForObject("ComProductCategoryMapper.findById", productCategoryId);
 	}
 	
 	/**
@@ -170,8 +141,8 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComProductCategory> listByPd(PageData pd) throws Exception {
-		return (List<ComProductCategory>) dao.findForList("ComProductCategoryMapper.listByPd", pd);
+	public List<ComProductCategory> listAll() throws Exception {
+		return (List<ComProductCategory>) dao.findForList("ComProductCategoryMapper.listAll", null);
 	}
 	
 	/**
@@ -180,20 +151,11 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComProductCategory> otherHave(ComProductCategory comProductCategory) throws Exception {
-		return (List<ComProductCategory>) dao.findForList("ComProductCategoryMapper.otherHave", comProductCategory);
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
 	public List<ComProductCategory> otherHaveCode(String productCategoryId, String productCategoryCode) throws Exception {
 		ComProductCategory comProductCategory = new ComProductCategory();
 		comProductCategory.setProductCategoryId(productCategoryId);
 		comProductCategory.setProductCategoryCode(productCategoryCode);
-		return this.otherHave(comProductCategory);
+		return (List<ComProductCategory>) dao.findForList("ComProductCategoryMapper.otherHaveCode", comProductCategory);
 	}
 	
 	/**

@@ -86,10 +86,10 @@
 			</#list>
 	</update>
 	
-	<!-- 更改有效性 -->
+	<!-- 更改状态-->
 	<update id="changeStatus" parameterType="comReceiveAddress">
 		update
-	<include refid="receiveAddressTable"/>
+	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
 			${bgMaple.mapleCode}Status = ${r"#{"}${bgMaple.mapleCodeUpper}Status${r"}"} ,
 			modifyUserId = ${r"#{"}modifyUserId${r"}"},
@@ -102,7 +102,7 @@
 	<!-- 更改有效性 -->
 	<update id="changeEffective" parameterType="comReceiveAddress">
 		update
-	<include refid="receiveAddressTable"/>
+	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
 			effective = ${r"#{"}effective${r"}"} ,
 			modifyUserId = ${r"#{"}modifyUserId${r"}"},

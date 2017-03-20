@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
-public class ComOrderProduct extends BaseEntity implements Serializable {
+public class ComOrderDetail extends BaseEntity implements Serializable {
 	
 	/**
 	 * 
@@ -27,12 +27,12 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 	
 	/** 订单商品 主键id */
 	@NotBlank(message="订单商品 主键id 不能为空", groups={ValidationEdit.class})
-	private String orderProductId;
+	private String orderDetailId;
 	
-	/** 订单id */
-	@NotBlank(message="订单id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	/** 订单商品 id */
+	@NotBlank(message="订单商品id 不能为空", groups={ValidationAdd.class})
 	private String orderId;
-		
+	
 	/** 商品Id */
 	@NotBlank(message="商品Id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productId;
@@ -70,32 +70,32 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 	/**
 	 * 设置订单商品 主键id
 	 * 
-	 * @param String orderProductId
+	 * @param String orderDetailId
 	 */
-	public void setOrderProductId(String orderProductId) {
-		this.orderProductId = MapleStringUtil.trim(orderProductId);
+	public void setOrderDetailId(String orderDetailId) {
+		this.orderDetailId = StringUtils.trim(orderDetailId);
 	}
 	
 	/**
 	 * 获取订单商品 主键id
 	 * 
-	 * @return String orderProductId
+	 * @return String orderDetailId
 	 */
-	public String getOrderProductId() {
-		return this.orderProductId;
+	public String getOrderDetailId() {
+		return this.orderDetailId;
 	}
 	
 	/**
-	 * 设置 订单id
+	 * 设置 订单商品 id 
 	 * 
 	 * @param String orderId
 	 */
 	public void setOrderId(String orderId) {
-		this.orderId = MapleStringUtil.trim(orderId);
+		this.orderId = StringUtils.trim(orderId);
 	}
 	
 	/**
-	 * 获取 订单id
+	 * 获取 订单商品 id 
 	 * 
 	 * @return String orderId
 	 */
@@ -109,7 +109,7 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 	 * @param String productId
 	 */
 	public void setProductId(String productId) {
-		this.productId = MapleStringUtil.trim(productId);
+		this.productId = StringUtils.trim(productId);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 	 * @param String productName
 	 */
 	public void setProductName(String productName) {
-		this.productName = MapleStringUtil.trim(productName);
+		this.productName = StringUtils.trim(productName);
 	}
 	
 	/**
@@ -145,7 +145,7 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 	 * @param String summary
 	 */
 	public void setSummary(String summary) {
-		this.summary = MapleStringUtil.trim(summary);
+		this.summary = StringUtils.trim(summary);
 	}
 	
 	/**
@@ -163,7 +163,7 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 	 * @param String productStyleName
 	 */
 	public void setProductStyleName(String productStyleName) {
-		this.productStyleName = MapleStringUtil.trim(productStyleName);
+		this.productStyleName = StringUtils.trim(productStyleName);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 	 * @param String headImgSrc
 	 */
 	public void setHeadImgSrc(String headImgSrc) {
-		this.headImgSrc = MapleStringUtil.trim(headImgSrc);
+		this.headImgSrc = StringUtils.trim(headImgSrc);
 	}
 	
 	/**
@@ -211,6 +211,7 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 		return this.originalPrice;
 	}
 	
+	
 	/**
 	 * 设置 现价
 	 * 
@@ -228,6 +229,7 @@ public class ComOrderProduct extends BaseEntity implements Serializable {
 	public String getCurrentPrice() {
 		return this.currentPrice;
 	}
+	
 	
 	/**
 	 * 设置 购买数量

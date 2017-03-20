@@ -28,49 +28,49 @@
 				<div class="row">
 					<div class="col-xs-12">
 					
-					<form action="background/orderProduct/${methodPath }.do" name="orderProductForm" id="orderProductForm" method="post">
-						<input type="hidden" name="orderProductId" id="orderProductId" value="${comOrderProduct.orderProductId}"/>
+					<form action="background/orderDetail/${methodPath }.do" name="orderDetailForm" id="orderDetailForm" method="post">
+						<input type="hidden" name="orderDetailId" id="orderDetailId" value="${comOrderDetail.orderDetailId}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">订单id:</td>
-								<td><input type="text" name="orderId" id="orderId" value="${comOrderProduct.orderId}" maxlength="100" placeholder="这里输入 订单id" title="订单id" style="width:98%;" /></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
+								<td align="center"><param:display type="bg_mapleDetailType" name="orderId" id="orderId" value="${comOrderDetail.orderId }" hidden="true"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品Id:</td>
-								<td><input type="text" name="productId" id="productId" value="${comOrderProduct.productId}" maxlength="100" placeholder="这里输入 商品Id" title="商品Id" style="width:98%;" /></td>
+								<td><input type="text" name="productId" id="productId" value="${comOrderDetail.productId}" maxlength="100" placeholder="这里输入 商品Id" title="商品Id" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品名称:</td>
-								<td><input type="text" name="productName" id="productName" value="${comOrderProduct.productName}" maxlength="100" placeholder="这里输入 商品名称" title="商品名称" style="width:98%;" /></td>
+								<td><input type="text" name="productName" id="productName" value="${comOrderDetail.productName}" maxlength="100" placeholder="这里输入 商品名称" title="商品名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">摘要:</td>
-								<td><input type="text" name="summary" id="summary" value="${comOrderProduct.summary}" maxlength="100" placeholder="这里输入 摘要" title="摘要" style="width:98%;" /></td>
+								<td><input type="text" name="summary" id="summary" value="${comOrderDetail.summary}" maxlength="100" placeholder="这里输入 摘要" title="摘要" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品类型名称:</td>
-								<td><input type="text" name="productStyleName" id="productStyleName" value="${comOrderProduct.productStyleName}" maxlength="100" placeholder="这里输入 商品类型名称" title="商品类型名称" style="width:98%;" /></td>
+								<td><input type="text" name="productStyleName" id="productStyleName" value="${comOrderDetail.productStyleName}" maxlength="100" placeholder="这里输入 商品类型名称" title="商品类型名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">产品头像:</td>
-								<td><input type="text" name="headImgSrc" id="headImgSrc" value="${comOrderProduct.headImgSrc}" maxlength="100" placeholder="这里输入 产品头像" title="产品头像" style="width:98%;" /></td>
+								<td><input type="text" name="headImgSrc" id="headImgSrc" value="${comOrderDetail.headImgSrc}" maxlength="100" placeholder="这里输入 产品头像" title="产品头像" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">原价:</td>
-								<td><input type="number" name="originalPrice" id="originalPrice" value="${comOrderProduct.originalPrice}" maxlength="100" placeholder="这里输入 原价" title="原价" style="width:98%;"/></td>
+								<td><input type="number" name="originalPrice" id="originalPrice" value="${comOrderDetail.originalPrice}" maxlength="100" placeholder="这里输入 原价" title="原价" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">现价:</td>
-								<td><input type="number" name="currentPrice" id="currentPrice" value="${comOrderProduct.currentPrice}" maxlength="100" placeholder="这里输入 现价" title="现价" style="width:98%;"/></td>
+								<td><input type="number" name="currentPrice" id="currentPrice" value="${comOrderDetail.currentPrice}" maxlength="100" placeholder="这里输入 现价" title="现价" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">购买数量:</td>
-								<td><input type="number" name="count" id="count" value="${comOrderProduct.count}" maxlength="100" placeholder="这里输入 购买数量" title="购买数量" style="width:98%;"/></td>
+								<td><input type="number" name="count" id="count" value="${comOrderDetail.count}" maxlength="100" placeholder="这里输入 购买数量" title="购买数量" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
-								<td><input type="text" name="orderNum" id="orderNum" value="${comOrderProduct.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
+								<td><input type="text" name="orderNum" id="orderNum" value="${comOrderDetail.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -108,21 +108,21 @@
 	<script type="text/javascript">
 		$(top.hangge());
 		
-		//判断orderProductCode是否存在
+		//判断orderDetailCode是否存在
 		function otherNotCode(){
-			var orderProductCode = $("#orderProductCode").val();
-			if(orderProductCode == "") return false;
-			var orderProductId = $("#orderProductId").val();
-			var url = "<%=basePath%>background/orderProduct/otherNotCode.do?orderProductId="+orderProductId+"&orderProductCode="+orderProductCode+"&tm="+new Date().getTime();
+			var orderDetailCode = $("#orderDetailCode").val();
+			if(orderDetailCode == "") return false;
+			var orderDetailId = $("#orderDetailId").val();
+			var url = "<%=basePath%>background/orderDetail/otherNotCode.do?orderDetailId="+orderDetailId+"&orderDetailCode="+orderDetailCode+"&tm="+new Date().getTime();
 			$.get(url,function(data){
 				if(data.resultCode != "success"){
-					$("#orderProductCode").tips({
+					$("#orderDetailCode").tips({
 						side:3,
 			            msg:'订单商品代号 已存在',
 			            bg:'#AE81FF',
 			            time:2
 			        });
-					$("#orderProductCode").focus();
+					$("#orderDetailCode").focus();
 					return false;
 				}
 			});
@@ -133,16 +133,6 @@
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
-			if($("#orderId").val()==""){
-				$("#orderId").tips({
-					side:3,
-		            msg:'请输入订单id',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#orderId").focus();
-			return false;
-			}
 			if($("#productId").val()==""){
 				$("#productId").tips({
 					side:3,
@@ -233,7 +223,7 @@
 				$("#orderNum").focus();
 			return false;
 			}
-			$("#orderProductForm").submit();
+			$("#orderDetailForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
 		}

@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.PageData;
-import com.jx.common.entity.ComProductCategoryDetail;
+import com.jx.common.entity.ComOrderDetail;
 
-public interface ComProductCategoryDetailService {
+public interface ComOrderDetailService {
 
 	
 	/****************************custom * start***********************************/
@@ -17,38 +17,38 @@ public interface ComProductCategoryDetailService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComProductCategoryDetail> listByProductCategoryId(String productCategoryId) throws Exception ;
+	public List<ComOrderDetail> listByOrderId(String orderId) throws Exception ;
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
 	
 	/**
 	 * 新增 
-	 * @param ComProductCategoryDetail comProductCategoryDetail
+	 * @param ComOrderDetail comOrderDetail
 	 * @throws Exception
 	 */
-	public void add(ComProductCategoryDetail comProductCategoryDetail) throws Exception ;
+	public void add(ComOrderDetail comOrderDetail) throws Exception ;
 	
 	/**
 	 * 修改 
-	 * @param ComProductCategoryDetail comProductCategoryDetail
+	 * @param ComOrderDetail comOrderDetail
 	 * @throws Exception
 	 */
-	public void edit(ComProductCategoryDetail comProductCategoryDetail) throws Exception ;
-	
+	public void edit(ComOrderDetail comOrderDetail) throws Exception ;
+
 	/**
 	 * 更改有效性 flag 00:使失效;01：使生效
-	 * @param String flag, String productCategoryDetailId
+	 * @param String flag, String orderDetailId
 	 * @throws Exception
 	 */
-	public void changeEffective(String flag, String productCategoryDetailId) throws Exception ;
+	public void changeEffective(String flag, String orderDetailId) throws Exception ;
 	
 	/**
 	 * 删除 
-	 * @param String productCategoryDetailId
+	 * @param String orderDetailId
 	 * @throws Exception
 	 */
-	public void deleteById(String productCategoryDetailId) throws Exception ;
+	public void deleteById(String orderDetailId) throws Exception ;
 	
 	/**
 	 * 批量删除 
@@ -59,18 +59,18 @@ public interface ComProductCategoryDetailService {
 	
 	/**
 	 * 通过id获取(类)数据
-	 * @param String productCategoryDetailId
-	 * @return ComProductCategoryDetail
+	 * @param String orderDetailId
+	 * @return ComOrderDetail
 	 * @throws Exception
 	 */
-	public ComProductCategoryDetail findById(String productCategoryDetailId) throws Exception ;
+	public ComOrderDetail findById(String orderDetailId) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComProductCategoryDetail> listAll() throws Exception ;
+	public List<ComOrderDetail> listAll() throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据

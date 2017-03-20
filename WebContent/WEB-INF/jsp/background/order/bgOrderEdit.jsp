@@ -45,6 +45,10 @@
 								<td><param:select type="com_orderType" name="orderType" id="orderType" value="${comOrder.orderType}" placeholder="这里请选择 订单类型" title="订单类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">订单状态:</td>
+								<td><input type="text" name="orderStatus" id="orderStatus" value="${comOrder.orderStatus}" maxlength="100" placeholder="这里输入 订单状态" title="订单状态" style="width:98%;" /></td>
+							</tr>
+							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">订单商品总数:</td>
 								<td><input type="number" name="orderProductCount" id="orderProductCount" value="${comOrder.orderProductCount}" maxlength="100" placeholder="这里输入 订单商品总数" title="订单商品总数" style="width:98%;"/></td>
 							</tr>
@@ -69,8 +73,8 @@
 								<td><input type="number" name="allActPrice" id="allActPrice" value="${comOrder.allActPrice}" maxlength="100" placeholder="这里输入 实付款" title="实付款" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">编号:</td>
-								<td><param:select type="com_supplierEffective" name="supplierId" id="supplierId" value="${comOrder.supplierId}" placeholder="这里请选择 编号" title="编号" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">供应商id:</td>
+								<td><param:select type="com_supplierEffective" name="supplierId" id="supplierId" value="${comOrder.supplierId}" placeholder="这里请选择 供应商id" title="供应商id" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">收货地址:</td>
@@ -186,6 +190,16 @@
 		        });
 			return false;
 			}
+			if($("#orderStatus").val()==""){
+				$("#orderStatus").tips({
+					side:3,
+		            msg:'请输入订单状态',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#orderStatus").focus();
+			return false;
+			}
 			if(!intExp.test($("#orderProductCount").val())){
 				$("#orderProductCount").tips({
 					side:3,
@@ -249,7 +263,7 @@
 			if($("#supplierId").val()==""){
 				$("#supplierId").next().tips({
 					side:3,
-		            msg:'请选择 编号',
+		            msg:'请选择 供应商id',
 		            bg:'#AE81FF',
 		            time:2
 		        });

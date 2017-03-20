@@ -67,6 +67,10 @@
 									<th class="center">商品分类代号</th>
 									<th class="center">商品分类名称</th>
 									<th class="center">商品分类类型</th>
+									<th class="center">分类头像</th>
+									<th class="center">长框图</th>
+									<th class="center">滚播图</th>
+									<th class="center">摘要</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -82,10 +86,19 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comProductCategory.productCategoryId}" class="ace" /><span class="lbl"></span></label>
 											</td>
+											<c:if test="${comProductCategory.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${comProductCategory.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											</c:if>
 											<td class='center'>${comProductCategory.productCategoryCode}</td>
-											<td class='center'>${comProductCategory.productCategoryName}</td>
+											<td class='center'><a href="javascript:toDetail('${comProductCategory.productCategoryId}')">${comProductCategory.productCategoryName}</a></td>
 											<td class='center'><param:display type="com_productCategoryType" value="${comProductCategory.productCategoryType}"/></td>
+											<td class='center'>${comProductCategory.headImgSrc}</td>
+											<td class='center'>${comProductCategory.imgSrc1}</td>
+											<td class='center'>${comProductCategory.imgSrc2}</td>
+											<td class='center'>${comProductCategory.summary}</td>
 											<td class='center'>${comProductCategory.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
@@ -93,6 +106,14 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
+													
+													<c:if test="${comProductCategory.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comProductCategory.productCategoryId}');">使生效</a>
+													</c:if>
+													<c:if test="${comProductCategory.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comProductCategory.productCategoryId}');">使失效</a>
+													</c:if>
+													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comProductCategory.productCategoryId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -222,6 +243,49 @@
 			});
 		});
 		
+		//去此ID下详情页面
+		function toDetail(productCategoryId){
+			top.jzts();
+			window.location.href="<%=basePath%>background/productCategoryDetail/list.do?productCategoryId="+productCategoryId;
+		}
+		
+		
+		function changeEffective(flag,productCategoryId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/productCategory/changeEffective.do?flag="+flag+"&productCategoryId="+productCategoryId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,productCategoryId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/productCategory/changeStatus.do?flag="+flag+"&productCategoryId="+productCategoryId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
 		//新增
 		function toAdd(){
 			 top.jzts();
@@ -230,10 +294,10 @@
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/productCategory/toAdd.do";
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
 					if('${bgPage.currentPage}' == '0'){
@@ -271,10 +335,10 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/productCategory/toEdit.do?productCategoryId="+productCategoryId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮 
+		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					nextPage('${bgPage.currentPage}');

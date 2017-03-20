@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50716
+Source Server Version : 50528
 Source Host           : localhost:3306
 Source Database       : jxdb
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2017-03-20 17:41:43
+Date: 2017-03-21 00:26:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -225,7 +225,6 @@ INSERT INTO `bg_maple_detail` VALUES ('7386d05ed06547c39f660e6ef68f1a98', '46359
 INSERT INTO `bg_maple_detail` VALUES ('74c218455f564be4bc0a40c84eb10249', '3b3eb93879584c78a5ae5ea461dbc022', 'orderTime', '订单日期', '03', '00', '100', '0', '', '00', '01', '01', '', '1488531963735', '01', '1', '2017-03-03 17:06:26', '1', '2017-03-03 17:06:26');
 INSERT INTO `bg_maple_detail` VALUES ('74f19ae246334fec8c8cfb36ac907c7b', '26e2f983954449ed84539074b02628f1', 'appUserId', '平台用户', '05', '00', '100', '0', 'com_appUserEffective', '00', '01', '01', '', '1489215097087', '01', '1', '2017-03-16 15:49:15', '1', '2017-03-16 15:49:57');
 INSERT INTO `bg_maple_detail` VALUES ('7598d6bfa9b14f1bbc2882244a0a90d6', 'a7fef610fae34226afc5515388822a79', 'orderCode', '订单代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1489197832982', '01', '1', '2017-03-11 10:03:53', '1', '2017-03-11 10:03:53');
-INSERT INTO `bg_maple_detail` VALUES ('75b7cb0a3d1f4e15bba3e5b8f19ccbff', 'ac75f2ff51a7405485cf40a6f61785f7', 'orderId', '订单id', '01', '00', '100', '0', '', '00', '01', '01', '', '1489198696944', '01', '1', '2017-03-11 11:25:18', '1', '2017-03-11 11:25:33');
 INSERT INTO `bg_maple_detail` VALUES ('762f024f88d640ada0f36a59a259f7fb', '67163a4e05664fa39d5bea61b445163b', 'delRights', '删除权限', '01', '00', '100', '0', '', '00', '00', '01', '', '1484794193285', '01', '1', '2017-01-19 10:50:08', '1', '2017-01-19 10:50:08');
 INSERT INTO `bg_maple_detail` VALUES ('76e8bed04d6b4e5f8acdb81b6223ccf3', 'c9da8f2d57774bbbad13030135b6a1cb', 'controllerPackage', '控制器包代号', '05', '00', '100', '0', 'com_packageType', '00', '01', '01', '\"bg\"', '1484150518096', '01', '1', '2017-01-12 00:01:58', '1', '2017-01-12 00:01:58');
 INSERT INTO `bg_maple_detail` VALUES ('778217d2d3e54a04b2621a8c2ada60e5', '9a85215a94334cbc83bb5cf701ccf3bb', 'phone', '电话号码', '01', '00', '100', '0', '', '00', '01', '01', '', '1486704900464', '01', '1', '2017-02-10 13:41:04', '1', '2017-02-10 13:53:45');
@@ -325,7 +324,7 @@ INSERT INTO `bg_maple_detail` VALUES ('d89d83f6a74b4128b91179f95cab3d33', '3b047
 INSERT INTO `bg_maple_detail` VALUES ('dafc3c3d3f4846e786a547cda1f17b45', '7928b5c3a71443e69dac9a775fb732aa', 'roleId', '角色id', '05', '00', '100', '0', 'bg_roleEffective', '00', '01', '01', '', '1484726205220', '01', '1', '2017-01-18 16:37:03', '1', '2017-01-18 16:39:44');
 INSERT INTO `bg_maple_detail` VALUES ('db5fecb29b9f40549943c0c02ed3894b', 'a4dc9b54bb3e4d17ad983912730a6667', 'productName', '产品名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1487902142332', '01', '1', '2017-02-24 10:09:02', '1', '2017-02-24 10:09:02');
 INSERT INTO `bg_maple_detail` VALUES ('dbfae735ad4c44709e6d2c56d8c012e2', '1ba234a840324c2faa9fc56e9ec9e144', 'mediaId', '媒体文件id', '01', '00', '100', '0', '', '00', '01', '01', '', '1486780133726', '01', '1', '2017-02-11 10:30:27', '1', '2017-02-11 10:30:27');
-INSERT INTO `bg_maple_detail` VALUES ('dc26181c863841118957ff7577cd2554', 'a7fef610fae34226afc5515388822a79', 'orderStatus', '订单状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1489197833019', '01', '1', '2017-03-11 10:03:53', '1', '2017-03-11 10:03:53');
+INSERT INTO `bg_maple_detail` VALUES ('dc26181c863841118957ff7577cd2554', 'a7fef610fae34226afc5515388822a79', 'orderStatus', '订单状态', '01', '00', '100', '0', 'com_orderStatus', '00', '01', '01', '\"00\"', '1489197833019', '01', '1', '2017-03-11 10:03:53', '1', '2017-03-20 23:25:30');
 INSERT INTO `bg_maple_detail` VALUES ('dc3554660f37472194ed5acbbda72bf5', 'acb56ae4dd454b26beb150b7d08a14ed', 'inviteCode', '邀请代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487571659395', '01', '1', '2017-02-20 14:20:59', '1', '2017-02-20 14:20:59');
 INSERT INTO `bg_maple_detail` VALUES ('dd86b865d60748f9b7e1bda79e943425', '2b8a44269b4542e48e13549c8e2e14a4', 'discountPrice', '折扣优惠', '04', '00', '100', '2', '', '00', '01', '01', '', '1487906084294', '01', '1', '2017-02-24 11:15:10', '1', '2017-02-24 11:15:18');
 INSERT INTO `bg_maple_detail` VALUES ('deb09d9a2ee847a78adf60db3ee07b70', '2b8a44269b4542e48e13549c8e2e14a4', 'productStyleType', '产品规格类型', '05', '00', '100', '0', 'com_productStyleType', '00', '01', '01', '\"01\"', '1487902538809', '01', '1', '2017-02-24 10:15:39', '1', '2017-02-24 10:15:39');
@@ -404,8 +403,8 @@ INSERT INTO `bg_maple_main` VALUES ('7928b5c3a71443e69dac9a775fb732aa', 'user', 
 INSERT INTO `bg_maple_main` VALUES ('864215909ec741eda25b708998f777d0', 'lbt', '轮播图', '01', '00', 'bg', 'com', '1489815038416', '01', '1', '2017-03-18 13:31:01', '1', '2017-03-18 13:31:01');
 INSERT INTO `bg_maple_main` VALUES ('9a85215a94334cbc83bb5cf701ccf3bb', 'appUser', '平台用户', '02', '00', 'bg', 'com', '1486696475857', '01', '1', '2017-02-10 11:18:28', '1', '2017-03-06 11:19:24');
 INSERT INTO `bg_maple_main` VALUES ('a4dc9b54bb3e4d17ad983912730a6667', 'product', '产品', '01', '00', 'bg', 'com', '1487901959012', '01', '1', '2017-02-24 10:09:02', '1', '2017-02-24 10:09:02');
-INSERT INTO `bg_maple_main` VALUES ('a7fef610fae34226afc5515388822a79', 'order', '订单', '01', '00', 'bg', 'com', '1489197770505', '01', '1', '2017-03-11 10:03:53', '1', '2017-03-11 10:03:53');
-INSERT INTO `bg_maple_main` VALUES ('ac75f2ff51a7405485cf40a6f61785f7', 'orderProduct', '订单商品', '01', '00', 'bg', 'com', '1489198655844', '01', '1', '2017-03-11 10:18:17', '1', '2017-03-11 14:46:30');
+INSERT INTO `bg_maple_main` VALUES ('a7fef610fae34226afc5515388822a79', 'order', '订单', '03', '00', 'bg', 'com', '1489197770505', '01', '1', '2017-03-11 10:03:53', '1', '2017-03-20 23:15:46');
+INSERT INTO `bg_maple_main` VALUES ('ac75f2ff51a7405485cf40a6f61785f7', 'orderDetail', '订单商品', '04', '00', 'bg', 'com', '1489198655844', '01', '1', '2017-03-11 10:18:17', '1', '2017-03-20 23:16:06');
 INSERT INTO `bg_maple_main` VALUES ('acb56ae4dd454b26beb150b7d08a14ed', 'invite', '邀请', '01', '00', 'bg', 'com', '1487571577611', '01', '1', '2017-02-20 14:20:59', '1', '2017-02-20 14:20:59');
 INSERT INTO `bg_maple_main` VALUES ('ad181811909d4f50b3c2c802e901be84', 'dict', '数据字典', '02', '00', 'bg', 'com', '1484190988200', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-16 11:22:04');
 INSERT INTO `bg_maple_main` VALUES ('c9da8f2d57774bbbad13030135b6a1cb', 'maple', '代码生成', '03', '00', 'bg', 'bg', '1484149707387', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
@@ -786,6 +785,41 @@ INSERT INTO `com_dict_tree` VALUES ('fc97312d70a84af186a000882941e5fc', '0', 'co
 INSERT INTO `com_dict_tree` VALUES ('fe507ec52dd74565b9b44138a30763bf', '30c39f10c07e4b3b905734277e527eee', 'com_sf_01', '是', '01', '00', '01', '1', '1484536535794', '01', '1', '2017-01-16 11:15:53', '1', '2017-01-16 11:18:28');
 
 -- ----------------------------
+-- Table structure for com_integral_customer_tree
+-- ----------------------------
+DROP TABLE IF EXISTS `com_integral_customer_tree`;
+CREATE TABLE `com_integral_customer_tree` (
+  `integralCustomerId` varchar(100) NOT NULL COMMENT '积分客户 主键id',
+  `parentId` varchar(100) NOT NULL COMMENT '上级 id',
+  `roleId` varchar(100) DEFAULT NULL COMMENT '角色',
+  `integralCustomerCode` varchar(100) DEFAULT NULL COMMENT '积分客户代号',
+  `integralCustomerName` varchar(100) DEFAULT NULL COMMENT '积分客户名称',
+  `integralCustomerType` varchar(100) DEFAULT NULL COMMENT '积分客户类型',
+  `integralCustomerStatus` varchar(100) DEFAULT NULL COMMENT '积分客户状态',
+  `phone` varchar(100) DEFAULT NULL COMMENT '手机号码',
+  `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `userIconSrc` varchar(100) DEFAULT NULL COMMENT '客户头像',
+  `remarks` varchar(100) DEFAULT NULL COMMENT '备注信息',
+  `level` int(100) DEFAULT NULL COMMENT '级别',
+  `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
+  `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
+  `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifyUserId` varchar(100) DEFAULT NULL COMMENT '修改人员id',
+  `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`integralCustomerId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分客户';
+
+-- ----------------------------
+-- Records of com_integral_customer_tree
+-- ----------------------------
+INSERT INTO `com_integral_customer_tree` VALUES ('01d63da8da0e475b932a5eb6d9ea5da7', '0', '01', 'ic010000', '陈晓', '01', '00', '13345678922', '03cbc286fb6dec799cf71da7da47019de7d257a799f64a8483ec177410a9bd79bf962a059955f025b19217420731accdbae5ebacc6c9ce27093914d809b15dba', '', '1', '1', '1488526752271', '01', '1', '2017-03-03 15:40:57', '1', '2017-03-03 15:40:57');
+INSERT INTO `com_integral_customer_tree` VALUES ('4041d1468eb24f829cb06aa306011074', '01d63da8da0e475b932a5eb6d9ea5da7', '02', 'ic010100', '张明', '01', '00', '13575542432', 'adebb9776c74a549238c80555a5402f0d3595a66050543dc22c896d2eab3249ee38d8c81b91c98aad43b42fc85186a1ed115bfd83cd1da1467dc659360c15d58', '', '请问', '2', '1488527040166', '01', '1', '2017-03-03 15:44:16', '1', '2017-03-03 15:44:16');
+INSERT INTO `com_integral_customer_tree` VALUES ('54ea0f42230846daa4deeb76d1c0df1f', '0', '01', 'a002', '王倩敏', '01', '00', '159876312364', 'f54894b6e28ccf56dfdad8797ef13192ec507babc4c494bfcb7342592835e0217fec5b58071eca7d0d1243aecc72acd01ddbd9ae137a957d50f98a161da8c983', '', '华南大区', '1', '1488617850686', '01', '59e413d02fe24211a6b5725abe3e868d', '2017-03-04 16:58:29', '59e413d02fe24211a6b5725abe3e868d', '2017-03-04 16:58:29');
+INSERT INTO `com_integral_customer_tree` VALUES ('691235f958354630b2c6cc30e855efd8', '4041d1468eb24f829cb06aa306011074', '03', 'ic010101', '张旭（南通Jeep 4S店）', '01', '00', '15876362530', '1de42255d0ef8eca91ca2d22bd30684c97768adc15f1f48fac19e60a4b587ef4553a37c270e7c2f6116ca6de6ce0089faf18675d8d1ada03e5388e69e85435d4', '', '发斯蒂芬斯蒂芬', '3', '1488527082770', '01', '1', '2017-03-03 15:45:59', '1', '2017-03-03 15:45:59');
+INSERT INTO `com_integral_customer_tree` VALUES ('9ff7727c457a4d448d9c3d5a69b5749f', '54ea0f42230846daa4deeb76d1c0df1f', '02', 'a11205359', '徐波', '01', '00', '18260625621', 'bea3f8400ebf3aa134f34764cd75a8d4425e7786fc20e57fbf61d4b86f308f8ef5ed43576a431ece206449bb48a8f32d27fd1d2b6237288c1f8cbaaad80181a5', '', '江苏', '2', '1488691293173', '01', '59e413d02fe24211a6b5725abe3e868d', '2017-03-05 13:22:19', '59e413d02fe24211a6b5725abe3e868d', '2017-03-05 13:22:19');
+
+-- ----------------------------
 -- Table structure for com_integral_note_info
 -- ----------------------------
 DROP TABLE IF EXISTS `com_integral_note_info`;
@@ -901,10 +935,38 @@ INSERT INTO `com_lbt_info` VALUES ('6c41a71af0b645a4ae119bcfc08b7584', 'a2', '00
 INSERT INTO `com_lbt_info` VALUES ('e0810f21c27b43d99ff6529271a9f0f0', 'a1', '00', '00', 'uploadFiles/image/gbt/34e4ede7dae24d1fb2c142991e500b93.jpg', '而舒服撒爱上大声大声', '1489823485510', '01', '1', '2017-03-18 15:53:25', '1', '2017-03-18 17:07:34');
 
 -- ----------------------------
--- Table structure for com_order_info
+-- Table structure for com_order_detail
 -- ----------------------------
-DROP TABLE IF EXISTS `com_order_info`;
-CREATE TABLE `com_order_info` (
+DROP TABLE IF EXISTS `com_order_detail`;
+CREATE TABLE `com_order_detail` (
+  `orderDetailId` varchar(100) NOT NULL COMMENT '订单商品 主键id',
+  `orderId` varchar(100) NOT NULL COMMENT '订单商品 id',
+  `productId` varchar(100) DEFAULT NULL COMMENT '商品Id',
+  `productName` varchar(100) DEFAULT NULL COMMENT '商品名称',
+  `summary` varchar(100) DEFAULT NULL COMMENT '摘要',
+  `productStyleName` varchar(100) DEFAULT NULL COMMENT '商品类型名称',
+  `headImgSrc` varchar(100) DEFAULT NULL COMMENT '产品头像',
+  `originalPrice` double(100,0) DEFAULT NULL COMMENT '原价',
+  `currentPrice` double(100,0) DEFAULT NULL COMMENT '现价',
+  `count` int(100) DEFAULT NULL COMMENT '购买数量',
+  `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
+  `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
+  `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifyUserId` varchar(100) DEFAULT NULL COMMENT '修改人员id',
+  `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`orderDetailId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单商品';
+
+-- ----------------------------
+-- Records of com_order_detail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for com_order_main
+-- ----------------------------
+DROP TABLE IF EXISTS `com_order_main`;
+CREATE TABLE `com_order_main` (
   `orderId` varchar(100) NOT NULL COMMENT '订单 主键id',
   `orderCode` varchar(100) DEFAULT NULL COMMENT '订单代号',
   `orderName` varchar(100) DEFAULT NULL COMMENT '订单名称',
@@ -917,7 +979,7 @@ CREATE TABLE `com_order_info` (
   `walletPay` double(100,0) DEFAULT NULL COMMENT '钱包支付',
   `allActPrice` double(100,2) DEFAULT NULL COMMENT '实付款',
   `supplierName` varchar(100) DEFAULT NULL COMMENT '供应商',
-  `supplierId` varchar(100) DEFAULT NULL COMMENT '编号',
+  `supplierId` varchar(100) DEFAULT NULL COMMENT '供应商id',
   `receiveAddressId` varchar(100) DEFAULT NULL COMMENT '收货地址',
   `payTime` datetime DEFAULT NULL COMMENT '付款时间',
   `sendTime` datetime DEFAULT NULL COMMENT '发货时间',
@@ -935,7 +997,7 @@ CREATE TABLE `com_order_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单';
 
 -- ----------------------------
--- Records of com_order_info
+-- Records of com_order_main
 -- ----------------------------
 
 -- ----------------------------
@@ -967,10 +1029,10 @@ CREATE TABLE `com_order_product_info` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for com_product_category_detail_detail
+-- Table structure for com_product_category_detail
 -- ----------------------------
-DROP TABLE IF EXISTS `com_product_category_detail_detail`;
-CREATE TABLE `com_product_category_detail_detail` (
+DROP TABLE IF EXISTS `com_product_category_detail`;
+CREATE TABLE `com_product_category_detail` (
   `productCategoryDetailId` varchar(100) NOT NULL COMMENT '商品分类详情 主键id',
   `productCategoryId` varchar(100) NOT NULL COMMENT '商品分类 id',
   `productId` varchar(100) DEFAULT NULL COMMENT '商品',
@@ -984,14 +1046,14 @@ CREATE TABLE `com_product_category_detail_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品分类详情';
 
 -- ----------------------------
--- Records of com_product_category_detail_detail
+-- Records of com_product_category_detail
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for com_product_category_info
+-- Table structure for com_product_category_main
 -- ----------------------------
-DROP TABLE IF EXISTS `com_product_category_info`;
-CREATE TABLE `com_product_category_info` (
+DROP TABLE IF EXISTS `com_product_category_main`;
+CREATE TABLE `com_product_category_main` (
   `productCategoryId` varchar(100) NOT NULL COMMENT '商品分类 主键id',
   `productCategoryCode` varchar(100) DEFAULT NULL COMMENT '商品分类代号',
   `productCategoryName` varchar(100) DEFAULT NULL COMMENT '商品分类名称',
@@ -1011,13 +1073,13 @@ CREATE TABLE `com_product_category_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品分类';
 
 -- ----------------------------
--- Records of com_product_category_info
+-- Records of com_product_category_main
 -- ----------------------------
-INSERT INTO `com_product_category_info` VALUES ('1245ed0a5756448aab614c9c16f1b7cb', 'splb0000004', '私房菜的', '01', '00', 'uploadFiles/image/productCategory/headimg/ff2269d850114640afe9f8311249d429.jpg', 'uploadFiles/image/productCategory/img1/4016182aaea34bb7b66195902d55cf56.jpg_maple,uploadFiles/image/productCategory/img1/3bf8b0b27206497c9c6010dcc85a101e.jpg_maple,uploadFiles/image/productCategory/img1/209a391212054ead8b18f821d4ff8bbe.jpg', 'uploadFiles/image/productCategory/img2/c2cb7b09ed694ba29414e05fb4f77468.jpg_maple,uploadFiles/image/productCategory/img2/27c32f19ae424707aad31b9c2de92029.jpg_maple,uploadFiles/image/productCategory/img2/8be0a2cf409d462da73c1f42bde4a6e8.jpg_maple,uploadFiles/image/productCategory/img2/75c67e470acc43958192963df5a3349b.jpg', '打算', '1489046401841', '01', '1', '2017-03-09 16:00:29', '1', '2017-03-09 16:00:29');
-INSERT INTO `com_product_category_info` VALUES ('7ed22c6fa8a44d4eaa8f62df8d340b35', 'spmk0000001', '萨达', '02', '00', 'uploadFiles/image/productCategory/headimg/67c4cd91877744faa39888f35e0003c9.jpg', 'uploadFiles/image/productCategory/img1/b9d2130140b741c09452243f4c66afd9.jpg_maple,uploadFiles/image/productCategory/img1/6a5578028f8e4792bf698e66735448ef.jpg_maple,uploadFiles/image/productCategory/img1/e872953f296f48e5b3cc5c16a13f0ac3.jpg', 'uploadFiles/image/productCategory/img2/cae7b8fba7d547e596141993a0e02397.jpg_maple,uploadFiles/image/productCategory/img2/63efaf332a86441d934e576150e94ed1.jpg_maple,uploadFiles/image/productCategory/img2/8196111a13b048b8951abbd095e8d2a2.jpg_maple,uploadFiles/image/productCategory/img2/3ae6a0ed7ba3449bb10743f85cc361fa.jpg', '大声道', '1489046620584', '01', '1', '2017-03-09 16:05:34', '1', '2017-03-09 16:05:34');
-INSERT INTO `com_product_category_info` VALUES ('8ceef21e782d497b83674cac4ba58f12', 'splb0000001', '水果', '01', '00', 'uploadFiles/image/productCategory/headimg/d972469d0a03416db1452e37193beb0f.jpg', 'uploadFiles/image/productCategory/img1/66df2b155f514ce086419878db5a1595.jpg_maple,uploadFiles/image/productCategory/img1/dc30641ac6d34162a4fe271b018a508f.jpg_maple,uploadFiles/image/productCategory/img1/875d59da67624850962d971e3cc614d9.jpg', 'uploadFiles/image/productCategory/img2/fa42053260bf4f249b18970e95c6f91e.jpg_maple,uploadFiles/image/productCategory/img2/1dfcc488f3384b37b297cd9b58d8eac1.jpg_maple,uploadFiles/image/productCategory/img2/ea83be26d64e4bef87ee7f50531f7cf8.jpg_maple,uploadFiles/image/productCategory/img2/6c4c64a06412423593cda5270b5fbb01.jpg', '萨达', '1489044866150', '01', '1', '2017-03-09 15:34:44', '1', '2017-03-09 15:34:44');
-INSERT INTO `com_product_category_info` VALUES ('a2ade0adc3be4df7affcea78301dce8b', 'spmk0000005', '撒大大', '02', '00', 'uploadFiles/image/productCategory/headimg/76cc860a82484a3fa21ec53e46b0eff3.jpg', 'uploadFiles/image/productCategory/img1/5a918db776c64659a192e4ff2621aaff.jpg_maple,uploadFiles/image/productCategory/img1/9afdc89bae97440394dd956be8ad5183.jpg_maple,uploadFiles/image/productCategory/img1/8af238118f5b4490b1dd6df60c2f2860.jpg', 'uploadFiles/image/productCategory/img2/1b2358f266ad42ce8410c76b7c905ba2.jpg_maple,uploadFiles/image/productCategory/img2/85b94da936e64da28fcbcbb6bdbedfcc.jpg_maple,uploadFiles/image/productCategory/img2/d72432f5d69e49d9afaba211dbcaab5e.jpg_maple,uploadFiles/image/productCategory/img2/d8642258f1ce4c10b240967e3f564ba5.jpg', '打算', '1489046993634', '01', '1', '2017-03-09 16:10:44', '1', '2017-03-09 16:10:44');
-INSERT INTO `com_product_category_info` VALUES ('aebec986654e4799b7be2839992646e4', 'splb0000002', '阿萨德撒', '01', '00', 'uploadFiles/image/productCategory/headimg/967a185f83314880a7b20d9055e259bc.jpg', 'uploadFiles/image/productCategory/img1/01e47022a10842ea9b295b8c53bb88cb.jpg_maple,uploadFiles/image/productCategory/img1/c50ea25cd1df4674ae3c4fa2b4960d9f.jpg', 'uploadFiles/image/productCategory/img2/b667de92cd964500a80e2218bd606e96.jpg', '萨达', '1489046509440', '01', '1', '2017-03-09 16:02:10', '1', '2017-03-09 16:02:10');
+INSERT INTO `com_product_category_main` VALUES ('1245ed0a5756448aab614c9c16f1b7cb', 'splb0000004', '私房菜的', '01', '00', 'uploadFiles/image/productCategory/headimg/ff2269d850114640afe9f8311249d429.jpg', 'uploadFiles/image/productCategory/img1/4016182aaea34bb7b66195902d55cf56.jpg_maple,uploadFiles/image/productCategory/img1/3bf8b0b27206497c9c6010dcc85a101e.jpg_maple,uploadFiles/image/productCategory/img1/209a391212054ead8b18f821d4ff8bbe.jpg', 'uploadFiles/image/productCategory/img2/c2cb7b09ed694ba29414e05fb4f77468.jpg_maple,uploadFiles/image/productCategory/img2/27c32f19ae424707aad31b9c2de92029.jpg_maple,uploadFiles/image/productCategory/img2/8be0a2cf409d462da73c1f42bde4a6e8.jpg_maple,uploadFiles/image/productCategory/img2/75c67e470acc43958192963df5a3349b.jpg', '打算', '1489046401841', '01', '1', '2017-03-09 16:00:29', '1', '2017-03-09 16:00:29');
+INSERT INTO `com_product_category_main` VALUES ('7ed22c6fa8a44d4eaa8f62df8d340b35', 'spmk0000001', '萨达', '02', '00', 'uploadFiles/image/productCategory/headimg/67c4cd91877744faa39888f35e0003c9.jpg', 'uploadFiles/image/productCategory/img1/b9d2130140b741c09452243f4c66afd9.jpg_maple,uploadFiles/image/productCategory/img1/6a5578028f8e4792bf698e66735448ef.jpg_maple,uploadFiles/image/productCategory/img1/e872953f296f48e5b3cc5c16a13f0ac3.jpg', 'uploadFiles/image/productCategory/img2/cae7b8fba7d547e596141993a0e02397.jpg_maple,uploadFiles/image/productCategory/img2/63efaf332a86441d934e576150e94ed1.jpg_maple,uploadFiles/image/productCategory/img2/8196111a13b048b8951abbd095e8d2a2.jpg_maple,uploadFiles/image/productCategory/img2/3ae6a0ed7ba3449bb10743f85cc361fa.jpg', '大声道', '1489046620584', '01', '1', '2017-03-09 16:05:34', '1', '2017-03-09 16:05:34');
+INSERT INTO `com_product_category_main` VALUES ('8ceef21e782d497b83674cac4ba58f12', 'splb0000001', '水果', '01', '00', 'uploadFiles/image/productCategory/headimg/d972469d0a03416db1452e37193beb0f.jpg', 'uploadFiles/image/productCategory/img1/66df2b155f514ce086419878db5a1595.jpg_maple,uploadFiles/image/productCategory/img1/dc30641ac6d34162a4fe271b018a508f.jpg_maple,uploadFiles/image/productCategory/img1/875d59da67624850962d971e3cc614d9.jpg', 'uploadFiles/image/productCategory/img2/fa42053260bf4f249b18970e95c6f91e.jpg_maple,uploadFiles/image/productCategory/img2/1dfcc488f3384b37b297cd9b58d8eac1.jpg_maple,uploadFiles/image/productCategory/img2/ea83be26d64e4bef87ee7f50531f7cf8.jpg_maple,uploadFiles/image/productCategory/img2/6c4c64a06412423593cda5270b5fbb01.jpg', '萨达', '1489044866150', '01', '1', '2017-03-09 15:34:44', '1', '2017-03-09 15:34:44');
+INSERT INTO `com_product_category_main` VALUES ('a2ade0adc3be4df7affcea78301dce8b', 'spmk0000005', '撒大大', '02', '00', 'uploadFiles/image/productCategory/headimg/76cc860a82484a3fa21ec53e46b0eff3.jpg', 'uploadFiles/image/productCategory/img1/5a918db776c64659a192e4ff2621aaff.jpg_maple,uploadFiles/image/productCategory/img1/9afdc89bae97440394dd956be8ad5183.jpg_maple,uploadFiles/image/productCategory/img1/8af238118f5b4490b1dd6df60c2f2860.jpg', 'uploadFiles/image/productCategory/img2/1b2358f266ad42ce8410c76b7c905ba2.jpg_maple,uploadFiles/image/productCategory/img2/85b94da936e64da28fcbcbb6bdbedfcc.jpg_maple,uploadFiles/image/productCategory/img2/d72432f5d69e49d9afaba211dbcaab5e.jpg_maple,uploadFiles/image/productCategory/img2/d8642258f1ce4c10b240967e3f564ba5.jpg', '打算', '1489046993634', '01', '1', '2017-03-09 16:10:44', '1', '2017-03-09 16:10:44');
+INSERT INTO `com_product_category_main` VALUES ('aebec986654e4799b7be2839992646e4', 'splb0000002', '阿萨德撒', '01', '00', 'uploadFiles/image/productCategory/headimg/967a185f83314880a7b20d9055e259bc.jpg', 'uploadFiles/image/productCategory/img1/01e47022a10842ea9b295b8c53bb88cb.jpg_maple,uploadFiles/image/productCategory/img1/c50ea25cd1df4674ae3c4fa2b4960d9f.jpg', 'uploadFiles/image/productCategory/img2/b667de92cd964500a80e2218bd606e96.jpg', '萨达', '1489046509440', '01', '1', '2017-03-09 16:02:10', '1', '2017-03-09 16:02:10');
 
 -- ----------------------------
 -- Table structure for com_product_info
@@ -1113,7 +1175,7 @@ CREATE TABLE `com_receive_address_info` (
 INSERT INTO `com_receive_address_info` VALUES ('030be1a8acd5448d8fe1950e21d49384', '65b6e43d19a0453db5fbea4eeb33b282', '来咯墨迹', '15595896585', '北京市', '北京市市辖区', '东城区', '不咯', '落寞图YY', '00', '1489730825940', '00', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 14:07:06', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 15:03:00');
 INSERT INTO `com_receive_address_info` VALUES ('054a98799bdf4bfd8c8c4014a08b2b3f', '65b6e43d19a0453db5fbea4eeb33b282', '不用', '13698578965', '北京市', '北京市市辖区', '东城区', '叫我哦裤子', '考虑一下', '00', '1489734210139', '01', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 15:03:30', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 15:05:50');
 INSERT INTO `com_receive_address_info` VALUES ('3344417402f1425fb1b30a010b6783ca', '65b6e43d19a0453db5fbea4eeb33b282', '就来找我', '13918499869', '北京市', '北京市市辖区', '东城区', '有哦豁诺克', '叫我哦YY', '00', '1489734286046', '00', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 15:04:46', '1', '2017-03-20 13:51:26');
-INSERT INTO `com_receive_address_info` VALUES ('c03403410fbd47aa92c2014da860616e', '65b6e43d19a0453db5fbea4eeb33b282', '来咯摸我', '13685771556', '北京市', '北京市市辖区', '东城区', 'boy图YY', '路wwwYY', '00', '1489734336123', '00', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 15:05:36', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 15:06:00');
+INSERT INTO `com_receive_address_info` VALUES ('c03403410fbd47aa92c2014da860616e', '65b6e43d19a0453db5fbea4eeb33b282', '来咯摸我', '13685771556', '北京市', '北京市市辖区', '东城区', 'boy图YY', '路wwwYY', '00', '1489734336123', '01', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 15:05:36', '1', '2017-03-20 21:38:42');
 INSERT INTO `com_receive_address_info` VALUES ('c4f3eb7b220e49e19f948736be2e5764', '65b6e43d19a0453db5fbea4eeb33b282', '理我', '13685771556', '北京市', '北京市市辖区', '东城区', '酷我', '旅游来咯哦哦弄', '00', '1489716228980', '00', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 10:03:49', '1', '2017-03-20 13:23:31');
 INSERT INTO `com_receive_address_info` VALUES ('ed5c7555b59c4eb2b97b208dcd509bf3', '65b6e43d19a0453db5fbea4eeb33b282', '利用', '13698569958', '内蒙古自治区', '呼和浩特市', '新城区', '啦咯做最做最', '路wwwwwwwww', '00', '1489732367648', '00', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 14:32:48', '65b6e43d19a0453db5fbea4eeb33b282', '2017-03-17 15:03:04');
 
@@ -1177,6 +1239,29 @@ CREATE TABLE `com_sparepart_info` (
 -- ----------------------------
 INSERT INTO `com_sparepart_info` VALUES ('be8106448cba4c1a99280474ec128239', '59122252', '全新Jeep自由侠主题摄影包', '01', '00', '100.00', '5.00', '15.00', '80.00', null, '1488530544595', '01', '1', '2017-03-03 16:42:44', '1', '2017-03-03 16:42:44');
 INSERT INTO `com_sparepart_info` VALUES ('f1f4303f16dd43b187dc61827284619b', '59122251', 'Jeep专用后备箱固定网', '01', '00', '500.00', '25.00', '75.00', '400.00', null, '1488530451150', '01', '1', '2017-03-03 16:41:15', '1', '2017-03-03 16:41:15');
+
+-- ----------------------------
+-- Table structure for com_style_category_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `com_style_category_detail`;
+CREATE TABLE `com_style_category_detail` (
+  `styleCategoryDetailId` varchar(100) NOT NULL COMMENT '规格分类详情 主键id',
+  `styleCategoryId` varchar(100) NOT NULL COMMENT '规格分类 id',
+  `styleCategoryDetailCode` varchar(100) DEFAULT NULL COMMENT '规格分类详情代号',
+  `styleCategoryDetailName` varchar(100) DEFAULT NULL COMMENT '规格分类详情名称',
+  `styleCategoryDetailStatus` varchar(100) DEFAULT NULL COMMENT '规格分类详情状态',
+  `orderNum` varchar(100) DEFAULT NULL COMMENT '排序编号',
+  `effective` varchar(100) DEFAULT NULL COMMENT '有效标志',
+  `createUserId` varchar(100) DEFAULT NULL COMMENT '创建人员id',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifyUserId` varchar(100) DEFAULT NULL COMMENT '修改人员id',
+  `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`styleCategoryDetailId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='规格分类详情';
+
+-- ----------------------------
+-- Records of com_style_category_detail
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for com_style_category_tree
@@ -1267,4 +1352,4 @@ CREATE TABLE `com_wx_account_info` (
 -- ----------------------------
 -- Records of com_wx_account_info
 -- ----------------------------
-INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'd_xnEamT4-hkJ8tRANv--n5EscYC5BLP3M6llrjkPFbriBruwaiYMTH-UNnOsL7Lnd3tHa3IDT6wC51VPaVuW_E34KoadQWsn8vw0_SKQL4C5G5INbo5_u3TfoOdrg8LAYKeACAJHT', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHje7Vs6ljviWg_sL6RPovvjbwwQo0QGRCrE0HpY7WaihTg', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-20 14:13:01');
+INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'E6ivTS1z6BuaH_h3FMbpaxCwN853BlDauJFSXf5M38S0g7cL_Afb7YgQstDHMRyUYkYB9ZJs63GyL0bLsQCC2JrN2LVq8O7t-Dw0CQN2OI5tl8jft_rH1VcNfQH0NLG1GSBcAHABNW', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHje7Vs6ljviWg_sL6RPovvjbwwQo0QGRCrE0HpY7WaihTg', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-20 23:13:00');

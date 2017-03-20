@@ -11,7 +11,7 @@ public interface ComLbtService {
 	
 	/****************************custom * start***********************************/
 
-	
+		
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -31,12 +31,19 @@ public interface ComLbtService {
 	public void edit(ComLbt comLbt) throws Exception ;
 	
 	/**
-	 * 更改
-	 * @param ComLbt comLbt
+	 * 更改状态 flag 00
+	 * @param String flag, String lbtId
 	 * @throws Exception
 	 */
-	public void change(ComLbt comLbt) throws Exception ;
-
+	public void changeStatus(String flag, String lbtId) throws Exception ;
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String lbtId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String lbtId) throws Exception ;
+	
 	/**
 	 * 删除 
 	 * @param String lbtId
@@ -45,19 +52,12 @@ public interface ComLbtService {
 	public void deleteById(String lbtId) throws Exception ;
 	
 	/**
-	 * 删除 
-	 * @param ComLbt comLbt
-	 * @throws Exception
-	 */
-	public void delete(ComLbt comLbt) throws Exception ;
-	
-	/**
 	 * 批量删除 
 	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception ;
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String lbtId
@@ -67,26 +67,11 @@ public interface ComLbtService {
 	public ComLbt findById(String lbtId) throws Exception ;
 	
 	/**
-	 * 通过pd获取(ComLbt)数据 
-	 * @param ComLbt comLbt
-	 * @return ComLbt
-	 * @throws Exception
-	 */
-	public ComLbt find(ComLbt comLbt) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComLbt> list(ComLbt comLbt) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComLbt> otherHave(ComLbt comLbt) throws Exception ;
+	public List<ComLbt> listAll() throws Exception ;
 	
 	/**
 	 * 获取(类)List数据

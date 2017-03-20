@@ -31,11 +31,12 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<ComReceiveAddress> listByUserIdE(String appUserId) throws Exception {
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
 		comReceiveAddress.setAppUserId(appUserId);
 		comReceiveAddress.setEffective("01");
-		return this.list(comReceiveAddress);
+		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.listAll", null);
 	}
 	
 	/**
@@ -49,7 +50,7 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setReceiveAddressId(receiveAddressId);
 		comReceiveAddress.setAppUserId(appUserId);
 		comReceiveAddress.setEffective("01");
-		return this.find(comReceiveAddress);
+		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findById", receiveAddressId);
 	}
 	
 	/**

@@ -302,16 +302,6 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 		return this.${bgMapleDetail.mapleDetailCode};
 	}
 	
-	public void set${bgMapleDetail.mapleDetailCodeUpper}Str(String ${bgMapleDetail.mapleDetailCode}Str){
-		brateStr = com.cvicse.util.StringUtils.trim(${bgMapleDetail.mapleDetailCode}Str);
-		if(!${bgMapleDetail.mapleDetailCode}Str.equals("")){
-			set${bgMapleDetail.mapleDetailCodeUpper}(DecimalUtil.strToDouble(${bgMapleDetail.mapleDetailCode}Str));
-		}
-	}
-
-	public String get${bgMapleDetail.mapleDetailCodeUpper}Str(){
-		return DecimalUtil.doubleToStr(get${bgMapleDetail.mapleDetailCodeUpper});
-	}	
 		</#if>
 	
 	</#list>

@@ -477,8 +477,8 @@ public class BgMapleDetailController extends BaseController {
 		}else if("03".equals(bgMaple.getMapleType())){
 			tableCode += "_main";
 		}else if("04".equals(bgMaple.getMapleType())){
-			tableCode = tableCode.split("Detail")[0];
-			tableCode += "_detail";
+//			tableCode = tableCode.split("_detail")[0];
+//			tableCode += "_detail";
 		}
 		bgMaple.setTableCode(tableCode);
 		bgMaple.setControllerPackage(comDictService.getDisplayName("com_packageType", bgMaple.getControllerPackage()));

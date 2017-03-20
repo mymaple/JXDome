@@ -87,7 +87,12 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comProductCategoryDetail.productCategoryDetailId}" class="ace" /><span class="lbl"></span></label>
 											</td>
+											<c:if test="${comProductCategoryDetail.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${comProductCategoryDetail.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											</c:if>
 											<td class='center'><param:display type="com_productEffective" value="${comProductCategoryDetail.productId}"/></td>
 											<td class='center'>${comProductCategoryDetail.orderNum}</td>
 											<td class="center">
@@ -96,6 +101,14 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
+													
+													<c:if test="${comProductCategoryDetail.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comProductCategoryDetail.productCategoryDetailId}');">使生效</a>
+													</c:if>
+													<c:if test="${comProductCategoryDetail.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comProductCategoryDetail.productCategoryDetailId}');">使失效</a>
+													</c:if>
+													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comProductCategoryDetail.productCategoryDetailId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -224,6 +237,43 @@
 				});
 			});
 		});
+		
+		
+		function changeEffective(flag,productCategoryDetailId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/productCategoryDetail/changeEffective.do?flag="+flag+"&productCategoryDetailId="+productCategoryDetailId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,productCategoryDetailId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/productCategoryDetail/changeStatus.do?flag="+flag+"&productCategoryDetailId="+productCategoryDetailId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
 		
 		//新增
 		function toAdd(){

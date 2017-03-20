@@ -317,7 +317,7 @@
 			bootbox.confirm(firm, function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}Detail/changeEffective.do?flag="+flag+"&{bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/changeEffective.do?flag="+flag+"&${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${r"${bgPage.currentPage}"}');
@@ -335,7 +335,7 @@
 			bootbox.confirm(firm, function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}Detail/changeStatus.do?flag="+flag+"&{bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>${bgMaple.controllerPackage}/${bgMaple.mapleCode}/changeStatus.do?flag="+flag+"&${bgMaple.mapleCode}Id="+${bgMaple.mapleCode}Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${r"${bgPage.currentPage}"}');
@@ -362,7 +362,7 @@
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
 					<#if bgMaple.mapleType == "02">
@@ -411,7 +411,7 @@
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮 
+		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 <#if bgMaple.mapleType == "02">

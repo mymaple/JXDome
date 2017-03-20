@@ -4,7 +4,7 @@
 <mapper namespace="ComOrderMapper">
 
 	<sql id="orderColumns">orderId,orderCode,orderName,orderType,orderStatus,orderProductCount,allPrice,freight,allDisPrice,walletPay,allActPrice,supplierName,supplierId,receiveAddressId,payTime,sendTime,tradeNum,payMethod,wlgs,wlNum,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="orderTable">com_order_info</sql>
+	<sql id="orderTable">com_order_main</sql>
 	
 	<resultMap type="comOrder" id="comOrderResultMap">
 		<id column="orderId" property="orderId"/>
@@ -38,6 +38,7 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
@@ -58,142 +59,60 @@
 		update
 	<include refid="orderTable"/>
 		set 
-			<if test="orderCode!=null and orderCode!=''">
 			orderCode = #{orderCode},
-			</if>
-			<if test="orderName!=null and orderName!=''">
 			orderName = #{orderName},
-			</if>
-			<if test="orderType!=null and orderType!=''">
 			orderType = #{orderType},
-			</if>
-			<if test="orderProductCount!=null and orderProductCount!=''">
+			orderStatus = #{orderStatus},
 			orderProductCount = #{orderProductCount},
-			</if>
-			<if test="allPrice!=null and allPrice!=''">
 			allPrice = #{allPrice},
-			</if>
-			<if test="freight!=null and freight!=''">
 			freight = #{freight},
-			</if>
-			<if test="allDisPrice!=null and allDisPrice!=''">
 			allDisPrice = #{allDisPrice},
-			</if>
-			<if test="walletPay!=null and walletPay!=''">
 			walletPay = #{walletPay},
-			</if>
-			<if test="allActPrice!=null and allActPrice!=''">
 			allActPrice = #{allActPrice},
-			</if>
-			<if test="supplierId!=null and supplierId!=''">
 			supplierId = #{supplierId},
-			</if>
-			<if test="receiveAddressId!=null and receiveAddressId!=''">
 			receiveAddressId = #{receiveAddressId},
-			</if>
-			<if test="tradeNum!=null and tradeNum!=''">
 			tradeNum = #{tradeNum},
-			</if>
-			<if test="payMethod!=null and payMethod!=''">
 			payMethod = #{payMethod},
-			</if>
-			<if test="wlgs!=null and wlgs!=''">
 			wlgs = #{wlgs},
-			</if>
-			<if test="wlNum!=null and wlNum!=''">
 			wlNum = #{wlNum},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
-			</if>
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
 			orderId = #{orderId} 
-			and modifyTime = #{lastModifyTime}
 	</update>
 	
-	<!-- 改变 -->
-	<update id="change" parameterType="comOrder">
+	<!-- 更改状态-->
+	<update id="changeStatus" parameterType="comReceiveAddress">
 		update
 	<include refid="orderTable"/>
 		set 
-			<if test="orderCode!=null and orderCode!=''">
-			orderCode = #{orderCode},
-			</if>
-			<if test="orderName!=null and orderName!=''">
-			orderName = #{orderName},
-			</if>
-			<if test="orderType!=null and orderType!=''">
-			orderType = #{orderType},
-			</if>
-			<if test="orderStatus!=null and orderStatus!=''">
-			orderStatus = #{orderStatus},
-			</if>
-			<if test="orderProductCount!=null and orderProductCount!=''">
-			orderProductCount = #{orderProductCount},
-			</if>
-			<if test="allPrice!=null and allPrice!=''">
-			allPrice = #{allPrice},
-			</if>
-			<if test="freight!=null and freight!=''">
-			freight = #{freight},
-			</if>
-			<if test="allDisPrice!=null and allDisPrice!=''">
-			allDisPrice = #{allDisPrice},
-			</if>
-			<if test="walletPay!=null and walletPay!=''">
-			walletPay = #{walletPay},
-			</if>
-			<if test="allActPrice!=null and allActPrice!=''">
-			allActPrice = #{allActPrice},
-			</if>
-			<if test="supplierName!=null and supplierName!=''">
-			supplierName = #{supplierName},
-			</if>
-			<if test="supplierId!=null and supplierId!=''">
-			supplierId = #{supplierId},
-			</if>
-			<if test="receiveAddressId!=null and receiveAddressId!=''">
-			receiveAddressId = #{receiveAddressId},
-			</if>
-			<if test="payTime!=null and payTime!=''">
-			payTime = #{payTime},
-			</if>
-			<if test="sendTime!=null and sendTime!=''">
-			sendTime = #{sendTime},
-			</if>
-			<if test="tradeNum!=null and tradeNum!=''">
-			tradeNum = #{tradeNum},
-			</if>
-			<if test="payMethod!=null and payMethod!=''">
-			payMethod = #{payMethod},
-			</if>
-			<if test="wlgs!=null and wlgs!=''">
-			wlgs = #{wlgs},
-			</if>
-			<if test="wlNum!=null and wlNum!=''">
-			wlNum = #{wlNum},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			orderNum = #{orderNum},
-			</if>
-			<if test="effective!=null and effective!=''">
-			effective = #{effective},
-			</if>
+			orderStatus = #{OrderStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			orderId = #{orderId} 
-			and modifyTime = #{lastModifyTime}
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
+	</update>
+	
+	<!-- 更改有效性 -->
+	<update id="changeEffective" parameterType="comReceiveAddress">
+		update
+	<include refid="orderTable"/>
+		set 
+			effective = #{effective} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteByPd" parameterType="pd">
+	<delete id="deleteById" parameterType="String">
 		delete from 
 	<include refid="orderTable"/>
-		where 
-			orderId = #{orderId} 
+		where orderId = #{orderId} 
 	</delete>
 	
 	<!-- 批量删除 -->
@@ -208,111 +127,32 @@
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findByPd" parameterType="pd" resultType="comOrder">
+	<select id="findById" parameterType="String" resultType="comOrder">
 		select 
 	<include refid="orderColumns"/>
 		from 
 	<include refid="orderTable"/>
-		where 
-			orderId = #{orderId} 
+		where orderId = #{orderId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByPd" parameterType="pd" resultMap="comOrderResultMap">
+	<select id="listAll" resultType="comOrder">
 		select 
 	<include refid="orderColumns"/>
 		from 
 	<include refid="orderTable"/>
-		where 1=1
-		order by (orderNum+0) 
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="otherHave" parameterType="comOrder" resultMap="comOrderResultMap">
+	<select id="otherHaveCode" parameterType="comOrder" resultMap="comOrderResultMap">
 		select 
 	<include refid="orderColumns"/>
 		from 
 	<include refid="orderTable"/>
-		where 1=1
-			<if test="orderId!=null and orderId!=''">
-			 and orderId != #{orderId} 
-			</if>
-			<if test="orderCode!=null and orderCode!=''">
+		where orderId != #{orderId} 
 			 and orderCode = #{orderCode}
-			</if>
-			<if test="orderName!=null and orderName!=''">
-			 and orderName = #{orderName}
-			</if>
-			<if test="orderType!=null and orderType!=''">
-			 and orderType = #{orderType}
-			</if>
-			<if test="orderStatus!=null and orderStatus!=''">
-			 and orderStatus = #{orderStatus}
-			</if>
-			<if test="orderProductCount!=null and orderProductCount!=''">
-			 and orderProductCount = #{orderProductCount}
-			</if>
-			<if test="allPrice!=null and allPrice!=''">
-			 and allPrice = #{allPrice}
-			</if>
-			<if test="freight!=null and freight!=''">
-			 and freight = #{freight}
-			</if>
-			<if test="allDisPrice!=null and allDisPrice!=''">
-			 and allDisPrice = #{allDisPrice}
-			</if>
-			<if test="walletPay!=null and walletPay!=''">
-			 and walletPay = #{walletPay}
-			</if>
-			<if test="allActPrice!=null and allActPrice!=''">
-			 and allActPrice = #{allActPrice}
-			</if>
-			<if test="supplierName!=null and supplierName!=''">
-			 and supplierName = #{supplierName}
-			</if>
-			<if test="supplierId!=null and supplierId!=''">
-			 and supplierId = #{supplierId}
-			</if>
-			<if test="receiveAddressId!=null and receiveAddressId!=''">
-			 and receiveAddressId = #{receiveAddressId}
-			</if>
-			<if test="payTime!=null and payTime!=''">
-			 and payTime = #{payTime}
-			</if>
-			<if test="sendTime!=null and sendTime!=''">
-			 and sendTime = #{sendTime}
-			</if>
-			<if test="tradeNum!=null and tradeNum!=''">
-			 and tradeNum = #{tradeNum}
-			</if>
-			<if test="payMethod!=null and payMethod!=''">
-			 and payMethod = #{payMethod}
-			</if>
-			<if test="wlgs!=null and wlgs!=''">
-			 and wlgs = #{wlgs}
-			</if>
-			<if test="wlNum!=null and wlNum!=''">
-			 and wlNum = #{wlNum}
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null and effective!=''">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null and createUserId!=''">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null and createTime!=''">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null and modifyUserId!=''">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null and modifyTime!=''">
-			 and modifyTime = #{modifyTime}
-			</if>
-		order by (orderNum+0) 
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -330,7 +170,7 @@
 				orderName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		order by (orderNum+0)
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

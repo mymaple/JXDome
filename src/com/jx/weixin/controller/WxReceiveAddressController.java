@@ -67,7 +67,7 @@ public class WxReceiveAddressController extends BaseController {
 		comReceiveAddress.setStreet("");
 		comReceiveAddress.setDetail("");
 		//非默认
-		comReceiveAddress.setDefaultStatus("00");
+		comReceiveAddress.setReceiveAddressStatus("00");
 		mv.addObject(comReceiveAddress);
 		mv.addObject("methodPath", "add");
 		mv.setViewName("weixin/receiveAddress/wxReceiveAddressEdit");

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComOrderDetailMapper">
+
+	<sql id="orderDetailColumns">orderDetailId,orderId,productId,productName,summary,productStyleName,headImgSrc,originalPrice,currentPrice,count,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="orderDetailTable">com_order_detail</sql>
+	
+	<resultMap type="comOrderDetail" id="comOrderDetailResultMap">
+		<id column="orderDetailId" property="orderDetailId"/>
+		<result column="productId" property="productId"/>
+		<result column="productName" property="productName"/>
+		<result column="summary" property="summary"/>
+		<result column="productStyleName" property="productStyleName"/>
+		<result column="headImgSrc" property="headImgSrc"/>
+		<result column="originalPrice" property="originalPrice"/>
+		<result column="currentPrice" property="currentPrice"/>
+		<result column="count" property="count"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+		<result column="orderId" property="orderId"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByParentId" parameterType="String" resultType="comOrderDetail">
+		select 
+	<include refid="orderDetailColumns"/>
+		from 
+	<include refid="orderDetailTable"/>
+		where orderId = #{orderId} 
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comOrderDetail">
+		insert into 
+	<include refid="orderDetailTable"/>
+		( 
+	<include refid="orderDetailColumns"/>
+		) values (
+			#{orderDetailId},#{orderId},#{productId},#{productName},#{summary},#{productStyleName},#{headImgSrc},#{originalPrice},#{currentPrice},#{count},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comOrderDetail">
+		update
+	<include refid="orderDetailTable"/>
+		set 
+			productId = #{productId},
+			productName = #{productName},
+			summary = #{summary},
+			productStyleName = #{productStyleName},
+			headImgSrc = #{headImgSrc},
+			originalPrice = #{originalPrice},
+			currentPrice = #{currentPrice},
+			count = #{count},
+			orderNum = #{orderNum},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			orderDetailId = #{orderDetailId} 
+	</update>
+	
+	<!-- 更改有效性 -->
+	<update id="changeEffective" parameterType="comReceiveAddress">
+		update
+	<include refid="orderDetailTable"/>
+		set 
+			effective = #{effective} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="String">
+		delete from 
+	<include refid="orderDetailTable"/>
+		where orderDetailId = #{orderDetailId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="orderDetailTable"/>
+		where 
+			CONCAT(orderDetailId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="String" resultType="comOrderDetail">
+		select 
+	<include refid="orderDetailColumns"/>
+		from 
+	<include refid="orderDetailTable"/>
+		where orderDetailId = #{orderDetailId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAll" resultType="comOrderDetail">
+		select 
+	<include refid="orderDetailColumns"/>
+		from 
+	<include refid="orderDetailTable"/>
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="orderDetailColumns"/>
+		from 
+	<include refid="orderDetailTable"/>
+		where 1=1
+			and orderId = #{pd.orderId}
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				orderDetailCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				orderDetailName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

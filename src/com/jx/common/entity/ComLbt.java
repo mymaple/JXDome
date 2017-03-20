@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
 public class ComLbt extends BaseEntity implements Serializable {
 	
@@ -60,7 +60,7 @@ public class ComLbt extends BaseEntity implements Serializable {
 	 * @param String lbtId
 	 */
 	public void setLbtId(String lbtId) {
-		this.lbtId = MapleStringUtil.trim(lbtId);
+		this.lbtId = StringUtils.trim(lbtId);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class ComLbt extends BaseEntity implements Serializable {
 	 * @param String lbtCode
 	 */
 	public void setLbtCode(String lbtCode) {
-		this.lbtCode = MapleStringUtil.trim(lbtCode);
+		this.lbtCode = StringUtils.trim(lbtCode);
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class ComLbt extends BaseEntity implements Serializable {
 	 * @param String lbtType
 	 */
 	public void setLbtType(String lbtType) {
-		this.lbtType = MapleStringUtil.trim(lbtType);
+		this.lbtType = StringUtils.trim(lbtType);
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class ComLbt extends BaseEntity implements Serializable {
 	 * @param String lbtStatus
 	 */
 	public void setLbtStatus(String lbtStatus) {
-		this.lbtStatus = MapleStringUtil.trim(lbtStatus);
+		this.lbtStatus = StringUtils.trim(lbtStatus);
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public class ComLbt extends BaseEntity implements Serializable {
 	 * @param String lbtImgSrc
 	 */
 	public void setLbtImgSrc(String lbtImgSrc) {
-		this.lbtImgSrc = MapleStringUtil.trim(lbtImgSrc);
+		this.lbtImgSrc = StringUtils.trim(lbtImgSrc);
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public class ComLbt extends BaseEntity implements Serializable {
 	 * @param String description
 	 */
 	public void setDescription(String description) {
-		this.description = MapleStringUtil.trim(description);
+		this.description = StringUtils.trim(description);
 	}
 	
 	/**

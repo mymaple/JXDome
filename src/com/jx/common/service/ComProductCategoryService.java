@@ -11,7 +11,7 @@ public interface ComProductCategoryService {
 	
 	/****************************custom * start***********************************/
 
-	
+		
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -31,12 +31,19 @@ public interface ComProductCategoryService {
 	public void edit(ComProductCategory comProductCategory) throws Exception ;
 	
 	/**
-	 * 更改
-	 * @param ComProductCategory comProductCategory
+	 * 更改状态 flag 00
+	 * @param String flag, String productCategoryId
 	 * @throws Exception
 	 */
-	public void change(ComProductCategory comProductCategory) throws Exception ;
-
+	public void changeStatus(String flag, String productCategoryId) throws Exception ;
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String productCategoryId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String productCategoryId) throws Exception ;
+	
 	/**
 	 * 删除 
 	 * @param String productCategoryId
@@ -45,19 +52,12 @@ public interface ComProductCategoryService {
 	public void deleteById(String productCategoryId) throws Exception ;
 	
 	/**
-	 * 删除 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void deleteByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception ;
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String productCategoryId
@@ -67,26 +67,11 @@ public interface ComProductCategoryService {
 	public ComProductCategory findById(String productCategoryId) throws Exception ;
 	
 	/**
-	 * 通过pd获取(ComProductCategory)数据 
-	 * @param PageData pd
-	 * @return ComProductCategory
-	 * @throws Exception
-	 */
-	public ComProductCategory findByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComProductCategory> listByPd(PageData pd) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComProductCategory> otherHave(ComProductCategory comProductCategory) throws Exception ;
+	public List<ComProductCategory> listAll() throws Exception ;
 	
 	/**
 	 * 获取(类)List数据

@@ -67,13 +67,14 @@
 									<th class="center">订单代号</th>
 									<th class="center">订单名称</th>
 									<th class="center">订单类型</th>
+									<th class="center">订单状态</th>
 									<th class="center">订单商品总数</th>
 									<th class="center">商品总价</th>
 									<th class="center">运费</th>
 									<th class="center">总优惠</th>
 									<th class="center">钱包支付</th>
 									<th class="center">实付款</th>
-									<th class="center">编号</th>
+									<th class="center">供应商id</th>
 									<th class="center">收货地址</th>
 									<th class="center">交易号</th>
 									<th class="center">付款方式</th>
@@ -94,10 +95,16 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comOrder.orderId}" class="ace" /><span class="lbl"></span></label>
 											</td>
+											<c:if test="${comOrder.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${comOrder.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											</c:if>
 											<td class='center'>${comOrder.orderCode}</td>
-											<td class='center'>${comOrder.orderName}</td>
+											<td class='center'><a href="javascript:toDetail('${comOrder.orderId}')">${comOrder.orderName}</a></td>
 											<td class='center'><param:display type="com_orderType" value="${comOrder.orderType}"/></td>
+											<td class='center'>${comOrder.orderStatus}</td>
 											<td class='center'>${comOrder.orderProductCount}</td>
 											<td class='center'>${comOrder.allPrice}</td>
 											<td class='center'>${comOrder.freight}</td>
@@ -117,6 +124,14 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
+													
+													<c:if test="${comOrder.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comOrder.orderId}');">使生效</a>
+													</c:if>
+													<c:if test="${comOrder.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comOrder.orderId}');">使失效</a>
+													</c:if>
+													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comOrder.orderId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -246,6 +261,49 @@
 			});
 		});
 		
+		//去此ID下详情页面
+		function toDetail(orderId){
+			top.jzts();
+			window.location.href="<%=basePath%>background/orderDetail/list.do?orderId="+orderId;
+		}
+		
+		
+		function changeEffective(flag,orderId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/order/changeEffective.do?flag="+flag+"&orderId="+orderId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,orderId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/order/changeStatus.do?flag="+flag+"&orderId="+orderId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
 		//新增
 		function toAdd(){
 			 top.jzts();
@@ -254,10 +312,10 @@
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/order/toAdd.do";
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
 					if('${bgPage.currentPage}' == '0'){
@@ -295,10 +353,10 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/order/toEdit.do?orderId="+orderId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮 
+		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					nextPage('${bgPage.currentPage}');

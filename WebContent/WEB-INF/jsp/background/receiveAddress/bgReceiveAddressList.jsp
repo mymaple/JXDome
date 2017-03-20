@@ -254,7 +254,7 @@
 			bootbox.confirm(firm, function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/receiveAddressDetail/changeEffective.do?flag="+flag+"&{bgMaple.mapleCode}Id="+receiveAddressId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/receiveAddress/changeEffective.do?flag="+flag+"&receiveAddressId="+receiveAddressId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${bgPage.currentPage}');
@@ -272,7 +272,7 @@
 			bootbox.confirm(firm, function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/receiveAddressDetail/changeStatus.do?flag="+flag+"&{bgMaple.mapleCode}Id="+receiveAddressId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/receiveAddress/changeStatus.do?flag="+flag+"&receiveAddressId="+receiveAddressId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${bgPage.currentPage}');

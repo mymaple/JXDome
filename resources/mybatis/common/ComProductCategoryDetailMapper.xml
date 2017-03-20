@@ -4,7 +4,7 @@
 <mapper namespace="ComProductCategoryDetailMapper">
 
 	<sql id="productCategoryDetailColumns">productCategoryDetailId,productCategoryId,productId,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
-	<sql id="productCategoryDetailTable">com_product_category_detail_detail</sql>
+	<sql id="productCategoryDetailTable">com_product_category_detail</sql>
 	
 	<resultMap type="comProductCategoryDetail" id="comProductCategoryDetailResultMap">
 		<id column="productCategoryDetailId" property="productCategoryDetailId"/>
@@ -20,6 +20,16 @@
 	
 	
 	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByParentId" parameterType="String" resultType="comProductCategoryDetail">
+		select 
+	<include refid="productCategoryDetailColumns"/>
+		from 
+	<include refid="productCategoryDetailTable"/>
+		where productCategoryId = #{productCategoryId} 
+		order by (orderNum+0) DESC
+	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
@@ -49,61 +59,24 @@
 			productCategoryDetailId = #{productCategoryDetailId} 
 	</update>
 	
-	<!-- 改变 -->
-	<update id="change" parameterType="comProductCategoryDetail">
+	<!-- 更改有效性 -->
+	<update id="changeEffective" parameterType="comReceiveAddress">
 		update
 	<include refid="productCategoryDetailTable"/>
 		set 
-			<if test="productCategoryId!=null">
-			productCategoryId = #{productCategoryId},
-			</if>
-			<if test="productId!=null">
-			productId = #{productId},
-			</if>
-			<if test="orderNum!=null">
-			orderNum = #{orderNum},
-			</if>
-			<if test="effective!=null">
-			effective = #{effective},
-			</if>
+			effective = #{effective} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			productCategoryDetailId = #{productCategoryDetailId} 
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="delete" parameterType="comProductCategoryDetail">
+	<delete id="deleteById" parameterType="String">
 		delete from 
 	<include refid="productCategoryDetailTable"/>
-		where 1=1 
-			<if test="productCategoryDetailId!=null">
-			 and productCategoryDetailId = #{productCategoryDetailId} 
-			</if>
-			<if test="productCategoryId!=null">
-			and productCategoryId = #{productCategoryId}
-			</if>
-			<if test="productId!=null">
-			 and productId = #{productId}
-			</if>
-			<if test="orderNum!=null">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null">
-			 and modifyTime = #{modifyTime}
-			</if>
+		where productCategoryDetailId = #{productCategoryDetailId} 
 	</delete>
 	
 	<!-- 批量删除 -->
@@ -118,113 +91,21 @@
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="find" parameterType="comProductCategoryDetail" resultType="comProductCategoryDetail">
+	<select id="findById" parameterType="String" resultType="comProductCategoryDetail">
 		select 
 	<include refid="productCategoryDetailColumns"/>
 		from 
 	<include refid="productCategoryDetailTable"/>
-		where 1=1 
-			<if test="productCategoryDetailId!=null">
-			 and productCategoryDetailId = #{productCategoryDetailId} 
-			</if>
-			<if test="productCategoryId!=null">
-			and productCategoryId = #{productCategoryId}
-			</if>
-			<if test="productId!=null">
-			 and productId = #{productId}
-			</if>
-			<if test="orderNum!=null">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null">
-			 and modifyTime = #{modifyTime}
-			</if>
+		where productCategoryDetailId = #{productCategoryDetailId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="list" parameterType="comProductCategoryDetail" resultType="comProductCategoryDetail">
+	<select id="listAll" resultType="comProductCategoryDetail">
 		select 
 	<include refid="productCategoryDetailColumns"/>
 		from 
 	<include refid="productCategoryDetailTable"/>
-		where 1=1 
-			<if test="productCategoryDetailId!=null">
-			 and productCategoryDetailId = #{productCategoryDetailId} 
-			</if>
-			<if test="productCategoryId!=null">
-			and productCategoryId = #{productCategoryId}
-			</if>
-			<if test="productId!=null">
-			 and productId = #{productId}
-			</if>
-			<if test="orderNum!=null">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null">
-			 and modifyTime = #{modifyTime}
-			</if>
-		order by (orderNum+0) 
-	</select>
-	
-	<!-- 获取(类)List数据  -->
-	<select id="otherHave" parameterType="comProductCategoryDetail" resultMap="comProductCategoryDetailResultMap">
-		select 
-	<include refid="productCategoryDetailColumns"/>
-		from 
-	<include refid="productCategoryDetailTable"/>
-		where 1=1 
-			<if test="productCategoryDetailId!=null">
-			 and productCategoryDetailId != #{productCategoryDetailId} 
-			</if>
-			<if test="productCategoryId!=null">
-			and productCategoryId = #{productCategoryId}
-			</if>
-			<if test="productId!=null">
-			 and productId = #{productId}
-			</if>
-			<if test="orderNum!=null">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null">
-			 and modifyTime = #{modifyTime}
-			</if>
-		order by (orderNum+0) 
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -243,7 +124,7 @@
 				productCategoryDetailName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		order by (orderNum+0)
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

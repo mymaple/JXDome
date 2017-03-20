@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
 public class ComProductCategoryDetail extends BaseEntity implements Serializable {
 	
@@ -45,7 +45,7 @@ public class ComProductCategoryDetail extends BaseEntity implements Serializable
 	 * @param String productCategoryDetailId
 	 */
 	public void setProductCategoryDetailId(String productCategoryDetailId) {
-		this.productCategoryDetailId = MapleStringUtil.trim(productCategoryDetailId);
+		this.productCategoryDetailId = StringUtils.trim(productCategoryDetailId);
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class ComProductCategoryDetail extends BaseEntity implements Serializable
 	 * @param String productCategoryId
 	 */
 	public void setProductCategoryId(String productCategoryId) {
-		this.productCategoryId = MapleStringUtil.trim(productCategoryId);
+		this.productCategoryId = StringUtils.trim(productCategoryId);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class ComProductCategoryDetail extends BaseEntity implements Serializable
 	 * @param String productId
 	 */
 	public void setProductId(String productId) {
-		this.productId = MapleStringUtil.trim(productId);
+		this.productId = StringUtils.trim(productId);
 	}
 	
 	/**

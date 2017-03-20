@@ -37,7 +37,7 @@ import com.jx.common.service.ComLbtService;
 /** 
  * 类名称：BgLbtController
  * 创建人：maple
- * 创建时间：2017-03-18
+ * 创建时间：2017-03-20
  */
 @Controller
 @RequestMapping(value="/background/lbt")
@@ -240,6 +240,34 @@ public class BgLbtController extends BaseController {
 	}
 	
 	/**
+	 * 更改状态
+	 */
+	@RequestMapping(value="/changeStatus")
+	@ResponseBody
+	public Object changeStatus(@RequestParam String flag, @RequestParam String lbtId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comLbtService.changeStatus(flag, lbtId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 更改有效性
+	 */
+	@RequestMapping(value="/changeEffective")
+	@ResponseBody
+	public Object changeEffective(@RequestParam String flag, @RequestParam String lbtId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comLbtService.changeEffective(flag, lbtId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 导出到excel
 	 * @return
 	 */
@@ -263,7 +291,7 @@ public class BgLbtController extends BaseController {
 		titles.add("修改人员id");	//10
 		titles.add("修改时间");	//11
 		dataMap.put("titles", titles);
-		List<ComLbt> varOList = comLbtService.list(null);
+		List<ComLbt> varOList = comLbtService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	

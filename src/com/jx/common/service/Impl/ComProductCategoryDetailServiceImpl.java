@@ -29,10 +29,9 @@ public class ComProductCategoryDetailServiceImpl implements ComProductCategoryDe
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<ComProductCategoryDetail> listByProductCategoryId(String productCategoryId) throws Exception {
-		ComProductCategoryDetail comProductCategoryDetail = new ComProductCategoryDetail();
-		comProductCategoryDetail.setProductCategoryId(productCategoryId);
-		return this.list(comProductCategoryDetail);
+		return (List<ComProductCategoryDetail>) dao.findForList("ComProductCategoryDetailMapper.listByProductCategoryId", productCategoryId);
 	}
 	/****************************custom * end  ***********************************/
 	
@@ -70,35 +69,35 @@ public class ComProductCategoryDetailServiceImpl implements ComProductCategoryDe
 	}
 	
 	/**
-	 * 更改
-	 * @param ComProductCategoryDetail comProductCategoryDetail
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String productCategoryDetailId
 	 * @throws Exception
 	 */
-	public void change(ComProductCategoryDetail comProductCategoryDetail) throws Exception {
+	public void changeEffective(String flag, String productCategoryDetailId) throws Exception {
+		ComProductCategoryDetail comProductCategoryDetail = new ComProductCategoryDetail();
+		if("00".equals(flag)){
+			comProductCategoryDetail.setOldValue("01");
+		}else if("01".equals(flag)){
+			comProductCategoryDetail.setOldValue("00");
+		}else{
+			comProductCategoryDetail.setOldValue("flag");
+		}
+		comProductCategoryDetail.setEffective(flag);
+		
+		comProductCategoryDetail.setProductCategoryDetailId(productCategoryDetailId);
 		Date nowTime = new Date();
 		comProductCategoryDetail.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategoryDetail.setModifyTime(nowTime);
-		dao.update("ComProductCategoryDetailMapper.change", comProductCategoryDetail);
+		dao.update("ComProductCategoryDetailMapper.changeEffective", comProductCategoryDetail);
 	}
-
+	
 	/**
 	 * 删除 
 	 * @param String productCategoryDetailId
 	 * @throws Exception
 	 */
 	public void deleteById(String productCategoryDetailId) throws Exception {
-		ComProductCategoryDetail comProductCategoryDetail = new ComProductCategoryDetail();
-		comProductCategoryDetail.setProductCategoryDetailId(productCategoryDetailId);
-		this.delete(comProductCategoryDetail);
-	}
-	
-	/**
-	 * 删除 
-	 * @param ComProductCategoryDetail comProductCategoryDetail
-	 * @throws Exception
-	 */
-	public void delete(ComProductCategoryDetail comProductCategoryDetail) throws Exception {
-		dao.delete("ComProductCategoryDetailMapper.delete", comProductCategoryDetail);
+		dao.delete("ComProductCategoryDetailMapper.deleteById", productCategoryDetailId);
 	}
 	
 	/**
@@ -111,67 +110,13 @@ public class ComProductCategoryDetailServiceImpl implements ComProductCategoryDe
 	}
 	
 	/**
-	 * 生效 
-	 * @param String productCategoryDetailId
-	 * @throws Exception
-	 */
-	public void toEffective(String productCategoryDetailId) throws Exception {
-		ComProductCategoryDetail comProductCategoryDetail = new ComProductCategoryDetail();
-		comProductCategoryDetail.setProductCategoryDetailId(productCategoryDetailId);
-		Date nowTime = new Date();
-		comProductCategoryDetail.setModifyUserId(ShiroSessionUtil.getUserId());
-		comProductCategoryDetail.setModifyTime(nowTime);
-		dao.update("ComProductCategoryDetailMapper.toEffective", comProductCategoryDetail);
-	}
-	
-	/**
-	 * 失效
-	 * @param String productCategoryDetailId
-	 * @throws Exception
-	 */
-	public void toDisEffective(String productCategoryDetailId) throws Exception {
-		ComProductCategoryDetail comProductCategoryDetail = new ComProductCategoryDetail();
-		comProductCategoryDetail.setProductCategoryDetailId(productCategoryDetailId);
-		Date nowTime = new Date();
-		comProductCategoryDetail.setModifyUserId(ShiroSessionUtil.getUserId());
-		comProductCategoryDetail.setModifyTime(nowTime);
-		dao.update("ComProductCategoryDetailMapper.toDisEffective", comProductCategoryDetail);
-	}
-	
-	
-	
-
-	/**
 	 * 通过id获取(类)数据
 	 * @param String productCategoryDetailId
 	 * @return ComProductCategoryDetail
 	 * @throws Exception
 	 */
 	public ComProductCategoryDetail findById(String productCategoryDetailId) throws Exception {
-		ComProductCategoryDetail comProductCategoryDetail = new ComProductCategoryDetail();
-		comProductCategoryDetail.setProductCategoryDetailId(productCategoryDetailId);
-		return this.find(comProductCategoryDetail);
-	}
-	
-	/**
-	 * 通过pd获取(ComProductCategoryDetail)数据 
-	 * @param ComProductCategoryDetail comProductCategoryDetail
-	 * @return ComProductCategoryDetail
-	 * @throws Exception
-	 */
-	public ComProductCategoryDetail find(ComProductCategoryDetail comProductCategoryDetail) throws Exception {
-		return (ComProductCategoryDetail) dao.findForObject("ComProductCategoryDetailMapper.find", comProductCategoryDetail);
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @param ComProductCategoryDetail comProductCategoryDetail
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<ComProductCategoryDetail> list(ComProductCategoryDetail comProductCategoryDetail) throws Exception {
-		return (List<ComProductCategoryDetail>) dao.findForList("ComProductCategoryDetailMapper.list", comProductCategoryDetail);
+		return (ComProductCategoryDetail) dao.findForObject("ComProductCategoryDetailMapper.findById", productCategoryDetailId);
 	}
 	
 	/**
@@ -180,19 +125,8 @@ public class ComProductCategoryDetailServiceImpl implements ComProductCategoryDe
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComProductCategoryDetail> otherHave(ComProductCategoryDetail comProductCategoryDetail) throws Exception {
-		return (List<ComProductCategoryDetail>) dao.findForList("ComProductCategoryDetailMapper.otherHave", comProductCategoryDetail);
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComProductCategoryDetail> otherHaveCode(String productCategoryDetailId, String productCategoryDetailCode) throws Exception {
-		ComProductCategoryDetail comProductCategoryDetail = new ComProductCategoryDetail();
-		comProductCategoryDetail.setProductCategoryDetailId(productCategoryDetailId);
-		return this.otherHave(comProductCategoryDetail);
+	public List<ComProductCategoryDetail> listAll() throws Exception {
+		return (List<ComProductCategoryDetail>) dao.findForList("ComProductCategoryDetailMapper.listAll", null);
 	}
 	
 	/**

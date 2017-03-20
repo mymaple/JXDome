@@ -5,12 +5,12 @@ import java.util.Date;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
 import com.jx.common.util.MapleDateUtil;
-import com.jx.common.util.MapleStringUtil;
 
 public class ComOrder extends BaseEntity implements Serializable {
 	
@@ -44,6 +44,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	private String orderType;
 		
 	/** 订单状态 */
+	@NotBlank(message="订单状态 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String orderStatus;
 		
 	/** 订单商品总数 */
@@ -73,8 +74,8 @@ public class ComOrder extends BaseEntity implements Serializable {
 	/** 供应商 */
 	private String supplierName;
 		
-	/** 编号 */
-	@NotBlank(message="编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	/** 供应商id */
+	@NotBlank(message="供应商id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String supplierId;
 		
 	/** 收货地址 */
@@ -111,7 +112,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String orderId
 	 */
 	public void setOrderId(String orderId) {
-		this.orderId = MapleStringUtil.trim(orderId);
+		this.orderId = StringUtils.trim(orderId);
 	}
 	
 	/**
@@ -129,7 +130,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String orderCode
 	 */
 	public void setOrderCode(String orderCode) {
-		this.orderCode = MapleStringUtil.trim(orderCode);
+		this.orderCode = StringUtils.trim(orderCode);
 	}
 	
 	/**
@@ -147,7 +148,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String orderName
 	 */
 	public void setOrderName(String orderName) {
-		this.orderName = MapleStringUtil.trim(orderName);
+		this.orderName = StringUtils.trim(orderName);
 	}
 	
 	/**
@@ -165,7 +166,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String orderType
 	 */
 	public void setOrderType(String orderType) {
-		this.orderType = MapleStringUtil.trim(orderType);
+		this.orderType = StringUtils.trim(orderType);
 	}
 	
 	/**
@@ -183,7 +184,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String orderStatus
 	 */
 	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = MapleStringUtil.trim(orderStatus);
+		this.orderStatus = StringUtils.trim(orderStatus);
 	}
 	
 	/**
@@ -231,6 +232,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 		return this.allPrice;
 	}
 	
+	
 	/**
 	 * 设置 运费
 	 * 
@@ -248,6 +250,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	public String getFreight() {
 		return this.freight;
 	}
+	
 	
 	/**
 	 * 设置 总优惠
@@ -267,6 +270,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 		return this.allDisPrice;
 	}
 	
+	
 	/**
 	 * 设置 钱包支付
 	 * 
@@ -284,6 +288,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	public String getWalletPay() {
 		return this.walletPay;
 	}
+	
 	
 	/**
 	 * 设置 实付款
@@ -303,13 +308,14 @@ public class ComOrder extends BaseEntity implements Serializable {
 		return this.allActPrice;
 	}
 	
+	
 	/**
 	 * 设置 供应商
 	 * 
 	 * @param String supplierName
 	 */
 	public void setSupplierName(String supplierName) {
-		this.supplierName = MapleStringUtil.trim(supplierName);
+		this.supplierName = StringUtils.trim(supplierName);
 	}
 	
 	/**
@@ -322,16 +328,16 @@ public class ComOrder extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 编号
+	 * 设置 供应商id
 	 * 
 	 * @param String supplierId
 	 */
 	public void setSupplierId(String supplierId) {
-		this.supplierId = MapleStringUtil.trim(supplierId);
+		this.supplierId = StringUtils.trim(supplierId);
 	}
 	
 	/**
-	 * 获取 编号
+	 * 获取 供应商id
 	 * 
 	 * @return String supplierId
 	 */
@@ -345,7 +351,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String receiveAddressId
 	 */
 	public void setReceiveAddressId(String receiveAddressId) {
-		this.receiveAddressId = MapleStringUtil.trim(receiveAddressId);
+		this.receiveAddressId = StringUtils.trim(receiveAddressId);
 	}
 	
 	/**
@@ -376,7 +382,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	}	
 		
 	public void setPayTimeStr(String payTimeStr) throws Exception{
-		payTimeStr = MapleStringUtil.trim(payTimeStr);
+		payTimeStr = StringUtils.trim(payTimeStr);
 		if(!payTimeStr.equals("")){
 			try{
 				setPayTime(MapleDateUtil.parseDateStr(payTimeStr));
@@ -409,7 +415,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	}	
 		
 	public void setSendTimeStr(String sendTimeStr) throws Exception{
-		sendTimeStr = MapleStringUtil.trim(sendTimeStr);
+		sendTimeStr = StringUtils.trim(sendTimeStr);
 		if(!sendTimeStr.equals("")){
 			try{
 				setSendTime(MapleDateUtil.parseDateStr(sendTimeStr));
@@ -429,7 +435,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String tradeNum
 	 */
 	public void setTradeNum(String tradeNum) {
-		this.tradeNum = MapleStringUtil.trim(tradeNum);
+		this.tradeNum = StringUtils.trim(tradeNum);
 	}
 	
 	/**
@@ -447,7 +453,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String payMethod
 	 */
 	public void setPayMethod(String payMethod) {
-		this.payMethod = MapleStringUtil.trim(payMethod);
+		this.payMethod = StringUtils.trim(payMethod);
 	}
 	
 	/**
@@ -465,7 +471,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String wlgs
 	 */
 	public void setWlgs(String wlgs) {
-		this.wlgs = MapleStringUtil.trim(wlgs);
+		this.wlgs = StringUtils.trim(wlgs);
 	}
 	
 	/**
@@ -483,7 +489,7 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 * @param String wlNum
 	 */
 	public void setWlNum(String wlNum) {
-		this.wlNum = MapleStringUtil.trim(wlNum);
+		this.wlNum = StringUtils.trim(wlNum);
 	}
 	
 	/**
