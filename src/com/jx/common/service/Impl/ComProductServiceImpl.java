@@ -14,6 +14,7 @@ import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
+import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProduct;
 import com.jx.common.service.ComProductService;
@@ -39,16 +40,21 @@ public class ComProductServiceImpl implements ComProductService{
 	public void add(ComProduct comProduct) throws Exception {
 		
 		Date nowTime = new Date();
-		comProduct.setProductId(UuidUtil.get32UUID());
+		String productId = UuidUtil.get32UUID();
+		comProduct.setProductId(productId);
 		comProduct.setProductStatus("00");
 		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProduct.PATH_IMG_PRODUCT_HEADIMG, comProduct.getHeadImgSrc()));
+			ComProduct.PATH_IMG_PRODUCT_HEADIMG, comProduct.getHeadImgSrc())
+				.replaceAll(",", Const.REG_COM_SPLIT));
 		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProduct.PATH_IMG_PRODUCT_IMG1, comProduct.getImgSrc1()));
+			ComProduct.PATH_IMG_PRODUCT_IMG1, comProduct.getImgSrc1())
+				.replaceAll(",", Const.REG_COM_SPLIT));
 		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProduct.PATH_IMG_PRODUCT_IMG2, comProduct.getImgSrc2()));
+			ComProduct.PATH_IMG_PRODUCT_IMG2, comProduct.getImgSrc2())
+				.replaceAll(",", Const.REG_COM_SPLIT));
 		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProduct.PATH_IMG_PRODUCT_IMG3, comProduct.getImgSrc3()));
+			ComProduct.PATH_IMG_PRODUCT_IMG3, comProduct.getImgSrc3())
+				.replaceAll(",", Const.REG_COM_SPLIT));
 		comProduct.setEffective("01");
 		comProduct.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProduct.setCreateTime(nowTime);
@@ -56,6 +62,23 @@ public class ComProductServiceImpl implements ComProductService{
 		comProduct.setModifyTime(nowTime);
 		
 		dao.add("ComProductMapper.add", comProduct);
+		
+		this.updateCode(productId);
+	}
+	
+	/**
+	 * 生成code 
+	 * @param String productId
+	 * @throws Exception
+	 */
+	public void updateCode(String productId) throws Exception {
+		//生成固定id
+		PageData pd = new PageData();
+		pd.put("productId", productId);
+		pd.put("startC", "sp");
+		pd.put("startN", 100001);
+		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
+		dao.update("ComProductMapper.updateCode", pd);
 	}
 	
 	/**

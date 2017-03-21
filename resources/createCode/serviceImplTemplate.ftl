@@ -115,7 +115,8 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	public void add(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
 		
 		Date nowTime = new Date();
-		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(UuidUtil.get32UUID());
+		String ${bgMaple.mapleCode}Id = UuidUtil.get32UUID()
+		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(${bgMaple.mapleCode}Id);
 		<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.mapleDetailType == '06'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
@@ -140,7 +141,36 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
 		
 		dao.add("${bgMaple.mapleEntityUpper}Mapper.add", ${bgMaple.mapleEntityLower});
+		
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
+		<#if bgMapleDetail.isEdit = "00">
+		this.updateCode(${bgMaple.mapleCode}Id);
+		</#if>
+	</#if>
+	</#list>
 	}
+	
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
+		<#if bgMapleDetail.isEdit = "00">
+	/**
+	 * 生成code 
+	 * @param String ${bgMaple.mapleCode}Id
+	 * @throws Exception
+	 */
+	public void updateCode(String ${bgMaple.mapleCode}Id) throws Exception {
+		//生成固定id
+		PageData pd = new PageData();
+		pd.put("${bgMaple.mapleCode}Id", ${bgMaple.mapleCode}Id);
+		pd.put("startC", "${bgMapleDetail.typeCode}");
+		pd.put("startN", 100001);
+		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
+		dao.update("${bgMaple.mapleEntityUpper}Mapper.add.updateCode", pd);
+	}	
+		</#if>
+	</#if>
+	</#list>
 	
 	/**
 	 * 修改 

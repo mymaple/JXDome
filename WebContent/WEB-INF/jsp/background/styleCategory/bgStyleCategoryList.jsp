@@ -24,7 +24,12 @@
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
 		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>background/styleCategory/main.do?pId="+'${pd.pId}'+"&currentPage="+currentPage+"&showCount="+showCount;
+			var url = "<%=basePath%>background/styleCategory/main.do?pId="+'${pd.pId}'+"&currentPage="+currentPage+"&showCount="+showCount;
+			var productId=$("#productId").val();
+			if(productId!=null && productId!=''){
+				url=url+"&productId="+productId;
+			}
+			parent.location.href=url;
 		}
 	}
 </script>

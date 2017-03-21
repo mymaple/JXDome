@@ -185,7 +185,7 @@ public class BgStyleCategoryController extends BaseController {
 			return mv;
 		}
 		
-		List<ComStyleCategory> comStyleCategoryList = comStyleCategoryService.otherHaveName("", comStyleCategory.getStyleCategoryName());
+		List<ComStyleCategory> comStyleCategoryList = comStyleCategoryService.otherHaveName(comStyleCategory.getProductId(), "", comStyleCategory.getStyleCategoryName());
 		if(MapleUtil.notEmptyList(comStyleCategoryList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -238,7 +238,7 @@ public class BgStyleCategoryController extends BaseController {
 			return mv; 
 		}
 		
-		List<ComStyleCategory> comStyleCategoryList = comStyleCategoryService.otherHaveName(comStyleCategory.getStyleCategoryId(), comStyleCategory.getStyleCategoryName());	
+		List<ComStyleCategory> comStyleCategoryList = comStyleCategoryService.otherHaveName(comStyleCategory.getProductId(), comStyleCategory.getStyleCategoryId(), comStyleCategory.getStyleCategoryName());	
 		if(MapleUtil.notEmptyList(comStyleCategoryList)){
 			mv.addObject(resultInfo);					
 			return mv;
@@ -252,15 +252,15 @@ public class BgStyleCategoryController extends BaseController {
 	}
 	
 	/**
-	 * 判断是否存在dictCode
+	 * 判断是否存在styleCategoryName
 	 */
-	@RequestMapping(value="/otherNotCode")
+	@RequestMapping(value="/otherNotName")
 	@ResponseBody
-	public Object otherNotCode(@RequestParam String styleCategoryId, @RequestParam String styleCategoryName) throws Exception{
+	public Object otherNotName(@RequestParam String productId, @RequestParam String styleCategoryId, @RequestParam String styleCategoryName) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		List<ComStyleCategory> comStyleCategoryList = comStyleCategoryService.otherHaveName(styleCategoryId, styleCategoryName);	
+		List<ComStyleCategory> comStyleCategoryList = comStyleCategoryService.otherHaveName(productId, styleCategoryId, styleCategoryName);	
 		if(MapleUtil.emptyList(comStyleCategoryList)){
 			resultInfo.setResultCode("success");
 		}

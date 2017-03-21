@@ -39,10 +39,12 @@
 								<td style="width:100px;text-align: right;padding-top: 13px;">供应商:</td>
 								<td><param:select type="com_supplierEffective" name="supplierId" id="supplierId" value="${comProduct.supplierId}" placeholder="这里请选择 供应商" title="供应商" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
+							<c:if test="${methodPath == 'edit' }">
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">产品代号:</td>
-								<td><input type="text" name="productCode" id="productCode" value="${comProduct.productCode}" maxlength="100" placeholder="这里输入 产品代号" title="产品代号" style="width:98%;" onblur="otherNotCode()"/></td>
+								<td>${comProduct.productCode}</td>
 							</tr>
+							</c:if>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">产品名称:</td>
 								<td><input type="text" name="productName" id="productName" value="${comProduct.productName}" maxlength="100" placeholder="这里输入 产品名称" title="产品名称" style="width:98%;" /></td>
@@ -172,7 +174,7 @@
 		        });
 			return false;
 			}
-			if(!codeExp.test($("#productCode").val())){
+			/* if(!codeExp.test($("#productCode").val())){
 				$("#productCode").tips({
 					side:3,
 		            msg:'请输入产品代号 需以小写字母开头的字母数字',
@@ -181,7 +183,7 @@
 		        });
 				$("#productCode").focus();
 			return false;
-			}
+			} */
 			if($("#productName").val()==""){
 				$("#productName").tips({
 					side:3,

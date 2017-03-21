@@ -49,7 +49,7 @@
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">规格分类名称:</td>
-								<td><input type="text" name="styleCategoryName" id="styleCategoryName" value="${comStyleCategory.styleCategoryName}" maxlength="100" placeholder="这里输入 规格分类名称" title="规格分类名称" style="width:98%;" /></td>
+								<td><input type="text" name="styleCategoryName" id="styleCategoryName" value="${comStyleCategory.styleCategoryName}" maxlength="100" placeholder="这里输入 规格分类名称" title="规格分类名称" style="width:98%;" onblur="otherNotName();"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">是否最终分类:</td>
@@ -95,22 +95,30 @@
 	<script type="text/javascript">
 		$(top.hangge());
 		
-		//判断styleCategoryCode是否存在
-		function otherNotCode(){
-			var styleCategoryCode = $("#styleCategoryCode").val();
-			if(styleCategoryCode == "") return false;
+		//判断styleCategoryName是否存在
+		function otherNotName(){
+			var styleCategoryName = $("#styleCategoryName").val();
+			var productId = $("#productId").val();
+			if(styleCategoryName == "") return false;
 			var styleCategoryId = $("#styleCategoryId").val();
-			var url = "<%=basePath%>background/styleCategory/otherNotCode.do?styleCategoryId="+styleCategoryId+"&styleCategoryCode="+styleCategoryCode+"&tm="+new Date().getTime();
-			$.get(url,function(data){
-				if(data.resultCode != "success"){
-					$("#styleCategoryCode").tips({
-						side:3,
-			            msg:'规格分类代号 已存在',
-			            bg:'#AE81FF',
-			            time:2
-			        });
-					$("#styleCategoryCode").focus();
-					return false;
+			$.ajax({
+				type: "POST",
+				url: '<%=basePath%>background/styleCategory/otherNotName.do?tm='+new Date().getTime(),
+		    	data: {"styleCategoryName":styleCategoryName,"productId":productId,"styleCategoryId":styleCategoryId},
+				dataType:'json',
+				//beforeSend: validateData,
+				cache: false,
+				success: function(data){
+					if(data.resultCode != "success"){
+						$("#styleCategoryName").tips({
+							side:3,
+				            msg:'规格分类代号 已存在',
+				            bg:'#AE81FF',
+				            time:2
+				        });
+						$("#styleCategoryName").focus();
+						return false;
+					}
 				}
 			});
 		}

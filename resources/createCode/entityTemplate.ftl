@@ -143,7 +143,9 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	/** ${bgMapleDetail.mapleDetailName} */
 		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05' || bgMapleDetail.mapleDetailType == '06'>
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
+		<#if bgMapleDetail.isEdit = "01">
 	@Pattern(regexp = Const.REG_COM_CODE_STR, message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+		</#if>
 		<#elseif bgMapleDetail.isEdit = "01">
 	@NotBlank(message="${bgMapleDetail.mapleDetailName} 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 		</#if>

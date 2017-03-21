@@ -200,8 +200,9 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComStyleCategory> otherHaveName(String styleCategoryId, String styleCategoryName) throws Exception {
+	public List<ComStyleCategory> otherHaveName(String productId, String styleCategoryId, String styleCategoryName) throws Exception {
 		ComStyleCategory comStyleCategory = new ComStyleCategory();
+		comStyleCategory.setProductId(productId);
 		comStyleCategory.setStyleCategoryId(styleCategoryId);
 		comStyleCategory.setStyleCategoryName(styleCategoryName);
 		return (List<ComStyleCategory>) dao.findForList("ComStyleCategoryMapper.otherHaveName", comStyleCategory);

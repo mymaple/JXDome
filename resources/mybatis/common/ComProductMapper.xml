@@ -31,6 +31,31 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<update id="updateCode" parameterType="pd">
+		UPDATE 
+	<include refid="productTable"/>
+		SET productCode = CONCAT(
+			#{startC},
+			(
+				SELECT
+					A.CODE
+				FROM
+					(
+						SELECT
+							(
+								COALESCE (
+									REPLACE (MAX(productCode), #{startC}, ''),
+									#{startN}
+								) + #{addValue}
+							) CODE
+						FROM
+	<include refid="productTable"/>
+					) A
+			)
+		)
+		WHERE
+			productId = #{productId};
+	</update>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
@@ -53,7 +78,6 @@
 	<include refid="productTable"/>
 		set 
 			supplierId = #{supplierId},
-			productCode = #{productCode},
 			productName = #{productName},
 			productType = #{productType},
 			productModel = #{productModel},

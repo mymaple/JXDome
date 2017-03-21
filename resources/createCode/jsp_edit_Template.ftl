@@ -73,6 +73,14 @@
 						</#if>
 							</tr>
 					</#if>
+					<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code" && bgMapleDetail.isEdit = "00">
+							<c:if test="${r"${methodPath == 'edit'}"}>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
+								<td>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
+							</tr>
+							</c:if>
+					<#if>
 				</#list>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
@@ -146,6 +154,7 @@
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
 		<#list bgMapleDetailList as bgMapleDetail>
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
+			<#if bgMapleDetail.isEdit == "01" >
 			if(!codeExp.test($("#${bgMapleDetail.mapleDetailCode }").val())){
 				$("#${bgMapleDetail.mapleDetailCode }").tips({
 					side:3,
@@ -156,6 +165,7 @@
 				$("#${bgMapleDetail.mapleDetailCode }").focus();
 			return false;
 			}
+			</#if>
 		<#elseif bgMapleDetail.isEdit == "01" >	
 		<#if bgMapleDetail.mapleDetailType == '01'> 
 			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){

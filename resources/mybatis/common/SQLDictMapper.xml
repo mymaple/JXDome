@@ -104,7 +104,7 @@
 		<!-- 生效商品类别 -->
 		<select id="com_productTypeEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productCategoryName as dictName, productCategoryId as dictValue
-			from com_product_category_info
+			from com_product_category_main
 			where effective = '01'
 			<if test="value!=null and value!=''">
 				and productCategoryId = #{value} 
@@ -115,7 +115,7 @@
 		<!-- 生效商品模型 -->
 		<select id="com_productModelEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productCategoryName as dictName, productCategoryId as dictValue
-			from com_product_category_info
+			from com_product_category_main
 			where effective = '01'
 			<if test="value!=null and value!=''">
 				and productCategoryId = #{value} 
@@ -126,7 +126,7 @@
 		<!-- 生效商品自定义类型 -->
 		<select id="com_productCustomTypeEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productCategoryName as dictName, productCategoryId as dictValue
-			from com_product_category_info
+			from com_product_category_main
 			where effective = '01'
 			<if test="value!=null and value!=''">
 				and productCategoryId = #{value} 
@@ -171,7 +171,7 @@
 		<!-- 生效商品规格 -->
 		<select id="com_productStyleEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productStyleName as dictName, productStyleId as dictValue
-			from com_product_style_info
+			from com_product_style_main
 			where effective = '01'
 			<if test="value!=null and value!=''">
 				and productStyleId = #{value} 

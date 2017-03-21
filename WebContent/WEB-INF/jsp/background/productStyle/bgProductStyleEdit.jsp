@@ -43,10 +43,12 @@
 									</c:if>
 								</td>
 							</tr>
+							<c:if test="${methodPath == 'edit'}">
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品规格代号:</td>
-								<td><input type="text" name="productStyleCode" id="productStyleCode" value="${comProductStyle.productStyleCode}" maxlength="100" placeholder="这里输入 商品规格代号" title="商品规格代号" style="width:98%;" onblur="otherNotCode()"/></td>
+								<td>${comProductStyle.productStyleCode}</td>
 							</tr>
+							</c:if>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品规格名称:</td>
 								<td><input type="text" name="productStyleName" id="productStyleName" value="${comProductStyle.productStyleName}" maxlength="100" placeholder="这里输入 商品规格名称" title="商品规格名称" style="width:98%;" /></td>
@@ -171,7 +173,7 @@
 		        });
 			return false;
 			}
-			if(!codeExp.test($("#productStyleCode").val())){
+			/* if(!codeExp.test($("#productStyleCode").val())){
 				$("#productStyleCode").tips({
 					side:3,
 		            msg:'请输入商品规格代号 需以小写字母开头的字母数字',
@@ -180,7 +182,7 @@
 		        });
 				$("#productStyleCode").focus();
 			return false;
-			}
+			} */
 			if($("#productStyleName").val()==""){
 				$("#productStyleName").tips({
 					side:3,

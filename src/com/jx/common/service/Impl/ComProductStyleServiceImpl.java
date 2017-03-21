@@ -11,6 +11,7 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
+import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProductStyle;
 import com.jx.common.service.ComProductStyleService;
@@ -36,7 +37,8 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 	public void add(ComProductStyle comProductStyle) throws Exception {
 		
 		Date nowTime = new Date();
-		comProductStyle.setProductStyleId(UuidUtil.get32UUID());
+		String productStyleId = UuidUtil.get32UUID();
+		comProductStyle.setProductStyleId(productStyleId);
 		comProductStyle.setEffective("01");
 		comProductStyle.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProductStyle.setCreateTime(nowTime);
@@ -44,6 +46,22 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 		comProductStyle.setModifyTime(nowTime);
 		
 		dao.add("ComProductStyleMapper.add", comProductStyle);
+		this.updateCode(productStyleId);
+	}
+	
+	/**
+	 * 生成code 
+	 * @param String productStyleId
+	 * @throws Exception
+	 */
+	public void updateCode(String productStyleId) throws Exception {
+		//生成固定id
+		PageData pd = new PageData();
+		pd.put("productStyleId", productStyleId);
+		pd.put("startC", "spgg");
+		pd.put("startN", 100001);
+		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
+		dao.update("ComProductStyleMapper.updateCode", pd);
 	}
 	
 	/**

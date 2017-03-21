@@ -49,6 +49,38 @@
 	</select>
 	</#if>
 	
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
+		<#if bgMapleDetail.isEdit = "00">
+	<update id="updateCode" parameterType="pd">
+		UPDATE 
+	<include refid="${bgMaple.mapleCode}Table"/>
+		SET ${bgMapleDetail.mapleDetailCode} = CONCAT(
+			${r"#{startC}"},
+			(
+				SELECT
+					A.CODE
+				FROM
+					(
+						SELECT
+							(
+								COALESCE (
+									REPLACE (MAX(${bgMapleDetail.mapleDetailCode}), ${r"#{startC}"}, ''),
+									${r"#{startN}"}
+								) + ${r"#{addValue}"}
+							) CODE
+						FROM
+	<include refid="${bgMaple.mapleCode}Table"/>
+					) A
+			)
+		)
+		WHERE
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id ${r"}"};
+	</update>
+		</#if>
+	</#if>
+	</#list>
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	

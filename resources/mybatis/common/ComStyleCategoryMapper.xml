@@ -24,12 +24,13 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByParentId" parameterType="String" resultType="comStyleCategory">
+	<select id="listByParentId" parameterType="comStyleCategory" resultType="comStyleCategory">
 		select 
 	<include refid="styleCategoryColumns"/>
 		from 
 	<include refid="styleCategoryTable"/>
 		where parentId = #{parentId} 
+				and productId = #{productId}
 		order by (orderNum+0) DESC
 	</select>
 	
@@ -126,14 +127,14 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="otherHaveCode" parameterType="comStyleCategory" resultMap="comStyleCategoryResultMap">
+	<select id="otherHaveName" parameterType="comStyleCategory" resultMap="comStyleCategoryResultMap">
 		select 
 	<include refid="styleCategoryColumns"/>
 		from 
 	<include refid="styleCategoryTable"/>
 		where styleCategoryId != #{styleCategoryId} 
-			 and parentId = #{parentId} 
-			 and styleCategoryCode = #{styleCategoryCode}
+			 and productId = #{productId} 
+			 and styleCategoryName = #{styleCategoryName}
 		order by (orderNum+0) DESC
 	</select>
 	

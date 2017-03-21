@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50716
+Source Server Version : 50528
 Source Host           : localhost:3306
 Source Database       : jxdb
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2017-03-21 20:40:08
+Date: 2017-03-22 00:34:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -119,7 +119,7 @@ INSERT INTO `bg_maple_detail` VALUES ('0799c155ca024ee88ea6761acca8e369', '0c1ea
 INSERT INTO `bg_maple_detail` VALUES ('07bcb64dd5944dc3b808f7419aed7440', '3b04706d4ab8494faa53e05e822a6e82', 'crontabType', '定时任务类型', '05', '00', '100', '0', '', '00', '01', '01', '\"01\"', '1484983375406', '01', '1', '2017-01-21 15:22:55', '1', '2017-01-21 15:22:55');
 INSERT INTO `bg_maple_detail` VALUES ('08b527b1b0cc49109fa16f29634bd5d4', '864215909ec741eda25b708998f777d0', 'lbtStatus', '轮播图状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1489815060706', '01', '1', '2017-03-18 13:31:01', '1', '2017-03-18 13:31:01');
 INSERT INTO `bg_maple_detail` VALUES ('09022fb4f49c4c39a1b0ac365ad5f051', '2b8a44269b4542e48e13549c8e2e14a4', 'originalPrice', '原价', '04', '00', '100', '2', '', '00', '01', '01', '', '1487905809816', '01', '1', '2017-02-24 11:10:45', '1', '2017-02-24 11:11:12');
-INSERT INTO `bg_maple_detail` VALUES ('09e80d18610a440fa531f7acd1267e40', 'a4dc9b54bb3e4d17ad983912730a6667', 'productCode', '产品代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487902142331', '01', '1', '2017-02-24 10:09:02', '1', '2017-02-24 10:09:02');
+INSERT INTO `bg_maple_detail` VALUES ('09e80d18610a440fa531f7acd1267e40', 'a4dc9b54bb3e4d17ad983912730a6667', 'productCode', '产品代号', '01', '00', '100', '0', 'sp', '00', '00', '01', '', '1487902142331', '01', '1', '2017-02-24 10:09:02', '1', '2017-03-21 22:38:04');
 INSERT INTO `bg_maple_detail` VALUES ('0a216c4596594555a61ebeddf288850e', 'a7fef610fae34226afc5515388822a79', 'orderName', '订单名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1489197833013', '01', '1', '2017-03-11 10:03:53', '1', '2017-03-11 10:03:53');
 INSERT INTO `bg_maple_detail` VALUES ('0cd951c34ead4d23b43a2924903453b9', '307d768ee19e45b09b016970caf257ca', 'sparepartType', '零配件类型', '05', '00', '100', '0', 'com_sparepartType', '00', '01', '01', '\"01\"', '1488528018794', '01', '1', '2017-03-03 16:00:19', '1', '2017-03-03 16:00:19');
 INSERT INTO `bg_maple_detail` VALUES ('108129484f3d4b148975614765f97f63', '26e2f983954449ed84539074b02628f1', 'district', '区', '01', '00', '100', '0', '', '00', '01', '01', '', '1489215864746', '01', '1', '2017-03-11 15:05:29', '1', '2017-03-11 15:05:29');
@@ -168,7 +168,7 @@ INSERT INTO `bg_maple_detail` VALUES ('32efc08f0b9b446e9822df5064053c40', '3b047
 INSERT INTO `bg_maple_detail` VALUES ('37860f50888045d4a1b4dc3e1a13f895', '742baf93ab0f4399a98c18d7adbe4622', 'menuBtnKey', '菜单KEY值', '01', '00', '128', '0', '', '00', '01', '01', '', '1486346807088', '01', '1', '2017-02-06 10:56:54', '1', '2017-02-06 14:00:10');
 INSERT INTO `bg_maple_detail` VALUES ('382aec89d15d47f6959c43dd6a663be3', '3b04706d4ab8494faa53e05e822a6e82', 'triggerGroupName', '触发器组名', '01', '00', '100', '0', '', '00', '01', '01', '', '1484983820288', '01', '1', '2017-01-21 15:30:57', '1', '2017-01-21 15:30:57');
 INSERT INTO `bg_maple_detail` VALUES ('38ab57dcae6c4d87afc1dd52cdc60d29', 'ac75f2ff51a7405485cf40a6f61785f7', 'summary', '摘要', '01', '00', '100', '0', '', '00', '01', '01', '', '1489202927357', '01', '1', '2017-03-11 11:32:39', '1', '2017-03-11 11:32:39');
-INSERT INTO `bg_maple_detail` VALUES ('38c4182175c94eaab754e6f90e693a1b', '754773752b53495f9d452fbc9b06c37a', 'supplierCode', '供应商代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487842063069', '01', '1', '2017-02-23 17:27:43', '1', '2017-02-23 17:27:43');
+INSERT INTO `bg_maple_detail` VALUES ('38c4182175c94eaab754e6f90e693a1b', '754773752b53495f9d452fbc9b06c37a', 'supplierCode', '供应商代号', '01', '00', '100', '0', 'gys', '00', '00', '01', '', '1487842063069', '01', '1', '2017-02-23 17:27:43', '1', '2017-03-21 22:40:04');
 INSERT INTO `bg_maple_detail` VALUES ('3aa05ba404f14abca74e3f148abd0b09', 'd25535c48c444f9fb675294c8a2d8e1f', 'integralCustomerId', '积分客户', '01', '00', '100', '0', '', '00', '01', '01', '', '1488533665086', '01', '1', '2017-03-03 17:34:43', '1', '2017-03-03 17:34:43');
 INSERT INTO `bg_maple_detail` VALUES ('3c2ca551cfcc4847903932819df15dd7', '9a85215a94334cbc83bb5cf701ccf3bb', 'appUserNum', '平台用户编号', '01', '00', '100', '0', '', '00', '01', '01', '', '1486697231587', '01', '1', '2017-02-10 11:27:33', '1', '2017-02-10 11:27:33');
 INSERT INTO `bg_maple_detail` VALUES ('3fa8dba2b21c4f458acbb0bf82ce6f46', 'ebd0083161064722a7c37d25a0030434', 'menuStatus', '后台菜单状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1484546688787', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
@@ -209,7 +209,7 @@ INSERT INTO `bg_maple_detail` VALUES ('601891a9051849e98ccc4ad15298d345', '4e272
 INSERT INTO `bg_maple_detail` VALUES ('62513f06e75d4206935933bcc27e634f', 'a7fef610fae34226afc5515388822a79', 'walletPay', '钱包支付', '04', '00', '100', '0', '', '00', '01', '01', '', '1489199104886', '01', '1', '2017-03-11 11:13:18', '1', '2017-03-11 11:13:54');
 INSERT INTO `bg_maple_detail` VALUES ('62cc898b340b484b918c3126def18303', 'a4dc9b54bb3e4d17ad983912730a6667', 'imgSrc2', '滚播图', '06', '00', '1000', '0', '', '00', '01', '01', '', '1487905006817', '01', '1', '2017-02-24 10:57:15', '1', '2017-03-21 11:25:32');
 INSERT INTO `bg_maple_detail` VALUES ('62ef773c16164f0a955d5b845930d69c', '1ba234a840324c2faa9fc56e9ec9e144', 'wxQRcodeExpiry', '微信二维码有效期', '03', '00', '100', '0', '', '00', '01', '01', '', '1486779058463', '01', '1', '2017-02-11 10:12:54', '1', '2017-02-11 10:12:54');
-INSERT INTO `bg_maple_detail` VALUES ('66b03a304168463e81938cf9c9361d94', '0d2f5dbae9154a4bb3788bbfc8b61176', 'productCategoryCode', '商品分类代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487902706435', '01', '1', '2017-02-24 10:18:26', '1', '2017-02-24 10:18:26');
+INSERT INTO `bg_maple_detail` VALUES ('66b03a304168463e81938cf9c9361d94', '0d2f5dbae9154a4bb3788bbfc8b61176', 'productCategoryCode', '商品分类代号', '01', '00', '100', '0', 'spfl', '00', '00', '01', '', '1487902706435', '01', '1', '2017-02-24 10:18:26', '1', '2017-03-21 22:41:18');
 INSERT INTO `bg_maple_detail` VALUES ('688f191c23ef4d1f98a3559e470cf6e4', '27a853950d0e4876ba0eccf8d7e2dd8f', 'code', '代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1', '01', '1', '2017-01-11 16:52:43', '1', '2017-01-11 16:52:43');
 INSERT INTO `bg_maple_detail` VALUES ('6c50050343a24590b511ca781c1b2e0f', '864215909ec741eda25b708998f777d0', 'lbtImgSrc', '轮播图图片', '06', '00', '100', '0', '', '00', '01', '01', '', '1489815123566', '01', '1', '2017-03-18 13:33:06', '1', '2017-03-21 10:11:31');
 INSERT INTO `bg_maple_detail` VALUES ('6cc089172fcd444b97d88f7569c898cf', 'ac75f2ff51a7405485cf40a6f61785f7', 'headImgSrc', '产品头像', '01', '00', '100', '0', '', '00', '01', '01', '', '1489203211009', '01', '1', '2017-03-11 11:33:46', '1', '2017-03-11 11:33:46');
@@ -267,7 +267,7 @@ INSERT INTO `bg_maple_detail` VALUES ('a2b24eba68f742de864f18987eecf80e', 'c7238
 INSERT INTO `bg_maple_detail` VALUES ('a2e09db55f0c43beb3fe9f09f62d2cd0', '67163a4e05664fa39d5bea61b445163b', 'addRights', '新增权限', '01', '00', '100', '0', '', '00', '00', '01', '', '1484794135451', '01', '1', '2017-01-19 10:49:47', '1', '2017-01-19 10:49:47');
 INSERT INTO `bg_maple_detail` VALUES ('a35792a023f848ac897f4a7753ea6938', '0c1ea3878cd34c8b9f99283de36f25fb', 'isNull', '是否null', '01', '00', '100', '9', '', '00', '01', '01', '\"01\"', '1484191654251', '01', '1', '2017-01-12 11:27:34', '1', '2017-01-17 16:01:38');
 INSERT INTO `bg_maple_detail` VALUES ('a370afc956194930ab442da6fa7ec051', 'a7fef610fae34226afc5515388822a79', 'sendTime', '发货时间', '03', '00', '100', '0', '', '00', '00', '01', '', '1489199875559', '01', '1', '2017-03-11 10:39:26', '1', '2017-03-11 10:39:36');
-INSERT INTO `bg_maple_detail` VALUES ('a3a1939b310d41349f626e6406a20686', '2b8a44269b4542e48e13549c8e2e14a4', 'productStyleCode', '商品规格代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1487902538805', '01', '1', '2017-02-24 10:15:39', '1', '2017-03-21 13:52:22');
+INSERT INTO `bg_maple_detail` VALUES ('a3a1939b310d41349f626e6406a20686', '2b8a44269b4542e48e13549c8e2e14a4', 'productStyleCode', '商品规格代号', '01', '00', '100', '0', 'spgg', '00', '00', '01', '', '1487902538805', '01', '1', '2017-02-24 10:15:39', '1', '2017-03-21 22:40:45');
 INSERT INTO `bg_maple_detail` VALUES ('a512656b82cb4c729d21c0720640e34b', '864215909ec741eda25b708998f777d0', 'lbtType', '轮播图类型', '05', '00', '100', '0', 'com_lbtType', '00', '01', '01', '\"01\"', '1489815060698', '01', '1', '2017-03-18 13:31:01', '1', '2017-03-18 13:31:01');
 INSERT INTO `bg_maple_detail` VALUES ('a5b57af5f936434bad463f687f24cc1e', '9a85215a94334cbc83bb5cf701ccf3bb', 'remarks', '备注信息', '01', '00', '100', '0', '', '00', '01', '01', '', '1488779742618', '01', '1', '2017-03-06 13:56:06', '1', '2017-03-06 13:56:06');
 INSERT INTO `bg_maple_detail` VALUES ('a795aac6efd64eb4b81bafcfdba74f19', 'ebd0083161064722a7c37d25a0030434', 'menuType', '后台菜单类型', '05', '00', '100', '0', '', '00', '01', '01', '\"01\"', '1484546688785', '01', '1', '2017-01-16 14:04:49', '1', '2017-01-16 14:04:49');
@@ -1048,7 +1048,6 @@ CREATE TABLE `com_product_category_detail` (
 -- ----------------------------
 -- Records of com_product_category_detail
 -- ----------------------------
-INSERT INTO `com_product_category_detail` VALUES ('7fd1565ef4ee40078ee8646446feb5e3', 'a2ade0adc3be4df7affcea78301dce8b', 'f0974b9fdf3e49078c4a3f8b2fe91f53', '1490065468405', '01', '1', '2017-03-21 11:04:34', '1', '2017-03-21 11:04:34');
 
 -- ----------------------------
 -- Table structure for com_product_category_main
@@ -1118,8 +1117,8 @@ CREATE TABLE `com_product_info` (
 -- ----------------------------
 -- Records of com_product_info
 -- ----------------------------
-INSERT INTO `com_product_info` VALUES ('878c5545d5b84441b0767c817f554de0', 'fb4291204f804be79b35e0cbb2ed952e', 'sp123456789', '打算的撒', '1245ed0a5756448aab614c9c16f1b7cb', '00', '7ed22c6fa8a44d4eaa8f62df8d340b35', '阿萨德撒', '阿萨德', 'uploadFiles/cache/bb65e3b7ced24d09a649465630d98391.jpg', 'uploadFiles/cache/b3610266cabc4961b303a1a8683d7c4a.jpg,uploadFiles/cache/9a0019cb9a674f20b9a391ef7f228f4a.jpg,uploadFiles/cache/91819c5eb38f4e909bde629895526487.jpg', 'uploadFiles/cache/c929b2d8cb7441269a267e96d625ab6c.jpg,uploadFiles/cache/6c6ea2a8520e47e4ab837caec1f88706.jpg,uploadFiles/cache/87b33facbb52444d86f895aa995e0362.jpg', 'uploadFiles/cache/dcd325a934de437b81d289cdaee73ca7.jpg,uploadFiles/cache/52ed5845121e4f7eb802add713069946.jpg,uploadFiles/cache/313460c6fb744c7cb9d9127440b4df18.jpg', '1489049618151', '01', '1', '2017-03-09 16:59:54', '1', '2017-03-09 16:59:54');
-INSERT INTO `com_product_info` VALUES ('f0974b9fdf3e49078c4a3f8b2fe91f53', 'fb4291204f804be79b35e0cbb2ed952e', 'sp12364', 'qweqwe', '8ceef21e782d497b83674cac4ba58f12', '00', 'a2ade0adc3be4df7affcea78301dce8b', '撒旦撒旦', '额外企鹅但是答案是', 'uploadFiles/image/product/headImg/63a77d92e2c345d999b50fa26cd85934.jpg', 'uploadFiles/image/product/img1/e89f1c359dfc4fef819476106e4ab35d.jpg', 'uploadFiles/image/product/img2/b6f53b324dd941c49bd89e6e90aaa2c5.jpg,uploadFiles/image/product/img2/9e9062de35cb4a0782668a21f1a8af33.jpg,uploadFiles/image/product/img2/3a7065a33e694c83bfcf99fc8d021c88.jpg,uploadFiles/image/product/img2/ffdd05b46af3451fb5afde93cce5dcea.jpg', 'uploadFiles/image/product/img3/5d530141945646d19663c5716c1abd1b.jpg,uploadFiles/image/product/img3/5da6d96b5ab04e72a2f4516eb4516ab6.jpg,uploadFiles/image/product/img3/2f82ca474db3463391655eadbede3732.jpg,uploadFiles/image/product/img3/c90ada3bb93b4540b6e105e421cf5d95.jpg', '1489050000001', '01', '1', '2017-03-09 17:00:46', '1', '2017-03-21 13:47:29');
+INSERT INTO `com_product_info` VALUES ('4c03ce1518c24520bd664ac7c6b59198', '4a811a29d3344b9eba006c520fbd33a1', 'sp100015', '来一试管的甜蜜|有禾试管蜂蜜', 'd67b615c645f4967baa1189f6c829d5b', '00', '6cbaee12013e40edafa9f2bc588821ab', '蜂蜜纯天然 洋槐花蜜 蜂蜜礼盒包装 试管蜜', '<p><span class=\"letts2\">【品牌】</span>有禾</p>              <p><span class=\"letts2\">【净含量】</span>400g</p>', 'uploadFiles/image/product/headImg/4e9e8cb19426478db40ec9596bc8bd28.jpg', 'uploadFiles/image/product/img1/823b2108b4ad42f491d9d9a710ff266d.jpg', 'uploadFiles/image/product/img2/0446319cea0c4b158c949fece0a1c7d0.jpg', 'uploadFiles/image/product/img3/043f9b1340c649b6a4c63fceec6d4116.jpg', '1490110507089', '01', '1', '2017-03-21 23:36:12', '1', '2017-03-21 23:36:12');
+INSERT INTO `com_product_info` VALUES ('4cca464e15cb4679a71bc7185987f46d', '801a711ebdff44e58dd6db190e9dbb4c', 'sp100001', '送你一个世界丨创意微观森林保温杯', 'd67b615c645f4967baa1189f6c829d5b', '00', '131d5b40db5b4edfa37eae450a7cc62e', '欢迎进入3D杯盖里的世界', '<p><span class=', 'uploadFiles/image/product/headImg/1ad77ac6249e42a198e86fe92365cfc6.jpg', 'uploadFiles/image/product/img1/03dea28306034bd8b6ae1a2fae6fb5e8.jpg', 'uploadFiles/image/product/img2/0fd14f806a904ac8a974f2a91ec66814.jpg', 'uploadFiles/image/product/img3/853f0dd39a95458e934ae8b7dd8a6061.jpg', '1490103722450', '01', '1', '2017-03-21 21:44:36', '1', '2017-03-21 22:43:27');
 
 -- ----------------------------
 -- Table structure for com_product_style_info
@@ -1292,15 +1291,10 @@ CREATE TABLE `com_style_category_tree` (
 -- ----------------------------
 -- Records of com_style_category_tree
 -- ----------------------------
-INSERT INTO `com_style_category_tree` VALUES ('36032c7200c14d5aa223048f15ae53dc', '8027e07cf91e404c94183cf8cc5db73c', 'f0974b9fdf3e49078c4a3f8b2fe91f53', '重', '00', '1489113008718', '01', '1', '2017-03-10 10:30:15', '1', '2017-03-10 10:30:15');
-INSERT INTO `com_style_category_tree` VALUES ('50080c45ee9c48b390040a0536b5b0f7', 'efc49dfbe45347dc92b5fb3db7285d01', '878c5545d5b84441b0767c817f554de0', '很大', '01', '1489112758100', '01', '1', '2017-03-10 10:26:07', '1', '2017-03-10 10:26:07');
-INSERT INTO `com_style_category_tree` VALUES ('8027e07cf91e404c94183cf8cc5db73c', '0', 'f0974b9fdf3e49078c4a3f8b2fe91f53', '重量', '00', '1489112829763', '01', '1', '2017-03-10 10:29:34', '1', '2017-03-10 10:29:34');
-INSERT INTO `com_style_category_tree` VALUES ('896ace00ea4245eba01ca0b56b8e810a', 'f18c5dded0c0424f898643439efd3fc5', '878c5545d5b84441b0767c817f554de0', '黑', '00', '1489112805477', '01', '1', '2017-03-10 10:26:52', '1', '2017-03-10 10:26:52');
-INSERT INTO `com_style_category_tree` VALUES ('ca2484ffbb8e49809bf99528c4c4212c', 'f18c5dded0c0424f898643439efd3fc5', '878c5545d5b84441b0767c817f554de0', '白', '00', '1489112812947', '01', '1', '2017-03-10 10:27:01', '1', '2017-03-10 10:27:01');
-INSERT INTO `com_style_category_tree` VALUES ('ee41cf8120514549aff55d3edc89c698', '8027e07cf91e404c94183cf8cc5db73c', 'f0974b9fdf3e49078c4a3f8b2fe91f53', '很重', '01', '1489112992520', '01', '1', '2017-03-10 10:30:08', '1', '2017-03-10 10:30:08');
-INSERT INTO `com_style_category_tree` VALUES ('efc49dfbe45347dc92b5fb3db7285d01', '0', '878c5545d5b84441b0767c817f554de0', '型号', '00', '1489112606027', '01', '1', '2017-03-10 10:24:03', '1', '2017-03-10 10:24:03');
-INSERT INTO `com_style_category_tree` VALUES ('f18c5dded0c0424f898643439efd3fc5', '0', '878c5545d5b84441b0767c817f554de0', '颜色', '00', '1489112778973', '01', '1', '2017-03-10 10:26:43', '1', '2017-03-10 10:26:43');
-INSERT INTO `com_style_category_tree` VALUES ('f2b4794cff4c4e76be9defe6eb8a9445', 'efc49dfbe45347dc92b5fb3db7285d01', '878c5545d5b84441b0767c817f554de0', '大', '01', '1489112741946', '01', '1', '2017-03-10 10:25:54', '1', '2017-03-10 10:25:54');
+INSERT INTO `com_style_category_tree` VALUES ('21eb506fb25b439290952144ae332117', '0', '4cca464e15cb4679a71bc7185987f46d', '重量', '00', '1490110013718', '01', '1', '2017-03-21 23:27:04', '1', '2017-03-21 23:27:04');
+INSERT INTO `com_style_category_tree` VALUES ('5ecf86c744e04f34b3fa54ce10327629', '0', '4c03ce1518c24520bd664ac7c6b59198', '颜色', '00', '1490113246974', '01', '1', '2017-03-22 00:20:50', '1', '2017-03-22 00:20:50');
+INSERT INTO `com_style_category_tree` VALUES ('9cb129ea081345f68de3a14d2fc648dd', '0', '4cca464e15cb4679a71bc7185987f46d', '大小', '00', '1490110490648', '01', '1', '2017-03-21 23:35:00', '1', '2017-03-21 23:35:00');
+INSERT INTO `com_style_category_tree` VALUES ('cec60878ea554b4ba51e8e3ade20eff1', '0', '4cca464e15cb4679a71bc7185987f46d', '颜色', '00', '1490109944460', '01', '1', '2017-03-21 23:25:51', '1', '2017-03-21 23:25:51');
 
 -- ----------------------------
 -- Table structure for com_supplier_info
@@ -1359,4 +1353,4 @@ CREATE TABLE `com_wx_account_info` (
 -- ----------------------------
 -- Records of com_wx_account_info
 -- ----------------------------
-INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'NLOJWeyKDEcWq7iwSMpsW0fYot_pvhNZYWyRmuN_nDxq3YzPNW4xulcEVO7ejf4nRsXT3NHvRmm8qCZb7YrAsxrq9TXmUYp9nniQPQrC5UJE_9S5jtNalI3BWEnVS47XNFNjADAJBJ', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjc8VCOAOuS9mIs4l_SH3uHhOW1gEGLDVi0a6HcVXBmYng', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-21 20:13:00');
+INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', '96bTncl_U20TjN6QMLkCKu1Xkbkj0QUb5ffu3isDJPPJiw4CNRCOg3q22SjBZ2znNcBQuqC8qivkOqERy3ixugUk8-Dpdjms1RF3sT3n1jGJZelTFxMhvv8y_Px6BpsVIZEbAHAXOT', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjcECuzPn_wBXnU-Vf2UwxFad39DEvWKM58yyU1fHaGp4Q', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-22 00:13:00');

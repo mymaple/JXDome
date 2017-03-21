@@ -34,7 +34,6 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	private String productId;
 		
 	/** 商品规格代号 */
-	@Pattern(regexp = Const.REG_COM_CODE_STR, message="商品规格代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String productStyleCode;
 		
 	/** 商品规格名称 */

@@ -70,7 +70,7 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		//生成固定id
 		PageData pd = new PageData();
 		pd.put("productCategoryId", productCategoryId);
-		pd.put("startC", "splb");
+		pd.put("startC", "spfl");
 		pd.put("startN", 100001);
 		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
 		dao.update("ComProductCategoryMapper.updateCode", pd);

@@ -111,7 +111,7 @@ public interface ComStyleCategoryService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComStyleCategory> otherHaveName(String styleCategoryId, String styleCategoryCode) throws Exception ;
+	public List<ComStyleCategory> otherHaveName(String productId, String styleCategoryId, String styleCategoryName) throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据
