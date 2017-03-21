@@ -38,20 +38,17 @@ public class ComProductServiceImpl implements ComProductService{
 	 */
 	public void add(ComProduct comProduct) throws Exception {
 		
-		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_HEADIMG, comProduct.getHeadImgSrc()));
-		
-		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG1, comProduct.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
-		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG2, comProduct.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
-		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG3, comProduct.getImgSrc3()).replaceAll(",", Const.REG_COM_SPLIT));
-			
-		
 		Date nowTime = new Date();
 		comProduct.setProductId(UuidUtil.get32UUID());
 		comProduct.setProductStatus("00");
+		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProduct.PATH_IMG_PRODUCT_HEADIMG, comProduct.getHeadImgSrc()));
+		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProduct.PATH_IMG_PRODUCT_IMG1, comProduct.getImgSrc1()));
+		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProduct.PATH_IMG_PRODUCT_IMG2, comProduct.getImgSrc2()));
+		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProduct.PATH_IMG_PRODUCT_IMG3, comProduct.getImgSrc3()));
 		comProduct.setEffective("01");
 		comProduct.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProduct.setCreateTime(nowTime);
@@ -67,84 +64,86 @@ public class ComProductServiceImpl implements ComProductService{
 	 * @throws Exception
 	 */
 	public void edit(ComProduct comProduct) throws Exception {
-		
+	
 		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_HEADIMG, comProduct.getHeadImgSrc()));
-		
+			ComProduct.PATH_IMG_PRODUCT_HEADIMG, comProduct.getHeadImgSrc()));
 		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG1, comProduct.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
+			ComProduct.PATH_IMG_PRODUCT_IMG1, comProduct.getImgSrc1()));
 		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG2, comProduct.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
+			ComProduct.PATH_IMG_PRODUCT_IMG2, comProduct.getImgSrc2()));
 		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG3, comProduct.getImgSrc3()).replaceAll(",", Const.REG_COM_SPLIT));
-		
+			ComProduct.PATH_IMG_PRODUCT_IMG3, comProduct.getImgSrc3()));
 		Date nowTime = new Date();
 		comProduct.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProduct.setModifyTime(nowTime);
-		comProduct.setLastModifyTime(this.findById(comProduct.getProductId()).getModifyTime());
-		if(comProduct.getModifyTime().compareTo(comProduct.getLastModifyTime()) == 0){
-			comProduct.setModifyTime(MapleDateUtil.getNextSecond(comProduct.getModifyTime()));
-		}
 	
 		dao.update("ComProductMapper.edit", comProduct);
 	}
 	
 	/**
-	 * 更改
-	 * @param ComProduct comProduct
+	 * 更改状态 flag 00
+	 * @param String flag, String productId
 	 * @throws Exception
 	 */
-	public void change(ComProduct comProduct) throws Exception {
+	public void changeStatus(String flag, String productId) throws Exception {
+		ComProduct comProduct = new ComProduct();
+		if("00".equals(flag)){
+			comProduct.setOldValue("01");
+		}else if("01".equals(flag)){
+			comProduct.setOldValue("00");
+		}else{
+			comProduct.setOldValue("flag");
+		}
+		comProduct.setProductStatus(flag);
 		
-		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_HEADIMG, comProduct.getHeadImgSrc()));
-		
-		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG1, comProduct.getImgSrc1()).replaceAll(",", Const.REG_COM_SPLIT));
-		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG2, comProduct.getImgSrc2()).replaceAll(",", Const.REG_COM_SPLIT));
-		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComProduct.PATH_IMG_P_IMG3, comProduct.getImgSrc3()).replaceAll(",", Const.REG_COM_SPLIT));
-		
+		comProduct.setProductId(productId);
 		Date nowTime = new Date();
 		comProduct.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProduct.setModifyTime(nowTime);
-		comProduct.setLastModifyTime(this.findById(comProduct.getProductId()).getModifyTime());
-		if(comProduct.getModifyTime().compareTo(comProduct.getLastModifyTime()) == 0){
-			comProduct.setModifyTime(MapleDateUtil.getNextSecond(comProduct.getModifyTime()));
-		}
-		dao.update("ComProductMapper.change", comProduct);
+		dao.update("ComProductMapper.changeStatus", comProduct);
 	}
-
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String productId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String productId) throws Exception {
+		ComProduct comProduct = new ComProduct();
+		if("00".equals(flag)){
+			comProduct.setOldValue("01");
+		}else if("01".equals(flag)){
+			comProduct.setOldValue("00");
+		}else{
+			comProduct.setOldValue("flag");
+		}
+		comProduct.setEffective(flag);
+		
+		comProduct.setProductId(productId);
+		Date nowTime = new Date();
+		comProduct.setModifyUserId(ShiroSessionUtil.getUserId());
+		comProduct.setModifyTime(nowTime);
+		dao.update("ComProductMapper.changeEffective", comProduct);
+	}
+	
 	/**
 	 * 删除 
 	 * @param String productId
 	 * @throws Exception
 	 */
 	public void deleteById(String productId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("productId",productId);
-		this.deleteByPd(pd);
-	}
-	
-	/**
-	 * 删除 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("ComProductMapper.deleteByPd", pd);
+		dao.delete("ComProductMapper.deleteById", productId);
 	}
 	
 	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("ComProductMapper.batchDeleteByIds", ids);
 	}
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String productId
@@ -152,19 +151,7 @@ public class ComProductServiceImpl implements ComProductService{
 	 * @throws Exception
 	 */
 	public ComProduct findById(String productId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("productId",productId);
-		return this.findByPd(pd);
-	}
-	
-	/**
-	 * 通过pd获取(ComProduct)数据 
-	 * @param PageData pd
-	 * @return ComProduct
-	 * @throws Exception
-	 */
-	public ComProduct findByPd(PageData pd) throws Exception {
-		return (ComProduct) dao.findForObject("ComProductMapper.findByPd", pd);
+		return (ComProduct) dao.findForObject("ComProductMapper.findById", productId);
 	}
 	
 	/**
@@ -173,8 +160,8 @@ public class ComProductServiceImpl implements ComProductService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComProduct> listByPd(PageData pd) throws Exception {
-		return (List<ComProduct>) dao.findForList("ComProductMapper.listByPd", pd);
+	public List<ComProduct> listAll() throws Exception {
+		return (List<ComProduct>) dao.findForList("ComProductMapper.listAll", null);
 	}
 	
 	/**
@@ -183,20 +170,11 @@ public class ComProductServiceImpl implements ComProductService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComProduct> otherHave(ComProduct comProduct) throws Exception {
-		return (List<ComProduct>) dao.findForList("ComProductMapper.otherHave", comProduct);
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
 	public List<ComProduct> otherHaveCode(String productId, String productCode) throws Exception {
 		ComProduct comProduct = new ComProduct();
 		comProduct.setProductId(productId);
 		comProduct.setProductCode(productCode);
-		return this.otherHave(comProduct);
+		return (List<ComProduct>) dao.findForList("ComProductMapper.otherHaveCode", comProduct);
 	}
 	
 	/**

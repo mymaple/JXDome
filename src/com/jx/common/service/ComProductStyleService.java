@@ -11,7 +11,7 @@ public interface ComProductStyleService {
 	
 	/****************************custom * start***********************************/
 
-	
+		
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -31,12 +31,19 @@ public interface ComProductStyleService {
 	public void edit(ComProductStyle comProductStyle) throws Exception ;
 	
 	/**
-	 * 更改
-	 * @param ComProductStyle comProductStyle
+	 * 更改状态 flag 00
+	 * @param String flag, String productStyleId
 	 * @throws Exception
 	 */
-	public void change(ComProductStyle comProductStyle) throws Exception ;
-
+	public void changeStatus(String flag, String productStyleId) throws Exception ;
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String productStyleId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String productStyleId) throws Exception ;
+	
 	/**
 	 * 删除 
 	 * @param String productStyleId
@@ -45,19 +52,12 @@ public interface ComProductStyleService {
 	public void deleteById(String productStyleId) throws Exception ;
 	
 	/**
-	 * 删除 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void deleteByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception ;
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String productStyleId
@@ -67,26 +67,11 @@ public interface ComProductStyleService {
 	public ComProductStyle findById(String productStyleId) throws Exception ;
 	
 	/**
-	 * 通过pd获取(ComProductStyle)数据 
-	 * @param PageData pd
-	 * @return ComProductStyle
-	 * @throws Exception
-	 */
-	public ComProductStyle findByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComProductStyle> listByPd(PageData pd) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComProductStyle> otherHave(ComProductStyle comProductStyle) throws Exception ;
+	public List<ComProductStyle> listAll() throws Exception ;
 	
 	/**
 	 * 获取(类)List数据

@@ -91,7 +91,7 @@
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
-			${bgMaple.mapleCode}Status = ${r"#{"}${bgMaple.mapleCodeUpper}Status${r"}"} ,
+			${bgMaple.mapleCode}Status = ${r"#{"}${bgMaple.mapleCode}Status${r"}"} ,
 			modifyUserId = ${r"#{"}modifyUserId${r"}"},
 			modifyTime = ${r"#{"}modifyTime${r"}"}
 		where 

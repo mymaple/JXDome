@@ -32,10 +32,12 @@
 						<input type="hidden" name="supplierId" id="supplierId" value="${comSupplier.supplierId}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
+							<c:if test="${methodPath == 'edit'}">
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">供应商代号:</td>
-								<td><input type="text" name="supplierCode" id="supplierCode" value="${comSupplier.supplierCode}" maxlength="100" placeholder="这里输入 供应商代号" title="供应商代号" style="width:98%;" onblur="otherNotCode()"/></td>
+								<td>${comSupplier.supplierCode}</td>
 							</tr>
+							</c:if>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">供应商名称:</td>
 								<td><input type="text" name="supplierName" id="supplierName" value="${comSupplier.supplierName}" maxlength="100" placeholder="这里输入 供应商名称" title="供应商名称" style="width:98%;" /></td>
@@ -121,7 +123,7 @@
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
-			if(!codeExp.test($("#supplierCode").val())){
+			/* if(!codeExp.test($("#supplierCode").val())){
 				$("#supplierCode").tips({
 					side:3,
 		            msg:'请输入供应商代号 需以小写字母开头的字母数字',
@@ -130,7 +132,7 @@
 		        });
 				$("#supplierCode").focus();
 			return false;
-			}
+			} */
 			if($("#supplierName").val()==""){
 				$("#supplierName").tips({
 					side:3,

@@ -107,7 +107,7 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 								<#list bgMapleDetailList as bgMapleDetail>
-								<#if bgMapleDetail.isEdit = "01">
+								<#if bgMapleDetail.isEdit = "01" && bgMapleDetail.mapleDetailType != '06'>
 									<th class="center">${bgMapleDetail.mapleDetailName}</th>
 								</#if>
 								</#list>
@@ -133,7 +133,7 @@
 											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
 											</c:if>
 										<#list bgMapleDetailList as bgMapleDetail>
-										<#if bgMapleDetail.isEdit == "01" >
+										<#if bgMapleDetail.isEdit == "01" && bgMapleDetail.mapleDetailType != '06'>
 										<#if bgMapleDetail.mapleDetailType == "05">
 											<td class='center'><param:display type="${bgMapleDetail.typeCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/></td>
 										<#elseif bgMapleDetail.mapleDetailCode == bgMaple.mapleCode+"Name" >
@@ -362,7 +362,7 @@
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮
+		     	diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
 					<#if bgMaple.mapleType == "02">
@@ -410,8 +410,8 @@
 			 diag.Width = 450;
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
-			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮 
+			 diag.ShowMaxButton = true;	//最大化按钮
+		     	diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 <#if bgMaple.mapleType == "02">

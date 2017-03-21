@@ -5,11 +5,11 @@ import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
 public class ComStyleCategory extends BaseEntity implements Serializable {
 	
@@ -49,7 +49,7 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	 * @param String target
 	 */
 	public void setTarget(String target) {
-		this.target = MapleStringUtil.trim(target);
+		this.target = StringUtils.trim(target);
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	 * @param String subComStyleCategoryPath
 	 */
 	public void setSubComStyleCategoryPath(String subComStyleCategoryPath) {
-		this.subComStyleCategoryPath = MapleStringUtil.trim(subComStyleCategoryPath);
+		this.subComStyleCategoryPath = StringUtils.trim(subComStyleCategoryPath);
 	}
 	
 	/**
@@ -127,9 +127,6 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	@NotBlank(message="规格分类名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String styleCategoryName;
 		
-	/** 规格分类状态 */
-	private String styleCategoryStatus;
-		
 	/** 是否最终分类 */
 	@NotBlank(message="是否最终分类 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String isFinal;
@@ -142,7 +139,7 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	 * @param String styleCategoryId
 	 */
 	public void setStyleCategoryId(String styleCategoryId) {
-		this.styleCategoryId = MapleStringUtil.trim(styleCategoryId);
+		this.styleCategoryId = StringUtils.trim(styleCategoryId);
 	}
 	
 	/**
@@ -160,7 +157,7 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	 * @param String parentId
 	 */
 	public void setParentId(String parentId) {
-		this.parentId = MapleStringUtil.trim(parentId);
+		this.parentId = StringUtils.trim(parentId);
 	}
 	
 	/**
@@ -178,7 +175,7 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	 * @param String productId
 	 */
 	public void setProductId(String productId) {
-		this.productId = MapleStringUtil.trim(productId);
+		this.productId = StringUtils.trim(productId);
 	}
 	
 	/**
@@ -196,7 +193,7 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	 * @param String styleCategoryName
 	 */
 	public void setStyleCategoryName(String styleCategoryName) {
-		this.styleCategoryName = MapleStringUtil.trim(styleCategoryName);
+		this.styleCategoryName = StringUtils.trim(styleCategoryName);
 	}
 	
 	/**
@@ -209,30 +206,12 @@ public class ComStyleCategory extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 规格分类状态
-	 * 
-	 * @param String styleCategoryStatus
-	 */
-	public void setStyleCategoryStatus(String styleCategoryStatus) {
-		this.styleCategoryStatus = MapleStringUtil.trim(styleCategoryStatus);
-	}
-	
-	/**
-	 * 获取 规格分类状态
-	 * 
-	 * @return String styleCategoryStatus
-	 */
-	public String getStyleCategoryStatus() {
-		return this.styleCategoryStatus;
-	}
-	
-	/**
 	 * 设置 是否最终分类
 	 * 
 	 * @param String isFinal
 	 */
 	public void setIsFinal(String isFinal) {
-		this.isFinal = MapleStringUtil.trim(isFinal);
+		this.isFinal = StringUtils.trim(isFinal);
 	}
 	
 	/**

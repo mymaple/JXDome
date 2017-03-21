@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
 public class ComProductStyle extends BaseEntity implements Serializable {
 	
@@ -25,31 +25,33 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	
 	/**************************table prop satrt*********************************/
 	
-	/** 产品规格 主键id */
-	@NotBlank(message="产品规格 主键id 不能为空", groups={ValidationEdit.class})
+	/** 商品规格 主键id */
+	@NotBlank(message="商品规格 主键id 不能为空", groups={ValidationEdit.class})
 	private String productStyleId;
 	
-	/** 产品规格初始id */
-	private String productStyleInitId;
-		
 	/** 商品id */
 	@NotBlank(message="商品id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productId;
 		
-	/** 产品规格代号 */
-	@Pattern(regexp = Const.REG_COM_CODE_STR, message="产品规格代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	/** 商品规格代号 */
+	@Pattern(regexp = Const.REG_COM_CODE_STR, message="商品规格代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String productStyleCode;
 		
-	/** 产品规格名称 */
-	@NotBlank(message="产品规格名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	/** 商品规格名称 */
+	@NotBlank(message="商品规格名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productStyleName;
 		
-	/** 产品规格类型 */
-	@NotBlank(message="产品规格类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	/** 商品规格类型 */
+	@NotBlank(message="商品规格类型 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productStyleType;
 		
-	/** 产品规格状态 */
+	/** 商品规格状态 */
+	@NotBlank(message="商品规格状态 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productStyleStatus;
+		
+	/** 库存总量 */
+	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="库存总量 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
+	private String allStockNum;
 		
 	/** 库存数量 */
 	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="库存数量 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
@@ -63,8 +65,8 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	@NotBlank(message="货币种类 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String curType;
 		
-	/** 折扣 */
-	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="折扣 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
+	/** 折扣率 */
+	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="折扣率 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 	private String discountRate;
 		
 	/** 折扣优惠 */
@@ -78,16 +80,16 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	
 	
 	/**
-	 * 设置产品规格 主键id
+	 * 设置商品规格 主键id
 	 * 
 	 * @param String productStyleId
 	 */
 	public void setProductStyleId(String productStyleId) {
-		this.productStyleId = MapleStringUtil.trim(productStyleId);
+		this.productStyleId = StringUtils.trim(productStyleId);
 	}
 	
 	/**
-	 * 获取产品规格 主键id
+	 * 获取商品规格 主键id
 	 * 
 	 * @return String productStyleId
 	 */
@@ -96,30 +98,12 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 产品规格初始id
-	 * 
-	 * @param String productStyleInitId
-	 */
-	public void setProductStyleInitId(String productStyleInitId) {
-		this.productStyleInitId = MapleStringUtil.trim(productStyleInitId);
-	}
-	
-	/**
-	 * 获取 产品规格初始id
-	 * 
-	 * @return String productStyleInitId
-	 */
-	public String getProductStyleInitId() {
-		return this.productStyleInitId;
-	}
-	
-	/**
 	 * 设置 商品id
 	 * 
 	 * @param String productId
 	 */
 	public void setProductId(String productId) {
-		this.productId = MapleStringUtil.trim(productId);
+		this.productId = StringUtils.trim(productId);
 	}
 	
 	/**
@@ -132,16 +116,16 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 产品规格代号
+	 * 设置 商品规格代号
 	 * 
 	 * @param String productStyleCode
 	 */
 	public void setProductStyleCode(String productStyleCode) {
-		this.productStyleCode = MapleStringUtil.trim(productStyleCode);
+		this.productStyleCode = StringUtils.trim(productStyleCode);
 	}
 	
 	/**
-	 * 获取 产品规格代号
+	 * 获取 商品规格代号
 	 * 
 	 * @return String productStyleCode
 	 */
@@ -150,16 +134,16 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 产品规格名称
+	 * 设置 商品规格名称
 	 * 
 	 * @param String productStyleName
 	 */
 	public void setProductStyleName(String productStyleName) {
-		this.productStyleName = MapleStringUtil.trim(productStyleName);
+		this.productStyleName = StringUtils.trim(productStyleName);
 	}
 	
 	/**
-	 * 获取 产品规格名称
+	 * 获取 商品规格名称
 	 * 
 	 * @return String productStyleName
 	 */
@@ -168,16 +152,16 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 产品规格类型
+	 * 设置 商品规格类型
 	 * 
 	 * @param String productStyleType
 	 */
 	public void setProductStyleType(String productStyleType) {
-		this.productStyleType = MapleStringUtil.trim(productStyleType);
+		this.productStyleType = StringUtils.trim(productStyleType);
 	}
 	
 	/**
-	 * 获取 产品规格类型
+	 * 获取 商品规格类型
 	 * 
 	 * @return String productStyleType
 	 */
@@ -186,21 +170,39 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 设置 产品规格状态
+	 * 设置 商品规格状态
 	 * 
 	 * @param String productStyleStatus
 	 */
 	public void setProductStyleStatus(String productStyleStatus) {
-		this.productStyleStatus = MapleStringUtil.trim(productStyleStatus);
+		this.productStyleStatus = StringUtils.trim(productStyleStatus);
 	}
 	
 	/**
-	 * 获取 产品规格状态
+	 * 获取 商品规格状态
 	 * 
 	 * @return String productStyleStatus
 	 */
 	public String getProductStyleStatus() {
 		return this.productStyleStatus;
+	}
+	
+	/**
+	 * 设置 库存总量
+	 * 
+	 * @param String allStockNum
+	 */
+	public void setAllStockNum(String allStockNum) {
+		this.allStockNum = allStockNum;
+	}
+	
+	/**
+	 * 获取 库存总量
+	 * 
+	 * @return String allStockNum
+	 */
+	public String getAllStockNum() {
+		return this.allStockNum;
 	}
 	
 	/**
@@ -239,13 +241,14 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 		return this.originalPrice;
 	}
 	
+	
 	/**
 	 * 设置 货币种类
 	 * 
 	 * @param String curType
 	 */
 	public void setCurType(String curType) {
-		this.curType = MapleStringUtil.trim(curType);
+		this.curType = StringUtils.trim(curType);
 	}
 	
 	/**
@@ -256,8 +259,9 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	public String getCurType() {
 		return this.curType;
 	}
+	
 	/**
-	 * 设置 折扣
+	 * 设置 折扣率
 	 * 
 	 * @param String discountRate
 	 */
@@ -266,13 +270,14 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	}
 	
 	/**
-	 * 获取 折扣
+	 * 获取 折扣率
 	 * 
 	 * @return String discountRate
 	 */
 	public String getDiscountRate() {
 		return this.discountRate;
 	}
+	
 	
 	/**
 	 * 设置 折扣优惠
@@ -292,6 +297,7 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 		return this.discountPrice;
 	}
 	
+	
 	/**
 	 * 设置 现价
 	 * 
@@ -309,6 +315,8 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	public String getCurrentPrice() {
 		return this.currentPrice;
 	}
+	
+	
 	
 	/**************************table prop  end  *********************************/
 }

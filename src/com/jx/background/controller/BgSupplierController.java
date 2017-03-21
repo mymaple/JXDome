@@ -242,13 +242,40 @@ public class BgSupplierController extends BaseController {
 	}
 	
 	/**
+	 * 更改状态
+	 */
+	@RequestMapping(value="/changeStatus")
+	@ResponseBody
+	public Object changeStatus(@RequestParam String flag, @RequestParam String supplierId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comSupplierService.changeStatus(flag, supplierId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 更改有效性
+	 */
+	@RequestMapping(value="/changeEffective")
+	@ResponseBody
+	public Object changeEffective(@RequestParam String flag, @RequestParam String supplierId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comSupplierService.changeEffective(flag, supplierId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 导出到excel
 	 * @return
 	 */
 	@RequestMapping(value="/toExportExcel")
 	public ModelAndView toExportExcel() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
@@ -268,7 +295,7 @@ public class BgSupplierController extends BaseController {
 		titles.add("修改人员id");	//12
 		titles.add("修改时间");	//13
 		dataMap.put("titles", titles);
-		List<ComSupplier> varOList = comSupplierService.listByPd(pd);
+		List<ComSupplier> varOList = comSupplierService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	

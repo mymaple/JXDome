@@ -11,9 +11,10 @@ public interface ComStyleCategoryService {
 	
 	/****************************custom * start***********************************/
 
+		
 	
 	/**
-	 * 根据parentId 获取所有直接fu
+	 * 根据parentId 获取所有直接
 	 * @param String parentId
 	 * @return
 	 * @throws Exception
@@ -30,7 +31,7 @@ public interface ComStyleCategoryService {
 	
 	/**
 	 * 获取所有子列表(递归处理)
-	 * @param String styleCategoryId
+	 * @param String productId, String styleCategoryId
 	 * @return
 	 * @throws Exception
 	 */
@@ -51,8 +52,6 @@ public interface ComStyleCategoryService {
 	 * @throws Exception
 	 */
 	public void batchDeleteInRank(String[] ids) throws Exception ;
-	
-	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -72,12 +71,12 @@ public interface ComStyleCategoryService {
 	public void edit(ComStyleCategory comStyleCategory) throws Exception ;
 	
 	/**
-	 * 更改
-	 * @param ComStyleCategory comStyleCategory
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String styleCategoryId
 	 * @throws Exception
 	 */
-	public void change(ComStyleCategory comStyleCategory) throws Exception ;
-
+	public void changeEffective(String flag, String styleCategoryId) throws Exception ;
+	
 	/**
 	 * 删除 
 	 * @param String styleCategoryId
@@ -86,19 +85,12 @@ public interface ComStyleCategoryService {
 	public void deleteById(String styleCategoryId) throws Exception ;
 	
 	/**
-	 * 删除 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void deleteByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception ;
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String styleCategoryId
@@ -108,26 +100,11 @@ public interface ComStyleCategoryService {
 	public ComStyleCategory findById(String styleCategoryId) throws Exception ;
 	
 	/**
-	 * 通过pd获取(ComStyleCategory)数据 
-	 * @param PageData pd
-	 * @return ComStyleCategory
-	 * @throws Exception
-	 */
-	public ComStyleCategory findByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComStyleCategory> listByPd(PageData pd) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComStyleCategory> otherHave(ComStyleCategory comStyleCategory) throws Exception ;
+	public List<ComStyleCategory> listAll() throws Exception ;
 	
 	/**
 	 * 获取(类)List数据

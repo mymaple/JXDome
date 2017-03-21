@@ -231,6 +231,9 @@ public class MapleFileUtil {
 				delFile(srcold);
 				resrc.append(",");
 				resrc.append(srcnew);
+			}else{
+				resrc.append(",");
+				resrc.append(srcold);
 			}
 		}
 		return resrc.toString().replaceFirst(",", "");

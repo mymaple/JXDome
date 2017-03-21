@@ -145,7 +145,7 @@
 			if($("#lbtImgSrc").val()==""){
 				$("#lbtImgSrc").tips({
 					side:3,
-		            msg:'请输入轮播图图片',
+		            msg:'请上传轮播图图片',
 		            bg:'#AE81FF',
 		            time:2
 		        });

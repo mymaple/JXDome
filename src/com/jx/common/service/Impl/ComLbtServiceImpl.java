@@ -38,12 +38,11 @@ public class ComLbtServiceImpl implements ComLbtService{
 	 */
 	public void add(ComLbt comLbt) throws Exception {
 		
-		comLbt.setLbtImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComLbt.PATH_IMG_GBT, comLbt.getLbtImgSrc()));
-		
 		Date nowTime = new Date();
 		comLbt.setLbtId(UuidUtil.get32UUID());
 		comLbt.setLbtStatus("00");
+		comLbt.setLbtImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComLbt.PATH_IMG_LBT_LBTIMG, comLbt.getLbtImgSrc()));
 		comLbt.setEffective("01");
 		comLbt.setCreateUserId(ShiroSessionUtil.getUserId());
 		comLbt.setCreateTime(nowTime);
@@ -59,8 +58,9 @@ public class ComLbtServiceImpl implements ComLbtService{
 	 * @throws Exception
 	 */
 	public void edit(ComLbt comLbt) throws Exception {
+	
 		comLbt.setLbtImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-				ComLbt.PATH_IMG_GBT, comLbt.getLbtImgSrc()));
+			ComLbt.PATH_IMG_LBT_LBTIMG, comLbt.getLbtImgSrc()));
 		Date nowTime = new Date();
 		comLbt.setModifyUserId(ShiroSessionUtil.getUserId());
 		comLbt.setModifyTime(nowTime);

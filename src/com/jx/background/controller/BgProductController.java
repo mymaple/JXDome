@@ -247,13 +247,40 @@ public class BgProductController extends BaseController {
 	}
 	
 	/**
+	 * 更改状态
+	 */
+	@RequestMapping(value="/changeStatus")
+	@ResponseBody
+	public Object changeStatus(@RequestParam String flag, @RequestParam String productId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comProductService.changeStatus(flag, productId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 更改有效性
+	 */
+	@RequestMapping(value="/changeEffective")
+	@ResponseBody
+	public Object changeEffective(@RequestParam String flag, @RequestParam String productId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comProductService.changeEffective(flag, productId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 导出到excel
 	 * @return
 	 */
 	@RequestMapping(value="/toExportExcel")
 	public ModelAndView toExportExcel() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
@@ -278,7 +305,7 @@ public class BgProductController extends BaseController {
 		titles.add("修改人员id");	//17
 		titles.add("修改时间");	//18
 		dataMap.put("titles", titles);
-		List<ComProduct> varOList = comProductService.listByPd(pd);
+		List<ComProduct> varOList = comProductService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	

@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
 public class ComProduct extends BaseEntity implements Serializable {
 	
@@ -17,25 +17,26 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	
 	/**
 	 * 路径 商品 头像
 	 */
-	public static final String PATH_IMG_P_HEADIMG = "uploadFiles/image/product/headimg";
+	public static final String PATH_IMG_PRODUCT_HEADIMG = "uploadFiles/image/product/headImg";
 	
 	/**
 	 * 路径 商品 长框图
 	 */
-	public static final String PATH_IMG_P_IMG1 = "uploadFiles/image/product/img1";
+	public static final String PATH_IMG_PRODUCT_IMG1 = "uploadFiles/image/product/img1";
 	
 	/**
 	 * 路径 商品 滚播图
 	 */
-	public static final String PATH_IMG_P_IMG2 = "uploadFiles/image/product/img2";
+	public static final String PATH_IMG_PRODUCT_IMG2 = "uploadFiles/image/product/img2";
 	
 	/**
 	 * 路径 商品 详情图
 	 */
-	public static final String PATH_IMG_P_IMG3 = "uploadFiles/image/product/img3";
+	public static final String PATH_IMG_PRODUCT_IMG3 = "uploadFiles/image/product/img3";
 	
 	
 	/**************************custom prop satrt********************************/
@@ -103,7 +104,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String productId
 	 */
 	public void setProductId(String productId) {
-		this.productId = MapleStringUtil.trim(productId);
+		this.productId = StringUtils.trim(productId);
 	}
 	
 	/**
@@ -121,7 +122,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String supplierId
 	 */
 	public void setSupplierId(String supplierId) {
-		this.supplierId = MapleStringUtil.trim(supplierId);
+		this.supplierId = StringUtils.trim(supplierId);
 	}
 	
 	/**
@@ -139,7 +140,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String productCode
 	 */
 	public void setProductCode(String productCode) {
-		this.productCode = MapleStringUtil.trim(productCode);
+		this.productCode = StringUtils.trim(productCode);
 	}
 	
 	/**
@@ -157,7 +158,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String productName
 	 */
 	public void setProductName(String productName) {
-		this.productName = MapleStringUtil.trim(productName);
+		this.productName = StringUtils.trim(productName);
 	}
 	
 	/**
@@ -175,7 +176,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String productType
 	 */
 	public void setProductType(String productType) {
-		this.productType = MapleStringUtil.trim(productType);
+		this.productType = StringUtils.trim(productType);
 	}
 	
 	/**
@@ -193,7 +194,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String productStatus
 	 */
 	public void setProductStatus(String productStatus) {
-		this.productStatus = MapleStringUtil.trim(productStatus);
+		this.productStatus = StringUtils.trim(productStatus);
 	}
 	
 	/**
@@ -211,7 +212,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String productModel
 	 */
 	public void setProductModel(String productModel) {
-		this.productModel = MapleStringUtil.trim(productModel);
+		this.productModel = StringUtils.trim(productModel);
 	}
 	
 	/**
@@ -229,7 +230,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String summary
 	 */
 	public void setSummary(String summary) {
-		this.summary = MapleStringUtil.trim(summary);
+		this.summary = StringUtils.trim(summary);
 	}
 	
 	/**
@@ -247,7 +248,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String introduction
 	 */
 	public void setIntroduction(String introduction) {
-		this.introduction = MapleStringUtil.trim(introduction);
+		this.introduction = StringUtils.trim(introduction);
 	}
 	
 	/**
@@ -265,7 +266,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String headImgSrc
 	 */
 	public void setHeadImgSrc(String headImgSrc) {
-		this.headImgSrc = MapleStringUtil.trim(headImgSrc);
+		this.headImgSrc = StringUtils.trim(headImgSrc);
 	}
 	
 	/**
@@ -283,7 +284,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String imgSrc1
 	 */
 	public void setImgSrc1(String imgSrc1) {
-		this.imgSrc1 = MapleStringUtil.trim(imgSrc1);
+		this.imgSrc1 = StringUtils.trim(imgSrc1);
 	}
 	
 	/**
@@ -301,7 +302,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String imgSrc2
 	 */
 	public void setImgSrc2(String imgSrc2) {
-		this.imgSrc2 = MapleStringUtil.trim(imgSrc2);
+		this.imgSrc2 = StringUtils.trim(imgSrc2);
 	}
 	
 	/**
@@ -319,7 +320,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	 * @param String imgSrc3
 	 */
 	public void setImgSrc3(String imgSrc3) {
-		this.imgSrc3 = MapleStringUtil.trim(imgSrc3);
+		this.imgSrc3 = StringUtils.trim(imgSrc3);
 	}
 	
 	/**

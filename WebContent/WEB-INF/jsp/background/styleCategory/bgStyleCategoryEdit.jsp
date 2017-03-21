@@ -121,13 +121,12 @@
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
 			if($("#productId").val()==""){
-				$("#productId").tips({
+				$("#productId").next().tips({
 					side:3,
-		            msg:'请输入产品编号',
+		            msg:'请选择 产品编号',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#productId").focus();
 			return false;
 			}
 			if($("#styleCategoryName").val()==""){

@@ -44,26 +44,34 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">产品规格代号:</td>
-								<td><input type="text" name="productStyleCode" id="productStyleCode" value="${comProductStyle.productStyleCode}" maxlength="100" placeholder="这里输入 产品规格代号" title="产品规格代号" style="width:98%;" onblur="otherNotCode()"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">商品规格代号:</td>
+								<td><input type="text" name="productStyleCode" id="productStyleCode" value="${comProductStyle.productStyleCode}" maxlength="100" placeholder="这里输入 商品规格代号" title="商品规格代号" style="width:98%;" onblur="otherNotCode()"/></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">产品规格名称:</td>
-								<td><input type="text" name="productStyleName" id="productStyleName" value="${comProductStyle.productStyleName}" maxlength="100" placeholder="这里输入 产品规格名称" title="产品规格名称" style="width:98%;" /></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">商品规格名称:</td>
+								<td><input type="text" name="productStyleName" id="productStyleName" value="${comProductStyle.productStyleName}" maxlength="100" placeholder="这里输入 商品规格名称" title="商品规格名称" style="width:98%;" /></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">产品规格类型:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">商品规格类型:</td>
 								<td>
 									<c:choose>
 										<c:when test="${not empty comStyleCategoryList}">
 										<c:forEach items="${comStyleCategoryList}" var="comStyleCategory" varStatus="vs">
-									${comStyleCategory.styleCategoryName}:<param:select type="com_styleCategoryEffectiveP" name="productStyleType" id="productStyleType" value="${comStyleCategory.styleCategoryStatus}" 
+									${comStyleCategory.styleCategoryName}:<param:select type="com_styleCategoryEffectiveP" name="productStyleType" id="productStyleType" value="${comStyleCategory.oldValue}" 
 										target="${comStyleCategory.styleCategoryId}" placeholder="这里请选择 ${comStyleCategory.styleCategoryName}" title="${comStyleCategory.styleCategoryName}" cssClass="chosen-select form-control" styleClass="width:98%;"/>
 										</c:forEach>
 										</c:when>
 									</c:choose>
 								</td>
 							
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">商品规格状态:</td>
+								<td><param:select type="com_productStyleStatus" name="productStyleStatus" id="productStyleStatus" value="${comProductStyle.productStyleStatus}" placeholder="这里请选择 商品规格状态" title="商品规格状态" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">库存总量:</td>
+								<td><input type="number" name="allStockNum" id="allStockNum" value="${comProductStyle.allStockNum}" maxlength="100" placeholder="这里输入 库存总量" title="库存总量" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">库存数量:</td>
@@ -78,8 +86,8 @@
 								<td><input type="number" name="originalPrice" id="originalPrice" value="${comProductStyle.originalPrice}" maxlength="100" placeholder="这里输入 原价" title="原价" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">折扣:</td>
-								<td><input type="number" name="discountRate" id="discountRate" value="${comProductStyle.discountRate}" maxlength="100" placeholder="这里输入 折扣" title="折扣" style="width:98%;"/></td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">折扣率:</td>
+								<td><input type="number" name="discountRate" id="discountRate" value="${comProductStyle.discountRate}" maxlength="100" placeholder="这里输入 折扣率" title="折扣率" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">折扣优惠:</td>
@@ -139,7 +147,7 @@
 				if(data.resultCode != "success"){
 					$("#productStyleCode").tips({
 						side:3,
-			            msg:'产品规格代号 已存在',
+			            msg:'商品规格代号 已存在',
 			            bg:'#AE81FF',
 			            time:2
 			        });
@@ -166,7 +174,7 @@
 			if(!codeExp.test($("#productStyleCode").val())){
 				$("#productStyleCode").tips({
 					side:3,
-		            msg:'请输入产品规格代号 需以小写字母开头的字母数字',
+		            msg:'请输入商品规格代号 需以小写字母开头的字母数字',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -176,7 +184,7 @@
 			if($("#productStyleName").val()==""){
 				$("#productStyleName").tips({
 					side:3,
-		            msg:'请输入产品规格名称',
+		            msg:'请输入商品规格名称',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -186,10 +194,29 @@
 			if($("#productStyleType").val()==""){
 				$("#productStyleType").next().tips({
 					side:3,
-		            msg:'请选择 产品规格类型',
+		            msg:'请选择 商品规格类型',
 		            bg:'#AE81FF',
 		            time:2
 		        });
+			return false;
+			}
+			if($("#productStyleStatus").val()==""){
+				$("#productStyleStatus").next().tips({
+					side:3,
+		            msg:'请选择 商品规格状态',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+			return false;
+			}
+			if(!intExp.test($("#allStockNum").val())){
+				$("#allStockNum").tips({
+					side:3,
+		            msg:'请输入库存总量 需是数字',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#allStockNum").focus();
 			return false;
 			}
 			if(!intExp.test($("#stockNum").val())){
@@ -224,7 +251,7 @@
 			if(!intExp.test($("#discountRate").val())){
 				$("#discountRate").tips({
 					side:3,
-		            msg:'请输入折扣 最多为两位小数',
+		            msg:'请输入折扣率 最多为两位小数',
 		            bg:'#AE81FF',
 		            time:2
 		        });

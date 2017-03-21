@@ -66,7 +66,6 @@
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">轮播图代号</th>
 									<th class="center">轮播图类型</th>
-									<th class="center">轮播图图片</th>
 									<th class="center">描述</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
@@ -91,7 +90,6 @@
 											</c:if>
 											<td class='center'>${comLbt.lbtCode}</td>
 											<td class='center'><param:display type="com_lbtType" value="${comLbt.lbtType}"/></td>
-											<td class='center'>${comLbt.lbtImgSrc}</td>
 											<td class='center'>${comLbt.description}</td>
 											<td class='center'>${comLbt.orderNum}</td>
 											<td class="center">

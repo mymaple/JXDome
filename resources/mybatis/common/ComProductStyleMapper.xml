@@ -3,17 +3,17 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComProductStyleMapper">
 
-	<sql id="productStyleColumns">productStyleId,productStyleInitId,productId,productStyleCode,productStyleName,productStyleType,productStyleStatus,stockNum,originalPrice,curType,discountRate,discountPrice,currentPrice,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="productStyleColumns">productStyleId,productId,productStyleCode,productStyleName,productStyleType,productStyleStatus,allStockNum,stockNum,originalPrice,curType,discountRate,discountPrice,currentPrice,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="productStyleTable">com_product_style_info</sql>
 	
 	<resultMap type="comProductStyle" id="comProductStyleResultMap">
 		<id column="productStyleId" property="productStyleId"/>
-		<result column="productStyleInitId" property="productStyleInitId"/>
 		<result column="productId" property="productId"/>
 		<result column="productStyleCode" property="productStyleCode"/>
 		<result column="productStyleName" property="productStyleName"/>
 		<result column="productStyleType" property="productStyleType"/>
 		<result column="productStyleStatus" property="productStyleStatus"/>
+		<result column="allStockNum" property="allStockNum"/>
 		<result column="stockNum" property="stockNum"/>
 		<result column="originalPrice" property="originalPrice"/>
 		<result column="curType" property="curType"/>
@@ -31,6 +31,7 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
@@ -42,7 +43,7 @@
 		( 
 	<include refid="productStyleColumns"/>
 		) values (
-			#{productStyleId},#{productStyleInitId},#{productId},#{productStyleCode},#{productStyleName},#{productStyleType},#{productStyleStatus},#{stockNum},#{originalPrice},#{curType},#{discountRate},#{discountPrice},#{currentPrice},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{productStyleId},#{productId},#{productStyleCode},#{productStyleName},#{productStyleType},#{productStyleStatus},#{allStockNum},#{stockNum},#{originalPrice},#{curType},#{discountRate},#{discountPrice},#{currentPrice},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -51,106 +52,56 @@
 		update
 	<include refid="productStyleTable"/>
 		set 
-			<if test="productId!=null and productId!=''">
 			productId = #{productId},
-			</if>
-			<if test="productStyleCode!=null and productStyleCode!=''">
 			productStyleCode = #{productStyleCode},
-			</if>
-			<if test="productStyleName!=null and productStyleName!=''">
 			productStyleName = #{productStyleName},
-			</if>
-			<if test="productStyleType!=null and productStyleType!=''">
 			productStyleType = #{productStyleType},
-			</if>
-			<if test="stockNum!=null and stockNum!=''">
+			productStyleStatus = #{productStyleStatus},
+			allStockNum = #{allStockNum},
 			stockNum = #{stockNum},
-			</if>
-			<if test="originalPrice!=null and originalPrice!=''">
 			originalPrice = #{originalPrice},
-			</if>
-			<if test="curType!=null and curType!=''">
 			curType = #{curType},
-			</if>
-			<if test="discountRate!=null and discountRate!=''">
 			discountRate = #{discountRate},
-			</if>
-			<if test="discountPrice!=null and discountPrice!=''">
 			discountPrice = #{discountPrice},
-			</if>
-			<if test="currentPrice!=null and currentPrice!=''">
 			currentPrice = #{currentPrice},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
-			</if>
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
 			productStyleId = #{productStyleId} 
-			and modifyTime = #{lastModifyTime}
 	</update>
 	
-	<!-- 改变 -->
-	<update id="change" parameterType="comProductStyle">
+	<!-- 更改状态-->
+	<update id="changeStatus" parameterType="comReceiveAddress">
 		update
 	<include refid="productStyleTable"/>
 		set 
-			<if test="productStyleInitId!=null and productStyleInitId!=''">
-			productStyleInitId = #{productStyleInitId},
-			</if>
-			<if test="productId!=null and productId!=''">
-			productId = #{productId},
-			</if>
-			<if test="productStyleCode!=null and productStyleCode!=''">
-			productStyleCode = #{productStyleCode},
-			</if>
-			<if test="productStyleName!=null and productStyleName!=''">
-			productStyleName = #{productStyleName},
-			</if>
-			<if test="productStyleType!=null and productStyleType!=''">
-			productStyleType = #{productStyleType},
-			</if>
-			<if test="productStyleStatus!=null and productStyleStatus!=''">
-			productStyleStatus = #{productStyleStatus},
-			</if>
-			<if test="stockNum!=null and stockNum!=''">
-			stockNum = #{stockNum},
-			</if>
-			<if test="originalPrice!=null and originalPrice!=''">
-			originalPrice = #{originalPrice},
-			</if>
-			<if test="curType!=null and curType!=''">
-			curType = #{curType},
-			</if>
-			<if test="discountRate!=null and discountRate!=''">
-			discountRate = #{discountRate},
-			</if>
-			<if test="discountPrice!=null and discountPrice!=''">
-			discountPrice = #{discountPrice},
-			</if>
-			<if test="currentPrice!=null and currentPrice!=''">
-			currentPrice = #{currentPrice},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			orderNum = #{orderNum},
-			</if>
-			<if test="effective!=null and effective!=''">
-			effective = #{effective},
-			</if>
+			productStyleStatus = #{productStyleStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			productStyleId = #{productStyleId} 
-			and modifyTime = #{lastModifyTime}
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
+	</update>
+	
+	<!-- 更改有效性 -->
+	<update id="changeEffective" parameterType="comReceiveAddress">
+		update
+	<include refid="productStyleTable"/>
+		set 
+			effective = #{effective} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteByPd" parameterType="pd">
+	<delete id="deleteById" parameterType="String">
 		delete from 
 	<include refid="productStyleTable"/>
-		where 
-			productStyleId = #{productStyleId} 
+		where productStyleId = #{productStyleId} 
 	</delete>
 	
 	<!-- 批量删除 -->
@@ -165,93 +116,32 @@
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findByPd" parameterType="pd" resultType="comProductStyle">
+	<select id="findById" parameterType="String" resultType="comProductStyle">
 		select 
 	<include refid="productStyleColumns"/>
 		from 
 	<include refid="productStyleTable"/>
-		where 
-			productStyleId = #{productStyleId} 
+		where productStyleId = #{productStyleId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByPd" parameterType="pd" resultMap="comProductStyleResultMap">
+	<select id="listAll" resultType="comProductStyle">
 		select 
 	<include refid="productStyleColumns"/>
 		from 
 	<include refid="productStyleTable"/>
-		where 1=1
-			<if test="productId!=null">
-			 and productId = #{productId}
-			</if>
-		order by (orderNum+0) 
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="otherHave" parameterType="comProductStyle" resultMap="comProductStyleResultMap">
+	<select id="otherHaveCode" parameterType="comProductStyle" resultMap="comProductStyleResultMap">
 		select 
 	<include refid="productStyleColumns"/>
 		from 
 	<include refid="productStyleTable"/>
-		where 1=1
-			<if test="productStyleId!=null and productStyleId!=''">
-			 and productStyleId != #{productStyleId} 
-			</if>
-			<if test="productStyleInitId!=null and productStyleInitId!=''">
-			 and productStyleInitId = #{productStyleInitId}
-			</if>
-			<if test="productId!=null and productId!=''">
-			 and productId = #{productId}
-			</if>
-			<if test="productStyleCode!=null and productStyleCode!=''">
+		where productStyleId != #{productStyleId} 
 			 and productStyleCode = #{productStyleCode}
-			</if>
-			<if test="productStyleName!=null and productStyleName!=''">
-			 and productStyleName = #{productStyleName}
-			</if>
-			<if test="productStyleType!=null and productStyleType!=''">
-			 and productStyleType = #{productStyleType}
-			</if>
-			<if test="productStyleStatus!=null and productStyleStatus!=''">
-			 and productStyleStatus = #{productStyleStatus}
-			</if>
-			<if test="stockNum!=null and stockNum!=''">
-			 and stockNum = #{stockNum}
-			</if>
-			<if test="originalPrice!=null and originalPrice!=''">
-			 and originalPrice = #{originalPrice}
-			</if>
-			<if test="curType!=null and curType!=''">
-			 and curType = #{curType}
-			</if>
-			<if test="discountRate!=null and discountRate!=''">
-			 and discountRate = #{discountRate}
-			</if>
-			<if test="discountPrice!=null and discountPrice!=''">
-			 and discountPrice = #{discountPrice}
-			</if>
-			<if test="currentPrice!=null and currentPrice!=''">
-			 and currentPrice = #{currentPrice}
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null and effective!=''">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null and createUserId!=''">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null and createTime!=''">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null and modifyUserId!=''">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null and modifyTime!=''">
-			 and modifyTime = #{modifyTime}
-			</if>
-		order by (orderNum+0) 
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -261,9 +151,6 @@
 		from 
 	<include refid="productStyleTable"/>
 		where 1=1
-		<if test="pd.productId!=null">
-			 and productId = #{pd.productId}
-		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
@@ -272,7 +159,7 @@
 				productStyleName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		order by (orderNum+0)
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

@@ -11,7 +11,6 @@ import com.jx.${bgMaple.controllerPackage}.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.${bgMaple.entityPackage}.entity.${bgMaple.mapleEntityUpper};
 import com.jx.${bgMaple.entityPackage}.service.${bgMaple.mapleEntityUpper}Service;
@@ -118,6 +117,10 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		Date nowTime = new Date();
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(UuidUtil.get32UUID());
 		<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.mapleDetailType == '06'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			${bgMaple.mapleEntityUpper}.PATH_IMG_${bgMaple.mapleCode?upper_case}_${bgMapleDetail.mapleDetailCode?replace("Src","")?upper_case}, ${bgMaple.mapleEntityLower}.get${bgMapleDetail.mapleDetailCodeUpper}()));
+			</#if>
 			<#if bgMapleDetail.isEdit == '00'>
 			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
@@ -145,6 +148,13 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	 * @throws Exception
 	 */
 	public void edit(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
+	
+		<#list bgMapleDetailList as bgMapleDetail>
+			<#if bgMapleDetail.mapleDetailType == '06'>
+		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			${bgMaple.mapleEntityUpper}.PATH_IMG_${bgMaple.mapleCode?upper_case}_${bgMapleDetail.mapleDetailCode?replace("Src","")?upper_case}, ${bgMaple.mapleEntityLower}.get${bgMapleDetail.mapleDetailCodeUpper}()));
+			</#if>
+		</#list>
 		Date nowTime = new Date();
 		${bgMaple.mapleEntityLower}.setModifyUserId(ShiroSessionUtil.getUserId());
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);

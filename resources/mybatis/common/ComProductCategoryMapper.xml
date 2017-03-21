@@ -27,6 +27,31 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<update id="updateCode" parameterType="pd">
+		UPDATE 
+	<include refid="productCategoryTable"/>
+		SET productCategoryCode = CONCAT(
+			#{startC},
+			(
+				SELECT
+					A.CODE
+				FROM
+					(
+						SELECT
+							(
+								COALESCE (
+									REPLACE (MAX(productCategoryCode), #{startC}, ''),
+									#{startN}
+								) + #{addValue}
+							) CODE
+						FROM
+	<include refid="productCategoryTable"/>
+					) A
+			)
+		)
+		WHERE
+			productCategoryId = #{productCategoryId};
+	</update>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	
@@ -48,7 +73,6 @@
 		update
 	<include refid="productCategoryTable"/>
 		set 
-			productCategoryCode = #{productCategoryCode},
 			productCategoryName = #{productCategoryName},
 			productCategoryType = #{productCategoryType},
 			headImgSrc = #{headImgSrc},
@@ -67,7 +91,7 @@
 		update
 	<include refid="productCategoryTable"/>
 		set 
-			productCategoryStatus = #{ProductCategoryStatus} ,
+			productCategoryStatus = #{productCategoryStatus},
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 

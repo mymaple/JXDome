@@ -118,7 +118,12 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comStyleCategory.styleCategoryId}" class="ace" /><span class="lbl"></span></label>
 											</td>
+											<c:if test="${comStyleCategory.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${comStyleCategory.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											</c:if>
 											<td class='center'><param:display type="com_productEffective" value="${comStyleCategory.productId}"/></td>
 											<td class='center'><a href="javascript:toSub('${comStyleCategory.styleCategoryId}')">${comStyleCategory.styleCategoryName}</a></td>
 											<td class='center'><param:display type="com_sf" value="${comStyleCategory.isFinal}"/></td>
@@ -129,6 +134,14 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
+													
+													<c:if test="${comStyleCategory.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comStyleCategory.styleCategoryId}');">使生效</a>
+													</c:if>
+													<c:if test="${comStyleCategory.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comStyleCategory.styleCategoryId}');">使失效</a>
+													</c:if>
+													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comStyleCategory.styleCategoryId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -268,6 +281,42 @@
 			}
 			window.location.href=url;
 		};
+
+	function changeEffective(flag,styleCategoryId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/styleCategory/changeEffective.do?flag="+flag+"&styleCategoryId="+styleCategoryId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,styleCategoryId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/styleCategory/changeStatus.do?flag="+flag+"&styleCategoryId="+styleCategoryId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
 		
 		//新增
 		function toAdd(){
@@ -282,7 +331,7 @@
 			 diag.Title ="新增";
 			 diag.URL = url;
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;		//最大化按钮 
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -318,7 +367,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/styleCategory/toEdit.do?styleCategoryId="+styleCategoryId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 

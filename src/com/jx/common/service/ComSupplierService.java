@@ -11,7 +11,7 @@ public interface ComSupplierService {
 	
 	/****************************custom * start***********************************/
 
-	
+		
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -31,12 +31,19 @@ public interface ComSupplierService {
 	public void edit(ComSupplier comSupplier) throws Exception ;
 	
 	/**
-	 * 更改
-	 * @param ComSupplier comSupplier
+	 * 更改状态 flag 00
+	 * @param String flag, String supplierId
 	 * @throws Exception
 	 */
-	public void change(ComSupplier comSupplier) throws Exception ;
-
+	public void changeStatus(String flag, String supplierId) throws Exception ;
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String supplierId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String supplierId) throws Exception ;
+	
 	/**
 	 * 删除 
 	 * @param String supplierId
@@ -45,19 +52,12 @@ public interface ComSupplierService {
 	public void deleteById(String supplierId) throws Exception ;
 	
 	/**
-	 * 删除 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void deleteByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception ;
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String supplierId
@@ -67,26 +67,11 @@ public interface ComSupplierService {
 	public ComSupplier findById(String supplierId) throws Exception ;
 	
 	/**
-	 * 通过pd获取(ComSupplier)数据 
-	 * @param PageData pd
-	 * @return ComSupplier
-	 * @throws Exception
-	 */
-	public ComSupplier findByPd(PageData pd) throws Exception ;
-	
-	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComSupplier> listByPd(PageData pd) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComSupplier> otherHave(ComSupplier comSupplier) throws Exception ;
+	public List<ComSupplier> listAll() throws Exception ;
 	
 	/**
 	 * 获取(类)List数据

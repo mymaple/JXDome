@@ -26,6 +26,32 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<update id="updateCode" parameterType="pd">
+		UPDATE 
+	<include refid="supplierTable"/>
+		SET supplierCode = CONCAT(
+			#{startC},
+			(
+				SELECT
+					A.CODE
+				FROM
+					(
+						SELECT
+							(
+								COALESCE (
+									REPLACE (MAX(supplierCode), #{startC}, ''),
+									#{startN}
+								) + #{addValue}
+							) CODE
+						FROM
+	<include refid="supplierTable"/>
+					) A
+			)
+		)
+		WHERE
+			supplierId = #{supplierId};
+	</update>
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
@@ -46,79 +72,49 @@
 		update
 	<include refid="supplierTable"/>
 		set 
-			<if test="supplierCode!=null and supplierCode!=''">
-			supplierCode = #{supplierCode},
-			</if>
-			<if test="supplierName!=null and supplierName!=''">
 			supplierName = #{supplierName},
-			</if>
-			<if test="supplierType!=null and supplierType!=''">
 			supplierType = #{supplierType},
-			</if>
-			<if test="linkman!=null and linkman!=''">
 			linkman = #{linkman},
-			</if>
-			<if test="linkPhone!=null and linkPhone!=''">
 			linkPhone = #{linkPhone},
-			</if>
-			<if test="remarks!=null and remarks!=''">
 			remarks = #{remarks},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
 			orderNum = #{orderNum},
-			</if>
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
 			supplierId = #{supplierId} 
-			and modifyTime = #{lastModifyTime}
 	</update>
 	
-	<!-- 改变 -->
-	<update id="change" parameterType="comSupplier">
+	<!-- 更改状态-->
+	<update id="changeStatus" parameterType="comReceiveAddress">
 		update
 	<include refid="supplierTable"/>
 		set 
-			<if test="supplierCode!=null and supplierCode!=''">
-			supplierCode = #{supplierCode},
-			</if>
-			<if test="supplierName!=null and supplierName!=''">
-			supplierName = #{supplierName},
-			</if>
-			<if test="supplierType!=null and supplierType!=''">
-			supplierType = #{supplierType},
-			</if>
-			<if test="supplierStatus!=null and supplierStatus!=''">
-			supplierStatus = #{supplierStatus},
-			</if>
-			<if test="linkman!=null and linkman!=''">
-			linkman = #{linkman},
-			</if>
-			<if test="linkPhone!=null and linkPhone!=''">
-			linkPhone = #{linkPhone},
-			</if>
-			<if test="remarks!=null and remarks!=''">
-			remarks = #{remarks},
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			orderNum = #{orderNum},
-			</if>
-			<if test="effective!=null and effective!=''">
-			effective = #{effective},
-			</if>
+			supplierStatus = #{supplierStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			supplierId = #{supplierId} 
-			and modifyTime = #{lastModifyTime}
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
+	</update>
+	
+	<!-- 更改有效性 -->
+	<update id="changeEffective" parameterType="comReceiveAddress">
+		update
+	<include refid="supplierTable"/>
+		set 
+			effective = #{effective} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and effective = #{oldValue}
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteByPd" parameterType="pd">
+	<delete id="deleteById" parameterType="String">
 		delete from 
 	<include refid="supplierTable"/>
-		where 
-			supplierId = #{supplierId} 
+		where supplierId = #{supplierId} 
 	</delete>
 	
 	<!-- 批量删除 -->
@@ -133,75 +129,32 @@
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findByPd" parameterType="pd" resultType="comSupplier">
+	<select id="findById" parameterType="String" resultType="comSupplier">
 		select 
 	<include refid="supplierColumns"/>
 		from 
 	<include refid="supplierTable"/>
-		where 
-			supplierId = #{supplierId} 
+		where supplierId = #{supplierId} 
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByPd" parameterType="pd" resultMap="comSupplierResultMap">
+	<select id="listAll" resultType="comSupplier">
 		select 
 	<include refid="supplierColumns"/>
 		from 
 	<include refid="supplierTable"/>
-		where 1=1
-		order by (orderNum+0) 
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="otherHave" parameterType="comSupplier" resultMap="comSupplierResultMap">
+	<select id="otherHaveCode" parameterType="comSupplier" resultMap="comSupplierResultMap">
 		select 
 	<include refid="supplierColumns"/>
 		from 
 	<include refid="supplierTable"/>
-		where 1=1
-			<if test="supplierId!=null and supplierId!=''">
-			 and supplierId != #{supplierId} 
-			</if>
-			<if test="supplierCode!=null and supplierCode!=''">
+		where supplierId != #{supplierId} 
 			 and supplierCode = #{supplierCode}
-			</if>
-			<if test="supplierName!=null and supplierName!=''">
-			 and supplierName = #{supplierName}
-			</if>
-			<if test="supplierType!=null and supplierType!=''">
-			 and supplierType = #{supplierType}
-			</if>
-			<if test="supplierStatus!=null and supplierStatus!=''">
-			 and supplierStatus = #{supplierStatus}
-			</if>
-			<if test="linkman!=null and linkman!=''">
-			 and linkman = #{linkman}
-			</if>
-			<if test="linkPhone!=null and linkPhone!=''">
-			 and linkPhone = #{linkPhone}
-			</if>
-			<if test="remarks!=null and remarks!=''">
-			 and remarks = #{remarks}
-			</if>
-			<if test="orderNum!=null and orderNum!=''">
-			 and orderNum = #{orderNum}
-			</if>
-			<if test="effective!=null and effective!=''">
-			 and effective = #{effective}
-			</if>
-			<if test="createUserId!=null and createUserId!=''">
-			 and createUserId = #{createUserId}
-			</if>
-			<if test="createTime!=null and createTime!=''">
-			 and createTime = #{createTime}
-			</if>
-			<if test="modifyUserId!=null and modifyUserId!=''">
-			 and modifyUserId = #{modifyUserId}
-			</if>
-			<if test="modifyTime!=null and modifyTime!=''">
-			 and modifyTime = #{modifyTime}
-			</if>
-		order by (orderNum+0) 
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -219,7 +172,7 @@
 				supplierName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		order by (orderNum+0)
+		order by (orderNum+0) DESC
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

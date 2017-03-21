@@ -21,6 +21,15 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	private static final long serialVersionUID = 1L;
 	
 	
+	<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.mapleDetailType == '06'>
+	/**
+	 * 路径 ${bgMapleDetail.mapleDetailName}
+	 */
+	public static final String PATH_IMG_${bgMaple.mapleCode?upper_case}_${bgMapleDetail.mapleDetailCode?replace("Src","")?upper_case} = "uploadFiles/image/${bgMaple.mapleCode}/${bgMapleDetail.mapleDetailCode?replace("Src","")}";
+	
+		</#if>
+	</#list>
 	
 	/**************************custom prop satrt********************************/
 	<#if bgMaple.mapleType == "02">
@@ -132,7 +141,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	</#if>
 	<#list bgMapleDetailList as bgMapleDetail>
 	/** ${bgMapleDetail.mapleDetailName} */
-		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05' || bgMapleDetail.mapleDetailType == '06'>
 		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
 	@Pattern(regexp = Const.REG_COM_CODE_STR, message="${bgMapleDetail.mapleDetailName} 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 		<#elseif bgMapleDetail.isEdit = "01">
@@ -214,7 +223,7 @@ public class ${bgMaple.mapleEntityUpper} extends BaseEntity implements Serializa
 	
 	</#if>	
 	<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05' || bgMapleDetail.mapleDetailType == '06'>
 	/**
 	 * 设置 ${bgMapleDetail.mapleDetailName}
 	 * 

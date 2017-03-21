@@ -136,7 +136,7 @@
 		update
 	<include refid="receiveAddressTable"/>
 		set 
-			receiveAddressStatus = #{ReceiveAddressStatus} ,
+			receiveAddressStatus = #{receiveAddressStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 

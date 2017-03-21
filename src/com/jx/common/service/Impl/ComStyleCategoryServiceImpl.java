@@ -14,6 +14,7 @@ import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComStyleCategory;
+import com.jx.common.entity.ComSupplier;
 import com.jx.common.service.ComStyleCategoryService;
 import com.jx.background.util.BgSessionUtil;
 
@@ -43,20 +44,21 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	
 	/**
 	 * 根据parentId 获取所有直接子
-	 * @param String parentId
+	 * @param String productId, String parentId
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<ComStyleCategory> listByParentId(String productId, String parentId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("productId",productId);
-		pd.put("parentId",parentId);
-		return this.listByPd(pd);
+		ComStyleCategory comStyleCategory = new ComStyleCategory();
+		comStyleCategory.setProductId(productId);
+		comStyleCategory.setParentId(parentId);
+		return (List<ComStyleCategory>) dao.findForList("ComStyleCategoryMapper.listByParentId", comStyleCategory);
 	}
 	
 	/**
 	 * 获取所有子列表(递归处理)
-	 * @param String styleCategoryId
+	 * @param String productId, String styleCategoryId
 	 * @return
 	 * @throws Exception
 	 */
@@ -108,7 +110,6 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 		
 		Date nowTime = new Date();
 		comStyleCategory.setStyleCategoryId(UuidUtil.get32UUID());
-		comStyleCategory.setStyleCategoryStatus("00");
 		comStyleCategory.setEffective("01");
 		comStyleCategory.setCreateUserId(ShiroSessionUtil.getUserId());
 		comStyleCategory.setCreateTime(nowTime);
@@ -124,62 +125,55 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	 * @throws Exception
 	 */
 	public void edit(ComStyleCategory comStyleCategory) throws Exception {
+	
 		Date nowTime = new Date();
 		comStyleCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comStyleCategory.setModifyTime(nowTime);
-		comStyleCategory.setLastModifyTime(this.findById(comStyleCategory.getStyleCategoryId()).getModifyTime());
-		if(comStyleCategory.getModifyTime().compareTo(comStyleCategory.getLastModifyTime()) == 0){
-			comStyleCategory.setModifyTime(MapleDateUtil.getNextSecond(comStyleCategory.getModifyTime()));
-		}
 	
 		dao.update("ComStyleCategoryMapper.edit", comStyleCategory);
 	}
 	
 	/**
-	 * 更改
-	 * @param ComStyleCategory comStyleCategory
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String styleCategoryId
 	 * @throws Exception
 	 */
-	public void change(ComStyleCategory comStyleCategory) throws Exception {
+	public void changeEffective(String flag, String styleCategoryId) throws Exception {
+		ComStyleCategory comStyleCategory = new ComStyleCategory();
+		if("00".equals(flag)){
+			comStyleCategory.setOldValue("01");
+		}else if("01".equals(flag)){
+			comStyleCategory.setOldValue("00");
+		}else{
+			comStyleCategory.setOldValue("flag");
+		}
+		comStyleCategory.setEffective(flag);
+		
+		comStyleCategory.setStyleCategoryId(styleCategoryId);
 		Date nowTime = new Date();
 		comStyleCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comStyleCategory.setModifyTime(nowTime);
-		comStyleCategory.setLastModifyTime(this.findById(comStyleCategory.getStyleCategoryId()).getModifyTime());
-		if(comStyleCategory.getModifyTime().compareTo(comStyleCategory.getLastModifyTime()) == 0){
-			comStyleCategory.setModifyTime(MapleDateUtil.getNextSecond(comStyleCategory.getModifyTime()));
-		}
-		dao.update("ComStyleCategoryMapper.change", comStyleCategory);
+		dao.update("ComStyleCategoryMapper.changeEffective", comStyleCategory);
 	}
-
+	
 	/**
 	 * 删除 
 	 * @param String styleCategoryId
 	 * @throws Exception
 	 */
 	public void deleteById(String styleCategoryId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("styleCategoryId",styleCategoryId);
-		this.deleteByPd(pd);
-	}
-	
-	/**
-	 * 删除 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("ComStyleCategoryMapper.deleteByPd", pd);
+		dao.delete("ComStyleCategoryMapper.deleteById", styleCategoryId);
 	}
 	
 	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("ComStyleCategoryMapper.batchDeleteByIds", ids);
 	}
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String styleCategoryId
@@ -187,19 +181,7 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	 * @throws Exception
 	 */
 	public ComStyleCategory findById(String styleCategoryId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("styleCategoryId",styleCategoryId);
-		return this.findByPd(pd);
-	}
-	
-	/**
-	 * 通过pd获取(ComStyleCategory)数据 
-	 * @param PageData pd
-	 * @return ComStyleCategory
-	 * @throws Exception
-	 */
-	public ComStyleCategory findByPd(PageData pd) throws Exception {
-		return (ComStyleCategory) dao.findForObject("ComStyleCategoryMapper.findByPd", pd);
+		return (ComStyleCategory) dao.findForObject("ComStyleCategoryMapper.findById", styleCategoryId);
 	}
 	
 	/**
@@ -208,8 +190,8 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComStyleCategory> listByPd(PageData pd) throws Exception {
-		return (List<ComStyleCategory>) dao.findForList("ComStyleCategoryMapper.listByPd", pd);
+	public List<ComStyleCategory> listAll() throws Exception {
+		return (List<ComStyleCategory>) dao.findForList("ComStyleCategoryMapper.listAll", null);
 	}
 	
 	/**
@@ -218,20 +200,11 @@ public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComStyleCategory> otherHave(ComStyleCategory comStyleCategory) throws Exception {
-		return (List<ComStyleCategory>) dao.findForList("ComStyleCategoryMapper.otherHave", comStyleCategory);
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
 	public List<ComStyleCategory> otherHaveName(String styleCategoryId, String styleCategoryName) throws Exception {
 		ComStyleCategory comStyleCategory = new ComStyleCategory();
 		comStyleCategory.setStyleCategoryId(styleCategoryId);
 		comStyleCategory.setStyleCategoryName(styleCategoryName);
-		return this.otherHave(comStyleCategory);
+		return (List<ComStyleCategory>) dao.findForList("ComStyleCategoryMapper.otherHaveName", comStyleCategory);
 	}
 	
 	/**

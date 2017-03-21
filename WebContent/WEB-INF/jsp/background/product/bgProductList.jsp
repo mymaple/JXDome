@@ -69,6 +69,8 @@
 									<th class="center">产品名称</th>
 									<th class="center">产品类型</th>
 									<th class="center">产品模型</th>
+									<th class="center">摘要</th>
+									<th class="center">简介</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -84,12 +86,19 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comProduct.productId}" class="ace" /><span class="lbl"></span></label>
 											</td>
+											<c:if test="${comProduct.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${comProduct.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											</c:if>
 											<td class='center'><param:display type="com_supplierEffective" value="${comProduct.supplierId}"/></td>
 											<td class='center'>${comProduct.productCode}</td>
 											<td class='center'>${comProduct.productName}</td>
 											<td class='center'><param:display type="com_productTypeEffective" value="${comProduct.productType}"/></td>
 											<td class='center'><param:display type="com_productModelEffective" value="${comProduct.productModel}"/></td>
+											<td class='center'>${comProduct.summary}</td>
+											<td class='center'>${comProduct.introduction}</td>
 											<td class='center'>${comProduct.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
@@ -105,6 +114,14 @@
 													</a>
 												
 													<c:if test="${RIGHTS.edit}">
+													
+													<c:if test="${comProduct.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comProduct.productId}');">使生效</a>
+													</c:if>
+													<c:if test="${comProduct.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comProduct.productId}');">使失效</a>
+													</c:if>
+													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comProduct.productId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -234,6 +251,43 @@
 			});
 		});
 		
+		
+		function changeEffective(flag,productId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/product/changeEffective.do?flag="+flag+"&productId="+productId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,productId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/product/changeStatus.do?flag="+flag+"&productId="+productId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
 		//新增
 		function toAdd(){
 			 top.jzts();
@@ -242,7 +296,7 @@
 			 diag.Title ="新增";
 			 diag.URL = "<%=basePath%>background/product/toAdd.do";
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮
@@ -283,7 +337,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/product/toEdit.do?productId="+productId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 

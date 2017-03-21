@@ -233,7 +233,7 @@
 			if($("#headImgSrc").val()==""){
 				$("#headImgSrc").tips({
 					side:3,
-		            msg:'请输入产品头像',
+		            msg:'请上传产品头像',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -243,7 +243,7 @@
 			if($("#imgSrc1").val()==""){
 				$("#imgSrc1").tips({
 					side:3,
-		            msg:'请输入长框图',
+		            msg:'请上传长框图',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -253,7 +253,7 @@
 			if($("#imgSrc2").val()==""){
 				$("#imgSrc2").tips({
 					side:3,
-		            msg:'请输入滚播图',
+		            msg:'请上传滚播图',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -263,7 +263,7 @@
 			if($("#imgSrc3").val()==""){
 				$("#imgSrc3").tips({
 					side:3,
-		            msg:'请输入详情图',
+		            msg:'请上传详情图',
 		            bg:'#AE81FF',
 		            time:2
 		        });

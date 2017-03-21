@@ -8,10 +8,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
+import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleFileUtil;
+import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProductCategory;
 import com.jx.common.service.ComProductCategoryService;
@@ -37,8 +39,18 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	public void add(ComProductCategory comProductCategory) throws Exception {
 		
 		Date nowTime = new Date();
-		comProductCategory.setProductCategoryId(UuidUtil.get32UUID());
+		String productCategoryId = UuidUtil.get32UUID();
+		comProductCategory.setProductCategoryId(productCategoryId);
 		comProductCategory.setProductCategoryStatus("00");
+		comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_HEADIMG, comProductCategory.getHeadImgSrc())
+				.replaceAll(",", Const.REG_COM_SPLIT));
+		comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG1, comProductCategory.getImgSrc1())
+				.replaceAll(",", Const.REG_COM_SPLIT));
+		comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG2, comProductCategory.getImgSrc2())
+				.replaceAll(",", Const.REG_COM_SPLIT));
 		comProductCategory.setEffective("01");
 		comProductCategory.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setCreateTime(nowTime);
@@ -46,6 +58,22 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		comProductCategory.setModifyTime(nowTime);
 		
 		dao.add("ComProductCategoryMapper.add", comProductCategory);
+		this.updateCode(productCategoryId);
+	}
+	
+	/**
+	 * 生成code 
+	 * @param String productCategoryId
+	 * @throws Exception
+	 */
+	public void updateCode(String productCategoryId) throws Exception {
+		//生成固定id
+		PageData pd = new PageData();
+		pd.put("productCategoryId", productCategoryId);
+		pd.put("startC", "splb");
+		pd.put("startN", 100001);
+		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
+		dao.update("ComProductCategoryMapper.updateCode", pd);
 	}
 	
 	/**
@@ -54,6 +82,16 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	 * @throws Exception
 	 */
 	public void edit(ComProductCategory comProductCategory) throws Exception {
+	
+		comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_HEADIMG, comProductCategory.getHeadImgSrc())
+				.replaceAll(",", Const.REG_COM_SPLIT));
+		comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG1, comProductCategory.getImgSrc1())
+				.replaceAll(",", Const.REG_COM_SPLIT));
+		comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG2, comProductCategory.getImgSrc2())
+				.replaceAll(",", Const.REG_COM_SPLIT));
 		Date nowTime = new Date();
 		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setModifyTime(nowTime);

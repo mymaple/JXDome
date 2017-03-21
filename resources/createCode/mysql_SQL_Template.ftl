@@ -15,7 +15,7 @@ CREATE TABLE `${bgMaple.tableCode}` (
 			NOT NULL COMMENT '${bgMaple.mapleName ?replace('详情','')} id',
 	</#if>
 	<#list bgMapleDetailList as bgMapleDetail>
-		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
+		<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05' || bgMapleDetail.mapleDetailType == '06'>
 	`${bgMapleDetail.mapleDetailCode}` varchar(${bgMapleDetail.totalLength})
 		<#elseif bgMapleDetail.mapleDetailType == '02'>
 	`${bgMapleDetail.mapleDetailCode}` int(${bgMapleDetail.totalLength})

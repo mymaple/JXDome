@@ -87,7 +87,7 @@
 		update
 	<include refid="orderTable"/>
 		set 
-			orderStatus = #{OrderStatus} ,
+			orderStatus = #{orderStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 

@@ -37,7 +37,7 @@ import com.jx.common.service.ComProductCategoryService;
 /** 
  * 类名称：BgProductCategoryController
  * 创建人：maple
- * 创建时间：2017-03-20
+ * 创建时间：2017-03-21
  */
 @Controller
 @RequestMapping(value="/background/productCategory")

@@ -56,12 +56,12 @@
 			lbtId = #{lbtId} 
 	</update>
 	
-	<!-- 更改有效性 -->
+	<!-- 更改状态-->
 	<update id="changeStatus" parameterType="comReceiveAddress">
 		update
 	<include refid="lbtTable"/>
 		set 
-			lbtStatus = #{LbtStatus} ,
+			lbtStatus = #{lbtStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 

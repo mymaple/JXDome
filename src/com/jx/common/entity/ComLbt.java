@@ -20,7 +20,7 @@ public class ComLbt extends BaseEntity implements Serializable {
 	/**
 	 * 路径 滚播图
 	 */
-	public static final String PATH_IMG_GBT = "uploadFiles/image/gbt";
+	public static final String PATH_IMG_LBT_LBTIMG = "uploadFiles/image/lbt/lbtImg";
 	
 	
 	/**************************custom prop satrt********************************/

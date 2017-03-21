@@ -78,13 +78,15 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">商品id</th>
-									<th class="center">产品规格代号</th>
-									<th class="center">产品规格名称</th>
-									<th class="center">产品规格类型</th>
+									<th class="center">商品规格代号</th>
+									<th class="center">商品规格名称</th>
+									<th class="center">商品规格类型</th>
+									<th class="center">商品规格状态</th>
+									<th class="center">库存总量</th>
 									<th class="center">库存数量</th>
-									<th class="center">货币种类</th>
 									<th class="center">原价</th>
-									<th class="center">折扣</th>
+									<th class="center">货币种类</th>
+									<th class="center">折扣率</th>
 									<th class="center">折扣优惠</th>
 									<th class="center">现价</th>
 									<th class="center">排序编号</th>
@@ -102,11 +104,18 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comProductStyle.productStyleId}" class="ace" /><span class="lbl"></span></label>
 											</td>
+											<c:if test="${comProductStyle.effective == '00'}">
+											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
+											</c:if>
+											<c:if test="${comProductStyle.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											</c:if>
 											<td class='center'><param:display type="com_productEffective" value="${comProductStyle.productId}"/></td>
 											<td class='center'>${comProductStyle.productStyleCode}</td>
 											<td class='center'>${comProductStyle.productStyleName}</td>
 											<td class='center'><param:display type="com_styleCategoryEffective" value="${comProductStyle.productStyleType}"/></td>
+											<td class='center'><param:display type="com_productStyleStatus" value="${comProductStyle.productStyleStatus}"/></td>
+											<td class='center'>${comProductStyle.allStockNum}</td>
 											<td class='center'>${comProductStyle.stockNum}</td>
 											<td class='center'><param:display type="com_curType" value="${comProductStyle.curType}"/></td>
 											<td class='center'>${comProductStyle.originalPrice}</td>
@@ -120,6 +129,14 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
+													
+													<c:if test="${comProductStyle.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comProductStyle.productStyleId}');">使生效</a>
+													</c:if>
+													<c:if test="${comProductStyle.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comProductStyle.productStyleId}');">使失效</a>
+													</c:if>
+													
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comProductStyle.productStyleId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -249,6 +266,43 @@
 			});
 		});
 		
+		
+		function changeEffective(flag,productStyleId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/productStyle/changeEffective.do?flag="+flag+"&productStyleId="+productStyleId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		function changeStatus(flag,productStyleId){
+			var firm = "确定要生效吗?";
+			if("00"==flag){
+				firm = "确定要失效吗?"
+			}
+			bootbox.confirm(firm, function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/productStyle/changeStatus.do?flag="+flag+"&productStyleId="+productStyleId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
 		//新增
 		function toAdd(){
 			top.jzts();
@@ -263,7 +317,7 @@
 			 diag.Title ="新增";
 			 diag.URL = url;
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮
@@ -304,7 +358,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>background/productStyle/toEdit.do?productStyleId="+productStyleId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     	 diag.ShowMinButton = true;		//最小化按钮 

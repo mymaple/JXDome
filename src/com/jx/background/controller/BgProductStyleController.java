@@ -104,6 +104,8 @@ public class BgProductStyleController extends BaseController {
 		comProductStyle.setProductStyleCode("");
 		comProductStyle.setProductStyleName("");
 		comProductStyle.setProductStyleType("01");
+		comProductStyle.setProductStyleStatus("00");
+		comProductStyle.setAllStockNum("0");
 		comProductStyle.setStockNum("0");
 		comProductStyle.setOriginalPrice("0.00");
 		comProductStyle.setCurType("01");
@@ -171,7 +173,7 @@ public class BgProductStyleController extends BaseController {
 		List<ComStyleCategory> comStyleCategoryList = comStyleCategoryService.listByParentId(comProductStyle.getProductId(), "0");
 		String[] productStyleType = comProductStyle.getProductStyleType().split(Const.REG_COM_SPLIT);
 		for (int i = 0; i < comStyleCategoryList.size(); i++) {
-			comStyleCategoryList.get(i).setStyleCategoryStatus(productStyleType[i]);
+			comStyleCategoryList.get(i).setOldValue(productStyleType[i]);
 		}
 		
 		mv.addObject("methodPath", "edit");
@@ -265,28 +267,55 @@ public class BgProductStyleController extends BaseController {
 	}
 	
 	/**
+	 * 更改状态
+	 */
+	@RequestMapping(value="/changeStatus")
+	@ResponseBody
+	public Object changeStatus(@RequestParam String flag, @RequestParam String productStyleId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comProductStyleService.changeStatus(flag, productStyleId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 更改有效性
+	 */
+	@RequestMapping(value="/changeEffective")
+	@ResponseBody
+	public Object changeEffective(@RequestParam String flag, @RequestParam String productStyleId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comProductStyleService.changeEffective(flag, productStyleId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 导出到excel
 	 * @return
 	 */
 	@RequestMapping(value="/toExportExcel")
 	public ModelAndView toExportExcel() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("产品规格 主键id");		//0
-		titles.add("产品规格初始id");	//1
-		titles.add("商品id");	//2
-		titles.add("产品规格代号");	//3
-		titles.add("产品规格名称");	//4
-		titles.add("产品规格类型");	//5
-		titles.add("产品规格状态");	//6
+		titles.add("商品规格 主键id");		//0
+		titles.add("商品id");	//1
+		titles.add("商品规格代号");	//2
+		titles.add("商品规格名称");	//3
+		titles.add("商品规格类型");	//4
+		titles.add("商品规格状态");	//5
+		titles.add("库存总量");	//6
 		titles.add("库存数量");	//7
 		titles.add("原价");	//8
 		titles.add("货币种类");	//9
-		titles.add("折扣");	//10
+		titles.add("折扣率");	//10
 		titles.add("折扣优惠");	//11
 		titles.add("现价");	//12
 		titles.add("排序编号");	//13
@@ -296,17 +325,17 @@ public class BgProductStyleController extends BaseController {
 		titles.add("修改人员id");	//17
 		titles.add("修改时间");	//18
 		dataMap.put("titles", titles);
-		List<ComProductStyle> varOList = comProductStyleService.listByPd(pd);
+		List<ComProductStyle> varOList = comProductStyleService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
 			vpd.put("var0",varOList.get(i).getProductStyleId());			//0
-			vpd.put("var1", varOList.get(i).getProductStyleInitId());	//1
-			vpd.put("var2", varOList.get(i).getProductId());	//2
-			vpd.put("var3", varOList.get(i).getProductStyleCode());	//3
-			vpd.put("var4", varOList.get(i).getProductStyleName());	//4
-			vpd.put("var5", varOList.get(i).getProductStyleType());	//5
-			vpd.put("var6", varOList.get(i).getProductStyleStatus());	//6
+			vpd.put("var1", varOList.get(i).getProductId());	//1
+			vpd.put("var2", varOList.get(i).getProductStyleCode());	//2
+			vpd.put("var3", varOList.get(i).getProductStyleName());	//3
+			vpd.put("var4", varOList.get(i).getProductStyleType());	//4
+			vpd.put("var5", varOList.get(i).getProductStyleStatus());	//5
+			vpd.put("var6", varOList.get(i).getAllStockNum());	//6
 			vpd.put("var7", varOList.get(i).getStockNum());	//7
 			vpd.put("var8", varOList.get(i).getOriginalPrice());	//8
 			vpd.put("var9", varOList.get(i).getCurType());	//9
@@ -361,15 +390,17 @@ public class BgProductStyleController extends BaseController {
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("商品id");	//0
-		titles.add("产品规格代号");	//1
-		titles.add("产品规格名称");	//2
-		titles.add("产品规格类型");	//3
-		titles.add("库存数量");	//4
-		titles.add("原价");	//5
-		titles.add("货币种类");	//6
-		titles.add("折扣");	//7
-		titles.add("折扣优惠");	//8
-		titles.add("现价");	//9
+		titles.add("商品规格代号");	//1
+		titles.add("商品规格名称");	//2
+		titles.add("商品规格类型");	//3
+		titles.add("商品规格状态");	//4
+		titles.add("库存总量");	//5
+		titles.add("库存数量");	//6
+		titles.add("原价");	//7
+		titles.add("货币种类");	//8
+		titles.add("折扣率");	//9
+		titles.add("折扣优惠");	//10
+		titles.add("现价");	//11
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -407,15 +438,17 @@ public class BgProductStyleController extends BaseController {
 				
 		/**
 		 * var0 :商品id;	//0
-		 * var1 :产品规格代号;	//1
-		 * var2 :产品规格名称;	//2
-		 * var3 :产品规格类型;	//3
-		 * var4 :库存数量;	//4
-		 * var5 :原价;	//5
-		 * var6 :货币种类;	//6
-		 * var7 :折扣;	//7
-		 * var8 :折扣优惠;	//8
-		 * var9 :现价;	//9
+		 * var1 :商品规格代号;	//1
+		 * var2 :商品规格名称;	//2
+		 * var3 :商品规格类型;	//3
+		 * var4 :商品规格状态;	//4
+		 * var5 :库存总量;	//5
+		 * var6 :库存数量;	//6
+		 * var7 :原价;	//7
+		 * var8 :货币种类;	//8
+		 * var9 :折扣率;	//9
+		 * var10 :折扣优惠;	//10
+		 * var11 :现价;	//11
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comProductStyle.setProductStyleId(this.get32UUID());
@@ -423,12 +456,14 @@ public class BgProductStyleController extends BaseController {
 			comProductStyle.setProductStyleCode(listPd.get(i).getString("var1"));
 			comProductStyle.setProductStyleName(listPd.get(i).getString("var2"));
 			comProductStyle.setProductStyleType(listPd.get(i).getString("var3"));
-			comProductStyle.setStockNum(listPd.get(i).getString("var4"));
-			comProductStyle.setOriginalPrice(listPd.get(i).getString("var5"));
-			comProductStyle.setCurType(listPd.get(i).getString("var6"));
-			comProductStyle.setDiscountRate(listPd.get(i).getString("var7"));
-			comProductStyle.setDiscountPrice(listPd.get(i).getString("var8"));
-			comProductStyle.setCurrentPrice(listPd.get(i).getString("var9"));
+			comProductStyle.setProductStyleStatus(listPd.get(i).getString("var4"));
+			comProductStyle.setAllStockNum(listPd.get(i).getString("var5"));
+			comProductStyle.setStockNum(listPd.get(i).getString("var6"));
+			comProductStyle.setOriginalPrice(listPd.get(i).getString("var7"));
+			comProductStyle.setCurType(listPd.get(i).getString("var8"));
+			comProductStyle.setDiscountRate(listPd.get(i).getString("var9"));
+			comProductStyle.setDiscountPrice(listPd.get(i).getString("var10"));
+			comProductStyle.setCurrentPrice(listPd.get(i).getString("var11"));
 			comProductStyleService.add(comProductStyle);
 		}
 		/*存入数据库操作======================================*/

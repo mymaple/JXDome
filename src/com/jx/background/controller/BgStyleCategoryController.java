@@ -303,13 +303,26 @@ public class BgStyleCategoryController extends BaseController {
 	}
 	
 	/**
+	 * 更改有效性
+	 */
+	@RequestMapping(value="/changeEffective")
+	@ResponseBody
+	public Object changeEffective(@RequestParam String flag, @RequestParam String styleCategoryId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comStyleCategoryService.changeEffective(flag, styleCategoryId);	
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
 	 * 导出到excel
 	 * @return
 	 */
 	@RequestMapping(value="/toExportExcel")
 	public ModelAndView toExportExcel() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
@@ -318,16 +331,15 @@ public class BgStyleCategoryController extends BaseController {
 		titles.add("上级 id");					//1
 		titles.add("产品编号");	//2
 		titles.add("规格分类名称");	//3
-		titles.add("规格分类状态");	//4
-		titles.add("是否最终分类");	//5
-		titles.add("排序编号");	//6
-		titles.add("有效标志");	//7
-		titles.add("创建人员id");	//8
-		titles.add("创建时间");	//9
-		titles.add("修改人员id");	//10
-		titles.add("修改时间");	//11
+		titles.add("是否最终分类");	//4
+		titles.add("排序编号");	//5
+		titles.add("有效标志");	//6
+		titles.add("创建人员id");	//7
+		titles.add("创建时间");	//8
+		titles.add("修改人员id");	//9
+		titles.add("修改时间");	//10
 		dataMap.put("titles", titles);
-		List<ComStyleCategory> varOList = comStyleCategoryService.listByPd(pd);
+		List<ComStyleCategory> varOList = comStyleCategoryService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
@@ -335,14 +347,13 @@ public class BgStyleCategoryController extends BaseController {
 			vpd.put("var1",varOList.get(i).getParentId());						//1
 			vpd.put("var2", varOList.get(i).getProductId());	//2
 			vpd.put("var3", varOList.get(i).getStyleCategoryName());	//3
-			vpd.put("var4", varOList.get(i).getStyleCategoryStatus());	//4
-			vpd.put("var5", varOList.get(i).getIsFinal());	//5
-			vpd.put("var6", varOList.get(i).getOrderNum());		//6
-			vpd.put("var7", varOList.get(i).getEffective());	//7
-			vpd.put("var8", varOList.get(i).getCreateUserId());	//8
-			vpd.put("var9", varOList.get(i).getCreateTime());	//9
-			vpd.put("var10", varOList.get(i).getModifyUserId());//10
-			vpd.put("var11", varOList.get(i).getModifyTime());	//11
+			vpd.put("var4", varOList.get(i).getIsFinal());	//4
+			vpd.put("var5", varOList.get(i).getOrderNum());		//5
+			vpd.put("var6", varOList.get(i).getEffective());	//6
+			vpd.put("var7", varOList.get(i).getCreateUserId());	//7
+			vpd.put("var8", varOList.get(i).getCreateTime());	//8
+			vpd.put("var9", varOList.get(i).getModifyUserId());//9
+			vpd.put("var10", varOList.get(i).getModifyTime());	//10
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -425,7 +436,7 @@ public class BgStyleCategoryController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		String filePath = PathUtil.getProjectPath()+ Const.FILEPATHFILE;								//文件上传路径
+		String filePath = PathUtil.getProjectPath() + Const.FILEPATHFILE;								//文件上传路径
 		String fileName =  MapleFileUtil.fileUp(file, filePath, "styleCategoryexcel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/

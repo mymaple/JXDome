@@ -51,15 +51,25 @@
 				<#list bgMapleDetailList as bgMapleDetail>
 					<#if bgMapleDetail.isEdit == "01" >
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 						<#if bgMapleDetail.mapleDetailType == '01'>
+								<td style="width:100px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 								<td><input type="text" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.totalLength}" placeholder="这里输入 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;" <#if bgMapleDetail.mapleDetailCode == '${bgMaple.mapleCode }Code'>onblur="otherNotCode()"</#if>/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '02' || bgMapleDetail.mapleDetailType == '04'>
+								<td style="width:100px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 								<td><input type="number" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" maxlength="${bgMapleDetail.totalLength}" placeholder="这里输入 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '03'>
+								<td style="width:100px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 								<td><input class="span10 date-picker" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" type="text" data-date-format="yyyy-mm-dd 00:00:00" readonly="readonly" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" style="width:98%;"/></td>
 						<#elseif bgMapleDetail.mapleDetailType == '05'>
+								<td style="width:100px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 								<td><param:select type="${bgMapleDetail.typeCode}" name="${bgMapleDetail.mapleDetailCode}" id="${bgMapleDetail.mapleDetailCode}" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}" placeholder="这里请选择 ${bgMapleDetail.mapleDetailName}" title="${bgMapleDetail.mapleDetailName}" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+						<#elseif bgMapleDetail.mapleDetailType == '06'>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">${bgMapleDetail.mapleDetailName}:</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<file:upimg name="${bgMapleDetail.mapleDetailCode}" count="1" value="${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}"/>
+								</td>
 						</#if>
 							</tr>
 					</#if>
@@ -188,6 +198,17 @@
 		            bg:'#AE81FF',
 		            time:2
 		        });
+			return false;
+			}
+		<#elseif bgMapleDetail.mapleDetailType == '06'> 
+			if($("#${bgMapleDetail.mapleDetailCode }").val()==""){
+				$("#${bgMapleDetail.mapleDetailCode }").tips({
+					side:3,
+		            msg:'请上传${bgMapleDetail.mapleDetailName }',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#${bgMapleDetail.mapleDetailCode }").focus();
 			return false;
 			}
 		</#if>

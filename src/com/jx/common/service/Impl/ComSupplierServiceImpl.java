@@ -11,7 +11,7 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComSupplier;
 import com.jx.common.service.ComSupplierService;
@@ -37,7 +37,8 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 	public void add(ComSupplier comSupplier) throws Exception {
 		
 		Date nowTime = new Date();
-		comSupplier.setSupplierId(UuidUtil.get32UUID());
+		String supplierId = UuidUtil.get32UUID();
+		comSupplier.setSupplierId(supplierId);
 		comSupplier.setSupplierStatus("00");
 		comSupplier.setEffective("01");
 		comSupplier.setCreateUserId(ShiroSessionUtil.getUserId());
@@ -46,6 +47,22 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 		comSupplier.setModifyTime(nowTime);
 		
 		dao.add("ComSupplierMapper.add", comSupplier);
+		this.updateCode(supplierId);
+	}
+	
+	/**
+	 * 生成code 
+	 * @param String supplierId
+	 * @throws Exception
+	 */
+	public void updateCode(String supplierId) throws Exception {
+		//生成固定id
+		PageData pd = new PageData();
+		pd.put("supplierId", supplierId);
+		pd.put("startC", "gys");
+		pd.put("startN", 100001);
+		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
+		dao.update("ComSupplierMapper.updateCode", pd);
 	}
 	
 	/**
@@ -54,62 +71,78 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 	 * @throws Exception
 	 */
 	public void edit(ComSupplier comSupplier) throws Exception {
+	
 		Date nowTime = new Date();
 		comSupplier.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSupplier.setModifyTime(nowTime);
-		comSupplier.setLastModifyTime(this.findById(comSupplier.getSupplierId()).getModifyTime());
-		if(comSupplier.getModifyTime().compareTo(comSupplier.getLastModifyTime()) == 0){
-			comSupplier.setModifyTime(MapleDateUtil.getNextSecond(comSupplier.getModifyTime()));
-		}
 	
 		dao.update("ComSupplierMapper.edit", comSupplier);
 	}
 	
 	/**
-	 * 更改
-	 * @param ComSupplier comSupplier
+	 * 更改状态 flag 00
+	 * @param String flag, String supplierId
 	 * @throws Exception
 	 */
-	public void change(ComSupplier comSupplier) throws Exception {
+	public void changeStatus(String flag, String supplierId) throws Exception {
+		ComSupplier comSupplier = new ComSupplier();
+		if("00".equals(flag)){
+			comSupplier.setOldValue("01");
+		}else if("01".equals(flag)){
+			comSupplier.setOldValue("00");
+		}else{
+			comSupplier.setOldValue("flag");
+		}
+		comSupplier.setSupplierStatus(flag);
+		
+		comSupplier.setSupplierId(supplierId);
 		Date nowTime = new Date();
 		comSupplier.setModifyUserId(ShiroSessionUtil.getUserId());
 		comSupplier.setModifyTime(nowTime);
-		comSupplier.setLastModifyTime(this.findById(comSupplier.getSupplierId()).getModifyTime());
-		if(comSupplier.getModifyTime().compareTo(comSupplier.getLastModifyTime()) == 0){
-			comSupplier.setModifyTime(MapleDateUtil.getNextSecond(comSupplier.getModifyTime()));
-		}
-		dao.update("ComSupplierMapper.change", comSupplier);
+		dao.update("ComSupplierMapper.changeStatus", comSupplier);
 	}
-
+	
+	/**
+	 * 更改有效性 flag 00:使失效;01：使生效
+	 * @param String flag, String supplierId
+	 * @throws Exception
+	 */
+	public void changeEffective(String flag, String supplierId) throws Exception {
+		ComSupplier comSupplier = new ComSupplier();
+		if("00".equals(flag)){
+			comSupplier.setOldValue("01");
+		}else if("01".equals(flag)){
+			comSupplier.setOldValue("00");
+		}else{
+			comSupplier.setOldValue("flag");
+		}
+		comSupplier.setEffective(flag);
+		
+		comSupplier.setSupplierId(supplierId);
+		Date nowTime = new Date();
+		comSupplier.setModifyUserId(ShiroSessionUtil.getUserId());
+		comSupplier.setModifyTime(nowTime);
+		dao.update("ComSupplierMapper.changeEffective", comSupplier);
+	}
+	
 	/**
 	 * 删除 
 	 * @param String supplierId
 	 * @throws Exception
 	 */
 	public void deleteById(String supplierId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("supplierId",supplierId);
-		this.deleteByPd(pd);
-	}
-	
-	/**
-	 * 删除 
-	 * @param PageData pd
-	 * @throws Exception
-	 */
-	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("ComSupplierMapper.deleteByPd", pd);
+		dao.delete("ComSupplierMapper.deleteById", supplierId);
 	}
 	
 	/**
 	 * 批量删除 
-	 * @param PageData pd
+	 * @param String[] ids
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String[] ids) throws Exception {
 		dao.delete("ComSupplierMapper.batchDeleteByIds", ids);
 	}
-
+	
 	/**
 	 * 通过id获取(类)数据
 	 * @param String supplierId
@@ -117,19 +150,7 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 	 * @throws Exception
 	 */
 	public ComSupplier findById(String supplierId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("supplierId",supplierId);
-		return this.findByPd(pd);
-	}
-	
-	/**
-	 * 通过pd获取(ComSupplier)数据 
-	 * @param PageData pd
-	 * @return ComSupplier
-	 * @throws Exception
-	 */
-	public ComSupplier findByPd(PageData pd) throws Exception {
-		return (ComSupplier) dao.findForObject("ComSupplierMapper.findByPd", pd);
+		return (ComSupplier) dao.findForObject("ComSupplierMapper.findById", supplierId);
 	}
 	
 	/**
@@ -138,8 +159,8 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComSupplier> listByPd(PageData pd) throws Exception {
-		return (List<ComSupplier>) dao.findForList("ComSupplierMapper.listByPd", pd);
+	public List<ComSupplier> listAll() throws Exception {
+		return (List<ComSupplier>) dao.findForList("ComSupplierMapper.listAll", null);
 	}
 	
 	/**
@@ -148,20 +169,11 @@ public class ComSupplierServiceImpl implements ComSupplierService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComSupplier> otherHave(ComSupplier comSupplier) throws Exception {
-		return (List<ComSupplier>) dao.findForList("ComSupplierMapper.otherHave", comSupplier);
-	}
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
 	public List<ComSupplier> otherHaveCode(String supplierId, String supplierCode) throws Exception {
 		ComSupplier comSupplier = new ComSupplier();
 		comSupplier.setSupplierId(supplierId);
 		comSupplier.setSupplierCode(supplierCode);
-		return this.otherHave(comSupplier);
+		return (List<ComSupplier>) dao.findForList("ComSupplierMapper.otherHaveCode", comSupplier);
 	}
 	
 	/**

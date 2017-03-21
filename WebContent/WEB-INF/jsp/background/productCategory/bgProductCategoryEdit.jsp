@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
+<%@ taglib prefix="file" uri="http://www.maple_file_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -17,6 +18,9 @@
 	<%@ include file="../main/bgIndexTop.jsp"%>
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
+	
+	<link rel="stylesheet" type="text/css" href="plugins/myupimg/css/upimg.css" />
+	<link rel="stylesheet" type="text/css" href="plugins/myupimg/font/iconfont.css" />
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -32,10 +36,12 @@
 						<input type="hidden" name="productCategoryId" id="productCategoryId" value="${comProductCategory.productCategoryId}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
+							<c:if test="${methodPath == 'edit'}">
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品分类代号:</td>
-								<td><input type="text" name="productCategoryCode" id="productCategoryCode" value="${comProductCategory.productCategoryCode}" maxlength="100" placeholder="这里输入 商品分类代号" title="商品分类代号" style="width:98%;" onblur="otherNotCode()"/></td>
+								<td>${comProductCategory.productCategoryCode}</td>
 							</tr>
+							</c:if>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品分类名称:</td>
 								<td><input type="text" name="productCategoryName" id="productCategoryName" value="${comProductCategory.productCategoryName}" maxlength="100" placeholder="这里输入 商品分类名称" title="商品分类名称" style="width:98%;" /></td>
@@ -45,16 +51,28 @@
 								<td><param:select type="com_productCategoryType" name="productCategoryType" id="productCategoryType" value="${comProductCategory.productCategoryType}" placeholder="这里请选择 商品分类类型" title="商品分类类型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">分类头像:</td>
-								<td><input type="text" name="headImgSrc" id="headImgSrc" value="${comProductCategory.headImgSrc}" maxlength="100" placeholder="这里输入 分类头像" title="分类头像" style="width:98%;" /></td>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">分类头像:</td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">长框图:</td>
-								<td><input type="text" name="imgSrc1" id="imgSrc1" value="${comProductCategory.imgSrc1}" maxlength="100" placeholder="这里输入 长框图" title="长框图" style="width:98%;" /></td>
+								<td colspan="2">
+									<file:upimg name="headImgSrc" count="1" value="${comProductCategory.headImgSrc}"/>
+								</td>
 							</tr>
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">滚播图:</td>
-								<td><input type="text" name="imgSrc2" id="imgSrc2" value="${comProductCategory.imgSrc2}" maxlength="100" placeholder="这里输入 滚播图" title="滚播图" style="width:98%;" /></td>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">长框图:</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<file:upimg name="imgSrc1" count="1" value="${comProductCategory.imgSrc1}"/>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: left;padding-top: 13px;" colspan="2">滚播图:</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<file:upimg name="imgSrc2" count="8" value="${comProductCategory.imgSrc2}"/>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">摘要:</td>
@@ -97,6 +115,9 @@
 	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+	
+	<script type="text/javascript" src="plugins/myupimg/js/jquery.lazyload.min.js"></script>
+	<script type="text/javascript" src="plugins/myupimg/js/upimg.js"></script>
 	<script type="text/javascript">
 		$(top.hangge());
 		
@@ -125,7 +146,7 @@
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
-			if(!codeExp.test($("#productCategoryCode").val())){
+			/* if(!codeExp.test($("#productCategoryCode").val())){
 				$("#productCategoryCode").tips({
 					side:3,
 		            msg:'请输入商品分类代号 需以小写字母开头的字母数字',
@@ -134,7 +155,7 @@
 		        });
 				$("#productCategoryCode").focus();
 			return false;
-			}
+			} */
 			if($("#productCategoryName").val()==""){
 				$("#productCategoryName").tips({
 					side:3,
@@ -157,7 +178,7 @@
 			if($("#headImgSrc").val()==""){
 				$("#headImgSrc").tips({
 					side:3,
-		            msg:'请输入分类头像',
+		            msg:'请上传分类头像',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -167,7 +188,7 @@
 			if($("#imgSrc1").val()==""){
 				$("#imgSrc1").tips({
 					side:3,
-		            msg:'请输入长框图',
+		            msg:'请上传长框图',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -177,7 +198,7 @@
 			if($("#imgSrc2").val()==""){
 				$("#imgSrc2").tips({
 					side:3,
-		            msg:'请输入滚播图',
+		            msg:'请上传滚播图',
 		            bg:'#AE81FF',
 		            time:2
 		        });

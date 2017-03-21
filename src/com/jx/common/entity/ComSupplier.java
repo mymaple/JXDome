@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.util.MapleStringUtil;
 
 public class ComSupplier extends BaseEntity implements Serializable {
 	
@@ -30,7 +30,6 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	private String supplierId;
 	
 	/** 供应商代号 */
-	@Pattern(regexp = Const.REG_COM_CODE_STR, message="供应商代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String supplierCode;
 		
 	/** 供应商名称 */
@@ -64,7 +63,7 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	 * @param String supplierId
 	 */
 	public void setSupplierId(String supplierId) {
-		this.supplierId = MapleStringUtil.trim(supplierId);
+		this.supplierId = StringUtils.trim(supplierId);
 	}
 	
 	/**
@@ -82,7 +81,7 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	 * @param String supplierCode
 	 */
 	public void setSupplierCode(String supplierCode) {
-		this.supplierCode = MapleStringUtil.trim(supplierCode);
+		this.supplierCode = StringUtils.trim(supplierCode);
 	}
 	
 	/**
@@ -100,7 +99,7 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	 * @param String supplierName
 	 */
 	public void setSupplierName(String supplierName) {
-		this.supplierName = MapleStringUtil.trim(supplierName);
+		this.supplierName = StringUtils.trim(supplierName);
 	}
 	
 	/**
@@ -118,7 +117,7 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	 * @param String supplierType
 	 */
 	public void setSupplierType(String supplierType) {
-		this.supplierType = MapleStringUtil.trim(supplierType);
+		this.supplierType = StringUtils.trim(supplierType);
 	}
 	
 	/**
@@ -136,7 +135,7 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	 * @param String supplierStatus
 	 */
 	public void setSupplierStatus(String supplierStatus) {
-		this.supplierStatus = MapleStringUtil.trim(supplierStatus);
+		this.supplierStatus = StringUtils.trim(supplierStatus);
 	}
 	
 	/**
@@ -154,7 +153,7 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	 * @param String linkman
 	 */
 	public void setLinkman(String linkman) {
-		this.linkman = MapleStringUtil.trim(linkman);
+		this.linkman = StringUtils.trim(linkman);
 	}
 	
 	/**
@@ -172,7 +171,7 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	 * @param String linkPhone
 	 */
 	public void setLinkPhone(String linkPhone) {
-		this.linkPhone = MapleStringUtil.trim(linkPhone);
+		this.linkPhone = StringUtils.trim(linkPhone);
 	}
 	
 	/**
@@ -190,7 +189,7 @@ public class ComSupplier extends BaseEntity implements Serializable {
 	 * @param String remarks
 	 */
 	public void setRemarks(String remarks) {
-		this.remarks = MapleStringUtil.trim(remarks);
+		this.remarks = StringUtils.trim(remarks);
 	}
 	
 	/**

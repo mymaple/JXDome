@@ -182,7 +182,7 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		</#if>
 		<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.isEdit == '01'>
-			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05'>
+			<#if bgMapleDetail.mapleDetailType == '01' || bgMapleDetail.mapleDetailType == '05' || bgMapleDetail.mapleDetailType == '06'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>""</#if>);
 			<#elseif bgMapleDetail.mapleDetailType == '02'>
 		${bgMaple.mapleEntityLower}.set${bgMapleDetail.mapleDetailCodeUpper}(<#if bgMapleDetail.defaultValue != ''>${bgMapleDetail.defaultValue}<#else>"0"</#if>);

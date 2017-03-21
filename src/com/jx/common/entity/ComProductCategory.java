@@ -18,6 +18,21 @@ public class ComProductCategory extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
+	/**
+	 * 路径 分类头像
+	 */
+	public static final String PATH_IMG_PRODUCTCATEGORY_HEADIMG = "uploadFiles/image/productCategory/headImg";
+	
+	/**
+	 * 路径 长框图
+	 */
+	public static final String PATH_IMG_PRODUCTCATEGORY_IMG1 = "uploadFiles/image/productCategory/img1";
+	
+	/**
+	 * 路径 滚播图
+	 */
+	public static final String PATH_IMG_PRODUCTCATEGORY_IMG2 = "uploadFiles/image/productCategory/img2";
+	
 	
 	/**************************custom prop satrt********************************/
 	
@@ -30,7 +45,6 @@ public class ComProductCategory extends BaseEntity implements Serializable {
 	private String productCategoryId;
 	
 	/** 商品分类代号 */
-	@Pattern(regexp = Const.REG_COM_CODE_STR, message="商品分类代号 需以小写字母开头的字母数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String productCategoryCode;
 		
 	/** 商品分类名称 */
