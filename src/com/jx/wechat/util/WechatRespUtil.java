@@ -265,7 +265,7 @@ public class WechatRespUtil {
 		if(StringUtils.isNotEmpty(appUserId)){
 			ComAppUserService comAppUserService = 
 					(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
-			comAppUserService.toUnsubscribe(appUserId);
+//			comAppUserService.toUnsubscribe(appUserId);
 		}
 		//退出
 		Subject subject = SecurityUtils.getSubject();

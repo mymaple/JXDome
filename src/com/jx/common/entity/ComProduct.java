@@ -41,6 +41,28 @@ public class ComProduct extends BaseEntity implements Serializable {
 	
 	/**************************custom prop satrt********************************/
 	
+	/** 产品 规格 */
+	private ComProductStyle comProductStyle ;
+	
+	/**
+	 * 获得 产品 规格
+	 * 
+	 * @param ComProductStyle comProductStyle
+	 */
+	public ComProductStyle getComProductStyle() {
+		return this.comProductStyle;
+	}
+	
+	/**
+	 * 设置 产品 规格
+	 * 
+	 * @param ComProductStyle comProductStyle
+	 */
+	public void setComProductStyle(ComProductStyle comProductStyle) {
+		this.comProductStyle = comProductStyle;
+	}
+	
+	
 	/**************************custom prop end**********************************/
 	
 	/**************************table prop satrt*********************************/

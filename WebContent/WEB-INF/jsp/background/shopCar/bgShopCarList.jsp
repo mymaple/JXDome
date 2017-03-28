@@ -23,20 +23,7 @@
 </head>
 <body class="no-skin">
 	
-	<div class="page-header">
-	<h1>
-		<c:if test="${empty pd.productId }">
-			<a href="<%=basePath%>background/productStyle/list.do"> 
-			商品规格管理
-			</a>
-		</c:if>
-		<c:if test="${not empty pd.productId }">
-			<a href="<%=basePath%>background/productStyle/list.do?productId=${pd.productId}"> 
-			商品规格管理——<param:display type="com_productEffective" value="${pd.productId}" id="productId" hidden="true"/>
-			</a>
-		</c:if>
-	</h1>
-	</div><!-- /.page-header -->
+	
 	
 	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
@@ -48,7 +35,7 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="background/productStyle/list.do" method="post" name="productStyleForm" id="productStyleForm">
+						<form action="background/shopCar/list.do" method="post" name="shopCarForm" id="shopCarForm">
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -77,18 +64,10 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">商品</th>
-									<th class="center">商品规格代号</th>
-									<th class="center">商品规格名称</th>
-									<th class="center">商品规格类型</th>
-									<th class="center">商品规格状态</th>
-									<th class="center">库存总量</th>
-									<th class="center">库存数量</th>
-									<th class="center">原价</th>
-									<th class="center">货币种类</th>
-									<th class="center">折扣率</th>
-									<th class="center">折扣优惠</th>
-									<th class="center">现价</th>
+									<th class="center">用户</th>
+									<th class="center">商品规格</th>
+									<th class="center">数量</th>
+									<th class="center">购物车状态</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -97,32 +76,24 @@
 							<tbody>
 							<!-- 开始循环 -->	
 							<c:choose>
-								<c:when test="${not empty comProductStyleList}">
+								<c:when test="${not empty comShopCarList}">
 									<c:if test="${RIGHTS.sele}">
-									<c:forEach items="${comProductStyleList}" var="comProductStyle" varStatus="vs">
+									<c:forEach items="${comShopCarList}" var="comShopCar" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${comProductStyle.productStyleId}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${comShopCar.shopCarId}" class="ace" /><span class="lbl"></span></label>
 											</td>
-											<c:if test="${comProductStyle.effective == '00'}">
+											<c:if test="${comShopCar.effective == '00'}">
 											<td class='center' style="background-color: red;width: 30px;">${vs.index+1}</td>
 											</c:if>
-											<c:if test="${comProductStyle.effective != '00'}">
+											<c:if test="${comShopCar.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											</c:if>
-											<td class='center'><param:display type="com_productEffective" value="${comProductStyle.productId}"/></td>
-											<td class='center'>${comProductStyle.productStyleCode}</td>
-											<td class='center'>${comProductStyle.productStyleName}</td>
-											<td class='center'><param:display type="com_styleCategoryEffective" value="${comProductStyle.productStyleType}"/></td>
-											<td class='center'><param:display type="com_productStatus" value="${comProductStyle.productStyleStatus}"/></td>
-											<td class='center'>${comProductStyle.allStockNum}</td>
-											<td class='center'>${comProductStyle.stockNum}</td>
-											<td class='center'><param:display type="com_curType" value="${comProductStyle.curType}"/></td>
-											<td class='center'>${comProductStyle.originalPrice}</td>
-											<td class='center'>${comProductStyle.discountRate}</td>
-											<td class='center'>${comProductStyle.discountPrice}</td>
-											<td class='center'>${comProductStyle.currentPrice}</td>
-											<td class='center'>${comProductStyle.orderNum}</td>
+											<td class='center'><param:display type="com_appUserEffective" value="${comShopCar.appUserId}"/></td>
+											<td class='center'><param:display type="com_productStyleEffective" value="${comShopCar.productStyleId}"/></td>
+											<td class='center'>${comShopCar.count}</td>
+											<td class='center'><param:display type="com_shopCarStatus" value="${comShopCar.shopCarStatus}"/></td>
+											<td class='center'>${comShopCar.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -130,19 +101,19 @@
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
 													
-													<c:if test="${comProductStyle.effective == '00'}">
-													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comProductStyle.productStyleId}');">使生效</a>
+													<c:if test="${comShopCar.effective == '00'}">
+													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comShopCar.shopCarId}');">使生效</a>
 													</c:if>
-													<c:if test="${comProductStyle.effective != '00'}">
-													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comProductStyle.productStyleId}');">使失效</a>
+													<c:if test="${comShopCar.effective != '00'}">
+													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comShopCar.shopCarId}');">使失效</a>
 													</c:if>
 													
-													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comProductStyle.productStyleId}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comShopCar.shopCarId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${RIGHTS.del }">
-													<a class="btn btn-xs btn-danger" onclick="toDelete('${comProductStyle.productStyleId}');">
+													<a class="btn btn-xs btn-danger" onclick="toDelete('${comShopCar.shopCarId}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -219,7 +190,7 @@
 		//检索
 		function toSearch(){
 			top.jzts();
-			$("#productStyleForm").submit();
+			$("#shopCarForm").submit();
 		}
 		$(function() {
 			//日期框
@@ -267,7 +238,7 @@
 		});
 		
 		
-		function changeEffective(flag,productStyleId){
+		function changeEffective(flag,shopCarId){
 			var firm = "确定要生效吗?";
 			if("00"==flag){
 				firm = "确定要失效吗?"
@@ -275,7 +246,7 @@
 			bootbox.confirm(firm, function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/productStyle/changeEffective.do?flag="+flag+"&productStyleId="+productStyleId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/shopCar/changeEffective.do?flag="+flag+"&shopCarId="+shopCarId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${bgPage.currentPage}');
@@ -285,7 +256,7 @@
 			});
 		}
 		
-		function changeStatus(flag,productStyleId){
+		function changeStatus(flag,shopCarId){
 			var firm = "确定要生效吗?";
 			if("00"==flag){
 				firm = "确定要失效吗?"
@@ -293,7 +264,7 @@
 			bootbox.confirm(firm, function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/productStyle/changeStatus.do?flag="+flag+"&productStyleId="+productStyleId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/shopCar/changeStatus.do?flag="+flag+"&shopCarId="+shopCarId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${bgPage.currentPage}');
@@ -305,22 +276,16 @@
 		
 		//新增
 		function toAdd(){
-			top.jzts();
-			var url = "<%=basePath%>background/productStyle/toAdd.do";
-			var productId=$("#productId").val();
-			if(productId!=null && productId!=''){
-				url=url+"?productId="+productId;
-			}
-			
+			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = url;
+			 diag.URL = "<%=basePath%>background/shopCar/toAdd.do";
 			 diag.Width = 450;
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮
+		     	diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
 					if('${bgPage.currentPage}' == '0'){
@@ -336,11 +301,11 @@
 		}
 		
 		//删除
-		function toDelete(productStyleId){
+		function toDelete(shopCarId){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>background/productStyle/toDelete.do?productStyleId="+productStyleId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>background/shopCar/toDelete.do?shopCarId="+shopCarId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data.resultCode == "success"){
 							nextPage('${bgPage.currentPage}');
@@ -351,17 +316,17 @@
 		}
 		
 		//修改
-		function toEdit(productStyleId){
+		function toEdit(shopCarId){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = "<%=basePath%>background/productStyle/toEdit.do?productStyleId="+productStyleId+"&tm="+new Date().getTime();
+			 diag.URL = "<%=basePath%>background/shopCar/toEdit.do?shopCarId="+shopCarId+"&tm="+new Date().getTime();
 			 diag.Width = 450;
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
-			 diag. ShowMaxButton = true;	//最大化按钮
-		     	 diag.ShowMinButton = true;		//最小化按钮 
+			 diag.ShowMaxButton = true;	//最大化按钮
+		     	diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					nextPage('${bgPage.currentPage}');
@@ -400,7 +365,7 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>background/productStyle/toBatchDelete.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>background/shopCar/toBatchDelete.do?tm='+new Date().getTime(),
 						    	data: {ids:str},
 								dataType:'json',
 								//beforeSend: validateData,
@@ -419,7 +384,7 @@
 		
 		//导出excel
 		function toExportExcel(){
-			window.location.href='<%=basePath%>background/productStyle/toExportExcel.do';
+			window.location.href='<%=basePath%>background/shopCar/toExportExcel.do';
 		}
 		
 		//打开上传excel页面
@@ -428,7 +393,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/productStyle/toUploadExcel.do';
+			 diag.URL = '<%=basePath%>background/shopCar/toUploadExcel.do';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件

@@ -68,6 +68,7 @@
 									<th class="center">订单名称</th>
 									<th class="center">订单类型</th>
 									<th class="center">订单状态</th>
+									<th class="center">平台用户</th>
 									<th class="center">订单商品总数</th>
 									<th class="center">商品总价</th>
 									<th class="center">运费</th>
@@ -105,6 +106,7 @@
 											<td class='center'><a href="javascript:toDetail('${comOrder.orderId}')">${comOrder.orderName}</a></td>
 											<td class='center'><param:display type="com_orderType" value="${comOrder.orderType}"/></td>
 											<td class='center'>${comOrder.orderStatus}</td>
+											<td class='center'><param:display type="com_appUserEffective" value="${comOrder.appUserId}"/></td>
 											<td class='center'>${comOrder.orderProductCount}</td>
 											<td class='center'>${comOrder.allPrice}</td>
 											<td class='center'>${comOrder.freight}</td>

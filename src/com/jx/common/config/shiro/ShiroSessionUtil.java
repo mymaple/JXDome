@@ -48,6 +48,13 @@ public class ShiroSessionUtil {
 	 */
 	public static final String SESSION_USER_OBJ = "sessionUser";
 	
+	/**
+	 * 选择收货地址时存储的订单Id
+	 */
+	public static final String SESSION_ORDERID_CRA_STR = "sessionOrderIdcra";
+	
+	
+	
 
 	
 	/**
@@ -104,6 +111,22 @@ public class ShiroSessionUtil {
 	 */
 	public static void setUser(Object user){
 		setSessionAttr(SESSION_USER_OBJ, user);
+	}
+	
+	/**
+	 * 获取 选择收货地址时存储的订单Id
+	 * @return
+	 */
+	public static String getOrderIdcra(){
+		return (String)getSession().getAttribute(SESSION_ORDERID_CRA_STR);
+	}
+	
+	/**
+	 * 设置 选择收货地址时存储的订单Id
+	 * @param orderIdcra
+	 */
+	public static void setOrderIdcra(String orderIdcra){
+		setSessionAttr(SESSION_ORDERID_CRA_STR, orderIdcra);
 	}
 	
 	

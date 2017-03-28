@@ -176,6 +176,7 @@ public class BgProductStyleController extends BaseController {
 			comStyleCategoryList.get(i).setOldValue(productStyleType[i]);
 		}
 		
+		mv.addObject("comStyleCategoryList", comStyleCategoryList);
 		mv.addObject("methodPath", "edit");
 		mv.addObject(comProductStyle);
 		resultInfo.setResultCode("success");

@@ -10,7 +10,15 @@ public interface ComProductService {
 
 	
 	/****************************custom * start***********************************/
-
+		
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String productId
+	 * @return ComProduct
+	 * @throws Exception
+	 */
+	public ComProduct findByIdSE(String productId) throws Exception ;
 		
 	/****************************custom * end  ***********************************/
 	

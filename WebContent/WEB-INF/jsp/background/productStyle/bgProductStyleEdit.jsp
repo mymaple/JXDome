@@ -33,7 +33,7 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">商品id:</td>
+								<td style="width:100px;text-align: right;padding-top: 13px;">商品:</td>
 								<td>
 									<c:if test="${not empty comProductStyle.productId }">
 									<param:display type="com_productEffective" value="${comProductStyle.productId}" name="productId" id="productId" hidden="true"/>
@@ -69,11 +69,7 @@
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">商品规格状态:</td>
-								<td><param:select type="com_productStyleStatus" name="productStyleStatus" id="productStyleStatus" value="${comProductStyle.productStyleStatus}" placeholder="这里请选择 商品规格状态" title="商品规格状态" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">库存总量:</td>
-								<td><input type="number" name="allStockNum" id="allStockNum" value="${comProductStyle.allStockNum}" maxlength="100" placeholder="这里输入 库存总量" title="库存总量" style="width:98%;"/></td>
+								<td><param:select type="com_productStatus" name="productStyleStatus" id="productStyleStatus" value="${comProductStyle.productStyleStatus}" placeholder="这里请选择 商品规格状态" title="商品规格状态" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">库存数量:</td>
@@ -90,14 +86,6 @@
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">折扣率:</td>
 								<td><input type="number" name="discountRate" id="discountRate" value="${comProductStyle.discountRate}" maxlength="100" placeholder="这里输入 折扣率" title="折扣率" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">折扣优惠:</td>
-								<td><input type="number" name="discountPrice" id="discountPrice" value="${comProductStyle.discountPrice}" maxlength="100" placeholder="这里输入 折扣优惠" title="折扣优惠" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:100px;text-align: right;padding-top: 13px;">现价:</td>
-								<td><input type="number" name="currentPrice" id="currentPrice" value="${comProductStyle.currentPrice}" maxlength="100" placeholder="这里输入 现价" title="现价" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
@@ -164,6 +152,7 @@
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;
 			var intExp = /^[1-9]\d*$|^0$/;
 			var deciExp = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$|^0$/;
+			var deciExp1 = /^0(\.\d{1,2})?$|^1(\.0|\.00)?$/;
 			if($("#productId").val()==""){
 				$("#productId").next().tips({
 					side:3,
@@ -211,16 +200,6 @@
 		        });
 			return false;
 			}
-			if(!intExp.test($("#allStockNum").val())){
-				$("#allStockNum").tips({
-					side:3,
-		            msg:'请输入库存总量 需是数字',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#allStockNum").focus();
-			return false;
-			}
 			if(!intExp.test($("#stockNum").val())){
 				$("#stockNum").tips({
 					side:3,
@@ -231,7 +210,7 @@
 				$("#stockNum").focus();
 			return false;
 			}
-			if(!intExp.test($("#originalPrice").val())){
+			if(!deciExp.test($("#originalPrice").val())){
 				$("#originalPrice").tips({
 					side:3,
 		            msg:'请输入原价 最多为两位小数',
@@ -250,7 +229,7 @@
 		        });
 			return false;
 			}
-			if(!intExp.test($("#discountRate").val())){
+			if(!deciExp1.test($("#discountRate").val())){
 				$("#discountRate").tips({
 					side:3,
 		            msg:'请输入折扣率 最多为两位小数',
@@ -258,26 +237,6 @@
 		            time:2
 		        });
 				$("#discountRate").focus();
-			return false;
-			}
-			if(!intExp.test($("#discountPrice").val())){
-				$("#discountPrice").tips({
-					side:3,
-		            msg:'请输入折扣优惠 最多为两位小数',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#discountPrice").focus();
-			return false;
-			}
-			if(!intExp.test($("#currentPrice").val())){
-				$("#currentPrice").tips({
-					side:3,
-		            msg:'请输入现价 最多为两位小数',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#currentPrice").focus();
 			return false;
 			}
 			if(!intExp.test($("#orderNum").val())){

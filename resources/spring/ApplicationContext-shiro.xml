@@ -14,11 +14,11 @@
 	">
 	
 		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-			<property name="realm" ref="ShiroRealm" />
+			<property name="realm" ref="shiroRealm" />
 		</bean>
 		
 		<!-- 項目自定义的Realm -->
-	    <bean id="ShiroRealm" class="com.jx.common.config.shiro.ShiroRealm" ></bean>
+	    <bean id="shiroRealm" class="com.jx.common.config.shiro.ShiroRealm" ></bean>
 		
 		<!-- Shiro Filter -->
 		<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -44,7 +44,6 @@
 	           	/weixinSerlvet				= anon
 	           	/common/** 								= anon
 	           	/**							= authc
-	           	
 				</value>
 			</property>
 		</bean>

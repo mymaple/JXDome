@@ -33,10 +33,17 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ComReceiveAddress> listByUserIdE(String appUserId) throws Exception {
-		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
-		comReceiveAddress.setAppUserId(appUserId);
-		comReceiveAddress.setEffective("01");
-		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.listAll", null);
+		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.listByUserIdE", appUserId);
+	}
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String appUserId
+	 * @return ComReceiveAddress
+	 * @throws Exception
+	 */
+	public ComReceiveAddress findByUserIdSE(String appUserId) throws Exception {
+		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByUserIdSE", appUserId);
 	}
 	
 	/**
@@ -49,8 +56,7 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
 		comReceiveAddress.setReceiveAddressId(receiveAddressId);
 		comReceiveAddress.setAppUserId(appUserId);
-		comReceiveAddress.setEffective("01");
-		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findById", receiveAddressId);
+		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByUserIdAndIdE", comReceiveAddress);
 	}
 	
 	/**
@@ -64,7 +70,11 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setAppUserId(appUserId);
 		comReceiveAddress.setModifyTime(new Date());
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
-		dao.update("ComReceiveAddressMapper.toDisdefaultE", comReceiveAddress);
+		try{
+			dao.update("ComReceiveAddressMapper.toDisdefaultE", comReceiveAddress);
+		}catch(UncheckedException e){
+			e.printStackTrace();
+		}
 		
 		comReceiveAddress.setReceiveAddressId(receiveAddressId);
 		dao.update("ComReceiveAddressMapper.toDefaultE", comReceiveAddress);

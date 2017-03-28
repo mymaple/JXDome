@@ -37,7 +37,7 @@
 		window.location.href = "<%=basePath%>weixin/mine/toMyPartner.do";
 	}
 	
-	function toOrder(){
+	function toMyOrder(){
 		window.location.href = "<%=basePath%>weixin/order/list.do";
 	}
 	
@@ -120,6 +120,12 @@
 	    					<i class="iconfont icon-jiantou1 fr"></i>
 	    				</a>
 	    			</li>
+	    			<li class="box-s">
+	    				<a onclick="toMyOrder();">
+	    					<i class="iconfont icon-yonghuming fl"></i><p class="fl">我的订单</p>
+	    					<i class="iconfont icon-jiantou1 fr"></i>
+	    				</a>
+	    			</li>
 	    			<!-- <li class="box-s">
 	    				<a onclick="toChangePwd();">
 	    					<i class="iconfont icon-mima fl"></i><p class="fl">修改密码</p>
@@ -175,13 +181,13 @@
 					</a>
 				</li>
 				<li>
-					<a href="cation.html">
+					<a href="<%=basePath%>weixin/product/toCategory.do">
 						<i class="iconfont icon-icon04"></i>
 						<p>分类</p>
 					</a>
 				</li>
 				<li>
-					<a href="shopcar.html">
+					<a href="<%=basePath%>weixin/shopCar/list.do">
 						<i class="iconfont icon-gouwuche"></i>
 						<p>购物车</p>
 					</a>

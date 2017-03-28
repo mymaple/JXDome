@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.common.config.BaseController;
-import com.jx.common.config.PageData;
-import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.ComLbt;
+import com.jx.common.entity.ComProduct;
 import com.jx.common.service.ComLbtService;
+import com.jx.common.service.ComProductSEService;
 import com.jx.common.service.ComProductService;
 
 /** 
@@ -26,8 +26,8 @@ public class WxIndexController extends BaseController {
 	
 	
 	
-	@Resource(name="comProductService")
-	private ComProductService comProductService;
+	@Resource(name="comProductSEService")
+	private ComProductSEService comProductSEService;
 	@Resource(name="comLbtService")
 	private ComLbtService comLbtService;
 	
@@ -39,9 +39,12 @@ public class WxIndexController extends BaseController {
 	public ModelAndView toIndex() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		
-		List<ComLbt> comLbtList = comLbtService.list(null);
+		List<ComLbt> comLbtList = comLbtService.listE();
+		//分类
+		List<ComProduct> comProductList = comProductSEService.listByCategoryCodeSE("spfl100172");
 		
 		mv.addObject("comLbtList",comLbtList);
+		mv.addObject("comProductList",comProductList);
 		mv.setViewName("weixin/index/wxIndex");
 		
 		return mv;

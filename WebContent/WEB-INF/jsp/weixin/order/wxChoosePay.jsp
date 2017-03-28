@@ -30,6 +30,31 @@
 		$(".loading").addClass("loader-chanage");
 		$(".loading").fadeOut(300);
 	});
+	
+	function pay(){
+		
+		var orderIds = $("#orderIds").val();
+		$.ajax({
+			type: "POST",
+			url: '<%=basePath%>weixin/order/pay.do?tm='+new Date().getTime(),
+	    	data: {"orderIds":orderIds},
+			dataType:'json',
+			//beforeSend: validateData,
+			cache: false,
+			success: function(data){
+				if(data.resultCode == "success"){
+					window.location.href = data.resultContent;
+				}else{
+					layer.open({
+				    	content: data.resultContent
+				    	,skin: 'msg'
+				    	,time: 2 //2秒后自动关闭
+				 	});
+				}
+			}
+		});
+	}
+	
 </script>
 </head>
 <!--loading页开始-->
@@ -46,11 +71,49 @@
 </div>
 <!--loading页结束-->
 <body>
-
-     <div class="weui-btn-area">
-       	<a class="weui-btn weui-btn_primary" href="<%=basePath%>weixin/mine/toMyWallet.do" id="showTooltips">我的钱包</a>
-   	</div>
-	
+		<input type="hidden" id="orderIds" value="${orderIds }">
+		
+		<div class="warpthree clearfloat">
+	      	<div class="recharge clearfloat">
+	      <c:choose>
+	        <c:when test="${not empty comOrderList}">
+				<c:forEach items="${comOrderList}" var="comOrder" varStatus="vs">
+	      		<div class="czhi clearfloat box-s">
+	    			<div class="fl">订单号：</div>
+	    			<div class="fr f-col">${comOrder.orderNum }</div>
+	    		</div>
+                
+                <div class="czhi clearfloat box-s">
+	    			<div class="fl">应付金额：</div>
+	    			<div class="fr f-col">${comOrder.allActPrice }</div>
+	    		</div>
+	      		</c:forEach>
+	      	</c:when>
+	      </c:choose>
+	    	</div>
+	      
+	      <div class="recharge clearfloat">
+	      		<div class="czhi clearfloat box-s">
+	    			<div class="fl">选择支付方式：</div>
+	    		</div>
+	    		<div class="czhi clearfloat box-s">
+	    			<div class="fl">积分支付</div>
+	    			
+	    			<div class="fr">剩余积分：${integralCount }</div>
+	    		</div>
+	    	</div>
+	    </div>
+		
+		<!--settlement star-->
+	    <div class="settlement clearfloat">
+	    	<div class="zuo clearfloat fl box-s">
+	    		合计支付：<span>${pay }</span>积分
+	    	</div>
+	    	<a onclick="pay();" class="fl db">
+	    		确认支付
+	    	</a>
+	    </div>
+	    <!--settlement end-->
 </body>
 
 	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>

@@ -117,9 +117,11 @@
 			</#if>
 			</#list>
 	</update>
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Status">
 	
 	<!-- 更改状态-->
-	<update id="changeStatus" parameterType="comReceiveAddress">
+	<update id="changeStatus" parameterType="${bgMaple.mapleEntityLower}">
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
@@ -127,12 +129,14 @@
 			modifyUserId = ${r"#{"}modifyUserId${r"}"},
 			modifyTime = ${r"#{"}modifyTime${r"}"}
 		where 
-			receiveAddressId = ${r"#{"}receiveAddressId${r"}"} 
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
 			and effective = ${r"#{"}oldValue${r"}"}
 	</update>
+	</#if>
+	</#list>
 	
 	<!-- 更改有效性 -->
-	<update id="changeEffective" parameterType="comReceiveAddress">
+	<update id="changeEffective" parameterType="${bgMaple.mapleEntityLower}">
 		update
 	<include refid="${bgMaple.mapleCode}Table"/>
 		set 
@@ -140,7 +144,7 @@
 			modifyUserId = ${r"#{"}modifyUserId${r"}"},
 			modifyTime = ${r"#{"}modifyTime${r"}"}
 		where 
-			receiveAddressId = ${r"#{"}receiveAddressId${r"}"} 
+			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
 			and effective = ${r"#{"}oldValue${r"}"}
 	</update>
 	
@@ -179,6 +183,8 @@
 	<include refid="${bgMaple.mapleCode}Table"/>
 		order by (orderNum+0) DESC
 	</select>
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
 	
 	<!-- 获取(类)List数据  -->
 	<select id="otherHaveCode" parameterType="${bgMaple.mapleEntityLower}" resultMap="${bgMaple.mapleEntityLower}ResultMap">
@@ -195,6 +201,8 @@
 			 and ${bgMaple.mapleCode}Code = ${r"#{"}${bgMaple.mapleCode}Code${r"}"}
 		order by (orderNum+0) DESC
 	</select>
+	</#if>
+	</#list>
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listPage" parameterType="bgPage" resultType="pd">

@@ -11,6 +11,20 @@ public interface ComProductStyleService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComProductStyle> listByProductIdSE(String productId) throws Exception ;
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String productStyleId
+	 * @return ComProductStyle
+	 * @throws Exception
+	 */
+	public ComProductStyle findByIdSE(String productStyleId) throws Exception ;
 		
 	/****************************custom * end  ***********************************/
 	

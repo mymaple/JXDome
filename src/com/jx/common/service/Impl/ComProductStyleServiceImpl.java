@@ -11,6 +11,7 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
+import com.jx.common.util.MapleDecimalUtil;
 import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComProductStyle;
@@ -25,6 +26,27 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 	
 	/****************************custom * start***********************************/
 	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComProductStyle> listByProductIdSE(String productId) throws Exception {
+		return (List<ComProductStyle>) dao.findForList("ComProductStyleMapper.listByProductIdSE", productId);
+	}
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String productStyleId
+	 * @return ComProductStyle
+	 * @throws Exception
+	 */
+	public ComProductStyle findByIdSE(String productStyleId) throws Exception {
+		return (ComProductStyle) dao.findForObject("ComProductStyleMapper.findByIdSE", productStyleId);
+	}
+	
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/
@@ -35,6 +57,14 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 	 * @throws Exception
 	 */
 	public void add(ComProductStyle comProductStyle) throws Exception {
+		
+		comProductStyle.setAllStockNum(comProductStyle.getStockNum());
+		String originalPrice = comProductStyle.getOriginalPrice();
+		String discountRate = comProductStyle.getDiscountRate();
+		String currentPrice = ""+MapleDecimalUtil.multiplyDefealt(originalPrice, discountRate);
+		String discountPrice = ""+MapleDecimalUtil.subtractDefealt(originalPrice, currentPrice);
+		comProductStyle.setDiscountPrice(discountPrice);
+		comProductStyle.setCurrentPrice(currentPrice);
 		
 		Date nowTime = new Date();
 		String productStyleId = UuidUtil.get32UUID();
@@ -70,6 +100,13 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 	 * @throws Exception
 	 */
 	public void edit(ComProductStyle comProductStyle) throws Exception {
+		
+		String originalPrice = comProductStyle.getOriginalPrice();
+		String discountRate = comProductStyle.getDiscountRate();
+		String currentPrice = ""+MapleDecimalUtil.multiplyDefealt(originalPrice, discountRate);
+		String discountPrice = ""+MapleDecimalUtil.subtractDefealt(originalPrice, currentPrice);
+		comProductStyle.setDiscountPrice(discountPrice);
+		comProductStyle.setCurrentPrice(currentPrice);
 	
 		Date nowTime = new Date();
 		comProductStyle.setModifyUserId(ShiroSessionUtil.getUserId());

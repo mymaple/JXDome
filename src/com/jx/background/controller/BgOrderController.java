@@ -95,6 +95,7 @@ public class BgOrderController extends BaseController {
 		comOrder.setOrderName("");
 		comOrder.setOrderType("01");
 		comOrder.setOrderStatus("00");
+		comOrder.setAppUserId("");
 		comOrder.setOrderProductCount("0");
 		comOrder.setAllPrice("0.00");
 		comOrder.setFreight("0.00");
@@ -295,27 +296,28 @@ public class BgOrderController extends BaseController {
 		titles.add("订单名称");	//2
 		titles.add("订单类型");	//3
 		titles.add("订单状态");	//4
-		titles.add("订单商品总数");	//5
-		titles.add("商品总价");	//6
-		titles.add("运费");	//7
-		titles.add("总优惠");	//8
-		titles.add("钱包支付");	//9
-		titles.add("实付款");	//10
-		titles.add("供应商");	//11
-		titles.add("供应商id");	//12
-		titles.add("收货地址");	//13
-		titles.add("付款时间");	//14
-		titles.add("发货时间");	//15
-		titles.add("交易号");	//16
-		titles.add("付款方式");	//17
-		titles.add("物流公司");	//18
-		titles.add("运单编号");	//19
-		titles.add("排序编号");	//20
-		titles.add("有效标志");	//21
-		titles.add("创建人员id");	//22
-		titles.add("创建时间");	//23
-		titles.add("修改人员id");	//24
-		titles.add("修改时间");	//25
+		titles.add("平台用户");	//5
+		titles.add("订单商品总数");	//6
+		titles.add("商品总价");	//7
+		titles.add("运费");	//8
+		titles.add("总优惠");	//9
+		titles.add("钱包支付");	//10
+		titles.add("实付款");	//11
+		titles.add("供应商");	//12
+		titles.add("供应商id");	//13
+		titles.add("收货地址");	//14
+		titles.add("付款时间");	//15
+		titles.add("发货时间");	//16
+		titles.add("交易号");	//17
+		titles.add("付款方式");	//18
+		titles.add("物流公司");	//19
+		titles.add("运单编号");	//20
+		titles.add("排序编号");	//21
+		titles.add("有效标志");	//22
+		titles.add("创建人员id");	//23
+		titles.add("创建时间");	//24
+		titles.add("修改人员id");	//25
+		titles.add("修改时间");	//26
 		dataMap.put("titles", titles);
 		List<ComOrder> varOList = comOrderService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
@@ -326,27 +328,28 @@ public class BgOrderController extends BaseController {
 			vpd.put("var2", varOList.get(i).getOrderName());	//2
 			vpd.put("var3", varOList.get(i).getOrderType());	//3
 			vpd.put("var4", varOList.get(i).getOrderStatus());	//4
-			vpd.put("var5", varOList.get(i).getOrderProductCount());	//5
-			vpd.put("var6", varOList.get(i).getAllPrice());	//6
-			vpd.put("var7", varOList.get(i).getFreight());	//7
-			vpd.put("var8", varOList.get(i).getAllDisPrice());	//8
-			vpd.put("var9", varOList.get(i).getWalletPay());	//9
-			vpd.put("var10", varOList.get(i).getAllActPrice());	//10
-			vpd.put("var11", varOList.get(i).getSupplierName());	//11
-			vpd.put("var12", varOList.get(i).getSupplierId());	//12
-			vpd.put("var13", varOList.get(i).getReceiveAddressId());	//13
-			vpd.put("var14", varOList.get(i).getPayTimeStr());	//14
-			vpd.put("var15", varOList.get(i).getSendTimeStr());	//15
-			vpd.put("var16", varOList.get(i).getTradeNum());	//16
-			vpd.put("var17", varOList.get(i).getPayMethod());	//17
-			vpd.put("var18", varOList.get(i).getWlgs());	//18
-			vpd.put("var19", varOList.get(i).getWlNum());	//19
-			vpd.put("var20", varOList.get(i).getOrderNum());		//20
-			vpd.put("var21", varOList.get(i).getEffective());	//21
-			vpd.put("var22", varOList.get(i).getCreateUserId());	//22
-			vpd.put("var23", varOList.get(i).getCreateTime());	//23
-			vpd.put("var24", varOList.get(i).getModifyUserId());//24
-			vpd.put("var25", varOList.get(i).getModifyTime());	//25
+			vpd.put("var5", varOList.get(i).getAppUserId());	//5
+			vpd.put("var6", varOList.get(i).getOrderProductCount());	//6
+			vpd.put("var7", varOList.get(i).getAllPrice());	//7
+			vpd.put("var8", varOList.get(i).getFreight());	//8
+			vpd.put("var9", varOList.get(i).getAllDisPrice());	//9
+			vpd.put("var10", varOList.get(i).getWalletPay());	//10
+			vpd.put("var11", varOList.get(i).getAllActPrice());	//11
+			vpd.put("var12", varOList.get(i).getSupplierName());	//12
+			vpd.put("var13", varOList.get(i).getSupplierId());	//13
+			vpd.put("var14", varOList.get(i).getReceiveAddressId());	//14
+			vpd.put("var15", varOList.get(i).getPayTime());	//15
+			vpd.put("var16", varOList.get(i).getSendTime());	//16
+			vpd.put("var17", varOList.get(i).getTradeNum());	//17
+			vpd.put("var18", varOList.get(i).getPayMethod());	//18
+			vpd.put("var19", varOList.get(i).getWlgs());	//19
+			vpd.put("var20", varOList.get(i).getWlNum());	//20
+			vpd.put("var21", varOList.get(i).getOrderNum());		//21
+			vpd.put("var22", varOList.get(i).getEffective());	//22
+			vpd.put("var23", varOList.get(i).getCreateUserId());	//23
+			vpd.put("var24", varOList.get(i).getCreateTime());	//24
+			vpd.put("var25", varOList.get(i).getModifyUserId());//25
+			vpd.put("var26", varOList.get(i).getModifyTime());	//26
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -392,18 +395,19 @@ public class BgOrderController extends BaseController {
 		titles.add("订单名称");	//1
 		titles.add("订单类型");	//2
 		titles.add("订单状态");	//3
-		titles.add("订单商品总数");	//4
-		titles.add("商品总价");	//5
-		titles.add("运费");	//6
-		titles.add("总优惠");	//7
-		titles.add("钱包支付");	//8
-		titles.add("实付款");	//9
-		titles.add("供应商id");	//10
-		titles.add("收货地址");	//11
-		titles.add("交易号");	//12
-		titles.add("付款方式");	//13
-		titles.add("物流公司");	//14
-		titles.add("运单编号");	//15
+		titles.add("平台用户");	//4
+		titles.add("订单商品总数");	//5
+		titles.add("商品总价");	//6
+		titles.add("运费");	//7
+		titles.add("总优惠");	//8
+		titles.add("钱包支付");	//9
+		titles.add("实付款");	//10
+		titles.add("供应商id");	//11
+		titles.add("收货地址");	//12
+		titles.add("交易号");	//13
+		titles.add("付款方式");	//14
+		titles.add("物流公司");	//15
+		titles.add("运单编号");	//16
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -444,18 +448,19 @@ public class BgOrderController extends BaseController {
 		 * var1 :订单名称;	//1
 		 * var2 :订单类型;	//2
 		 * var3 :订单状态;	//3
-		 * var4 :订单商品总数;	//4
-		 * var5 :商品总价;	//5
-		 * var6 :运费;	//6
-		 * var7 :总优惠;	//7
-		 * var8 :钱包支付;	//8
-		 * var9 :实付款;	//9
-		 * var10 :供应商id;	//10
-		 * var11 :收货地址;	//11
-		 * var12 :交易号;	//12
-		 * var13 :付款方式;	//13
-		 * var14 :物流公司;	//14
-		 * var15 :运单编号;	//15
+		 * var4 :平台用户;	//4
+		 * var5 :订单商品总数;	//5
+		 * var6 :商品总价;	//6
+		 * var7 :运费;	//7
+		 * var8 :总优惠;	//8
+		 * var9 :钱包支付;	//9
+		 * var10 :实付款;	//10
+		 * var11 :供应商id;	//11
+		 * var12 :收货地址;	//12
+		 * var13 :交易号;	//13
+		 * var14 :付款方式;	//14
+		 * var15 :物流公司;	//15
+		 * var16 :运单编号;	//16
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comOrder.setOrderId(this.get32UUID());
@@ -463,18 +468,19 @@ public class BgOrderController extends BaseController {
 			comOrder.setOrderName(listPd.get(i).getString("var1"));
 			comOrder.setOrderType(listPd.get(i).getString("var2"));
 			comOrder.setOrderStatus(listPd.get(i).getString("var3"));
-			comOrder.setOrderProductCount(listPd.get(i).getString("var4"));
-			comOrder.setAllPrice(listPd.get(i).getString("var5"));
-			comOrder.setFreight(listPd.get(i).getString("var6"));
-			comOrder.setAllDisPrice(listPd.get(i).getString("var7"));
-			comOrder.setWalletPay(listPd.get(i).getString("var8"));
-			comOrder.setAllActPrice(listPd.get(i).getString("var9"));
-			comOrder.setSupplierId(listPd.get(i).getString("var10"));
-			comOrder.setReceiveAddressId(listPd.get(i).getString("var11"));
-			comOrder.setTradeNum(listPd.get(i).getString("var12"));
-			comOrder.setPayMethod(listPd.get(i).getString("var13"));
-			comOrder.setWlgs(listPd.get(i).getString("var14"));
-			comOrder.setWlNum(listPd.get(i).getString("var15"));
+			comOrder.setAppUserId(listPd.get(i).getString("var4"));
+			comOrder.setOrderProductCount(listPd.get(i).getString("var5"));
+			comOrder.setAllPrice(listPd.get(i).getString("var6"));
+			comOrder.setFreight(listPd.get(i).getString("var7"));
+			comOrder.setAllDisPrice(listPd.get(i).getString("var8"));
+			comOrder.setWalletPay(listPd.get(i).getString("var9"));
+			comOrder.setAllActPrice(listPd.get(i).getString("var10"));
+			comOrder.setSupplierId(listPd.get(i).getString("var11"));
+			comOrder.setReceiveAddressId(listPd.get(i).getString("var12"));
+			comOrder.setTradeNum(listPd.get(i).getString("var13"));
+			comOrder.setPayMethod(listPd.get(i).getString("var14"));
+			comOrder.setWlgs(listPd.get(i).getString("var15"));
+			comOrder.setWlNum(listPd.get(i).getString("var16"));
 			comOrderService.add(comOrder);
 		}
 		/*存入数据库操作======================================*/

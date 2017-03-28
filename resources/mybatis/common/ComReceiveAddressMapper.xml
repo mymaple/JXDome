@@ -28,6 +28,42 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<!-- 获取(类)List数据  -->
+	<select id="listByUserIdE" parameterType="String" resultType="comReceiveAddress">
+		select 
+	<include refid="receiveAddressColumns"/>
+		from 
+	<include refid="receiveAddressTable"/>
+		where appUserId = #{appUserId}
+		and effective = '01'
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="findByUserIdSE" parameterType="String" resultType="comReceiveAddress">
+		select 
+	<include refid="receiveAddressColumns"/>
+		from 
+	<include refid="receiveAddressTable"/>
+		where appUserId = #{appUserId}
+		and receiveAddressStatus ='01'
+		and effective = '01'
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="findByUserIdAndIdE" parameterType="comReceiveAddress" resultType="comReceiveAddress">
+		select 
+	<include refid="receiveAddressColumns"/>
+		from 
+	<include refid="receiveAddressTable"/>
+		where appUserId = #{appUserId}
+		and receiveAddressId = #{receiveAddressId} 
+		and effective = '01'
+		order by (orderNum+0) DESC
+	</select>
+	
+	
 	<!-- 修改 -->
 	<update id="editByUserE" parameterType="comReceiveAddress">
 		update
@@ -40,13 +76,13 @@
 			district = #{district},
 			street = #{street},
 			detail = #{detail},
-			defaultStatus = #{defaultStatus},
+			receiveAddressStatus = #{receiveAddressStatus},
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
 			receiveAddressId = #{receiveAddressId} 
-			and appUserId = #{appUserId}
-			and effective = '01'
+		and appUserId = #{appUserId}
+		and effective = '01'
 	</update>
 	
 	<!-- 改变 -->
@@ -54,13 +90,13 @@
 		update
 	<include refid="receiveAddressTable"/>
 		set 
-			defaultStatus = '00',
+			receiveAddressStatus = '00',
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
 			appUserId = #{appUserId}
-			and defaultStatus = '01'
-			and effective = '01'
+		and receiveAddressStatus = '01'
+		and effective = '01'
 	</update>
 	
 	<!-- 改变 -->
@@ -73,9 +109,9 @@
 			modifyTime = #{modifyTime}
 		where 
 			receiveAddressId = #{receiveAddressId} 
-			and appUserId = #{appUserId}
-			and defaultStatus = '00'
-			and effective = '01'
+		and appUserId = #{appUserId}
+		and defaultStatus = '00'
+		and effective = '01'
 	</update>
 	
 	<!-- 改变 -->
@@ -83,7 +119,7 @@
 		update
 	<include refid="receiveAddressTable"/>
 		set 
-			defaultStatus = '00',
+			receiveAddressStatus = '00',
 			effective = '00',
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}

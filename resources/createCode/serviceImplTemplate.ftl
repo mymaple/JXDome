@@ -115,7 +115,7 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 	public void add(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception {
 		
 		Date nowTime = new Date();
-		String ${bgMaple.mapleCode}Id = UuidUtil.get32UUID()
+		String ${bgMaple.mapleCode}Id = UuidUtil.get32UUID();
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Id(${bgMaple.mapleCode}Id);
 		<#list bgMapleDetailList as bgMapleDetail>
 			<#if bgMapleDetail.mapleDetailType == '06'>
@@ -192,6 +192,8 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		dao.update("${bgMaple.mapleEntityUpper}Mapper.edit", ${bgMaple.mapleEntityLower});
 	}
 	
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Status">
 	/**
 	 * 更改状态 flag 00
 	 * @param String flag, String ${bgMaple.mapleCode}Id
@@ -214,6 +216,8 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		${bgMaple.mapleEntityLower}.setModifyTime(nowTime);
 		dao.update("${bgMaple.mapleEntityUpper}Mapper.changeStatus", ${bgMaple.mapleEntityLower});
 	}
+	</#if>
+	</#list>
 	
 	/**
 	 * 更改有效性 flag 00:使失效;01：使生效
@@ -276,6 +280,8 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.listAll", null);
 	}
 	
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
 	/**
 	 * 获取(类)List数据
 	 * @return
@@ -288,6 +294,8 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		${bgMaple.mapleEntityLower}.set${bgMaple.mapleCodeUpper}Code(${bgMaple.mapleCode}Code);
 		return (List<${bgMaple.mapleEntityUpper}>) dao.findForList("${bgMaple.mapleEntityUpper}Mapper.otherHaveCode", ${bgMaple.mapleEntityLower});
 	}
+	</#if>
+	</#list>
 	
 	/**
 	 * 获取分页(PageData)List数据

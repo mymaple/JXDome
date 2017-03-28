@@ -22,7 +22,6 @@
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
 	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
 <script type="text/javascript">
@@ -30,6 +29,11 @@
 		$(".loading").addClass("loader-chanage");
 		$(".loading").fadeOut(300);
 	});
+	
+	function toOrderDetail(orderId){
+		window.location.href = "<%=basePath%>weixin/order/toOrderDetail.do?orderId="+orderId;
+	}
+	
 </script>
 </head>
 <!--loading页开始-->
@@ -47,20 +51,46 @@
 <!--loading页结束-->
 <body>
 
-     <div class="weui-btn-area">
-       	<a class="weui-btn weui-btn_primary" href="<%=basePath%>weixin/mine/toMyWallet.do" id="showTooltips">我的钱包</a>
-   	</div>
-	
-</body>
+	    <div id="main" class="mui-clearfix">
+	    
+	    <c:choose>
+        <c:when test="${not empty comOrderList}">
+		<c:forEach items="${comOrderList}" var="comOrder" varStatus="vs">
+	    
+	      <div class="order-list clearfloat" onclick="toOrderDetail('${comOrder.orderId}');">
+    		  <p class="ordernum box-s">
+	    			订单  ${comOrder.orderCode } <span class="fr">${comOrder.createTime }</span>    			
+    		  </p>
+    		  <c:choose>
+		        <c:when test="${not empty comOrder.comOrderDetailList}">
+				<c:forEach items="${comOrder.comOrderDetailList}" var="comOrderDetail" varStatus="vs1">
+				
+	    		<div class="list clearfloat fl box-s">
+	    			<div class="tu fl clearfloat">
+	    				<img src="${comOrderDetail.headImgSrc}"/>
+	    			</div>
+	    			<div class="middle clearfloat fl">
+	    				<p class="tit">${comOrderDetail.productName}</p>
+	    				<p class="fu-tit">${comOrderDetail.summary}</p>
+	    				<p class="price clearfloat">
+	    					<span class="xprice fl">积分：${comOrderDetail.currentPrice}</span>
+    					    <span class="shu ra3">兑换成功</span>
+	    				</p>
+	    			</div>
+	    		</div>
+	    		</c:forEach>
+	    		</c:when>
+	    		</c:choose>
+	    	</div>
+            </c:forEach>
+            </c:when>
+            </c:choose>
+	    </div>
+	</body>
 
 	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
 	<script src="weui/gemo/js/mui.min.js"></script>
-	<script src="weui/gemo/js/others.js"></script>
 	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
-	<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
-	<!--插件-->
-	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
-	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
 
 
 </html>

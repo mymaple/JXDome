@@ -24,6 +24,8 @@
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage")
@@ -46,10 +48,10 @@
 			});
 		
 		
-		if("01"==$("#defaultStatus").val()){
-			$("#defaultStatus").next().addClass('toggle--off');
+		if("01"==$("#receiveAddressStatus").val()){
+			$("#receiveAddressStatus").next().addClass('toggle--off');
 		}else{
-			$("#defaultStatus").next().addClass('toggle--on');
+			$("#receiveAddressStatus").next().addClass('toggle--on');
 		}
 		
 	});
@@ -61,9 +63,9 @@
 			$(toggle).removeClass('toggle--moving');
 		}, 200)
 		if($(elem).attr("class").indexOf('toggle--off')){
-			$("#defaultStatus").val("01");
+			$("#receiveAddressStatus").val("01");
 		}else{
-			$("#defaultStatus").val("00");
+			$("#receiveAddressStatus").val("00");
 		}
 	}
 	
@@ -147,8 +149,8 @@
 			$("#detail").focus();
 		return false;
 		}
-		if($("#defaultStatus").val()==""){
-			$("#defaultStatus").next().tips({
+		if($("#receiveAddressStatus").val()==""){
+			$("#receiveAddressStatus").next().tips({
 				side:3,
 	            msg:'请选择 默认状态',
 	            bg:'#AE81FF',
@@ -178,6 +180,7 @@
 	<body>
 	<form action="weixin/receiveAddress/${methodPath }.do" name="receiveAddressForm" id="receiveAddressForm" method="post">
 		<input type="hidden" name="receiveAddressId" id="receiveAddressId" value="${comReceiveAddress.receiveAddressId}"/>
+		<input type="hidden" name="choose" id="choose" value="${choose}"/>
 		
 		<div id="main" class="mui-clearfix add-address">
 	    	<div class="plist clearfloat data">
@@ -222,7 +225,7 @@
 	    	
 	    	<div class="address-btn clearfloat">
 	    		<span class="szwmr fl">设为默认</span>
-	    		<input type="hidden" name="defaultStatus" id="defaultStatus" value="${comReceiveAddress.defaultStatus}"/>
+	    		<input type="hidden" name="receiveAddressStatus" id="receiveAddressStatus" value="${comReceiveAddress.receiveAddressStatus}"/>
 	    		<a onclick="toDefault(this);" class="toggle fr"></a>
 	    	</div>
             

@@ -27,6 +27,16 @@ public class ComLbtServiceImpl implements ComLbtService{
 	
 	/****************************custom * start***********************************/
 	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComLbt> listE() throws Exception {
+		return (List<ComLbt>) dao.findForList("ComLbtMapper.listE", null);
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

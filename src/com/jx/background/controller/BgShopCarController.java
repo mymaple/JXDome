@@ -25,31 +25,31 @@ import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
-import com.jx.common.entity.ComProduct;
+import com.jx.common.entity.ComShopCar;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
-import com.jx.common.service.ComProductService;
+import com.jx.common.service.ComShopCarService;
 
 /** 
- * 类名称：BgProductController
+ * 类名称：BgShopCarController
  * 创建人：maple
- * 创建时间：2017-02-24
+ * 创建时间：2017-03-23
  */
 @Controller
-@RequestMapping(value="/background/product")
-public class BgProductController extends BaseController {
+@RequestMapping(value="/background/shopCar")
+public class BgShopCarController extends BaseController {
 	
 	/**
 	 * 后台 菜单代号(权限用)
 	 */
-	public static final String RIGHTS_BG_MENUCODE_STR = "background_product";
+	public static final String RIGHTS_BG_MENUCODE_STR = "background_shopCar";
 	
-	@Resource(name="comProductService")
-	private ComProductService comProductService;
+	@Resource(name="comShopCarService")
+	private ComShopCarService comShopCarService;
 	
 	
 	/**
@@ -68,12 +68,13 @@ public class BgProductController extends BaseController {
 		}
 			
 		bgPage.setPd(pd);
-		List<PageData>	comProductList = comProductService.listPage(bgPage);	//列出comProduct列表
-		mv.addObject("comProductList", comProductList);
+		List<PageData>	comShopCarList = comShopCarService.listPage(bgPage);	//列出comShopCar列表
+		
+		mv.addObject("comShopCarList", comShopCarList);
 		mv.addObject("pd", pd);
 		mv.addObject("RIGHTS", BgSessionUtil.getSessionBgRights());				//按钮权限
 		resultInfo.setResultCode("success");
-		mv.setViewName("background/product/bgProductList");
+		mv.setViewName("background/shopCar/bgShopCarList");
 
 		mv.addObject(resultInfo);
 		return mv;
@@ -89,24 +90,17 @@ public class BgProductController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-		ComProduct comProduct = new ComProduct();
-		comProduct.setSupplierId("");
-		comProduct.setProductCode("");
-		comProduct.setProductName("");
-		comProduct.setProductType("01");
-		comProduct.setProductModel("");
-		comProduct.setSummary("");
-		comProduct.setIntroduction("");
-		comProduct.setHeadImgSrc("");
-		comProduct.setImgSrc1("");
-		comProduct.setImgSrc2("");
-		comProduct.setImgSrc3("");
-		comProduct.setOrderNum(String.valueOf(new Date().getTime()));
+		ComShopCar comShopCar = new ComShopCar();
+		comShopCar.setAppUserId("");
+		comShopCar.setProductStyleId("");
+		comShopCar.setCount("0");
+		comShopCar.setShopCarStatus("");
+		comShopCar.setOrderNum(String.valueOf(new Date().getTime()));
 		
-		mv.addObject(comProduct);
+		mv.addObject(comShopCar);
 		mv.addObject("methodPath", "add");
 		resultInfo.setResultCode("success");
-		mv.setViewName("background/product/bgProductEdit");
+		mv.setViewName("background/shopCar/bgShopCarEdit");
 			
 		mv.addObject(resultInfo);					
 		return mv;
@@ -116,25 +110,21 @@ public class BgProductController extends BaseController {
 	 * 新增
 	 */
 	@RequestMapping(value="/add")
-	public ModelAndView add(@Validated(ValidationAdd.class) ComProduct comProduct, BindingResult result) throws Exception{
+	public ModelAndView add(@Validated(ValidationAdd.class) ComShopCar comShopCar, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 
 		if(result.hasErrors()) {
-			resultInfo.setResultEntity("comProduct");
+			resultInfo.setResultEntity("comShopCar");
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
 		
-		List<ComProduct> comProductList = comProductService.otherHaveCode("", comProduct.getProductCode());
-		if(MapleUtil.notEmptyList(comProductList)){
-			mv.addObject(resultInfo);					
-			return mv;
-		}
+		
 			
-		comProductService.add(comProduct);
+		comShopCarService.add(comShopCar);
 		resultInfo.setResultCode("success");
 
 		mv.addObject(resultInfo);
@@ -145,21 +135,21 @@ public class BgProductController extends BaseController {
 	 * 去修改页面
 	 */
 	@RequestMapping(value="/toEdit")
-	public ModelAndView toEdit(@RequestParam String productId) throws Exception{
+	public ModelAndView toEdit(@RequestParam String shopCarId) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-		ComProduct comProduct = comProductService.findById(productId);	//根据ID读取
-		if(comProduct == null){
+		ComShopCar comShopCar = comShopCarService.findById(shopCarId);	//根据ID读取
+		if(comShopCar == null){
 			mv.addObject(resultInfo);
 			return mv;
 		}
 		mv.addObject("methodPath", "edit");
-		mv.addObject(comProduct);
+		mv.addObject(comShopCar);
 		resultInfo.setResultCode("success");
-		mv.setViewName("background/product/bgProductEdit");
+		mv.setViewName("background/shopCar/bgShopCarEdit");
 		
 		mv.addObject(resultInfo);						
 		return mv;
@@ -169,25 +159,20 @@ public class BgProductController extends BaseController {
 	 * 修改
 	 */
 	@RequestMapping(value="/edit")
-	public ModelAndView edit(@Validated(ValidationEdit.class) ComProduct comProduct, BindingResult result) throws Exception{
+	public ModelAndView edit(@Validated(ValidationEdit.class) ComShopCar comShopCar, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 			
 		if(result.hasErrors()) {
-			resultInfo.setResultEntity("comProduct");
+			resultInfo.setResultEntity("comShopCar");
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
 		
-		List<ComProduct> comProductList = comProductService.otherHaveCode(comProduct.getProductId(), comProduct.getProductCode());	
-		if(MapleUtil.notEmptyList(comProductList)){
-			mv.addObject(resultInfo);					
-			return mv;
-		}
 		
-		comProductService.edit(comProduct);
+		comShopCarService.edit(comShopCar);
 		resultInfo.setResultCode("success");
 		
 		mv.addObject(resultInfo);
@@ -195,32 +180,15 @@ public class BgProductController extends BaseController {
 	}
 	
 	/**
-	 * 判断是否存在dictCode
-	 */
-	@RequestMapping(value="/otherNotCode")
-	@ResponseBody
-	public Object otherNotCode(@RequestParam String productId, @RequestParam String productCode) throws Exception{
-		PageData pd = this.getPageData();
-		ResultInfo resultInfo = this.getResultInfo();
-
-		List<ComProduct> comProductList = comProductService.otherHaveCode(productId, productCode);	
-		if(MapleUtil.emptyList(comProductList)){
-			resultInfo.setResultCode("success");
-		}
-
-		return AppUtil.returnResult(pd, resultInfo);
-	}
-	
-	/**
 	 * 删除
 	 */
 	@RequestMapping(value="/toDelete")
 	@ResponseBody
-	public Object toDelete(@RequestParam String productId) throws Exception{
+	public Object toDelete(@RequestParam String shopCarId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		
-		comProductService.deleteById(productId);	//根据ID删除
+		comShopCarService.deleteById(shopCarId);	//根据ID删除
 		resultInfo.setResultCode("success");
 
 		return AppUtil.returnResult(pd, resultInfo);
@@ -239,7 +207,7 @@ public class BgProductController extends BaseController {
 		if(MapleStringUtil.isEmpty(ids)){
 			return AppUtil.returnResult(pd, resultInfo);
 		}
-		comProductService.batchDeleteByIds(ids.split(","));	//根据ID删除
+		comShopCarService.batchDeleteByIds(ids.split(","));	//根据ID删除
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
@@ -250,10 +218,10 @@ public class BgProductController extends BaseController {
 	 */
 	@RequestMapping(value="/changeStatus")
 	@ResponseBody
-	public Object changeStatus(@RequestParam String flag, @RequestParam String productId) throws Exception{
+	public Object changeStatus(@RequestParam String flag, @RequestParam String shopCarId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		comProductService.changeStatus(flag, productId);	
+		comShopCarService.changeStatus(flag, shopCarId);	
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
@@ -264,10 +232,10 @@ public class BgProductController extends BaseController {
 	 */
 	@RequestMapping(value="/changeEffective")
 	@ResponseBody
-	public Object changeEffective(@RequestParam String flag, @RequestParam String productId) throws Exception{
+	public Object changeEffective(@RequestParam String flag, @RequestParam String shopCarId) throws Exception{
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		comProductService.changeEffective(flag, productId);	
+		comShopCarService.changeEffective(flag, shopCarId);	
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
@@ -284,49 +252,33 @@ public class BgProductController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("产品 主键id");		//0
-		titles.add("供应商Id");	//1
-		titles.add("产品代号");	//2
-		titles.add("产品名称");	//3
-		titles.add("产品类型");	//4
-		titles.add("产品状态");	//5
-		titles.add("产品模型");	//6
-		titles.add("摘要");	//7
-		titles.add("简介");	//8
-		titles.add("产品头像");	//9
-		titles.add("长框图");	//10
-		titles.add("滚播图");	//11
-		titles.add("详情图");	//12
-		titles.add("排序编号");	//13
-		titles.add("有效标志");	//14
-		titles.add("创建人员id");	//15
-		titles.add("创建时间");	//16
-		titles.add("修改人员id");	//17
-		titles.add("修改时间");	//18
+		titles.add("购物车 主键id");		//0
+		titles.add("用户");	//1
+		titles.add("商品规格");	//2
+		titles.add("数量");	//3
+		titles.add("购物车状态");	//4
+		titles.add("排序编号");	//5
+		titles.add("有效标志");	//6
+		titles.add("创建人员id");	//7
+		titles.add("创建时间");	//8
+		titles.add("修改人员id");	//9
+		titles.add("修改时间");	//10
 		dataMap.put("titles", titles);
-		List<ComProduct> varOList = comProductService.listAll();
+		List<ComShopCar> varOList = comShopCarService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
-			vpd.put("var0",varOList.get(i).getProductId());			//0
-			vpd.put("var1", varOList.get(i).getSupplierId());	//1
-			vpd.put("var2", varOList.get(i).getProductCode());	//2
-			vpd.put("var3", varOList.get(i).getProductName());	//3
-			vpd.put("var4", varOList.get(i).getProductType());	//4
-			vpd.put("var5", varOList.get(i).getProductStatus());	//5
-			vpd.put("var6", varOList.get(i).getProductModel());	//6
-			vpd.put("var7", varOList.get(i).getSummary());	//7
-			vpd.put("var8", varOList.get(i).getIntroduction());	//8
-			vpd.put("var9", varOList.get(i).getHeadImgSrc());	//9
-			vpd.put("var10", varOList.get(i).getImgSrc1());	//10
-			vpd.put("var11", varOList.get(i).getImgSrc2());	//11
-			vpd.put("var12", varOList.get(i).getImgSrc3());	//12
-			vpd.put("var13", varOList.get(i).getOrderNum());		//13
-			vpd.put("var14", varOList.get(i).getEffective());	//14
-			vpd.put("var15", varOList.get(i).getCreateUserId());	//15
-			vpd.put("var16", varOList.get(i).getCreateTime());	//16
-			vpd.put("var17", varOList.get(i).getModifyUserId());//17
-			vpd.put("var18", varOList.get(i).getModifyTime());	//18
+			vpd.put("var0",varOList.get(i).getShopCarId());			//0
+			vpd.put("var1", varOList.get(i).getAppUserId());	//1
+			vpd.put("var2", varOList.get(i).getProductStyleId());	//2
+			vpd.put("var3", varOList.get(i).getCount());	//3
+			vpd.put("var4", varOList.get(i).getShopCarStatus());	//4
+			vpd.put("var5", varOList.get(i).getOrderNum());		//5
+			vpd.put("var6", varOList.get(i).getEffective());	//6
+			vpd.put("var7", varOList.get(i).getCreateUserId());	//7
+			vpd.put("var8", varOList.get(i).getCreateTime());	//8
+			vpd.put("var9", varOList.get(i).getModifyUserId());//9
+			vpd.put("var10", varOList.get(i).getModifyTime());	//10
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -349,7 +301,7 @@ public class BgProductController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-		mv.addObject("controllerPath", "background_product");
+		mv.addObject("controllerPath", "background_shopCar");
 		mv.setViewName("background/bgUploadExcel");
 
 		mv.addObject(resultInfo);					
@@ -368,17 +320,10 @@ public class BgProductController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("供应商Id");	//0
-		titles.add("产品代号");	//1
-		titles.add("产品名称");	//2
-		titles.add("产品类型");	//3
-		titles.add("产品模型");	//4
-		titles.add("摘要");	//5
-		titles.add("简介");	//6
-		titles.add("产品头像");	//7
-		titles.add("长框图");	//8
-		titles.add("滚播图");	//9
-		titles.add("详情图");	//10
+		titles.add("用户");	//0
+		titles.add("商品规格");	//1
+		titles.add("数量");	//2
+		titles.add("购物车状态");	//3
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -408,39 +353,25 @@ public class BgProductController extends BaseController {
 			return mv;
 		}
 		String filePath = PathUtil.getProjectPath() + Const.FILEPATHFILE;								//文件上传路径
-		String fileName =  MapleFileUtil.fileUp(file, filePath, "productexcel");		//执行上传
+		String fileName =  MapleFileUtil.fileUp(file, filePath, "shopCarexcel");		//执行上传
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
 		
-		ComProduct comProduct = new ComProduct();
+		ComShopCar comShopCar = new ComShopCar();
 				
 		/**
-		 * var0 :供应商Id;	//0
-		 * var1 :产品代号;	//1
-		 * var2 :产品名称;	//2
-		 * var3 :产品类型;	//3
-		 * var4 :产品模型;	//4
-		 * var5 :摘要;	//5
-		 * var6 :简介;	//6
-		 * var7 :产品头像;	//7
-		 * var8 :长框图;	//8
-		 * var9 :滚播图;	//9
-		 * var10 :详情图;	//10
+		 * var0 :用户;	//0
+		 * var1 :商品规格;	//1
+		 * var2 :数量;	//2
+		 * var3 :购物车状态;	//3
 		 */
 		for(int i=0;i<listPd.size();i++){	
-			comProduct.setProductId(this.get32UUID());
-			comProduct.setSupplierId(listPd.get(i).getString("var0"));
-			comProduct.setProductCode(listPd.get(i).getString("var1"));
-			comProduct.setProductName(listPd.get(i).getString("var2"));
-			comProduct.setProductType(listPd.get(i).getString("var3"));
-			comProduct.setProductModel(listPd.get(i).getString("var4"));
-			comProduct.setSummary(listPd.get(i).getString("var5"));
-			comProduct.setIntroduction(listPd.get(i).getString("var6"));
-			comProduct.setHeadImgSrc(listPd.get(i).getString("var7"));
-			comProduct.setImgSrc1(listPd.get(i).getString("var8"));
-			comProduct.setImgSrc2(listPd.get(i).getString("var9"));
-			comProduct.setImgSrc3(listPd.get(i).getString("var10"));
-			comProductService.add(comProduct);
+			comShopCar.setShopCarId(this.get32UUID());
+			comShopCar.setAppUserId(listPd.get(i).getString("var0"));
+			comShopCar.setProductStyleId(listPd.get(i).getString("var1"));
+			comShopCar.setCount(listPd.get(i).getString("var2"));
+			comShopCar.setShopCarStatus(listPd.get(i).getString("var3"));
+			comShopCarService.add(comShopCar);
 		}
 		/*存入数据库操作======================================*/
 		resultInfo.setResultCode("success");

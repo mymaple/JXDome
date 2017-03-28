@@ -10,11 +10,20 @@ import org.springframework.stereotype.Service;
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
+import com.jx.common.config.exception.UncheckedException;
 import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
+import com.jx.common.util.MapleDateUtil.SDF;
+import com.jx.common.entity.ComIntegralNote;
 import com.jx.common.entity.ComOrder;
+import com.jx.common.entity.ComOrderDetail;
+import com.jx.common.service.ComAppUserExtService;
+import com.jx.common.service.ComIntegralNoteService;
+import com.jx.common.service.ComOrderDetailService;
 import com.jx.common.service.ComOrderService;
+import com.jx.common.service.ComShopCarService;
 
 @Service("comOrderService")
 public class ComOrderServiceImpl implements ComOrderService{
@@ -22,8 +31,136 @@ public class ComOrderServiceImpl implements ComOrderService{
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
 	
+	@Resource(name = "comOrderDetailService")
+	private ComOrderDetailService comOrderDetailService;
+	@Resource(name = "comShopCarService")
+	private ComShopCarService comShopCarService;
+	@Resource(name = "comAppUserExtService")
+	private ComAppUserExtService comAppUserExtService;
+	@Resource(name = "comIntegralNoteService")
+	private ComIntegralNoteService comIntegralNoteService;
+	
+	
 	
 	/****************************custom * start***********************************/
+	
+	/**
+	 * 新增 
+	 * @param ComOrder comOrder
+	 * @throws Exception
+	 */
+	public void toConfirmOrder1(ComOrder comOrder) throws Exception {
+		comOrder.setOrderNum(""+new Date().getTime());
+		this.add(comOrder);
+		String orderId = comOrder.getOrderId();
+		List<ComOrderDetail> comOrderDetailList = comOrder.getComOrderDetailList();
+		for (int i = 0; i < comOrderDetailList.size(); i++) {
+			ComOrderDetail comOrderDetail = comOrderDetailList.get(i);
+			comOrderDetail.setOrderId(orderId);
+			comOrderDetail.setOrderNum(""+new Date().getTime());
+			comOrderDetailService.add(comOrderDetail);
+		}
+	}
+	
+	/**
+	 * 新增 
+	 * @param ComOrder comOrder
+	 * @throws Exception
+	 */
+	public void toConfirmOrder2(List<ComOrder> comOrderList,String[] shopCarIdArr) throws Exception {
+		
+		for (int i = 0; i < comOrderList.size(); i++) {
+			ComOrder comOrder = comOrderList.get(i);
+			this.toConfirmOrder1(comOrder);
+		}
+		
+		for (int i = 0; i < shopCarIdArr.length; i++) {
+			String shopCarId = shopCarIdArr[i];
+			comShopCarService.changeStatus("02", shopCarId);
+		}
+	}
+	
+	/**
+	 * 新增 
+	 * @param ComOrder comOrder
+	 * @throws Exception
+	 */
+	public void changeReceiveAddressIdByU(String orderId, String userId, String receiveAddressId) throws Exception {
+		ComOrder comOrder = new ComOrder();
+		
+		comOrder.setOrderId(orderId);
+		comOrder.setAppUserId(userId);
+		comOrder.setReceiveAddressId(receiveAddressId);
+		
+		Date nowTime = new Date();
+		comOrder.setModifyUserId(ShiroSessionUtil.getUserId());
+		comOrder.setModifyTime(nowTime);
+		dao.update("ComOrderMapper.changeReceiveAddressIdByU", comOrder);
+	}
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComOrder> listByOrderIdsSED(String appUserId, String[] orderIdArr) throws Exception {
+		PageData pd = new PageData();
+		pd.put("appUserId", appUserId);
+		pd.put("orderIdArr", orderIdArr);
+		
+		return (List<ComOrder>) dao.findForList("ComOrderMapper.listByOrderIdsSED", pd);
+	}
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComOrder> listByUserE(String userId) throws Exception {
+		return (List<ComOrder>) dao.findForList("ComOrderMapper.listByUserE", userId);
+	}
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String orderId
+	 * @return ComOrder
+	 * @throws Exception
+	 */
+	public ComOrder findByUserED(String orderId, String appUserId) throws Exception {
+		ComOrder comOrder = new ComOrder();
+		comOrder.setOrderId(orderId);
+		comOrder.setAppUserId(appUserId);
+		
+		return (ComOrder) dao.findForObject("ComOrderMapper.findByUserED", comOrder);
+	}
+	
+	/**
+	 * 支付
+	 * @param appUserId
+	 * @param orderIdArr
+	 * @throws Exception
+	 */
+	public void toPayByUserE(String appUserId, String[] orderIdArr) throws Exception {
+		List<ComOrder> comOrderList = this.listByOrderIdsSED(appUserId, orderIdArr);
+		if(comOrderList==null || comOrderList.size()==0){
+			throw new UncheckedException("40001", null, "订单异常");
+		}
+		for (int i = 0; i < orderIdArr.length; i++) {
+			ComOrder comOrder = comOrderList.get(i);
+			//自己
+			this.changeStatus("", orderIdArr[i]);
+			
+			ComIntegralNote comIntegralNote = new ComIntegralNote();
+			comIntegralNote.setIntegralNoteCode(comOrder.getOrderCode());
+			comIntegralNote.setIntegralNoteType("00");
+			comIntegralNote.setIntegralNoteName("支付订单“"+comOrder.getOrderCode()+"”");
+			comIntegralNote.setAppUserId(appUserId);
+			comIntegralNote.setIntegralDealCount(""+comOrder.getAllActPrice());
+			comIntegralNoteService.add(comIntegralNote);
+		}
+	}
 	
 	/****************************custom * end  ***********************************/
 	
@@ -37,10 +174,8 @@ public class ComOrderServiceImpl implements ComOrderService{
 	public void add(ComOrder comOrder) throws Exception {
 		
 		Date nowTime = new Date();
-		comOrder.setOrderId(UuidUtil.get32UUID());
-		comOrder.setSupplierName("");
-		comOrder.setPayTime(nowTime);
-		comOrder.setSendTime(nowTime);
+		String orderId = UuidUtil.get32UUID();
+		comOrder.setOrderId(orderId);
 		comOrder.setEffective("01");
 		comOrder.setCreateUserId(ShiroSessionUtil.getUserId());
 		comOrder.setCreateTime(nowTime);
@@ -48,6 +183,24 @@ public class ComOrderServiceImpl implements ComOrderService{
 		comOrder.setModifyTime(nowTime);
 		
 		dao.add("ComOrderMapper.add", comOrder);
+		
+		this.updateCode(orderId, comOrder.getOrderType());
+	}
+	
+	/**
+	 * 生成code 
+	 * @param String productId
+	 * @throws Exception
+	 */
+	public void updateCode(String orderId, String orderType) throws Exception {
+		//生成固定id
+		PageData pd = new PageData();
+		
+		pd.put("orderId", orderId);
+		String startN = orderType.substring(1) + MapleDateUtil.formatDate(SDF.TIME1, new Date()).substring(2);
+		pd.put("startN", startN);
+		pd.put("endN", "1"+RandomUtil.getRandomRange(11, 50));
+		dao.update("ComOrderMapper.updateCode", pd);
 	}
 	
 	/**

@@ -33,8 +33,8 @@
 	});
 	
 	$(function(){
-		$("input[name='defaultStatus']").change(function(){  
-	        var receiveAddressId = $("input[name='defaultStatus']:checked").val();
+		$("input[name='receiveAddressStatus']").change(function(){  
+	        var receiveAddressId = $("input[name='receiveAddressStatus']:checked").val();
 	        if(receiveAddressId==""||receiveAddressId==null){
 	        	layer.open({
 			    	content: '参数缺失'
@@ -61,7 +61,7 @@
 	
 	
 	function toAdd(){
-		window.location.href = "<%=basePath%>weixin/receiveAddress/toAdd.do";
+		window.location.href = "<%=basePath%>weixin/receiveAddress/toAdd.do?choose="+$('#choose').val();
 	}
 	
 	function toEdit(receiveAddressId){
@@ -73,7 +73,7 @@
 		 	});
         	window.location.reload(); 
         }
-		window.location.href = "<%=basePath%>weixin/receiveAddress/toEdit.do?receiveAddressId="+receiveAddressId;
+		window.location.href = "<%=basePath%>weixin/receiveAddress/toEdit.do?receiveAddressId="+receiveAddressId+"&choose="+$('#choose').val();
 	}
 	
 	function toDelete(receiveAddressId){
@@ -100,6 +100,10 @@
    		});
 	}
 	
+	function toChoose(receiveAddressId){
+		window.location.href = "<%=basePath%>weixin/order/toConfirmOrder3.do?receiveAddressId="+receiveAddressId;
+	}
+	
 </script>
 </head>
 <!--loading页开始-->
@@ -121,13 +125,18 @@
      	</a>
      	
 	    <div id="main" class="mui-clearfix contaniner">
-	    
+	    <input type="hidden" id="choose" name="choose" value="${choose }">
 	    <c:choose>
 			<c:when test="${not empty comReceiveAddressList}">
 				<c:forEach items="${comReceiveAddressList}" var="comReceiveAddress" varStatus="vs">
 			
 			<div class="addlist clearfloat">
+				<c:if test="${choose=='choose' }">
+	    		<div class="top clearfloat box-s" onclick="toChoose('${comReceiveAddress.receiveAddressId}');">
+	    		</c:if>
+	    		<c:if test="${choose!='choose' }">
 	    		<div class="top clearfloat box-s">
+	    		</c:if>
 	    			<ul>
 	    				<li>
 	    					<span class="fl">${comReceiveAddress.receicerName }</span>
@@ -143,11 +152,11 @@
 	    			<section class="shopcar clearfloat">
 						<div class="radio fl"> 
 						    <label>
-						    	<c:if test="${comReceiveAddress.defaultStatus == '01' }">
-						        <input type="radio" name="defaultStatus" value="${comReceiveAddress.receiveAddressId}" checked="checked">
+						    	<c:if test="${comReceiveAddress.receiveAddressStatus == '01' }">
+						        <input type="radio" name="receiveAddressStatus" value="${comReceiveAddress.receiveAddressId}" checked="checked">
 						        </c:if>
-						    	<c:if test="${comReceiveAddress.defaultStatus != '01' }">
-						        <input type="radio" name="defaultStatus" value="${comReceiveAddress.receiveAddressId}" >
+						    	<c:if test="${comReceiveAddress.receiveAddressStatus != '01' }">
+						        <input type="radio" name="receiveAddressStatus" value="${comReceiveAddress.receiveAddressId}" >
 						        </c:if>
 						        
 						        <div class="option"></div>
@@ -176,10 +185,10 @@
 		</c:choose>
 	    	
 	    </div>
-	    
-     	
      	
      	 <div class="warp"></div>
+     	 
+     	 <c:if test="${choose !='choose' }">
 		<!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
@@ -210,7 +219,7 @@
 			</ul>
 		</footer>
 		<!--footer end-->
-     	
+     	</c:if>
 	</body>
 	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
 	<script src="weui/gemo/js/fastclick.js"></script>

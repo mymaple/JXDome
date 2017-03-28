@@ -80,7 +80,7 @@
 								<td>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>
 							</tr>
 							</c:if>
-					<#if>
+					</#if>
 				</#list>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
@@ -121,7 +121,9 @@
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<script type="text/javascript">
 		$(top.hangge());
-		
+			<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
+	
 		//判断${bgMaple.mapleCode}Code是否存在
 		function otherNotCode(){
 			var ${bgMaple.mapleCode}Code = $("#${bgMaple.mapleCode}Code").val();
@@ -146,7 +148,9 @@
 				}
 			});
 		}
-		
+		</#if>
+	</#list>
+	
 		//保存
 		function save(){
 			var codeExp = /^[a-z][a-zA-Z0-9_]*$/;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -42,9 +43,19 @@ public class WxReceiveAddressController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list() throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
 		String userId = WxSessionUtil.getUserId();
+		String orderId = pd.getString("orderId");
+		String choose = pd.getString("choose");
+		
 		List<ComReceiveAddress>	comReceiveAddressList = comReceiveAddressService.listByUserIdE(userId);	//列出comReceiveAddress列表
 		
+		if(StringUtils.isNotEmpty(orderId)){
+			WxSessionUtil.setOrderIdcra(orderId);
+			mv.addObject("choose", "choose");
+		}else{
+			mv.addObject("choose", choose);
+		}
 		mv.addObject("comReceiveAddressList", comReceiveAddressList);
 		mv.setViewName("weixin/receiveAddress/wxReceiveAddressList");
 		return mv;
@@ -56,6 +67,7 @@ public class WxReceiveAddressController extends BaseController {
 	@RequestMapping(value="/toAdd")
 	public ModelAndView toAdd() throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
 		mv.setViewName("weixin/wxResult");
 		
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
@@ -68,6 +80,8 @@ public class WxReceiveAddressController extends BaseController {
 		comReceiveAddress.setDetail("");
 		//非默认
 		comReceiveAddress.setReceiveAddressStatus("00");
+		
+		mv.addObject("choose", pd.getString("choose"));
 		mv.addObject(comReceiveAddress);
 		mv.addObject("methodPath", "add");
 		mv.setViewName("weixin/receiveAddress/wxReceiveAddressEdit");
@@ -80,6 +94,7 @@ public class WxReceiveAddressController extends BaseController {
 	@RequestMapping(value="/add")
 	public ModelAndView add(@Validated(ValidationWxAdd.class) ComReceiveAddress comReceiveAddress, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("weixin/wxResult");
 		
@@ -92,6 +107,7 @@ public class WxReceiveAddressController extends BaseController {
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
+		mv.addObject("choose", pd.getString("choose"));
 		comReceiveAddress.setAppUserId(userId);
 		comReceiveAddress.setOrderNum(""+new Date().getTime());
 		comReceiveAddressService.add(comReceiveAddress);
@@ -108,6 +124,7 @@ public class WxReceiveAddressController extends BaseController {
 	@RequestMapping(value="/toEdit")
 	public ModelAndView toEdit(@RequestParam String receiveAddressId) throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("weixin/wxResult");
 		String userId = WxSessionUtil.getUserId();
@@ -119,6 +136,7 @@ public class WxReceiveAddressController extends BaseController {
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
+		mv.addObject("choose", pd.getString("choose"));
 		mv.addObject("methodPath", "edit");
 		mv.addObject(comReceiveAddress);
 		resultInfo.setResultCode("success");
@@ -134,6 +152,7 @@ public class WxReceiveAddressController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit(@Validated(ValidationWxEdit.class) ComReceiveAddress comReceiveAddress, BindingResult result) throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("weixin/wxResult");
 		
@@ -150,6 +169,7 @@ public class WxReceiveAddressController extends BaseController {
 		comReceiveAddressService.editByUserE(comReceiveAddress);
 		
 		resultInfo.setResultCode("success");
+		mv.addObject("choose", pd.getString("choose"));
 		mv.addObject(resultInfo);
 		mv.setViewName("redirect:list");
 		return mv;

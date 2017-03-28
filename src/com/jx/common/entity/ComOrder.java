@@ -1,7 +1,9 @@
 package com.jx.common.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
@@ -23,10 +25,22 @@ public class ComOrder extends BaseEntity implements Serializable {
 	
 	/**************************custom prop satrt********************************/
 	
+	List<ComOrderDetail> comOrderDetailList = new ArrayList<ComOrderDetail>();
+	
+	public List<ComOrderDetail> getComOrderDetailList() {
+		return this.comOrderDetailList;
+	}
+
+	public void setComOrderDetailList(List<ComOrderDetail> comOrderDetailList) {
+		this.comOrderDetailList = comOrderDetailList;
+	}
+	
 	/**************************custom prop end**********************************/
 	
 	/**************************table prop satrt*********************************/
+
 	
+
 	/** 订单 主键id */
 	@NotBlank(message="订单 主键id 不能为空", groups={ValidationEdit.class})
 	private String orderId;
@@ -46,6 +60,10 @@ public class ComOrder extends BaseEntity implements Serializable {
 	/** 订单状态 */
 	@NotBlank(message="订单状态 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String orderStatus;
+		
+	/** 平台用户 */
+	@NotBlank(message="平台用户 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String appUserId;
 		
 	/** 订单商品总数 */
 	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="订单商品总数 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
@@ -194,6 +212,24 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 */
 	public String getOrderStatus() {
 		return this.orderStatus;
+	}
+	
+	/**
+	 * 设置 平台用户
+	 * 
+	 * @param String appUserId
+	 */
+	public void setAppUserId(String appUserId) {
+		this.appUserId = StringUtils.trim(appUserId);
+	}
+	
+	/**
+	 * 获取 平台用户
+	 * 
+	 * @return String appUserId
+	 */
+	public String getAppUserId() {
+		return this.appUserId;
 	}
 	
 	/**

@@ -140,6 +140,11 @@ public class Const {
 	public static final String REG_COM_ZXS_STR = "^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*|0)(?:\\.\\d{1,2})?$";
 	
 	/**
+	 * 正则 0-1小数
+	 */
+	public static final String REG_COM_XS_STR = "^0(\\.\\d{1,2})?$|^1(\\.0|\\.00)?$";
+	
+	/**
 	 * 正则 以小写字母开头的字母数字
 	 */
 	public static final String REG_COM_CODE_STR = "^[a-z][a-zA-Z0-9_]*$";

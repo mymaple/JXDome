@@ -4,19 +4,20 @@ import java.util.List;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.PageData;
-import com.jx.common.entity.ComLbt;
+import com.jx.common.entity.ComShopCar;
 
-public interface ComLbtService {
+public interface ComShopCarService {
 
 	
 	/****************************custom * start***********************************/
 
 	/**
-	 * 获取(类)List数据
-	 * @return
+	 * 通过id获取(类)数据
+	 * @param String userId, String productStyleId
+	 * @return ComShopCar
 	 * @throws Exception
 	 */
-	public List<ComLbt> listE() throws Exception ;
+	public ComShopCar findByUserSE(String userId, String productStyleId) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	
@@ -24,38 +25,39 @@ public interface ComLbtService {
 	
 	/**
 	 * 新增 
-	 * @param ComLbt comLbt
+	 * @param ComShopCar comShopCar
 	 * @throws Exception
 	 */
-	public void add(ComLbt comLbt) throws Exception ;
+	public void add(ComShopCar comShopCar) throws Exception ;
 	
 	/**
 	 * 修改 
-	 * @param ComLbt comLbt
+	 * @param ComShopCar comShopCar
 	 * @throws Exception
 	 */
-	public void edit(ComLbt comLbt) throws Exception ;
+	public void edit(ComShopCar comShopCar) throws Exception ;
+	
 	
 	/**
-	 * 更改状态 flag 00
-	 * @param String flag, String lbtId
+	 * 更改状态  flag 02：生成订单 ，03：失效
+	 * @param String flag, String shopCarId
 	 * @throws Exception
 	 */
-	public void changeStatus(String flag, String lbtId) throws Exception ;
+	public void changeStatus(String flag, String shopCarId) throws Exception ;
 	
 	/**
 	 * 更改有效性 flag 00:使失效;01：使生效
-	 * @param String flag, String lbtId
+	 * @param String flag, String shopCarId
 	 * @throws Exception
 	 */
-	public void changeEffective(String flag, String lbtId) throws Exception ;
+	public void changeEffective(String flag, String shopCarId) throws Exception ;
 	
 	/**
 	 * 删除 
-	 * @param String lbtId
+	 * @param String shopCarId
 	 * @throws Exception
 	 */
-	public void deleteById(String lbtId) throws Exception ;
+	public void deleteById(String shopCarId) throws Exception ;
 	
 	/**
 	 * 批量删除 
@@ -66,25 +68,18 @@ public interface ComLbtService {
 	
 	/**
 	 * 通过id获取(类)数据
-	 * @param String lbtId
-	 * @return ComLbt
+	 * @param String shopCarId
+	 * @return ComShopCar
 	 * @throws Exception
 	 */
-	public ComLbt findById(String lbtId) throws Exception ;
+	public ComShopCar findById(String shopCarId) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComLbt> listAll() throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComLbt> otherHaveCode(String lbtId, String lbtCode) throws Exception ;
+	public List<ComShopCar> listAll() throws Exception ;
 	
 	/**
 	 * 获取分页(PageData)List数据
@@ -93,6 +88,7 @@ public interface ComLbtService {
 	 * @throws Exception
 	 */
 	public List<PageData> listPage(BgPage bgPage) throws Exception ;
+
 	
 	/****************************common * end***********************************/
 }

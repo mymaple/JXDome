@@ -29,6 +29,30 @@
 		$(".loading").addClass("loader-chanage");
 		$(".loading").fadeOut(300);
 	});
+	
+	function toAddInShopCar(productStyleId){
+		$.ajax({
+			type: "POST",
+			url: '<%=basePath%>weixin/shopCar/add.do?tm='+new Date().getTime(),
+	    	data: {"productStyleId":productStyleId,"count":1},
+			dataType:'json',
+			//beforeSend: validateData,
+			cache: false,
+			success: function(data){
+					layer.open({
+				    	content: data.resultContent
+				    	,skin: 'msg'
+				    	,time: 2 //2秒后自动关闭
+				 	});
+			}
+		});
+	}
+	
+	function toProductDetail(productId){
+		window.location.href = "<%=basePath%>weixin/product/toProductDetail.do?productId="+productId;
+	}
+	
+	
 </script>
 </head>
 <!--loading页开始-->
@@ -94,88 +118,59 @@
 		        </div>
 		        <!--banner结束-->
 		        
+				<c:choose>
+            	<c:when test="${not empty comProductList}">
 		        <div class="boutit clearfloat">
 		        		<span></span>
 		        		<samp>兑换专区（HOT）</samp>
 		        	</div>
 		        <!--like star-->
 		        <div class="like clearfloat box-s">
-		        	
 		        	<div class="content clearfloat">
+            	<c:forEach items="${comProductList}" var="comProduct" varStatus="vs">
 		        		<div class="list clearfloat fl">
-		        			<a href="detail.html">
-			        			<div class="tu clearfloat">
-			        				<img src="upload/9.jpg"/>
+			        			<div class="tu clearfloat" onclick="toProductDetail('${comProduct.productId }');">
+			        				<img src="${comProduct.headImgSrc }"/>
 			        			</div>
 			        			<div class="bottom clearfloat box-s">
-			        				<p class="over2">Apple/苹果 iPad mini 4 迷你4 4G插卡版 64G 128G 苹果平板电脑</p>
-			        				<p class="integral">兑换积分：<span>10000</span><i class="iconfont icon-gouwuche fr gwc"></i></p>
+			        				<p class="over2">${comProduct.productName }</p>
+			        				<p class="integral">兑换积分：<span>${comProduct.comProductStyle.currentPrice }</span>
+			        				<i class="iconfont icon-gouwuche fr gwc" onclick="toAddInShopCar('${comProduct.comProductStyle.productStyleId }');"></i></p>
 			        			</div>
-		        			</a>
 		        		</div>
-		        		<div class="list clearfloat fl">
-		        			<a href="detail.html">
-			        			<div class="tu clearfloat">
-			        				<img src="upload/9.jpg"/>
-			        			</div>
-			        			<div class="bottom clearfloat box-s">
-			        				<p class="over2">Apple/苹果 iPad mini 4 迷你4 4G插卡版 64G 128G 苹果平板电脑</p>
-			        				<p class="integral">兑换积分：<span>10000</span><i class="iconfont icon-gouwuche fr gwc"></i></p>
-			        			</div>
-		        			</a>
-		        		</div>
-		        		<div class="list clearfloat fl">
-		        			<a href="detail.html">
-			        			<div class="tu clearfloat">
-			        				<img src="upload/9.jpg"/>
-			        			</div>
-			        			<div class="bottom clearfloat box-s">
-			        				<p class="over2">Apple/苹果 iPad mini 4 迷你4 4G插卡版 64G 128G 苹果平板电脑</p>
-			        				<p class="integral">兑换积分：<span>10000</span><i class="iconfont icon-gouwuche fr gwc"></i></p>
-			        			</div>
-		        			</a>
-		        		</div>
-		        		<div class="list clearfloat fl">
-		        			<a href="detail.html">
-			        			<div class="tu clearfloat">
-			        				<img src="upload/9.jpg"/>
-			        			</div>
-			        			<div class="bottom clearfloat box-s">
-			        				<p class="over2">Apple/苹果 iPad mini 4 迷你4 4G插卡版 64G 128G 苹果平板电脑</p>
-			        				<p class="integral">兑换积分：<span>10000</span><i class="iconfont icon-gouwuche fr gwc"></i></p>
-			        			</div>
-		        			</a>
-		        		</div>
+		        </c:forEach>
 		        	</div>
 	          </div>
 		        <!--like end-->
+		        </c:when>
+		        </c:choose>		
 	        </div>
 	        </div>
 		<!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
 				<li class="active">
-					<a href="index.html">
+					<a href="<%=basePath%>weixin/index/toIndex.do">
 						<i class="iconfont icon-shouye"></i>
 						<p>首页</p>
 					</a>
 				</li>
 				<li>
-					<a href="cation.html">
+					<a href="<%=basePath%>weixin/product/toCategory.do">
 						<i class="iconfont icon-icon04"></i>
 						<p>分类</p>
 					</a>
 				</li>
 				<li>
-					<a href="shopcar.html">
+					<a href="<%=basePath%>weixin/shopCar/list.do">
 						<i class="iconfont icon-gouwuche"></i>
 						<p>购物车</p>
 					</a>
 				</li>
 				<li>
-					<a href="login.html">
+					<a href="<%=basePath%>weixin/mine/toMyCenter.do">
 						<i class="iconfont icon-yonghuming"></i>
-						<p>我的</p>
+						<p>个人中心</p>
 					</a>
 				</li>
 			</ul>

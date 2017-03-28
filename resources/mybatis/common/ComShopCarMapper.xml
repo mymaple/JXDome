@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComShopCarMapper">
+
+	<sql id="shopCarColumns">shopCarId,appUserId,productStyleId,count,shopCarStatus,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="shopCarTable">com_shop_car_info</sql>
+	
+	<resultMap type="comShopCar" id="comShopCarResultMap">
+		<id column="shopCarId" property="shopCarId"/>
+		<result column="appUserId" property="appUserId"/>
+		<result column="productStyleId" property="productStyleId"/>
+		<result column="count" property="count"/>
+		<result column="shopCarStatus" property="shopCarStatus"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByUserSE" parameterType="comShopCar" resultType="comShopCar">
+		select 
+	<include refid="shopCarColumns"/>
+		from 
+	<include refid="shopCarTable"/>
+		where appUserId = #{appUserId} 
+			and productStyleId = #{productStyleId} 
+			and shopCarStatus = '01'
+			and effective = '01'
+	</select>
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comShopCar">
+		insert into 
+	<include refid="shopCarTable"/>
+		( 
+	<include refid="shopCarColumns"/>
+		) values (
+			#{shopCarId},#{appUserId},#{productStyleId},#{count},#{shopCarStatus},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comShopCar">
+		update
+	<include refid="shopCarTable"/>
+		set 
+			appUserId = #{appUserId},
+			productStyleId = #{productStyleId},
+			count = #{count},
+			shopCarStatus = #{shopCarStatus},
+			orderNum = #{orderNum},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			shopCarId = #{shopCarId} 
+	</update>
+	
+	<!-- 更改状态-->
+	<update id="changeStatus" parameterType="comShopCar">
+		update
+	<include refid="shopCarTable"/>
+		set 
+			shopCarStatus = #{shopCarStatus} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			shopCarId = #{shopCarId} 
+			and effective = #{oldValue}
+	</update>
+	
+	<!-- 更改有效性 -->
+	<update id="changeEffective" parameterType="comShopCar">
+		update
+	<include refid="shopCarTable"/>
+		set 
+			effective = #{effective} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			shopCarId = #{shopCarId} 
+			and effective = #{oldValue}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="String">
+		delete from 
+	<include refid="shopCarTable"/>
+		where shopCarId = #{shopCarId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="shopCarTable"/>
+		where 
+			CONCAT(shopCarId) in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="String" resultType="comShopCar">
+		select 
+	<include refid="shopCarColumns"/>
+		from 
+	<include refid="shopCarTable"/>
+		where shopCarId = #{shopCarId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAll" resultType="comShopCar">
+		select 
+	<include refid="shopCarColumns"/>
+		from 
+	<include refid="shopCarTable"/>
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="shopCarColumns"/>
+		from 
+	<include refid="shopCarTable"/>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				shopCarCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				shopCarName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

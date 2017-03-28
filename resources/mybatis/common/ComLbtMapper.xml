@@ -24,6 +24,15 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<!-- 获取(类)List数据  -->
+	<select id="listE" resultType="comLbt">
+		select 
+	<include refid="lbtColumns"/>
+		from 
+	<include refid="lbtTable"/>
+		where effective = '01'
+		order by (orderNum+0) DESC
+	</select>
 	
 	<!-- ****************************custom * end  *********************************** -->
 	

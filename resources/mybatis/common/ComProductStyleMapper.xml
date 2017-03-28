@@ -28,8 +28,30 @@
 		<result column="modifyTime" property="modifyTime"/>
 	</resultMap>
 	
-	
 	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByProductIdSE" parameterType="String" resultType="comProductStyle">
+		select 
+	<include refid="productStyleColumns"/>
+		from 
+	<include refid="productStyleTable"/>
+		where productId = #{productId} 
+			and productStyleStatus = '01' 
+			and effective = '01'
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByIdSE" parameterType="String" resultType="comProductStyle">
+		select 
+	<include refid="productStyleColumns"/>
+		from 
+	<include refid="productStyleTable"/>
+		where productStyleId = #{productStyleId} 
+			and productStyleStatus = '01' 
+			and effective = '01'
+	</select>
 	
 	<update id="updateCode" parameterType="pd">
 		UPDATE 
@@ -81,7 +103,7 @@
 			productStyleName = #{productStyleName},
 			productStyleType = #{productStyleType},
 			productStyleStatus = #{productStyleStatus},
-			allStockNum = #{allStockNum},
+			allStockNum = allStockNum + #{stockNum} - stockNum,
 			stockNum = #{stockNum},
 			originalPrice = #{originalPrice},
 			curType = #{curType},
@@ -133,7 +155,7 @@
 		delete from 
  <include refid="productStyleTable"/>
 		where 
-			CONCAT(productStyleId) in 
+			productStyleId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
@@ -175,6 +197,9 @@
 		from 
 	<include refid="productStyleTable"/>
 		where 1=1
+			<if test="pd.productId!=null">
+			 and productId = #{pd.productId}
+			</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

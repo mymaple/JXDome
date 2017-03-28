@@ -31,6 +31,17 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByIdSE" parameterType="String" resultType="comProduct">
+		select 
+	<include refid="productColumns"/>
+		from 
+	<include refid="productTable"/>
+		where productId = #{productId} 
+		AND effective = '01'
+		AND productStatus = '01'
+	</select>
+	
 	<update id="updateCode" parameterType="pd">
 		UPDATE 
 	<include refid="productTable"/>

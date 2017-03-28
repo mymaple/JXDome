@@ -236,11 +236,17 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		}
 		
 		</#if>	
+		
+		<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
 		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.otherHaveCode("", ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());
 		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
+		
+		</#if>
+		</#list>
 			
 		${bgMaple.mapleEntityLower}Service.add(${bgMaple.mapleEntityLower});
 		resultInfo.setResultCode("success");
@@ -289,11 +295,15 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 			return mv; 
 		}
 		
+		<#list bgMapleDetailList as bgMapleDetail>
+		<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
 		List<${bgMaple.mapleEntityUpper}> ${bgMaple.mapleEntityLower}List = ${bgMaple.mapleEntityLower}Service.otherHaveCode(${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Id(), ${bgMaple.mapleEntityLower}.get${bgMaple.mapleCodeUpper}Code());	
 		if(MapleUtil.notEmptyList(${bgMaple.mapleEntityLower}List)){
 			mv.addObject(resultInfo);					
 			return mv;
 		}
+		</#if>
+		</#list>
 		
 		${bgMaple.mapleEntityLower}Service.edit(${bgMaple.mapleEntityLower});
 		resultInfo.setResultCode("success");
@@ -301,6 +311,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		mv.addObject(resultInfo);
 		return mv;
 	}
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
 	
 	/**
 	 * 判断是否存在dictCode
@@ -318,6 +330,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 
 		return AppUtil.returnResult(pd, resultInfo);
 	}
+	</#if>
+	</#list>
 	
 	/**
 	 * 删除
@@ -360,6 +374,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		
 		return AppUtil.returnResult(pd, resultInfo);
 	}
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Status">
 	
 	/**
 	 * 更改状态
@@ -374,6 +390,8 @@ public class ${bgMaple.mapleControllerUpper}Controller extends BaseController {
 		
 		return AppUtil.returnResult(pd, resultInfo);
 	}
+	</#if>
+	</#list>
 	
 	/**
 	 * 更改有效性

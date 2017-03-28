@@ -79,12 +79,17 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	 */
 	public void edit(${bgMaple.mapleEntityUpper} ${bgMaple.mapleEntityLower}) throws Exception ;
 	
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Status">
+	
 	/**
 	 * 更改状态 flag 00
 	 * @param String flag, String ${bgMaple.mapleCode}Id
 	 * @throws Exception
 	 */
 	public void changeStatus(String flag, String ${bgMaple.mapleCode}Id) throws Exception ;
+	</#if>
+	</#list>
 	
 	/**
 	 * 更改有效性 flag 00:使失效;01：使生效
@@ -122,12 +127,16 @@ public interface ${bgMaple.mapleEntityUpper}Service {
 	 */
 	public List<${bgMaple.mapleEntityUpper}> listAll() throws Exception ;
 	
+	<#list bgMapleDetailList as bgMapleDetail>
+	<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code">
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
 	public List<${bgMaple.mapleEntityUpper}> otherHaveCode(String ${bgMaple.mapleCode}Id, String ${bgMaple.mapleCode}Code) throws Exception ;
+	</#if>
+	</#list>
 	
 	/**
 	 * 获取分页(PageData)List数据

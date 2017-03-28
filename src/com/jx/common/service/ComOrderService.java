@@ -11,6 +11,57 @@ public interface ComOrderService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 新增 
+	 * @param ComOrder comOrder
+	 * @throws Exception
+	 */
+	public void toConfirmOrder1(ComOrder comOrder) throws Exception ;
+	
+	/**
+	 * 新增 
+	 * @param ComOrder comOrder
+	 * @throws Exception
+	 */
+	public void toConfirmOrder2(List<ComOrder> comOrderList,String[] shopCarIdArr) throws Exception ;
+	
+	
+	/**
+	 * 用户修改地址
+	 * @param ComOrder comOrder
+	 * @throws Exception
+	 */
+	public void changeReceiveAddressIdByU(String orderId, String userId, String receiveAddressId) throws Exception ;
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComOrder> listByOrderIdsSED(String appUserId, String[] orderIdArr) throws Exception ;
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComOrder> listByUserE(String userId) throws Exception ;
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String orderId
+	 * @return ComOrder
+	 * @throws Exception
+	 */
+	public ComOrder findByUserED(String orderId, String appUserId) throws Exception ;
+	
+	/**
+	 * 支付
+	 * @param appUserId
+	 * @param orderIdArr
+	 * @throws Exception
+	 */
+	public void toPayByUserE(String appUserId, String[] orderIdArr) throws Exception ;
 		
 	/****************************custom * end  ***********************************/
 	

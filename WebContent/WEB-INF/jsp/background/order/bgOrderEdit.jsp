@@ -49,6 +49,10 @@
 								<td><input type="text" name="orderStatus" id="orderStatus" value="${comOrder.orderStatus}" maxlength="100" placeholder="这里输入 订单状态" title="订单状态" style="width:98%;" /></td>
 							</tr>
 							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户:</td>
+								<td><param:select type="com_appUserEffective" name="appUserId" id="appUserId" value="${comOrder.appUserId}" placeholder="这里请选择 平台用户" title="平台用户" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">订单商品总数:</td>
 								<td><input type="number" name="orderProductCount" id="orderProductCount" value="${comOrder.orderProductCount}" maxlength="100" placeholder="这里输入 订单商品总数" title="订单商品总数" style="width:98%;"/></td>
 							</tr>
@@ -198,6 +202,15 @@
 		            time:2
 		        });
 				$("#orderStatus").focus();
+			return false;
+			}
+			if($("#appUserId").val()==""){
+				$("#appUserId").next().tips({
+					side:3,
+		            msg:'请选择 平台用户',
+		            bg:'#AE81FF',
+		            time:2
+		        });
 			return false;
 			}
 			if(!intExp.test($("#orderProductCount").val())){

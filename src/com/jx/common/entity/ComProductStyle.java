@@ -49,7 +49,6 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	private String productStyleStatus;
 		
 	/** 库存总量 */
-	@Pattern(regexp = Const.REG_COM_FFZS_STR, message="库存总量 需是数字", groups={ValidationAdd.class, ValidationEdit.class}) 
 	private String allStockNum;
 		
 	/** 库存数量 */
@@ -65,15 +64,13 @@ public class ComProductStyle extends BaseEntity implements Serializable {
 	private String curType;
 		
 	/** 折扣率 */
-	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="折扣率 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
+	@Pattern(regexp = Const.REG_COM_XS_STR, message="折扣率 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 	private String discountRate;
 		
 	/** 折扣优惠 */
-	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="折扣优惠 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 	private String discountPrice;
 		
 	/** 现价 */
-	@Pattern(regexp = Const.REG_COM_FFXS_STR, message="现价 最多为两位小数", groups={ValidationAdd.class, ValidationEdit.class})
 	private String currentPrice;
 		
 	

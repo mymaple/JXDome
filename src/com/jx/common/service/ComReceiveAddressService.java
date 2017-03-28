@@ -19,6 +19,14 @@ public interface ComReceiveAddressService {
 	
 	/**
 	 * 通过id获取(类)数据
+	 * @param String appUserId
+	 * @return ComReceiveAddress
+	 * @throws Exception
+	 */
+	public ComReceiveAddress findByUserIdSE(String appUserId) throws Exception ;
+	
+	/**
+	 * 通过id获取(类)数据
 	 * @param String appUserId, String receiveAddressId
 	 * @return ComReceiveAddress
 	 * @throws Exception

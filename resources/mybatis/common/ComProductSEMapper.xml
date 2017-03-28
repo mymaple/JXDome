@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComProductSEMapper">
+
+	<resultMap type="comProduct" id="comProductMapList">
+		<id column="productId" property="productId"/>
+		<result column="productName" property="productName"/>
+		<result column="headImgSrc" property="headImgSrc"/>
+		<result column="supplierId" property="supplierId"/>
+		<result column="summary" property="summary"/>
+		<association column="productStyleId" property="comProductStyle" javaType="ComProductStyle">
+			<id column="productStyleId" property="productStyleId"/>
+			<result column="productStyleName" property="productStyleName"/>
+			<result column="productId" property="productId"/>
+			<result column="stockNum" property="stockNum"/>
+			<result column="originalPrice" property="originalPrice"/>
+			<result column="currentPrice" property="currentPrice"/>
+		</association>
+	</resultMap>
+	
+	
+	<resultMap type="comShopCar" id="comShopCarMapList">
+		<id column="shopCarId" property="shopCarId"/>
+		<result column="productStyleId" property="productStyleId"/>
+		<result column="count" property="count"/>
+		<association column="productId" property="comProduct" javaType="ComProduct">
+			<id column="productId" property="productId"/>
+			<result column="productName" property="productName"/>
+			<result column="headImgSrc" property="headImgSrc"/>
+			<result column="supplierId" property="supplierId"/>
+			<result column="summary" property="summary"/>
+			<association column="productStyleId" property="comProductStyle" javaType="ComProductStyle">
+				<id column="productStyleId" property="productStyleId"/>
+				<result column="productId" property="productId"/>
+				<result column="productStyleName" property="productStyleName"/>
+				<result column="stockNum" property="stockNum"/>
+				<result column="originalPrice" property="originalPrice"/>
+				<result column="currentPrice" property="currentPrice"/>
+			</association>
+		</association>
+	</resultMap>
+
+	<select id="listProductByCategoryCodeSE" parameterType="String" resultMap="comProductMapList">
+		SELECT
+			p.productId,
+			p.productName,
+			p.headImgSrc,
+			p.supplierId,
+			p.summary,
+			ps.productStyleId,
+			ps.productStyleName,
+			ps.stockNum,
+			ps.originalPrice,
+			MIN(ps.currentPrice) as currentPrice
+		FROM
+			com_product_category_detail pcd
+		LEFT JOIN com_product_category_main pcm ON pcd.productCategoryId = pcm.productCategoryId
+		LEFT JOIN com_product_info p ON pcd.productId = p.productId
+		LEFT JOIN com_product_style_info ps ON p.productId = ps.productId
+		WHERE
+			pcm.productCategoryCode = #{categoryCode }
+		AND p.effective = '01'
+		AND p.productStatus = '01'
+		AND ps.effective = '01'
+		AND ps.productStyleStatus = '01'
+		GROUP BY
+			ps.productId
+		ORDER BY
+			pcd.orderNum DESC
+	</select>
+	
+	<select id="findProductByProductStyleIdSE" parameterType="String" resultMap="comProductMapList">
+		SELECT
+			p.productId,
+			p.productName,
+			p.headImgSrc,
+			p.supplierId,
+			p.summary,
+			ps.productStyleId,
+			ps.productStyleName,
+			ps.stockNum,
+			ps.originalPrice,
+			ps.currentPrice
+		FROM
+			com_product_info p
+		LEFT JOIN com_product_style_info ps ON p.productId = ps.productId
+		WHERE
+			ps.productStyleId = #{productStyleId }
+		AND p.effective = '01'
+		AND p.productStatus = '01'
+		AND ps.effective = '01'
+		AND ps.productStyleStatus = '01'
+		ORDER BY
+			pcd.orderNum DESC
+	</select>
+	
+	<select id="listShopCarByUserSE" parameterType="pd" resultMap="comShopCarMapList">
+		SELECT
+			sc.shopCarId,
+			sc.count,
+			p.productId,
+			p.productName,
+			p.headImgSrc,
+			p.supplierId,
+			p.summary,
+			ps.productStyleId,
+			ps.productStyleName,
+			ps.stockNum,
+			ps.originalPrice,
+			ps.currentPrice
+		FROM
+			com_shop_car_info sc
+		LEFT JOIN com_product_style_info ps ON sc.productStyleId = ps.productStyleId
+		LEFT JOIN com_product_info p ON p.productId = ps.productId
+		WHERE
+			sc.appUserId = #{appUserId }
+		AND sc.effective = '01'
+		AND sc.shopCarStatus = '01'
+		AND p.effective = '01'
+		AND p.productStatus = '01'
+		AND ps.effective = '01'
+		AND ps.productStyleStatus = '01'
+		<if test="shopCarIdArr != null">
+		AND sc.shopCarId in 
+        <foreach item="id" index="index" collection="shopCarIdArr" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+		</if>
+		ORDER BY
+			sc.orderNum DESC
+	</select>
+	
+</mapper>

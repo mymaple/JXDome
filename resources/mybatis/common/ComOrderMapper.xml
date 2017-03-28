@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComOrderMapper">
 
-	<sql id="orderColumns">orderId,orderCode,orderName,orderType,orderStatus,orderProductCount,allPrice,freight,allDisPrice,walletPay,allActPrice,supplierName,supplierId,receiveAddressId,payTime,sendTime,tradeNum,payMethod,wlgs,wlNum,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="orderColumns">orderId,orderCode,orderName,orderType,orderStatus,appUserId,orderProductCount,allPrice,freight,allDisPrice,walletPay,allActPrice,supplierName,supplierId,receiveAddressId,payTime,sendTime,tradeNum,payMethod,wlgs,wlNum,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="orderTable">com_order_main</sql>
 	
 	<resultMap type="comOrder" id="comOrderResultMap">
@@ -12,6 +12,7 @@
 		<result column="orderName" property="orderName"/>
 		<result column="orderType" property="orderType"/>
 		<result column="orderStatus" property="orderStatus"/>
+		<result column="appUserId" property="appUserId"/>
 		<result column="orderProductCount" property="orderProductCount"/>
 		<result column="allPrice" property="allPrice"/>
 		<result column="freight" property="freight"/>
@@ -33,12 +34,120 @@
 		<result column="createTime" property="createTime"/>
 		<result column="modifyUserId" property="modifyUserId"/>
 		<result column="modifyTime" property="modifyTime"/>
+		<collection property="comOrderDetailList" ofType="ComOrderDetail">
+			<id column="orderDetailId" property="orderDetailId"/>
+			<result column="productId" property="productId"/>
+			<result column="productName" property="productName"/>
+			<result column="summary" property="summary"/>
+			<result column="productStyleName" property="productStyleName"/>
+			<result column="headImgSrc" property="headImgSrc"/>
+			<result column="originalPrice" property="originalPrice"/>
+			<result column="currentPrice" property="currentPrice"/>
+			<result column="count" property="count"/>
+			<result column="orderNum" property="orderNum"/>
+			<result column="effective" property="effective"/>
+			<result column="createUserId" property="createUserId"/>
+			<result column="createTime" property="createTime"/>
+			<result column="modifyUserId" property="modifyUserId"/>
+			<result column="modifyTime" property="modifyTime"/>
+			<result column="orderId" property="orderId"/>
+		</collection>
 	</resultMap>
 	
-	
+	<resultMap type="comOrder" id="comOrderResultMap1">
+		<id column="orderId" property="orderId"/>
+		<collection property="comOrderDetailList" ofType="com.jx.common.entity.ComOrderDetail">
+			<id column="orderDetailId" property="orderDetailId"/>
+		</collection>
+	</resultMap>
 	<!-- ****************************custom * start*********************************** -->
 	
+	<!-- 获取(类)List数据  -->
+	<select id="listByOrderIdsSED" parameterType="pd" resultMap="comOrderResultMap" >
+		SELECT
+			*
+		FROM
+			com_order_main om
+		LEFT JOIN com_order_detail od ON om.orderId = od.orderId
+		WHERE
+			om.appUserId = #{appUserId} 
+		AND om.orderStatus = '01'
+		AND om.effective = '01'
+		AND od.effective = '01'
+		<if test="orderIdArr != null">
+		AND om.orderId in 
+        <foreach item="id" index="index" collection="orderIdArr" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+		</if>
+		order by (om.orderNum+0) DESC, (od.orderNum+0) DESC
+	</select>
 	
+	<!-- 获取(类)List数据  -->
+	<select id="findByUserED" parameterType="comOrder" resultMap="comOrderResultMap" >
+		SELECT
+			*
+		FROM
+			com_order_main om
+		LEFT JOIN com_order_detail od ON om.orderId = od.orderId
+		WHERE
+			om.appUserId = #{appUserId} 
+		AND om.orderStatus = '01'
+		AND om.effective = '01'
+		AND od.effective = '01'
+		AND om.orderId = #{orderId} 
+		order by (om.orderNum+0) DESC, (od.orderNum+0) DESC
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByUserE" parameterType="String" resultType="comOrder">
+		select 
+	<include refid="orderColumns"/>
+		from 
+	<include refid="orderTable"/>
+		where appUserId = #{appUserId} 
+		order by (orderNum+0) DESC
+	</select>
+	
+	<update id="updateCode" parameterType="pd">
+		UPDATE 
+	<include refid="orderTable"/>
+		SET orderCode = (
+			SELECT
+				A. CODE
+			FROM
+				(
+					SELECT
+		
+					IF (
+						MAX(orderCode) IS NULL,
+						CONCAT(#{startN}, #{endN}),
+						CONCAT(
+							#{startN},
+							SUBSTRING(MAX(orderCode), 14, 3) + 1
+						)
+					) CODE
+					FROM
+	<include refid="orderTable"/>
+					WHERE
+						LEFT (orderCode, 13) = #{startN}
+				) A
+		)
+		WHERE
+			orderId = #{orderId}
+	</update>
+	
+	<update id="changeReceiveAddressIdByU" parameterType="comOrder">
+		update
+	<include refid="orderTable"/>
+		set 
+			receiveAddressId = #{receiveAddressId},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			orderId = #{orderId}
+			and appUserId = #{appUserId}
+	</update>
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
@@ -50,7 +159,7 @@
 		( 
 	<include refid="orderColumns"/>
 		) values (
-			#{orderId},#{orderCode},#{orderName},#{orderType},#{orderStatus},#{orderProductCount},#{allPrice},#{freight},#{allDisPrice},#{walletPay},#{allActPrice},#{supplierName},#{supplierId},#{receiveAddressId},#{payTime},#{sendTime},#{tradeNum},#{payMethod},#{wlgs},#{wlNum},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{orderId},#{orderCode},#{orderName},#{orderType},#{orderStatus},#{appUserId},#{orderProductCount},#{allPrice},#{freight},#{allDisPrice},#{walletPay},#{allActPrice},#{supplierName},#{supplierId},#{receiveAddressId},#{payTime},#{sendTime},#{tradeNum},#{payMethod},#{wlgs},#{wlNum},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -63,6 +172,7 @@
 			orderName = #{orderName},
 			orderType = #{orderType},
 			orderStatus = #{orderStatus},
+			appUserId = #{appUserId},
 			orderProductCount = #{orderProductCount},
 			allPrice = #{allPrice},
 			freight = #{freight},
@@ -83,7 +193,7 @@
 	</update>
 	
 	<!-- 更改状态-->
-	<update id="changeStatus" parameterType="comReceiveAddress">
+	<update id="changeStatus" parameterType="comOrder">
 		update
 	<include refid="orderTable"/>
 		set 
@@ -91,12 +201,12 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
+			orderId = #{orderId}
 			and effective = #{oldValue}
 	</update>
 	
 	<!-- 更改有效性 -->
-	<update id="changeEffective" parameterType="comReceiveAddress">
+	<update id="changeEffective" parameterType="comOrder">
 		update
 	<include refid="orderTable"/>
 		set 
@@ -104,7 +214,7 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
+			orderId = #{orderId}
 			and effective = #{oldValue}
 	</update>
 	
@@ -145,7 +255,7 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="otherHaveCode" parameterType="comOrder" resultMap="comOrderResultMap">
+	<select id="otherHaveCode" parameterType="comOrder" resultType="comOrder">
 		select 
 	<include refid="orderColumns"/>
 		from 

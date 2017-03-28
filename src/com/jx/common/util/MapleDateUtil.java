@@ -232,7 +232,7 @@ public class MapleDateUtil {
     	
 //		System.out.println(getYearSpace(parseDateStr(SDF.TIME, "2016-01-13 15:00:00"),new Date()));
 //		System.out.println(parseDateStr(SDF_TIME, "2016-01-13 15:00:00"));
-		System.out.println(formatDate(null));
+		System.out.println(formatDate(SDF.TIME1, new Date()));
 //		System.out.println(getDaySpace(parseDateStr(SDF.DAY1, "20170113"),new Date()));
 	}
     
