@@ -53,6 +53,16 @@
 
 	    <div id="main" class="mui-clearfix">
 	    
+		    <div class="order-top clearfloat">
+	    		<ul>
+	    			<li class="clearfloat"><a href="order.html">全部</a></li>
+	    			<li class="clearfloat"><a href="#">待付款</a></li>
+	    			<li class="clearfloat"><a href="#">待发货</a></li>
+	    			<li class="clearfloat cur"><a href="">待收货</a></li>
+	    			<li class="clearfloat"><a href="#">待评价</a></li>
+	    		</ul>
+	    	</div>
+	    
 	    <c:choose>
         <c:when test="${not empty comOrderList}">
 		<c:forEach items="${comOrderList}" var="comOrder" varStatus="vs">
@@ -74,16 +84,36 @@
 	    				<p class="fu-tit">${comOrderDetail.summary}</p>
 	    				<p class="price clearfloat">
 	    					<span class="xprice fl">积分：${comOrderDetail.currentPrice}</span>
-    					    <span class="shu ra3">兑换成功</span>
+	    					<span class="yprice fl">积分：${comOrderDetail.currentPrice}</span>
+	    					<span class="shu">×1</span>
 	    				</p>
 	    			</div>
 	    		</div>
 	    		</c:forEach>
 	    		</c:when>
 	    		</c:choose>
+	    				<p class="odr-jg box-s">
+			    			合计：<span><b>￥</b>1200<s:property value="#inner.payPrice" /></span>（余额支付：100）
+			    		</p>
+						<a onclick="" class="blue-btn ra3 fr">
+							再次购买
+						</a>
+						<a  onclick="" class="gray-btn ra3 fr">
+							我要申诉
+						</a>
+						<a  onclick="" class="lijzf-btn ra3 fr">
+							立即评价
+						</a> 
 	    	</div>
             </c:forEach>
             </c:when>
+            <c:otherwise>
+            <div class="empty-list clearfloat" id="main">
+			    <i class="iconfont icon-icon04"></i>
+			    <p>亲，您还没有相关的订单哦！</p>
+                <p class="p-ft">可以去看看有哪些要买的</p>
+		   </div>
+            </c:otherwise>
             </c:choose>
 	    </div>
 	</body>

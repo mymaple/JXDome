@@ -112,6 +112,46 @@
 	    			</ul>
 	    		</div>
 	    	</div>
+	    	
+	    	
+                        <div class="myorder clearfloat">
+                 <ul>
+                     <li class="box-s">
+                        <a href="">
+                        <p class="tu"><img src="weui/gemo/img/ord-1.png"></p>
+                        <p class="num">1</p>                        
+                        <p>待付款</p>
+                        </a>
+                     </li>
+                     <li class="box-s">
+                        <a href="">
+                        <p class="tu"><img src="weui/gemo/img/ord-2.png"></p>
+                        <p class="num">0</p> 
+                        <p>待发货</p>
+                        </a>
+                     </li>
+                     <li class="box-s">
+                        <a href="">
+                        <p class="tu"><img src="weui/gemo/img/ord-3.png"></p>
+                        <p class="num">0</p> 
+                        <p>待收货</p>
+                        </a>
+                     </li>
+                     <li class="box-s">
+                        <a href="">
+                        <p class="tu"><img src="weui/gemo/img/ord-4.png"></p>
+                        <p>交易成功</p>
+                        </a>
+                     </li>                                                               
+                     <li class="box-s">
+                        <a href="">
+                        <p class="tu"><img src="weui/gemo/img/ord-5.png"></p>
+                        <p>退款/售后</p>
+                        </a>
+                     </li>                     
+                 </ul>
+            </div>    
+	    	
 	    	<div class="cashlist clearfloat">
 	    		<ul>
 	    			<li class="box-s">

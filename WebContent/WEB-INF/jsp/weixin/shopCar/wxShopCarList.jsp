@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -15,13 +16,13 @@
 	<title>格陌汽配</title>
 	<script src="weui/gemo/js/rem.js"></script> 
     <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?231"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?213"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?12312"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?12312"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?2312"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?adasd"/>
     <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
 	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
 <script type="text/javascript">
@@ -36,13 +37,38 @@
 	
 	function toConfirmOrder(){
 		
-		if(){
+		/* if(){
 			
-		}
+		} */
 		
 		$("#shopCarForm").submit();
 	}
 	
+	//全选
+	$(function() {
+		$("#shopCarIds").click(function() {
+	       $('input[name="shopCarId"]').prop("checked",this.checked);
+	       toRefresh();
+	    });
+	    var $shopcars = $("input[name='shopCarId']");
+	    $shopcars.click(function(){
+	       $("#shopCarIds").prop("checked",$shopcars.length == $("input[name='shopCarId']:checked").length ? true : false);
+	       toRefresh();
+	     });
+	});
+
+	//清空
+	function toDeletes(){
+		if(confirm("确定清除选中商品？")){
+			var shopcarS = $("input[name='shopcars']:checked");
+			var shopcarChecks = "";
+			for(var i=0; i<shopcarS.length; i++){ 
+				shopcarChecks += shopcarS[i].value + ",";
+			}
+			shopcarChecks = shopcarChecks.substring(0, shopcarChecks.length-1);
+			toDelete(shopcarChecks);
+		}
+	}
 </script>
 </head>
 <!--loading页开始-->
@@ -61,21 +87,40 @@
 	<body>
 	<form action="weixin/order/toConfirmOrder2.do" name="shopCarForm" id="shopCarForm" method="post">
 						
-	    <div class="warptwo clearfloat">
+				<c:choose>
+            	<c:when test="${not empty comShopCarList}">
+        <!--header star-->
+		<header class="mui-bar mui-bar-nav" >
+  			<div class="radio" > 
+			    <label>
+			        <input type="checkbox" id="shopCarIds" />
+			        <div class="option" style="vertical-align:middle; margin-top:-.1rem;"></div>&nbsp;
+			    </label>
+			</div>
+	        <div class="top-sch-box top-sch-boxtwo flex-col">
+	                      全选
+	        </div>
+	        <a class="btn" onclick="toDeletes();">
+	            <i class="iconfont icon-lajixiang"></i>
+	        </a>
+	    </header>
+	    <!--header end-->
+	    
+	    <div class="warp warptwo clearfloat">
 	    	<div class="shopcar clearfloat">
 	    		<c:set var="supplierId" value=""/>
-				<c:choose>
-				<div class="list clearfloat fl">
-            	<c:when test="${not empty comShopCarList}">
 					<c:forEach items="${comShopCarList}" var="comShopCar" varStatus="vs">
-	    		<c:if test="${comShopCar.comProduct.supplierId != supplierId }">
+	    		<c:if test="${comShopCar.comProduct.supplierId != supplierId && not empty supplierId}">
 	    		</div>
+	    		</c:if>
+	    		<c:if test="${comShopCar.comProduct.supplierId != supplierId || empty supplierId}">
+	    			<p class="gys-tit box-s">供应商：<param:display type="com_supplierEffective" value="${comShopCar.comProduct.supplierId}"/></p>
 	    		<div class="list clearfloat fl">
 	    		<c:set var="supplierId" value="${comShopCar.comProduct.supplierId }"/>
 	    		</c:if>
 	    		
 	    			<div class="xuan clearfloat fl">
-	    				<div class="radio" > 
+	    				<div class="radio" >
 						    <label>
 						        <input type="checkbox" name="shopCarId" value="${comShopCar.shopCarId }" />
 						        <div class="option"></div>
@@ -95,7 +140,7 @@
 		    					<div class="zuo clearfloat fl">
 		    						<ul>
 		    							<li><img src="weui/gemo/img/jian.png"/></li>
-		    							<li><input type="number" id="count${comShopCar.shopCarId }" value="${comShopCar.count }" max="${comShopCar.comProduct.comProductStyle.stockNum }"> </li>
+		    							<li class="num-w"><input class="num-txt" type="number" id="count${comShopCar.shopCarId }" value="${comShopCar.count }" max="${comShopCar.comProduct.comProductStyle.stockNum }"> </li>
 		    							<li><img src="weui/gemo/img/jia.png"/></li>
 		    						</ul>
 		    					</div>
@@ -104,13 +149,8 @@
 		    			</div>
 	    		</c:forEach>
 	    		</div>
-	    		</c:when>
-	    		<c:otherwise>
-	    		</c:otherwise>
-	    		</c:choose>
 	    	</div>
 	    </div>
-	    
 	    <!--settlement star-->
 	    <div class="settlement clearfloat">
 	    	<div class="zuo clearfloat fl box-s">
@@ -121,6 +161,17 @@
 	    	</a>
 	    </div>
 	    <!--settlement end-->
+	    		</c:when>
+	    		<c:otherwise>
+	    <div class="empty-list clearfloat" id="main">
+			    <i class="iconfont icon-gouwuche"></i>
+			    <p>您的购物车空空如也！</p>
+                <p class="p-ft">快去挑点宝贝吧</p>
+		   </div>		
+	    		
+	    		</c:otherwise>
+	    		</c:choose>
+	    
 	    </form>
 	    
 	    
@@ -157,11 +208,11 @@
 	</body>
 	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
 	<script src="weui/gemo/js/mui.min.js"></script>
-	<script src="weui/gemo/js/others.js"></script>
+	<script src="weui/gemo/js/others.js?sdasd"></script>
 	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
 	<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
 	<!--插件-->
-	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
+	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css?asdas">
 	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
 
 </html>

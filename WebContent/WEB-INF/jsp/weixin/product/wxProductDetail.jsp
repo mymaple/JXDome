@@ -84,12 +84,18 @@
 						<i class="iconfont icon-jiantou1 fr"></i>
 					</a>
 				</div>
-				<div class="middle clearfloat box-s">
+				<div class="chanpxq">
+                	<div class="tu">
+                		<img src="img/loginbg.jpg">
+                	</div>
+                </div>
+				
+				<!-- <div class="middle clearfloat box-s">
 					<a href="#">
 						<span class="fl">商品评价</span>
 						<i class="iconfont icon-jiantou1 fr"></i>
 					</a>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		
@@ -129,9 +135,9 @@
 		     			<img src="${comProduct.headImgSrc }"/>
 		     		</div>
 		     		<div class="you clearfloat fl">
-		     			<span>需要积分</span>
-		     			<span>库存件</span>
-		     			<span>已选择</span>
+		     			<p class="tit">小米Max</p>
+		     			<span>库存：1100</span>
+                        <span>已选择</span>
 		     		</div>
 		     	</div>
 		     	<div class="middle clearfloat">
@@ -149,7 +155,7 @@
 		     		<div class="you clearfloat fr">
 		     			<ul>
 		     				<li onclick="countL();"><img src="weui/gemo/img/jian.jpg"/></li>
-		     				<li><input type="number" id="count"></li>
+		     				<li class="num-w"><input name="" type="text" class="num-txt" value="111111"></li>
 		     				<li onclick="countM();"><img src="weui/gemo/img/jia.jpg"/></li>
 		     			</ul>
 		     		</div>

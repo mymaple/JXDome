@@ -224,6 +224,7 @@ body {
 	font-size: 16px;
 	/*line-height: 21px;*/
 	color: #000;
+	background-color: #efeff4;
 	-webkit-overflow-scrolling: touch
 }
 
@@ -237,7 +238,7 @@ a:active {
 }
 
 .mui-content {
-	background-color: #fff;
+	background-color: #efeff4;
 	-webkit-overflow-scrolling: touch
 }
 
@@ -1224,24 +1225,6 @@ input[type=submit]:enabled:active {
 	height: 24px
 }
 
-.mui-bar2 {
-	position: fixed;
-	z-index: 10;
-	right: 0;
-	left: 0;
-	height: 1rem;
-	/*padding-right: 10px;
-	padding-left: 10px;*/
-	padding: 0 2%;
-	border-bottom: 0;
-	background-color: #f5f5f5;
-	-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
-	box-shadow: 0 0 1px rgba(0, 0, 0, .85);
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden; 
-}
-
-
 .mui-bar {
 	position: fixed;
 	z-index: 10;
@@ -1490,10 +1473,10 @@ input[type=submit]:enabled:active {
 	top: 4px;
 	margin-left: -5px
 }
-
+/*sch-input(type=search属性设置)*/
 .mui-bar input[type=search] {
 	height: 29px;
-	margin: 6px 0
+	margin: 0px 0
 }
 
 .mui-bar .mui-input-row .mui-btn {
