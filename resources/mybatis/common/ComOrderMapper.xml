@@ -39,6 +39,7 @@
 			<result column="productId" property="productId"/>
 			<result column="productName" property="productName"/>
 			<result column="summary" property="summary"/>
+			<result column="productStyleId" property="productStyleId"/>
 			<result column="productStyleName" property="productStyleName"/>
 			<result column="headImgSrc" property="headImgSrc"/>
 			<result column="originalPrice" property="originalPrice"/>

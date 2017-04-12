@@ -104,9 +104,8 @@ public class BgOrderDetailController extends BaseController {
 		ComOrderDetail comOrderDetail = new ComOrderDetail();
 		comOrderDetail.setOrderId(orderId);
 		comOrderDetail.setProductId("");
-		comOrderDetail.setProductName("");
 		comOrderDetail.setSummary("");
-		comOrderDetail.setProductStyleName("");
+		comOrderDetail.setProductStyleId("");
 		comOrderDetail.setHeadImgSrc("");
 		comOrderDetail.setOriginalPrice("0.00");
 		comOrderDetail.setCurrentPrice("0.00");
@@ -262,17 +261,18 @@ public class BgOrderDetailController extends BaseController {
 		titles.add("商品Id");	//2
 		titles.add("商品名称");	//3
 		titles.add("摘要");	//4
-		titles.add("商品类型名称");	//5
-		titles.add("产品头像");	//6
-		titles.add("原价");	//7
-		titles.add("现价");	//8
-		titles.add("购买数量");	//9
-		titles.add("排序编号");	//10
-		titles.add("有效标志");	//11
-		titles.add("创建人员id");	//12
-		titles.add("创建时间");	//13
-		titles.add("修改人员id");	//14
-		titles.add("修改时间");	//15
+		titles.add("商品类型id");	//5
+		titles.add("商品类型名称");	//6
+		titles.add("产品头像");	//7
+		titles.add("原价");	//8
+		titles.add("现价");	//9
+		titles.add("购买数量");	//10
+		titles.add("排序编号");	//11
+		titles.add("有效标志");	//12
+		titles.add("创建人员id");	//13
+		titles.add("创建时间");	//14
+		titles.add("修改人员id");	//15
+		titles.add("修改时间");	//16
 		dataMap.put("titles", titles);
 		List<ComOrderDetail> varOList = comOrderDetailService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
@@ -283,17 +283,18 @@ public class BgOrderDetailController extends BaseController {
 			vpd.put("var2", varOList.get(i).getProductId());	//2
 			vpd.put("var3", varOList.get(i).getProductName());	//3
 			vpd.put("var4", varOList.get(i).getSummary());	//4
-			vpd.put("var5", varOList.get(i).getProductStyleName());	//5
-			vpd.put("var6", varOList.get(i).getHeadImgSrc());	//6
-			vpd.put("var7", varOList.get(i).getOriginalPrice());	//7
-			vpd.put("var8", varOList.get(i).getCurrentPrice());	//8
-			vpd.put("var9", varOList.get(i).getCount());	//9
-			vpd.put("var10", varOList.get(i).getOrderNum());		//10
-			vpd.put("var11", varOList.get(i).getEffective());	//11
-			vpd.put("var12", varOList.get(i).getCreateUserId());	//12
-			vpd.put("var13", varOList.get(i).getCreateTime());	//13
-			vpd.put("var14", varOList.get(i).getModifyUserId());//14
-			vpd.put("var15", varOList.get(i).getModifyTime());	//15
+			vpd.put("var5", varOList.get(i).getProductStyleId());	//5
+			vpd.put("var6", varOList.get(i).getProductStyleName());	//6
+			vpd.put("var7", varOList.get(i).getHeadImgSrc());	//7
+			vpd.put("var8", varOList.get(i).getOriginalPrice());	//8
+			vpd.put("var9", varOList.get(i).getCurrentPrice());	//9
+			vpd.put("var10", varOList.get(i).getCount());	//10
+			vpd.put("var11", varOList.get(i).getOrderNum());		//11
+			vpd.put("var12", varOList.get(i).getEffective());	//12
+			vpd.put("var13", varOList.get(i).getCreateUserId());	//13
+			vpd.put("var14", varOList.get(i).getCreateTime());	//14
+			vpd.put("var15", varOList.get(i).getModifyUserId());//15
+			vpd.put("var16", varOList.get(i).getModifyTime());	//16
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -344,13 +345,12 @@ public class BgOrderDetailController extends BaseController {
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("商品Id");	//0
-		titles.add("商品名称");	//1
-		titles.add("摘要");	//2
-		titles.add("商品类型名称");	//3
-		titles.add("产品头像");	//4
-		titles.add("原价");	//5
-		titles.add("现价");	//6
-		titles.add("购买数量");	//7
+		titles.add("摘要");	//1
+		titles.add("商品类型id");	//2
+		titles.add("产品头像");	//3
+		titles.add("原价");	//4
+		titles.add("现价");	//5
+		titles.add("购买数量");	//6
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -390,24 +390,22 @@ public class BgOrderDetailController extends BaseController {
 				
 		/**
 		 * var0 :商品Id;	//0
-		 * var1 :商品名称;	//1
-		 * var2 :摘要;	//2
-		 * var3 :商品类型名称;	//3
-		 * var4 :产品头像;	//4
-		 * var5 :原价;	//5
-		 * var6 :现价;	//6
-		 * var7 :购买数量;	//7
+		 * var1 :摘要;	//1
+		 * var2 :商品类型id;	//2
+		 * var3 :产品头像;	//3
+		 * var4 :原价;	//4
+		 * var5 :现价;	//5
+		 * var6 :购买数量;	//6
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comOrderDetail.setOrderDetailId(this.get32UUID());
 			comOrderDetail.setProductId(listPd.get(i).getString("var0"));
-			comOrderDetail.setProductName(listPd.get(i).getString("var1"));
-			comOrderDetail.setSummary(listPd.get(i).getString("var2"));
-			comOrderDetail.setProductStyleName(listPd.get(i).getString("var3"));
-			comOrderDetail.setHeadImgSrc(listPd.get(i).getString("var4"));
-			comOrderDetail.setOriginalPrice(listPd.get(i).getString("var5"));
-			comOrderDetail.setCurrentPrice(listPd.get(i).getString("var6"));
-			comOrderDetail.setCount(listPd.get(i).getString("var7"));
+			comOrderDetail.setSummary(listPd.get(i).getString("var1"));
+			comOrderDetail.setProductStyleId(listPd.get(i).getString("var2"));
+			comOrderDetail.setHeadImgSrc(listPd.get(i).getString("var3"));
+			comOrderDetail.setOriginalPrice(listPd.get(i).getString("var4"));
+			comOrderDetail.setCurrentPrice(listPd.get(i).getString("var5"));
+			comOrderDetail.setCount(listPd.get(i).getString("var6"));
 			comOrderDetailService.add(comOrderDetail);
 		}
 		/*存入数据库操作======================================*/

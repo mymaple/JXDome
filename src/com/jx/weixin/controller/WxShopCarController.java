@@ -20,6 +20,7 @@ import com.jx.common.service.ComProductSEService;
 import com.jx.common.service.ComProductStyleService;
 import com.jx.common.service.ComShopCarService;
 import com.jx.common.util.AppUtil;
+import com.jx.common.util.MapleDecimalUtil;
 import com.jx.weixin.util.WxSessionUtil;
 
 @Controller
@@ -85,6 +86,73 @@ public class WxShopCarController extends BaseController {
 			resultInfo.setResultContent("已加入购物车");
 			resultInfo.setResultCode("success");
 		}
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/toDelete")
+	@ResponseBody
+	public Object toDelete(@RequestParam String shopCarIds) throws Exception {
+		ResultInfo resultInfo = this.getResultInfo();
+		PageData pd = this.getPageData();
+		String userId = WxSessionUtil.getUserId();
+		
+		comShopCarService.deleteByIdsUSE(userId, shopCarIds);
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/toGetAllPay")
+	@ResponseBody
+	public Object toGetAllPay(@RequestParam String shopCarIds) throws Exception {
+		ResultInfo resultInfo = this.getResultInfo();
+		PageData pd = this.getPageData();
+		String userId = WxSessionUtil.getUserId();
+		
+		String[] shopCarIdArr = shopCarIds.split(",");
+		List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUserSE(userId,shopCarIdArr);
+		if(comShopCarList.size()!=shopCarIdArr.length){
+			resultInfo.setResultContent("购物车异常");
+			return AppUtil.returnResult(pd, resultInfo);
+		}
+		
+		String allPay = "0";
+		
+		for (int i = 0; i < comShopCarList.size(); i++) {
+			ComShopCar comShopCar = comShopCarList.get(i);
+			String count = comShopCar.getCount();
+			String currentPrice = comShopCar.getComProduct().getComProductStyle().getCurrentPrice();
+			allPay = ""+MapleDecimalUtil.addDefealt(MapleDecimalUtil.multiplyDefealt(count, currentPrice), allPay);
+		}
+		
+		resultInfo.setResultCode("success");
+		resultInfo.setResultContent(allPay);
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/toChangeCount")
+	@ResponseBody
+	public Object toChangeCount(@RequestParam String shopCarId, @RequestParam int count) throws Exception {
+		ResultInfo resultInfo = this.getResultInfo();
+		PageData pd = this.getPageData();
+		String userId = WxSessionUtil.getUserId();
+		
+		comShopCarService.changeCountUSE(userId, shopCarId, ""+count);
+		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
 	}

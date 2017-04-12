@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComOrderDetailMapper">
 
-	<sql id="orderDetailColumns">orderDetailId,orderId,productId,productName,summary,productStyleName,headImgSrc,originalPrice,currentPrice,count,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="orderDetailColumns">orderDetailId,orderId,productId,productName,summary,productStyleId,productStyleName,headImgSrc,originalPrice,currentPrice,count,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="orderDetailTable">com_order_detail</sql>
 	
 	<resultMap type="comOrderDetail" id="comOrderDetailResultMap">
@@ -11,6 +11,7 @@
 		<result column="productId" property="productId"/>
 		<result column="productName" property="productName"/>
 		<result column="summary" property="summary"/>
+		<result column="productStyleId" property="productStyleId"/>
 		<result column="productStyleName" property="productStyleName"/>
 		<result column="headImgSrc" property="headImgSrc"/>
 		<result column="originalPrice" property="originalPrice"/>
@@ -49,7 +50,7 @@
 		( 
 	<include refid="orderDetailColumns"/>
 		) values (
-			#{orderDetailId},#{orderId},#{productId},#{productName},#{summary},#{productStyleName},#{headImgSrc},#{originalPrice},#{currentPrice},#{count},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{orderDetailId},#{orderId},#{productId},#{productName},#{summary},#{productStyleId},#{productStyleName},#{headImgSrc},#{originalPrice},#{currentPrice},#{count},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -59,9 +60,8 @@
 	<include refid="orderDetailTable"/>
 		set 
 			productId = #{productId},
-			productName = #{productName},
 			summary = #{summary},
-			productStyleName = #{productStyleName},
+			productStyleId = #{productStyleId},
 			headImgSrc = #{headImgSrc},
 			originalPrice = #{originalPrice},
 			currentPrice = #{currentPrice},
@@ -74,7 +74,7 @@
 	</update>
 	
 	<!-- 更改有效性 -->
-	<update id="changeEffective" parameterType="comReceiveAddress">
+	<update id="changeEffective" parameterType="comOrderDetail">
 		update
 	<include refid="orderDetailTable"/>
 		set 
@@ -82,7 +82,7 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
+			orderDetailId = #{orderDetailId} 
 			and effective = #{oldValue}
 	</update>
 	

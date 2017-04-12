@@ -37,6 +37,41 @@ public class ComShopCarServiceImpl implements ComShopCarService{
 		return (ComShopCar) dao.findForObject("ComShopCarMapper.findByUserSE", comShopCar);
 	}
 	
+	/**
+	 * 删除 
+	 * @param String appUserId, String shopCarIds
+	 * @throws Exception
+	 */
+	public void deleteByIdsUSE(String appUserId, String shopCarIds) throws Exception {
+		Date nowTime = new Date();
+		PageData pd = new PageData();
+		pd.put("modifyUserId", ShiroSessionUtil.getUserId());
+		pd.put("modifyTime", nowTime);
+		pd.put("shopCarIds", shopCarIds.split(","));
+		pd.put("appUserId", appUserId);
+		
+		dao.update("ComShopCarMapper.deleteByIdsUSE", pd);
+	}
+	
+	/**
+	 * 修改数量
+	 * @param String shopCarId, String count
+	 * @throws Exception
+	 */
+	public void changeCountUSE(String appUserId, String shopCarId, String count) throws Exception {
+		ComShopCar comShopCar = new ComShopCar();
+		
+		comShopCar.setAppUserId(appUserId);
+		comShopCar.setShopCarId(shopCarId);
+		comShopCar.setCount(count);
+		
+		Date nowTime = new Date();
+		comShopCar.setModifyUserId(ShiroSessionUtil.getUserId());
+		comShopCar.setModifyTime(nowTime);
+		
+		dao.update("ComShopCarMapper.changeCountUSE", comShopCar);
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

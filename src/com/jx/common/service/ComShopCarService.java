@@ -19,6 +19,20 @@ public interface ComShopCarService {
 	 */
 	public ComShopCar findByUserSE(String userId, String productStyleId) throws Exception ;
 	
+	/**
+	 * 删除 
+	 * @param String appUserId, String shopCarIds
+	 * @throws Exception
+	 */
+	public void deleteByIdsUSE(String appUserId, String shopCarIds) throws Exception ;
+	
+	/**
+	 * 修改数量
+	 * @param String shopCarId, String count
+	 * @throws Exception
+	 */
+	public void changeCountUSE(String appUserId, String shopCarId, String count) throws Exception ;
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

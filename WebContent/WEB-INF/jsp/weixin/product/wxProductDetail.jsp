@@ -33,10 +33,116 @@
 	function toShopCar(){
 		window.location.href = "<%=basePath%>weixin/shopCar/list.do";
 	}
-	function toAddShopCar(){
-		
+	
+	function toChoose(flag){
+		$('#flag').val(flag);
 	}
-	function toConfirmOrder(){
+	
+	function toChoosePS(productStyleId){
+		var count = Number($('#count').val());
+		var stockNum = $('#stockNum_'+productStyleId).val();
+		if(stockNum <=0 ){
+			layer.open({
+		    	content: '商品已售罄'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			return false;
+		}
+		if(count>stockNum){
+			$('#count').val(stockNum);
+		}
+		$('.ps1').hide();
+		$('#ps1_'+productStyleId).show();
+		$('.ps2').removeClass('cur');
+		$('#ps2_'+productStyleId).addClass('cur');
+		$('#productStyleId').val(productStyleId);
+	}
+	
+	function countL(){
+		var count = Number($('#count').val());
+		if(count<=1){
+			layer.open({
+		    	content: '最少选购1件'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			
+			$('#count').val('1');
+		}else{
+			$('#count').val(count-1);
+		}
+	}
+	
+	function countM(){
+		var count = Number($('#count').val());
+		var stockNum = $('#stockNum_'+$('#productStyleId').val()).val();
+		if(count>=stockNum){
+			layer.open({
+		    	content: '超出库存'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+		}else{
+			$('#count').val(count+1);
+		}
+	}
+	
+	function toConfirm(){
+		var productStyleId = $('#productStyleId').val();
+		var count = Number($('#count').val());
+		var stockNum = $('#stockNum_'+productStyleId).val();
+		var flag = $('#flag').val();
+		
+		if(stockNum <=0 ){
+			layer.open({
+		    	content: '商品已售罄'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			return false;
+		}
+		
+		if(count<1){
+			layer.open({
+		    	content: '最少选购1件'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			
+			$('#count').val('1');
+			return false;
+		}
+		
+		if(count>=stockNum){
+			layer.open({
+		    	content: '超出库存'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			$('#count').val(stockNum);
+			return false;
+		}
+		
+		if(flag == '1'){
+			$.ajax({
+				type: "POST",
+				url: '<%=basePath%>weixin/shopCar/add.do?tm='+new Date().getTime(),
+		    	data: {"productStyleId":productStyleId,"count":count},
+				dataType:'json',
+				//beforeSend: validateData,
+				cache: false,
+				success: function(data){
+						layer.open({
+					    	content: data.resultContent
+					    	,skin: 'msg'
+					    	,time: 2 //2秒后自动关闭
+					 	});
+				}
+			});
+		}else if(flag =='2'){
+			window.location.href = "<%=basePath%>weixin/order/toConfirmOrder1.do?productStyleId="+productStyleId+"&count="+count;
+		}
 		
 	}
 	
@@ -56,16 +162,15 @@
 </div>
 <!--loading页结束-->
 	<body>
-		
+	<input id="flag" type="hidden">
 		<div class="warptwo clearfloat">
 			<div class="detail clearfloat">
 				<!--banner star-->
 				<div class="banner swiper-container">
 		            <div class="swiper-wrapper">
-		                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="upload/21.jpg" alt=""></a></div>
-		                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="upload/21.jpg" alt=""></a></div>
-		                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="upload/21.jpg" alt=""></a></div>
-		                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="upload/21.jpg" alt=""></a></div>
+		            	<c:forEach items="${ fn:split(comProduct.imgSrc2,',') }" var="imgSrc2">
+		                <div class="swiper-slide"><img class="swiper-lazy" data-src="${imgSrc2 }" alt=""></div>
+		            	</c:forEach>
 		            </div>
 		            <div class="swiper-pagination"></div>
 		        </div>
@@ -75,7 +180,6 @@
 						<div class="zuo clearfloat fl over2 box-s">
 							${comProduct.productName }
 						</div>
-						
 					</div>
 				</div>
 				<div class="middle clearfloat box-s">
@@ -86,7 +190,9 @@
 				</div>
 				<div class="chanpxq">
                 	<div class="tu">
-                		<img src="img/loginbg.jpg">
+                		<c:forEach items="${ fn:split(comProduct.imgSrc3,',') }" var="imgSrc3">
+                		<img src="${imgSrc3 }">
+		            	</c:forEach>
                 	</div>
                 </div>
 				
@@ -104,7 +210,7 @@
 			<div class="left clearfloat fl">
 				<ul>
 					<li>
-						<a href="#" class="gwc">
+						<a onclick="toShopCar();" class="gwc">
 							<i class="iconfont icon-gouwuche"></i>
 							<span>2</span>
 						</a>
@@ -118,8 +224,8 @@
 				</ul>
 			</div>
 			<div class="right clearfloat fr">
-				<span class="btn fl" onClick="toshare();">加入购物车</span>
-				<a onClick="toshare();" class="btn btnone fr">立即购买</a>
+				<span class="btn fl" onClick="toshare();toChoose('1');">加入购物车</span>
+				<a onClick="toshare();toChoose('2');" class="btn btnone fr">立即购买</a>
 			</div>
 		</div>
 		<!--footerone end-->
@@ -134,18 +240,39 @@
 		     			<span></span>
 		     			<img src="${comProduct.headImgSrc }"/>
 		     		</div>
-		     		<div class="you clearfloat fl">
-		     			<p class="tit">小米Max</p>
-		     			<span>库存：1100</span>
-                        <span>已选择</span>
+		     		<c:choose>
+     					<c:when test="${ not empty comProductStyleList }">
+     						<c:forEach items="${comProductStyleList}" var="comProductStyle" varStatus="vs">
+		     							
+		     		<div class="you clearfloat fl ps1" id="ps1_${comProductStyle.productStyleId }" <c:if test="${ vs.index > 0}"> style="display: none;" </c:if> >
+		     			<p class="tit">${comProduct.productName }</p>
+		     			<span>库存：${comProductStyle.stockNum }
+		     			<input type="hidden" id="stockNum_${comProductStyle.productStyleId }" value="${comProductStyle.stockNum }">
+		     			</span>
+                        <span>已选择:${comProductStyle.productStyleName }</span>
 		     		</div>
+		     				</c:forEach>
+		     			</c:when>
+		     		</c:choose>
 		     	</div>
+		     	
 		     	<div class="middle clearfloat">
 		     		<p>规格</p>
 		     		<div class="xia clearfloat">
 		     			<ul>
-			     			<li class="ra3 cur">金色</li>
-			     			<li class="ra3">灰色</li>
+		     				<c:choose>
+		     					<c:when test="${ not empty comProductStyleList }">
+		     						<c:forEach items="${comProductStyleList}" var="comProductStyle" varStatus="vs">
+		     							<c:if test="${ vs.index == 0}">
+		     							<input id="productStyleId" name="productStyleId" type="hidden" value="${comProductStyle.productStyleId }">
+		     							<li id="ps2_${comProductStyle.productStyleId }" class="ra3 cur ps2" onclick="toChoosePS('${comProductStyle.productStyleId }');">${comProductStyle.productStyleName }</li>
+		     							</c:if>
+		     							<c:if test="${ vs.index > 0}">
+		     							<li id="ps2_${comProductStyle.productStyleId }" class="ra3 ps2" onclick="toChoosePS('${comProductStyle.productStyleId }');">${comProductStyle.productStyleName }</li>
+		     							</c:if>
+		     						</c:forEach>
+		     					</c:when>
+		     				</c:choose>
 			     		</ul>
 		     		</div>		     		
 		     	</div>
@@ -155,14 +282,14 @@
 		     		<div class="you clearfloat fr">
 		     			<ul>
 		     				<li onclick="countL();"><img src="weui/gemo/img/jian.jpg"/></li>
-		     				<li class="num-w"><input name="" type="text" class="num-txt" value="111111"></li>
+		     				<li class="num-w"><input id="count" name="count" type="text" class="num-txt" value="1" onkeyup="toChangeCount();"></li>
 		     				<li onclick="countM();"><img src="weui/gemo/img/jia.jpg"/></li>
 		     			</ul>
 		     		</div>
 		     	</div>
 		     </div>
 		  </div>
-		  <a onClick="toComfirm();" class="shop-btn db">确定</a>
+		  <a onClick="toConfirm();" class="shop-btn db">确定</a>
 		</div>
 		
 		<!--footer star-->

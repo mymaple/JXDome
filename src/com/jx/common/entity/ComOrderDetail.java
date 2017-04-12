@@ -38,15 +38,17 @@ public class ComOrderDetail extends BaseEntity implements Serializable {
 	private String productId;
 		
 	/** 商品名称 */
-	@NotBlank(message="商品名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productName;
 		
 	/** 摘要 */
 	@NotBlank(message="摘要 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String summary;
 		
+	/** 商品类型id */
+	@NotBlank(message="商品类型id 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String productStyleId;
+		
 	/** 商品类型名称 */
-	@NotBlank(message="商品类型名称 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productStyleName;
 		
 	/** 产品头像 */
@@ -155,6 +157,24 @@ public class ComOrderDetail extends BaseEntity implements Serializable {
 	 */
 	public String getSummary() {
 		return this.summary;
+	}
+	
+	/**
+	 * 设置 商品类型id
+	 * 
+	 * @param String productStyleId
+	 */
+	public void setProductStyleId(String productStyleId) {
+		this.productStyleId = StringUtils.trim(productStyleId);
+	}
+	
+	/**
+	 * 获取 商品类型id
+	 * 
+	 * @return String productStyleId
+	 */
+	public String getProductStyleId() {
+		return this.productStyleId;
 	}
 	
 	/**

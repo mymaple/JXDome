@@ -92,11 +92,11 @@ public class WxOrderController extends BaseController {
 		comOrder.setAllDisPrice(allDisPrice);
 		
 		ComSupplier comSupplier = comSupplierService.findById(comProduct.getSupplierId());
-		comOrder.setFreight("");
+		comOrder.setFreight(null);
 		comOrder.setSupplierId(comSupplier.getSupplierId());
 		comOrder.setSupplierName(comSupplier.getSupplierName());
 		
-		comOrder.setOrderType("");
+		comOrder.setOrderType("01");
 		comOrder.setOrderStatus("01");
 		comOrder.setReceiveAddressId(comReceiveAddress==null?"":comReceiveAddress.getReceiveAddressId());
 		comOrder.setAppUserId(userId);
@@ -107,6 +107,7 @@ public class WxOrderController extends BaseController {
 		comOrderDetail.setProductName(comProduct.getProductName());
 		comOrderDetail.setSummary(comProduct.getSummary());
 		comOrderDetail.setCount(""+count);
+		comOrderDetail.setProductStyleId(comProductStyle.getProductStyleId());
 		comOrderDetail.setProductStyleName(comProductStyle.getProductStyleName());
 		comOrderDetail.setCurrentPrice(comProductStyle.getCurrentPrice());
 		comOrderDetail.setOriginalPrice(comProductStyle.getOriginalPrice());
@@ -219,6 +220,7 @@ public class WxOrderController extends BaseController {
 			comOrderDetail.setProductName(comProduct.getProductName());
 			comOrderDetail.setSummary(comProduct.getSummary());
 			comOrderDetail.setCount(""+count);
+			comOrderDetail.setProductStyleId(comProductStyle.getProductStyleId());
 			comOrderDetail.setProductStyleName(comProductStyle.getProductStyleName());
 			comOrderDetail.setCurrentPrice(comProductStyle.getCurrentPrice());
 			comOrderDetail.setOriginalPrice(comProductStyle.getOriginalPrice());
@@ -351,17 +353,22 @@ public class WxOrderController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/pay")
-	@ResponseBody
-	public Object pay() throws Exception {
+	public ModelAndView pay() throws Exception {
+		ModelAndView mv = this.getModelAndView();
 		ResultInfo resultInfo = this.getResultInfo();
 		PageData pd = this.getPageData();
 		
-		String orderIds = pd.getString("orderIds");
+		
+		String orderIds = pd.getString("orderId");
 		String userId = WxSessionUtil.getUserId();
 		
 		comOrderService.toPayByUserE(userId, orderIds.split(","));
 		
-		return AppUtil.returnResult(pd, resultInfo);
+		resultInfo.setResultCode("success");
+		mv.setViewName("weixin/wxResult");
+
+		mv.addObject(resultInfo);
+		return mv;
 	}
 	
 	

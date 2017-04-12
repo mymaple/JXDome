@@ -25,6 +25,13 @@ public interface ComProductStyleService {
 	 * @throws Exception
 	 */
 	public ComProductStyle findByIdSE(String productStyleId) throws Exception ;
+	
+	/**
+	 * 库存扣除购买数量
+	 * @param String productStyleId, String count
+	 * @throws Exception
+	 */
+	public void toReduceStockNum(String productStyleId, String count) throws Exception ;
 		
 	/****************************custom * end  ***********************************/
 	

@@ -16,6 +16,7 @@ import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.util.MapleDateUtil.SDF;
+import com.jx.common.entity.ComAppUserExt;
 import com.jx.common.entity.ComIntegralNote;
 import com.jx.common.entity.ComOrder;
 import com.jx.common.entity.ComOrderDetail;
@@ -23,6 +24,7 @@ import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComIntegralNoteService;
 import com.jx.common.service.ComOrderDetailService;
 import com.jx.common.service.ComOrderService;
+import com.jx.common.service.ComProductStyleService;
 import com.jx.common.service.ComShopCarService;
 
 @Service("comOrderService")
@@ -39,6 +41,8 @@ public class ComOrderServiceImpl implements ComOrderService{
 	private ComAppUserExtService comAppUserExtService;
 	@Resource(name = "comIntegralNoteService")
 	private ComIntegralNoteService comIntegralNoteService;
+	@Resource(name = "comProductStyleService")
+	private ComProductStyleService comProductStyleService;
 	
 	
 	
@@ -149,9 +153,10 @@ public class ComOrderServiceImpl implements ComOrderService{
 		}
 		for (int i = 0; i < orderIdArr.length; i++) {
 			ComOrder comOrder = comOrderList.get(i);
-			//自己
-			this.changeStatus("", orderIdArr[i]);
+			//修改为已支付状态
+			this.changeStatus("02", orderIdArr[i]);
 			
+			//支付记录
 			ComIntegralNote comIntegralNote = new ComIntegralNote();
 			comIntegralNote.setIntegralNoteCode(comOrder.getOrderCode());
 			comIntegralNote.setIntegralNoteType("00");
@@ -159,6 +164,18 @@ public class ComOrderServiceImpl implements ComOrderService{
 			comIntegralNote.setAppUserId(appUserId);
 			comIntegralNote.setIntegralDealCount(""+comOrder.getAllActPrice());
 			comIntegralNoteService.add(comIntegralNote);
+			
+			//积分扣除
+			String addValue = "-"+comOrder.getAllActPrice();
+			comAppUserExtService.addValue(appUserId, ComAppUserExt.INTEGRALCOUNT, addValue);
+			
+			//商品库存减少
+			List<ComOrderDetail> comOrderDetailList = comOrder.getComOrderDetailList();
+			for (int j = 0; j < comOrderDetailList.size(); j++) {
+				ComOrderDetail comOrderDetail = comOrderDetailList.get(j);
+				comProductStyleService.toReduceStockNum(comOrderDetail.getProductStyleId(), comOrderDetail.getCount());
+			}
+			
 		}
 	}
 	
@@ -223,12 +240,13 @@ public class ComOrderServiceImpl implements ComOrderService{
 	 */
 	public void changeStatus(String flag, String orderId) throws Exception {
 		ComOrder comOrder = new ComOrder();
-		if("00".equals(flag)){
-			comOrder.setOldValue("01");
-		}else if("01".equals(flag)){
-			comOrder.setOldValue("00");
-		}else{
-			comOrder.setOldValue("flag");
+		switch(flag) {  
+			case "02" : comOrder.setOldValue("01");break;
+			case "03" : comOrder.setOldValue("02");break;
+			case "04" : comOrder.setOldValue("03");break;
+			case "05" : comOrder.setOldValue("04");break;
+			case "06" : comOrder.setOldValue("05");break;
+			default : comOrder.setOldValue("flag");break;
 		}
 		comOrder.setOrderStatus(flag);
 		

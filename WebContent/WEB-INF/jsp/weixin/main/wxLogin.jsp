@@ -76,11 +76,11 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 				if(data.resultCode == "success"){
 					window.location.href = data.resultContent;
 				}else{
-					layer.open({
+					/* layer.open({
 				    	content: data.resultContent
 				    	,skin: 'msg'
 				    	,time: 2 //2秒后自动关闭
-				 	});
+				 	}); */
 					$(this).attr("disabled",false);
 				}
 			}

@@ -46,6 +46,26 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 		return (ComProductStyle) dao.findForObject("ComProductStyleMapper.findByIdSE", productStyleId);
 	}
 	
+	/**
+	 * 库存扣除购买数量
+	 * @param String productStyleId, String count
+	 * @throws Exception
+	 */
+	public void toReduceStockNum(String productStyleId, String count) throws Exception {
+		
+		ComProductStyle comProductStyle = new ComProductStyle();
+		
+		comProductStyle.setStockNum(count);
+		
+		comProductStyle.setProductStyleId(productStyleId);
+		Date nowTime = new Date();
+		comProductStyle.setModifyUserId(ShiroSessionUtil.getUserId());
+		comProductStyle.setModifyTime(nowTime);
+		dao.update("ComProductStyleMapper.toReduceStockNum", comProductStyle);
+	}
+	
+	
+	
 	
 	/****************************custom * end  ***********************************/
 	

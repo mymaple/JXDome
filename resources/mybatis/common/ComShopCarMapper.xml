@@ -35,6 +35,40 @@
 			and effective = '01'
 	</select>
 	
+	<!-- 更改状态-->
+	<update id="deleteByIdsUSE" parameterType="pd">
+		update
+	<include refid="shopCarTable"/>
+		set 
+			shopCarStatus = '03' ,
+			effective = '00' ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			shopCarStatus = '01' and
+			effective = '01' and
+			appUserId = #{appUserId} and
+			shopCarId in 
+	        <foreach item="id" index="index" collection="shopCarIds" open="(" separator="," close=")">
+	            #{id}
+	        </foreach>
+	</update>
+	
+	<!-- 更改状态-->
+	<update id="changeCountUSE" parameterType="comShopCar">
+		update
+	<include refid="shopCarTable"/>
+		set 
+			count = #{count} ,
+			modifyUserId = #{modifyUserId} ,
+			modifyTime = #{modifyTime}
+		where 
+			shopCarId = #{shopCarId} and
+			appUserId = #{appUserId} and
+			shopCarStatus = '01' and
+			effective = '01' 
+	</update>
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	

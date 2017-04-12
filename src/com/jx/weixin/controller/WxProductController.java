@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.common.config.BaseController;
+import com.jx.common.config.Const;
 import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.ComProduct;
 import com.jx.common.entity.ComProductStyle;
@@ -40,6 +41,8 @@ public class WxProductController extends BaseController {
 			mv.setViewName("weixin/wxResult");
 		}else{
 			List<ComProductStyle> comProductStyleList = comProductStyleService.listByProductIdSE(productId);
+			comProduct.setImgSrc2(comProduct.getImgSrc2().replaceAll(Const.REG_COM_SPLIT, ","));
+			comProduct.setImgSrc3(comProduct.getImgSrc3().replaceAll(Const.REG_COM_SPLIT, ","));
 			
 			mv.addObject(comProduct);
 			mv.addObject("comProductStyleList",comProductStyleList);

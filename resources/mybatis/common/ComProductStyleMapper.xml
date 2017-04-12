@@ -79,6 +79,21 @@
 			productStyleId = #{productStyleId};
 	</update>
 	
+	<!-- 加减改值 -->
+	<update id="toReduceStockNum" parameterType="comProductStyle">
+		update
+	<include refid="productStyleTable"/>
+		set
+			stockNum = stockNum - (#{stockNum}),
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			productStyleId = #{productStyleId} and 
+			stockNum >= 0 and 
+			(stockNum - #{stockNum}) >= 0 and 
+			#{stockNum}>0
+	</update>
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	

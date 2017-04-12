@@ -64,12 +64,12 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 		comIntegralNote.setModifyTime(nowTime);
 		
 		dao.add("ComIntegralNoteMapper.add", comIntegralNote);
-		
+		/*
 		String appUserId = comIntegralNote.getAppUserId();
 		String addValue = "01".equals(comIntegralNote.getIntegralNoteType())?"":"-";
 		addValue += comIntegralNote.getIntegralDealCount();
 		comAppUserExtService.addValue(appUserId, ComAppUserExt.INTEGRALCOUNT, addValue);
-		
+		*/
 	}
 	
 	/**

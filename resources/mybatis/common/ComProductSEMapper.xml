@@ -5,53 +5,108 @@
 
 	<resultMap type="comProduct" id="comProductMapList">
 		<id column="productId" property="productId"/>
-		<result column="productName" property="productName"/>
-		<result column="headImgSrc" property="headImgSrc"/>
 		<result column="supplierId" property="supplierId"/>
+		<result column="productCode" property="productCode"/>
+		<result column="productName" property="productName"/>
+		<result column="productType" property="productType"/>
+		<result column="productStatus" property="productStatus"/>
+		<result column="productModel" property="productModel"/>
 		<result column="summary" property="summary"/>
+		<result column="introduction" property="introduction"/>
+		<result column="headImgSrc" property="headImgSrc"/>
+		<result column="imgSrc1" property="imgSrc1"/>
+		<result column="imgSrc2" property="imgSrc2"/>
+		<result column="imgSrc3" property="imgSrc3"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
 		<association column="productStyleId" property="comProductStyle" javaType="ComProductStyle">
 			<id column="productStyleId" property="productStyleId"/>
-			<result column="productStyleName" property="productStyleName"/>
 			<result column="productId" property="productId"/>
+			<result column="productStyleCode" property="productStyleCode"/>
+			<result column="productStyleName" property="productStyleName"/>
+			<result column="productStyleType" property="productStyleType"/>
+			<result column="productStyleStatus" property="productStyleStatus"/>
+			<result column="allStockNum" property="allStockNum"/>
 			<result column="stockNum" property="stockNum"/>
 			<result column="originalPrice" property="originalPrice"/>
+			<result column="curType" property="curType"/>
+			<result column="discountRate" property="discountRate"/>
+			<result column="discountPrice" property="discountPrice"/>
 			<result column="currentPrice" property="currentPrice"/>
+			<result column="orderNum" property="orderNum"/>
+			<result column="effective" property="effective"/>
+			<result column="createUserId" property="createUserId"/>
+			<result column="createTime" property="createTime"/>
+			<result column="modifyUserId" property="modifyUserId"/>
+			<result column="modifyTime" property="modifyTime"/>
 		</association>
 	</resultMap>
 	
 	
 	<resultMap type="comShopCar" id="comShopCarMapList">
 		<id column="shopCarId" property="shopCarId"/>
+		<result column="appUserId" property="appUserId"/>
 		<result column="productStyleId" property="productStyleId"/>
 		<result column="count" property="count"/>
+		<result column="shopCarStatus" property="shopCarStatus"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
 		<association column="productId" property="comProduct" javaType="ComProduct">
 			<id column="productId" property="productId"/>
-			<result column="productName" property="productName"/>
-			<result column="headImgSrc" property="headImgSrc"/>
 			<result column="supplierId" property="supplierId"/>
+			<result column="productCode" property="productCode"/>
+			<result column="productName" property="productName"/>
+			<result column="productType" property="productType"/>
+			<result column="productStatus" property="productStatus"/>
+			<result column="productModel" property="productModel"/>
 			<result column="summary" property="summary"/>
+			<result column="introduction" property="introduction"/>
+			<result column="headImgSrc" property="headImgSrc"/>
+			<result column="imgSrc1" property="imgSrc1"/>
+			<result column="imgSrc2" property="imgSrc2"/>
+			<result column="imgSrc3" property="imgSrc3"/>
+			<result column="orderNum" property="orderNum"/>
+			<result column="effective" property="effective"/>
+			<result column="createUserId" property="createUserId"/>
+			<result column="createTime" property="createTime"/>
+			<result column="modifyUserId" property="modifyUserId"/>
+			<result column="modifyTime" property="modifyTime"/>
 			<association column="productStyleId" property="comProductStyle" javaType="ComProductStyle">
 				<id column="productStyleId" property="productStyleId"/>
 				<result column="productId" property="productId"/>
+				<result column="productStyleCode" property="productStyleCode"/>
 				<result column="productStyleName" property="productStyleName"/>
+				<result column="productStyleType" property="productStyleType"/>
+				<result column="productStyleStatus" property="productStyleStatus"/>
+				<result column="allStockNum" property="allStockNum"/>
 				<result column="stockNum" property="stockNum"/>
 				<result column="originalPrice" property="originalPrice"/>
+				<result column="curType" property="curType"/>
+				<result column="discountRate" property="discountRate"/>
+				<result column="discountPrice" property="discountPrice"/>
 				<result column="currentPrice" property="currentPrice"/>
+				<result column="orderNum" property="orderNum"/>
+				<result column="effective" property="effective"/>
+				<result column="createUserId" property="createUserId"/>
+				<result column="createTime" property="createTime"/>
+				<result column="modifyUserId" property="modifyUserId"/>
+				<result column="modifyTime" property="modifyTime"/>
 			</association>
 		</association>
 	</resultMap>
 
 	<select id="listProductByCategoryCodeSE" parameterType="String" resultMap="comProductMapList">
 		SELECT
-			p.productId,
-			p.productName,
-			p.headImgSrc,
-			p.supplierId,
-			p.summary,
-			ps.productStyleId,
-			ps.productStyleName,
-			ps.stockNum,
-			ps.originalPrice,
+			p.*,
+			ps.*,
 			MIN(ps.currentPrice) as currentPrice
 		FROM
 			com_product_category_detail pcd
@@ -72,16 +127,8 @@
 	
 	<select id="findProductByProductStyleIdSE" parameterType="String" resultMap="comProductMapList">
 		SELECT
-			p.productId,
-			p.productName,
-			p.headImgSrc,
-			p.supplierId,
-			p.summary,
-			ps.productStyleId,
-			ps.productStyleName,
-			ps.stockNum,
-			ps.originalPrice,
-			ps.currentPrice
+			p.*,
+			ps.*
 		FROM
 			com_product_info p
 		LEFT JOIN com_product_style_info ps ON p.productId = ps.productId
@@ -91,24 +138,13 @@
 		AND p.productStatus = '01'
 		AND ps.effective = '01'
 		AND ps.productStyleStatus = '01'
-		ORDER BY
-			pcd.orderNum DESC
 	</select>
 	
 	<select id="listShopCarByUserSE" parameterType="pd" resultMap="comShopCarMapList">
 		SELECT
-			sc.shopCarId,
-			sc.count,
-			p.productId,
-			p.productName,
-			p.headImgSrc,
-			p.supplierId,
-			p.summary,
-			ps.productStyleId,
-			ps.productStyleName,
-			ps.stockNum,
-			ps.originalPrice,
-			ps.currentPrice
+			sc.*,
+			p.*,
+			ps.*
 		FROM
 			com_shop_car_info sc
 		LEFT JOIN com_product_style_info ps ON sc.productStyleId = ps.productStyleId

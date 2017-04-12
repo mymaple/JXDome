@@ -44,31 +44,134 @@
 		$("#shopCarForm").submit();
 	}
 	
+	
+	function toGetAllPay(){
+		var shopCarIdChecks = $("input[name='shopCarId']:checked");
+		if(shopCarIdChecks.length==0){
+			return;
+		}
+		var shopCarIdChecksStr = "";
+		for(var i=0; i<shopCarIdChecks.length; i++){ 
+			shopCarIdChecksStr += shopCarIdChecks[i].value + ",";
+		}
+		shopCarIdChecksStr = shopCarIdChecksStr.substring(0, shopCarIdChecksStr.length-1);
+		$.post("<%=basePath%>weixin/shopCar/toGetAllPay",{shopCarIds:shopCarIdChecksStr},
+			function(data){
+				if(data.resultCode=='success'){
+					$("#allPay").html(data.resultContent);
+				}else{
+					layer.open({
+				    	content: data.resultContent
+				    	,skin: 'msg'
+				    	,time: 2 //2秒后自动关闭
+				 	});
+				}
+		});
+	}
+	
 	//全选
 	$(function() {
-		$("#shopCarIds").click(function() {
+		$("#shopCarIdAll").click(function() {
 	       $('input[name="shopCarId"]').prop("checked",this.checked);
-	       toRefresh();
+	       toGetAllPay();
 	    });
-	    var $shopcars = $("input[name='shopCarId']");
-	    $shopcars.click(function(){
-	       $("#shopCarIds").prop("checked",$shopcars.length == $("input[name='shopCarId']:checked").length ? true : false);
-	       toRefresh();
+	    var $shopCarIds = $("input[name='shopCarId']");
+	    $shopCarIds.click(function(){
+	       $("#shopCarIdAll").prop("checked",$shopCarIds.length == $("input[name='shopCarId']:checked").length ? true : false);
+	       toGetAllPay();
 	     });
 	});
 
 	//清空
 	function toDeletes(){
 		if(confirm("确定清除选中商品？")){
-			var shopcarS = $("input[name='shopcars']:checked");
-			var shopcarChecks = "";
-			for(var i=0; i<shopcarS.length; i++){ 
-				shopcarChecks += shopcarS[i].value + ",";
+			var shopCarIdChecks = $("input[name='shopCarId']:checked");
+			var shopCarIdChecksStr = "";
+			for(var i=0; i<shopCarIdChecks.length; i++){ 
+				shopCarIdChecksStr += shopCarIdChecks[i].value + ",";
 			}
-			shopcarChecks = shopcarChecks.substring(0, shopcarChecks.length-1);
-			toDelete(shopcarChecks);
+			shopCarIdChecksStr = shopCarIdChecksStr.substring(0, shopCarIdChecksStr.length-1);
+			$.post("<%=basePath%>weixin/shopCar/toDelete",{shopCarIds:shopCarIdChecksStr},
+					function(data){
+						if(data.resultCode=='success'){
+							window.location.reload();
+						}
+				});
 		}
 	}
+	
+	function toDelete(shopCarId){
+		if(confirm("确定删除？")){
+			$.post("<%=basePath%>weixin/shopCar/toDelete",{shopCarIds:shopCarId},
+				function(data){
+					if(data.resultCode=='success'){
+						window.location.reload();
+					}
+			});
+		}
+	}
+	
+	function countL(shopCarId){
+		var count = Number($('#count_'+shopCarId).val());
+		if(count<=1){
+			layer.open({
+		    	content: '最少选购1件'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			changeCount(shopCarId,'1');
+		}else{
+			changeCount(shopCarId,count-1);
+		}
+	}
+	
+	function countM(shopCarId){
+		var count = Number($('#count_'+shopCarId).val());
+		var stockNum = Number($('#stockNum_'+shopCarId).val());
+		if(count>=stockNum){
+			layer.open({
+		    	content: '超出库存'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+		}else{
+			changeCount(shopCarId,count+1);
+		}
+	}
+	
+	function toChangeCount(shopCarId){
+		var count = Number($('#count_'+shopCarId).val());
+		var stockNum = Number($('#stockNum_'+shopCarId).val());
+		if(count>=stockNum){
+			layer.open({
+		    	content: '超出库存'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			changeCount(shopCarId,stockNum);
+		}else{
+			changeCount(shopCarId,count);
+		}
+	}
+	
+	function changeCount(shopCarId,count){
+		$.post("<%=basePath%>weixin/shopCar/toChangeCount",{shopCarId:shopCarId,count:count},
+				function(data){
+					if(data.resultCode=='success'){
+						$('#count_'+shopCarId).val(count);
+						toGetAllPay();
+					}else{
+						layer.open({
+					    	content: data.resultContent
+					    	,skin: 'msg'
+					    	,time: 2 //2秒后自动关闭
+					 	});
+					}
+			});
+	}
+	
+	
+	
 </script>
 </head>
 <!--loading页开始-->
@@ -86,14 +189,13 @@
 <!--loading页结束-->
 	<body>
 	<form action="weixin/order/toConfirmOrder2.do" name="shopCarForm" id="shopCarForm" method="post">
-						
 				<c:choose>
             	<c:when test="${not empty comShopCarList}">
         <!--header star-->
 		<header class="mui-bar mui-bar-nav" >
   			<div class="radio" > 
 			    <label>
-			        <input type="checkbox" id="shopCarIds" />
+			        <input type="checkbox" id="shopCarIdAll" />
 			        <div class="option" style="vertical-align:middle; margin-top:-.1rem;"></div>&nbsp;
 			    </label>
 			</div>
@@ -134,17 +236,20 @@
 		    			</div>
 		    			<div class="right clearfloat fl">
 		    				<p class="tit over">${comShopCar.comProduct.productName }</p>
-		    				<p class="fu-tit over">${comShopCar.comProduct.comProductStyle.productStyleName }</p>
+		    				<p class="fu-tit over">${comShopCar.comProduct.comProductStyle.productStyleName }(剩余${comShopCar.comProduct.comProductStyle.stockNum }件)</p>
 		    				<p class="jifen over">积分：${comShopCar.comProduct.comProductStyle.currentPrice }积分</p>
 		    				<div class="bottom clearfloat">
 		    					<div class="zuo clearfloat fl">
 		    						<ul>
-		    							<li><img src="weui/gemo/img/jian.png"/></li>
-		    							<li class="num-w"><input class="num-txt" type="number" id="count${comShopCar.shopCarId }" value="${comShopCar.count }" max="${comShopCar.comProduct.comProductStyle.stockNum }"> </li>
-		    							<li><img src="weui/gemo/img/jia.png"/></li>
+		    							<li onclick="countL('${comShopCar.shopCarId }');"><img src="weui/gemo/img/jian.png"/></li>
+		    							<li class="num-w">
+		    							<input class="num-txt" type="number" id="count_${comShopCar.shopCarId }" value="${comShopCar.count }" onkeyup="toChangeCount('${comShopCar.shopCarId }');"> 
+		    							<input type="hidden" id="stockNum_${comShopCar.shopCarId }" value="${comShopCar.comProduct.comProductStyle.stockNum }">
+		    							</li>
+		    							<li onclick="countM('${comShopCar.shopCarId }');"><img src="weui/gemo/img/jia.png"/></li>
 		    						</ul>
 		    					</div>
-		    					<i class="iconfont icon-lajixiang fr" ></i>
+		    					<i class="iconfont icon-lajixiang fr" onclick="toDelete('${comShopCar.shopCarId }');"></i>
 		    				</div>
 		    			</div>
 	    		</c:forEach>
@@ -154,7 +259,7 @@
 	    <!--settlement star-->
 	    <div class="settlement clearfloat">
 	    	<div class="zuo clearfloat fl box-s">
-	    		合计：<span>12000</span>
+	    		合计：<span id="allPay">0</span>
 	    	</div>
 	    	<a onclick="toConfirmOrder();" class="fl db">
 	    		立即结算

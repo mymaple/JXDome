@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50716
+Source Server Version : 50528
 Source Host           : localhost:3306
 Source Database       : jxdb
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2017-03-29 10:30:30
+Date: 2017-04-12 21:22:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -199,7 +199,7 @@ INSERT INTO `bg_maple_detail` VALUES ('530502b6cc5b45dfa9d4c751d095de9c', '7928b
 INSERT INTO `bg_maple_detail` VALUES ('530694467ec34ee494604b51f05d76b9', '351d0afc825f474eb61c692722935fe8', 'styleCategoryDetailStatus', '规格分类详情状态', '01', '00', '100', '0', '', '00', '00', '01', '\"00\"', '1487913725176', '01', '1', '2017-02-24 13:22:05', '1', '2017-02-24 13:22:05');
 INSERT INTO `bg_maple_detail` VALUES ('531737534ab649f9bd4ced96cda1ffda', '0c1ea3878cd34c8b9f99283de36f25fb', 'mapleDetailType', '代码生成详情类型', '05', '00', '100', '0', 'bg_mapleDetailType', '00', '01', '01', '\"01\"', '3', '01', '1', '2017-01-12 11:16:28', '1', '2017-01-12 11:16:28');
 INSERT INTO `bg_maple_detail` VALUES ('54398981fb824b04bafb3f1d3cd48f6f', '27a853950d0e4876ba0eccf8d7e2dd8f', 'status', '状态', '05', '00', '100', '0', '', '00', '01', '01', '\"00\"', '4', '01', '1', '2017-01-11 17:11:35', '1', '2017-03-20 16:29:19');
-INSERT INTO `bg_maple_detail` VALUES ('54948f8795ea4e3da3f9189a69442e9e', 'ac75f2ff51a7405485cf40a6f61785f7', 'productName', '商品名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1489202905298', '01', '1', '2017-03-11 11:28:45', '1', '2017-03-11 11:28:45');
+INSERT INTO `bg_maple_detail` VALUES ('54948f8795ea4e3da3f9189a69442e9e', 'ac75f2ff51a7405485cf40a6f61785f7', 'productName', '商品名称', '01', '00', '100', '0', '', '00', '00', '01', '', '1489202905298', '01', '1', '2017-03-11 11:28:45', '1', '2017-04-11 16:28:19');
 INSERT INTO `bg_maple_detail` VALUES ('54d7b185a0f040dfb95a4d712205d3ed', 'd770d5128d82483ab6763cfbed6e847d', 'integralCountAfter', '交易后积分数量', '04', '00', '100', '2', '', '00', '01', '01', '', '1488594736670', '01', '1', '2017-03-04 10:32:41', '1', '2017-03-06 10:30:20');
 INSERT INTO `bg_maple_detail` VALUES ('5712b8ad5b1c4589a7bb5a40aa391962', '0c1ea3878cd34c8b9f99283de36f25fb', 'defaultValue', '默认值', '01', '00', '100', '0', '', '00', '01', '01', '', '1484191753948', '01', '1', '2017-01-12 11:29:14', '1', '2017-01-12 11:29:14');
 INSERT INTO `bg_maple_detail` VALUES ('5777ff112dcc4b57a9314a9b7fcf813d', '36ff1b75838f43efac8625df493e0df1', 'wxAccountName', '微信账户名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1484882249398', '01', '1', '2017-01-20 11:17:29', '1', '2017-01-20 11:17:29');
@@ -235,6 +235,7 @@ INSERT INTO `bg_maple_detail` VALUES ('76e8bed04d6b4e5f8acdb81b6223ccf3', 'c9da8
 INSERT INTO `bg_maple_detail` VALUES ('778217d2d3e54a04b2621a8c2ada60e5', '9a85215a94334cbc83bb5cf701ccf3bb', 'phone', '电话号码', '01', '00', '100', '0', '', '00', '01', '01', '', '1486704900464', '01', '1', '2017-02-10 13:41:04', '1', '2017-02-10 13:53:45');
 INSERT INTO `bg_maple_detail` VALUES ('77d5c1c3c1c8425ea9536c64b3614c8e', 'c9da8f2d57774bbbad13030135b6a1cb', 'mapleCode', '代码生成代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1', '01', '1', '2017-01-11 23:48:27', '1', '2017-01-11 23:48:27');
 INSERT INTO `bg_maple_detail` VALUES ('77dafcf782114bff9e1a53bb5854c5d3', 'd770d5128d82483ab6763cfbed6e847d', 'integralNoteCode', '积分记录代号', '01', '00', '100', '0', '', '00', '01', '01', '', '1488532875558', '01', '1', '2017-03-03 17:21:16', '1', '2017-03-03 17:21:16');
+INSERT INTO `bg_maple_detail` VALUES ('78cbe66ee65441919b2e68df61f6f88c', 'ac75f2ff51a7405485cf40a6f61785f7', 'productStyleId', '商品类型id', '01', '00', '100', '0', '', '00', '01', '01', '', '1489203171352', '01', '1', '2017-04-11 16:26:58', '1', '2017-04-11 16:27:35');
 INSERT INTO `bg_maple_detail` VALUES ('7a5d5343cc4d4a8c9b027aea5fabffbe', '3b3eb93879584c78a5ae5ea461dbc022', 'sparepartDealCode', '零部件交易订单号', '01', '00', '100', '0', '', '00', '01', '01', '', '1488531290179', '01', '1', '2017-03-03 16:54:50', '1', '2017-03-04 13:37:20');
 INSERT INTO `bg_maple_detail` VALUES ('7ad405a7439c46cf93fd4bda1bb3037b', '7928b5c3a71443e69dac9a775fb732aa', 'password', '密码', '01', '00', '255', '0', '', '00', '01', '01', '', '1484726215272', '01', '1', '2017-01-18 16:36:25', '1', '2017-01-18 16:41:14');
 INSERT INTO `bg_maple_detail` VALUES ('7bc20bf03cd640fe8ea4933be62c9abb', 'c723817cc46c4ff885b9f1a80702c6a9', 'phone', '手机号码', '01', '00', '100', '0', '', '00', '01', '01', '', '1488508289866', '01', '1', '2017-03-03 10:37:48', '1', '2017-03-03 14:35:46');
@@ -290,7 +291,7 @@ INSERT INTO `bg_maple_detail` VALUES ('b10bf48749f24c639c45465c52e434d3', '2b8a4
 INSERT INTO `bg_maple_detail` VALUES ('b2904db80ab24c398ae0acb4a2eb4845', '46359ab1ffb041c196e16b95a654df12', 'categoryType', '分类类型', '05', '00', '100', '0', 'com_categoryType', '00', '01', '01', '\"01\"', '1487917239221', '01', '1', '2017-02-24 14:20:39', '1', '2017-02-24 14:20:39');
 INSERT INTO `bg_maple_detail` VALUES ('b3262a3697484cd48874443d34b7e4f9', '307d768ee19e45b09b016970caf257ca', 'allIntegral', '总积分', '04', '00', '100', '2', '', '00', '01', '01', '', '1488528032670', '01', '1', '2017-03-03 16:02:31', '1', '2017-03-03 16:02:31');
 INSERT INTO `bg_maple_detail` VALUES ('b33470b8c56d4089a237c9f3ebac8565', 'a7fef610fae34226afc5515388822a79', 'allPrice', '商品总价', '04', '00', '100', '2', '', '00', '01', '01', '', '1489198792425', '01', '1', '2017-03-11 10:22:02', '1', '2017-03-11 10:22:02');
-INSERT INTO `bg_maple_detail` VALUES ('b5d52ee47e254dbaa84d14ee3b7bbeb0', 'ac75f2ff51a7405485cf40a6f61785f7', 'productStyleName', '商品类型名称', '01', '00', '100', '0', '', '00', '01', '01', '', '1489203171353', '01', '1', '2017-03-11 11:33:25', '1', '2017-03-11 11:33:25');
+INSERT INTO `bg_maple_detail` VALUES ('b5d52ee47e254dbaa84d14ee3b7bbeb0', 'ac75f2ff51a7405485cf40a6f61785f7', 'productStyleName', '商品类型名称', '01', '00', '100', '0', '', '00', '00', '01', '', '1489203171353', '01', '1', '2017-03-11 11:33:25', '1', '2017-04-11 16:28:27');
 INSERT INTO `bg_maple_detail` VALUES ('b616a6b68eaa4e01ae4e886311616acf', 'ac75f2ff51a7405485cf40a6f61785f7', 'count', '购买数量', '02', '00', '100', '0', '', '00', '01', '01', '', '1489214640271', '01', '1', '2017-03-11 14:44:11', '1', '2017-03-11 14:44:16');
 INSERT INTO `bg_maple_detail` VALUES ('b7a963fd39df4a2e851ba52cf063221b', '9a85215a94334cbc83bb5cf701ccf3bb', 'brithday', '生日', '03', '00', '100', '0', '', '00', '01', '01', '', '1486706378774', '01', '1', '2017-02-10 14:02:00', '1', '2017-02-10 14:02:00');
 INSERT INTO `bg_maple_detail` VALUES ('ba109fd64c614cb0a56d54d6fbf382cf', '2b0255e6416a49669ba92dd90732c2ab', 'productId', '产品编号', '05', '00', '100', '0', 'com_productEffective', '00', '01', '01', '', '1487912483487', '01', '1', '2017-02-24 13:48:16', '1', '2017-03-10 10:42:27');
@@ -605,9 +606,9 @@ CREATE TABLE `com_app_user_ext` (
 -- Records of com_app_user_ext
 -- ----------------------------
 INSERT INTO `com_app_user_ext` VALUES ('07346763e6134982b6e522ef5e8d61b3', '4f38db7346804bd097077adb0cdde168', 'wxQRcodeExpiry', '微信二维码有效期', '2017-03-28 15:17:57', '1490685477804', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58');
-INSERT INTO `com_app_user_ext` VALUES ('1d5c153347374beaacadd04c4d9c3998', '4f38db7346804bd097077adb0cdde168', 'openId', '微信公众号个人唯一标识', 'oAQf_wgU22N3diLH4TEqxu_8j6Rk', '1490685477808', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:15:03');
+INSERT INTO `com_app_user_ext` VALUES ('1d5c153347374beaacadd04c4d9c3998', '4f38db7346804bd097077adb0cdde168', 'openId', '微信公众号个人唯一标识', 'oAQf_wgU22N3diLH4TEqxu_8j6Rk', '1490685477808', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58', '4f38db7346804bd097077adb0cdde168', '2017-04-11 20:17:19');
 INSERT INTO `com_app_user_ext` VALUES ('32903660933343be9cada3a80417435e', '4f38db7346804bd097077adb0cdde168', 'mediaId', '媒体文件id', '', '1490685477803', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58');
-INSERT INTO `com_app_user_ext` VALUES ('b101b2b3434c468eaa1760c265bebc18', '4f38db7346804bd097077adb0cdde168', 'integralCount', '积分数', '5000', '1490685477798', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58');
+INSERT INTO `com_app_user_ext` VALUES ('b101b2b3434c468eaa1760c265bebc18', '4f38db7346804bd097077adb0cdde168', 'integralCount', '积分数', '4609.6', '1490685477798', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58', '4f38db7346804bd097077adb0cdde168', '2017-04-12 12:40:20');
 INSERT INTO `com_app_user_ext` VALUES ('d95c4320fb074192962b72616451b5d0', '4f38db7346804bd097077adb0cdde168', 'mediaExpiry', '媒体文件有效时间', '2017-03-28 15:17:57', '1490685477801', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58');
 INSERT INTO `com_app_user_ext` VALUES ('e6660f166b484907896282a3e243401f', '4f38db7346804bd097077adb0cdde168', 'wxQRcodeSrc', '微信二维码', '', '1490685477806', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58', '4f38db7346804bd097077adb0cdde168', '2017-03-28 15:17:58');
 
@@ -810,6 +811,8 @@ CREATE TABLE `com_integral_note_info` (
 -- ----------------------------
 -- Records of com_integral_note_info
 -- ----------------------------
+INSERT INTO `com_integral_note_info` VALUES ('a32e81ca0e6d47eaaa8340fa9beda1bc', '1170412124002139', '支付订单“1170412124002139”', '00', '00', '4f38db7346804bd097077adb0cdde168', '288.00', null, null, '1491972020815', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-12 12:40:20', '4f38db7346804bd097077adb0cdde168', '2017-04-12 12:40:20');
+INSERT INTO `com_integral_note_info` VALUES ('fbf231620c7c44faa2ca600eec3554f0', '1170411145201140', '支付订单“1170411145201140”', '00', '00', '4f38db7346804bd097077adb0cdde168', '102.40', null, null, '1491913636310', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-11 20:27:16', '4f38db7346804bd097077adb0cdde168', '2017-04-11 20:27:16');
 
 -- ----------------------------
 -- Table structure for com_invite_info
@@ -875,6 +878,7 @@ CREATE TABLE `com_order_detail` (
   `productId` varchar(100) DEFAULT NULL COMMENT '商品Id',
   `productName` varchar(100) DEFAULT NULL COMMENT '商品名称',
   `summary` varchar(100) DEFAULT NULL COMMENT '摘要',
+  `productStyleId` varchar(100) DEFAULT NULL COMMENT '商品类型id',
   `productStyleName` varchar(100) DEFAULT NULL COMMENT '商品类型名称',
   `headImgSrc` varchar(100) DEFAULT NULL COMMENT '产品头像',
   `originalPrice` double(100,0) DEFAULT NULL COMMENT '原价',
@@ -892,9 +896,13 @@ CREATE TABLE `com_order_detail` (
 -- ----------------------------
 -- Records of com_order_detail
 -- ----------------------------
-INSERT INTO `com_order_detail` VALUES ('c66603c2fe014280b37e90e03cada7ec', 'a9b54dbb27d84805b65f543ba8cc763d', 'fcbcd3c8dc5440d6aa00754d83a005c8', '【蓝牙版】唇膏自拍杆', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '樱桃粉', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '1', '1490689495972', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:24:56', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:24:56');
-INSERT INTO `com_order_detail` VALUES ('ccbbf7d2baf0437dbec898cc11e9ad65', '801ad484e7464019b859eacb52d00600', 'fcbcd3c8dc5440d6aa00754d83a005c8', '【蓝牙版】唇膏自拍杆', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '樱桃粉', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '1', '1490690497916', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:41:38', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:41:38');
-INSERT INTO `com_order_detail` VALUES ('dcf23e9d19214a0ea89ccaaf21082354', '44e5b521f3f6432eaa331c68d5a70f58', 'fcbcd3c8dc5440d6aa00754d83a005c8', '【蓝牙版】唇膏自拍杆', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '樱桃粉', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '1', '1490752510002', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:10', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:10');
+INSERT INTO `com_order_detail` VALUES ('3b278fc658544c78a8674bc0bb859558', '7c47d5f6655f41edb2641edc9692440f', 'fcbcd3c8dc5440d6aa00754d83a005c8', '【蓝牙版】唇膏自拍杆', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '6d3bfff0f75f495f94979877a05473f8', '樱桃粉', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '1', '1491893521817', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-11 14:52:01', '4f38db7346804bd097077adb0cdde168', '2017-04-11 14:52:01');
+INSERT INTO `com_order_detail` VALUES ('4770f5d8bfce4e178f18144ae95e7928', '47d062f6225a4f1e8a73e01be0a310b5', 'fcbcd3c8dc5440d6aa00754d83a005c8', '', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '6d3bfff0f75f495f94979877a05473f8', '', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '5', '1491991362322', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-12 18:02:42', '4f38db7346804bd097077adb0cdde168', '2017-04-12 18:02:42');
+INSERT INTO `com_order_detail` VALUES ('720e8d6d979c4953b71375d0f2b9eaaf', '7407d04d68634b5a9a8d4d36a9a1859e', 'fcbcd3c8dc5440d6aa00754d83a005c8', '【蓝牙版】唇膏自拍杆', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '6d3bfff0f75f495f94979877a05473f8', '樱桃粉', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '1', '1491557359803', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-07 17:29:19', '4f38db7346804bd097077adb0cdde168', '2017-04-07 17:29:19');
+INSERT INTO `com_order_detail` VALUES ('881d9dbdd204497ab81d5070f3fbd282', '12eaf06ee0ff4c0cbecbea84c5ed5e09', 'fcbcd3c8dc5440d6aa00754d83a005c8', '', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', 'e852db025d9446efa90d69d2cbe036e4', '', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '120', '96', '3', '1491972002874', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-12 12:40:02', '4f38db7346804bd097077adb0cdde168', '2017-04-12 12:40:02');
+INSERT INTO `com_order_detail` VALUES ('c66603c2fe014280b37e90e03cada7ec', 'a9b54dbb27d84805b65f543ba8cc763d', 'fcbcd3c8dc5440d6aa00754d83a005c8', '【蓝牙版】唇膏自拍杆', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '6d3bfff0f75f495f94979877a05473f8', '樱桃粉', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '1', '1490689495972', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:24:56', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:24:56');
+INSERT INTO `com_order_detail` VALUES ('ccbbf7d2baf0437dbec898cc11e9ad65', '801ad484e7464019b859eacb52d00600', 'fcbcd3c8dc5440d6aa00754d83a005c8', '【蓝牙版】唇膏自拍杆', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '6d3bfff0f75f495f94979877a05473f8', '樱桃粉', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '1', '1490690497916', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:41:38', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:41:38');
+INSERT INTO `com_order_detail` VALUES ('dcf23e9d19214a0ea89ccaaf21082354', '44e5b521f3f6432eaa331c68d5a70f58', 'fcbcd3c8dc5440d6aa00754d83a005c8', '【蓝牙版】唇膏自拍杆', '以轻奢之名，宠爱自己 | 线控版迷你折叠自拍神器', '6d3bfff0f75f495f94979877a05473f8', '樱桃粉', 'uploadFiles/image/product/headImg/9900d3190d3a44bc97f747f003e9e2ac.jpg', '128', '102', '1', '1490752510002', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:10', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:10');
 
 -- ----------------------------
 -- Table structure for com_order_main
@@ -934,7 +942,11 @@ CREATE TABLE `com_order_main` (
 -- ----------------------------
 -- Records of com_order_main
 -- ----------------------------
+INSERT INTO `com_order_main` VALUES ('12eaf06ee0ff4c0cbecbea84c5ed5e09', '1170412124002139', null, '01', '02', '4f38db7346804bd097077adb0cdde168', '3', '360.00', null, '72.00', null, '288.00', '酷礼积分商城', 'd9c3ce8e48f94e65a04f447eff130ec0', '4484398da32e42ab916128f0a55a70db', null, null, null, null, null, null, '1491972002849', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-12 12:40:02', '4f38db7346804bd097077adb0cdde168', '2017-04-12 12:40:20');
 INSERT INTO `com_order_main` VALUES ('44e5b521f3f6432eaa331c68d5a70f58', '1170329095509133', null, '01', '01', '4f38db7346804bd097077adb0cdde168', '1', '128.00', '0.00', '25.60', null, '102.40', '酷礼积分商城', 'd9c3ce8e48f94e65a04f447eff130ec0', '', null, null, null, null, null, null, '1490752509949', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:10', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:10');
+INSERT INTO `com_order_main` VALUES ('47d062f6225a4f1e8a73e01be0a310b5', '1170412180242141', null, '01', '01', '4f38db7346804bd097077adb0cdde168', '5', '640.00', '0.00', '128.00', null, '512.00', '酷礼积分商城', 'd9c3ce8e48f94e65a04f447eff130ec0', '', null, null, null, null, null, null, '1491991362315', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-12 18:02:42', '4f38db7346804bd097077adb0cdde168', '2017-04-12 18:02:42');
+INSERT INTO `com_order_main` VALUES ('7407d04d68634b5a9a8d4d36a9a1859e', '1170407172919130', null, '01', '01', '4f38db7346804bd097077adb0cdde168', '1', '128.00', null, '25.60', null, '102.40', '酷礼积分商城', 'd9c3ce8e48f94e65a04f447eff130ec0', '', null, null, null, null, null, null, '1491557359794', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-07 17:29:19', '4f38db7346804bd097077adb0cdde168', '2017-04-07 17:29:19');
+INSERT INTO `com_order_main` VALUES ('7c47d5f6655f41edb2641edc9692440f', '1170411145201140', null, '01', '02', '4f38db7346804bd097077adb0cdde168', '1', '128.00', null, '25.60', null, '102.40', '酷礼积分商城', 'd9c3ce8e48f94e65a04f447eff130ec0', '4484398da32e42ab916128f0a55a70db', null, null, null, null, null, null, '1491893521734', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-11 14:52:01', '4f38db7346804bd097077adb0cdde168', '2017-04-11 20:27:16');
 INSERT INTO `com_order_main` VALUES ('801ad484e7464019b859eacb52d00600', '1170328164137128', null, '01', '01', '4f38db7346804bd097077adb0cdde168', '1', '128.00', '0.00', '25.60', null, '102.40', '酷礼积分商城', 'd9c3ce8e48f94e65a04f447eff130ec0', '', null, null, null, null, null, null, '1490690497785', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:41:38', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:41:38');
 INSERT INTO `com_order_main` VALUES ('a9b54dbb27d84805b65f543ba8cc763d', '1170328162455147', null, '01', '01', '4f38db7346804bd097077adb0cdde168', '1', '128.00', '0.00', '25.60', null, '102.40', '酷礼积分商城', 'd9c3ce8e48f94e65a04f447eff130ec0', '4484398da32e42ab916128f0a55a70db', null, null, null, null, null, null, '1490689495853', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:24:56', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:26:06');
 
@@ -1065,10 +1077,10 @@ CREATE TABLE `com_product_style_info` (
 -- Records of com_product_style_info
 -- ----------------------------
 INSERT INTO `com_product_style_info` VALUES ('1c865bb3cf5f4fb9a30c90022cc5acb1', '064aad78d2c546f1a3c2050c104cb496', 'spgg100062', '白色', '904952a8184145a49348788ceb234dc0', '01', '30', '30', '430.00', '01', '0.70', '129.00', '301.00', '1490688546654', '01', '1', '2017-03-28 16:09:26', '1', '2017-03-28 16:09:26');
-INSERT INTO `com_product_style_info` VALUES ('6d3bfff0f75f495f94979877a05473f8', 'fcbcd3c8dc5440d6aa00754d83a005c8', 'spgg100033', '樱桃粉', '600fcb2d7d7f43a18aaa628784c028f3', '01', '100', '100', '128.00', '01', '0.80', '25.60', '102.40', '1490688251249', '01', '1', '2017-03-28 16:04:36', '1', '2017-03-28 16:04:36');
+INSERT INTO `com_product_style_info` VALUES ('6d3bfff0f75f495f94979877a05473f8', 'fcbcd3c8dc5440d6aa00754d83a005c8', 'spgg100033', '樱桃粉', '600fcb2d7d7f43a18aaa628784c028f3', '01', '100', '99', '128.00', '01', '0.80', '25.60', '102.40', '1490688251249', '01', '1', '2017-03-28 16:04:36', '4f38db7346804bd097077adb0cdde168', '2017-04-11 20:27:16');
 INSERT INTO `com_product_style_info` VALUES ('88bdd55f5cd2449799aa4815a6eab36a', '064aad78d2c546f1a3c2050c104cb496', 'spgg100046', '黑色', '057088b6891341f780343fe3732a7abc', '01', '500', '500', '320.00', '01', '0.70', '96.00', '224.00', '1490688518283', '01', '1', '2017-03-28 16:09:03', '1', '2017-03-28 16:09:03');
 INSERT INTO `com_product_style_info` VALUES ('c296792a87e54895b4ef77249975d1f5', '064aad78d2c546f1a3c2050c104cb496', 'spgg100081', '金色', 'fd48bec71b064076baa12b90b0eeba98', '01', '600', '600', '460.00', '01', '0.70', '138.00', '322.00', '1490688588103', '01', '1', '2017-03-28 16:10:08', '1', '2017-03-28 16:10:08');
-INSERT INTO `com_product_style_info` VALUES ('e852db025d9446efa90d69d2cbe036e4', 'fcbcd3c8dc5440d6aa00754d83a005c8', 'spgg100018', '月光白', '077529a3c68a43d5a0ac5dc19ad7ad6e', '01', '2000', '2000', '120.00', '01', '0.80', '24.00', '96.00', '1490688060493', '01', '1', '2017-03-28 16:02:00', '1', '2017-03-28 16:02:45');
+INSERT INTO `com_product_style_info` VALUES ('e852db025d9446efa90d69d2cbe036e4', 'fcbcd3c8dc5440d6aa00754d83a005c8', 'spgg100018', '月光白', '077529a3c68a43d5a0ac5dc19ad7ad6e', '01', '2000', '1997', '120.00', '01', '0.80', '24.00', '96.00', '1490688060493', '01', '1', '2017-03-28 16:02:00', '4f38db7346804bd097077adb0cdde168', '2017-04-12 12:40:20');
 
 -- ----------------------------
 -- Table structure for com_receive_address_info
@@ -1122,10 +1134,12 @@ CREATE TABLE `com_shop_car_info` (
 -- Records of com_shop_car_info
 -- ----------------------------
 INSERT INTO `com_shop_car_info` VALUES ('15aa8579bbfb41f9ab12725f93ce3ad1', '4f38db7346804bd097077adb0cdde168', '6d3bfff0f75f495f94979877a05473f8', '1', '02', '1490690535806', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:42:16', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:10');
-INSERT INTO `com_shop_car_info` VALUES ('6d3165ad832d433cb55b5f995d7a6ddc', '4f38db7346804bd097077adb0cdde168', '6d3bfff0f75f495f94979877a05473f8', '1', '01', '1490752543428', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:43', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:43');
+INSERT INTO `com_shop_car_info` VALUES ('1de2443fe0f648b8adfb0fcd8bbd3ca6', '4f38db7346804bd097077adb0cdde168', '6d3bfff0f75f495f94979877a05473f8', '5', '02', '1491980903112', '01', '4f38db7346804bd097077adb0cdde168', '2017-04-12 15:08:23', '4f38db7346804bd097077adb0cdde168', '2017-04-12 18:02:42');
+INSERT INTO `com_shop_car_info` VALUES ('6d3165ad832d433cb55b5f995d7a6ddc', '4f38db7346804bd097077adb0cdde168', '6d3bfff0f75f495f94979877a05473f8', '1', '03', '1490752543428', '00', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:55:43', '4f38db7346804bd097077adb0cdde168', '2017-04-12 15:03:01');
+INSERT INTO `com_shop_car_info` VALUES ('7d82ed9d3cd64103ae3c50b8b6410b15', '4f38db7346804bd097077adb0cdde168', 'e852db025d9446efa90d69d2cbe036e4', '1', '03', '1491461850249', '00', '4f38db7346804bd097077adb0cdde168', '2017-04-06 14:57:30', '4f38db7346804bd097077adb0cdde168', '2017-04-12 15:01:33');
 INSERT INTO `com_shop_car_info` VALUES ('92b279f723ce4bd39e226ed72d9e27de', '4f38db7346804bd097077adb0cdde168', '6d3bfff0f75f495f94979877a05473f8', '1', '02', '1490690117025', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:35:17', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:41:38');
 INSERT INTO `com_shop_car_info` VALUES ('b51840b03783484596329f9bd6c6f5c3', '4f38db7346804bd097077adb0cdde168', '6d3bfff0f75f495f94979877a05473f8', '1', '02', '1490689409834', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:23:30', '4f38db7346804bd097077adb0cdde168', '2017-03-28 16:24:56');
-INSERT INTO `com_shop_car_info` VALUES ('c176502cdef44d43a20de518041fd43f', '4f38db7346804bd097077adb0cdde168', '1c865bb3cf5f4fb9a30c90022cc5acb1', '1', '01', '1490752624591', '01', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:57:05', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:57:05');
+INSERT INTO `com_shop_car_info` VALUES ('c176502cdef44d43a20de518041fd43f', '4f38db7346804bd097077adb0cdde168', '1c865bb3cf5f4fb9a30c90022cc5acb1', '1', '03', '1490752624591', '00', '4f38db7346804bd097077adb0cdde168', '2017-03-29 09:57:05', '4f38db7346804bd097077adb0cdde168', '2017-04-12 15:03:01');
 
 -- ----------------------------
 -- Table structure for com_sparepart_deal_info
@@ -1271,4 +1285,4 @@ CREATE TABLE `com_wx_account_info` (
 -- ----------------------------
 -- Records of com_wx_account_info
 -- ----------------------------
-INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', '01pGf7hqNwGk9ZTBA23ezj_hJ5IQz1nlOp11cfnKevpPep9GxNGfk2X_Z6BAaaJO6zNIxgwm9-j3959BgcOZd-Ul6tU1hTf-f_JI-jW7SijCaanKLngNUUSy1OTRkHdDUUUjACAIII', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjfeT9XadxP_JimjrlzIQTXqS5M1Kr1TSGWned3KQWfb7A', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-03-29 10:13:00');
+INSERT INTO `com_wx_account_info` VALUES ('9828b1377557429c8cb449440291e042', 'giftOL', '在线送礼', '01', '01', 'wxf3a522044df3f3df', '2028ab8d1cdb5c5e918bfb2c3f4c47f5', 'jiangxiang', '1423462402', '3034adc8e3218f3f3be7bb27590c90ed', 'hAt-B1gYrsw8F3a2bJDZTprnQ3Uk1QXk5PU5398-W0UCIhMSTZy3cvUlgf2ZjchzOoTRxAiPa203lN5nBPSgiVd0Tm_tcq75n7JT_jm3PGDhGMQHR9ytO0g8MaZQD2zAECAdAJARPN', 'kgt8ON7yVITDhtdwci0qeRNuinq5m4Y437sKzdeBHjcgUu7quyQ61HKUL6OVx1vskIgGjqb3HXNMfaSSqFeTIA', '1484896943192', '01', '1', '2017-01-20 15:26:49', 'wx', '2017-04-12 18:13:05');

@@ -46,7 +46,10 @@ public class ComOrderDetailServiceImpl implements ComOrderDetailService{
 	public void add(ComOrderDetail comOrderDetail) throws Exception {
 		
 		Date nowTime = new Date();
-		comOrderDetail.setOrderDetailId(UuidUtil.get32UUID());
+		String orderDetailId = UuidUtil.get32UUID();
+		comOrderDetail.setOrderDetailId(orderDetailId);
+		comOrderDetail.setProductName("");
+		comOrderDetail.setProductStyleName("");
 		comOrderDetail.setEffective("01");
 		comOrderDetail.setCreateUserId(ShiroSessionUtil.getUserId());
 		comOrderDetail.setCreateTime(nowTime);
