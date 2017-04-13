@@ -108,8 +108,9 @@ public class ComOrderServiceImpl implements ComOrderService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComOrder> listByOrderIdsSED(String appUserId, String[] orderIdArr) throws Exception {
+	public List<ComOrder> listByOrderIdsSED(String orderStatus, String appUserId, String[] orderIdArr) throws Exception {
 		PageData pd = new PageData();
+		pd.put("orderStatus", orderStatus);
 		pd.put("appUserId", appUserId);
 		pd.put("orderIdArr", orderIdArr);
 		
@@ -147,7 +148,7 @@ public class ComOrderServiceImpl implements ComOrderService{
 	 * @throws Exception
 	 */
 	public void toPayByUserE(String appUserId, String[] orderIdArr) throws Exception {
-		List<ComOrder> comOrderList = this.listByOrderIdsSED(appUserId, orderIdArr);
+		List<ComOrder> comOrderList = this.listByOrderIdsSED("01", appUserId, orderIdArr);
 		if(comOrderList==null || comOrderList.size()==0){
 			throw new UncheckedException("40001", null, "订单异常");
 		}

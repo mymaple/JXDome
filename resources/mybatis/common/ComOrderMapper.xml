@@ -72,7 +72,9 @@
 		LEFT JOIN com_order_detail od ON om.orderId = od.orderId
 		WHERE
 			om.appUserId = #{appUserId} 
-		AND om.orderStatus = '01'
+		<if test="orderStatus != null and orderStatus != ''">
+		AND om.orderStatus = #{orderStatus}
+		</if>
 		AND om.effective = '01'
 		AND od.effective = '01'
 		<if test="orderIdArr != null">
@@ -93,7 +95,6 @@
 		LEFT JOIN com_order_detail od ON om.orderId = od.orderId
 		WHERE
 			om.appUserId = #{appUserId} 
-		AND om.orderStatus = '01'
 		AND om.effective = '01'
 		AND od.effective = '01'
 		AND om.orderId = #{orderId} 

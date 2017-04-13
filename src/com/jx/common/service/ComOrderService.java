@@ -38,14 +38,7 @@ public interface ComOrderService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComOrder> listByOrderIdsSED(String appUserId, String[] orderIdArr) throws Exception ;
-	
-	/**
-	 * 获取(类)List数据
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ComOrder> listByUserE(String userId) throws Exception ;
+	public List<ComOrder> listByOrderIdsSED(String orderStatus, String appUserId, String[] orderIdArr) throws Exception ;
 	
 	/**
 	 * 通过id获取(类)数据

@@ -14,7 +14,9 @@ import com.jx.common.config.BaseController;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComOrder;
 import com.jx.common.service.ComAppUserService;
+import com.jx.common.service.ComOrderService;
 import com.jx.common.util.AppUtil;
 import com.jx.weixin.util.WxSessionUtil;
 
@@ -28,7 +30,8 @@ public class WxMineController extends BaseController {
 	
 	@Resource(name = "comAppUserService")
 	private ComAppUserService comAppUserService;
-	
+	@Resource(name = "comOrderService")
+	private ComOrderService comOrderService;
 	
 	/**
 	 * 个人中心
@@ -40,7 +43,15 @@ public class WxMineController extends BaseController {
 		
 		String userId = WxSessionUtil.getUserId();
 		ComAppUser comAppUser = comAppUserService.findById(userId);
+		int count1 = comOrderService.listByOrderIdsSED("01", userId, null).size();
+		int count2 = comOrderService.listByOrderIdsSED("02", userId, null).size();
+		int count3 = comOrderService.listByOrderIdsSED("03", userId, null).size();
+		
 		mv.addObject(comAppUser);
+		mv.addObject("count1",count1);
+		mv.addObject("count2",count2);
+		mv.addObject("count3",count3);
+		
 		mv.setViewName("weixin/mine/wxMyCenter");
 		return mv;
 	}

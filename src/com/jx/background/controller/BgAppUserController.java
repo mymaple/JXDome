@@ -390,7 +390,7 @@ public class BgAppUserController extends BaseController {
 			
 		mv.addObject("pId",pId);
 
-		mv.addObject("controllerPath", "background_appUser");
+		mv.addObject("controllerPath", "background/appUser");
 		mv.setViewName("background/bgUploadExcel");
 
 		mv.addObject(resultInfo);					
@@ -469,7 +469,6 @@ public class BgAppUserController extends BaseController {
 		 * var9 :备注信息;	//9
 		 */
 		for(int i=0;i<listPd.size();i++){	
-			comAppUser.setAppUserId(this.get32UUID());
 			comAppUser.setRoleId(listPd.get(i).getString("var0"));
 			comAppUser.setAppUserCode(listPd.get(i).getString("var1"));
 			comAppUser.setAppUserName(listPd.get(i).getString("var2"));

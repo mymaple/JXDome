@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -34,6 +36,71 @@
 		window.location.href = "<%=basePath%>weixin/order/toOrderDetail.do?orderId="+orderId;
 	}
 	
+	function toBuyMore(orderId){
+		window.location.href = "<%=basePath%>weixin/order/toBuyMore.do?orderId="+orderId;
+	}
+	
+	function toPay(orderId){
+		window.location.href = "<%=basePath%>weixin/order/toPay.do?orderId="+orderId;
+	}
+	
+	function toCancle(orderId){
+		$.post("<%=basePath%>weixin/order/toCancle.do",{orderId:orderId},
+				function(data){
+			if(data.resultCode=='success'){
+				window.location.reload();
+			}else{
+				layer.open({
+			    	content: data.resultContent
+			    	,skin: 'msg'
+			    	,time: 2 //2秒后自动关闭
+			 	});
+			}
+		});
+	}
+	
+	function toRemind(orderId){
+		$.post("<%=basePath%>weixin/order/toRemind.do",{orderId:orderId},
+				function(data){
+			if(data.resultCode=='success'){
+				window.location.reload();
+			}else{
+				layer.open({
+			    	content: data.resultContent
+			    	,skin: 'msg'
+			    	,time: 2 //2秒后自动关闭
+			 	});
+			}
+		});
+	}
+	
+	function toWl(orderId){
+		window.location.href = "<%=basePath%>weixin/order/toWl.do?orderId="+orderId;
+	}
+	
+	function toRefund(orderId){
+		window.location.href = "<%=basePath%>weixin/order/toRefund.do?orderId="+orderId;
+	}
+	
+	function toConfirm(orderId){
+		$.post("<%=basePath%>weixin/order/toConfirm.do",{orderId:orderId},
+				function(data){
+			if(data.resultCode=='success'){
+				window.location.reload();
+			}else{
+				layer.open({
+			    	content: data.resultContent
+			    	,skin: 'msg'
+			    	,time: 2 //2秒后自动关闭
+			 	});
+			}
+		});
+	}
+	
+	function toEvaluate(orderId){
+		window.location.href = "<%=basePath%>weixin/order/toEvaluate.do?orderId="+orderId;
+	}
+	
 </script>
 </head>
 <!--loading页开始-->
@@ -50,16 +117,14 @@
 </div>
 <!--loading页结束-->
 <body>
-
 	    <div id="main" class="mui-clearfix">
-	    
 		    <div class="order-top clearfloat">
 	    		<ul>
-	    			<li class="clearfloat"><a href="order.html">全部</a></li>
-	    			<li class="clearfloat"><a href="#">待付款</a></li>
-	    			<li class="clearfloat"><a href="#">待发货</a></li>
-	    			<li class="clearfloat cur"><a href="">待收货</a></li>
-	    			<li class="clearfloat"><a href="#">待评价</a></li>
+	    			<li class="clearfloat <c:if test="${empty state}">cur</c:if>"><a href="<%=basePath%>weixin/order/list.do">全部</a></li>
+	    			<li class="clearfloat <c:if test="${state=='01'}">cur</c:if>"><a href="<%=basePath%>weixin/order/list.do?state=01">待付款</a></li>
+	    			<li class="clearfloat <c:if test="${state=='02'}">cur</c:if>"><a href="<%=basePath%>weixin/order/list.do?state=02">待发货</a></li>
+	    			<li class="clearfloat <c:if test="${state=='03'}">cur</c:if>"><a href="<%=basePath%>weixin/order/list.do?state=03">待收货</a></li>
+	    			<li class="clearfloat <c:if test="${state=='04'}">cur</c:if>"><a href="<%=basePath%>weixin/order/list.do?state=04">待评价</a></li>
 	    		</ul>
 	    	</div>
 	    
@@ -69,7 +134,7 @@
 	    
 	      <div class="order-list clearfloat" onclick="toOrderDetail('${comOrder.orderId}');">
     		  <p class="ordernum box-s">
-	    			订单  ${comOrder.orderCode } <span class="fr">${comOrder.createTime }</span>    			
+	    			订单  ${comOrder.orderCode } <span class="fr"><param:display type="com_orderState" value="${comOrder.orderStatus}"/></span>    			
     		  </p>
     		  <c:choose>
 		        <c:when test="${not empty comOrder.comOrderDetailList}">
@@ -84,7 +149,7 @@
 	    				<p class="fu-tit">${comOrderDetail.summary}</p>
 	    				<p class="price clearfloat">
 	    					<span class="xprice fl">积分：${comOrderDetail.currentPrice}</span>
-	    					<span class="yprice fl">积分：${comOrderDetail.currentPrice}</span>
+	    					<span class="yprice fl">积分：${comOrderDetail.originalPrice}</span>
 	    					<span class="shu">×1</span>
 	    				</p>
 	    			</div>
@@ -93,17 +158,32 @@
 	    		</c:when>
 	    		</c:choose>
 	    				<p class="odr-jg box-s">
-			    			合计：<span><b>￥</b>1200<s:property value="#inner.payPrice" /></span>（余额支付：100）
+			    			合计：<span>${comOrder.allActPrice}</span>（优惠：${comOrder.allDisPrice}）
 			    		</p>
-						<a onclick="" class="blue-btn ra3 fr">
-							再次购买
-						</a>
-						<a  onclick="" class="gray-btn ra3 fr">
-							我要申诉
-						</a>
-						<a  onclick="" class="lijzf-btn ra3 fr">
-							立即评价
-						</a> 
+			    		
+		    		<c:if test="${comOrder.orderStatus == '00' }">
+		    			<a onclick="toBuyMore('${comOrder.orderId}');" class="blue-btn ra3 fr">再次购买</a>
+		    		</c:if>
+		    		<c:if test="${comOrder.orderStatus == '01' }">
+		    			<a onclick="toPay('${comOrder.orderId}');" class="blue-btn ra3 fr">立即支付</a>
+		    			<a onclick="toCancle('${comOrder.orderId}');" class="lijzf-btn ra3 fr">取消订单</a>
+		    		</c:if>
+		    		<c:if test="${comOrder.orderStatus == '02' }">
+		    			<a onclick="toRemind('${comOrder.orderId}');" class="lijzf-btn ra3 fr">提醒发货</a>
+		    		</c:if>
+		    		<c:if test="${comOrder.orderStatus == '03' }">
+		    			<a onclick="toWl('${comOrder.orderId}');" class="blue-btn ra3 fr">查看物流</a>
+		    			<a onclick="toRefund('${comOrder.orderId}');" class="gray-btn ra3 fr">我要退款</a>
+		    			<a onclick="toConfirm('${comOrder.orderId}');" class="blue-btn ra3 fr">确认收货</a>
+		    		</c:if>
+		    		<c:if test="${comOrder.orderStatus == '04' }">
+		    			<a onclick="toWl('${comOrder.orderId}');" class="blue-btn ra3 fr">查看物流</a>
+		    			<a onclick="toEvaluate('${comOrder.orderId}');" class="lijzf-btn ra3 fr">立即评价</a>
+		    		</c:if>
+		    		<c:if test="${comOrder.orderStatus == '05' || comOrder.orderStatus == '06' }">
+		    			<a onclick="toWl('${comOrder.orderId}');" class="blue-btn ra3 fr">查看物流</a>
+		    			<a onclick="toBuyMore('${comOrder.orderId}');" class="blue-btn ra3 fr">再次购买</a>
+		    		</c:if>
 	    	</div>
             </c:forEach>
             </c:when>
@@ -116,6 +196,38 @@
             </c:otherwise>
             </c:choose>
 	    </div>
+	    
+	    
+	    		<!--footer star-->
+		<footer class="page-footer fixed-footer" id="footer">
+			<ul>
+				<li>
+					<a href="<%=basePath%>weixin/index/toIndex.do">
+						<i class="iconfont icon-shouye"></i>
+						<p>首页</p>
+					</a>
+				</li>
+				<li>
+					<a href="<%=basePath%>weixin/product/toCategory.do">
+						<i class="iconfont icon-icon04"></i>
+						<p>分类</p>
+					</a>
+				</li>
+				<li>
+					<a href="<%=basePath%>weixin/shopCar/list.do">
+						<i class="iconfont icon-gouwuche"></i>
+						<p>购物车</p>
+					</a>
+				</li>
+				<li>
+					<a href="<%=basePath%>weixin/mine/toMyCenter.do">
+						<i class="iconfont icon-yonghuming"></i>
+						<p>个人中心</p>
+					</a>
+				</li>
+			</ul>
+		</footer>
+		<!--footer end-->
 	</body>
 
 	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>

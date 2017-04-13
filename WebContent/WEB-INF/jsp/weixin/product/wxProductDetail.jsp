@@ -138,6 +138,11 @@
 					    	,skin: 'msg'
 					    	,time: 2 //2秒后自动关闭
 					 	});
+						$(".am-share").removeClass("am-modal-active");	
+						setTimeout(function(){
+							$(".sharebg-active").removeClass("sharebg-active");	
+							$(".sharebg").remove();	
+						},300);
 				}
 			});
 		}else if(flag =='2'){
@@ -212,7 +217,7 @@
 					<li>
 						<a onclick="toShopCar();" class="gwc">
 							<i class="iconfont icon-gouwuche"></i>
-							<span>2</span>
+							<c:if test="${shopCarCount != 0 }"><span>${shopCarCount}</span></c:if>
 						</a>
 					</li>
 					<!-- <li>
@@ -293,30 +298,30 @@
 		</div>
 		
 		<!--footer star-->
-	    <footer class="page-footer fixed-footer" id="footer">
+		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
 				<li>
-					<a href="index.html">
+					<a href="<%=basePath%>weixin/index/toIndex.do">
 						<i class="iconfont icon-shouye"></i>
 						<p>首页</p>
 					</a>
 				</li>
-				<li class="active">
-					<a href="cation.html">
+				<li>
+					<a href="<%=basePath%>weixin/product/toCategory.do">
 						<i class="iconfont icon-icon04"></i>
 						<p>分类</p>
 					</a>
 				</li>
 				<li>
-					<a href="shopcar.html">
+					<a href="<%=basePath%>weixin/shopCar/list.do">
 						<i class="iconfont icon-gouwuche"></i>
 						<p>购物车</p>
 					</a>
 				</li>
 				<li>
-					<a href="login.html">
+					<a href="<%=basePath%>weixin/mine/toMyCenter.do">
 						<i class="iconfont icon-yonghuming"></i>
-						<p>我的</p>
+						<p>个人中心</p>
 					</a>
 				</li>
 			</ul>

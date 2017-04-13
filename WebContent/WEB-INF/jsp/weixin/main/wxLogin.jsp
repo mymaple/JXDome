@@ -23,8 +23,8 @@
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
     <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css?23"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?sda"></script>
 <script type="text/javascript">
 var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 
@@ -44,8 +44,7 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 		}
 	}
 
-	function login(elem){
-		$(this).attr("disabled",true);
+	function login(){
 		var phone = $('#phone').val();
 		if(!phoneExg.test(phone)){
 			layer.open({
@@ -65,6 +64,11 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 			$('#captcha').focus();
 		}
 		var flag = $('flag').val();
+		layer.open({
+		    type: 2
+		    ,shadeClose: false
+		    ,content: '登录中'
+		  });
 		$.ajax({
 			type: "POST",
 			url: '<%=basePath%>weixin/main/login.do?tm='+new Date().getTime(),
@@ -76,12 +80,12 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 				if(data.resultCode == "success"){
 					window.location.href = data.resultContent;
 				}else{
-					/* layer.open({
+					layer.closeAll();
+					layer.open({
 				    	content: data.resultContent
 				    	,skin: 'msg'
 				    	,time: 2 //2秒后自动关闭
-				 	}); */
-					$(this).attr("disabled",false);
+				 	});
 				}
 			}
 		});
@@ -177,7 +181,7 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 				</ul>
 			</div>
 			<div class="login-btn">
-				<input type="button" value="登录" onclick="login(this);">
+				<a onclick="login();">登录</a>
 			</div>
 		</div>
 	</form>

@@ -83,9 +83,6 @@
 		    			</div>
 	    		</div>
                 
-        <c:choose>
-        <c:when test="${not empty comOrderList}">
-		<c:forEach items="${comOrderList}" var="comOrder" varStatus="vs">
 				<input type="hidden" name="orderId" value="${comOrder.orderId }">
                 <c:choose>
 		        <c:when test="${not empty comOrder.comOrderDetailList}">
@@ -134,38 +131,12 @@
 					</div>		     		
 		     	</div>
 		     	
-		     	
-		     </c:forEach>
-		     </c:when>
-		     </c:choose>
-                <!--
-		     	<div class="integral clearfloat fl box-s">
-		     		<div class="zuo clearfloat fl">
-		     			积分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可用积分2446
-		     		</div>
-		     		<div class="you clearfloat fr">
-		     			<div class="xuan clearfloat">
-		     				<div class="radiothree" > 
-							    <label>
-							        <input type="checkbox" name="fapiao" value="" />
-							        <div class="option"></div>
-							    </label>
-							</div>
-		     			</div>
-		     		</div>
-		     	</div>
-                -->
 	    	</div>
 	    </div>	    
 	    
 		<!--settlement star-->
 	    <div class="settlement clearfloat">
-	    	<div class="zuo clearfloat fl box-s">
-	    		共<span>${payCount }</span>件    &nbsp;&nbsp;<span>${pay }</span>积分
-	    	</div>
-	    	<a onclick="toChoosePay();" class="fl db">
-	    		选择支付
-	    	</a>
+	    	<a onclick="toBuyMore('${comOrder.orderId}');" class="blue-btn ra3 fr">再次购买</a>
 	    </div>
 	    <!--settlement end-->
 	    </form>
@@ -179,6 +150,5 @@
 	<!--插件-->
 	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
 	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
-
 
 </html>

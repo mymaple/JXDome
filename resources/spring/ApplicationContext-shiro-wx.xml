@@ -83,6 +83,7 @@
 				<value>
 				/MP_verify_uypCnRoqKLTZwBSp.txt			= anon
 				/weui/**								= anon
+				/plugins/**								= anon
 				/static/** 								= anon
 				/weui/**								= anon
 				/uploadFiles/** 						= anon

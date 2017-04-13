@@ -280,7 +280,7 @@ public class WxOrderController extends BaseController {
 			return mv;
 		}
 		
-		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED(userId, orderIds.split(","));
+		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED("01", userId, orderIds.split(","));
 		
 		if(comOrderList==null || comOrderList.size()==0){
 			resultInfo.setResultContent("订单异常");
@@ -320,7 +320,7 @@ public class WxOrderController extends BaseController {
 		String userId = WxSessionUtil.getUserId();
 		String orderIds = pd.getString("orderId");
 		
-		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED(userId, orderIds.split(","));
+		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED("01", userId, orderIds.split(","));
 		
 		if(comOrderList==null || comOrderList.size()==0){
 			resultInfo.setResultContent("订单异常");
@@ -352,8 +352,8 @@ public class WxOrderController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/pay")
-	public ModelAndView pay() throws Exception {
+	@RequestMapping(value = "/toPay")
+	public ModelAndView toPay() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		ResultInfo resultInfo = this.getResultInfo();
 		PageData pd = this.getPageData();
@@ -382,10 +382,12 @@ public class WxOrderController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
+		String state = pd.getString("state");
 		String userId = WxSessionUtil.getUserId();
-		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED(userId, null);
-
+		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED(state, userId, null);
+		
 		mv.addObject("comOrderList", comOrderList);
+		mv.addObject("state", state);
 		resultInfo.setResultCode("success");
 		mv.setViewName("weixin/order/wxOrderList");
 
@@ -410,6 +412,8 @@ public class WxOrderController extends BaseController {
 			mv.addObject(resultInfo);
 			return mv;
 		}
+		//benren..........
+		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findById(comOrder.getReceiveAddressId());
 		
 		String orderStatus = comOrder.getOrderStatus(); 
 		if("01".equals(orderStatus)){
@@ -417,14 +421,16 @@ public class WxOrderController extends BaseController {
 			comOrderList.add(comOrder);
 			String pay = comOrder.getAllActPrice();
 			String payCount = comOrder.getOrderProductCount();
-			//benren..........
-			ComReceiveAddress comReceiveAddress = comReceiveAddressService.findById(comOrder.getReceiveAddressId());
 			
 			mv.addObject("comReceiveAddress", comReceiveAddress);
 			mv.addObject("comOrderList", comOrderList);
 			mv.addObject("pay", pay);
 			mv.addObject("payCount", payCount);
 			mv.setViewName("weixin/order/wxConfirmOrder");
+		}else{
+			mv.addObject("comReceiveAddress", comReceiveAddress);
+			mv.addObject("comOrder", comOrder);
+			mv.setViewName("weixin/order/wxOrderDetail");
 		}
 		
 		resultInfo.setResultCode("success");
@@ -434,4 +440,156 @@ public class WxOrderController extends BaseController {
 		return mv;
 	}
 
+	
+	/**
+	 * 选择支付
+	 */
+	@RequestMapping(value = "/toBuyMore")
+	public ModelAndView toBuyMore(@RequestParam String orderId) throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("weixin/wxResult");
+		String userId = WxSessionUtil.getUserId();
+		
+		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		if(comOrder==null){
+			resultInfo.setResultContent("订单异常");
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		
+		mv.setViewName("weixin/order/wxConfirmOrder");
+		resultInfo.setResultCode("success");
+
+		mv.addObject(resultInfo);
+		return mv;
+	}
+	/**
+	 * 选择支付
+	 */
+	@RequestMapping(value = "/toWl")
+	public ModelAndView toWl(@RequestParam String orderId) throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("weixin/wxResult");
+		String userId = WxSessionUtil.getUserId();
+		
+		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		if(comOrder==null){
+			resultInfo.setResultContent("订单异常");
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		
+		mv.setViewName("weixin/order/wxConfirmOrder");
+		resultInfo.setResultCode("success");
+		
+		
+		mv.addObject(resultInfo);
+		return mv;
+	}
+	/**
+	 * 选择支付
+	 */
+	@RequestMapping(value = "/toRefund")
+	public ModelAndView toRefund(@RequestParam String orderId) throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("weixin/wxResult");
+		String userId = WxSessionUtil.getUserId();
+		
+		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		if(comOrder==null){
+			resultInfo.setResultContent("订单异常");
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		
+		mv.setViewName("weixin/order/wxConfirmOrder");
+		resultInfo.setResultCode("success");
+		
+		
+		mv.addObject(resultInfo);
+		return mv;
+	}
+	/**
+	 * 选择支付
+	 */
+	@RequestMapping(value = "/toEvaluate")
+	public ModelAndView toEvaluate(@RequestParam String orderId) throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("weixin/wxResult");
+		String userId = WxSessionUtil.getUserId();
+		
+		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		if(comOrder==null){
+			resultInfo.setResultContent("订单异常");
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		
+		mv.setViewName("weixin/order/wxConfirmOrder");
+		resultInfo.setResultCode("success");
+		
+		
+		mv.addObject(resultInfo);
+		return mv;
+	}
+	
+	/**
+	 * 取消订单
+	 */
+	@RequestMapping(value="/toCancle")
+	@ResponseBody
+	public Object toCancle(@RequestParam String orderId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		
+		String userId = WxSessionUtil.getUserId();
+		
+		comOrderService.findByUserED(orderId, userId);
+		resultInfo.setResultCode("success");
+
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 取消订单
+	 */
+	@RequestMapping(value="/toRemind")
+	@ResponseBody
+	public Object toRemind(@RequestParam String orderId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		
+		String userId = WxSessionUtil.getUserId();
+		
+		comOrderService.findByUserED(orderId, userId);
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 取消订单
+	 */
+	@RequestMapping(value="/toConfirm")
+	@ResponseBody
+	public Object toConfirm(@RequestParam String orderId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		
+		String userId = WxSessionUtil.getUserId();
+		
+		comOrderService.findByUserED(orderId, userId);
+		resultInfo.setResultCode("success");
+		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
 }

@@ -229,7 +229,6 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		Date nowTime = new Date();
 		
 		comAppUser.setAppUserNum("");
-		comAppUser.setAppUserCode("");
 		comAppUser.setPassword(new SimpleHash("SHA-512", comAppUser.getAppUserId(), comAppUser.getPassword(), 2).toString());
 		comAppUser.setHeadImgSrc("static/ace/avatars/user.jpg");
 		

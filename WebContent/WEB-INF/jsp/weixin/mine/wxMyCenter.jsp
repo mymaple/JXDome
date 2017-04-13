@@ -114,37 +114,37 @@
 	    	</div>
 	    	
 	    	
-                        <div class="myorder clearfloat">
+            <div class="myorder clearfloat">
                  <ul>
                      <li class="box-s">
-                        <a href="">
+                        <a href="<%=basePath%>weixin/order/list.do?state=01">
                         <p class="tu"><img src="weui/gemo/img/ord-1.png"></p>
-                        <p class="num">1</p>                        
+                        <c:if test="${count1 != 0 }"><p class="num">${count1}</p></c:if>                        
                         <p>待付款</p>
                         </a>
                      </li>
                      <li class="box-s">
-                        <a href="">
+                        <a href="<%=basePath%>weixin/order/list.do?state=02">
                         <p class="tu"><img src="weui/gemo/img/ord-2.png"></p>
-                        <p class="num">0</p> 
+                        <c:if test="${count2 != 0 }"><p class="num">${count2}</p></c:if>    
                         <p>待发货</p>
                         </a>
                      </li>
                      <li class="box-s">
-                        <a href="">
+                        <a href="<%=basePath%>weixin/order/list.do?state=03">
                         <p class="tu"><img src="weui/gemo/img/ord-3.png"></p>
-                        <p class="num">0</p> 
+                        <c:if test="${count3 != 0 }"><p class="num">${count3}</p></c:if>    
                         <p>待收货</p>
                         </a>
                      </li>
                      <li class="box-s">
-                        <a href="">
+                        <a href="<%=basePath%>weixin/order/list.do?state=04">
                         <p class="tu"><img src="weui/gemo/img/ord-4.png"></p>
                         <p>交易成功</p>
                         </a>
                      </li>                                                               
                      <li class="box-s">
-                        <a href="">
+                        <a href="<%=basePath%>weixin/order/list.do?state=05">
                         <p class="tu"><img src="weui/gemo/img/ord-5.png"></p>
                         <p>退款/售后</p>
                         </a>

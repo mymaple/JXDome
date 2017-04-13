@@ -48,8 +48,6 @@ public class ComOrderDetailServiceImpl implements ComOrderDetailService{
 		Date nowTime = new Date();
 		String orderDetailId = UuidUtil.get32UUID();
 		comOrderDetail.setOrderDetailId(orderDetailId);
-		comOrderDetail.setProductName("");
-		comOrderDetail.setProductStyleName("");
 		comOrderDetail.setEffective("01");
 		comOrderDetail.setCreateUserId(ShiroSessionUtil.getUserId());
 		comOrderDetail.setCreateTime(nowTime);
