@@ -30,6 +30,18 @@ public class WxConnUtil {
 	}
 	
 	/**
+	 * 获得 appId
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getAppId() throws Exception{
+		ComWxAccountService comWxAccountService = 
+				(ComWxAccountService)SpringContextUtil.getBean("comWxAccountService");
+		String appId = comWxAccountService.findCurrent().getAppId();	
+		return appId;
+	 }
+	
+	/**
 	 * 获得 公众号的全局唯一票据
 	 * @return
 	 * @throws Exception
@@ -39,7 +51,7 @@ public class WxConnUtil {
 				(ComWxAccountService)SpringContextUtil.getBean("comWxAccountService");
 		String accessToken = comWxAccountService.findCurrent().getAccessToken();	
 		return accessToken;
-	 }
+	}
 	
 	/**
 	 * 获得 公众号的全局唯一票据

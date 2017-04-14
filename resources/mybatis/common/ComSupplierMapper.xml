@@ -85,7 +85,7 @@
 	</update>
 	
 	<!-- 更改状态-->
-	<update id="changeStatus" parameterType="comReceiveAddress">
+	<update id="changeStatus" parameterType="comSupplier">
 		update
 	<include refid="supplierTable"/>
 		set 
@@ -93,12 +93,12 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
-			and effective = #{oldValue}
+			supplierId = #{supplierId} 
+			and supplierStatus = #{oldValue}
 	</update>
 	
 	<!-- 更改有效性 -->
-	<update id="changeEffective" parameterType="comReceiveAddress">
+	<update id="changeEffective" parameterType="comSupplier">
 		update
 	<include refid="supplierTable"/>
 		set 
@@ -106,7 +106,7 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
+			supplierId = #{supplierId} 
 			and effective = #{oldValue}
 	</update>
 	
@@ -122,7 +122,7 @@
 		delete from 
  <include refid="supplierTable"/>
 		where 
-			CONCAT(supplierId) in 
+			supplierId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

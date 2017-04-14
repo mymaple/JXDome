@@ -98,7 +98,7 @@
 		delete from 
  <include refid="orderDetailTable"/>
 		where 
-			CONCAT(orderDetailId) in 
+			orderDetailId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

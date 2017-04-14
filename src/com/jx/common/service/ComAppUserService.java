@@ -76,6 +76,12 @@ public interface ComAppUserService {
 	 */
 	public void batchDeleteInRank(String[] ids) throws Exception ;
 	
+	/**
+	 * 修改 
+	 * @param ComAppUser comAppUser
+	 * @throws Exception
+	 */
+	public void changeMyInfoByUE(ComAppUser comAppUser) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

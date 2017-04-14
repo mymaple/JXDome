@@ -151,7 +151,7 @@
 		delete from 
  <include refid="sparepartDealTable"/>
 		where 
-			CONCAT(sparepartDealId) in 
+			sparepartDealId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

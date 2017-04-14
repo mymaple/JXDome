@@ -50,6 +50,22 @@
 		WHERE
 			appUserId = #{appUserId};
 	</update>
+	
+	<!-- 改变 -->
+	<update id="changeMyInfoByUE" parameterType="comAppUser">
+		update
+	<include refid="appUserTable"/>
+		set 
+			sex = #{sex},
+			brithday = #{brithday},
+			remarks = #{remarks},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserId = #{appUserId} and 
+			effective = '01'
+	</update>
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
@@ -183,7 +199,7 @@
 		delete from 
  <include refid="appUserTable"/>
 		where 
-			CONCAT(appUserId) in 
+			appUserId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

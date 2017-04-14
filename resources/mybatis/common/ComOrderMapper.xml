@@ -150,6 +150,36 @@
 			orderId = #{orderId}
 			and appUserId = #{appUserId}
 	</update>
+	
+	<update id="toCancleByUSE" parameterType="comOrder">
+		update
+	<include refid="orderTable"/>
+		set 
+			orderStatus = '00' ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			orderId = #{orderId}
+			and appUserId = #{appUserId}
+			and effective = '01'
+			and orderStatus = '01'
+	</update>
+	
+	<!-- 更改状态-->
+	<update id="changeStatusByUSE" parameterType="comOrder">
+		update
+	<include refid="orderTable"/>
+		set 
+			orderStatus = #{orderStatus} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			orderId = #{orderId}
+			and appUserId = #{appUserId}
+			and effective = '01'
+			and orderStatus =  #{oldValue}
+	</update>
+	
 	<!-- ****************************custom * end  *********************************** -->
 	
 	
@@ -204,7 +234,7 @@
 			modifyTime = #{modifyTime}
 		where 
 			orderId = #{orderId}
-			and effective = #{oldValue}
+			and orderStatus = #{oldValue}
 	</update>
 	
 	<!-- 更改有效性 -->

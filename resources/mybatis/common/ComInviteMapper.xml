@@ -153,7 +153,7 @@
 		delete from 
  <include refid="inviteTable"/>
 		where 
-			CONCAT(inviteId) in 
+			inviteId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

@@ -177,7 +177,7 @@
 			modifyTime = #{modifyTime}
 		where 
 			receiveAddressId = #{receiveAddressId} 
-			and effective = #{oldValue}
+			and receiveAddressStatus = #{oldValue}
 	</update>
 	
 	<!-- 更改有效性 -->

@@ -55,6 +55,21 @@ public interface ComOrderService {
 	 * @throws Exception
 	 */
 	public void toPayByUserE(String appUserId, String[] orderIdArr) throws Exception ;
+	
+	/**
+	 * 取消订单
+	 * @param orderId
+	 * @param appUserId
+	 * @throws Exception
+	 */
+	public void toCancleByUSE(String orderId, String appUserId) throws Exception ;
+	
+	/**
+	 * 更改状态 flag 
+	 * @param String flag, String orderId, String appUserId
+	 * @throws Exception
+	 */
+	public void changeStatusByUSE(String flag, String orderId, String appUserId) throws Exception ;
 		
 	/****************************custom * end  ***********************************/
 	

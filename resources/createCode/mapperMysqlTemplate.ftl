@@ -130,7 +130,7 @@
 			modifyTime = ${r"#{"}modifyTime${r"}"}
 		where 
 			${bgMaple.mapleCode}Id = ${r"#{"}${bgMaple.mapleCode}Id${r"}"} 
-			and effective = ${r"#{"}oldValue${r"}"}
+			and ${bgMaple.mapleCode}Status = ${r"#{"}oldValue${r"}"}
 	</update>
 	</#if>
 	</#list>
@@ -160,7 +160,7 @@
 		delete from 
  <include refid="${bgMaple.mapleCode}Table"/>
 		where 
-			CONCAT(${bgMaple.mapleCode}Id<#list bgMapleDetailList as bgMapleDetail><#if bgMapleDetail.isKey == "01">,'-',${bgMapleDetail.mapleDetailCode}</#if></#list>) in 
+			${bgMaple.mapleCode}Id in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             ${r"#{"}id${r"}"}
         </foreach>

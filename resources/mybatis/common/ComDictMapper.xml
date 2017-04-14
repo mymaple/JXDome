@@ -146,7 +146,7 @@
 		delete from 
  <include refid="dictTable"/>
 		where 
-			CONCAT(dictId) in 
+			dictId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

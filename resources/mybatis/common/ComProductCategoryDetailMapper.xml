@@ -60,7 +60,7 @@
 	</update>
 	
 	<!-- 更改有效性 -->
-	<update id="changeEffective" parameterType="comReceiveAddress">
+	<update id="changeEffective" parameterType="comProductCategoryDetail">
 		update
 	<include refid="productCategoryDetailTable"/>
 		set 
@@ -68,7 +68,7 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
+			productCategoryDetailId = #{productCategoryDetailId} 
 			and effective = #{oldValue}
 	</update>
 	
@@ -84,7 +84,7 @@
 		delete from 
  <include refid="productCategoryDetailTable"/>
 		where 
-			CONCAT(productCategoryDetailId) in 
+			productCategoryDetailId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

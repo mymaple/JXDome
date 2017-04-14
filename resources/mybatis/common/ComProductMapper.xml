@@ -106,7 +106,7 @@
 	</update>
 	
 	<!-- 更改状态-->
-	<update id="changeStatus" parameterType="comReceiveAddress">
+	<update id="changeStatus" parameterType="comProduct">
 		update
 	<include refid="productTable"/>
 		set 
@@ -114,12 +114,12 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
-			and effective = #{oldValue}
+			productId = #{productId} 
+			and productStatus = #{oldValue}
 	</update>
 	
 	<!-- 更改有效性 -->
-	<update id="changeEffective" parameterType="comReceiveAddress">
+	<update id="changeEffective" parameterType="comProduct">
 		update
 	<include refid="productTable"/>
 		set 
@@ -127,7 +127,7 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
+			productId = #{productId} 
 			and effective = #{oldValue}
 	</update>
 	

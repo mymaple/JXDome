@@ -214,6 +214,20 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 			this.deleteInRank(id);
 		}
 	}
+	
+	/**
+	 * 修改 
+	 * @param ComAppUser comAppUser
+	 * @throws Exception
+	 */
+	public void changeMyInfoByUE(ComAppUser comAppUser) throws Exception {
+		Date nowTime = new Date();
+		comAppUser.setModifyUserId(ShiroSessionUtil.getUserId());
+		comAppUser.setModifyTime(nowTime);
+	
+		dao.update("ComAppUserMapper.changeMyInfoByUE", comAppUser);
+	}
+	
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

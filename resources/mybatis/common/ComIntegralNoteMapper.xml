@@ -147,7 +147,7 @@
 		delete from 
  <include refid="integralNoteTable"/>
 		where 
-			CONCAT(integralNoteId) in 
+			integralNoteId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

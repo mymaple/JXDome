@@ -51,7 +51,7 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 	 * @param String productStyleId, String count
 	 * @throws Exception
 	 */
-	public void toReduceStockNum(String productStyleId, String count) throws Exception {
+	public void toAddStockNum(String productStyleId, String count) throws Exception {
 		
 		ComProductStyle comProductStyle = new ComProductStyle();
 		
@@ -61,7 +61,7 @@ public class ComProductStyleServiceImpl implements ComProductStyleService{
 		Date nowTime = new Date();
 		comProductStyle.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductStyle.setModifyTime(nowTime);
-		dao.update("ComProductStyleMapper.toReduceStockNum", comProductStyle);
+		dao.update("ComProductStyleMapper.toAddStockNum", comProductStyle);
 	}
 	
 	

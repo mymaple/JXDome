@@ -82,8 +82,8 @@
 		window.location.href = "<%=basePath%>weixin/order/toRefund.do?orderId="+orderId;
 	}
 	
-	function toConfirm(orderId){
-		$.post("<%=basePath%>weixin/order/toConfirm.do",{orderId:orderId},
+	function toConfirmReceive(orderId){
+		$.post("<%=basePath%>weixin/order/toConfirmReceive.do",{orderId:orderId},
 				function(data){
 			if(data.resultCode=='success'){
 				window.location.reload();
@@ -174,7 +174,7 @@
 		    		<c:if test="${comOrder.orderStatus == '03' }">
 		    			<a onclick="toWl('${comOrder.orderId}');" class="blue-btn ra3 fr">查看物流</a>
 		    			<a onclick="toRefund('${comOrder.orderId}');" class="gray-btn ra3 fr">我要退款</a>
-		    			<a onclick="toConfirm('${comOrder.orderId}');" class="blue-btn ra3 fr">确认收货</a>
+		    			<a onclick="toConfirmReceive('${comOrder.orderId}');" class="blue-btn ra3 fr">确认收货</a>
 		    		</c:if>
 		    		<c:if test="${comOrder.orderStatus == '04' }">
 		    			<a onclick="toWl('${comOrder.orderId}');" class="blue-btn ra3 fr">查看物流</a>
@@ -233,6 +233,5 @@
 	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
 	<script src="weui/gemo/js/mui.min.js"></script>
 	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
-
 
 </html>

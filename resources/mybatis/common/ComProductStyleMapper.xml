@@ -80,18 +80,18 @@
 	</update>
 	
 	<!-- 加减改值 -->
-	<update id="toReduceStockNum" parameterType="comProductStyle">
+	<update id="toAddStockNum" parameterType="comProductStyle">
 		update
 	<include refid="productStyleTable"/>
 		set
-			stockNum = stockNum - (#{stockNum}),
+			stockNum = stockNum + (#{stockNum}),
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			productStyleId = #{productStyleId} and 
+			productStyleId = #{productStyleId} and  
 			stockNum >= 0 and 
-			(stockNum - #{stockNum}) >= 0 and 
-			#{stockNum}>0
+			(stockNum + (#{stockNum})) >= 0 and 
+			((#{stockNum}>0) or 0>(#{stockNum}))	
 	</update>
 	
 	<!-- ****************************custom * end  *********************************** -->

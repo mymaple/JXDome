@@ -31,7 +31,7 @@ public interface ComProductStyleService {
 	 * @param String productStyleId, String count
 	 * @throws Exception
 	 */
-	public void toReduceStockNum(String productStyleId, String count) throws Exception ;
+	public void toAddStockNum(String productStyleId, String count) throws Exception ;
 		
 	/****************************custom * end  ***********************************/
 	

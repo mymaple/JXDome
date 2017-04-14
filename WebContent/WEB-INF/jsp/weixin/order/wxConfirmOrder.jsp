@@ -30,6 +30,16 @@
 		$(".loading").fadeOut(300);
 	});
 	
+	$(function(){
+		ignoreBack();
+	});
+	
+	function ignoreBack(){
+		if(window.history.replaceState){
+			window.history.replaceState(null,'',document.referrer);
+		}
+	}
+	
 	function toChooseReceiveAddress(){
 		$("#confirmOrderForm").attr("action","weixin/receiveAddress/list.do");
 		$("#confirmOrderForm").submit();

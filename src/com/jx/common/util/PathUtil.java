@@ -81,7 +81,7 @@ public class PathUtil {
 	/**
 	 * 
 	 */
-	public static String basePath(HttpServletRequest request) {
+	public static String getBasePath(HttpServletRequest request) {
 		String strResult = "";
 		StringBuffer strBuf = new StringBuffer();
 		strBuf.append(request.getScheme() + "://");

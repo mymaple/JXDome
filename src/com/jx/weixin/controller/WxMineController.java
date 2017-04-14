@@ -76,14 +76,26 @@ public class WxMineController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/changeMyInfo")
-	public ModelAndView changeMyInfo() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		
+	@ResponseBody
+	public Object changeMyInfo() throws Exception {
+		ResultInfo resultInfo = this.getResultInfo();
+		PageData pd = this.getPageData();
 		String userId = WxSessionUtil.getUserId();
-		ComAppUser comAppUser = comAppUserService.findById(userId);
-		mv.addObject(comAppUser);
-		mv.setViewName("weixin/mine/wxMyInfo");
-		return mv;
+		
+		String sex = pd.getString("sex");
+		String brithdayStr = pd.getString("brithdayStr");
+		String remarks = pd.getString("remarks");
+		
+		ComAppUser comAppUser = new ComAppUser();
+		comAppUser.setAppUserId(userId);
+		comAppUser.setSex(sex);
+		comAppUser.setBrithdayStr(brithdayStr);
+		comAppUser.setRemarks(remarks);
+		
+		comAppUserService.changeMyInfoByUE(comAppUser);
+		
+		resultInfo.setResultCode("success");
+		return AppUtil.returnResult(pd, resultInfo);
 	}
 	
 	/**

@@ -1,8 +1,6 @@
 package com.jx.weixin.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +36,7 @@ import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
 import com.jx.common.util.MapleDateUtil.SDF;
 import com.jx.weixin.util.WxSessionUtil;
+import com.jx.weixin.util.WxUtil;
 import com.jx.common.service.ComSparepartDealService;
 
 /** 
@@ -75,6 +74,19 @@ public class WxSparepartDealController extends BaseController {
 	}
 	
 	/**
+	 * 去解析二维码页面
+	 */
+	@RequestMapping(value="/toParseQRCoder")
+	public ModelAndView toParseQRCoder() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		
+		Map<String, String> ret = WxUtil.sign(PathUtil.getBasePath(request)+"/weixin/sparepartDeal/toParseQRCoder");
+		mv.addObject("ret",ret);
+		mv.setViewName("weixin/sparepartDeal/wxParseQRCoder");
+		return mv;
+	}	
+	
+	/**
 	 * 去新增页面
 	 */
 	@RequestMapping(value="/toAdd")
@@ -99,7 +111,7 @@ public class WxSparepartDealController extends BaseController {
 		mv.addObject("methodPath", "add");
 		resultInfo.setResultCode("success");
 		mv.setViewName("background/sparepartDeal/bgSparepartDealEdit");
-			
+		
 		mv.addObject(resultInfo);					
 		return mv;
 	}	

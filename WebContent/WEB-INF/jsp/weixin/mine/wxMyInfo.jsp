@@ -32,6 +32,33 @@
 		$(".loading").addClass("loader-chanage")
 		$(".loading").fadeOut(300)
 	})
+	
+	function toEdit(){
+		$("#display").hide();
+		$("#edit").show();
+	}
+	
+	function edit(){
+		var sex = $("input[name='sex']:checked").val();
+		$.post("<%=basePath%>weixin/mine/changeMyInfo",
+				{
+			sex:$("input[name='sex']:checked").val(),
+			brithdayStr:$("#brithdayStr").val(),
+			remarks:$("#remarks").val()
+				},
+				function(data){
+					if(data.resultCode=='success'){
+						window.location.reload();
+					}else{
+						layer.open({
+					    	content: data.resultContent
+					    	,skin: 'msg'
+					    	,time: 2 //2秒后自动关闭
+					 	});
+					}
+		});
+	}
+	
 </script>
 </head>
 <!--loading页开始-->
@@ -48,40 +75,87 @@
 </div>
 <!--loading页结束-->
 	<body>
-	    <div class="warpthree clearfloat">
+	    <div class="warpthree clearfloat" id="display">
 	      <div class="recharge clearfloat">
-    		  <div class="czhi clearfloat box-s">
-	    			<div class="fl">登录账号：</div>
-	    			<div class="fr f-col">139617767774</div>
-	    		</div>
                 
                 <div class="czhi clearfloat box-s">
 	    			<div class="fl">姓名：</div>
-	    			<div class="fr f-col">总裁</div>
+	    			<div class="fr f-col">${comAppUser.appUserName}</div>
 	    		</div>
                 
                  <div class="czhi clearfloat box-s">
-	    			<div class="fl">大区：</div>
-	    			<div class="fr f-col">江苏省无锡市锡山区</div>
+	    			<div class="fl">角色：</div>
+	    			<div class="fr f-col"><param:display type="com_appUserRole" value="${comAppUser.roleId}"/></div>
 	    		</div>
-                
-                <div class="czhi clearfloat box-s">
-	    			<div class="fl">小区：</div>
-	    			<div class="fr f-col">江苏省无锡市锡山区</div>
-	    		</div>
-                
-                <div class="czhi clearfloat box-s">
-	    			<div class="fl">4S店：</div>
-	    			<div class="fr f-col">江苏省无锡市锡山区</div>
-	    		</div>
-                
-                <div class="czhi clearfloat box-s">
-	    			<div class="fl">电话：</div>
-	    			<div class="fr"><input type="text" id="" value="13961776665" placeholder="请输入金额"/></div>
-	    		</div>
-
-	    		<a href="" class="address-add fl">确认修改</a>
 	    		
+	    		<div class="czhi clearfloat box-s">
+	    			<div class="fl">性别：</div>
+	    			<div class="fr f-col"><param:display type="com_sex" value="${comAppUser.sex}"/></div>
+	    		</div>
+                
+                <div class="czhi clearfloat box-s">
+	    			<div class="fl">生日：</div>
+	    			<div class="fr f-col">${comAppUser.brithdayStr}</div>
+	    		</div>
+                
+	    		<div class="czhi clearfloat box-s">
+	    			<div class="fl">备注信息:</div>
+	    		</div>
+	    		<textarea disabled="disabled" rows="4" cols="" placeholder="请填写备注信息，不少于5个字" class="textare box-s" onchange="this.value=this.value.substring(0, 100)" 
+										onkeydown="this.value=this.value.substring(0, 100)" onkeyup="this.value=this.value.substring(0, 100)">${comAppUser.remarks}</textarea>
+	    		<a onclick="toEdit();" class="address-add fl">编辑</a>
+	    	</div>  	
+	    </div>
+	    
+	    <div class="warpthree clearfloat" id="edit" style="display: none;">
+	      <div class="recharge clearfloat">
+                
+                <div class="czhi clearfloat box-s">
+	    			<div class="fl">姓名：</div>
+	    			<div class="fr f-col">${comAppUser.appUserName}</div>
+	    		</div>
+                
+                 <div class="czhi clearfloat box-s">
+	    			<div class="fl">角色：</div>
+	    			<div class="fr f-col"><param:display type="com_appUserRole" value="${comAppUser.roleId}"/></div>
+	    		</div>
+	    		
+	    		<div class="czhi clearfloat box-s">
+	    			<div class="fl">性别：${comAppUser.sex}</div>
+	    			
+	    			<div class="fr f-col">
+	    				<div class="xuan clearfloat">
+			     				<div class="radiotwo" > 
+								    <label>
+								        <input type="radio" name="sex" value="01" <c:if test="${comAppUser.sex == '01'}">checked="checked"</c:if>/>
+								        <div class="option"></div>
+								        <span class="opt-text">男</span>
+								    </label>
+								</div>
+			     			</div>
+		    				<div class="xuan clearfloat">
+			     				<div class="radiotwo" > 
+								    <label>
+								        <input type="radio" name="sex" value="02" <c:if test="${comAppUser.sex == '02'}">checked="checked"</c:if>/>
+								        <div class="option"></div>
+								        <span class="opt-text">女</span>
+								    </label>
+								</div>
+			     			</div>
+					</div>
+	    		</div>
+                
+                <div class="czhi clearfloat box-s">
+	    			<div class="fl">生日：</div>
+	    			<div class="fr f-col"><input class="fr shuru" name="brithdayStr" id="brithdayStr" value="${comAppUser.brithdayStr}" type="date" title="生日"/></div>
+	    		</div>
+                
+	    		<div class="czhi clearfloat box-s">
+	    			<div class="fl">备注信息:</div>
+	    		</div>
+	    		<textarea name="remarks" id="remarks" rows="4" cols="" placeholder="请填写备注信息，不少于5个字" class="textare box-s" onchange="this.value=this.value.substring(0, 100)" 
+										onkeydown="this.value=this.value.substring(0, 100)" onkeyup="this.value=this.value.substring(0, 100)">${comAppUser.remarks}</textarea>
+	    		<a onclick="edit();" class="address-add fl">确认修改</a>
 	    	</div>  	
 	    </div>
 	</body>

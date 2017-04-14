@@ -65,7 +65,7 @@
 	</update>
 	
 	<!-- 改变 -->
-	<update id="changeStatus" parameterType="comReceiveAddress">
+	<update id="changeStatus" parameterType="comStyleCategory">
 		update
 	<include refid="styleCategoryTable"/>
 		set 
@@ -73,12 +73,12 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
-			and effective = #{oldValue}
+			styleCategoryId = #{styleCategoryId} 
+			and styleCategoryStatus = #{oldValue}
 	</update>
 	
 	<!-- 更改有效性 -->
-	<update id="changeEffective" parameterType="comReceiveAddress">
+	<update id="changeEffective" parameterType="comStyleCategory">
 		update
 	<include refid="styleCategoryTable"/>
 		set 
@@ -86,7 +86,7 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
+			styleCategoryId = #{styleCategoryId} 
 			and effective = #{oldValue}
 	</update>
 	
@@ -102,7 +102,7 @@
 		delete from 
  <include refid="styleCategoryTable"/>
 		where 
-			CONCAT(styleCategoryId) in 
+			styleCategoryId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

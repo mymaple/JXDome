@@ -110,7 +110,7 @@
 			modifyTime = #{modifyTime}
 		where 
 			shopCarId = #{shopCarId} 
-			and effective = #{oldValue}
+			and shopCarStatus = #{oldValue}
 	</update>
 	
 	<!-- 更改有效性 -->
@@ -138,7 +138,7 @@
 		delete from 
  <include refid="shopCarTable"/>
 		where 
-			CONCAT(shopCarId) in 
+			shopCarId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

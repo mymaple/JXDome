@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleDateUtil.SDF;
 import com.jx.common.util.MapleStringUtil;
 
 public class ComAppUser extends BaseEntity implements Serializable {
@@ -407,7 +408,7 @@ public class ComAppUser extends BaseEntity implements Serializable {
 		brithdayStr = MapleStringUtil.trim(brithdayStr);
 		if(!brithdayStr.equals("")){
 			try{
-				setBrithday(MapleDateUtil.parseDateStr(brithdayStr));
+				setBrithday(MapleDateUtil.parseDateStr(SDF.DAY, brithdayStr));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -415,7 +416,7 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	}
 
 	public String getBrithdayStr(){
-		return MapleDateUtil.formatDate(getBrithday());
+		return MapleDateUtil.formatDate(SDF.DAY, getBrithday());
 	}	
 	
 	/**

@@ -45,8 +45,8 @@
 		window.location.href = "<%=basePath%>weixin/mine/toMyInfo.do";
 	}
 	
-	function toMyPwd(){
-		window.location.href = "<%=basePath%>weixin/mine/toMyPwd.do";
+	function toMyPhone(){
+		window.location.href = "<%=basePath%>weixin/mine/toMyPhone.do";
 	}
 	
 	function toReceiveAddress(){
@@ -59,6 +59,9 @@
 	
 	function toSparepartDeal(){
 		window.location.href = "<%=basePath%>weixin/sparepartDeal/list.do";
+	}
+	function toParseQRCoder(){
+		window.location.href = "<%=basePath%>weixin/sparepartDeal/toParseQRCoder.do";
 	}
 	
 	function toLogout(){
@@ -195,8 +198,8 @@
 	    				</a>
 	    			</li>
 	    			<li class="box-s">
-	    				<a onclick="toChangePwd();">
-	    					<i class="iconfont icon-iconfontxingming fl"></i><p class="fl">代理管理</p>
+	    				<a onclick="toParseQRCoder();">
+	    					<i class="iconfont icon-iconfontxingming fl"></i><p class="fl">qrcode</p>
 	    					<i class="iconfont icon-jiantou1 fr"></i>
 	    				</a>
 	    			</li>

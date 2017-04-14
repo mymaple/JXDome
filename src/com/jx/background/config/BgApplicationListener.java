@@ -19,7 +19,7 @@ public class BgApplicationListener implements ApplicationListener<ApplicationCon
 			if (event instanceof ContextRefreshedEvent) {
 				try {
 //					QuartzManager.addJob("BgWxConfigQuartzJob", BgWxCallbackQuartzJob.class, "0 */30 * * * ?");
-					QuartzManager.addJob("BgWxConfigQuartzJob", BgWxCallbackQuartzJob.class, "0 13 * * * ?");
+					QuartzManager.addJob("BgWxConfigQuartzJob", BgWxCallbackQuartzJob.class, "0 19 * * * ?");
 				} catch (SchedulerException e) {
 					e.printStackTrace();
 				}

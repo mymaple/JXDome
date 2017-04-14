@@ -63,6 +63,8 @@ public class ComOrderServiceImpl implements ComOrderService{
 			comOrderDetail.setOrderId(orderId);
 			comOrderDetail.setOrderNum(""+new Date().getTime());
 			comOrderDetailService.add(comOrderDetail);
+			
+			comProductStyleService.toAddStockNum(comOrderDetail.getProductStyleId(), "-"+comOrderDetail.getCount());
 		}
 	}
 	
@@ -155,7 +157,7 @@ public class ComOrderServiceImpl implements ComOrderService{
 		for (int i = 0; i < orderIdArr.length; i++) {
 			ComOrder comOrder = comOrderList.get(i);
 			//修改为已支付状态
-			this.changeStatus("02", orderIdArr[i]);
+			this.changeStatusByUSE("02", orderIdArr[i], appUserId);
 			
 			//支付记录
 			ComIntegralNote comIntegralNote = new ComIntegralNote();
@@ -170,14 +172,52 @@ public class ComOrderServiceImpl implements ComOrderService{
 			String addValue = "-"+comOrder.getAllActPrice();
 			comAppUserExtService.addValue(appUserId, ComAppUserExt.INTEGRALCOUNT, addValue);
 			
-			//商品库存减少
-			List<ComOrderDetail> comOrderDetailList = comOrder.getComOrderDetailList();
-			for (int j = 0; j < comOrderDetailList.size(); j++) {
-				ComOrderDetail comOrderDetail = comOrderDetailList.get(j);
-				comProductStyleService.toReduceStockNum(comOrderDetail.getProductStyleId(), comOrderDetail.getCount());
-			}
-			
 		}
+	}
+	
+	/**
+	 * 取消订单
+	 * @param orderId
+	 * @param appUserId
+	 * @throws Exception
+	 */
+	public void toCancleByUSE(String orderId, String appUserId) throws Exception {
+		
+		this.changeStatusByUSE("00", orderId, appUserId);
+		
+		ComOrder comOrder = this.findByUserED(orderId, appUserId);
+		List<ComOrderDetail> comOrderDetailList = comOrder.getComOrderDetailList();
+		for (int i = 0; i < comOrderDetailList.size(); i++) {
+			ComOrderDetail comOrderDetail = comOrderDetailList.get(i);
+			comProductStyleService.toAddStockNum(comOrderDetail.getProductStyleId(), comOrderDetail.getCount());
+		}
+	}
+	
+	/**
+	 * 更改状态 flag 
+	 * @param String flag, String orderId, String appUserId
+	 * @throws Exception
+	 */
+	public void changeStatusByUSE(String flag, String orderId, String appUserId) throws Exception {
+		ComOrder comOrder = new ComOrder();
+		switch(flag) {  
+			case "00" : comOrder.setOldValue("01");break;
+			case "02" : comOrder.setOldValue("01");break;
+			case "03" : comOrder.setOldValue("02");break;
+			case "04" : comOrder.setOldValue("03");break;
+			case "05" : comOrder.setOldValue("04");break;
+			case "06" : comOrder.setOldValue("03");break;
+			case "07" : comOrder.setOldValue("06");break;
+			default : comOrder.setOldValue("flag");break;
+		}
+		comOrder.setOrderStatus(flag);
+		
+		comOrder.setOrderId(orderId);
+		comOrder.setAppUserId(appUserId);
+		Date nowTime = new Date();
+		comOrder.setModifyUserId(ShiroSessionUtil.getUserId());
+		comOrder.setModifyTime(nowTime);
+		dao.update("ComOrderMapper.changeStatus", comOrder);
 	}
 	
 	/****************************custom * end  ***********************************/
@@ -242,11 +282,13 @@ public class ComOrderServiceImpl implements ComOrderService{
 	public void changeStatus(String flag, String orderId) throws Exception {
 		ComOrder comOrder = new ComOrder();
 		switch(flag) {  
+			case "00" : comOrder.setOldValue("01");break;
 			case "02" : comOrder.setOldValue("01");break;
 			case "03" : comOrder.setOldValue("02");break;
 			case "04" : comOrder.setOldValue("03");break;
 			case "05" : comOrder.setOldValue("04");break;
-			case "06" : comOrder.setOldValue("05");break;
+			case "06" : comOrder.setOldValue("03");break;
+			case "07" : comOrder.setOldValue("06");break;
 			default : comOrder.setOldValue("flag");break;
 		}
 		comOrder.setOrderStatus(flag);

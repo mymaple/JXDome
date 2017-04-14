@@ -66,7 +66,7 @@
 	</update>
 	
 	<!-- 更改状态-->
-	<update id="changeStatus" parameterType="comReceiveAddress">
+	<update id="changeStatus" parameterType="comLbt">
 		update
 	<include refid="lbtTable"/>
 		set 
@@ -74,8 +74,8 @@
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
-			receiveAddressId = #{receiveAddressId} 
-			and effective = #{oldValue}
+			lbtId = #{lbtId} 
+			and changeStatus = #{oldValue}
 	</update>
 	
 	<!-- 更改有效性 -->
@@ -103,7 +103,7 @@
 		delete from 
  <include refid="lbtTable"/>
 		where 
-			CONCAT(lbtId) in 
+			lbtId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

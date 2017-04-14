@@ -148,7 +148,7 @@
 		delete from 
  <include refid="wxAccountTable"/>
 		where 
-			CONCAT(wxAccountId) in 
+			wxAccountId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
