@@ -14,15 +14,15 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-     <script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
+     <script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?${resultInfo.version}"/>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage")

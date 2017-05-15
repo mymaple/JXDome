@@ -26,10 +26,13 @@ import com.jx.common.util.WxConnUtil;
 import net.sf.json.JSONObject;
 
 import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComAppUserExt;
+import com.jx.common.entity.ComIntegralNote;
 import com.jx.common.entity.ComInvite;
 import com.jx.common.entity.UserInfo;
 import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComAppUserService;
+import com.jx.common.service.ComIntegralNoteService;
 import com.jx.common.service.ComInviteService;
 
 @Service("comAppUserService")
@@ -41,9 +44,99 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	private ComAppUserExtService comAppUserExtService;
 	@Resource(name = "comInviteService")
 	private ComInviteService comInviteService;
+	@Resource(name = "comIntegralNoteService")
+	private ComIntegralNoteService comIntegralNoteService;
 	
 	
 	/****************************custom * start***********************************/
+	
+	/**
+	 * 
+	 * @param String roleId
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComAppUser> listSubUser1(String appUserId) throws Exception {
+		return (List<ComAppUser>) dao.findForList("ComAppUserMapper.listSubUser1", appUserId);
+	}
+	
+	
+	/**
+	 * 
+	 * @param String roleId
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComAppUser> listInRoleIdE(String roleId) throws Exception {
+		PageData pd = new PageData();
+		pd.put("roleId",roleId);
+		return (List<ComAppUser>) dao.findForList("ComAppUserMapper.listInRoleIdE", pd);
+	}
+	
+	
+	/**
+	 * 转账
+	 * @param String appUserId, String parentId
+	 * @throws Exception
+	 */
+	public void toTransferByUE(String fromAppUserId, String toAppUserId, double integralCount) throws Exception {
+		
+		//支付记录
+		ComIntegralNote comIntegralNote = new ComIntegralNote();
+		comIntegralNote.setIntegralNoteCode("");
+		comIntegralNote.setIntegralDealCount(""+integralCount);
+		
+		comIntegralNote.setIntegralNoteType("03");
+		comIntegralNote.setIntegralDealStatus("00");
+		comIntegralNote.setIntegralNoteName(this.findById(toAppUserId).getAppUserName()+"-转赠消耗");
+		comIntegralNote.setAppUserId(fromAppUserId);
+		comIntegralNoteService.add(comIntegralNote);
+		comAppUserExtService.addValue(fromAppUserId, ComAppUserExt.INTEGRALCOUNT, "-"+integralCount);
+		
+		
+		comIntegralNote.setIntegralNoteType("04");
+		comIntegralNote.setIntegralDealStatus("01");
+		comIntegralNote.setIntegralNoteName(this.findById(fromAppUserId).getAppUserName()+"-转赠获得");
+		comIntegralNote.setAppUserId(toAppUserId);
+		comIntegralNoteService.add(comIntegralNote);
+		comAppUserExtService.addValue(toAppUserId, ComAppUserExt.INTEGRALCOUNT, ""+integralCount);
+	}
+	
+	/**
+	 * 修改 上级
+	 * @param String appUserId, String parentId
+	 * @throws Exception
+	 */
+	public void changeParentByU(String appUserId, String parentId) throws Exception {
+		ComAppUser comAppUser = new ComAppUser();
+		comAppUser.setAppUserId(appUserId);
+		comAppUser.setParentId(StringUtils.isEmpty(parentId)?"0":parentId);
+		Date nowTime = new Date();
+		comAppUser.setModifyUserId(ShiroSessionUtil.getUserId());
+		comAppUser.setModifyTime(nowTime);
+	
+		dao.update("ComAppUserMapper.changeParentByU", comAppUser);
+	}
+	
+	/**
+	 * 修改 角色
+	 * @param String appUserId, String roleId
+	 * @throws Exception
+	 */
+	public void changeRoleByU(String appUserId, String roleId) throws Exception {
+		ComAppUser comAppUser = new ComAppUser();
+		comAppUser.setAppUserId(appUserId);
+		comAppUser.setRoleId(roleId);
+		
+		Date nowTime = new Date();
+		comAppUser.setModifyUserId(ShiroSessionUtil.getUserId());
+		comAppUser.setModifyTime(nowTime);
+	
+		dao.update("ComAppUserMapper.changeRoleByU", comAppUser);
+	}
+	
 	
 	/**
 	 * 通过phone获取(类)数据
@@ -66,6 +159,18 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	public ComAppUser findByCode(String appUserCode) throws Exception {
 		PageData pd = new PageData();
 		pd.put("appUserCode",appUserCode);
+		return this.findByPd(pd);
+	}
+	
+	/**
+	 * 通过appUserCode获取(类)数据
+	 * @param String appUserCode
+	 * @return ComAppUser
+	 * @throws Exception
+	 */
+	public ComAppUser findByRemarks(String remarks) throws Exception {
+		PageData pd = new PageData();
+		pd.put("remarks",remarks);
 		return this.findByPd(pd);
 	}
 	
@@ -179,12 +284,13 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComAppUser> listInRank(String appUserId) throws Exception {
+	public List<ComAppUser> listInRankCheck(String appUserId, String check) throws Exception {
 		List<ComAppUser> comAppUserList = this.listByParentId(appUserId);
 		for(ComAppUser comAppUser : comAppUserList){
 			comAppUser.setSubComAppUserPath("background/appUser/list.do?pId="+comAppUser.getAppUserId());
-			comAppUser.setSubComAppUserList(this.listInRank(comAppUser.getAppUserId()));
+			comAppUser.setSubComAppUserList(this.listInRankCheck(comAppUser.getAppUserId(), check));
 			comAppUser.setTarget("treeFrame");
+			comAppUser.setHasAppUser(check.equals(comAppUser.getAppUserId()));
 		}
 		return comAppUserList;
 	}
@@ -243,11 +349,10 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		Date nowTime = new Date();
 		
 		comAppUser.setAppUserNum("");
-		comAppUser.setPassword(new SimpleHash("SHA-512", comAppUser.getAppUserId(), comAppUser.getPassword(), 2).toString());
+		comAppUser.setPassword(new SimpleHash("SHA-512", appUserId, comAppUser.getPassword(), 2).toString());
 		comAppUser.setHeadImgSrc("static/ace/avatars/user.jpg");
 		
-		//后台添加
-		comAppUser.setAppUserType("01");
+		
 		comAppUser.setAppUserStatus("00");
 		comAppUser.setEffective("01");	
 		
@@ -264,7 +369,6 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		ComAppUser comAppUser1 = this.findById(parentId);
 		int level = "0".equals(parentId)?1:(Integer.parseInt(comAppUser1.getLevel())+1);
 		comAppUser.setLevel(""+level);
-		comAppUser.setRoleId("0"+level);
 		
 		dao.add("ComAppUserMapper.add", comAppUser);
 		
@@ -282,10 +386,11 @@ public class ComAppUserServiceImpl implements ComAppUserService{
 		//生成固定id
 		PageData pd = new PageData();
 		pd.put("appUserId", appUserId);
+		pd.put("startC", "AU");
+		pd.put("startN", 100001);
 		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
 		dao.update("ComAppUserMapper.updateCode", pd);
-	}
-	
+	}	
 	
 	/**
 	 * 修改 

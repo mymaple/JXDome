@@ -1473,10 +1473,10 @@ input[type=submit]:enabled:active {
 	top: 4px;
 	margin-left: -5px
 }
-/*sch-input(type=search属性设置)*/
+
 .mui-bar input[type=search] {
 	height: 29px;
-	margin: 0px 0
+	margin: 6px 0
 }
 
 .mui-bar .mui-input-row .mui-btn {

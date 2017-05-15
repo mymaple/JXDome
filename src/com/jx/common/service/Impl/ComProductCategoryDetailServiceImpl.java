@@ -33,6 +33,21 @@ public class ComProductCategoryDetailServiceImpl implements ComProductCategoryDe
 	public List<ComProductCategoryDetail> listByProductCategoryId(String productCategoryId) throws Exception {
 		return (List<ComProductCategoryDetail>) dao.findForList("ComProductCategoryDetailMapper.listByProductCategoryId", productCategoryId);
 	}
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String productCategoryId, String productId
+	 * @return ComProductCategoryDetail
+	 * @throws Exception
+	 */
+	public ComProductCategoryDetail findById1(String productCategoryId, String productId) throws Exception {
+		ComProductCategoryDetail comProductCategoryDetail = new ComProductCategoryDetail();
+		comProductCategoryDetail.setProductCategoryId(productCategoryId);
+		comProductCategoryDetail.setProductId(productId);
+		
+		
+		return (ComProductCategoryDetail) dao.findForObject("ComProductCategoryDetailMapper.findById1", comProductCategoryDetail);
+	}
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

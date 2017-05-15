@@ -65,22 +65,10 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">订单代号</th>
-									<th class="center">订单名称</th>
 									<th class="center">订单类型</th>
 									<th class="center">订单状态</th>
 									<th class="center">平台用户</th>
-									<th class="center">订单商品总数</th>
-									<th class="center">商品总价</th>
-									<th class="center">运费</th>
-									<th class="center">总优惠</th>
-									<th class="center">钱包支付</th>
-									<th class="center">实付款</th>
-									<th class="center">供应商id</th>
-									<th class="center">收货地址</th>
-									<th class="center">交易号</th>
-									<th class="center">付款方式</th>
-									<th class="center">物流公司</th>
-									<th class="center">运单编号</th>
+									<th class="center">供应商</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
 								</tr>
@@ -103,22 +91,10 @@
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											</c:if>
 											<td class='center'>${comOrder.orderCode}</td>
-											<td class='center'><a href="javascript:toDetail('${comOrder.orderId}')">${comOrder.orderName}</a></td>
 											<td class='center'><param:display type="com_orderType" value="${comOrder.orderType}"/></td>
-											<td class='center'>${comOrder.orderStatus}</td>
+											<td class='center'><param:display type="com_orderStatus" value="${comOrder.orderStatus}"/></td>
 											<td class='center'><param:display type="com_appUserEffective" value="${comOrder.appUserId}"/></td>
-											<td class='center'>${comOrder.orderProductCount}</td>
-											<td class='center'>${comOrder.allPrice}</td>
-											<td class='center'>${comOrder.freight}</td>
-											<td class='center'>${comOrder.allDisPrice}</td>
-											<td class='center'>${comOrder.walletPay}</td>
-											<td class='center'>${comOrder.allActPrice}</td>
 											<td class='center'><param:display type="com_supplierEffective" value="${comOrder.supplierId}"/></td>
-											<td class='center'><param:display type="com_receiveAddressEffective" value="${comOrder.receiveAddressId}"/></td>
-											<td class='center'>${comOrder.tradeNum}</td>
-											<td class='center'><param:display type="com_payMethod" value="${comOrder.payMethod}"/></td>
-											<td class='center'>${comOrder.wlgs}</td>
-											<td class='center'>${comOrder.wlNum}</td>
 											<td class='center'>${comOrder.orderNum}</td>
 											<td class="center">
 												<c:if test="${!RIGHTS.edit && !RIGHTS.del }">
@@ -127,22 +103,36 @@
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
 													
-													<c:if test="${comOrder.effective == '00'}">
+													<%-- <c:if test="${comOrder.effective == '00'}">
 													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comOrder.orderId}');">使生效</a>
 													</c:if>
 													<c:if test="${comOrder.effective != '00'}">
 													<a class="btn btn-xs btn-grey" onclick="changeEffective('00','${comOrder.orderId}');">使失效</a>
-													</c:if>
-													
-													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comOrder.orderId}');">
+													</c:if> --%>
+		    		
+		    		<a class="btn btn-xs btn-grey" onclick="toDetail('${comOrder.orderId}');">查看订单商品</a>
+		    		<a class="btn btn-xs btn-grey" onclick="toInfo('${comOrder.orderId}');">查看详情</a>
+		    		
+		    		<c:if test="${not empty comOrder.wlNum }">
+		    			<a class="btn btn-xs btn-grey" href="http://dh.cx/${comOrder.wlNum }" target="_blank">查看物流</a>
+		    		</c:if>
+		    		<c:if test="${comOrder.orderStatus == '02' }">
+		    			<a class="btn btn-xs btn-grey" onclick="toDeliver('${comOrder.orderId}');">发货</a>
+		    		</c:if>
+		    		<c:if test="${comOrder.orderStatus == '06' }">
+		    			<a class="btn btn-xs btn-grey" onclick="refund('${comOrder.orderId}');">退款</a>
+		    		</c:if>
+		    		
+													<%-- <a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comOrder.orderId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
-													</a>
+													</a> --%>
 													</c:if>
 													<c:if test="${RIGHTS.del }">
-													<a class="btn btn-xs btn-danger" onclick="toDelete('${comOrder.orderId}');">
+													<%-- <a class="btn btn-xs btn-danger" onclick="toDelete('${comOrder.orderId}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
-													</a>
+													</a> --%>
 													</c:if>
+													
 												</div>
 											</td>
 										</tr>
@@ -167,12 +157,12 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<c:if test="${RIGHTS.add }">
+									<%-- <c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
 									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-									</c:if>
+									</c:if> --%>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
 							</tr>
@@ -317,7 +307,7 @@
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag.ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮
+		  	 diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){	
 					if('${bgPage.currentPage}' == '0'){
@@ -358,7 +348,7 @@
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮 
+		    	 diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					nextPage('${bgPage.currentPage}');
@@ -436,7 +426,70 @@
 			 };
 			 diag.show();
 		}
+		
+		
+		//修改
+		function toInfo(orderId){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="全部信息";
+			 diag.URL = "<%=basePath%>background/order/toInfo.do?orderId="+orderId+"&tm="+new Date().getTime();
+			 diag.Width = 450;
+			 diag.Height = 500;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		    	 diag.ShowMinButton = true;		//最小化按钮 
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					nextPage('${bgPage.currentPage}');
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		//修改
+		function toDeliver(orderId){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="全部信息";
+			 diag.URL = "<%=basePath%>background/order/toDeliver.do?orderId="+orderId+"&tm="+new Date().getTime();
+			 diag.Width = 450;
+			 diag.Height = 500;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		    	 diag.ShowMinButton = true;		//最小化按钮 
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					nextPage('${bgPage.currentPage}');
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		function refund(orderId){
+			bootbox.confirm("确定要退款？", function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>background/order/refund.do?orderId="+orderId+"&tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data.resultCode == "success"){
+							nextPage('${bgPage.currentPage}');
+						}
+					});
+				}
+			});
+		}
+		
+		
+		
 	</script>
+	
+	
+	
 
 </body>
 </html>

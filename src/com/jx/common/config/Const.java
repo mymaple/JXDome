@@ -7,6 +7,18 @@ import org.springframework.context.ApplicationContext;
  */
 public class Const {
 	
+	
+	/**
+	 * 版本
+	 */
+	public static final String COM_VERSION = "0003";
+	
+	/**
+	 * 后台网址
+	 */
+	public static final String BG_WEBSITE = "http://bg.gemojp.com";
+//	public static final String BG_WEBSITE = "http://1b62112g29.iok.la/JXDome";
+	
 	/**
 	 * 真
 	 */

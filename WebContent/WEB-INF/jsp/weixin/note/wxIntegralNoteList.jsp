@@ -14,17 +14,16 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-	<script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
-  	<link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+	<script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?${resultInfo.version}"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
@@ -56,7 +55,7 @@
 			<input type="month" id="yearMonth" class="m-txt" onchange="toMonth();" value="${yearMonth }">
 	   </header>
 	    
-	    <div id="main" class=" warpthree clearfloat">
+	    <div class=" warpthree clearfloat">
             <div class="check-c">
             <c:choose>
             	<c:when test="${not empty comIntegralNoteList}">
@@ -80,13 +79,45 @@
             </c:choose>
             </div>
 	    </div>
+	    
+	    <div class="warp"></div>
+	     <!--footer star-->
+		<footer class="page-footer fixed-footer" id="footer">
+			<ul>
+				<li>
+					<a href="<%=basePath%>weixin/index/toIndex.do">
+						<i class="iconfont icon-shouye"></i>
+						<p>首页</p>
+					</a>
+				</li>
+				<li>
+					<a href="<%=basePath%>weixin/product/toCategory.do">
+						<i class="iconfont icon-icon04"></i>
+						<p>分类</p>
+					</a>
+				</li>
+				<li>
+					<a href="<%=basePath%>weixin/shopCar/list.do">
+						<i class="iconfont icon-gouwuche"></i>
+						<p>购物车</p>
+					</a>
+				</li>
+				<li>
+					<a href="<%=basePath%>weixin/mine/toMyCenter.do">
+						<i class="iconfont icon-yonghuming"></i>
+						<p>个人中心</p>
+					</a>
+				</li>
+			</ul>
+		</footer>
+		<!--footer end-->
 	</body>
-	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
-	<script src="weui/gemo/js/mui.min.js" type="text/javascript"></script>
-	<script src="weui/gemo/js/others.js" type="text/javascript"></script>
-	<script src="weui/gemo/js/hmt.js" type="text/javascript"></script>
-	<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/js/mui.min.js?${resultInfo.version}" type="text/javascript"></script>
+	<script src="weui/gemo/js/others.js?${resultInfo.version}" type="text/javascript"></script>
+	<script src="weui/gemo/js/hmt.js?${resultInfo.version}" type="text/javascript"></script>
+	<script src="weui/gemo/slick/slick.js?${resultInfo.version}" type="text/javascript" ></script>
 	<!--插件-->
-	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
-	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
+	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css?${resultInfo.version}">
+	<script src="weui/gemo/js/swiper.jquery.min.js?${resultInfo.version}"></script>
 </html>

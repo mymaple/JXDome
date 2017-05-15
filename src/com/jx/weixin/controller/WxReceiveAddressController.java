@@ -43,12 +43,13 @@ public class WxReceiveAddressController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list() throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo =this.getResultInfo();
 		PageData pd = this.getPageData();
 		String userId = WxSessionUtil.getUserId();
 		String orderId = pd.getString("orderId");
 		String choose = pd.getString("choose");
 		
-		List<ComReceiveAddress>	comReceiveAddressList = comReceiveAddressService.listByUserIdE(userId);	//列出comReceiveAddress列表
+		List<ComReceiveAddress>	comReceiveAddressList = comReceiveAddressService.listByUE(userId);	//列出comReceiveAddress列表
 		
 		if(StringUtils.isNotEmpty(orderId)){
 			WxSessionUtil.setOrderIdcra(orderId);
@@ -56,8 +57,12 @@ public class WxReceiveAddressController extends BaseController {
 		}else{
 			mv.addObject("choose", choose);
 		}
+		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comReceiveAddressList", comReceiveAddressList);
 		mv.setViewName("weixin/receiveAddress/wxReceiveAddressList");
+		
 		return mv;
 	}
 	
@@ -67,8 +72,8 @@ public class WxReceiveAddressController extends BaseController {
 	@RequestMapping(value="/toAdd")
 	public ModelAndView toAdd() throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo =this.getResultInfo();
 		PageData pd = this.getPageData();
-		mv.setViewName("weixin/wxResult");
 		
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
 		comReceiveAddress.setReceicerName("");
@@ -78,9 +83,11 @@ public class WxReceiveAddressController extends BaseController {
 		comReceiveAddress.setDistrict("");
 		comReceiveAddress.setStreet("");
 		comReceiveAddress.setDetail("");
-		//非默认
-		comReceiveAddress.setReceiveAddressStatus("00");
+		//默认
+		comReceiveAddress.setReceiveAddressStatus("01");
 		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("choose", pd.getString("choose"));
 		mv.addObject(comReceiveAddress);
 		mv.addObject("methodPath", "add");
@@ -97,24 +104,32 @@ public class WxReceiveAddressController extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("weixin/wxResult");
-		
 		String userId = WxSessionUtil.getUserId();
 		
 		if(result.hasErrors()) {
 			resultInfo.setResultEntity("comReceiveAddress");
-			resultInfo.setResultContent("参数缺失");
-			resultInfo.setResultUrl("weixin/receiveAddress/list.do");
+			resultInfo.setResultContent("参数缺失！");
+			resultInfo.setResultUrl("weixin/receiveAddress/list.do?choose="+pd.getString("choose"));
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
+		
 		mv.addObject("choose", pd.getString("choose"));
 		comReceiveAddress.setAppUserId(userId);
 		comReceiveAddress.setOrderNum(""+new Date().getTime());
-		comReceiveAddressService.add(comReceiveAddress);
 		
-		resultInfo.setResultCode("success");
+		try {
+			comReceiveAddressService.add(comReceiveAddress);
+			resultInfo.setResultCode("success");
+			resultInfo.setResultContent("收货地址新增成功！");
+			resultInfo.setResultUrl("weixin/receiveAddress/list.do?choose="+pd.getString("choose"));
+		} catch (Exception e) {
+			resultInfo.setResultContent("收货地址新增失败！");
+			resultInfo.setResultUrl("weixin/receiveAddress/toAdd.do?choose="+pd.getString("choose"));
+		}
+		
 		mv.addObject(resultInfo);
-		mv.setViewName("redirect:list");
+		
 		return mv;
 	}
 	
@@ -128,21 +143,23 @@ public class WxReceiveAddressController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("weixin/wxResult");
 		String userId = WxSessionUtil.getUserId();
-		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByUserIdAndIdE(userId, receiveAddressId);	//根据ID读取
+		
+		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByIdUE(userId, receiveAddressId);	//根据ID读取
 		if(comReceiveAddress == null){
 			resultInfo.setResultEntity("comReceiveAddress");
 			resultInfo.setResultContent("未查询到相关信息");
-			resultInfo.setResultUrl("weixin/receiveAddress/list.do");
+			resultInfo.setResultUrl("weixin/receiveAddress/list.do?choose="+pd.getString("choose"));
 			mv.addObject(resultInfo);				
 			return mv; 
 		}
+		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("choose", pd.getString("choose"));
 		mv.addObject("methodPath", "edit");
 		mv.addObject(comReceiveAddress);
-		resultInfo.setResultCode("success");
 		mv.setViewName("weixin/receiveAddress/wxReceiveAddressEdit");
 		
-		mv.addObject(resultInfo);						
 		return mv;
 	}	
 	
@@ -155,23 +172,27 @@ public class WxReceiveAddressController extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("weixin/wxResult");
-		
 		String userId = WxSessionUtil.getUserId();
 		
 		if(result.hasErrors()) {
 			resultInfo.setResultEntity("comReceiveAddress");
-			resultInfo.setResultContent("参数缺失");
-			resultInfo.setResultUrl("weixin/receiveAddress/list.do");
+			resultInfo.setResultContent("参数缺失！");
+			resultInfo.setResultUrl("weixin/receiveAddress/toEdit.do?receiveAddressId="+comReceiveAddress.getReceiveAddressId()+"&choose="+pd.getString("choose"));
 			mv.addObject(resultInfo);				
 			return mv;
 		}
 		comReceiveAddress.setAppUserId(userId);
-		comReceiveAddressService.editByUserE(comReceiveAddress);
+		try {
+			comReceiveAddressService.editByIdUE(comReceiveAddress);
+			resultInfo.setResultCode("success");
+			resultInfo.setResultContent("收货地址修改成功！");
+			resultInfo.setResultUrl("weixin/receiveAddress/list.do?choose="+pd.getString("choose"));
+		} catch (Exception e) {
+			resultInfo.setResultContent("收货地址修改失败！");
+			resultInfo.setResultUrl("weixin/receiveAddress/toEdit.do?receiveAddressId="+comReceiveAddress.getReceiveAddressId()+"&choose="+pd.getString("choose"));
+		}
 		
-		resultInfo.setResultCode("success");
-		mv.addObject("choose", pd.getString("choose"));
 		mv.addObject(resultInfo);
-		mv.setViewName("redirect:list");
 		return mv;
 	}
 	
@@ -186,8 +207,13 @@ public class WxReceiveAddressController extends BaseController {
 		
 		String userId = WxSessionUtil.getUserId();
 		
-		comReceiveAddressService.toDisableByUserIdAndIdE(userId, receiveAddressId);
-		resultInfo.setResultCode("success");
+		try {
+			comReceiveAddressService.toDisableByIdUE(userId, receiveAddressId);
+			resultInfo.setResultCode("success");
+			resultInfo.setResultContent("删除成功！");
+		} catch (Exception e) {
+			resultInfo.setResultContent("删除失败！");
+		}
 
 		return AppUtil.returnResult(pd, resultInfo);
 	}
@@ -201,7 +227,13 @@ public class WxReceiveAddressController extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		String userId = WxSessionUtil.getUserId();
-		comReceiveAddressService.toDefaultE(userId, receiveAddressId);	//根据ID删除
+		try {
+			comReceiveAddressService.toDefaultByIdUSE(userId, receiveAddressId);	//根据ID删除
+			resultInfo.setResultCode("success");
+			resultInfo.setResultContent("设置成功！");
+		} catch (Exception e) {
+			resultInfo.setResultContent("设置失败！");
+		}
 		resultInfo.setResultCode("success");
 		return AppUtil.returnResult(pd, resultInfo);
 	}

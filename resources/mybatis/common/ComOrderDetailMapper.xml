@@ -30,7 +30,7 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByParentId" parameterType="String" resultType="comOrderDetail">
+	<select id="listByOrderId" parameterType="String" resultType="comOrderDetail">
 		select 
 	<include refid="orderDetailColumns"/>
 		from 
@@ -123,13 +123,15 @@
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
-	<select id="listPage" parameterType="bgPage" resultType="pd">
+	<select id="listPage" parameterType="bgPage" resultType="comOrderDetail">
 			select 
 	<include refid="orderDetailColumns"/>
 		from 
 	<include refid="orderDetailTable"/>
 		where 1=1
+		<if test="pd.orderId!= null and pd.orderId != ''"><!-- 关键词检索 -->
 			and orderId = #{pd.orderId}
+		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

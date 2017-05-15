@@ -16,7 +16,7 @@ public interface ComLbtService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComLbt> listE() throws Exception ;
+	public List<ComLbt> listByE() throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

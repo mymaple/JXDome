@@ -46,6 +46,7 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 			BgConfigService bgConfigService  = (BgConfigService) SpringContextUtil.getBean("bgConfigService");  
 			String port =  (bgConfigService.
 					findByConfigType(Const.CONFIG_BG_INSTANTCHAT_OBJ)).getParam2();
+			logger.info("startWebsocketInstantChat:"+port);
 			if(port != null && !"".equals(port)){
 				s = new BgInstantChatServer(Integer.parseInt(port));
 				s.start();

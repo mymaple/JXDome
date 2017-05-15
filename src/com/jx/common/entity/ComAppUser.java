@@ -4,12 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
-import com.jx.common.config.Const;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleDateUtil.SDF;
 import com.jx.common.util.MapleStringUtil;
@@ -38,7 +35,6 @@ public class ComAppUser extends BaseEntity implements Serializable {
 	
 	/** 是否有此平台用户 */
 	private boolean hasAppUser;
-
 	
 	/**
 	 * 获取 指标

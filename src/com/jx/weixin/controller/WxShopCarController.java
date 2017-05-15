@@ -41,10 +41,13 @@ public class WxShopCarController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list() throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo = this.getResultInfo();
 		
 		String userId = WxSessionUtil.getUserId();
-		List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUserSE(userId, null);
+		List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUSE(userId, null);
 		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comShopCarList", comShopCarList);
 		mv.setViewName("weixin/shopCar/wxShopCarList");
 		return mv;
@@ -71,20 +74,26 @@ public class WxShopCarController extends BaseController {
 		}
 		
 		String userId = WxSessionUtil.getUserId();
-		ComShopCar comShopCar = comShopCarService.findByUserSE(userId, productStyleId);
+		ComShopCar comShopCar = comShopCarService.findByIdUSE(userId, productStyleId);
 		if(comShopCar!=null){
 			resultInfo.setResultContent("已加入购物车");
 			return AppUtil.returnResult(pd, resultInfo);
 		}else{
-			comShopCar = new ComShopCar();
-			comShopCar.setAppUserId(userId);
-			comShopCar.setProductStyleId(productStyleId);
-			comShopCar.setCount(""+count);
-			comShopCar.setShopCarStatus("01");
-			comShopCar.setOrderNum(""+new Date().getTime());
-			comShopCarService.add(comShopCar);
-			resultInfo.setResultContent("已加入购物车");
-			resultInfo.setResultCode("success");
+			
+			try {
+				comShopCar = new ComShopCar();
+				comShopCar.setAppUserId(userId);
+				comShopCar.setProductStyleId(productStyleId);
+				comShopCar.setCount(""+count);
+				comShopCar.setShopCarStatus("01");
+				comShopCar.setOrderNum(""+new Date().getTime());
+				comShopCarService.add(comShopCar);
+				resultInfo.setResultContent("已加入购物车");
+				resultInfo.setResultCode("success");
+			} catch (Exception e) {
+				resultInfo.setResultContent("加入购物车失败");
+			}
+			
 		}
 		
 		return AppUtil.returnResult(pd, resultInfo);
@@ -119,7 +128,7 @@ public class WxShopCarController extends BaseController {
 		String userId = WxSessionUtil.getUserId();
 		
 		String[] shopCarIdArr = shopCarIds.split(",");
-		List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUserSE(userId,shopCarIdArr);
+		List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUSE(userId,shopCarIdArr);
 		if(comShopCarList.size()!=shopCarIdArr.length){
 			resultInfo.setResultContent("购物车异常");
 			return AppUtil.returnResult(pd, resultInfo);

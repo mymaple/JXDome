@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComOrderMapper">
 
-	<sql id="orderColumns">orderId,orderCode,orderName,orderType,orderStatus,appUserId,orderProductCount,allPrice,freight,allDisPrice,walletPay,allActPrice,supplierName,supplierId,receiveAddressId,payTime,sendTime,tradeNum,payMethod,wlgs,wlNum,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="orderColumns">orderId,orderCode,orderName,orderType,orderStatus,appUserId,orderProductCount,allPrice,freight,allDisPrice,walletPay,allActPrice,supplierName,supplierId,receiveAddressId,payTime,sendTime,tradeNum,payMethod,wlgs,wlNum,remark,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="orderTable">com_order_main</sql>
 	
 	<resultMap type="comOrder" id="comOrderResultMap">
@@ -28,6 +28,7 @@
 		<result column="payMethod" property="payMethod"/>
 		<result column="wlgs" property="wlgs"/>
 		<result column="wlNum" property="wlNum"/>
+		<result column="remark" property="remark"/>
 		<result column="orderNum" property="orderNum"/>
 		<result column="effective" property="effective"/>
 		<result column="createUserId" property="createUserId"/>
@@ -64,7 +65,7 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByOrderIdsSED" parameterType="pd" resultMap="comOrderResultMap" >
+	<select id="listByIdsSED" parameterType="pd" resultMap="comOrderResultMap" >
 		SELECT
 			*
 		FROM
@@ -87,7 +88,7 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="findByUserED" parameterType="comOrder" resultMap="comOrderResultMap" >
+	<select id="findByIdUED" parameterType="comOrder" resultMap="comOrderResultMap" >
 		SELECT
 			*
 		FROM
@@ -99,16 +100,6 @@
 		AND od.effective = '01'
 		AND om.orderId = #{orderId} 
 		order by (om.orderNum+0) DESC, (od.orderNum+0) DESC
-	</select>
-	
-	<!-- 获取(类)List数据  -->
-	<select id="listByUserE" parameterType="String" resultType="comOrder">
-		select 
-	<include refid="orderColumns"/>
-		from 
-	<include refid="orderTable"/>
-		where appUserId = #{appUserId} 
-		order by (orderNum+0) DESC
 	</select>
 	
 	<update id="updateCode" parameterType="pd">
@@ -139,7 +130,7 @@
 			orderId = #{orderId}
 	</update>
 	
-	<update id="changeReceiveAddressIdByU" parameterType="comOrder">
+	<update id="changeReceiveAddressIdByIdUSE" parameterType="comOrder">
 		update
 	<include refid="orderTable"/>
 		set 
@@ -149,20 +140,8 @@
 		where 
 			orderId = #{orderId}
 			and appUserId = #{appUserId}
-	</update>
-	
-	<update id="toCancleByUSE" parameterType="comOrder">
-		update
-	<include refid="orderTable"/>
-		set 
-			orderStatus = '00' ,
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			orderId = #{orderId}
-			and appUserId = #{appUserId}
-			and effective = '01'
 			and orderStatus = '01'
+			and effective = '01'
 	</update>
 	
 	<!-- 更改状态-->
@@ -170,6 +149,10 @@
 		update
 	<include refid="orderTable"/>
 		set 
+			<if test="orderStatus=='02'.toString()">
+			remark = #{remark},
+			payTime = #{payTime},
+			</if>
 			orderStatus = #{orderStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
@@ -177,7 +160,7 @@
 			orderId = #{orderId}
 			and appUserId = #{appUserId}
 			and effective = '01'
-			and orderStatus =  #{oldValue}
+			and FIND_IN_SET(orderStatus, #{oldValue}) > 0
 	</update>
 	
 	<!-- ****************************custom * end  *********************************** -->
@@ -191,7 +174,7 @@
 		( 
 	<include refid="orderColumns"/>
 		) values (
-			#{orderId},#{orderCode},#{orderName},#{orderType},#{orderStatus},#{appUserId},#{orderProductCount},#{allPrice},#{freight},#{allDisPrice},#{walletPay},#{allActPrice},#{supplierName},#{supplierId},#{receiveAddressId},#{payTime},#{sendTime},#{tradeNum},#{payMethod},#{wlgs},#{wlNum},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+			#{orderId},#{orderCode},#{orderName},#{orderType},#{orderStatus},#{appUserId},#{orderProductCount},#{allPrice},#{freight},#{allDisPrice},#{walletPay},#{allActPrice},#{supplierName},#{supplierId},#{receiveAddressId},#{payTime},#{sendTime},#{tradeNum},#{payMethod},#{wlgs},#{wlNum},#{remark},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
 		)
 	</insert>
 	
@@ -217,6 +200,7 @@
 			payMethod = #{payMethod},
 			wlgs = #{wlgs},
 			wlNum = #{wlNum},
+			remark = #{remark},
 			orderNum = #{orderNum},
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
@@ -229,12 +213,17 @@
 		update
 	<include refid="orderTable"/>
 		set 
+		<if test="orderStatus=='03'.toString()">
+			wlgs = #{wlgs} ,
+			wlNum = #{wlNum},
+			sendTime = #{sendTime},
+		</if>
 			orderStatus = #{orderStatus} ,
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
 			orderId = #{orderId}
-			and orderStatus = #{oldValue}
+			and FIND_IN_SET(orderStatus, #{oldValue}) > 0
 	</update>
 	
 	<!-- 更改有效性 -->
@@ -262,7 +251,7 @@
 		delete from 
  <include refid="orderTable"/>
 		where 
-			CONCAT(orderId) in 
+			orderId in 
         <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

@@ -134,7 +134,12 @@ public class BgProductCategoryDetailController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-			
+		
+		if(comProductCategoryDetailService.findById1(productCategoryId, comProductCategoryDetail.getProductId()) != null){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+		
 		comProductCategoryDetailService.add(comProductCategoryDetail);
 		resultInfo.setResultCode("success");
 
@@ -182,6 +187,17 @@ public class BgProductCategoryDetailController extends BaseController {
 			return mv; 
 		}
 		
+		String productCategoryId = comProductCategoryDetail.getProductCategoryId();
+		if(comProductCategoryService.findById(productCategoryId) == null){
+			mv.addObject(resultInfo);					
+			return mv;
+		}
+		ComProductCategoryDetail comProductCategoryDetail1 = comProductCategoryDetailService.findById1(productCategoryId, comProductCategoryDetail.getProductId()) ;
+		if(comProductCategoryDetail1 != null && !comProductCategoryDetail1.getProductCategoryDetailId().equals(comProductCategoryDetail.getProductCategoryDetailId())){
+			
+			mv.addObject(resultInfo);					
+			return mv;
+		}
 		comProductCategoryDetailService.edit(comProductCategoryDetail);
 		resultInfo.setResultCode("success");
 		

@@ -19,7 +19,6 @@ import com.jx.common.util.MapleUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComDict;
 import com.jx.common.service.ComDictService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comDictService")
 public class ComDictServiceImpl implements ComDictService{
@@ -52,6 +51,9 @@ public class ComDictServiceImpl implements ComDictService{
 	 * @throws Exception
 	 */
 	public String getDisplayName(String type, String value) throws Exception {
+		if(StringUtils.isEmpty(value)){
+			return "";
+		}
 		PageData pd = new PageData();
 		pd.put("type",type);
 		pd.put("value",value);
@@ -63,7 +65,7 @@ public class ComDictServiceImpl implements ComDictService{
 				displayName = (String) dao.findForObject("ComDictMapper.getDisplayName", pd);
 			}else if("02".equals(dictType)){
 				if("0".equals(value)) return "顶级";
-				String[] valuearr = value.split(Const.REG_COM_SPLIT);
+				String[] valuearr = value.split(",");
 				for (int i = 0; i < valuearr.length; i++) {
 					pd.put("value", valuearr[i]);
 					ComDict comDict = (ComDict)dao.findForObject("SQLDictMapper."+type, pd);

@@ -22,6 +22,17 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 获取(类)List数据  -->
+	<select id="findById1" parameterType="comProductCategoryDetail" resultType="comProductCategoryDetail">
+		select 
+	<include refid="productCategoryDetailColumns"/>
+		from 
+	<include refid="productCategoryDetailTable"/>
+		where productCategoryId = #{productCategoryId} 
+			and productId = #{productId} 
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- 获取(类)List数据  -->
 	<select id="listByParentId" parameterType="String" resultType="comProductCategoryDetail">
 		select 
 	<include refid="productCategoryDetailColumns"/>
@@ -115,7 +126,9 @@
 		from 
 	<include refid="productCategoryDetailTable"/>
 		where 1=1
+		<if test="pd.productCategoryId!= null and pd.productCategoryId != ''"><!-- 关键词检索 -->
 			and productCategoryId = #{pd.productCategoryId}
+		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

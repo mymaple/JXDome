@@ -53,9 +53,9 @@ public class FileUpimgTag extends TagSupport {
 		
 		int valCount = 0;
 		if(!StringUtils.isEmpty(this.value)){
-			String[] srcs = this.value.split(Const.REG_COM_SPLIT);
+			String[] srcs = this.value.split(",");
 			valCount = srcs.length;
-			for(int i=0;i<valCount&&i<maxCount;i++){
+			for(int i=0;i<valCount&&(i<maxCount||maxCount==0);i++){
 		sb.append("		<li>");		
 		sb.append("			<div class=\"upimg_cell upimg_edit\">");
 		sb.append("				<input type=\"hidden\" name=\""+this.name+"\" value=\""+srcs[i]+"\" />");

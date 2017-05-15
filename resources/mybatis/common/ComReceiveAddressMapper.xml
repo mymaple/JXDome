@@ -29,7 +29,7 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByUserIdE" parameterType="String" resultType="comReceiveAddress">
+	<select id="listByUE" parameterType="String" resultType="comReceiveAddress">
 		select 
 	<include refid="receiveAddressColumns"/>
 		from 
@@ -40,7 +40,7 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="findByUserIdSE" parameterType="String" resultType="comReceiveAddress">
+	<select id="findByUSE" parameterType="String" resultType="comReceiveAddress">
 		select 
 	<include refid="receiveAddressColumns"/>
 		from 
@@ -52,7 +52,7 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="findByUserIdAndIdE" parameterType="comReceiveAddress" resultType="comReceiveAddress">
+	<select id="findByIdUE" parameterType="comReceiveAddress" resultType="comReceiveAddress">
 		select 
 	<include refid="receiveAddressColumns"/>
 		from 
@@ -64,8 +64,52 @@
 	</select>
 	
 	
+	<!-- 改变 -->
+	<update id="toDisdefaultByUSE" parameterType="comReceiveAddress">
+		update
+	<include refid="receiveAddressTable"/>
+		set 
+			receiveAddressStatus = '00',
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserId = #{appUserId}
+		and receiveAddressStatus = '01'
+		and effective = '01'
+	</update>
+	
+	<!-- 改变 -->
+	<update id="toDefaultByIdUSE" parameterType="comReceiveAddress">
+		update
+	<include refid="receiveAddressTable"/>
+		set 
+			receiveAddressStatus = '01',
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+		and appUserId = #{appUserId}
+		and receiveAddressStatus = '00'
+		and effective = '01'
+	</update>
+	
+	<!-- 改变 -->
+	<update id="toDisableByIdUE" parameterType="comReceiveAddress">
+		update
+	<include refid="receiveAddressTable"/>
+		set 
+			receiveAddressStatus = '00',
+			effective = '00',
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			receiveAddressId = #{receiveAddressId} 
+			and appUserId = #{appUserId}
+			and effective = '01'
+	</update>
+	
 	<!-- 修改 -->
-	<update id="editByUserE" parameterType="comReceiveAddress">
+	<update id="editByIdUE" parameterType="comReceiveAddress">
 		update
 	<include refid="receiveAddressTable"/>
 		set 
@@ -84,51 +128,6 @@
 		and appUserId = #{appUserId}
 		and effective = '01'
 	</update>
-	
-	<!-- 改变 -->
-	<update id="toDisdefaultE" parameterType="comReceiveAddress">
-		update
-	<include refid="receiveAddressTable"/>
-		set 
-			receiveAddressStatus = '00',
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			appUserId = #{appUserId}
-		and receiveAddressStatus = '01'
-		and effective = '01'
-	</update>
-	
-	<!-- 改变 -->
-	<update id="toDefaultE" parameterType="comReceiveAddress">
-		update
-	<include refid="receiveAddressTable"/>
-		set 
-			defaultStatus = '01',
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			receiveAddressId = #{receiveAddressId} 
-		and appUserId = #{appUserId}
-		and defaultStatus = '00'
-		and effective = '01'
-	</update>
-	
-	<!-- 改变 -->
-	<update id="toDisableByUserIdAndIdE" parameterType="comReceiveAddress">
-		update
-	<include refid="receiveAddressTable"/>
-		set 
-			receiveAddressStatus = '00',
-			effective = '00',
-			modifyUserId = #{modifyUserId},
-			modifyTime = #{modifyTime}
-		where 
-			receiveAddressId = #{receiveAddressId} 
-			and appUserId = #{appUserId}
-			and effective = '01'
-	</update>
-	
 	
 	
 	<!-- ****************************custom * end  *********************************** -->

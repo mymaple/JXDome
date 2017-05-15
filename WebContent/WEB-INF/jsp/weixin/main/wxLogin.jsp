@@ -14,18 +14,17 @@
 
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-	<link rel="stylesheet" href="weui/dist/style/weui.min.css"/>
-	<script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css?23"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js?sda"></script>
+	<link rel="stylesheet" href="weui/dist/style/weui.min.css?${resultInfo.version}"/>
+	<script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?${resultInfo.version}"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
 var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 
@@ -46,6 +45,7 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 	}
 
 	function login(){
+		
 		var phone = $('#phone').val();
 		if(!phoneExg.test(phone)){
 			layer.open({
@@ -65,11 +65,13 @@ var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
 			$('#captcha').focus();
 		}
 		var flag = $('flag').val();
+		
 		layer.open({
 		    type: 2
 		    ,shadeClose: false
 		    ,content: '登录中'
 		  });
+		
 		$.ajax({
 			type: "POST",
 			url: '<%=basePath%>weixin/main/login.do?tm='+new Date().getTime(),

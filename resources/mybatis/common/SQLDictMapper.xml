@@ -72,10 +72,16 @@
 		
 		<!-- 生效平台用户（4S店） -->
 		<select id="com_appUserEffective4S" parameterType="pd" resultMap="comDictResultMap">
-			select appUserName as dictName, appUserId as dictValue
-			from com_app_user_tree
-			where effective = '01'
-				and roleId = '03'
+			select au.appUserName as dictName, au.appUserId as dictValue
+			from com_app_user_tree au, com_app_user_role_tree aur
+			where au.effective = '01'
+				and aur.effective = '01'
+				and (au.roleId like CONCAT('%,',aur.appUserRoleId) 
+					or au.roleId like CONCAT('%,',aur.appUserRoleId,",%") 
+					or au.roleId like CONCAT(aur.appUserRoleId,",%") 
+					or au.roleId = aur.appUserRoleId
+					)
+				and aur.appUserRoleType='03'
 			<if test="value!=null and value!=''">
 				and appUserId = #{value} 
 			</if>
@@ -171,7 +177,7 @@
 		<!-- 生效商品规格 -->
 		<select id="com_productStyleEffective" parameterType="pd" resultMap="comDictResultMap">
 			select productStyleName as dictName, productStyleId as dictValue
-			from com_product_style_main
+			from com_product_style_info
 			where effective = '01'
 			<if test="value!=null and value!=''">
 				and productStyleId = #{value} 
@@ -179,7 +185,44 @@
 		</select>
 		
 		
+		<!-- 生效平台用户角色 -->
+		<select id="com_appUserRoleEffectiveP" parameterType="pd" resultMap="comDictResultMap">
+			select appUserRoleName as dictName, appUserRoleId as dictValue
+			from com_app_user_role_tree
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and appUserRoleId = #{value} 
+			</if>
+			
+			<if test="key1=='0'.toString()">
+				and parentId = '0'
+			</if>
+			
+			<if test="key1!=null and key1!='' and key1!='0'.toString()">
+				<if test="key0!=null and key0!='' and key0!='0'.toString()">
+				and parentId = #{key0} 
+				</if>
+				and (
+					(select roleId from com_app_user_tree where effective = '01' and appUserId = #{key1}) like CONCAT('%,',parentId)
+					 OR
+					(select roleId from com_app_user_tree where effective = '01' and appUserId = #{key1}) like CONCAT(parentId,',%')
+					 OR 
+					(select roleId from com_app_user_tree where effective = '01' and appUserId = #{key1}) like CONCAT('%,',parentId,',%')
+					 OR 
+					(select roleId from com_app_user_tree where effective = '01' and appUserId = #{key1}) = parentId )
+			</if>
+			order by (orderNum+0) DESC
+		</select>
 		
+		<!-- 生效商品规格 -->
+		<select id="com_orderEffective" parameterType="pd" resultMap="comDictResultMap">
+			select orderCode as dictName, orderId as dictValue
+			from com_order_main
+			where effective = '01'
+			<if test="value!=null and value!=''">
+				and orderId = #{value} 
+			</if>
+		</select>
 	<!-- ****************************common * end  ********************************** -->
 	
 </mapper>

@@ -169,6 +169,11 @@
 									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
+									
+									<a class="btn btn-xs btn-info" title="申请" onclick="toBatchChangeStatus('01');">申请</a>
+									<a class="btn btn-xs btn-success" title="审核通过" onclick="toBatchChangeStatus('02');">通过审核</a>
+									<a class="btn btn-xs btn-danger" title="审核失败" onclick="toBatchChangeStatus('03');">不通过审核</a>
+									<a class="btn btn-xs btn-info" title="重新申请" onclick="toBatchChangeStatus('04');">重新申请</a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
 							</tr>
@@ -382,7 +387,10 @@
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+				 if('${bgPage.currentPage}' == '0'){
+					 top.jzts();
+					 setTimeout("self.location=self.location",100);
+				 }else if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					nextPage('${bgPage.currentPage}');
 				}
 				diag.close();
@@ -410,6 +418,50 @@
 				}
 			});
 		}
+		
+		/*change 01:申请，02成功，03失败，04再申请  */
+		function toBatchChangeStatus(change){
+			bootbox.confirm(change, function(result) {
+				if(result) {
+					var str = '';
+					for(var i=0;i < document.getElementsByName('ids').length;i++){
+					  if(document.getElementsByName('ids')[i].checked){
+					  	if(str=='') str += document.getElementsByName('ids')[i].value;
+					  	else str += ',' + document.getElementsByName('ids')[i].value;
+					  }
+					}
+					if(str==''){
+						bootbox.dialog({
+							message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+							buttons: 			
+							{ "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+						});
+						$("#zcheckbox").tips({
+							side:1,
+				            msg:'点这里全选',
+				            bg:'#AE81FF',
+				            time:8
+				        });
+						return;
+					}else{
+						top.jzts();
+						$.ajax({
+							type: "POST",
+							url: '<%=basePath%>background/sparepartDeal/toBatchChangeStatus.do?tm='+new Date().getTime(),
+					    	data: {"change":change,ids:str},
+							dataType:'json',
+							//beforeSend: validateData,
+							cache: false,
+							success: function(data){
+								if(data.resultCode == "success"){
+									nextPage('${bgPage.currentPage}');
+								}
+							}
+						});
+					}
+				}
+			});
+		};
 	</script>
 
 </body>

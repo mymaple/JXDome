@@ -18,6 +18,15 @@ public interface ComProductCategoryDetailService {
 	 * @throws Exception
 	 */
 	public List<ComProductCategoryDetail> listByProductCategoryId(String productCategoryId) throws Exception ;
+	
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String productCategoryId, String productId
+	 * @return ComProductCategoryDetail
+	 * @throws Exception
+	 */
+	public ComProductCategoryDetail findById1(String productCategoryId, String productId) throws Exception ;
 	/****************************custom * end  ***********************************/
 	
 	/****************************common * start***********************************/

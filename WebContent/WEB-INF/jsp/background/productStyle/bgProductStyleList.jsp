@@ -31,6 +31,10 @@
 			</a>
 		</c:if>
 		<c:if test="${not empty pd.productId }">
+			<a href="<%=basePath%>background/product/list.do"> 
+			商品管理
+			</a>
+			——
 			<a href="<%=basePath%>background/productStyle/list.do?productId=${pd.productId}"> 
 			商品规格管理——<param:display type="com_productEffective" value="${pd.productId}" id="productId" hidden="true"/>
 			</a>
@@ -48,7 +52,7 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="background/productStyle/list.do" method="post" name="productStyleForm" id="productStyleForm">
+						<form action="background/productStyle/list.do?productId=${pd.productId}" method="post" name="productStyleForm" id="productStyleForm">
 						<table style="margin-top:5px;">
 							<tr>
 								<td>

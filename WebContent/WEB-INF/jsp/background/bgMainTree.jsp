@@ -27,6 +27,7 @@
 						<c:if test="${not empty pd.currentPage }">&currentPage=${pd.currentPage }</c:if>
 						<c:if test="${not empty pd.showCount }">&showCount=${pd.showCount }</c:if>
 						<c:if test="${not empty pd.productId }">&productId=${pd.productId }</c:if>
+						<c:if test="${not empty pd.prId }">&prId=${pd.prId }</c:if>
 						" style="margin:0 auto;width:100%;height:100%;"></iframe>
 		</td>
 	</tr>

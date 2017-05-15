@@ -2,7 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page import="com.jx.common.config.Const"  %>
 <%
+	response.setHeader("Cache-Control","no-store");  
+	response.setDateHeader("Expires", 0);  
+	response.setHeader("Pragma","no-cache"); 
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -13,17 +17,16 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-	<script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+	<script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?${resultInfo.version}"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
@@ -60,14 +63,13 @@
 	}
 	
 	function countL(){
-		var count = Number($('#count').val());
+		var count = Number($('#count').val().replace(/[^0-9]*/g, ''));
 		if(count<=1){
 			layer.open({
 		    	content: '最少选购1件'
 		    	,skin: 'msg'
 		    	,time: 2 //2秒后自动关闭
 		 	});
-			
 			$('#count').val('1');
 		}else{
 			$('#count').val(count-1);
@@ -75,7 +77,7 @@
 	}
 	
 	function countM(){
-		var count = Number($('#count').val());
+		var count = Number($('#count').val().replace(/[^0-9]*/g, ''));
 		var stockNum = $('#stockNum_'+$('#productStyleId').val()).val();
 		if(count>=stockNum){
 			layer.open({
@@ -83,8 +85,26 @@
 		    	,skin: 'msg'
 		    	,time: 2 //2秒后自动关闭
 		 	});
+			$('#count').val(stockNum);
 		}else{
 			$('#count').val(count+1);
+		}
+	}
+	
+	function toChangeCount(shopCarId){
+		var count = Number($('#count').val().replace(/[^0-9]*/g, ''));
+		var stockNum = $('#stockNum_'+$('#productStyleId').val()).val();
+		if(count<1){
+			$('#count').val('');
+		}else if(count>stockNum){
+			layer.open({
+		    	content: '超出库存'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			$('#count').val(stockNum);
+		}else{
+			$('#count').val(count);
 		}
 	}
 	
@@ -114,7 +134,7 @@
 			return false;
 		}
 		
-		if(count>=stockNum){
+		if(count>stockNum){
 			layer.open({
 		    	content: '超出库存'
 		    	,skin: 'msg'
@@ -124,6 +144,11 @@
 			return false;
 		}
 		
+		layer.open({
+		    type: 2
+		    ,shadeClose: false
+		    ,content: '正在处理，请稍候...'
+		  });
 		if(flag == '1'){
 			$.ajax({
 				type: "POST",
@@ -133,16 +158,17 @@
 				//beforeSend: validateData,
 				cache: false,
 				success: function(data){
-						layer.open({
-					    	content: data.resultContent
-					    	,skin: 'msg'
-					    	,time: 2 //2秒后自动关闭
-					 	});
 						$(".am-share").removeClass("am-modal-active");	
 						setTimeout(function(){
 							$(".sharebg-active").removeClass("sharebg-active");	
 							$(".sharebg").remove();	
 						},300);
+						layer.closeAll();
+						layer.open({
+					    	content: data.resultContent
+					    	,skin: 'msg'
+					    	,time: 2 //2秒后自动关闭
+					 	});
 				}
 			});
 		}else if(flag =='2'){
@@ -166,7 +192,7 @@
 	</div>
 </div>
 <!--loading页结束-->
-	<body>
+	<body style="background:#fff;">
 	<input id="flag" type="hidden">
 		<div class="warptwo clearfloat">
 			<div class="detail clearfloat">
@@ -174,7 +200,7 @@
 				<div class="banner swiper-container">
 		            <div class="swiper-wrapper">
 		            	<c:forEach items="${ fn:split(comProduct.imgSrc2,',') }" var="imgSrc2">
-		                <div class="swiper-slide"><img class="swiper-lazy" data-src="${imgSrc2 }" alt=""></div>
+		                <div class="swiper-slide"><img class="swiper-lazy" data-src="<%=Const.BG_WEBSITE %>/${imgSrc2 }" alt=""></div>
 		            	</c:forEach>
 		            </div>
 		            <div class="swiper-pagination"></div>
@@ -188,15 +214,13 @@
 					</div>
 				</div>
 				<div class="middle clearfloat box-s">
-					<a href="#">
 						<span class="fl">商品详情</span>
 						<i class="iconfont icon-jiantou1 fr"></i>
-					</a>
 				</div>
 				<div class="chanpxq">
                 	<div class="tu">
                 		<c:forEach items="${ fn:split(comProduct.imgSrc3,',') }" var="imgSrc3">
-                		<img src="${imgSrc3 }">
+                		<img src="<%=Const.BG_WEBSITE %>/${imgSrc3 }">
 		            	</c:forEach>
                 	</div>
                 </div>
@@ -211,7 +235,7 @@
 		</div>
 		
 		<!--footerone star-->
-		<div class="footerone clearfloat">
+		<div class="footerone clearfloat" style="bottom:0;">
 			<div class="left clearfloat fl">
 				<ul>
 					<li>
@@ -243,7 +267,7 @@
 		     	<div class="top clearfloat">
 		     		<div class="tu clearfloat fl">
 		     			<span></span>
-		     			<img src="${comProduct.headImgSrc }"/>
+		     			<img src="<%=Const.BG_WEBSITE %>/${comProduct.headImgSrc }"/>
 		     		</div>
 		     		<c:choose>
      					<c:when test="${ not empty comProductStyleList }">
@@ -282,12 +306,12 @@
 		     		</div>		     		
 		     	</div>
 		     	
-		     	<div class="bottom clearfloat">
+		     	<div class="bottom clearfloat" >
 		     		<p class="fl">购买数量</p>
 		     		<div class="you clearfloat fr">
 		     			<ul>
 		     				<li onclick="countL();"><img src="weui/gemo/img/jian.jpg"/></li>
-		     				<li class="num-w"><input id="count" name="count" type="text" class="num-txt" value="1" onkeyup="toChangeCount();"></li>
+		     				<li class="num-w"><input style="color: black;" id="count" name="count" type="number" class="num-txt" value="1" onkeyup="toChangeCount();"></li>
 		     				<li onclick="countM();"><img src="weui/gemo/img/jia.jpg"/></li>
 		     			</ul>
 		     		</div>
@@ -297,7 +321,8 @@
 		  <a onClick="toConfirm();" class="shop-btn db">确定</a>
 		</div>
 		
-		<!--footer star-->
+		<!--<div class="warp"></div>
+		footer star
 		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
 				<li>
@@ -325,16 +350,16 @@
 					</a>
 				</li>
 			</ul>
-		</footer>
+		</footer>-->
 		<!--footer end-->
 	</body>
-	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
-	<script src="weui/gemo/js/mui.min.js"></script>
-	<script src="weui/gemo/js/others.js"></script>
-	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
-	<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
-	<script type="text/javascript" src="weui/gemo/js/shopcar.js" ></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/js/mui.min.js?${resultInfo.version}"></script>
+	<script src="weui/gemo/js/others.js?${resultInfo.version}"></script>
+	<script type="text/javascript" src="weui/gemo/js/hmt.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/slick/slick.js?${resultInfo.version}" type="text/javascript" ></script>
+	<script type="text/javascript" src="weui/gemo/js/shopcar.js?${resultInfo.version}" ></script>
 	<!--插件-->
-	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
-	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
+	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css?${resultInfo.version}">
+	<script src="weui/gemo/js/swiper.jquery.min.js?${resultInfo.version}"></script>
 </html>

@@ -17,7 +17,7 @@ public interface ComShopCarService {
 	 * @return ComShopCar
 	 * @throws Exception
 	 */
-	public ComShopCar findByUserSE(String userId, String productStyleId) throws Exception ;
+	public ComShopCar findByIdUSE(String userId, String productStyleId) throws Exception ;
 	
 	/**
 	 * 删除 

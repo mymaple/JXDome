@@ -32,18 +32,15 @@
 			
 			<property name="filterChainDefinitions">
 				<value>
-				/static/login/** 			= anon
-				/static/js/myjs/** 			= authc
-				/static/js/** 				= anon
-				/MP_verify_uypCnRoqKLTZwBSp.txt			= anon
-				/uploadFiles/uploadImgs/** 	= anon
-	           	/background/main/getCaptcha.do 					= anon
-	           	/background/main/login	 			= anon
-	           	/app**/** 					= anon
-	           	/weixin/** 					= anon
-	           	/weixinSerlvet				= anon
+				/MP_verify_gV1uVTCs6L0vv6lq.txt 		= anon
+				/MP_verify_uypCnRoqKLTZwBSp.txt 		= anon
+				/static/** 								= anon
+				/uploadFiles/** 						= anon
+	           	/background/main/getCaptcha.do 			= anon
+	           	/background/main/login	 				= anon
+	           	/weixinSerlvet							= anon
 	           	/common/** 								= anon
-	           	/**							= authc
+	           	/**										= authc
 				</value>
 			</property>
 		</bean>

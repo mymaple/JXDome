@@ -25,7 +25,7 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listE" resultType="comLbt">
+	<select id="listByE" resultType="comLbt">
 		select 
 	<include refid="lbtColumns"/>
 		from 

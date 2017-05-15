@@ -44,7 +44,7 @@
 		update
 	<include refid="appUserExtTable"/>
 		set
-			extValue = extValue + (#{extValue}),
+			extValue = ROUND(extValue + (#{extValue}),2),
 			modifyUserId = #{modifyUserId},
 			modifyTime = #{modifyTime}
 		where 
@@ -70,7 +70,7 @@
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="delete" parameterType="pd">
+	<delete id="delete" parameterType="comAppUserExt">
 		delete from 
 	<include refid="appUserExtTable"/>
 		where 
@@ -81,7 +81,7 @@
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="find" parameterType="pd" resultMap="comAppUserExtResultMap">
+	<select id="find" parameterType="comAppUserExt" resultMap="comAppUserExtResultMap">
 		select 
 	<include refid="appUserExtColumns"/>
 		from 
@@ -92,7 +92,17 @@
 	</select>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="list" parameterType="pd" resultMap="comAppUserExtResultMap">
+	<select id="listByU" parameterType="comAppUserExt" resultMap="comAppUserExtResultMap">
+		select 
+	<include refid="appUserExtColumns"/>
+		from 
+	<include refid="appUserExtTable"/>
+		where 
+			appUserId = #{appUserId}
+	</select>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="listByVC" parameterType="comAppUserExt" resultMap="comAppUserExtResultMap">
 		select 
 	<include refid="appUserExtColumns"/>
 		from 
@@ -101,7 +111,6 @@
 			extValue = #{extValue} and 
 			extCode = #{extCode}
 	</select>
-	
 	<!-- ****************************common * end  ********************************** -->
 	
 </mapper>

@@ -44,6 +44,10 @@
 			</a>
 		</c:if>
 		<c:if test="${not empty pd.productId }">
+			<a href="<%=basePath%>background/product/list.do"> 
+			商品管理
+			</a>
+			——
 			<a href="<%=basePath%>background/styleCategory/list.do?productId=${pd.productId}"> 
 			类型分类管理——<param:display type="com_productEffective" value="${pd.productId}" id="productId" hidden="true"/>
 			</a>

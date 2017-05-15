@@ -87,6 +87,7 @@ public class ComProduct extends BaseEntity implements Serializable {
 	private String productType;
 		
 	/** 产品状态 */
+	@NotBlank(message="产品状态不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String productStatus;
 		
 	/** 产品模型 */

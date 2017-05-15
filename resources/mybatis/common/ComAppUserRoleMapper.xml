@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComAppUserRoleMapper">
+
+	<sql id="appUserRoleColumns">appUserRoleId,parentId,appUserRoleCode,appUserRoleName,appUserRoleType,appUserRoleStatus,remarks,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
+	<sql id="appUserRoleTable">com_app_user_role_tree</sql>
+	
+	<resultMap type="comAppUserRole" id="comAppUserRoleResultMap">
+		<id column="appUserRoleId" property="appUserRoleId"/>
+		<result column="appUserRoleCode" property="appUserRoleCode"/>
+		<result column="appUserRoleName" property="appUserRoleName"/>
+		<result column="appUserRoleType" property="appUserRoleType"/>
+		<result column="appUserRoleStatus" property="appUserRoleStatus"/>
+		<result column="remarks" property="remarks"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="effective" property="effective"/>
+		<result column="createUserId" property="createUserId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="modifyUserId" property="modifyUserId"/>
+		<result column="modifyTime" property="modifyTime"/>
+		<result column="parentId" property="parentId"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listByParentId" parameterType="String" resultType="comAppUserRole">
+		select 
+	<include refid="appUserRoleColumns"/>
+		from 
+	<include refid="appUserRoleTable"/>
+		where parentId = #{parentId} 
+		order by (orderNum+0) DESC
+	</select>
+	
+	<update id="updateCode" parameterType="pd">
+		UPDATE 
+	<include refid="appUserRoleTable"/>
+		SET appUserRoleCode = CONCAT(
+			#{startC},
+			(
+				SELECT
+					A.CODE
+				FROM
+					(
+						SELECT
+							(
+								COALESCE (
+									REPLACE (MAX(appUserRoleCode), #{startC}, ''),
+									#{startN}
+								) + #{addValue}
+							) CODE
+						FROM
+	<include refid="appUserRoleTable"/>
+					) A
+			)
+		)
+		WHERE
+			appUserRoleId = #{appUserRoleId };
+	</update>
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" parameterType="comAppUserRole">
+		insert into 
+	<include refid="appUserRoleTable"/>
+		( 
+	<include refid="appUserRoleColumns"/>
+		) values (
+			#{appUserRoleId},#{parentId},#{appUserRoleCode},#{appUserRoleName},#{appUserRoleType},#{appUserRoleStatus},#{remarks},#{orderNum},#{effective},#{createUserId},#{createTime},#{modifyUserId},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comAppUserRole">
+		update
+	<include refid="appUserRoleTable"/>
+		set 
+			appUserRoleName = #{appUserRoleName},
+			appUserRoleType = #{appUserRoleType},
+			appUserRoleStatus = #{appUserRoleStatus},
+			remarks = #{remarks},
+			orderNum = #{orderNum},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserRoleId = #{appUserRoleId} 
+	</update>
+	
+	<!-- 更改状态-->
+	<update id="changeStatus" parameterType="comAppUserRole">
+		update
+	<include refid="appUserRoleTable"/>
+		set 
+			appUserRoleStatus = #{appUserRoleStatus} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserRoleId = #{appUserRoleId} 
+			and appUserRoleStatus = #{oldValue}
+	</update>
+	
+	<!-- 更改有效性 -->
+	<update id="changeEffective" parameterType="comAppUserRole">
+		update
+	<include refid="appUserRoleTable"/>
+		set 
+			effective = #{effective} ,
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserRoleId = #{appUserRoleId} 
+			and effective = #{oldValue}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="String">
+		delete from 
+	<include refid="appUserRoleTable"/>
+		where appUserRoleId = #{appUserRoleId} 
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from 
+ <include refid="appUserRoleTable"/>
+		where 
+			appUserRoleId in 
+        <foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="String" resultType="comAppUserRole">
+		select 
+	<include refid="appUserRoleColumns"/>
+		from 
+	<include refid="appUserRoleTable"/>
+		where appUserRoleId = #{appUserRoleId} 
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAll" resultType="comAppUserRole">
+		select 
+	<include refid="appUserRoleColumns"/>
+		from 
+	<include refid="appUserRoleTable"/>
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="otherHaveCode" parameterType="comAppUserRole" resultMap="comAppUserRoleResultMap">
+		select 
+	<include refid="appUserRoleColumns"/>
+		from 
+	<include refid="appUserRoleTable"/>
+		where appUserRoleId != #{appUserRoleId} 
+			 and parentId = #{parentId} 
+			 and appUserRoleCode = #{appUserRoleCode}
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listPage" parameterType="bgPage" resultType="pd">
+			select 
+	<include refid="appUserRoleColumns"/>
+		from 
+	<include refid="appUserRoleTable"/>
+		where 1=1
+			<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
+			and parentId= #{pd.pId}
+			</if>
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				appUserRoleCode LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				or
+				appUserRoleName LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		order by (orderNum+0) DESC
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

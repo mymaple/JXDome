@@ -5,6 +5,7 @@
 
 	<sql id="appUserColumns">appUserId,parentId,roleId,appUserCode,appUserName,appUserType,appUserStatus,appUserNum,phone,password,sex,headImgSrc,brithday,remarks,level,orderNum,effective,createUserId,createTime,modifyUserId,modifyTime</sql>
 	<sql id="appUserTable">com_app_user_tree</sql>
+	<sql id="appUserRoleTable">com_app_user_role_tree</sql>
 	
 	<resultMap type="comAppUser" id="comAppUserResultMap">
 		<id column="appUserId" property="appUserId"/>
@@ -33,23 +34,79 @@
 	
 	<!-- ****************************custom * start*********************************** -->
 	
-	<update id="updateCode" parameterType="pd">
+	
+	<select id="listSubUser1" parameterType="String" resultMap="comAppUserResultMap" statementType="CALLABLE">
+		{CALL pr_list_all_subUser1(#{appUserId})}
+	</select>
+	
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listInRoleIdE" parameterType="pd" resultMap="comAppUserResultMap">
+		select 
+	<include refid="appUserColumns"/>
+		from 
+	<include refid="appUserTable"/>
+		where 
+			effective = '01' 
+			and ( roleId like CONCAT('%,',#{roleId})  
+				OR roleId like CONCAT(#{roleId},',%')
+				OR roleId like CONCAT('%,',#{roleId},',%')
+				OR roleId = #{roleId})
+		order by (orderNum+0) DESC
+	</select>
+	
+	
+	<!-- 改变 -->
+	<update id="changeParentByU" parameterType="comAppUser">
 		update
 	<include refid="appUserTable"/>
-		SET appUserCode = (
-			SELECT
-				a.CODE
-			FROM
-				(
-					SELECT
-						(COALESCE(MAX(appUserCode),15740) + #{addValue}) CODE
-					FROM
+		set 
+			parentId = #{parentId},
+			roleId = '',
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserId = #{appUserId} 
+	</update>
+	
+	<!-- 改变 -->
+	<update id="changeRoleByU" parameterType="comAppUser">
+		update
 	<include refid="appUserTable"/>
-				)a
+		set 
+			roleId = #{roleId},
+			modifyUserId = #{modifyUserId},
+			modifyTime = #{modifyTime}
+		where 
+			appUserId = #{appUserId} 
+	</update>
+	
+	<update id="updateCode" parameterType="pd">
+		UPDATE 
+	<include refid="appUserTable"/>
+		SET appUserCode = CONCAT(
+			#{startC},
+			(
+				SELECT
+					A.CODE
+				FROM
+					(
+						SELECT
+							(
+								COALESCE (
+									REPLACE (MAX(appUserCode), #{startC}, ''),
+									#{startN}
+								) + #{addValue}
+							) CODE
+						FROM
+	<include refid="appUserTable"/>
+					) A
+			)
 		)
 		WHERE
-			appUserId = #{appUserId};
+			appUserId = #{appUserId };
 	</update>
+	
 	
 	<!-- 改变 -->
 	<update id="changeMyInfoByUE" parameterType="comAppUser">
@@ -222,6 +279,9 @@
 			<if test="appUserCode!=null and appUserCode!=''">
 			 and appUserCode = #{appUserCode}
 			</if>
+			<if test="remarks!=null and remarks!=''">
+			 and remarks = #{remarks}
+			</if>
 	</select>
 	
 	<!-- 获取(类)List数据  -->
@@ -322,6 +382,9 @@
 		where 1=1
 			<if test="pd.pId != null and pd.pId != ''"><!-- 角色检索 -->
 			and parentId= #{pd.pId}
+			</if>
+			<if test="pd.prId != null and pd.prId != '' and pd.prId != '0'.toString()"><!-- 角色检索 -->
+			and roleId in ( select appUserRoleId from <include refid="appUserRoleTable"/> where parentId = #{pd.prId , jdbcType=VARCHAR} )
 			</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and

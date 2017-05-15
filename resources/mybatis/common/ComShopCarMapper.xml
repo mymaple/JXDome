@@ -24,7 +24,7 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findByUserSE" parameterType="comShopCar" resultType="comShopCar">
+	<select id="findByIdUSE" parameterType="comShopCar" resultType="comShopCar">
 		select 
 	<include refid="shopCarColumns"/>
 		from 

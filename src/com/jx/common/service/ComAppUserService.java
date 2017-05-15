@@ -13,6 +13,35 @@ public interface ComAppUserService {
 	/****************************custom * start***********************************/
 	
 	/**
+	 * 
+	 * @param String roleId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComAppUser> listInRoleIdE(String roleId) throws Exception ;
+	
+	/**
+	 * 转账
+	 * @param String appUserId, String parentId
+	 * @throws Exception
+	 */
+	public void toTransferByUE(String fromAppUserId, String toAppUserId, double integralCount) throws Exception ;
+	
+	/**
+	 * 修改 上级
+	 * @param String appUserId, String roleId
+	 * @throws Exception
+	 */
+	public void changeParentByU(String appUserId, String parentId) throws Exception ;
+	
+	/**
+	 * 修改 角色
+	 * @param String appUserId, String roleId
+	 * @throws Exception
+	 */
+	public void changeRoleByU(String appUserId, String roleId) throws Exception ;
+	
+	/**
 	 * 通过phone获取(类)数据
 	 * @param String phone
 	 * @return ComAppUser
@@ -27,6 +56,14 @@ public interface ComAppUserService {
 	 * @throws Exception
 	 */
 	public ComAppUser findByCode(String appUserCode) throws Exception ;
+	
+	/**
+	 * 通过appUserCode获取(类)数据
+	 * @param String appUserCode
+	 * @return ComAppUser
+	 * @throws Exception
+	 */
+	public ComAppUser findByRemarks(String remarks) throws Exception ;
 	
 	/**
 	 * 微信注册
@@ -58,7 +95,7 @@ public interface ComAppUserService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComAppUser> listInRank(String appUserId) throws Exception ;
+	public List<ComAppUser> listInRankCheck(String appUserId, String check) throws Exception ;
 	
 	/**
 	 * 删除所有子列表(递归处理)

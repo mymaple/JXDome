@@ -15,20 +15,16 @@
 <meta name="description" content="404 Error Page" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <!-- basic styles -->
-<link href="css/bootstrap.min.css" rel="stylesheet" />
-<link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="ace/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="ace/css/font-awesome.css" />
 <!-- page specific plugin styles -->
 <!-- ace styles -->
-<link rel="stylesheet" href="css/ace.min.css" />
-<link rel="stylesheet" href="css/ace-responsive.min.css" />
-<link rel="stylesheet" href="css/ace-skins.min.css" />
+<link rel="stylesheet" href="ace/css/ace.css" />
+<link rel="stylesheet" href="ace/css/ace-skins.css" />
 <!--[if lt IE 9]>
 		  <link rel="stylesheet" href="css/ace-ie.min.css" />
 		<![endif]-->
 <body>
-	<div class="navbar navbar-inverse"></div>
-	<!--/.navbar-->
 	<div class="container-fluid" id="main-container">
 
 		<div id="main-content" class="clearfix">
@@ -77,21 +73,15 @@
 	</div>
 	<!--/.fluid-container#main-container-->
 	<!-- basic scripts -->
-	<script src="1.9.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		window.jQuery || document.write("<script src='js/jquery-1.9.1.min.js'>\x3C/script>");
-	</script>
+	<script src="ace/js/jquery.js"></script>
 
-	<script src="js/bootstrap.min.js"></script>
+	<script src="ace/js/bootstrap.js"></script>
 	<!-- page specific plugin scripts -->
 
 	<!-- ace scripts -->
-	<script src="js/ace-elements.min.js"></script>
-	<script src="js/ace.min.js"></script>
+	<script src="ace/js/ace-elements.js"></script>
+	<script src="ace/js/ace.js"></script>
 	<!-- inline scripts related to this page -->
 
-	<script type="text/javascript">
-		$(top.hangge());
-	</script>
 </body>
 </html>

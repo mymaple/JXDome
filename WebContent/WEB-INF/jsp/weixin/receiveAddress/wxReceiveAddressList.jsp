@@ -4,6 +4,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
+	response.setHeader("Cache-Control","no-store");  
+	response.setDateHeader("Expires", 0);  
+	response.setHeader("Pragma","no-cache");  
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -16,16 +19,15 @@
 	<title>格陌汽配</title>
 	    <meta name="keywords" content="">
     <meta name="description" content="">
-    <script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+    <script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
@@ -33,6 +35,10 @@
 	});
 	
 	$(function(){
+		if($('#choose').val()=='choose'){
+			ignoreBack();
+		}
+		
 		$("input[name='receiveAddressStatus']").change(function(){  
 	        var receiveAddressId = $("input[name='receiveAddressStatus']:checked").val();
 	        if(receiveAddressId==""||receiveAddressId==null){
@@ -53,12 +59,17 @@
 					    	,skin: 'msg'
 					    	,time: 2 //2秒后自动关闭
 					 	});
+		        		window.location.reload(); 
 					}
-		        	window.location.reload(); 
        		});
 		});
 	});
 	
+	function ignoreBack(){
+		if(window.history.replaceState){
+			window.history.replaceState(null,'',document.referrer);
+		}
+	}
 	
 	function toAdd(){
 		window.location.href = "<%=basePath%>weixin/receiveAddress/toAdd.do?choose="+$('#choose').val();
@@ -189,23 +200,23 @@
      	 <div class="warp"></div>
      	 
      	 <c:if test="${choose !='choose' }">
-		<!--footer star-->
+		 <!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
 				<li>
-					<a href="index.html">
+					<a href="<%=basePath%>weixin/index/toIndex.do">
 						<i class="iconfont icon-shouye"></i>
 						<p>首页</p>
 					</a>
 				</li>
 				<li>
-					<a href="cation.html">
+					<a href="<%=basePath%>weixin/product/toCategory.do">
 						<i class="iconfont icon-icon04"></i>
 						<p>分类</p>
 					</a>
 				</li>
 				<li>
-					<a href="shopcar.html">
+					<a href="<%=basePath%>weixin/shopCar/list.do">
 						<i class="iconfont icon-gouwuche"></i>
 						<p>购物车</p>
 					</a>
@@ -221,8 +232,7 @@
 		<!--footer end-->
      	</c:if>
 	</body>
-	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
-	<script src="weui/gemo/js/fastclick.js"></script>
-	<script src="weui/gemo/js/mui.min.js"></script>
-	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/js/mui.min.js?${resultInfo.version}"></script>
+	<script type="text/javascript" src="weui/gemo/js/hmt.js?${resultInfo.version}" ></script>
 </html>

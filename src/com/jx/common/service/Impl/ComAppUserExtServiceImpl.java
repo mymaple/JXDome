@@ -1,7 +1,5 @@
 package com.jx.common.service.Impl;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.util.Date;
 import java.util.List;
 
@@ -10,12 +8,9 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
-import com.jx.common.config.PageData;
 import com.jx.common.config.exception.UncheckedException;
 import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.util.DrawImageUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.PathUtil;
 import com.jx.common.util.UuidUtil;
@@ -210,7 +205,7 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 	 * @throws Exception
 	 */
 	public String toGetAppUserId(String openId) throws Exception {
-		List<ComAppUserExt> comAppUserExtList = this.list(openId, ComAppUserExt.OPENID);
+		List<ComAppUserExt> comAppUserExtList = this.listByVC(openId, ComAppUserExt.OPENID);
 		String appUserId = "";
 		if(comAppUserExtList!=null && comAppUserExtList.size()>0){
 			for (int i = 0; i < comAppUserExtList.size(); i++) {
@@ -339,10 +334,10 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 	 * @throws Exception
 	 */
 	public void delete(String appUserId, String extCode) throws Exception {
-		PageData pd = new PageData();
-		pd.put("appUserId", appUserId);
-		pd.put("extCode", extCode);
-		dao.delete("ComAppUserExtMapper.delete", pd);
+		ComAppUserExt comAppUserExt = new ComAppUserExt();
+		comAppUserExt.setAppUserId(appUserId);
+		comAppUserExt.setExtCode(extCode);
+		dao.delete("ComAppUserExtMapper.delete", comAppUserExt);
 	}
 	
 	/**
@@ -351,9 +346,9 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 	 * @throws Exception
 	 */
 	public void delete(String appUserId) throws Exception {
-		PageData pd = new PageData();
-		pd.put("appUserId", appUserId);
-		dao.delete("ComAppUserExtMapper.delete", pd);
+		ComAppUserExt comAppUserExt = new ComAppUserExt();
+		comAppUserExt.setAppUserId(appUserId);
+		dao.delete("ComAppUserExtMapper.delete", comAppUserExt);
 	}
 	
 	/**
@@ -363,12 +358,12 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 	 * @throws Exception
 	 */
 	public ComAppUserExt find(String appUserId, String extCode) throws Exception {
-		PageData pd = new PageData();
-		pd.put("appUserId", appUserId);
-		pd.put("extCode", extCode);
-		return (ComAppUserExt) dao.findForObject("ComAppUserExtMapper.find", pd);
+		ComAppUserExt comAppUserExt = new ComAppUserExt();
+		comAppUserExt.setAppUserId(appUserId);
+		comAppUserExt.setExtCode(extCode);
+		return (ComAppUserExt) dao.findForObject("ComAppUserExtMapper.find", comAppUserExt);
 	}
-	
+
 	/**
 	 * 获取(类)数据
 	 * @param String extValue, String extCode
@@ -376,15 +371,25 @@ public class ComAppUserExtServiceImpl implements ComAppUserExtService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComAppUserExt> list(String extValue, String extCode) throws Exception {
-		PageData pd = new PageData();
-		pd.put("extValue", extValue);
-		pd.put("extCode", extCode);
-		return (List<ComAppUserExt>) dao.findForList("ComAppUserExtMapper.list", pd);
+	public List<ComAppUserExt> listByVC(String extValue, String extCode) throws Exception {
+		ComAppUserExt comAppUserExt = new ComAppUserExt();
+		comAppUserExt.setExtValue(extValue);
+		comAppUserExt.setExtCode(extCode);
+		return (List<ComAppUserExt>) dao.findForList("ComAppUserExtMapper.listByVC", comAppUserExt);
 	}
 	
-	
-	
+	/**
+	 * 获取(类)数据
+	 * @param String appUserId
+	 * @return ComAppUserExt
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComAppUserExt> listByU(String appUserId) throws Exception {
+		ComAppUserExt comAppUserExt = new ComAppUserExt();
+		comAppUserExt.setAppUserId(appUserId);
+		return (List<ComAppUserExt>) dao.findForList("ComAppUserExtMapper.listByU", comAppUserExt);
+	}
 	
 	/****************************common * end***********************************/
 }

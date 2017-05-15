@@ -11,6 +11,13 @@ public interface ComSparepartService {
 	
 	/****************************custom * start***********************************/
 
+	/**
+	 * 通过id获取(类)数据
+	 * @param String sparepartId
+	 * @return ComSparepart
+	 * @throws Exception
+	 */
+	public ComSparepart findByCode(String sparepartCode) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.MapleDateUtil.SDF;
 import com.jx.common.util.MapleStringUtil;
 
 public class ComSparepartDeal extends BaseEntity implements Serializable {
@@ -216,7 +217,7 @@ public class ComSparepartDeal extends BaseEntity implements Serializable {
 		orderTimeStr = MapleStringUtil.trim(orderTimeStr);
 		if(!orderTimeStr.equals("")){
 			try{
-				setOrderTime(MapleDateUtil.parseDateStr(orderTimeStr));
+				setOrderTime(MapleDateUtil.parseDateStr(SDF.DAY, orderTimeStr));
 			}catch(java.text.ParseException e){
 				throw new Exception(e);
 			}
@@ -224,7 +225,7 @@ public class ComSparepartDeal extends BaseEntity implements Serializable {
 	}
 
 	public String getOrderTimeStr(){
-		return MapleDateUtil.formatDate(getOrderTime());
+		return MapleDateUtil.formatDate(SDF.DAY, getOrderTime());
 	}	
 	
 	/**

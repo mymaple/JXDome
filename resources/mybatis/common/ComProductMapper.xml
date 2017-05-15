@@ -92,6 +92,7 @@
 			productName = #{productName},
 			productType = #{productType},
 			productModel = #{productModel},
+			productStatus = #{productStatus},
 			summary = #{summary},
 			introduction = #{introduction},
 			headImgSrc = #{headImgSrc},

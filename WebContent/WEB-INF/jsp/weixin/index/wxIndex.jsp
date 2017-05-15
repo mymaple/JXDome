@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page import="com.jx.common.config.Const"  %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -13,17 +14,16 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-	<script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+	<script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?${resultInfo.version}"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
@@ -70,7 +70,7 @@
 <!--loading页结束-->
 <body>
 <!--header star-->
-		<header class="mui-bar mui-bar-nav" id="header">
+		<!-- <header class="mui-bar mui-bar-nav" id="header">
 			<a class="btn slide-menu" href="#">
 	            <i class="iconfont icon-iconfontcaidan"></i>
 	        </a>
@@ -84,9 +84,9 @@
 	            <i class="iconfont icon-erweima"></i>
 	        </a>
 	    </header>
-	    <!--header end-->
+	    header end
 	    
-	    <!-- 侧边导航 -->
+	    侧边导航
 		<div class="slide-mask"></div>
 		<aside class="slide-wrapper">
 		  <div>
@@ -100,9 +100,9 @@
 			  <li><a href="list.html">酒水茶饮</a></li>
 			</ul>
 		  </div>
-		</aside>
+		</aside> -->
 	    
-		<div id="main" class="clearfloat warp">			
+		<div id="main" class="clearfloat">			
 		    <div class="mui-content">
 				<!--banner开始-->
 				<div class="banner swiper-container">
@@ -110,7 +110,7 @@
             	<c:when test="${not empty comLbtList}">
 		            <div class="swiper-wrapper">
 					<c:forEach items="${comLbtList}" var="comLbt" varStatus="vs">
-		                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="${comLbt.lbtImgSrc }" alt=""></a></div>
+		                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="<%=Const.BG_WEBSITE %>/${comLbt.lbtImgSrc }"  alt=""></a></div>
 		            </c:forEach>
 		            </div>
 		        </c:when>
@@ -130,7 +130,7 @@
             	<c:forEach items="${comProductList}" var="comProduct" varStatus="vs">
 		        		<div class="list clearfloat fl">
 			        			<div class="tu clearfloat" onclick="toProductDetail('${comProduct.productId }');">
-			        				<img src="${comProduct.headImgSrc }"/>
+			        				<img src="<%=Const.BG_WEBSITE %>/${comProduct.headImgSrc }"/>
 			        			</div>
 			        			<div class="bottom clearfloat box-s">
 			        				<p class="over2">${comProduct.productName }</p>
@@ -146,6 +146,8 @@
 		        </c:choose>		
 	        </div>
 	        </div>
+	        
+	     <div class="warp"></div>
 		<!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
@@ -176,12 +178,12 @@
 			</ul>
 		</footer>
 		<!--footer end-->
-		<script src="weui/gemo/js/others.js"></script>
-		<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
-		<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
+		<script src="weui/gemo/js/others.js?${resultInfo.version}"></script>
+		<script type="text/javascript" src="weui/gemo/js/hmt.js?${resultInfo.version}" ></script>
+		<script src="weui/gemo/slick/slick.js?${resultInfo.version}" type="text/javascript" ></script>
 		<!--插件-->
-		<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
-		<script src="weui/gemo/js/swiper.jquery.min.js"></script>
+		<link rel="stylesheet" href="weui/gemo/css/swiper.min.css?${resultInfo.version}">
+		<script src="weui/gemo/js/swiper.jquery.min.js?${resultInfo.version}"></script>
 		<!--新闻资讯滚动-->
 		<script type="text/javascript">
 			$('.autoplay').slick({

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jx.wechat.util.SignUtil;
+import com.jx.common.util.WxSignUtil;
 
 /**
  * 类名: CoreServlet </br> 
@@ -40,7 +40,7 @@ public class WechatSerlvet extends HttpServlet {
         
         // 通过检验signature对请求进行校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
         try {
-			if (SignUtil.checkSignature(signature, timestamp, nonce)) {
+			if (WxSignUtil.checkSignature(signature, timestamp, nonce)) {
 			    out.print(echostr);
 			}
 		} catch (Exception e) {

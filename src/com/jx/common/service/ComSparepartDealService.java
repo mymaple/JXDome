@@ -17,7 +17,14 @@ public interface ComSparepartDealService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComSparepartDeal> listByUserE(String appUserId, String yearMonth) throws Exception ;
+	public List<ComSparepartDeal> listByMonthUE1(String appUserId, String yearMonth) throws Exception ;
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ComSparepartDeal> listByMonthUE(String appUserId, String yearMonth) throws Exception ;
 	
 	/**
 	 * 通过审核 

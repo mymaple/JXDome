@@ -13,7 +13,7 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-	<link rel="stylesheet" href="weui/dist/style/weui.min.css"/>
+	<link rel="stylesheet" href="weui/dist/style/weui.min.css?${resultInfo.version}"/>
 	
 </head>
 <body>
@@ -36,12 +36,12 @@
 	                <!-- <p class="weui-footer__links">
 	                    <a href="javascript:void(0);" class="weui-footer__link">底部链接文本</a>
 	                </p> -->
-	                <p class="weui-footer__text">Copyright © 2016-2017 maple</p>
+	                <p class="weui-footer__text">Copyright © 2016-2017 mymaple</p>
 	            </div>
 	        </div>
 		</div>
 	</c:if>
-	<c:if test="${resultInfo.resultCode=='failure' }">
+	<c:if test="${resultInfo.resultCode!='success' }">
 		<div class="weui-msg">
 		    <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
 		    <div class="weui-msg__text-area">
@@ -59,7 +59,7 @@
 	                <!-- <p class="weui-footer__links">
 	                    <a href="javascript:void(0);" class="weui-footer__link">底部链接文本</a>
 	                </p> -->
-	                <p class="weui-footer__text">Copyright © 2016-2017 maple</p>
+	                <p class="weui-footer__text">Copyright © 2016-2017 mymaple</p>
 	            </div>
 	        </div>
 		</div>

@@ -157,11 +157,19 @@ public interface ComAppUserExtService{
 	
 	/**
 	 * 获取(类)数据
+	 * @param String appUserId
+	 * @return ComAppUserExt
+	 * @throws Exception
+	 */
+	public List<ComAppUserExt> listByU(String appUserId) throws Exception ;
+	
+	/**
+	 * 获取(类)数据
 	 * @param String extValue, String extCode
 	 * @return ComAppUserExt
 	 * @throws Exception
 	 */
-	public List<ComAppUserExt> list(String extValue, String extCode) throws Exception ;
+	public List<ComAppUserExt> listByVC(String extValue, String extCode) throws Exception ;
 	
 	/****************************common * end***********************************/
 }

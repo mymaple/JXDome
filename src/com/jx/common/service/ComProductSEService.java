@@ -28,6 +28,6 @@ public interface ComProductSEService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComShopCar> listShopCarByUserSE(String appUserId, String[] shopCarIdArr) throws Exception ;
+	public List<ComShopCar> listShopCarByUSE(String appUserId, String[] shopCarIdArr) throws Exception ;
 	
 }

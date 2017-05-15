@@ -3,8 +3,8 @@
 /*css reset*/
 *{margin:0;padding:0;}
 html,body { width:100%; }
-body{overflow:-Scroll;overflow-x:hidden; background-color:#f5f5f5; }
-body{font-family: "微软雅黑"; font-family:"Arial Black", Gadget, sans-serif;}/*移动端*/
+body{overflow:-Scroll;overflow-x:hidden; background-color: #f5f5f5; }
+body{font-family: "微软雅黑";}/*移动端*/
 
 html {
   font-family: sans-serif; /* 1 */
@@ -130,15 +130,14 @@ input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner{
 	border:none;padding:0;
 }
-/*按钮问题（border-width:1px;）
-input,textarea,select,option,button,form,fieldset{margin:0;padding:0;border-width:0px;outline:none;
+input,textarea,select,option,button,form,fieldset{margin:0;padding:0;border-width:1px;outline:none;
 -moz-box-sizing: content-box;
 -webkit-box-sizing: content-box;
 -o-box-sizing: content-box;
 -ms-box-sizing: content-box;
 box-sizing: content-box;
 }
-*/
+
 .opa2 {
   opacity: .2;
   -ms-filter: progid: DXImageTransform.Microsoft.Alpha(Opacity = 20);
@@ -349,7 +348,7 @@ html{font-size:10px}
 
 
 /*底部*/
-.page-footer{ width: 100%; height: 1.7rem; background-color: #f6f6f6; position: fixed; bottom: 0; left: 0;
+.page-footer{ width: 100%; height: 1.5rem; background-color: #f6f6f6; position: fixed; bottom: 0; left: 0;
 -webkit-box-shadow: 0px 0px 10px #ccc;/*webkit核心*/
 -moz-box-shadow: 0px 0px 10px #ccc;/*firefox核心*/
 box-shadow: 0px 0px 10px #ccc;/*IE核心*/ }
@@ -363,6 +362,18 @@ box-shadow: 0px 0px 10px #ccc;/*IE核心*/ }
 .page-footer ul li i{font-size: .6rem; color: #333;}
 .page-footer ul .active i{color: #f8614e;}
 
+/*底部
+.page-footer{ width: 100%; height: 1.9rem; background-color: #fff; border-top: 1px solid #dfdfdf; position: fixed; bottom: 0; left: 0;}
+.page-footer ul{ width: 100%; background-color: #fafafa;}
+.page-footer ul li{  float: left; width: 25%; text-align: center; padding: 2% 0 2%;}
+.page-footer ul li a{ width: 100%; display: block;}
+.page-footer ul .active a p{ color: #f58611; margin-bottom: 0;}
+.page-footer ul .active{width: 25%;}
+.page-footer ul li img{  width: 25%;}
+.page-footer ul li p{ font-size: .4rem; color: #333;margin-top: 3%;}
+.page-footer ul li i{font-size: .7rem; color: #60636c;}
+.page-footer ul .active i{color: #f58611;}
+*/
 div.slide-mask {
   position: fixed;
   z-index: 999;
@@ -385,7 +396,7 @@ aside.slide-wrapper {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 48%;
+  width: 70%;
   -webkit-transform: translate3d(-100%, 0, 0);
   -moz-transform: translate3d(-100%, 0, 0);
   -ms-transform: translate3d(-100%, 0, 0);

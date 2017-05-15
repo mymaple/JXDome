@@ -25,6 +25,9 @@ public class ResultInfo implements Serializable {
 	/** 返回路径*/
 	private String resultUrl;
 	
+	/** 版本*/
+	private String version;
+	
 	/**
 	 * 设置 结果代号
 	 * success:成功;failure:失败
@@ -97,7 +100,21 @@ public class ResultInfo implements Serializable {
 		this.resultUrl = MapleStringUtil.trim(resultUrl);
 	}
 	
+	/**
+	 * 设置 版本
+	 * @param String version
+	 */
+	public void setVersion(String version) {
+		this.version = MapleStringUtil.trim(version);
+	}
 	
+	/**
+	 * 获取 版本
+	 * @return String version
+	 */
+	public String getVersion() {
+		return this.version;
+	}
 	
 	
 }

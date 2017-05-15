@@ -101,6 +101,10 @@
 								<td><input type="text" name="wlNum" id="wlNum" value="${comOrder.wlNum}" maxlength="100" placeholder="这里输入 运单编号" title="运单编号" style="width:98%;" /></td>
 							</tr>
 							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">订单备注:</td>
+								<td><input type="text" name="remark" id="remark" value="${comOrder.remark}" maxlength="1000" placeholder="这里输入 订单备注" title="订单备注" style="width:98%;" /></td>
+							</tr>
+							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">排序编号:</td>
 								<td><input type="text" name="orderNum" id="orderNum" value="${comOrder.orderNum}" maxlength="100" placeholder="这里输入 排序编号" title="排序编号" style="width:98%;" /></td>
 							</tr>
@@ -328,6 +332,16 @@
 		            time:2
 		        });
 				$("#wlNum").focus();
+			return false;
+			}
+			if($("#remark").val()==""){
+				$("#remark").tips({
+					side:3,
+		            msg:'请输入订单备注',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#remark").focus();
 			return false;
 			}
 			if(!intExp.test($("#orderNum").val())){

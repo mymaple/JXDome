@@ -43,14 +43,11 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 		comProductCategory.setProductCategoryId(productCategoryId);
 		comProductCategory.setProductCategoryStatus("00");
 		comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_HEADIMG, comProductCategory.getHeadImgSrc())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_HEADIMG, comProductCategory.getHeadImgSrc()));
 		comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG1, comProductCategory.getImgSrc1())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG1, comProductCategory.getImgSrc1()));
 		comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG2, comProductCategory.getImgSrc2())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG2, comProductCategory.getImgSrc2()));
 		comProductCategory.setEffective("01");
 		comProductCategory.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setCreateTime(nowTime);
@@ -84,14 +81,11 @@ public class ComProductCategoryServiceImpl implements ComProductCategoryService{
 	public void edit(ComProductCategory comProductCategory) throws Exception {
 	
 		comProductCategory.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_HEADIMG, comProductCategory.getHeadImgSrc())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_HEADIMG, comProductCategory.getHeadImgSrc()));
 		comProductCategory.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG1, comProductCategory.getImgSrc1())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG1, comProductCategory.getImgSrc1()));
 		comProductCategory.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG2, comProductCategory.getImgSrc2())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProductCategory.PATH_IMG_PRODUCTCATEGORY_IMG2, comProductCategory.getImgSrc2()));
 		Date nowTime = new Date();
 		comProductCategory.setModifyUserId(ShiroSessionUtil.getUserId());
 		comProductCategory.setModifyTime(nowTime);

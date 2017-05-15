@@ -30,7 +30,12 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 		<!-- 获取(类)List数据  -->
-	<select id="listByUserE" parameterType="pd" resultType="comSparepartDeal">
+	<select id="listByMonthUE1" parameterType="pd" resultType="comSparepartDeal" statementType="CALLABLE">
+		{CALL pr_list_all_subUser1_spdeal(#{appUserId} ,#{yearMonth})}
+	</select>
+	
+		<!-- 获取(类)List数据  -->
+	<select id="listByMonthUE" parameterType="pd" resultType="comSparepartDeal">
 		select 
 	<include refid="sparepartDealColumns"/>
 		from 

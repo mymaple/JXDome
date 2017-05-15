@@ -11,9 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.common.config.BaseController;
+import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
+import com.jx.common.config.ResultInfo;
+import com.jx.common.entity.ComAppUser;
 import com.jx.common.entity.ComIntegralNote;
+import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComIntegralNoteService;
+import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleDateUtil.SDF;
 import com.jx.weixin.util.WxSessionUtil;
@@ -37,19 +42,26 @@ public class WxNoteController extends BaseController {
 	@RequestMapping(value="/toIntegralNoteList")
 	public ModelAndView toIntegralNoteList() throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo = this.getResultInfo();
 		PageData pd = this.getPageData();
 		String userId = WxSessionUtil.getUserId();
+		
 		String yearMonth = pd.getString("yearMonth");
 		if(StringUtils.isEmpty(yearMonth)){
 			yearMonth = MapleDateUtil.formatDate(SDF.MONTH, new Date());
 		}
 		
-		List<ComIntegralNote> comIntegralNoteList = comIntegralNoteService.listByUserE(userId, yearMonth);	//列出comReceiveAddress列表
+		List<ComIntegralNote> comIntegralNoteList = comIntegralNoteService.listByMonthUE(userId, yearMonth);	//列出comReceiveAddress列表
+		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comIntegralNoteList", comIntegralNoteList);
 		mv.addObject("yearMonth", yearMonth);
 		
 		mv.setViewName("weixin/note/wxIntegralNoteList");
 		return mv;
 	}
+	
+	
 	
 }

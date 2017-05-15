@@ -123,7 +123,7 @@ public class BgMainController extends BaseController {
 				String sessionCaptcha = BgSessionUtil.getCaptcha();
 				String captcha = keyData[2];
 				//开发跳过、、登录
-				captcha = sessionCaptcha;
+//				captcha = sessionCaptcha;
 				if (null == captcha || "".equals(captcha)) {
 					errInfo = "nullcode"; // 验证码为空
 				} else {
@@ -189,7 +189,9 @@ public class BgMainController extends BaseController {
 			if (bgUser != null) {
 				if (null == bgUser.getBgRole()) {
 					bgUser.setBgRole(bgRoleService.findById(bgUser.getRoleId()));
-					
+					logger.info("roleId:"+bgUser.getBgRole().getRoleId());
+					logger.info("userCode:"+bgUser.getUserCode());
+					logger.info("32:"+bgConfigService.findSessionConfig(Const.CONFIG_BG_SYSTEM_OBJ).getParam3());
 					bgUser.setAdmin("1".equals(bgUser.getBgRole().getRoleId())
 							&&bgUser.getUserCode().equals(bgConfigService.findSessionConfig(Const.CONFIG_BG_SYSTEM_OBJ).getParam3()));
 					BgSessionUtil.setUser(bgUser);

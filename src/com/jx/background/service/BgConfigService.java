@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
+import com.jx.common.config.Logger;
 import com.jx.common.config.PageData;
 import com.jx.background.entity.BgConfig;
 
@@ -19,7 +20,7 @@ public class BgConfigService {
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
 	
-	
+	protected Logger logger = Logger.getLogger(this.getClass());
 	/****************************custom * start***********************************/
 	
 	/**
@@ -36,17 +37,16 @@ public class BgConfigService {
 	 * @return BgConfig
 	 * @throws Exception
 	 */
-	public BgConfig findSessionConfig(String configType) {
+	public BgConfig findSessionConfig(String configType) throws Exception {
 		Session session = SecurityUtils.getSubject().getSession();
 		BgConfig bgConfig = (BgConfig) session.getAttribute(configType);
+		logger.info("bgConfig1:"+bgConfig);
 		if (bgConfig == null) {
-			try {
-				bgConfig = this.findByConfigType(configType);
-				session.setAttribute(configType,bgConfig);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			bgConfig = this.findByConfigType(configType);
+			logger.info("bgConfig2:"+bgConfig);
+			session.setAttribute(configType,bgConfig);
 		}
+		logger.info("bgConfig2:configId"+bgConfig.getConfigId());
 		return bgConfig;
 	}
 

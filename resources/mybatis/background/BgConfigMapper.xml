@@ -24,7 +24,7 @@
 	<!-- 根据type获取配置 -->
 	<select id="findByConfigType" parameterType="String" resultType="bgConfig">
 		select  <include refid="configColumns"/> 
-		 from bgConfig 
+		 from bgconfig 
 		 where configType=#{configType}
 	</select>	
 	
@@ -84,14 +84,14 @@
 	
 	<!-- 删除 -->
 	<delete id="deleteById" parameterType="int">
-		delete from bgConfig 
+		delete from bgconfig 
 		where 
 			configId = #{configId}
 	</delete>
 	
 	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from bgConfig 
+		delete from bgconfig 
 		where 
 			configId = #{configId}
 	</delete>
@@ -108,7 +108,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			bgConfig
+			bgconfig
 		where 
 			configId = #{configId}
 	</select>
@@ -118,7 +118,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			bgConfig
+			bgconfig
 		where 
 			configId = #{configId}
 	</select>
@@ -128,7 +128,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			bgConfig
+			bgconfig
 		where 
 			configId = #{configId}
 	</select>
@@ -138,7 +138,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			bgConfig
+			bgconfig
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -146,7 +146,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			bgConfig
+			bgconfig
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

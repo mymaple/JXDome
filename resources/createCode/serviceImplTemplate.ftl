@@ -166,7 +166,7 @@ public class ${bgMaple.mapleEntityUpper}ServiceImpl implements ${bgMaple.mapleEn
 		pd.put("startC", "${bgMapleDetail.typeCode}");
 		pd.put("startN", 100001);
 		pd.put("addValue", RandomUtil.getRandomRange(11, 20));
-		dao.update("${bgMaple.mapleEntityUpper}Mapper.add.updateCode", pd);
+		dao.update("${bgMaple.mapleEntityUpper}Mapper.updateCode", pd);
 	}	
 		</#if>
 	</#if>

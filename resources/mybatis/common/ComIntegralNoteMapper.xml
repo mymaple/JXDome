@@ -28,7 +28,7 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listByUserE" parameterType="pd" resultType="comIntegralNote">
+	<select id="listByMonthUE" parameterType="pd" resultType="comIntegralNote">
 		select 
 	<include refid="integralNoteColumns"/>
 		from 

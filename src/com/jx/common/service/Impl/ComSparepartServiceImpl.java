@@ -15,7 +15,6 @@ import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComSparepart;
 import com.jx.common.service.ComSparepartService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comSparepartService")
 public class ComSparepartServiceImpl implements ComSparepartService{
@@ -25,6 +24,19 @@ public class ComSparepartServiceImpl implements ComSparepartService{
 	
 	
 	/****************************custom * start***********************************/
+	
+	/**
+	 * 通过id获取(类)数据
+	 * @param String sparepartId
+	 * @return ComSparepart
+	 * @throws Exception
+	 */
+	public ComSparepart findByCode(String sparepartCode) throws Exception {
+		PageData pd = new PageData();
+		pd.put("sparepartCode",sparepartCode);
+		return this.findByPd(pd);
+	}
+	
 	
 	/****************************custom * end  ***********************************/
 	

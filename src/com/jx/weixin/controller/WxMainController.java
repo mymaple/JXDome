@@ -31,6 +31,8 @@ import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComInviteService;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleDateUtil;
+import com.jx.common.util.RandomUtil;
+import com.jx.common.util.SmsUtil;
 import com.jx.weixin.util.WxSessionUtil;
 
 
@@ -99,10 +101,12 @@ public class WxMainController extends BaseController {
 				SavedRequest savedRequest= WebUtils.getSavedRequest(request);
 				if(!Const.FLAG_DIRECTLOGIN.equals(flag)&&savedRequest!=null){
 					String rollbackUrl = savedRequest.getRequestUrl();
-					rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
+					if(StringUtils.isNotEmpty(request.getContextPath())){
+						rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
+					}
 					mv.setViewName("redirect:/"+rollbackUrl);
 				}else{
-					mv.setViewName("redirect:toIndex");
+					mv.setViewName("redirect:/weixin/index/toIndex");
 				}
 			}
 		} catch (AuthenticationException e) {
@@ -168,6 +172,10 @@ public class WxMainController extends BaseController {
 		
 		//验证码校验
 		String sessionCaptcha = WxSessionUtil.getCaptcha();
+		if(StringUtils.isEmpty(sessionCaptcha)){
+			resultInfo.setResultContent("请先获取验证码!");
+			return AppUtil.returnResult(pd, resultInfo);
+		}
 		String[] arr =  sessionCaptcha.split(Const.REG_COM_SPLIT);
 		
 		if(arr.length !=3 || !(arr[0]).equals(phone) || !(arr[1]).equals(captcha) 
@@ -206,11 +214,12 @@ public class WxMainController extends BaseController {
 			SavedRequest savedRequest= WebUtils.getSavedRequest(request);
 			if(!Const.FLAG_DIRECTLOGIN.equals(flag)&&savedRequest!=null){
 				String rollbackUrl = savedRequest.getRequestUrl();
-				
-				rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
+				if(StringUtils.isNotEmpty(request.getContextPath())){
+					rollbackUrl = rollbackUrl.replace(request.getContextPath()+"/", "");
+				}
 				resultInfo.setResultContent(rollbackUrl);
 			}else{
-				resultInfo.setResultContent("weixin/main/toIndex");
+				resultInfo.setResultContent("weixin/index/toIndex");
 			}
 			resultInfo.setResultCode("success");
 		} catch (AuthenticationException e) {
@@ -226,9 +235,13 @@ public class WxMainController extends BaseController {
 	@RequestMapping(value = "/logout")
 	public ModelAndView logout() throws Exception {
 		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo = this.getResultInfo();
+		
 		Subject subject = SecurityUtils.getSubject();
 	    subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存  
 	    
+	    resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 	    mv.addObject("flag", Const.FLAG_DIRECTLOGIN);
 	    mv.setViewName("redirect:toLogin");
 	    
@@ -243,14 +256,18 @@ public class WxMainController extends BaseController {
 	@RequestMapping(value = "/toRegister")
 	public ModelAndView toRegister() throws Exception {
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
+		
+		PageData pd = this.getPageData();
 		String pId = pd.getString("pId");
 		if(StringUtils.isEmpty(pId)){
 			
 		}
 		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.setViewName("redirect:toIndex");
+		
 		return mv;
 	}
 	
@@ -332,58 +349,18 @@ public class WxMainController extends BaseController {
 	@RequestMapping(value = "/toIndex")
 	public ModelAndView toIndex() throws Exception {
 		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo = this.getResultInfo();
+		
 		try{
 			mv.setViewName("weixin/main/wxIndex");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
+		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
+		
 		return mv;
 	}
 	
-	/**
-	 * 分类
-	 * @return
-	 */
-	@RequestMapping(value = "/toCategory")
-	public ModelAndView toCategory() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		try{
-			mv.setViewName("weixin/main/wxCategory");
-			
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		return mv;
-	}
-	
-	/**
-	 * 购物车
-	 * @return
-	 */
-	@RequestMapping(value = "/toShopCar")
-	public ModelAndView toShopCar() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		mv.setViewName("weixin/main/wxShopCar");
-		return mv;
-	}
-	
-	/**
-	 * 个人中心
-	 * @return
-	 */
-	@RequestMapping(value = "/toMine")
-	public ModelAndView toMine() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		try{
-			mv.setViewName("weixin/main/wxMine");
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		return mv;
-	}
-	
-	
-	
-	
-
 }

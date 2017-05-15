@@ -15,7 +15,7 @@ public interface ComReceiveAddressService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComReceiveAddress> listByUserIdE(String appUserId) throws Exception ;
+	public List<ComReceiveAddress> listByUE(String appUserId) throws Exception ;
 	
 	/**
 	 * 通过id获取(类)数据
@@ -23,7 +23,7 @@ public interface ComReceiveAddressService {
 	 * @return ComReceiveAddress
 	 * @throws Exception
 	 */
-	public ComReceiveAddress findByUserIdSE(String appUserId) throws Exception ;
+	public ComReceiveAddress findByUSE(String appUserId) throws Exception ;
 	
 	/**
 	 * 通过id获取(类)数据
@@ -31,35 +31,35 @@ public interface ComReceiveAddressService {
 	 * @return ComReceiveAddress
 	 * @throws Exception
 	 */
-	public ComReceiveAddress findByUserIdAndIdE(String appUserId, String receiveAddressId) throws Exception ;
+	public ComReceiveAddress findByIdUE(String appUserId, String receiveAddressId) throws Exception ;
 	
 	/**
 	 * 成为默认
 	 * @param String appUserId, String receiveAddressId
 	 * @throws Exception
 	 */
-	public void toDefaultE(String appUserId, String receiveAddressId) throws Exception ;
+	public void toDefaultByIdUSE(String appUserId, String receiveAddressId) throws Exception ;
 	
 	/**
 	 * 成为不默认
 	 * @param String appUserId
 	 * @throws Exception
 	 */
-	public void toDisdefaultE(String appUserId) throws Exception ;
+	public void toDisdefaultByUSE(String appUserId) throws Exception ;
 	
 	/**
 	 * 失效 
 	 * @param String appUserId, String receiveAddressId
 	 * @throws Exception
 	 */
-	public void toDisableByUserIdAndIdE(String appUserId, String receiveAddressId) throws Exception ;
+	public void toDisableByIdUE(String appUserId, String receiveAddressId) throws Exception ;
 	
 	/**
 	 * 用户修改 
 	 * @param ComReceiveAddress comReceiveAddress
 	 * @throws Exception
 	 */
-	public void editByUserE(ComReceiveAddress comReceiveAddress) throws Exception ;
+	public void editByIdUE(ComReceiveAddress comReceiveAddress) throws Exception ;
 	
 	
 	/****************************custom * end  ***********************************/

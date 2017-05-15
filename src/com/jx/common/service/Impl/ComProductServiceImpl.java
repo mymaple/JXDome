@@ -12,7 +12,6 @@ import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.RandomUtil;
 import com.jx.common.util.UuidUtil;
@@ -52,19 +51,14 @@ public class ComProductServiceImpl implements ComProductService{
 		Date nowTime = new Date();
 		String productId = UuidUtil.get32UUID();
 		comProduct.setProductId(productId);
-		comProduct.setProductStatus("00");
 		comProduct.setHeadImgSrc(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProduct.PATH_IMG_PRODUCT_HEADIMG, comProduct.getHeadImgSrc())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProduct.PATH_IMG_PRODUCT_HEADIMG, comProduct.getHeadImgSrc()));
 		comProduct.setImgSrc1(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProduct.PATH_IMG_PRODUCT_IMG1, comProduct.getImgSrc1())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProduct.PATH_IMG_PRODUCT_IMG1, comProduct.getImgSrc1()));
 		comProduct.setImgSrc2(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProduct.PATH_IMG_PRODUCT_IMG2, comProduct.getImgSrc2())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProduct.PATH_IMG_PRODUCT_IMG2, comProduct.getImgSrc2()));
 		comProduct.setImgSrc3(MapleFileUtil.transfer(Const.PATH_FILEUPCACHE, 
-			ComProduct.PATH_IMG_PRODUCT_IMG3, comProduct.getImgSrc3())
-				.replaceAll(",", Const.REG_COM_SPLIT));
+			ComProduct.PATH_IMG_PRODUCT_IMG3, comProduct.getImgSrc3()));
 		comProduct.setEffective("01");
 		comProduct.setCreateUserId(ShiroSessionUtil.getUserId());
 		comProduct.setCreateTime(nowTime);

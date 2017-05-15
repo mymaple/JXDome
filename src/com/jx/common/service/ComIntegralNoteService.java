@@ -16,7 +16,7 @@ public interface ComIntegralNoteService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComIntegralNote> listByUserE(String appUserId, String yearMonth) throws Exception ;
+	public List<ComIntegralNote> listByMonthUE(String appUserId, String yearMonth) throws Exception ;
 	
 	/****************************custom * end  ***********************************/
 	

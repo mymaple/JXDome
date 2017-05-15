@@ -16,16 +16,15 @@
 	<title>格陌汽配</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?31"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?22"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+    <script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage")
@@ -56,19 +55,17 @@
 		
 	});
 	
-	
 	function toDefault(elem){
 		$(elem).toggleClass('toggle--on').toggleClass('toggle--off').addClass('toggle--moving');
 		setTimeout(function(){
-			$(toggle).removeClass('toggle--moving');
+			$(elem).removeClass('toggle--moving');
 		}, 200)
-		if($(elem).attr("class").indexOf('toggle--off')){
+		if($(elem).attr("class").indexOf('toggle--off')>0){
 			$("#receiveAddressStatus").val("01");
 		}else{
 			$("#receiveAddressStatus").val("00");
 		}
 	}
-	
 	
 	function ignoreBack(){
 		if(window.history.replaceState){
@@ -79,7 +76,7 @@
 	//保存
 	function save(){
 		var phoneExg = /^0?(13|15|17|18|14)[0-9]{9}$/; //手机
-		if($("#receicerName").val()==""){
+		if($("#receicerName").val().replace(/(^\s*)|(\s*$)/g, "")==""){
 			$("#receicerName").tips({
 				side:3,
 	            msg:'请输入收货人',
@@ -89,7 +86,7 @@
 			$("#receicerName").focus();
 		return false;
 		}
-		if(!phoneExg.test($("#phone").val())){
+		if(!phoneExg.test($("#phone").val().replace(/(^\s*)|(\s*$)/g, ""))){
 			$("#phone").tips({
 				side:3,
 	            msg:'请输入手机号码',
@@ -99,7 +96,7 @@
 			$("#phone").focus();
 		return false;
 		}
-		if($("#province").val()==""){
+		if($("#province").val().replace(/(^\s*)|(\s*$)/g, "")==""){
 			$("#province").tips({
 				side:3,
 	            msg:'请选择省份',
@@ -109,7 +106,7 @@
 			$("#province").focus();
 		return false;
 		}
-		if($("#city").val()==""){
+		if($("#city").val().replace(/(^\s*)|(\s*$)/g, "")==""){
 			$("#city").tips({
 				side:3,
 	            msg:'请选择城市',
@@ -119,7 +116,7 @@
 			$("#city").focus();
 		return false;
 		}
-		if($("#district").val()==""){
+		if($("#district").val().replace(/(^\s*)|(\s*$)/g, "")==""){
 			$("#district").tips({
 				side:3,
 	            msg:'请输入城区',
@@ -129,7 +126,7 @@
 			$("#district").focus();
 		return false;
 		}
-		if($("#street").val()==""){
+		if($("#street").val().replace(/(^\s*)|(\s*$)/g, "")==""){
 			$("#street").tips({
 				side:3,
 	            msg:'请输入街道',
@@ -139,7 +136,7 @@
 			$("#street").focus();
 		return false;
 		}
-		if($("#detail").val()==""){
+		if($("#detail").val().replace(/(^\s*)|(\s*$)/g, "")==""){
 			$("#detail").tips({
 				side:3,
 	            msg:'请输入详细地址',
@@ -149,7 +146,7 @@
 			$("#detail").focus();
 		return false;
 		}
-		if($("#receiveAddressStatus").val()==""){
+		if($("#receiveAddressStatus").val().replace(/(^\s*)|(\s*$)/g, "")==""){
 			$("#receiveAddressStatus").next().tips({
 				side:3,
 	            msg:'请选择 默认状态',
@@ -158,6 +155,13 @@
 	        });
 		return false;
 		}
+		
+		layer.open({
+		    type: 2
+		    ,shadeClose: false
+		    ,content: '正在处理，请稍候...'
+		  });
+		
 		$("#receiveAddressForm").submit();
 	}
 	
@@ -228,21 +232,19 @@
 	    		<input type="hidden" name="receiveAddressStatus" id="receiveAddressStatus" value="${comReceiveAddress.receiveAddressStatus}"/>
 	    		<a onclick="toDefault(this);" class="toggle fr"></a>
 	    	</div>
-            
-            <input onclick="save();" type="button" value="保存" class="ra3 address-add f5" >
+            <a  onclick="save();" class="ra3 address-add" >保存</a>
             
      </div>  				
      </form>
      	
 	</body>
-	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
-	<script src="weui/gemo/js/fastclick.js"></script>
-	<script src="weui/gemo/js/mui.min.js"></script>
-	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
-	<script type="text/javascript" src="weui/gemo/js/jquery.min.js"></script>
-	<script type="text/javascript" src="plugins/distpicker/distpicker.data.js"></script>
-	<script type="text/javascript" src="plugins/distpicker/distpicker.js"></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/js/mui.min.js?${resultInfo.version}"></script>
+	<script type="text/javascript" src="weui/gemo/js/hmt.js?${resultInfo.version}" ></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery.min.js?${resultInfo.version}"></script>
+	<script type="text/javascript" src="plugins/distpicker/distpicker.data.js?${resultInfo.version}"></script>
+	<script type="text/javascript" src="plugins/distpicker/distpicker.js?${resultInfo.version}"></script>
 	<!--提示框-->
-	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+	<script type="text/javascript" src="static/js/jquery.tips.js?${resultInfo.version}"></script>
 	<!--默认按钮-->
 </html>

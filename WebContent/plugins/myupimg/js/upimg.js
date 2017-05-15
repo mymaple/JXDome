@@ -2,8 +2,11 @@
 	var upimg_url = '';
 	
 	$(function(){
-		upimg_url =  locat[0]+'//'+locat[2]+'/'+locat[3]+'/common/file/upimg.do';
-		
+		if('background'==locat[3]){
+			upimg_url =  locat[0]+'//'+locat[2]+'/common/file/upimg.do';
+		}else{
+			upimg_url =  locat[0]+'//'+locat[2]+'/'+locat[3]+'/common/file/upimg.do';
+		}
         upimg_lazyLoad();
     })  
     

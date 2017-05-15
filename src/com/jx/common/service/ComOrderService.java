@@ -12,6 +12,13 @@ public interface ComOrderService {
 	/****************************custom * start***********************************/
 
 	/**
+	 * 退款
+	 * @param ComOrder comOrder
+	 * @throws Exception
+	 */
+	public void toRefund(String orderId) throws Exception ;
+	
+	/**
 	 * 新增 
 	 * @param ComOrder comOrder
 	 * @throws Exception
@@ -31,14 +38,14 @@ public interface ComOrderService {
 	 * @param ComOrder comOrder
 	 * @throws Exception
 	 */
-	public void changeReceiveAddressIdByU(String orderId, String userId, String receiveAddressId) throws Exception ;
+	public void changeReceiveAddressIdByIdUSE(String orderId, String userId, String receiveAddressId) throws Exception ;
 	
 	/**
 	 * 获取(类)List数据
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComOrder> listByOrderIdsSED(String orderStatus, String appUserId, String[] orderIdArr) throws Exception ;
+	public List<ComOrder> listByIdsSED(String orderStatus, String appUserId, String[] orderIdArr) throws Exception ;
 	
 	/**
 	 * 通过id获取(类)数据
@@ -46,15 +53,14 @@ public interface ComOrderService {
 	 * @return ComOrder
 	 * @throws Exception
 	 */
-	public ComOrder findByUserED(String orderId, String appUserId) throws Exception ;
+	public ComOrder findByIdUED(String orderId, String appUserId) throws Exception ;
 	
 	/**
 	 * 支付
-	 * @param appUserId
-	 * @param orderIdArr
+	 * @param String appUserId, String[] orderIdArr, String[] remarksArr
 	 * @throws Exception
 	 */
-	public void toPayByUserE(String appUserId, String[] orderIdArr) throws Exception ;
+	public void toPayByUSE(String appUserId, String[] orderIdArr, String[] remarksArr) throws Exception ;
 	
 	/**
 	 * 取消订单
@@ -66,10 +72,10 @@ public interface ComOrderService {
 	
 	/**
 	 * 更改状态 flag 
-	 * @param String flag, String orderId, String appUserId
+	 * @param String flag, ComOrder comOrder
 	 * @throws Exception
 	 */
-	public void changeStatusByUSE(String flag, String orderId, String appUserId) throws Exception ;
+	public void changeStatusByUSE(String flag, ComOrder comOrder) throws Exception ;
 		
 	/****************************custom * end  ***********************************/
 	
@@ -91,10 +97,10 @@ public interface ComOrderService {
 	
 	/**
 	 * 更改状态 flag 00
-	 * @param String flag, String orderId
+	 * @param String flag, ComOrder comOrder
 	 * @throws Exception
 	 */
-	public void changeStatus(String flag, String orderId) throws Exception ;
+	public void changeStatus(String flag, ComOrder comOrder) throws Exception ;
 	
 	/**
 	 * 更改有效性 flag 00:使失效;01：使生效

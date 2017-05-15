@@ -13,7 +13,6 @@ import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
-import com.jx.common.entity.ComAppUserExt;
 import com.jx.common.entity.ComIntegralNote;
 import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComIntegralNoteService;
@@ -35,11 +34,11 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComIntegralNote> listByUserE(String appUserId, String yearMonth) throws Exception {
+	public List<ComIntegralNote> listByMonthUE(String appUserId, String yearMonth) throws Exception {
 		PageData pd = new PageData();
 		pd.put("appUserId", appUserId);
 		pd.put("yearMonth", yearMonth+"%");
-		return (List<ComIntegralNote>) dao.findForList("ComIntegralNoteMapper.listByUserE", pd);
+		return (List<ComIntegralNote>) dao.findForList("ComIntegralNoteMapper.listByMonthUE", pd);
 	}
 	
 	/****************************custom * end  ***********************************/
@@ -55,7 +54,6 @@ public class ComIntegralNoteServiceImpl implements ComIntegralNoteService{
 		
 		Date nowTime = new Date();
 		comIntegralNote.setIntegralNoteId(UuidUtil.get32UUID());
-		comIntegralNote.setIntegralDealStatus("00");
 		comIntegralNote.setOrderNum(""+nowTime.getTime());
 		comIntegralNote.setEffective("01");
 		comIntegralNote.setCreateUserId(ShiroSessionUtil.getUserId());

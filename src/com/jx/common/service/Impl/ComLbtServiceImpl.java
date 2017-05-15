@@ -12,7 +12,6 @@ import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComLbt;
@@ -33,8 +32,8 @@ public class ComLbtServiceImpl implements ComLbtService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComLbt> listE() throws Exception {
-		return (List<ComLbt>) dao.findForList("ComLbtMapper.listE", null);
+	public List<ComLbt> listByE() throws Exception {
+		return (List<ComLbt>) dao.findForList("ComLbtMapper.listByE", null);
 	}
 	
 	/****************************custom * end  ***********************************/

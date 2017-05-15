@@ -146,8 +146,6 @@ public class BgProductStyleController extends BaseController {
 			return mv;
 		}
 		
-		comProductStyle.setProductStyleType(comProductStyle.getProductStyleType().replaceAll(",", Const.REG_COM_SPLIT));
-		
 		comProductStyleService.add(comProductStyle);
 		resultInfo.setResultCode("success");
 
@@ -171,7 +169,7 @@ public class BgProductStyleController extends BaseController {
 			return mv;
 		}
 		List<ComStyleCategory> comStyleCategoryList = comStyleCategoryService.listByParentId(comProductStyle.getProductId(), "0");
-		String[] productStyleType = comProductStyle.getProductStyleType().split(Const.REG_COM_SPLIT);
+		String[] productStyleType = comProductStyle.getProductStyleType().split(",");
 		for (int i = 0; i < comStyleCategoryList.size(); i++) {
 			comStyleCategoryList.get(i).setOldValue(productStyleType[i]);
 		}
@@ -207,7 +205,6 @@ public class BgProductStyleController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-		comProductStyle.setProductStyleType(comProductStyle.getProductStyleType().replaceAll(",", Const.REG_COM_SPLIT));
 		
 		comProductStyleService.edit(comProductStyle);
 		resultInfo.setResultCode("success");

@@ -47,13 +47,12 @@ public class WxProductController extends BaseController {
 			mv.setViewName("weixin/wxResult");
 		}else{
 			List<ComProductStyle> comProductStyleList = comProductStyleService.listByProductIdSE(productId);
-			comProduct.setImgSrc2(comProduct.getImgSrc2().replaceAll(Const.REG_COM_SPLIT, ","));
-			comProduct.setImgSrc3(comProduct.getImgSrc3().replaceAll(Const.REG_COM_SPLIT, ","));
 			
-			List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUserSE(userId, null);
+			List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUSE(userId, null);
 			int shopCarCount = comShopCarList.size();
 			
-			
+			resultInfo.setResultCode("success");
+			mv.addObject(resultInfo);
 			mv.addObject(comProduct);
 			mv.addObject("comProductStyleList",comProductStyleList);
 			mv.addObject("shopCarCount",shopCarCount);
@@ -63,4 +62,18 @@ public class WxProductController extends BaseController {
 		return mv;
 	}
 	
+	/**
+	 * 列表
+	 */
+	@RequestMapping(value="/toCategory")
+	public ModelAndView toCategory() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo =this.getResultInfo();
+		String userId = WxSessionUtil.getUserId();
+		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
+		mv.setViewName("weixin/product/wxProductCategory");
+		return mv;
+	}
 }

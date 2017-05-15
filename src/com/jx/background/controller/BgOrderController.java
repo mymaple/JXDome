@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -26,13 +27,17 @@ import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.ComOrder;
+import com.jx.common.entity.ComOrderDetail;
+import com.jx.common.entity.ComReceiveAddress;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
 import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
+import com.jx.common.service.ComOrderDetailService;
 import com.jx.common.service.ComOrderService;
+import com.jx.common.service.ComReceiveAddressService;
 
 /** 
  * 类名称：BgOrderController
@@ -50,7 +55,10 @@ public class BgOrderController extends BaseController {
 	
 	@Resource(name="comOrderService")
 	private ComOrderService comOrderService;
-	
+	@Resource(name="comOrderDetailService")
+	private ComOrderDetailService comOrderDetailService;
+	@Resource(name="comReceiveAddressService")
+	private ComReceiveAddressService comReceiveAddressService;
 	
 	/**
 	 * 列表
@@ -108,6 +116,7 @@ public class BgOrderController extends BaseController {
 		comOrder.setPayMethod("");
 		comOrder.setWlgs("");
 		comOrder.setWlNum("");
+		comOrder.setRemark("");
 		comOrder.setOrderNum(String.valueOf(new Date().getTime()));
 		
 		mv.addObject(comOrder);
@@ -255,7 +264,7 @@ public class BgOrderController extends BaseController {
 	/**
 	 * 更改状态
 	 */
-	@RequestMapping(value="/changeStatus")
+	/*@RequestMapping(value="/changeStatus")
 	@ResponseBody
 	public Object changeStatus(@RequestParam String flag, @RequestParam String orderId) throws Exception{
 		PageData pd = this.getPageData();
@@ -264,7 +273,7 @@ public class BgOrderController extends BaseController {
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
-	}
+	}*/
 	
 	/**
 	 * 更改有效性
@@ -312,12 +321,13 @@ public class BgOrderController extends BaseController {
 		titles.add("付款方式");	//18
 		titles.add("物流公司");	//19
 		titles.add("运单编号");	//20
-		titles.add("排序编号");	//21
-		titles.add("有效标志");	//22
-		titles.add("创建人员id");	//23
-		titles.add("创建时间");	//24
-		titles.add("修改人员id");	//25
-		titles.add("修改时间");	//26
+		titles.add("订单备注");	//21
+		titles.add("排序编号");	//22
+		titles.add("有效标志");	//23
+		titles.add("创建人员id");	//24
+		titles.add("创建时间");	//25
+		titles.add("修改人员id");	//26
+		titles.add("修改时间");	//27
 		dataMap.put("titles", titles);
 		List<ComOrder> varOList = comOrderService.listAll();
 		List<PageData> varList = new ArrayList<PageData>();
@@ -344,12 +354,13 @@ public class BgOrderController extends BaseController {
 			vpd.put("var18", varOList.get(i).getPayMethod());	//18
 			vpd.put("var19", varOList.get(i).getWlgs());	//19
 			vpd.put("var20", varOList.get(i).getWlNum());	//20
-			vpd.put("var21", varOList.get(i).getOrderNum());		//21
-			vpd.put("var22", varOList.get(i).getEffective());	//22
-			vpd.put("var23", varOList.get(i).getCreateUserId());	//23
-			vpd.put("var24", varOList.get(i).getCreateTime());	//24
-			vpd.put("var25", varOList.get(i).getModifyUserId());//25
-			vpd.put("var26", varOList.get(i).getModifyTime());	//26
+			vpd.put("var21", varOList.get(i).getRemark());	//21
+			vpd.put("var22", varOList.get(i).getOrderNum());		//22
+			vpd.put("var23", varOList.get(i).getEffective());	//23
+			vpd.put("var24", varOList.get(i).getCreateUserId());	//24
+			vpd.put("var25", varOList.get(i).getCreateTime());	//25
+			vpd.put("var26", varOList.get(i).getModifyUserId());//26
+			vpd.put("var27", varOList.get(i).getModifyTime());	//27
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -408,6 +419,7 @@ public class BgOrderController extends BaseController {
 		titles.add("付款方式");	//14
 		titles.add("物流公司");	//15
 		titles.add("运单编号");	//16
+		titles.add("订单备注");	//17
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -461,6 +473,7 @@ public class BgOrderController extends BaseController {
 		 * var14 :付款方式;	//14
 		 * var15 :物流公司;	//15
 		 * var16 :运单编号;	//16
+		 * var17 :订单备注;	//17
 		 */
 		for(int i=0;i<listPd.size();i++){	
 			comOrder.setOrderId(this.get32UUID());
@@ -481,6 +494,7 @@ public class BgOrderController extends BaseController {
 			comOrder.setPayMethod(listPd.get(i).getString("var14"));
 			comOrder.setWlgs(listPd.get(i).getString("var15"));
 			comOrder.setWlNum(listPd.get(i).getString("var16"));
+			comOrder.setRemark(listPd.get(i).getString("var17"));
 			comOrderService.add(comOrder);
 		}
 		/*存入数据库操作======================================*/
@@ -491,6 +505,105 @@ public class BgOrderController extends BaseController {
 		return mv;
 	}
 	
+	/**
+	 * 去修改页面
+	 */
+	@RequestMapping(value="/toInfo")
+	public ModelAndView toInfo(@RequestParam String orderId) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		
+		ComOrder comOrder = comOrderService.findById(orderId);	//根据ID读取
+		if(comOrder == null){
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		
+		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findById(comOrder.getReceiveAddressId());
+		List<ComOrderDetail> comOrderDetailList = comOrderDetailService.listByOrderId(orderId);
+		
+		
+		mv.addObject(comOrder);
+		mv.addObject(comReceiveAddress);
+		mv.addObject("comOrderDetailList", comOrderDetailList);
+		
+		resultInfo.setResultCode("success");
+		mv.setViewName("background/order/bgOrderInfo");
+		
+		mv.addObject(resultInfo);						
+		return mv;
+	}	
 	
+	/**
+	 * 去修改页面
+	 */
+	@RequestMapping(value="/toDeliver")
+	public ModelAndView toDeliver(@RequestParam String orderId) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		
+		ComOrder comOrder = comOrderService.findById(orderId);	//根据ID读取
+		if(comOrder == null || !"02".equals(comOrder.getOrderStatus())){
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		mv.addObject(comOrder);
+		resultInfo.setResultCode("success");
+		mv.setViewName("background/order/bgOrderDeliver");
+		
+		mv.addObject(resultInfo);						
+		return mv;
+	}	
+	
+	/**
+	 * 修改
+	 */
+	@RequestMapping(value="/deliver")
+	public ModelAndView deliver(@RequestParam String orderId) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		
+		String wlgs = pd.getString("wlgs");
+		String wlNum = pd.getString("wlNum");
+		
+		if(StringUtils.isEmpty(wlgs)||StringUtils.isEmpty(wlNum)) {
+			resultInfo.setResultEntity("comOrder");
+			mv.addObject(resultInfo);				
+			return mv; 
+		}
+		
+		ComOrder comOrder = new ComOrder();
+		comOrder.setOrderId(orderId);
+		comOrder.setWlgs(wlgs);
+		comOrder.setWlNum(wlNum);
+		comOrder.setSendTime(new Date());
+		
+		comOrderService.changeStatus("03", comOrder);
+		resultInfo.setResultCode("success");
+		
+		mv.addObject(resultInfo);
+		return mv;
+	}
+	
+	/**
+	 * 更改状态
+	 */
+	@RequestMapping(value="/refund")
+	@ResponseBody
+	public Object refund(@RequestParam String orderId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		comOrderService.toRefund(orderId);
+		resultInfo.setResultCode("success");
+		
+		comOrderService.toRefund(orderId);
+		return AppUtil.returnResult(pd, resultInfo);
+	}
 
 }

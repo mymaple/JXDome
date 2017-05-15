@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.common.config.BaseController;
+import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.ComLbt;
 import com.jx.common.entity.ComProduct;
 import com.jx.common.service.ComLbtService;
 import com.jx.common.service.ComProductSEService;
-import com.jx.common.service.ComProductService;
 
 /** 
  * 类名称：WxIndexController
@@ -38,11 +38,13 @@ public class WxIndexController extends BaseController {
 	@RequestMapping(value="/toIndex")
 	public ModelAndView toIndex() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		
-		List<ComLbt> comLbtList = comLbtService.listE();
+		ResultInfo resultInfo = this.getResultInfo();
+		List<ComLbt> comLbtList = comLbtService.listByE();
 		//分类
 		List<ComProduct> comProductList = comProductSEService.listByCategoryCodeSE("spfl100172");
 		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comLbtList",comLbtList);
 		mv.addObject("comProductList",comProductList);
 		mv.setViewName("weixin/index/wxIndex");

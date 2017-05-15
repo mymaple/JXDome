@@ -140,7 +140,7 @@
 		AND ps.productStyleStatus = '01'
 	</select>
 	
-	<select id="listShopCarByUserSE" parameterType="pd" resultMap="comShopCarMapList">
+	<select id="listShopCarByUSE" parameterType="pd" resultMap="comShopCarMapList">
 		SELECT
 			sc.*,
 			p.*,
@@ -164,7 +164,7 @@
         </foreach>
 		</if>
 		ORDER BY
-			sc.orderNum DESC
+			p.supplierId, sc.orderNum DESC
 	</select>
 	
 </mapper>

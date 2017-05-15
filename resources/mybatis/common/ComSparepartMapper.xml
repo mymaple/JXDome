@@ -153,7 +153,12 @@
 		from 
 	<include refid="sparepartTable"/>
 		where 
+		<if test="sparepartId!=null and sparepartId!=''">
 			sparepartId = #{sparepartId} 
+		</if>
+		<if test="sparepartCode!=null and sparepartCode!=''">
+			 sparepartCode = #{sparepartCode}
+		</if>
 	</select>
 	
 	<!-- 获取(类)List数据  -->

@@ -30,11 +30,11 @@ public class ComShopCarServiceImpl implements ComShopCarService{
 	 * @return ComShopCar
 	 * @throws Exception
 	 */
-	public ComShopCar findByUserSE(String userId, String productStyleId) throws Exception {
+	public ComShopCar findByIdUSE(String userId, String productStyleId) throws Exception {
 		ComShopCar comShopCar = new ComShopCar();
 		comShopCar.setAppUserId(userId);
 		comShopCar.setProductStyleId(productStyleId);
-		return (ComShopCar) dao.findForObject("ComShopCarMapper.findByUserSE", comShopCar);
+		return (ComShopCar) dao.findForObject("ComShopCarMapper.findByIdUSE", comShopCar);
 	}
 	
 	/**

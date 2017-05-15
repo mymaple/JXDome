@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
+<%@ page import="com.jx.common.config.Const"  %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -16,17 +17,16 @@
 	<title>格陌汽配</title>
 	<meta name="keywords" content="">
     <meta name="description" content="">
-	<script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?123"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?213"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?435"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?345"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+	<script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?${resultInfo.version}"/>
+    <script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
@@ -37,8 +37,8 @@
 		window.location.href = "<%=basePath%>weixin/mine/toMyPartner.do";
 	}
 	
-	function toMyOrder(){
-		window.location.href = "<%=basePath%>weixin/order/list.do";
+	function toMyOrder(state){
+		window.location.href = "<%=basePath%>weixin/order/list.do?state="+state;
 	}
 	
 	function toMyInfo(){
@@ -88,29 +88,25 @@
 <div class="clearfloat">
 	    	<div class="h-top clearfloat box-s">
 	    		<div class="tu clearfloat fl">
-	    			<img src="${comAppUser.headImgSrc}"/>
+	    			<img src="<%=Const.BG_WEBSITE %>/${comAppUser.headImgSrc}"/>
 	    		</div>
 	    		<div class="content clearfloat fl">
 	    			<p class="hname">${comAppUser.appUserName}</p>
 	    			<p class="htel">ID:${comAppUser.appUserCode}</p>
-	    			<p class="hpthy"><param:display type="com_appUserRole" value="${comAppUser.roleId}"/></p>
+	    			<p class="hpthy"><c:forEach items="${ fn:split(comAppUser.roleId,',') }" var="roleId">	
+					<param:display type="com_appUserRoleEffectiveP" value="${roleId}"/>  
+					</c:forEach></p>
 	    		</div>
 	    		<a onclick="toMyPartner();" class="btn db clearfloat fr ra3">查看成员</a>
 	    	</div>
 	    	<div class="cash clearfloat">
 	    		<div class="shang xia clearfloat">
 	    			<ul>
-	    				<li>
-	    					<a href="#">
-	    						<p>31000</p>
-	    						<span>积分</span>
-	    					</a>
+					    <li>
+	    					<p><span>可用积分</span></p>
 	    				</li>
 	    				<li>
-	    					<a href="#">
-	    						<p>56179</p>
-	    						<span>待用积分</span>
-	    					</a>
+	    					<p>${integralCount }</p>
 	    				</li>
 	    			</ul>
 	    		</div>
@@ -120,34 +116,34 @@
             <div class="myorder clearfloat">
                  <ul>
                      <li class="box-s">
-                        <a href="<%=basePath%>weixin/order/list.do?state=01">
+                        <a onclick="toMyOrder('01')">
                         <p class="tu"><img src="weui/gemo/img/ord-1.png"></p>
                         <c:if test="${count1 != 0 }"><p class="num">${count1}</p></c:if>                        
                         <p>待付款</p>
                         </a>
                      </li>
                      <li class="box-s">
-                        <a href="<%=basePath%>weixin/order/list.do?state=02">
+                        <a onclick="toMyOrder('02')">
                         <p class="tu"><img src="weui/gemo/img/ord-2.png"></p>
                         <c:if test="${count2 != 0 }"><p class="num">${count2}</p></c:if>    
                         <p>待发货</p>
                         </a>
                      </li>
                      <li class="box-s">
-                        <a href="<%=basePath%>weixin/order/list.do?state=03">
+                        <a onclick="toMyOrder('03')">
                         <p class="tu"><img src="weui/gemo/img/ord-3.png"></p>
                         <c:if test="${count3 != 0 }"><p class="num">${count3}</p></c:if>    
                         <p>待收货</p>
                         </a>
                      </li>
                      <li class="box-s">
-                        <a href="<%=basePath%>weixin/order/list.do?state=04">
+                         <a onclick="toMyOrder('04')">
                         <p class="tu"><img src="weui/gemo/img/ord-4.png"></p>
                         <p>交易成功</p>
                         </a>
                      </li>                                                               
                      <li class="box-s">
-                        <a href="<%=basePath%>weixin/order/list.do?state=05">
+                         <a onclick="toMyOrder('05')">
                         <p class="tu"><img src="weui/gemo/img/ord-5.png"></p>
                         <p>退款/售后</p>
                         </a>
@@ -164,18 +160,6 @@
 	    				</a>
 	    			</li>
 	    			<li class="box-s">
-	    				<a onclick="toMyOrder();">
-	    					<i class="iconfont icon-yonghuming fl"></i><p class="fl">我的订单</p>
-	    					<i class="iconfont icon-jiantou1 fr"></i>
-	    				</a>
-	    			</li>
-	    			<!-- <li class="box-s">
-	    				<a onclick="toChangePwd();">
-	    					<i class="iconfont icon-mima fl"></i><p class="fl">修改密码</p>
-	    					<i class="iconfont icon-jiantou1 fr"></i>
-	    				</a>
-	    			</li> -->
-	    			<li class="box-s">
 	    				<a onclick="toReceiveAddress();">
 	    					<i class="iconfont icon-dizhi fl"></i><p class="fl">收货地址</p>
 	    					<i class="iconfont icon-jiantou1 fr"></i>
@@ -187,16 +171,16 @@
 	    					<i class="iconfont icon-jiantou1 fr"></i>
 	    				</a>
 	    			</li>
-	    		</ul>
-	    	</div>
-	    	<div class="cashlist clearfloat">
-	    		<ul>
 	    			<li class="box-s">
 	    				<a onclick="toSparepartDeal();">
 	    					<i class="iconfont icon-bianji fl"></i><p class="fl">审核记录</p>
 	    					<i class="iconfont icon-jiantou1 fr"></i>
 	    				</a>
 	    			</li>
+	    		</ul>
+	    	</div>
+	    	<!-- <div class="cashlist clearfloat">
+	    		<ul>
 	    			<li class="box-s">
 	    				<a onclick="toParseQRCoder();">
 	    					<i class="iconfont icon-iconfontxingming fl"></i><p class="fl">qrcode</p>
@@ -210,9 +194,10 @@
 	    				</a>
 	    			</li>
 	    		</ul>
-	    	</div>
+	    	</div> -->
 	  		<a onclick="toLogout();" class="center-btn db ra3">退出登录</a>
 	    </div>
+	    
 	    <div class="warp"></div>
 		<!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">
@@ -245,12 +230,12 @@
 		</footer>
 		<!--footer end-->
 	</body>
-	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
-	<script src="weui/gemo/js/mui.min.js"></script>
-	<script src="weui/gemo/js/others.js"></script>
-	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
-	<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/js/mui.min.js?${resultInfo.version}"></script>
+	<script src="weui/gemo/js/others.js?${resultInfo.version}"></script>
+	<script type="text/javascript" src="weui/gemo/js/hmt.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/slick/slick.js?${resultInfo.version}" type="text/javascript" ></script>
 	<!--插件-->
-	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css">
-	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
+	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css?${resultInfo.version}">
+	<script src="weui/gemo/js/swiper.jquery.min.js?${resultInfo.version}"></script>
 </html>

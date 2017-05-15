@@ -111,17 +111,22 @@ public class BgPage {
 			}
 			sb.append("	<li><a>共"+totalPage+"页</a></li>\n");
 			sb.append("	<li><select title='显示条数' style=\"width:55px;float:left;margin-top:1px;\" onchange=\"changeCount(this.value)\">\n");
-			sb.append("	<option value='"+showCount+"'>"+showCount+"</option>\n");
-			sb.append("	<option value='10'>10</option>\n");
-			sb.append("	<option value='20'>20</option>\n");
-			sb.append("	<option value='30'>30</option>\n");
-			sb.append("	<option value='40'>40</option>\n");
-			sb.append("	<option value='50'>50</option>\n");
-			sb.append("	<option value='60'>60</option>\n");
-			sb.append("	<option value='70'>70</option>\n");
-			sb.append("	<option value='80'>80</option>\n");
-			sb.append("	<option value='90'>90</option>\n");
-			sb.append("	<option value='99'>99</option>\n");
+			sb.append("	<option style=\"background-color:#B1B1B1;\" value='"+showCount+"'>"+showCount+"</option>\n");
+			if(10!=showCount){
+				sb.append("	<option value='10'>10</option>\n");
+			}
+			if(20!=showCount){
+				sb.append("	<option value='20'>20</option>\n");
+			}
+			if(50!=showCount){
+				sb.append("	<option value='50'>50</option>\n");
+			}
+			if(100!=showCount){
+				sb.append("	<option value='100'>100</option>\n");
+			}
+			if(1000!=showCount){
+				sb.append("	<option value='1000'>1000</option>\n");
+			}
 			sb.append("	</select>\n");
 			sb.append("	</li>\n");
 			

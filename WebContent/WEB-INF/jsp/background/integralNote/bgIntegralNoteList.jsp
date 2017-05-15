@@ -90,7 +90,7 @@
 											<td class='center'>${comIntegralNote.integralNoteCode}</td>
 											<td class='center'>${comIntegralNote.integralNoteName}</td>
 											<td class='center'><param:display type="com_integralNoteType" value="${comIntegralNote.integralNoteType}"/></td>
-											<td class='center'><param:display type="" value="${comIntegralNote.appUserId}"/></td>
+											<td class='center'><param:display type="com_appUserEffective" value="${comIntegralNote.appUserId}"/></td>
 											<td class='center'>${comIntegralNote.integralDealCount}</td>
 											<td class='center'>${comIntegralNote.integralCountBefore}</td>
 											<td class='center'>${comIntegralNote.integralCountAfter}</td>

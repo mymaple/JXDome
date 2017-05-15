@@ -25,7 +25,20 @@
 	
 	<div class="page-header">
 	<h1>
-		<a href="<%=basePath%>background/orderDetail/list.do">管理</a>
+	
+		<c:if test="${empty pd.orderId }">
+			<a href="<%=basePath%>background/orderDetail/list.do"> 
+			订单商品管理
+			</a>
+		</c:if>
+		<c:if test="${not empty pd.orderId }">
+			<a href="<%=basePath%>background/order/list.do"> 
+			订单管理
+			</a>
+			——
+			<a href="<%=basePath%>background/orderDetail/list.do?orderId=${pd.orderId}">订单商品管理——订单<param:display type="com_orderEffective" value="${pd.orderId}" id="orderId" hidden="true"/>
+			</a>
+		</c:if>
 	</h1>
 	</div><!-- /.page-header -->
 	
@@ -41,8 +54,7 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="background/orderDetail/list.do" method="post" name="orderDetailForm" id="orderDetailForm">
-						<input type="hidden" name="orderId" id="orderId" value="${pd.orderId }"/>
+						<form action="background/orderDetail/list.do?orderId=${pd.orderId}" method="post" name="orderDetailForm" id="orderDetailForm">
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -71,13 +83,8 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">商品Id</th>
 									<th class="center">商品名称</th>
-									<th class="center">摘要</th>
 									<th class="center">商品类型名称</th>
-									<th class="center">产品头像</th>
-									<th class="center">原价</th>
-									<th class="center">现价</th>
 									<th class="center">购买数量</th>
 									<th class="center">排序编号</th>
 									<th class="center">操作</th>
@@ -100,13 +107,8 @@
 											<c:if test="${comOrderDetail.effective != '00'}">
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											</c:if>
-											<td class='center'>${comOrderDetail.productId}</td>
 											<td class='center'>${comOrderDetail.productName}</td>
-											<td class='center'>${comOrderDetail.summary}</td>
 											<td class='center'>${comOrderDetail.productStyleName}</td>
-											<td class='center'>${comOrderDetail.headImgSrc}</td>
-											<td class='center'>${comOrderDetail.originalPrice}</td>
-											<td class='center'>${comOrderDetail.currentPrice}</td>
 											<td class='center'>${comOrderDetail.count}</td>
 											<td class='center'>${comOrderDetail.orderNum}</td>
 											<td class="center">
@@ -114,7 +116,7 @@
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
-													<c:if test="${RIGHTS.edit}">
+													<%-- <c:if test="${RIGHTS.edit}">
 													
 													<c:if test="${comOrderDetail.effective == '00'}">
 													<a class="btn btn-xs btn-info" onclick="changeEffective('01','${comOrderDetail.orderDetailId}');">使生效</a>
@@ -131,7 +133,10 @@
 													<a class="btn btn-xs btn-danger" onclick="toDelete('${comOrderDetail.orderDetailId}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
-													</c:if>
+													</c:if> --%>
+													<a class="btn btn-xs btn-info" onclick="toInfo('${comOrderDetail.orderDetailId}');">
+														查看详细
+													</a>
 												</div>
 											</td>
 										</tr>
@@ -156,12 +161,12 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<c:if test="${RIGHTS.add }">
+									<%-- <c:if test="${RIGHTS.add }">
 									<a class="btn btn-mini btn-success" onclick="toAdd();">新增</a>
 									</c:if>
 									<c:if test="${RIGHTS.del }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-									</c:if>
+									</c:if> --%>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
 							</tr>
@@ -419,6 +424,28 @@
 			 };
 			 diag.show();
 		}
+		
+		//修改
+		function toInfo(orderDetailId){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="编辑";
+			 diag.URL = "<%=basePath%>background/orderDetail/toInfo.do?orderDetailId="+orderDetailId+"&tm="+new Date().getTime();
+			 diag.Width = 450;
+			 diag.Height = 500;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮 
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					nextPage('${bgPage.currentPage}');
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
 	</script>
 
 </body>

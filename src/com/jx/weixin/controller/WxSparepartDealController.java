@@ -11,32 +11,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.config.BgPage;
-import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.BaseEntity.ValidationAdd;
-import com.jx.common.config.BaseEntity.ValidationEdit;
-import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
-import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.entity.ComIntegralNote;
 import com.jx.common.entity.ComSparepartDeal;
-import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleDateUtil;
-import com.jx.common.util.MapleFileUtil;
-import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
-import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
+import com.jx.common.util.WxSignUtil;
 import com.jx.common.util.MapleDateUtil.SDF;
 import com.jx.weixin.util.WxSessionUtil;
-import com.jx.weixin.util.WxUtil;
 import com.jx.common.service.ComSparepartDealService;
 
 /** 
@@ -58,6 +45,7 @@ public class WxSparepartDealController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list() throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo = this.getResultInfo();
 		PageData pd = this.getPageData();
 		String userId = WxSessionUtil.getUserId();
 		String yearMonth = pd.getString("yearMonth");
@@ -65,7 +53,10 @@ public class WxSparepartDealController extends BaseController {
 			yearMonth = MapleDateUtil.formatDate(SDF.MONTH, new Date());
 		}
 		
-		List<ComSparepartDeal>	comSparepartDealList = comSparepartDealService.listByUserE(userId, yearMonth);	//列出comSparepartDeal列表
+		List<ComSparepartDeal>	comSparepartDealList = comSparepartDealService.listByMonthUE1(userId, yearMonth);	//列出comSparepartDeal列表
+		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comSparepartDealList", comSparepartDealList);
 		mv.addObject("yearMonth", yearMonth);
 		
@@ -79,8 +70,12 @@ public class WxSparepartDealController extends BaseController {
 	@RequestMapping(value="/toParseQRCoder")
 	public ModelAndView toParseQRCoder() throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		ResultInfo resultInfo = this.getResultInfo();
 		
-		Map<String, String> ret = WxUtil.sign(PathUtil.getBasePath(request)+"/weixin/sparepartDeal/toParseQRCoder");
+		Map<String, String> ret = WxSignUtil.sign(PathUtil.getBasePath1(request)+"/weixin/sparepartDeal/toParseQRCoder.do");
+		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("ret",ret);
 		mv.setViewName("weixin/sparepartDeal/wxParseQRCoder");
 		return mv;
@@ -107,12 +102,12 @@ public class WxSparepartDealController extends BaseController {
 		comSparepartDeal.setOrderTime(nowTime);
 		comSparepartDeal.setOrderNum(String.valueOf(nowTime.getTime()));
 		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject(comSparepartDeal);
 		mv.addObject("methodPath", "add");
-		resultInfo.setResultCode("success");
 		mv.setViewName("background/sparepartDeal/bgSparepartDealEdit");
 		
-		mv.addObject(resultInfo);					
 		return mv;
 	}	
 	
@@ -137,11 +132,11 @@ public class WxSparepartDealController extends BaseController {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
-			
-		comSparepartDealService.add(comSparepartDeal);
+		
 		resultInfo.setResultCode("success");
-
 		mv.addObject(resultInfo);
+		comSparepartDealService.add(comSparepartDeal);
+		
 		return mv;
 	}
 	

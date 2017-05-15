@@ -26,6 +26,8 @@ import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
 import com.jx.common.config.shiro.ShiroSessionUtil;
+import com.jx.common.entity.ComAppUser;
+import com.jx.common.entity.ComSparepart;
 import com.jx.common.entity.ComSparepartDeal;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleFileUtil;
@@ -33,7 +35,10 @@ import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.MapleUtil;
 import com.jx.common.util.ObjectExcelView;
 import com.jx.common.util.PathUtil;
+import com.jx.common.service.ComAppUserService;
+import com.jx.common.service.ComDictService;
 import com.jx.common.service.ComSparepartDealService;
+import com.jx.common.service.ComSparepartService;
 
 /** 
  * 类名称：BgSparepartDealController
@@ -51,7 +56,12 @@ public class BgSparepartDealController extends BaseController {
 	
 	@Resource(name="comSparepartDealService")
 	private ComSparepartDealService comSparepartDealService;
-	
+	@Resource(name="comDictService")
+	private ComDictService comDictService;
+	@Resource(name="comAppUserService")
+	private ComAppUserService comAppUserService;
+	@Resource(name="comSparepartService")
+	private ComSparepartService comSparepartService;
 	
 	/**
 	 * 列表
@@ -109,7 +119,7 @@ public class BgSparepartDealController extends BaseController {
 			
 		mv.addObject(resultInfo);					
 		return mv;
-	}	
+	}
 	
 	/**
 	 * 新增
@@ -256,45 +266,49 @@ public class BgSparepartDealController extends BaseController {
 
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("零部件交易 主键id");		//0
-		titles.add("零部件交易订单号");	//1
+		titles.add("零部件交易订单号");		//1
 		titles.add("零部件交易审核状态");	//2
-		titles.add("零部件销售客户");	//3
-		titles.add("零部件");	//4
-		titles.add("出售数量");	//5
-		titles.add("交易金额");	//6
-		titles.add("订单日期");	//7
-		titles.add("审核人");	//8
-		titles.add("审核结果");	//9
-		titles.add("审核日期");	//10
-		titles.add("排序编号");	//11
-		titles.add("有效标志");	//12
-		titles.add("创建人员id");	//13
-		titles.add("创建时间");	//14
-		titles.add("修改人员id");	//15
-		titles.add("修改时间");	//16
+		titles.add("零部件销售客户");		//3
+		titles.add("零部件");				//4
+		titles.add("出售数量");			//5
+		titles.add("交易金额");			//6
+		titles.add("订单日期");			//7
+		titles.add("审核人");				//8
+		titles.add("审核结果");			//9
+		titles.add("审核日期");			//10
+		titles.add("排序编号");			//11
+		titles.add("有效标志");			//12
+		titles.add("创建人员");			//13
+		titles.add("创建时间");			//14
+		titles.add("修改人员");			//15
+		titles.add("修改时间");			//16
 		dataMap.put("titles", titles);
 		List<ComSparepartDeal> varOList = comSparepartDealService.listByPd(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();	
-			vpd.put("var0",varOList.get(i).getSparepartDealId());			//0
-			vpd.put("var1", varOList.get(i).getSparepartDealCode());	//1
-			vpd.put("var2", varOList.get(i).getSparepartDealStatus());	//2
-			vpd.put("var3", varOList.get(i).getAppUserId());	//3
-			vpd.put("var4", varOList.get(i).getSparepartId());	//4
-			vpd.put("var5", varOList.get(i).getCount());	//5
-			vpd.put("var6", varOList.get(i).getDealAmt());	//6
-			vpd.put("var7", varOList.get(i).getOrderTime());	//7
-			vpd.put("var8", varOList.get(i).getCheckId());	//8
-			vpd.put("var9", varOList.get(i).getRemarks());	//9
-			vpd.put("var10", varOList.get(i).getCheckTime());	//10
-			vpd.put("var11", varOList.get(i).getOrderNum());		//11
-			vpd.put("var12", varOList.get(i).getEffective());	//12
-			vpd.put("var13", varOList.get(i).getCreateUserId());	//13
-			vpd.put("var14", varOList.get(i).getCreateTime());	//14
-			vpd.put("var15", varOList.get(i).getModifyUserId());//15
-			vpd.put("var16", varOList.get(i).getModifyTime());	//16
+			vpd.put("var0", varOList.get(i).getSparepartDealCode());	//1
+			vpd.put("var1", comDictService.getDisplayName("com_sparepartDealStatus", varOList.get(i).getSparepartDealStatus()));	//2
+			vpd.put("var2", comDictService.getDisplayName("com_appUserEffective", varOList.get(i).getAppUserId()));	//3
+			vpd.put("var3", comDictService.getDisplayName("com_sparepartEffective", varOList.get(i).getSparepartId()));	//4
+			vpd.put("var4", varOList.get(i).getCount());	//5
+			vpd.put("var5", varOList.get(i).getDealAmt());	//6
+			vpd.put("var6", varOList.get(i).getOrderTime());	//7
+			vpd.put("var7", comDictService.getDisplayName("bg_userEffective", varOList.get(i).getCheckId()));	//8
+			vpd.put("var8", varOList.get(i).getRemarks());	//9
+			vpd.put("var9", varOList.get(i).getCheckTime());	//10
+			vpd.put("var10", varOList.get(i).getOrderNum());		//11
+			vpd.put("var11", comDictService.getDisplayName("com_isEffective", varOList.get(i).getEffective()));	//12
+			String var12 = comDictService.getDisplayName("bg_userEffective",varOList.get(i).getCreateUserId()) == varOList.get(i).getCreateUserId() ?
+					comDictService.getDisplayName("com_appUserEffective",varOList.get(i).getCreateUserId()) : 
+						comDictService.getDisplayName("bg_userEffective",varOList.get(i).getCreateUserId());
+			vpd.put("var12", var12);	
+			vpd.put("var13", varOList.get(i).getCreateTime());	//14
+			String var14 = comDictService.getDisplayName("bg_userEffective",varOList.get(i).getModifyUserId()) == varOList.get(i).getModifyUserId() ?
+					comDictService.getDisplayName("com_appUserEffective",varOList.get(i).getModifyUserId()) : 
+						comDictService.getDisplayName("bg_userEffective",varOList.get(i).getModifyUserId());
+			vpd.put("var14", var14);
+			vpd.put("var15", varOList.get(i).getModifyTime());	//16
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -317,7 +331,7 @@ public class BgSparepartDealController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		mv.setViewName("background/bgResult");
 		
-		mv.addObject("controllerPath", "background_sparepartDeal");
+		mv.addObject("controllerPath", "background/sparepartDeal");
 		mv.setViewName("background/bgUploadExcel");
 
 		mv.addObject(resultInfo);					
@@ -338,10 +352,10 @@ public class BgSparepartDealController extends BaseController {
 		List<String> titles = new ArrayList<String>();
 		titles.add("零部件交易订单号");	//0
 		titles.add("零部件销售客户");	//1
-		titles.add("零部件");	//2
-		titles.add("出售数量");	//3
-		titles.add("交易金额");	//4
-		titles.add("订单日期");	//5
+		titles.add("零部件");			//2
+		titles.add("出售数量");		//3
+		titles.add("交易金额");		//4
+		titles.add("订单日期");		//5
 		dataMap.put("titles", titles);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
@@ -366,7 +380,7 @@ public class BgSparepartDealController extends BaseController {
 		//PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 
-		if (null != file && !file.isEmpty()) {
+		if (null == file || file.isEmpty()) {
 			mv.addObject(resultInfo);					
 			return mv;
 		}
@@ -375,24 +389,28 @@ public class BgSparepartDealController extends BaseController {
 		List<PageData> listPd = (List)ObjectExcelView.readExcel(filePath, fileName, 1, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 		/*存入数据库操作======================================*/
 		
-		ComSparepartDeal comSparepartDeal = new ComSparepartDeal();
 				
 		/**
 		 * var0 :零部件交易订单号;	//0
 		 * var1 :零部件销售客户;	//1
-		 * var2 :零部件;	//2
-		 * var3 :出售数量;	//3
-		 * var4 :交易金额;	//4
-		 * var5 :订单日期;	//5
+		 * var2 :零部件;			//2
+		 * var3 :出售数量;		//3
+		 * var4 :交易金额;		//4
+		 * var5 :订单日期;		//5
 		 */
 		for(int i=0;i<listPd.size();i++){	
-			comSparepartDeal.setSparepartDealId(this.get32UUID());
+			ComSparepartDeal comSparepartDeal = new ComSparepartDeal();
 			comSparepartDeal.setSparepartDealCode(listPd.get(i).getString("var0"));
-			comSparepartDeal.setAppUserId(listPd.get(i).getString("var1"));
-			comSparepartDeal.setSparepartId(listPd.get(i).getString("var2"));
+			
+			ComAppUser comAppUser = comAppUserService.findByRemarks(listPd.get(i).getString("var1"));
+			comSparepartDeal.setAppUserId(comAppUser.getAppUserId());
+			ComSparepart comSparepart = comSparepartService.findByCode(listPd.get(i).getString("var2"));
+			comSparepartDeal.setSparepartId(comSparepart.getSparepartId());
 			comSparepartDeal.setCount(listPd.get(i).getString("var3"));
 			comSparepartDeal.setDealAmt(listPd.get(i).getString("var4"));
 			comSparepartDeal.setOrderTimeStr(listPd.get(i).getString("var5"));
+			
+			comSparepartDeal.setOrderNum(""+new Date().getTime());
 			comSparepartDealService.add(comSparepartDeal);
 		}
 		/*存入数据库操作======================================*/
@@ -451,8 +469,68 @@ public class BgSparepartDealController extends BaseController {
 			resultInfo.setResultCode("success");
 		}
 		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 去修改页面
+	 */
+	@RequestMapping(value="/toBatchChangeStatus")
+	@ResponseBody
+	public Object toBatchChangeStatus(@RequestParam String change) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+
+		String ids = pd.getString("ids");
+		if(MapleStringUtil.isEmpty(ids)){
+			return AppUtil.returnResult(pd, resultInfo);
+		}
+		String[] idsa = ids.split(",");
+		for (int i = 0; i < idsa.length; i++) {
+			String sparepartDealId = idsa[i];
+			ComSparepartDeal comSparepartDeal = comSparepartDealService.findById(sparepartDealId);	//根据ID读取
+			if(comSparepartDeal == null){
+				resultInfo.setResultContent(sparepartDealId);
+				return AppUtil.returnResult(pd, resultInfo);
+			}
+			
+			String sparepartDealStatus = comSparepartDeal.getSparepartDealStatus();
+			ComSparepartDeal comSparepartDealChange = new ComSparepartDeal();
+			comSparepartDealChange.setSparepartDealId(sparepartDealId);
+			//申请
+			if("01".equals(change)&&"00".equals(sparepartDealStatus)){
+				comSparepartDealChange.setSparepartDealStatus("01");
+				comSparepartDealService.change(comSparepartDealChange);
+				resultInfo.setResultCode("success");
+			}else
+			//成功
+			if("02".equals(change)&&"01".equals(sparepartDealStatus)){
+				comSparepartDealChange.setSparepartDealStatus("02");
+				comSparepartDealChange.setCheckId(ShiroSessionUtil.getUserId());
+				comSparepartDealChange.setCheckTime(new Date());
+				comSparepartDealChange.setRemarks("通过！");
+				comSparepartDealService.toPass(comSparepartDeal, comSparepartDealChange);
+				resultInfo.setResultCode("success");
+			}else
+			//失败
+			if("03".equals(change)&&"01".equals(sparepartDealStatus)){
+				comSparepartDealChange.setSparepartDealStatus("03");
+				comSparepartDealChange.setCheckId(ShiroSessionUtil.getUserId());
+				comSparepartDealChange.setCheckTime(new Date());
+				comSparepartDealChange.setRemarks("失败！");
+				comSparepartDealService.change(comSparepartDealChange);
+				resultInfo.setResultCode("success");
+			}else
+			//重新申请
+			if("04".equals(change)&&"03".equals(sparepartDealStatus)){
+				comSparepartDealChange.setSparepartDealStatus("01");
+				comSparepartDealService.change(comSparepartDealChange);
+				resultInfo.setResultCode("success");
+			}
+		}
+		
 		
 		return AppUtil.returnResult(pd, resultInfo);
-	}	
+	}
 
 }

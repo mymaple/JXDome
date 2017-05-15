@@ -5,18 +5,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.config.BgPage;
-import com.jx.background.util.BgSessionUtil;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.PageData;
 import com.jx.common.config.ResultInfo;
+import com.jx.common.config.exception.UncheckedException;
 import com.jx.common.entity.ComOrder;
 import com.jx.common.entity.ComOrderDetail;
 import com.jx.common.entity.ComProduct;
@@ -26,7 +24,6 @@ import com.jx.common.entity.ComShopCar;
 import com.jx.common.entity.ComSupplier;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleDecimalUtil;
-import com.jx.common.util.MapleStringUtil;
 import com.jx.weixin.util.WxSessionUtil;
 import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComOrderService;
@@ -63,156 +60,47 @@ public class WxOrderController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		ResultInfo resultInfo = this.getResultInfo();
 		String userId = WxSessionUtil.getUserId();
-		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByUserIdSE(userId);
+		mv.setViewName("weixin/wxResult");
 		
+		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByUSE(userId);
 		ComProduct comProduct = comProductSEService.findProductByProductStyleIdSE(productStyleId);
 		if(comProduct == null){
 			resultInfo.setResultContent("商品已下架");
+			resultInfo.setResultUrl("weixin/index/toIndex");
 			mv.addObject(resultInfo);
-			mv.setViewName("weixin/wxResult");
 			return mv;
 		}
+		
 		ComProductStyle comProductStyle = comProduct.getComProductStyle();
 		if(count < 1 || count>Integer.parseInt(comProductStyle.getStockNum())){
 			resultInfo.setResultContent("库存不足");
+			resultInfo.setResultUrl("weixin/product/toProductDetail.do?productId="+comProduct.getProductId());
 			mv.addObject(resultInfo);
-			mv.setViewName("weixin/wxResult");
 			return mv;
 		}
 		
-		ComOrder comOrder = new ComOrder();
-		
-		String allPrice = ""+MapleDecimalUtil.multiplyDefealt(comProductStyle.getOriginalPrice(), count);
-		String allActPrice = ""+MapleDecimalUtil.multiplyDefealt(comProductStyle.getCurrentPrice(), count);
-		String allDisPrice = ""+MapleDecimalUtil.subtractDefealt(allPrice, allActPrice);
-		
-		comOrder.setOrderProductCount(""+count);
-		comOrder.setAllPrice(allPrice);
-		comOrder.setAllActPrice(allActPrice);
-		comOrder.setAllDisPrice(allDisPrice);
-		
-		ComSupplier comSupplier = comSupplierService.findById(comProduct.getSupplierId());
-		comOrder.setFreight(null);
-		comOrder.setSupplierId(comSupplier.getSupplierId());
-		comOrder.setSupplierName(comSupplier.getSupplierName());
-		
-		comOrder.setOrderType("01");
-		comOrder.setOrderStatus("01");
-		comOrder.setReceiveAddressId(comReceiveAddress==null?"":comReceiveAddress.getReceiveAddressId());
-		comOrder.setAppUserId(userId);
-		
-		ComOrderDetail comOrderDetail = new ComOrderDetail();
-		comOrderDetail.setProductId(comProduct.getProductId());
-		comOrderDetail.setHeadImgSrc(comProduct.getHeadImgSrc());
-		comOrderDetail.setProductName(comProduct.getProductName());
-		comOrderDetail.setSummary(comProduct.getSummary());
-		comOrderDetail.setCount(""+count);
-		comOrderDetail.setProductStyleId(comProductStyle.getProductStyleId());
-		comOrderDetail.setProductStyleName(comProductStyle.getProductStyleName());
-		comOrderDetail.setCurrentPrice(comProductStyle.getCurrentPrice());
-		comOrderDetail.setOriginalPrice(comProductStyle.getOriginalPrice());
-		comOrder.getComOrderDetailList().add(comOrderDetail);
-		
-		String pay = allActPrice;
-		
-		String integralCount = comAppUserExtService.toGetIntegralCount(userId);
-		if(MapleDecimalUtil.subtractDefealt(integralCount, pay)<0){
-			resultInfo.setResultContent("积分不足");
-			mv.addObject(resultInfo);
-			mv.setViewName("weixin/wxResult");
-			return mv;
-		}
-		
-		comOrderService.toConfirmOrder1(comOrder);
-		
-		List<ComOrder> comOrderList = new ArrayList<ComOrder>();
-		comOrderList.add(comOrder);
-		
-		mv.addObject("comReceiveAddress", comReceiveAddress);
-		mv.addObject("comOrderList", comOrderList);
-		mv.addObject("pay", pay);
-		mv.addObject("payCount", count);
-		
-		mv.setViewName("weixin/order/wxConfirmOrder");
-		return mv;
-	}
-	
-	
-	/**
-	 * 购物车购买
-	 */
-	@RequestMapping(value = "/toConfirmOrder2")
-	public ModelAndView toConfirmOrder2() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
-		ResultInfo resultInfo = this.getResultInfo();
-		String userId = WxSessionUtil.getUserId();
-		
-		String shopCarIds = pd.getString("shopCarId");
-		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByUserIdSE(userId);
-		String[] shopCarIdArr = shopCarIds.split(",");
-		List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUserSE(userId,shopCarIdArr);
-		
-		if(comShopCarList.size()!=shopCarIdArr.length){
-			resultInfo.setResultContent("购物车商品已购买");
-			mv.addObject(resultInfo);
-			mv.setViewName("weixin/wxResult");
-			return mv;
-		}
-		
-		List<ComOrder> comOrderList = new ArrayList<ComOrder>();
-		ComOrder comOrder = new ComOrder();
-		
-		String supplierId = "";
-		
-		String pay = "0";
-		String payCount = "0";
-		
-		String allCount = "0";
-		String allPrice = "0";
-		String allActPrice = "0";
-		String allDisPrice = "0";
-		
-		for (int i = 0; i < comShopCarList.size(); i++) {
-			ComShopCar comShopCar = comShopCarList.get(i);
-			ComProduct comProduct = comShopCar.getComProduct();
-			int count = Integer.parseInt(comShopCar.getCount());
-			ComProductStyle comProductStyle = comProduct.getComProductStyle();
-			if(count < 1 || count>Integer.parseInt(comProductStyle.getStockNum())){
-				resultInfo.setResultContent("库存不足");
-				mv.addObject(resultInfo);
-				mv.setViewName("weixin/wxResult");
-				return mv;
-			}
+		try {
+			ComOrder comOrder = new ComOrder();
 			
-			if(!supplierId.equals(comProduct.getSupplierId())){
-				if(i!=0){
-					comOrder.setOrderProductCount(allCount);
-					comOrder.setAllPrice(allPrice);
-					comOrder.setAllActPrice(allActPrice);
-					comOrder.setAllDisPrice(allDisPrice);
-					comOrderList.add(comOrder);
-					
-					allPrice = "0";
-					allActPrice = "0";
-					allDisPrice = "0";
-					allCount = "0";
-				}
-					
-				comOrder = new ComOrder();
-				ComSupplier comSupplier = comSupplierService.findById(comProduct.getSupplierId());
-				comOrder.setFreight("0");
-				comOrder.setSupplierId(comSupplier.getSupplierId());
-				comOrder.setSupplierName(comSupplier.getSupplierName());
-				
-				comOrder.setOrderType("01");
-				comOrder.setOrderStatus("01");
-				comOrder.setReceiveAddressId(comReceiveAddress==null?"":comReceiveAddress.getReceiveAddressId());
-				comOrder.setAppUserId(userId);
-				
-				supplierId = comProduct.getSupplierId();
-				
-			}
+			String allPrice = ""+MapleDecimalUtil.multiplyDefealt(comProductStyle.getOriginalPrice(), count);
+			String allActPrice = ""+MapleDecimalUtil.multiplyDefealt(comProductStyle.getCurrentPrice(), count);
+			String allDisPrice = ""+MapleDecimalUtil.subtractDefealt(allPrice, allActPrice);
+			
+			comOrder.setOrderProductCount(""+count);
+			comOrder.setAllPrice(allPrice);
+			comOrder.setAllActPrice(allActPrice);
+			comOrder.setAllDisPrice(allDisPrice);
+			
+			ComSupplier comSupplier = comSupplierService.findById(comProduct.getSupplierId());
+			comOrder.setFreight("0");
+			comOrder.setWalletPay("0");
+			comOrder.setSupplierId(comSupplier.getSupplierId());
+			comOrder.setSupplierName(comSupplier.getSupplierName());
+			
+			comOrder.setOrderType("01");
+			comOrder.setOrderStatus("01");
+			comOrder.setReceiveAddressId(comReceiveAddress==null?"":comReceiveAddress.getReceiveAddressId());
+			comOrder.setAppUserId(userId);
 			
 			ComOrderDetail comOrderDetail = new ComOrderDetail();
 			comOrderDetail.setProductId(comProduct.getProductId());
@@ -226,62 +114,192 @@ public class WxOrderController extends BaseController {
 			comOrderDetail.setOriginalPrice(comProductStyle.getOriginalPrice());
 			comOrder.getComOrderDetailList().add(comOrderDetail);
 			
+			String pay = allActPrice;
 			
-			pay = ""+MapleDecimalUtil.addDefealt(pay, MapleDecimalUtil.multiplyDefealt(comProductStyle.getCurrentPrice(), count));
-			payCount = ""+MapleDecimalUtil.addDefealt(payCount, count);
+			String integralCount = comAppUserExtService.toGetIntegralCount(userId);
+			if(MapleDecimalUtil.subtractDefealt(integralCount, pay)<0){
+				resultInfo.setResultContent("积分不足");
+				mv.addObject(resultInfo);
+				return mv;
+			}
 			
-			allCount = ""+MapleDecimalUtil.addDefealt(allCount, count);
+			comOrderService.toConfirmOrder1(comOrder);
 			
-			allPrice = ""+MapleDecimalUtil.addDefealt(allPrice, MapleDecimalUtil.multiplyDefealt(comProductStyle.getOriginalPrice(), count));
-			allActPrice = ""+MapleDecimalUtil.addDefealt(allActPrice, MapleDecimalUtil.multiplyDefealt(comProductStyle.getCurrentPrice(), count));
+			List<ComOrder> comOrderList = new ArrayList<ComOrder>();
+			comOrderList.add(comOrder);
 			
-			allDisPrice = ""+MapleDecimalUtil.subtractDefealt(allPrice, allActPrice);
-		}
-		
-		comOrder.setOrderProductCount(allCount);
-		comOrder.setAllPrice(allPrice);
-		comOrder.setAllActPrice(allActPrice);
-		comOrder.setAllDisPrice(allDisPrice);
-		comOrderList.add(comOrder);
-		
-		String integralCount = comAppUserExtService.toGetIntegralCount(userId);
-		if(MapleDecimalUtil.subtractDefealt(integralCount, pay)<0){
-			resultInfo.setResultContent("积分不足");
+			resultInfo.setResultCode("success");
 			mv.addObject(resultInfo);
-			mv.setViewName("weixin/wxResult");
+			mv.addObject("comReceiveAddress", comReceiveAddress);
+			mv.addObject("comOrderList", comOrderList);
+			mv.addObject("pay", pay);
+			mv.addObject("payCount", count);
+			
+			mv.setViewName("weixin/order/wxConfirmOrder");
+		} catch (Exception e) {
+			resultInfo.setResultContent("订单生成失败");
+			resultInfo.setResultUrl("weixin/product/toProductDetail.do?productId="+comProduct.getProductId());
+			mv.addObject(resultInfo);
 			return mv;
 		}
-		comOrderService.toConfirmOrder2(comOrderList, shopCarIdArr);
-		mv.addObject("comReceiveAddress", comReceiveAddress);
-		mv.addObject("comOrderList", comOrderList);
-		mv.addObject("pay", pay);
-		mv.addObject("payCount", payCount);
 		
-		mv.setViewName("weixin/order/wxConfirmOrder");
+		return mv;
+	}
+	
+	
+	/**
+	 * 购物车购买
+	 */
+	@RequestMapping(value = "/toConfirmOrder2")
+	public ModelAndView toConfirmOrder2() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		String userId = WxSessionUtil.getUserId();
+		mv.setViewName("weixin/wxResult");
+		resultInfo.setResultUrl("weixin/shopCar/list.do");
+		
+		String shopCarIds = pd.getString("shopCarId");
+		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByUSE(userId);
+		String[] shopCarIdArr = shopCarIds.split(",");
+		List<ComShopCar> comShopCarList = comProductSEService.listShopCarByUSE(userId,shopCarIdArr);
+		
+		if(comShopCarList.size()!=shopCarIdArr.length){
+			resultInfo.setResultContent("购物车商品已购买");
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		
+		try {
+			List<ComOrder> comOrderList = new ArrayList<ComOrder>();
+			ComOrder comOrder = new ComOrder();
+			
+			String supplierId = "";
+			
+			String pay = "0";
+			String payCount = "0";
+			
+			String allCount = "0";
+			String allPrice = "0";
+			String allActPrice = "0";
+			String allDisPrice = "0";
+			
+			for (int i = 0; i < comShopCarList.size(); i++) {
+				ComShopCar comShopCar = comShopCarList.get(i);
+				ComProduct comProduct = comShopCar.getComProduct();
+				int count = Integer.parseInt(comShopCar.getCount());
+				ComProductStyle comProductStyle = comProduct.getComProductStyle();
+				if(count < 1 || count>Integer.parseInt(comProductStyle.getStockNum())){
+					resultInfo.setResultContent("库存不足");
+					mv.addObject(resultInfo);
+					return mv;
+				}
+				
+				if(!supplierId.equals(comProduct.getSupplierId())){
+					if(i!=0){
+						comOrder.setOrderProductCount(allCount);
+						comOrder.setAllPrice(allPrice);
+						comOrder.setAllActPrice(allActPrice);
+						comOrder.setAllDisPrice(allDisPrice);
+						comOrderList.add(comOrder);
+						
+						allPrice = "0";
+						allActPrice = "0";
+						allDisPrice = "0";
+						allCount = "0";
+					}
+						
+					comOrder = new ComOrder();
+					ComSupplier comSupplier = comSupplierService.findById(comProduct.getSupplierId());
+					comOrder.setFreight("0");
+					comOrder.setWalletPay("0");
+					comOrder.setSupplierId(comSupplier.getSupplierId());
+					comOrder.setSupplierName(comSupplier.getSupplierName());
+					
+					comOrder.setOrderType("01");
+					comOrder.setOrderStatus("01");
+					comOrder.setReceiveAddressId(comReceiveAddress==null?"":comReceiveAddress.getReceiveAddressId());
+					comOrder.setAppUserId(userId);
+					
+					supplierId = comProduct.getSupplierId();
+					
+				}
+				
+				ComOrderDetail comOrderDetail = new ComOrderDetail();
+				comOrderDetail.setProductId(comProduct.getProductId());
+				comOrderDetail.setHeadImgSrc(comProduct.getHeadImgSrc());
+				comOrderDetail.setProductName(comProduct.getProductName());
+				comOrderDetail.setSummary(comProduct.getSummary());
+				comOrderDetail.setCount(""+count);
+				comOrderDetail.setProductStyleId(comProductStyle.getProductStyleId());
+				comOrderDetail.setProductStyleName(comProductStyle.getProductStyleName());
+				comOrderDetail.setCurrentPrice(comProductStyle.getCurrentPrice());
+				comOrderDetail.setOriginalPrice(comProductStyle.getOriginalPrice());
+				comOrder.getComOrderDetailList().add(comOrderDetail);
+				
+				
+				pay = ""+MapleDecimalUtil.addDefealt(pay, MapleDecimalUtil.multiplyDefealt(comProductStyle.getCurrentPrice(), count));
+				payCount = ""+MapleDecimalUtil.addDefealt(payCount, count);
+				
+				allCount = ""+MapleDecimalUtil.addDefealt(allCount, count);
+				
+				allPrice = ""+MapleDecimalUtil.addDefealt(allPrice, MapleDecimalUtil.multiplyDefealt(comProductStyle.getOriginalPrice(), count));
+				allActPrice = ""+MapleDecimalUtil.addDefealt(allActPrice, MapleDecimalUtil.multiplyDefealt(comProductStyle.getCurrentPrice(), count));
+				
+				allDisPrice = ""+MapleDecimalUtil.subtractDefealt(allPrice, allActPrice);
+			}
+			
+			comOrder.setOrderProductCount(allCount);
+			comOrder.setAllPrice(allPrice);
+			comOrder.setAllActPrice(allActPrice);
+			comOrder.setAllDisPrice(allDisPrice);
+			comOrderList.add(comOrder);
+			
+			String integralCount = comAppUserExtService.toGetIntegralCount(userId);
+			if(MapleDecimalUtil.subtractDefealt(integralCount, pay)<0){
+				resultInfo.setResultContent("积分不足");
+				mv.addObject(resultInfo);
+				return mv;
+			}
+			comOrderService.toConfirmOrder2(comOrderList, shopCarIdArr);
+			
+			resultInfo.setResultCode("success");
+			mv.addObject(resultInfo);
+			mv.addObject("comReceiveAddress", comReceiveAddress);
+			mv.addObject("comOrderList", comOrderList);
+			mv.addObject("pay", pay);
+			mv.addObject("payCount", payCount);
+			
+			mv.setViewName("weixin/order/wxConfirmOrder");
+		} catch (Exception e) {
+			resultInfo.setResultContent("订单生成失败");
+			mv.addObject(resultInfo);
+		}
+		
 		return mv;
 	}
 
 	/**
-	 * 直接购买
+	 * 选择收货地址
 	 */
 	@RequestMapping(value = "/toConfirmOrder3")
 	public ModelAndView toConfirmOrder3(@RequestParam String receiveAddressId) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		ResultInfo resultInfo = this.getResultInfo();
+		resultInfo.setResultUrl("weixin/order/list.do?state=01");
 		mv.setViewName("weixin/wxResult");
 		
 		String userId = WxSessionUtil.getUserId();
 		String orderIds = WxSessionUtil.getOrderIdcra();
 		
-		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByUserIdAndIdE(userId, receiveAddressId);
+		ComReceiveAddress comReceiveAddress = comReceiveAddressService.findByIdUE(userId, receiveAddressId);
 		if(comReceiveAddress == null){
 			resultInfo.setResultContent("收货地址异常");
 			mv.addObject(resultInfo);
 			return mv;
 		}
 		
-		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED("01", userId, orderIds.split(","));
-		
+		List<ComOrder> comOrderList = comOrderService.listByIdsSED("01", userId, orderIds.split(","));
 		if(comOrderList==null || comOrderList.size()==0){
 			resultInfo.setResultContent("订单异常");
 			mv.addObject(resultInfo);
@@ -292,11 +310,13 @@ public class WxOrderController extends BaseController {
 		String payCount = "0";
 		for (int i = 0; i < comOrderList.size(); i++) {
 			ComOrder comOrder = comOrderList.get(i);
-			comOrderService.changeReceiveAddressIdByU(comOrder.getOrderId(), userId, receiveAddressId);
+			comOrderService.changeReceiveAddressIdByIdUSE(comOrder.getOrderId(), userId, receiveAddressId);
 			pay = ""+MapleDecimalUtil.addDefealt(pay, comOrder.getAllActPrice());
 			payCount = ""+MapleDecimalUtil.addDefealt(payCount, comOrder.getOrderProductCount());
 		}
 		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comReceiveAddress", comReceiveAddress);
 		mv.addObject("comOrderList", comOrderList);
 		mv.addObject("pay", pay);
@@ -320,7 +340,7 @@ public class WxOrderController extends BaseController {
 		String userId = WxSessionUtil.getUserId();
 		String orderIds = pd.getString("orderId");
 		
-		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED("01", userId, orderIds.split(","));
+		List<ComOrder> comOrderList = comOrderService.listByIdsSED("01", userId, orderIds.split(","));
 		
 		if(comOrderList==null || comOrderList.size()==0){
 			resultInfo.setResultContent("订单异常");
@@ -336,15 +356,14 @@ public class WxOrderController extends BaseController {
 		
 		String integralCount = comAppUserExtService.toGetIntegralCount(userId);
 		
-		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comOrderList", comOrderList);
 		mv.addObject("pay", pay);
 		mv.addObject("integralCount", integralCount);
 		
-		resultInfo.setResultCode("success");
 		mv.setViewName("weixin/order/wxChoosePay");
 
-		mv.addObject(resultInfo);
 		return mv;
 	}
 	
@@ -357,15 +376,24 @@ public class WxOrderController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		ResultInfo resultInfo = this.getResultInfo();
 		PageData pd = this.getPageData();
-		
+		mv.setViewName("weixin/wxResult");
 		
 		String orderIds = pd.getString("orderId");
+		String remarks = pd.getString("remark");
 		String userId = WxSessionUtil.getUserId();
 		
-		comOrderService.toPayByUserE(userId, orderIds.split(","));
-		
-		resultInfo.setResultCode("success");
-		mv.setViewName("weixin/wxResult");
+		try {
+			comOrderService.toPayByUSE(userId, orderIds.split(","), remarks.split(","));
+			resultInfo.setResultContent("支付成功");
+			resultInfo.setResultUrl("weixin/index/toIndex.do");
+			resultInfo.setResultCode("success");
+		} catch (UncheckedException e) {
+			resultInfo.setResultContent(e.getErrorMessage());
+			resultInfo.setResultUrl("weixin/order/list.do?state=01");
+		} catch (Exception e) {
+			resultInfo.setResultContent("支付失败");
+			resultInfo.setResultUrl("weixin/order/list.do?state=01");
+		}
 
 		mv.addObject(resultInfo);
 		return mv;
@@ -380,18 +408,18 @@ public class WxOrderController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
-		mv.setViewName("background/bgResult");
+		mv.setViewName("weixin/wxResult");
 		
 		String state = pd.getString("state");
 		String userId = WxSessionUtil.getUserId();
-		List<ComOrder> comOrderList = comOrderService.listByOrderIdsSED(state, userId, null);
+		List<ComOrder> comOrderList = comOrderService.listByIdsSED(state, userId, null);
 		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comOrderList", comOrderList);
 		mv.addObject("state", state);
-		resultInfo.setResultCode("success");
 		mv.setViewName("weixin/order/wxOrderList");
 
-		mv.addObject(resultInfo);
 		return mv;
 	}
 	
@@ -405,7 +433,7 @@ public class WxOrderController extends BaseController {
 		mv.setViewName("weixin/wxResult");
 		String userId = WxSessionUtil.getUserId();
 		
-		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		ComOrder comOrder = comOrderService.findByIdUED(orderId, userId);
 		if(comOrder==null){
 			resultInfo.setResultContent("订单异常");
 			mv.addObject(resultInfo);
@@ -433,9 +461,8 @@ public class WxOrderController extends BaseController {
 		}
 		
 		resultInfo.setResultCode("success");
-		
-
 		mv.addObject(resultInfo);
+		
 		return mv;
 	}
 
@@ -450,7 +477,7 @@ public class WxOrderController extends BaseController {
 		mv.setViewName("weixin/wxResult");
 		String userId = WxSessionUtil.getUserId();
 		
-		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		ComOrder comOrder = comOrderService.findByIdUED(orderId, userId);
 		if(comOrder==null){
 			resultInfo.setResultContent("订单异常");
 			mv.addObject(resultInfo);
@@ -520,16 +547,14 @@ public class WxOrderController extends BaseController {
 		
 		comOrderService.toConfirmOrder1(comOrder1);
 		
+		resultInfo.setResultCode("success");
+		mv.addObject(resultInfo);
 		mv.addObject("comReceiveAddress", comReceiveAddress);
 		mv.addObject("comOrderList", comOrderList);
 		mv.addObject("pay", pay);
 		mv.addObject("payCount", payCount);
-		
-		
 		mv.setViewName("weixin/order/wxConfirmOrder");
-		resultInfo.setResultCode("success");
 
-		mv.addObject(resultInfo);
 		return mv;
 	}
 	
@@ -543,7 +568,7 @@ public class WxOrderController extends BaseController {
 		mv.setViewName("weixin/wxResult");
 		String userId = WxSessionUtil.getUserId();
 		
-		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		ComOrder comOrder = comOrderService.findByIdUED(orderId, userId);
 		if(comOrder==null){
 			resultInfo.setResultContent("订单异常");
 			mv.addObject(resultInfo);
@@ -567,17 +592,17 @@ public class WxOrderController extends BaseController {
 		mv.setViewName("weixin/wxResult");
 		String userId = WxSessionUtil.getUserId();
 		
-		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		ComOrder comOrder = comOrderService.findByIdUED(orderId, userId);
 		if(comOrder==null){
 			resultInfo.setResultContent("订单异常");
 			mv.addObject(resultInfo);
 			return mv;
 		}
 		
-		mv.setViewName("weixin/order/wxRefund");
 		resultInfo.setResultCode("success");
-		
 		mv.addObject(resultInfo);
+		mv.setViewName("weixin/order/wxRefund");
+
 		return mv;
 	}
 	
@@ -591,17 +616,17 @@ public class WxOrderController extends BaseController {
 		mv.setViewName("weixin/wxResult");
 		String userId = WxSessionUtil.getUserId();
 		
-		ComOrder comOrder = comOrderService.findByUserED(orderId, userId);
+		ComOrder comOrder = comOrderService.findByIdUED(orderId, userId);
 		if(comOrder==null){
 			resultInfo.setResultContent("订单异常");
 			mv.addObject(resultInfo);
 			return mv;
 		}
 		
-		mv.setViewName("weixin/order/wxEvaluate");
 		resultInfo.setResultCode("success");
-		
 		mv.addObject(resultInfo);
+		mv.setViewName("weixin/order/wxEvaluate");
+
 		return mv;
 	}
 	
@@ -632,7 +657,26 @@ public class WxOrderController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		
 		String userId = WxSessionUtil.getUserId();
+		resultInfo.setResultContent("已经发出发货提醒");
+		resultInfo.setResultCode("success");
 		
+		return AppUtil.returnResult(pd, resultInfo);
+	}
+	
+	/**
+	 * 想要退款
+	 */
+	@RequestMapping(value="/toWantRefund")
+	@ResponseBody
+	public Object toWantRefund(@RequestParam String orderId) throws Exception{
+		PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		
+		String userId = WxSessionUtil.getUserId();
+		ComOrder comOrder = new ComOrder();
+		comOrder.setOrderId(orderId);
+		comOrder.setAppUserId(userId);
+		comOrderService.changeStatusByUSE("06", comOrder);
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);
@@ -648,8 +692,10 @@ public class WxOrderController extends BaseController {
 		ResultInfo resultInfo = this.getResultInfo();
 		
 		String userId = WxSessionUtil.getUserId();
-		
-		comOrderService.changeStatusByUSE("05", orderId, userId);
+		ComOrder comOrder = new ComOrder();
+		comOrder.setOrderId(orderId);
+		comOrder.setAppUserId(userId);
+		comOrderService.changeStatusByUSE("05", comOrder);
 		resultInfo.setResultCode("success");
 		
 		return AppUtil.returnResult(pd, resultInfo);

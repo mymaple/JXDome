@@ -104,14 +104,12 @@
 	<script type="text/javascript">
 		$(top.hangge());
 		
-		
 		function integralChange(){
 			var allIntegral = $("#allIntegral").val();
 			$("#integral1").val(allIntegral*0.05);
 			$("#integral2").val(allIntegral*0.15);
 			$("#integral3").val(allIntegral*0.8);
 		}
-		
 		
 		//判断sparepartCode是否存在
 		function otherNotCode(){
@@ -167,7 +165,7 @@
 		        });
 			return false;
 			}
-			if(!intExp.test($("#allIntegral").val())){
+			if(!deciExp.test($("#allIntegral").val())){
 				$("#allIntegral").tips({
 					side:3,
 		            msg:'请输入总积分 最多为两位小数',
@@ -177,7 +175,7 @@
 				$("#allIntegral").focus();
 			return false;
 			}
-			if(!intExp.test($("#integral1").val())){
+			if(!deciExp.test($("#integral1").val())){
 				$("#integral1").tips({
 					side:3,
 		            msg:'请输入大区经理可获积分 最多为两位小数',
@@ -187,7 +185,7 @@
 				$("#integral1").focus();
 			return false;
 			}
-			if(!intExp.test($("#integral2").val())){
+			if(!deciExp.test($("#integral2").val())){
 				$("#integral2").tips({
 					side:3,
 		            msg:'请输入小区经理可获积分 最多为两位小数',
@@ -197,7 +195,7 @@
 				$("#integral2").focus();
 			return false;
 			}
-			if(!intExp.test($("#integral3").val())){
+			if(!deciExp.test($("#integral3").val())){
 				$("#integral3").tips({
 					side:3,
 		            msg:'请输入4S店可获积分 最多为两位小数',
@@ -207,7 +205,7 @@
 				$("#integral3").focus();
 			return false;
 			}
-			if(!intExp.test($("#integral4").val())){
+			if(!deciExp.test($("#integral4").val())){
 				$("#integral4").tips({
 					side:3,
 		            msg:'请输入销售员可获积分 最多为两位小数',

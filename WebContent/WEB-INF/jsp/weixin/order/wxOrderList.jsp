@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
+<%@ page import="com.jx.common.config.Const"  %>
 
 <%
 	String path = request.getContextPath();
@@ -15,17 +16,16 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-	<link rel="stylesheet" href="weui/dist/style/weui.min.css"/>
-	<script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+	<script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?${resultInfo.version}"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
@@ -63,7 +63,12 @@
 		$.post("<%=basePath%>weixin/order/toRemind.do",{orderId:orderId},
 				function(data){
 			if(data.resultCode=='success'){
-				window.location.reload();
+				layer.open({
+			    	content: data.resultContent
+			    	,skin: 'msg'
+			    	,time: 2 //2秒后自动关闭
+			 	});
+				//window.location.reload();
 			}else{
 				layer.open({
 			    	content: data.resultContent
@@ -78,8 +83,20 @@
 		window.location.href = "<%=basePath%>weixin/order/toWl.do?orderId="+orderId;
 	}
 	
-	function toRefund(orderId){
-		window.location.href = "<%=basePath%>weixin/order/toRefund.do?orderId="+orderId;
+	function toWantRefund(orderId){
+		$.post("<%=basePath%>weixin/order/toWantRefund.do",{orderId:orderId},
+				function(data){
+			if(data.resultCode=='success'){
+				window.location.reload();
+			}else{
+				layer.open({
+			    	content: data.resultContent
+			    	,skin: 'msg'
+			    	,time: 2 //2秒后自动关闭
+			 	});
+			}
+		});
+		<%-- window.location.href = "<%=basePath%>weixin/order/toRefund.do?orderId="+orderId; --%>
 	}
 	
 	function toConfirmReceive(orderId){
@@ -132,9 +149,10 @@
         <c:when test="${not empty comOrderList}">
 		<c:forEach items="${comOrderList}" var="comOrder" varStatus="vs">
 	    
-	      <div class="order-list clearfloat" onclick="toOrderDetail('${comOrder.orderId}');">
+	      <div class="order-list clearfloat">
+	      	<div onclick="toOrderDetail('${comOrder.orderId}');">
     		  <p class="ordernum box-s">
-	    			订单  ${comOrder.orderCode } <span class="fr"><param:display type="com_orderState" value="${comOrder.orderStatus}"/></span>    			
+	    			订单  ${comOrder.orderCode } <span class="fr"><param:display type="com_orderStatus" value="${comOrder.orderStatus}"/></span>    			
     		  </p>
     		  <c:choose>
 		        <c:when test="${not empty comOrder.comOrderDetailList}">
@@ -142,7 +160,7 @@
 				
 	    		<div class="list clearfloat fl box-s">
 	    			<div class="tu fl clearfloat">
-	    				<img src="${comOrderDetail.headImgSrc}"/>
+	    				<img src="<%=Const.BG_WEBSITE %>/${comOrderDetail.headImgSrc}"/>
 	    			</div>
 	    			<div class="middle clearfloat fl">
 	    				<p class="tit">${comOrderDetail.productName}</p>
@@ -160,7 +178,7 @@
 	    				<p class="odr-jg box-s">
 			    			合计：<span>${comOrder.allActPrice}</span>（优惠：${comOrder.allDisPrice}）
 			    		</p>
-			    		
+			   </div> 		
 		    		<c:if test="${comOrder.orderStatus == '00' }">
 		    			<a onclick="toBuyMore('${comOrder.orderId}');" class="blue-btn ra3 fr">再次购买</a>
 		    		</c:if>
@@ -172,8 +190,9 @@
 		    			<a onclick="toRemind('${comOrder.orderId}');" class="lijzf-btn ra3 fr">提醒发货</a>
 		    		</c:if>
 		    		<c:if test="${comOrder.orderStatus == '03' }">
-		    			<a onclick="toWl('${comOrder.orderId}');" class="blue-btn ra3 fr">查看物流</a>
-		    			<a onclick="toRefund('${comOrder.orderId}');" class="gray-btn ra3 fr">我要退款</a>
+		    			<%-- <a onclick="toWl('${comOrder.orderId}');" class="blue-btn ra3 fr">查看物流</a> --%>
+		    			<a href="http://dh.cx/${comOrder.wlNum}" class="blue-btn ra3 fr">查看物流</a>
+		    			<%-- <a onclick="toWantRefund('${comOrder.orderId}');" class="gray-btn ra3 fr">我要退款</a> --%>
 		    			<a onclick="toConfirmReceive('${comOrder.orderId}');" class="blue-btn ra3 fr">确认收货</a>
 		    		</c:if>
 		    		<c:if test="${comOrder.orderStatus == '04' }">
@@ -197,8 +216,8 @@
             </c:choose>
 	    </div>
 	    
-	    
-	    		<!--footer star-->
+	    <div class="warp"></div>
+	    <!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
 				<li>
@@ -230,8 +249,7 @@
 		<!--footer end-->
 	</body>
 
-	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
-	<script src="weui/gemo/js/mui.min.js"></script>
-	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
+	<script src="weui/gemo/js/mui.min.js?${resultInfo.version}"></script>
+	<script type="text/javascript" src="weui/gemo/js/hmt.js?${resultInfo.version}" ></script>
 
 </html>

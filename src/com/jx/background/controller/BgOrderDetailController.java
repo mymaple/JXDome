@@ -416,6 +416,27 @@ public class BgOrderDetailController extends BaseController {
 		return mv;
 	}
 	
-	
+	/**
+	 * 去修改页面
+	 */
+	@RequestMapping(value="/toInfo")
+	public ModelAndView toInfo(@RequestParam String orderDetailId) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//PageData pd = this.getPageData();
+		ResultInfo resultInfo = this.getResultInfo();
+		mv.setViewName("background/bgResult");
+		
+		ComOrderDetail comOrderDetail = comOrderDetailService.findById(orderDetailId);	//根据ID读取
+		if(comOrderDetail == null){
+			mv.addObject(resultInfo);
+			return mv;
+		}
+		mv.addObject(comOrderDetail);
+		resultInfo.setResultCode("success");
+		mv.setViewName("background/orderDetail/bgOrderDetailInfo");
+		
+		mv.addObject(resultInfo);						
+		return mv;
+	}	
 
 }

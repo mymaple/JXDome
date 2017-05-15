@@ -3,7 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
+<%@ page import="com.jx.common.config.Const"  %>
 <%
+	response.setHeader("Cache-Control","no-store");  
+	response.setDateHeader("Expires", 0);  
+	response.setHeader("Pragma","no-cache");  
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -14,21 +18,22 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>格陌汽配</title>
-	<script src="weui/gemo/js/rem.js"></script> 
-    <script src="weui/gemo/js/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?231"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?213"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?12312"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?12312"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?2312"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css"/>
-    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?adasd"/>
-    <link rel="stylesheet" type="text/css" href="plugins/layer/style/layer.css"/>
-	<script type="text/javascript" src="plugins/layer/js/layer.js"></script>
+	<script src="weui/gemo/js/rem.js?${resultInfo.version}"></script> 
+    <script src="weui/gemo/js/jquery.min.js?${resultInfo.version}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/base.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/page.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/all.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/mui.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loaders.min.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/css/loading.css?${resultInfo.version}"/>
+    <link rel="stylesheet" type="text/css" href="weui/gemo/slick/slick.css?${resultInfo.version}"/>
+	<script type="text/javascript" src="plugins/layer/js/layer.js?${resultInfo.version}"></script>
 <script type="text/javascript">
+
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
 		$(".loading").fadeOut(300);
+		toGetAllPay();
 	});
 	
 	function toProductDetail(productId){
@@ -36,14 +41,42 @@
 	}
 	
 	function toConfirmOrder(){
-		
-		/* if(){
-			
-		} */
-		
+		var shopCarIdChecks = $("input[name='shopCarId']:checked");
+		if(shopCarIdChecks.length==0){
+			layer.open({
+		    	content: '请选择购买商品'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			return false;
+		}
+		for(var i=0; i<shopCarIdChecks.length; i++){ 
+			var shopCarId = shopCarIdChecks[i].value;
+			var count = Number($('#count_'+shopCarId).val());
+			var stockNum = Number($('#stockNum_'+shopCarId).val());
+			if(count==0){
+				layer.open({
+			    	content: '请输入购买商品数量'
+			    	,skin: 'msg'
+			    	,time: 2 //2秒后自动关闭
+			 	});
+				return false;
+			}else if(count>stockNum){
+				layer.open({
+			    	content: '超出库存'
+			    	,skin: 'msg'
+			    	,time: 2 //2秒后自动关闭
+			 	});
+				return false;
+			}
+		}
+		layer.open({
+		    type: 2
+		    ,shadeClose: false
+		    ,content: '正在处理，请稍候...'
+		  });
 		$("#shopCarForm").submit();
 	}
-	
 	
 	function toGetAllPay(){
 		var shopCarIdChecks = $("input[name='shopCarId']:checked");
@@ -55,6 +88,7 @@
 			shopCarIdChecksStr += shopCarIdChecks[i].value + ",";
 		}
 		shopCarIdChecksStr = shopCarIdChecksStr.substring(0, shopCarIdChecksStr.length-1);
+		
 		$.post("<%=basePath%>weixin/shopCar/toGetAllPay",{shopCarIds:shopCarIdChecksStr},
 			function(data){
 				if(data.resultCode=='success'){
@@ -84,31 +118,58 @@
 
 	//清空
 	function toDeletes(){
-		if(confirm("确定清除选中商品？")){
-			var shopCarIdChecks = $("input[name='shopCarId']:checked");
-			var shopCarIdChecksStr = "";
-			for(var i=0; i<shopCarIdChecks.length; i++){ 
-				shopCarIdChecksStr += shopCarIdChecks[i].value + ",";
-			}
-			shopCarIdChecksStr = shopCarIdChecksStr.substring(0, shopCarIdChecksStr.length-1);
-			$.post("<%=basePath%>weixin/shopCar/toDelete",{shopCarIds:shopCarIdChecksStr},
-					function(data){
-						if(data.resultCode=='success'){
-							window.location.reload();
-						}
-				});
+		
+		var shopCarIdChecks = $("input[name='shopCarId']:checked");
+		if(shopCarIdChecks.length==0){
+			layer.open({
+		    	content: '请先选择'
+		    	,skin: 'msg'
+		    	,time: 2 //2秒后自动关闭
+		 	});
+			return false;
 		}
+		
+		var shopCarIdChecksStr = "";
+		for(var i=0; i<shopCarIdChecks.length; i++){ 
+			shopCarIdChecksStr += shopCarIdChecks[i].value + ",";
+		}
+		
+		//询问框
+		layer.open({
+		    content: '确定清除选中商品？'
+		    ,btn: ['删除', '取消']
+		    ,yes: function(index){
+		    	
+		    	
+				shopCarIdChecksStr = shopCarIdChecksStr.substring(0, shopCarIdChecksStr.length-1);
+				$.post("<%=basePath%>weixin/shopCar/toDelete",{shopCarIds:shopCarIdChecksStr},
+						function(data){
+							if(data.resultCode=='success'){
+								window.location.reload();
+							}
+					});
+		    	
+		    	 layer.close(index);
+		    }
+		  });
 	}
 	
 	function toDelete(shopCarId){
-		if(confirm("确定删除？")){
-			$.post("<%=basePath%>weixin/shopCar/toDelete",{shopCarIds:shopCarId},
-				function(data){
-					if(data.resultCode=='success'){
-						window.location.reload();
-					}
-			});
-		}
+		  //询问框
+		  layer.open({
+		    content: '确定删除？'
+		    ,btn: ['删除', '取消']
+		    ,yes: function(index){
+		    	$.post("<%=basePath%>weixin/shopCar/toDelete",{shopCarIds:shopCarId},
+						function(data){
+							if(data.resultCode=='success'){
+								window.location.reload();
+							}
+					});
+		      layer.close(index);
+		    }
+		  });
+		
 	}
 	
 	function countL(shopCarId){
@@ -119,7 +180,7 @@
 		    	,skin: 'msg'
 		    	,time: 2 //2秒后自动关闭
 		 	});
-			changeCount(shopCarId,'1');
+			$('#count_'+shopCarId).val('1');
 		}else{
 			changeCount(shopCarId,count-1);
 		}
@@ -134,21 +195,25 @@
 		    	,skin: 'msg'
 		    	,time: 2 //2秒后自动关闭
 		 	});
+			$('#count').val(stockNum);
 		}else{
 			changeCount(shopCarId,count+1);
 		}
 	}
 	
 	function toChangeCount(shopCarId){
-		var count = Number($('#count_'+shopCarId).val());
+		var count = Number($('#count_'+shopCarId).val().replace(/[^0-9]*/g, ''));
 		var stockNum = Number($('#stockNum_'+shopCarId).val());
-		if(count>=stockNum){
+		if(count<1){
+			$('#count_'+shopCarId).val('');
+			return false;
+		}else if(count>stockNum){
 			layer.open({
 		    	content: '超出库存'
 		    	,skin: 'msg'
 		    	,time: 2 //2秒后自动关闭
 		 	});
-			changeCount(shopCarId,stockNum);
+			$('#count_'+shopCarId).val($('#count_'+shopCarId).val().substring(0, $('#count_'+shopCarId).val().length-1));
 		}else{
 			changeCount(shopCarId,count);
 		}
@@ -212,15 +277,11 @@
 	    	<div class="shopcar clearfloat">
 	    		<c:set var="supplierId" value=""/>
 					<c:forEach items="${comShopCarList}" var="comShopCar" varStatus="vs">
-	    		<c:if test="${comShopCar.comProduct.supplierId != supplierId && not empty supplierId}">
-	    		</div>
-	    		</c:if>
 	    		<c:if test="${comShopCar.comProduct.supplierId != supplierId || empty supplierId}">
 	    			<p class="gys-tit box-s">供应商：<param:display type="com_supplierEffective" value="${comShopCar.comProduct.supplierId}"/></p>
-	    		<div class="list clearfloat fl">
 	    		<c:set var="supplierId" value="${comShopCar.comProduct.supplierId }"/>
 	    		</c:if>
-	    		
+	    		<div class="list clearfloat fl">
 	    			<div class="xuan clearfloat fl">
 	    				<div class="radio" >
 						    <label>
@@ -232,7 +293,7 @@
 	    			
 		    			<div class="tu clearfloat fl" onclick="toProductDetail('${comShopCar.comProduct.productId }')">
 		    				<span></span>
-		    				<img src="${comShopCar.comProduct.headImgSrc }"/>
+		    				<img src="<%=Const.BG_WEBSITE %>/${comShopCar.comProduct.headImgSrc }"/>
 		    			</div>
 		    			<div class="right clearfloat fl">
 		    				<p class="tit over">${comShopCar.comProduct.productName }</p>
@@ -252,8 +313,10 @@
 		    					<i class="iconfont icon-lajixiang fr" onclick="toDelete('${comShopCar.shopCarId }');"></i>
 		    				</div>
 		    			</div>
+		    		</div>
 	    		</c:forEach>
 	    		</div>
+	    		
 	    	</div>
 	    </div>
 	    <!--settlement star-->
@@ -279,7 +342,7 @@
 	    
 	    </form>
 	    
-	    
+	    <div class="warp"></div>
 		<!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">
 			<ul>
@@ -311,13 +374,13 @@
 		</footer>
 		<!--footer end-->
 	</body>
-	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js" ></script>
-	<script src="weui/gemo/js/mui.min.js"></script>
-	<script src="weui/gemo/js/others.js?sdasd"></script>
-	<script type="text/javascript" src="weui/gemo/js/hmt.js" ></script>
-	<script src="weui/gemo/slick/slick.js" type="text/javascript" ></script>
+	<script type="text/javascript" src="weui/gemo/js/jquery-1.8.3.min.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/js/mui.min.js?${resultInfo.version}"></script>
+	<script src="weui/gemo/js/others.js?${resultInfo.version}"></script>
+	<script type="text/javascript" src="weui/gemo/js/hmt.js?${resultInfo.version}" ></script>
+	<script src="weui/gemo/slick/slick.js?${resultInfo.version}" type="text/javascript" ></script>
 	<!--插件-->
-	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css?asdas">
-	<script src="weui/gemo/js/swiper.jquery.min.js"></script>
+	<link rel="stylesheet" href="weui/gemo/css/swiper.min.css?${resultInfo.version}">
+	<script src="weui/gemo/js/swiper.jquery.min.js?${resultInfo.version}"></script>
 
 </html>

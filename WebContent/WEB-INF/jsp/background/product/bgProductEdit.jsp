@@ -58,6 +58,10 @@
 								<td><param:select type="com_productModelEffective" name="productModel" id="productModel" value="${comProduct.productModel}" placeholder="这里请选择 产品模型" title="产品模型" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">产品状态:</td>
+								<td><param:select type="com_productStatus" name="productStatus" id="productStatus" value="${comProduct.productStatus}" placeholder="这里请选择 产品状态" title="产品状态" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">摘要:</td>
 								<td><input type="text" name="summary" id="summary" value="${comProduct.summary}" maxlength="1000" placeholder="这里输入 摘要" title="摘要" style="width:98%;" /></td>
 							</tr>
@@ -94,7 +98,7 @@
 							</tr>
 							<tr>
 								<td colspan="2">
-									<file:upimg name="imgSrc3" count="4" value="${comProduct.imgSrc3}"/>
+									<file:upimg name="imgSrc3" value="${comProduct.imgSrc3}"/>
 								</td>
 							</tr>
 							<tr>
@@ -207,6 +211,15 @@
 				$("#productModel").next().tips({
 					side:3,
 		            msg:'请选择 产品模型',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+			return false;
+			}
+			if($("#productStatus").val()==""){
+				$("#productStatus").next().tips({
+					side:3,
+		            msg:'请选择 产品状态',
 		            bg:'#AE81FF',
 		            time:2
 		        });

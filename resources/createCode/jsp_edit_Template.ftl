@@ -74,7 +74,7 @@
 							</tr>
 					</#if>
 					<#if bgMapleDetail.mapleDetailCode = bgMaple.mapleCode+"Code" && bgMapleDetail.isEdit = "00">
-							<c:if test="${r"${methodPath == 'edit'}"}>
+							<c:if test="${r"${methodPath == 'edit'}"}">
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">${bgMapleDetail.mapleDetailName}:</td>
 								<td>${r"${"}${bgMaple.mapleEntityLower}${r"."}${bgMapleDetail.mapleDetailCode}${r"}"}</td>

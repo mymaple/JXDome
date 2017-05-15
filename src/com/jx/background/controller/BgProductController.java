@@ -94,6 +94,7 @@ public class BgProductController extends BaseController {
 		comProduct.setProductCode("");
 		comProduct.setProductName("");
 		comProduct.setProductType("01");
+		comProduct.setProductStatus("01");
 		comProduct.setProductModel("");
 		comProduct.setSummary("");
 		comProduct.setIntroduction("");

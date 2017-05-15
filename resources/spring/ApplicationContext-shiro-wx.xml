@@ -81,7 +81,8 @@
 			
 			<property name="filterChainDefinitions">
 				<value>
-				/MP_verify_uypCnRoqKLTZwBSp.txt			= anon
+				/MP_verify_gV1uVTCs6L0vv6lq.txt 		= anon
+				/MP_verify_uypCnRoqKLTZwBSp.txt 		= anon
 				/weui/**								= anon
 				/plugins/**								= anon
 				/static/** 								= anon
@@ -89,7 +90,7 @@
 				/uploadFiles/** 						= anon
 	           	/weixin/main/** 						= anon
 	           	/common/** 								= anon
-	           	/weixinSerlvet							= anon
+	           	<!-- /weixinSerlvet							= anon -->
 	           	/**										= authc
 				</value>
 			</property>

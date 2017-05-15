@@ -17,6 +17,7 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>  
 	<script type="text/javascript">
 	$(function() {
+		alert(location.href.split('#')[0]);
         var appId = $("#appId").val();//时间戳
         var timestamp = $("#timestamp").val();//时间戳
         var nonceStr = $("#nonceStr").val();//随机串
@@ -30,9 +31,10 @@
             jsApiList : [ 'scanQRCode' ]
         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
-    });
+    
 	//点击扫描按钮，扫描二维码并返回结果
 	  $("#scanQRCode").click(function() {
+		  alert("sadsad");
             wx.scanQRCode({
                 // 默认为0，扫描结果由微信处理，1则直接返回扫描结果
                 needResult : 1,
@@ -51,6 +53,7 @@
                 }
             });
         });
+	});
 	</script>  
 </head>
 <body>
@@ -59,6 +62,6 @@
 	<input type="hidden" id="nonceStr" value="${ret.nonceStr}"/>
 	<input type="hidden" id="signature" value="${ret.signature}"/>
 	<input id="id_securityCode_input">
-	<button id="scanQRCode">扫码</button>
+	<input id="scanQRCode" type="button" value="扫码">
 </body>
 </html>

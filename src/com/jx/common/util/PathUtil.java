@@ -95,6 +95,19 @@ public class PathUtil {
 	/**
 	 * 
 	 */
+	public static String getBasePath1(HttpServletRequest request) {
+		String strResult = "";
+		StringBuffer strBuf = new StringBuffer();
+		strBuf.append(request.getScheme() + "://");
+		strBuf.append(request.getServerName());
+		strBuf.append(request.getContextPath());
+		strResult = strBuf.toString();
+		return strResult;
+	}
+	
+	/**
+	 * 
+	 */
 	@SuppressWarnings("rawtypes")
 	public static String allUrl(HttpServletRequest request) {
 		StringBuffer requestURL = request.getRequestURL();

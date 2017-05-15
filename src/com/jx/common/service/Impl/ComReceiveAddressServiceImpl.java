@@ -13,7 +13,6 @@ import com.jx.common.config.PageData;
 import com.jx.common.config.exception.UncheckedException;
 import com.jx.common.config.shiro.ShiroSessionUtil;
 import com.jx.common.util.UuidUtil;
-import com.jx.common.entity.ComProductCategoryDetail;
 import com.jx.common.entity.ComReceiveAddress;
 import com.jx.common.service.ComReceiveAddressService;
 
@@ -32,8 +31,8 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComReceiveAddress> listByUserIdE(String appUserId) throws Exception {
-		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.listByUserIdE", appUserId);
+	public List<ComReceiveAddress> listByUE(String appUserId) throws Exception {
+		return (List<ComReceiveAddress>) dao.findForList("ComReceiveAddressMapper.listByUE", appUserId);
 	}
 	
 	/**
@@ -42,8 +41,8 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @return ComReceiveAddress
 	 * @throws Exception
 	 */
-	public ComReceiveAddress findByUserIdSE(String appUserId) throws Exception {
-		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByUserIdSE", appUserId);
+	public ComReceiveAddress findByUSE(String appUserId) throws Exception {
+		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByUSE", appUserId);
 	}
 	
 	/**
@@ -52,11 +51,11 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @return ComReceiveAddress
 	 * @throws Exception
 	 */
-	public ComReceiveAddress findByUserIdAndIdE(String appUserId, String receiveAddressId) throws Exception {
+	public ComReceiveAddress findByIdUE(String appUserId, String receiveAddressId) throws Exception {
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
 		comReceiveAddress.setReceiveAddressId(receiveAddressId);
 		comReceiveAddress.setAppUserId(appUserId);
-		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByUserIdAndIdE", comReceiveAddress);
+		return (ComReceiveAddress) dao.findForObject("ComReceiveAddressMapper.findByIdUE", comReceiveAddress);
 	}
 	
 	/**
@@ -64,20 +63,20 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @param String appUserId, String receiveAddressId
 	 * @throws Exception
 	 */
-	public void toDefaultE(String appUserId, String receiveAddressId) throws Exception {
+	public void toDefaultByIdUSE(String appUserId, String receiveAddressId) throws Exception {
 		
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
 		comReceiveAddress.setAppUserId(appUserId);
 		comReceiveAddress.setModifyTime(new Date());
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
 		try{
-			dao.update("ComReceiveAddressMapper.toDisdefaultE", comReceiveAddress);
+			dao.update("ComReceiveAddressMapper.toDisdefaultByUSE", comReceiveAddress);
 		}catch(UncheckedException e){
 			e.printStackTrace();
 		}
 		
 		comReceiveAddress.setReceiveAddressId(receiveAddressId);
-		dao.update("ComReceiveAddressMapper.toDefaultE", comReceiveAddress);
+		dao.update("ComReceiveAddressMapper.toDefaultByIdUSE", comReceiveAddress);
 	}
 	
 	/**
@@ -85,13 +84,13 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @param String appUserId
 	 * @throws Exception
 	 */
-	public void toDisdefaultE(String appUserId) throws Exception {
+	public void toDisdefaultByUSE(String appUserId) throws Exception {
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
 		comReceiveAddress.setAppUserId(appUserId);
 		comReceiveAddress.setModifyTime(new Date());
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
 		try{
-			dao.update("ComReceiveAddressMapper.toDisdefaultE", comReceiveAddress);
+			dao.update("ComReceiveAddressMapper.toDisdefaultByUSE", comReceiveAddress);
 		}catch(UncheckedException e){
 			
 		}
@@ -102,13 +101,13 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @param String appUserId, String receiveAddressId
 	 * @throws Exception
 	 */
-	public void toDisableByUserIdAndIdE(String appUserId, String receiveAddressId) throws Exception {
+	public void toDisableByIdUE(String appUserId, String receiveAddressId) throws Exception {
 		ComReceiveAddress comReceiveAddress = new ComReceiveAddress();
 		comReceiveAddress.setReceiveAddressId(receiveAddressId);
 		comReceiveAddress.setAppUserId(appUserId);
 		comReceiveAddress.setModifyTime(new Date());
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
-		dao.update("ComReceiveAddressMapper.toDisableByUserIdAndIdE", comReceiveAddress);
+		dao.update("ComReceiveAddressMapper.toDisableByIdUE", comReceiveAddress);
 	}
 	
 	/**
@@ -116,15 +115,15 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 	 * @param ComReceiveAddress comReceiveAddress
 	 * @throws Exception
 	 */
-	public void editByUserE(ComReceiveAddress comReceiveAddress) throws Exception {
+	public void editByIdUE(ComReceiveAddress comReceiveAddress) throws Exception {
 		Date nowTime = new Date();
 		comReceiveAddress.setModifyUserId(ShiroSessionUtil.getUserId());
 		comReceiveAddress.setModifyTime(nowTime);
 		
 		if("01".equals(comReceiveAddress.getReceiveAddressStatus())){
-			this.toDisdefaultE(comReceiveAddress.getAppUserId());
+			this.toDisdefaultByUSE(comReceiveAddress.getAppUserId());
 		}
-		dao.update("ComReceiveAddressMapper.editByUserE", comReceiveAddress);
+		dao.update("ComReceiveAddressMapper.editByIdUE", comReceiveAddress);
 	}
 	
 	
@@ -150,7 +149,7 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setModifyTime(nowTime);
 		
 		if("01".equals(comReceiveAddress.getReceiveAddressStatus())){
-			this.toDisdefaultE(comReceiveAddress.getAppUserId());
+			this.toDisdefaultByUSE(comReceiveAddress.getAppUserId());
 		}
 		dao.add("ComReceiveAddressMapper.add", comReceiveAddress);
 	}
@@ -166,7 +165,7 @@ public class ComReceiveAddressServiceImpl implements ComReceiveAddressService{
 		comReceiveAddress.setModifyTime(nowTime);
 
 		if("01".equals(comReceiveAddress.getReceiveAddressStatus())){
-			this.toDisdefaultE(comReceiveAddress.getAppUserId());
+			this.toDisdefaultByUSE(comReceiveAddress.getAppUserId());
 		}
 		dao.update("ComReceiveAddressMapper.edit", comReceiveAddress);
 	}

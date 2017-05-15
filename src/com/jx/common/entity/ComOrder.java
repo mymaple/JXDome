@@ -122,6 +122,10 @@ public class ComOrder extends BaseEntity implements Serializable {
 	@NotBlank(message="运单编号 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
 	private String wlNum;
 		
+	/** 订单备注 */
+	@NotBlank(message="订单备注 不能为空", groups={ValidationAdd.class, ValidationEdit.class})
+	private String remark;
+		
 	
 	
 	/**
@@ -535,6 +539,24 @@ public class ComOrder extends BaseEntity implements Serializable {
 	 */
 	public String getWlNum() {
 		return this.wlNum;
+	}
+	
+	/**
+	 * 设置 订单备注
+	 * 
+	 * @param String remark
+	 */
+	public void setRemark(String remark) {
+		this.remark = StringUtils.trim(remark);
+	}
+	
+	/**
+	 * 获取 订单备注
+	 * 
+	 * @return String remark
+	 */
+	public String getRemark() {
+		return this.remark;
 	}
 	
 	

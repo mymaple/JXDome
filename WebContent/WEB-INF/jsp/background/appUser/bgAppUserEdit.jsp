@@ -34,7 +34,11 @@
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">上级名称:</td>
-								<td align="center"><param:display type="bg_mapleDetailType" name="parentId" id="parentId" value="${comAppUser.parentId }" hidden="true"/></td>
+								<td align="center"><param:display type="com_appUserEffective" name="parentId" id="parentId" value="${comAppUser.parentId }" hidden="true"/></td>
+							</tr>
+							<tr>
+								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户角色:</td>
+								<td><param:select type="com_appUserRoleEffectiveP" target="${prId },${comAppUser.parentId }" name="roleId" id="roleId" value="${comAppUser.roleId}" placeholder="这里请选择 平台用户角色" title="平台用户角色" cssClass="chosen-select form-control" styleClass="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">平台用户名称:</td>
@@ -54,7 +58,7 @@
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">生日:</td>
-								<td><input class="span10 date-picker" name="brithdayStr" id="brithdayStr" value="${comAppUser.brithdayStr}" type="text" data-date-format="yyyy-mm-dd 00:00:00" readonly="readonly" placeholder="这里请选择 生日" title="生日" style="width:98%;"/></td>
+								<td><input class="span10 date-picker" name="brithdayStr" id="brithdayStr" value="${comAppUser.brithdayStr}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="这里请选择 生日" title="生日" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:100px;text-align: right;padding-top: 13px;">备注信息:</td>

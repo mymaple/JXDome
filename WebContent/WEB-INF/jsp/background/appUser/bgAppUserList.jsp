@@ -24,7 +24,7 @@
 	//刷新ztree
 	function parentReload(returnMsg,currentPage,showCount){
 		if('change' == returnMsg){
-			parent.location.href="<%=basePath%>background/appUser/main.do?pId="+'${pd.pId}'+"&currentPage="+currentPage+"&showCount="+showCount;
+			parent.location.href="<%=basePath%>background/appUser/main.do?pId="+"${pd.pId}"+"&prId="+"${pd.prId}"+"&currentPage="+currentPage+"&showCount="+showCount;
 		}
 	}
 </script>
@@ -33,7 +33,7 @@
 	
 	<div class="page-header">
 	<h1>
-		<a href="<%=basePath%>background/appUser/list.do">平台用户管理</a>
+		<a href="<%=basePath%>background/appUser/list.do?pId=0">平台用户管理</a>
 		<c:choose>
 			<c:when test="${not empty parentList}">
 				<c:if test="${RIGHTS.sele}">
@@ -63,6 +63,7 @@
 						<!-- 检索  -->
 						<form action="background/appUser/list.do" method="post" name="appUserForm" id="appUserForm">
 						<input type="hidden" name="pId" id="pId" value="${pd.pId}"/>
+						<input type="hidden" name="prId" id="prId" value="${pd.prId}"/>
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -115,9 +116,13 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${comAppUser.appUserId}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'><param:display type="com_appUserRole" value="${comAppUser.roleId}"/></td>
+											<td class='center'>
+												<c:forEach items="${ fn:split(comAppUser.roleId,',') }" var="roleId">	
+												<a href="javascript:toSub('${comAppUser.appUserId}','${roleId }')"><param:display type="com_appUserRoleEffectiveP" value="${roleId}"/></a>,
+												</c:forEach>
+											</td>
 											<td class='center'>${comAppUser.appUserCode}</td>
-											<td class='center'><a href="javascript:toSub('${comAppUser.appUserId}')">${comAppUser.appUserName}</a></td>
+											<td class='center'>${comAppUser.appUserName}</td>
 											<td class='center'><param:display type="com_appUserType" value="${comAppUser.appUserType}"/></td>
 											<td class='center'>${comAppUser.phone}</td>
 											<td class='center'><param:display type="com_sex" value="${comAppUser.sex}"/></td>
@@ -130,6 +135,15 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${RIGHTS.edit}">
+													<a class="btn btn-xs btn-info" title="修改上级" onclick="toChangeParent('${comAppUser.appUserId}');">
+														<i class="ace-icon fa fa-wrench bigger-120 icon-only"></i></i>
+													</a>
+													<a class="btn btn-xs btn-grey" title="修改角色" onclick="toChangeRole('${comAppUser.appUserId}');">
+														<i class="ace-icon fa fa-wrench bigger-120 icon-only"></i></i>
+													</a>
+													<a class="btn btn-xs btn-warning" title="查看附加属性" onclick="toShowExt('${comAppUser.appUserId}');">
+														<i class="ace-icon fa fa-flask bigger-120 icon-only"></i></i>
+													</a>
 													<a class="btn btn-xs btn-success" title="编辑" onclick="toEdit('${comAppUser.appUserId}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -260,9 +274,9 @@
 		});
 		
 		//去此ID下子菜单列表
-		function toSub(pId){
+		function toSub(pId,prId){
 			top.jzts();
-			window.location.href="<%=basePath%>background/appUser/list.do?pId="+pId;
+			window.location.href="<%=basePath%>background/appUser/list.do?pId="+pId+"&prId="+prId;
 		};
 		
 		//新增
@@ -271,7 +285,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = "<%=basePath%>background/appUser/toAdd.do?pId="+'${pd.pId}';
+			 diag.URL = "<%=basePath%>background/appUser/toAdd.do?pId="+'${pd.pId}'+"&prId="+'${pd.prId}';
 			 diag.Width = 450;
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -307,7 +321,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = "<%=basePath%>background/appUser/toEdit.do?appUserId="+appUserId+"&tm="+new Date().getTime();
+			 diag.URL = "<%=basePath%>background/appUser/toEdit.do?appUserId="+appUserId+"&prId="+'${pd.prId}'+"&tm="+new Date().getTime();
 			 diag.Width = 450;
 			 diag.Height = 500;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -379,13 +393,67 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="EXCEL 导入到数据库";
-			 diag.URL = '<%=basePath%>background/appUser/toUploadExcel.do?pId='+'${pd.pId}';
+			 diag.URL = '<%=basePath%>background/appUser/toUploadExcel.do?pId='+'${pd.pId}'+"&prId="+'${pd.prId}';
 			 diag.Width = 300;
 			 diag.Height = 150;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
 				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		//角色修改
+		function toChangeRole(appUserId){
+			top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag = true;
+			 diag.Title = "角色修改";
+			 diag.URL = '<%=basePath%>background/appUser/toChangeRole.do?appUserId='+appUserId;
+			 diag.Width = 330;
+			 diag.Height = 450;
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+						parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+					}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		//角色修改
+		function toChangeParent(appUserId){
+			top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag = true;
+			 diag.Title = "上级修改";
+			 diag.URL = '<%=basePath%>background/appUser/toChangeParent.do?appUserId='+appUserId;
+			 diag.Width = 330;
+			 diag.Height = 450;
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+						parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+					}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		//角色修改
+		function toShowExt(appUserId){
+			top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag = true;
+			 diag.Title = "查看附加属性";
+			 diag.URL = '<%=basePath%>background/appUser/toShowExt.do?appUserId='+appUserId;
+			 diag.Width = 330;
+			 diag.Height = 450;
+			 diag.CancelEvent = function(){ //关闭事件
+				 /* if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+						parentReload('change','${bgPage.currentPage}','${bgPage.showCount}');
+					} */
 				diag.close();
 			 };
 			 diag.show();
