@@ -2,8 +2,6 @@ package com.jx.common.util;
 
 import java.util.Random;
 
-import com.jx.common.config.PageData;
-
 public class RandomUtil {
 
 	public static void main(String[] args) {

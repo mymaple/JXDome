@@ -24,8 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.jx.common.config.Const;
-
 public class MapleFileUtil {
 	
 	
@@ -295,6 +293,7 @@ public class MapleFileUtil {
 	 * @param filePath //路径
 	 * @throws IOException
 	 */
+	@SuppressWarnings("resource")
 	public static byte[] getContent(String filePath) throws IOException {
 		File file = new File(filePath);
 		long fileSize = file.length();

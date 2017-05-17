@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.common.config.BaseController;
-import com.jx.common.config.Const;
 import com.jx.common.config.ResultInfo;
 import com.jx.common.entity.ComProduct;
 import com.jx.common.entity.ComProductStyle;
@@ -69,7 +68,7 @@ public class WxProductController extends BaseController {
 	public ModelAndView toCategory() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		ResultInfo resultInfo =this.getResultInfo();
-		String userId = WxSessionUtil.getUserId();
+//		String userId = WxSessionUtil.getUserId();
 		
 		resultInfo.setResultCode("success");
 		mv.addObject(resultInfo);

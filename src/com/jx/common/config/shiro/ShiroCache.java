@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jx.common.config.shiro.repository.CacheRepository;
-import com.jx.common.config.shiro.repository.impl.LocalCacheOperations;
 import com.jx.common.util.SpringContextUtil;
 
 public class ShiroCache<K, V> implements Cache<K, V> {
@@ -30,6 +29,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
 		CACHE_PREFIX = cacheName+"-";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public V get(K key) throws CacheException {
 		V value = ((V)getCache().get(keyToString(key)));
@@ -71,6 +71,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
 		return keys().size();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<K> keys() {
 		Set<String> keys = new HashSet<String>();
@@ -93,6 +94,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
 		return values;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private V getValue(K key) throws CacheException {
 		V value = ((V)getCache().get(String.valueOf(key)));
 		if(LOG.isDebugEnabled()){

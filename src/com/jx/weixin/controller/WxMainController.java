@@ -31,8 +31,6 @@ import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComInviteService;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.MapleDateUtil;
-import com.jx.common.util.RandomUtil;
-import com.jx.common.util.SmsUtil;
 import com.jx.weixin.util.WxSessionUtil;
 
 

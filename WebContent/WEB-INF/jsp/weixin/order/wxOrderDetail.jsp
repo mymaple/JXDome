@@ -140,6 +140,7 @@
 				<input type="hidden" name="orderId" value="${comOrder.orderId }">
                 <c:choose>
 		        <c:when test="${not empty comOrder.comOrderDetailList}">
+                <div class="mt">
 		        <p class="gys-tit box-s">供应商：<param:display type="com_supplierEffective" value="${comOrder.supplierId}"/></p>
 				<c:forEach items="${comOrder.comOrderDetailList}" var="comOrderDetail" varStatus="vs1">
 	    		<div class="lie clearfloat" onclick="toProductDetail('${comOrderDetail.productId }')"">
@@ -185,9 +186,10 @@
 			     			<span>${comOrder.remark}</span>
 			     		</div>
 					</div>		     		
-		     	</div>
+		     	</div></div>
 	    		</c:if>
 		     	
+                <div class="mt">
 		     	<p class="gys-tit box-s">订单信息</p>
 		     	<div class="gmshu gmshutwo clearfloat box-s fl">
 					<div class="gcontent clearfloat">
@@ -231,7 +233,7 @@
 		     	</div>
 	    	</div>
 	    </div>	    
-	    
+	    </div>
 	    <!--footerone star-->
 		<div class="footerone clearfloat" style="bottom:0;">
 			<div class="right clearfloat fr">

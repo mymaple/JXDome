@@ -2,18 +2,13 @@ package com.jx.common.config.shiro;
 
 import java.io.Serializable;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 
 import com.jx.common.config.shiro.repository.UserSessionRelationCacheService;
-import com.jx.common.config.shiro.repository.impl.UserSessionRelationLocalCacheServiceImpl;
 import com.jx.common.util.SpringContextUtil;
 
 public class ShiroSecurityHelper {

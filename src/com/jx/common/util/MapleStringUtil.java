@@ -399,7 +399,8 @@ public class MapleStringUtil {
 	    return numberStr.substring(i);
 	  }
 
-	  public static final ArrayList splitString(String targetString, String seperator)
+	  @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final ArrayList splitString(String targetString, String seperator)
 	  {
 	    if ((targetString == null) || (targetString.trim().equals(""))) {
 	      return new ArrayList();

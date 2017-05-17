@@ -2,7 +2,12 @@ package com.jx.common.config.exception;
 
 public class DataAccessException extends XException
 {
-  public DataAccessException(String message)
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+public DataAccessException(String message)
   {
     super(message);
   }

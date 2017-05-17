@@ -11,7 +11,7 @@ public class Const {
 	/**
 	 * 版本
 	 */
-	public static final String COM_VERSION = "0003";
+	public static final String COM_VERSION = "0004";
 	
 	/**
 	 * 后台网址

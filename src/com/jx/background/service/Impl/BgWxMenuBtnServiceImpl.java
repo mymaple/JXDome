@@ -15,7 +15,6 @@ import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgWxMenuBtn;
 import com.jx.background.service.BgWxMenuBtnService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("bgWxMenuBtnService")
 public class BgWxMenuBtnServiceImpl implements BgWxMenuBtnService{

@@ -110,6 +110,7 @@
 		<c:forEach items="${comOrderList}" var="comOrder" varStatus="vs">
 				<input type="hidden" name="orderId" value="${comOrder.orderId }">
 				<c:if test="${comOrder.supplierId != supplierId || empty supplierId}">
+                     <div class="mt">
 	    			<p class="gys-tit box-s">供应商：<param:display type="com_supplierEffective" value="${comOrder.supplierId}"/></p>
 	    		<c:set var="supplierId" value="${comOrder.supplierId }"/>
 	    		</c:if>
@@ -159,7 +160,7 @@
 			     		</div>
 					</div>		     		
 		     	</div>
-		     	
+		     	<div>
 		     	
 		     </c:forEach>
 		     </c:when>

@@ -91,7 +91,8 @@ public class MapleUtil {
      * @throws InvocationTargetException 
      *             如果调用属性的 setter 方法失败 
      */  
-    public static Map convertBean(Object bean) throws IntrospectionException,  
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Map convertBean(Object bean) throws IntrospectionException,  
             IllegalAccessException, InvocationTargetException {
         Class<?> type = bean.getClass();
         Map returnMap = new HashMap();
@@ -170,7 +171,8 @@ public class MapleUtil {
      * @throws InvocationTargetException 
      *             如果调用属性的 setter 方法失败 
      */  
-    public static Map convertBeanUpper(Object bean) throws IntrospectionException,  
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Map convertBeanUpper(Object bean) throws IntrospectionException,  
     IllegalAccessException, InvocationTargetException {
     	Class<?> type = bean.getClass();
     	Map returnMap = new HashMap();

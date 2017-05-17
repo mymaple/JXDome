@@ -2,7 +2,12 @@ package com.jx.common.config.exception;
 
 public class ObjectCreateException extends XException
 {
-  public ObjectCreateException(String message)
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+public ObjectCreateException(String message)
   {
     super(message);
   }

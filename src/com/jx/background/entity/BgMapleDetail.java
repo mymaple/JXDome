@@ -8,8 +8,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
 import com.jx.common.config.Const;
-import com.jx.common.config.BaseEntity.ValidationAdd;
-import com.jx.common.config.BaseEntity.ValidationEdit;
 import com.jx.common.util.MapleStringUtil;
 
 public class BgMapleDetail extends BaseEntity implements Serializable {

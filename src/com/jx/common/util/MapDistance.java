@@ -38,6 +38,7 @@ public class MapDistance {
 	/**
 	 * 获取当前用户一定距离以内的经纬度值 单位米 return minLat 最小经度 minLng 最小纬度 maxLat 最大经度 maxLng 最大纬度 minLat
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map getAround(String latStr, String lngStr, String raidus) {
 		Map map = new HashMap();
 

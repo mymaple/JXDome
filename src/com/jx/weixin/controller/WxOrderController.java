@@ -656,7 +656,7 @@ public class WxOrderController extends BaseController {
 		PageData pd = this.getPageData();
 		ResultInfo resultInfo = this.getResultInfo();
 		
-		String userId = WxSessionUtil.getUserId();
+//		String userId = WxSessionUtil.getUserId();
 		resultInfo.setResultContent("已经发出发货提醒");
 		resultInfo.setResultCode("success");
 		

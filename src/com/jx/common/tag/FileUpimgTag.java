@@ -8,8 +8,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.jx.common.config.Const;
-
 public class FileUpimgTag extends TagSupport {
 
 	/**

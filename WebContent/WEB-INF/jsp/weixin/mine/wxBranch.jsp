@@ -79,7 +79,7 @@
 							    <p class="col2">${subComAppUser.phone}</p></div></td>
 						    <td width="50%">
 						    	<c:if test="${subComAppUserRole.appUserRoleType != '04'}">
-						    	<input name="" type="button" value="查看" class="qu-btn1 qu-bd2 " onclick="toBranch('${subComAppUser.appUserId}','${subComAppUserRole.appUserRoleId}')">
+						    	<a class="qu-btn1 qu-bd2" onclick="toBranch('${subComAppUser.appUserId}','${subComAppUserRole.appUserRoleId}')">查看</a>
 						    	</c:if>
 						    	<c:if test="${subComAppUser.appUserId != userId}">
 						    	<a href="tel:${subComAppUser.phone}" class="qu-btn1 qu-bd1">拨打</a>

@@ -156,6 +156,7 @@ public class BgConfigService {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<BgConfig> listAllByPd(PageData pd) throws Exception {
 		return (List<BgConfig>) dao.findForList("BgConfigMapper.listAllByPd", null);
 	}
@@ -166,6 +167,7 @@ public class BgConfigService {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<PageData> listPage(BgPage bgPage) throws Exception {
 		return (List<PageData>) dao.findForList("BgConfigMapper.listPage", bgPage);
 	}

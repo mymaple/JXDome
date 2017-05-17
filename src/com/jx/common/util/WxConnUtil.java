@@ -1,17 +1,10 @@
 package com.jx.common.util;
 
-import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
-
-import com.jx.common.config.Const;
 import com.jx.common.entity.ComWxAccount;
 import com.jx.common.service.ComWxAccountService;
 

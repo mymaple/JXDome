@@ -1,30 +1,20 @@
 package com.jx.wechat.util;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
-import com.jx.common.config.Const;
 import com.jx.common.entity.ComAppUser;
-import com.jx.common.entity.ComInvite;
 import com.jx.common.service.ComAppUserExtService;
 import com.jx.common.service.ComAppUserService;
 import com.jx.common.service.ComInviteService;
-import com.jx.common.util.DrawImageUtil;
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.MapleUtil;
-import com.jx.common.util.PathUtil;
 import com.jx.common.util.SpringContextUtil;
-import com.jx.common.util.WxConnUtil;
 import com.jx.wechat.entity.event.LocationEvent;
 import com.jx.wechat.entity.event.MenuEvent;
 import com.jx.wechat.entity.event.QRCodeEvent;
@@ -263,8 +253,8 @@ public class WechatRespUtil {
 				(ComAppUserExtService)SpringContextUtil.getBean("comAppUserExtService");
 		String appUserId = comAppUserExtService.toGetAppUserId(openId);
 		if(StringUtils.isNotEmpty(appUserId)){
-			ComAppUserService comAppUserService = 
-					(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
+//			ComAppUserService comAppUserService = 
+//					(ComAppUserService)SpringContextUtil.getBean("comAppUserService");
 //			comAppUserService.toUnsubscribe(appUserId);
 		}
 		//退出

@@ -55,7 +55,8 @@ public class BaseController {
 		ResultInfo resultInfo = new ResultInfo();
 		resultInfo.setResultCode("failure");
 		resultInfo.setResultContent("数据异常");
-		resultInfo.setVersion(Const.COM_VERSION);
+		resultInfo.setVersion("0004");
+//		resultInfo.setVersion(Const.COM_VERSION);
 		return resultInfo;
 	}
 

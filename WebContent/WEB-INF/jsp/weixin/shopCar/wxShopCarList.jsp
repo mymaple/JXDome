@@ -81,6 +81,7 @@
 	function toGetAllPay(){
 		var shopCarIdChecks = $("input[name='shopCarId']:checked");
 		if(shopCarIdChecks.length==0){
+			$("#allPay").html('0');
 			return;
 		}
 		var shopCarIdChecksStr = "";

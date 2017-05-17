@@ -18,7 +18,6 @@ import com.jx.background.entity.BgMaple;
 import com.jx.background.entity.BgMapleDetail;
 import com.jx.background.service.BgMapleDetailService;
 import com.jx.background.service.BgMapleService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("bgMapleService")
 public class BgMapleServiceImpl implements BgMapleService{

@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 路径工具类
@@ -31,7 +29,7 @@ public class PathUtil {
 	 */
 	public static String getPicturePath(String pathType, String pathCategory) {
 		String strResult = "";
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		StringBuffer strBuf = new StringBuffer();
 		if ("visit".equals(pathType)) {
 		} else if ("save".equals(pathType)) {

@@ -3,13 +3,10 @@ package com.jx.common.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.validation.constraints.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.jx.common.config.BaseEntity;
-import com.jx.common.config.Const;
 
 public class ComStyleCategory extends BaseEntity implements Serializable {
 	

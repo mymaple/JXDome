@@ -11,12 +11,9 @@ import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;
-import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.common.entity.ComStyleCategory;
-import com.jx.common.entity.ComSupplier;
 import com.jx.common.service.ComStyleCategoryService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("comStyleCategoryService")
 public class ComStyleCategoryServiceImpl implements ComStyleCategoryService{

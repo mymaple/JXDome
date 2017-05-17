@@ -139,13 +139,13 @@
                      <li class="box-s">
                          <a onclick="toMyOrder('04')">
                         <p class="tu"><img src="weui/gemo/img/ord-4.png"></p>
-                        <p>交易成功</p>
+                        <p>待评价</p>
                         </a>
                      </li>                                                               
                      <li class="box-s">
-                         <a onclick="toMyOrder('05')">
+                         <a onclick="toMyOrder('00')">
                         <p class="tu"><img src="weui/gemo/img/ord-5.png"></p>
-                        <p>退款/售后</p>
+                        <p>全部</p>
                         </a>
                      </li>                     
                  </ul>

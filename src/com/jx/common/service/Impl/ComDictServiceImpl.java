@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
-import com.jx.common.config.Const;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.common.config.shiro.ShiroSessionUtil;

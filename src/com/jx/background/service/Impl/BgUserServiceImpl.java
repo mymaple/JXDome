@@ -17,7 +17,6 @@ import com.jx.common.util.MapleStringUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgUser;
 import com.jx.background.service.BgUserService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("bgUserService")
 public class BgUserServiceImpl implements BgUserService{

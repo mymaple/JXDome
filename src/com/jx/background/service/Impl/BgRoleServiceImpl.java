@@ -15,7 +15,6 @@ import com.jx.common.util.MapleDateUtil;
 import com.jx.common.util.UuidUtil;
 import com.jx.background.entity.BgRole;
 import com.jx.background.service.BgRoleService;
-import com.jx.background.util.BgSessionUtil;
 
 @Service("bgRoleService")
 public class BgRoleServiceImpl implements BgRoleService{

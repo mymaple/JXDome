@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.jx.background.config.BgPage;
 import com.jx.common.config.PageData;
-import com.jx.common.entity.ComIntegralNote;
 import com.jx.common.entity.ComSparepartDeal;
 
 public interface ComSparepartDealService {
